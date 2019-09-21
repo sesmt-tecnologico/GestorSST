@@ -1,0 +1,63 @@
+﻿@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Listagem de Departamentos";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Departamentos
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+            <label class="form-field-select-3 col-xs-12 col-sm-6 no-padding-right">
+                Empresa
+            </label>
+            <div class="col-xs-12 col-sm-12">
+                @Html.DropDownList("ddlComapny", new SelectList((List<Empresa>)ViewBag.Empresas, "UniqueKey", "NomeFantasia"), "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlComapny", @autocomplete = "on" })
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+
+        <div class="form-group">
+            <label class="form-field-select-3 col-xs-12 col-sm-6 no-padding-right">
+                &nbsp;
+            </label>
+            <div class="col-xs-12 col-sm-12">
+                <a href="#" class="btn btn-white btn-info btn-bold btnNewDepartment" disabled="disabled">
+                    <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                    Novo Departamento
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="space"></div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <div id="contentDepartment" class=" col-xs-12 col-sm-12" style="padding-left: 12px;"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+    <script src="~/Scripts/Custom/Departamento/Listagem.js"></script>
+}

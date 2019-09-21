@@ -1,0 +1,160 @@
+﻿@using GISModel.Entidades
+
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            <b>Controles relacionados a estes Riscos </b>
+        </h3>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12">
+
+
+        @if (ViewBag.Imagens != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="100px"></th>
+                            @*<th width="100px">Imagem</th>*@
+                            <th width="89px">Classe da Medida</th>
+                            <th>Medidas Existentes</th>
+                            <th>Controle</th>
+                            @*@<th>Possíveis Danos</th>
+                            @*<th width="89px"></th>*@
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (MedidasDeControleExistentes iImagens in ViewBag.Imagens)
+                        {
+                        <tr id="linha-@iImagens.IDMedidasDeControle">
+                            <td>
+                                <img src="/Images/MedidasDeControle/@iImagens.IDMedidasDeControle/@iImagens.Imagem" alt="Estabelecimento" width="70px" height="70px" />
+                                @iImagens.NomeDaImagem
+                            </td>
+                            @*<td>@iImagens.NomeDaImagemRisco</td>*@
+                            <td>@iImagens.EClassificacaoDaMedida</td>
+                            <td>@iImagens.MedidasExistentes</td>
+                            <td>@iImagens.EControle</td>
+                            @*<td>@iImagens.TipoDeRisco.PossiveisDanos</td>*@
+
+                        </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        }
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Custom/MedidasDeControle/Listagem.js"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@using GISModel.Entidades
+
+    @{
+        ViewBag.Title = "Lista de Imagens de Estabelecimentos";
+    }
+
+
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            @{
+                Html.RenderPartial("_MensagensDeRetorno");
+            }
+
+            @if (ViewBag.Imagens != null)
+            {
+                <div>
+                    <table >
+                        <thead>
+                            <tr>
+                                <th width="70px"></th>
+                                <th>Nome da Imagem</th>
+                                <th>Resumo do Local</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (EstabelecimentoImagens iImagens in ViewBag.Imagens)
+                            {
+                                <tr id="linha-@iImagens.IDEstabelecimentoImagens">
+                                    <td>
+                                        <img src="/Images/EstabelecimentoImagens/@iImagens.IDEstabelecimentoImagens/@iImagens.Imagem" alt="Estabelecimento" width="40px" />
+                                    </td>
+                                    <td>@iImagens.NomeDaImagem</td>
+                                    <td>@iImagens.ResumoDoLocal</td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jQ_dataTable")
+
+    }*@

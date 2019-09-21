@@ -1,0 +1,190 @@
+﻿@using GISModel.Entidades
+
+<h3> @ViewBag.Nome [@ViewBag.cpf]</h3>
+
+
+<div class="table">
+    <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr >
+                <th>Imagem</th>
+                <th>Atividade</th>
+                <th>Local</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+
+                <td> <img src="/Images/AtividadesEstabelecimentoImagens/@Model.AtividadeAlocada.AtividadesDoEstabelecimento.IDAtividadesDoEstabelecimento/@Model.AtividadeAlocada.AtividadesDoEstabelecimento.Imagem" alt="Estabelecimento" width="90px" title="@Model.AtividadeAlocada.AtividadesDoEstabelecimento.NomeDaImagem" /></td>
+                <td>@Model.AtividadeAlocada.AtividadesDoEstabelecimento.DescricaoDestaAtividade</td>
+                <td>@Model.AtividadeAlocada.AtividadesDoEstabelecimento.Estabelecimento.NomeCompleto</td>
+
+
+
+            </tr>
+        </tbody>
+    </table>
+    @foreach (var iten in ViewBag.Riscos)
+    {
+
+
+        <div>
+            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr >
+                        <th>Risco</th>
+                        <th>Perigo</th>
+                        <th>possíveis Danos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@iten.TipoDeRisco.EventoPerigoso.Descricao</td>
+                        <td>@iten.TipoDeRisco.PerigoPotencial.DescricaoEvento</td>
+                        <td>@iten.TipoDeRisco.PossiveisDanos.DescricaoDanos</td>
+
+                    </tr>
+
+
+                    <table class="table table-striped table-bordered table-hover">
+                        <tr><h3 style="color:green">PPRA</h3></tr>
+                        <tr>
+                            <td width="250"><strong >Tempo de exposição mensal</strong></td>
+                            <td>@iten.TempoEstimado</td>
+                        </tr>
+                        <tr>
+                            <td width="250"><strong >Permanencia</strong></td>
+                            <td>@iten.EExposicaoInsalubre</td>
+                        </tr>
+                        <tr>
+                            <td width="250"><strong >Calor</strong></td>
+                            <td>@iten.EExposicaoCalor</td>
+                        </tr>
+
+
+                    </table>
+
+
+                    <table class="table table-striped table-bordered table-hover">
+                        <tr><h3 style="color:red">HIRA</h3></tr>
+                        <tr>
+                            <td width="250"><strong >Exposição ao Risco</strong></td>
+                            <td>@iten.EExposicaoSeg</td>
+                        </tr>
+                        <tr>
+                            <td width="250"><strong >Probabilidade</strong></td>
+                            <td>@iten.EProbabilidadeSeg</td>
+                        </tr>
+                        <tr>
+                            <td width="250"><strong >Severidade</strong></td>
+                            <td>@iten.ESeveridadeSeg</td>
+                        </tr>
+
+
+                    </table>
+
+
+
+                </tbody>
+            </table>
+        </div>
+       
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @*@using GISModel.Entidades
+
+        @{
+            ViewBag.Title = "Lista de Imagens de Estabelecimentos";
+        }
+
+
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                @{
+                    Html.RenderPartial("_MensagensDeRetorno");
+                }
+
+                @if (ViewBag.Imagens != null)
+                {
+                    <div>
+                        <table >
+                            <thead>
+                                <tr>
+                                    <th width="70px"></th>
+                                    <th>Nome da Imagem</th>
+                                    <th>Resumo do Local</th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (EstabelecimentoImagens iImagens in ViewBag.Imagens)
+                                {
+                                    <tr id="linha-@iImagens.IDEstabelecimentoImagens">
+                                        <td>
+                                            <img src="/Images/EstabelecimentoImagens/@iImagens.IDEstabelecimentoImagens/@iImagens.Imagem" alt="Estabelecimento" width="40px" />
+                                        </td>
+                                        <td>@iImagens.NomeDaImagem</td>
+                                        <td>@iImagens.ResumoDoLocal</td>
+
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jQ_dataTable")
+
+        }*@

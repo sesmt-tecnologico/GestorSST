@@ -1,0 +1,255 @@
+﻿<div id="navbar" class="navbar navbar-default    navbar-collapse       h-navbar ace-save-state">
+    <div class="navbar-container ace-save-state" id="navbar-container">
+
+        <script type="text/javascript">
+            try { ace.settings.check('navbar', 'fixed') } catch (e) { }
+        </script>
+
+        <div class="navbar-header pull-left">
+            @if (ViewBag.UKArquivoLogoEmp != null)
+            {
+                <a href="/" class="navbar-brand" style="margin-top: 4px;">
+                    <small>
+                        <img src="~/Images/logo-cemig.png" />
+                    </small>
+                </a>
+                <img id="LogoEmpresa" style="height: 42px; margin-left: 20px;" src="@Url.Action("RecuperarArquivo", "Arquivo", new { id = ViewBag.UKArquivoLogoEmp })" />
+            }
+            else
+            {
+                <a href="/" class="navbar-brand">
+                    <small>
+                        <img src="~/Images/logo-cemig-white.png" class="white" width="85px" />
+                    </small>
+                </a>
+            }
+
+            <button class="pull-right navbar-toggle navbar-toggle-img collapsed" type="button" data-toggle="collapse" data-target=".navbar-buttons">
+                <span class="sr-only">Toggle user menu</span>
+
+                @if (string.IsNullOrWhiteSpace(ViewBag.MatriculaUsuario))
+                {
+                    <img class="nav-user-photo" src="@Url.Action("FotoPerfil", "Account")" />
+                }
+                else
+                {
+                    <img class="nav-user-photo" src="@Url.Action("FotoPerfil", "Account", new { login = ViewBag.MatriculaUsuario })" />
+                }
+            </button>
+
+            <button class="pull-right navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#sidebar">
+                <span class="sr-only">Toggle sidebar</span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+            </button>
+
+        </div>
+
+        <div class="navbar-buttons navbar-header pull-right  collapse navbar-collapse" role="navigation">
+            <ul class="nav ace-nav">
+
+                <li class="blue" id="liNavbarInbox" style="display: none;">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <i class="ace-icon fa fa-bell icon-animated-bell"></i>
+                        <span class="badge badge-yellow liNavbarInboxBadgeTotalPessoal"></span>
+                    </a>
+
+                    <ul class="dropdown-menu-right dropdown-navbar navbar-grey dropdown-menu dropdown-caret dropdown-close">
+                        <li class="dropdown-footer">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td width="33px">
+                                        <span class="badge badge-info totalDocsPessoal"></span>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Index", "Inbox")">
+                                            Ir para Caixa Pessoal
+                                            <i class="ace-icon fa fa-arrow-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </li>
+
+                        <li class="dropdown-footer">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td width="33px">
+                                        <span class="badge badge-info totalDocsGrupos"></span>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("MeusGrupos", "Inbox")">
+                                            Ir para Caixa Grupos
+                                            <i class="ace-icon fa fa-arrow-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="light-blue dropdown-modal user-min">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        @if (string.IsNullOrWhiteSpace(ViewBag.MatriculaUsuario))
+                        {
+                            <img class="nav-user-photo" src="~/Content/Ace/avatars/unknown.png" />
+                        }
+                        else
+                        {
+                            <img class="nav-user-photo" src="@Url.Action("FotoPerfil", "Account", new { login = ViewBag.MatriculaUsuario })" alt="Foto do Perfil" />
+                        }
+
+                        <span class="user-info">
+                            <small>Bem vindo(a),</small>
+                            @if (string.IsNullOrWhiteSpace(ViewBag.NomeUsuario))
+                            {
+                                <span>Anônimo</span>
+                            }
+                            else
+                            {
+                                <span>@ViewBag.NomeUsuario</span>
+                            }
+                        </span>
+
+                        <i class="ace-icon fa fa-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+
+                        @if (ViewBag.TipoDeAcesso != null && ViewBag.TipoDeAcesso == GISModel.Enums.TipoDeAcesso.Sistema)
+                        {
+                            <li>
+                                <a href="#" data-target="#modalAlterarSenha" data-toggle="modal" data-backdrop="static" data-keyboard="false" id="btnAlterarSenha">
+                                    <i class="ace-icon fa fa-key"></i>
+                                    Alterar Senha
+                                </a>
+                            </li>
+
+                            <li class="divider"></li>
+                        }
+
+                        <li>
+                            <a data-url="@Url.Action("Perfil", "Account")" href="@Url.Action("Perfil", "Account")">
+                                <i class="ace-icon fa fa-user"></i>
+                                Perfil
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                            <a href="@Url.Action("Sobre", "Home")">
+                                <i class="ace-icon fa fa-hashtag"></i>
+                                Sobre...
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                            <a href="~/Account/LogOut">
+                                <i class="ace-icon fa fa-power-off"></i>
+                                Sair
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="LoadingLayout white" style="float: right; margin-top: 8px; display: none;">
+        <span class="labelLoadingLayout" style="font-size: 11px;">Aguarde!</span>
+        &nbsp;&nbsp;
+        <i id="imgLoadingLayout" style="margin-top: 6px;" class="ace-icon fa fa-spinner fa-spin white bigger-125"></i>
+    </div>
+</div>
+
+<div id="modalAlterarSenha" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modalAlterarSenhaX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-key red"></i> Alterar Senha</h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="modalAlterarSenhaCorpoLoading" style="float: right; display: none">
+                            ...Carregando
+                            <i class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </div>
+                        <div id="modalAlterarSenhaCorpo">
+                            @using (Ajax.BeginForm("AlterarSenha", "Account", null, new AjaxOptions
+                            {
+                                HttpMethod = "POST",
+                                OnSuccess = "OnSuccessAlterarSenha",
+                                LoadingElementId = "modalAlterarSenhaLoading"
+                            }, new
+                            {
+                                @id = "formAlterarSenha",
+                                @class = "form-horizontal"
+                            }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Senha</label>
+
+                                    <div class="col-sm-9">
+                                        <input class="col-xs-12 text-box single-line password" id="SenhaAtual" name="SenhaAtual" placeholder="Informe a senha atual" type="password" value="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Nova Senha</label>
+
+                                    <div class="col-sm-9">
+                                        <input class="col-xs-12 text-box single-line password" id="NovaSenha" name="NovaSenha" placeholder="Informe a nova senha" type="password" value="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Confirmar Senha</label>
+
+                                    <div class="col-sm-9">
+                                        <input class="col-xs-12 text-box single-line password" id="ConfirmarSenha" name="ConfirmarSenha" placeholder="Confirme sua nova senha" type="password" value="">
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="modalAlterarSenhaLoading" style="display: none; float: left; padding-top: 6px">
+                            <i class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </span>
+
+                        <button id="modalAlterarSenhaFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                            <i class="ace-icon fa fa-times"></i>
+                            Cancelar
+                        </button>
+
+                        <button id="modalAlterarSenhaProsseguir" class="btn btn-sm btn-danger" style="right: 5px; left: auto">
+                            <i class="ace-icon fa fa-check"></i>
+                            Alterar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,120 @@
+﻿@model GISModel.Entidades.Funcao
+@{
+    ViewBag.Title = "Cadastro de Função";
+}
+
+<div id="formCadFuncao">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Cadastro de Função
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <h3>Cargo:&nbsp; @ViewBag.NomeDoCargo</h3>
+
+    @using (Ajax.BeginForm("Cadastrar", "Funcao", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarFuncao", }, new { @id = "formCadastroFuncao", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.NomeDaFuncao, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.NomeDaFuncao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                        @Html.ValidationMessageFor(d => d.NomeDaFuncao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        <input type="text" name="cargID" id="cargID" value=@ViewBag.Cargo hidden />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        if (ViewBag.FuncCarg > 0)
+        {
+            <i class="material-icons" style="font-size:18px;color:green">Esse Cargo possui as seguintes funções cadastradas.</i>
+            <br /><br />
+            <i class="material-icons" style="font-size:16px;color:red">Função:</i>
+            <br />
+            foreach (var item in ViewBag.funcoesPorCargo)
+            {
+
+                <tr id="linha-@item.IdCargo">
+
+                    <td class="center"></td>
+                    &nbsp;@item.NomeDaFuncao
+                    <br />
+
+                    @*<td>@item.Descricao</td>*@
+                </tr>
+
+
+
+            }
+        }
+        else
+        {
+            <i class="material-icons" style="font-size:18px;color:green">Cargo sem funções cadastradas.</i>
+            <br /><br />
+        }
+        <br />
+        <br />
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                <button class="btn btn-info" id="btnSalvar" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar
+                </button>
+                &nbsp;
+                <button class="btn btn-warning" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;
+                <a class="btn" href="javascript:history.back()">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    }
+
+
+</div> <!-- Fim FormQuery -->
+
+
+@section Scripts {
+<script src="~/Scripts/Custom/Funcao/Novo.js"></script>
+
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

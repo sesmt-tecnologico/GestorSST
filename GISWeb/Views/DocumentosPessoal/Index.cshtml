@@ -1,0 +1,122 @@
+﻿@using GISModel.Entidades
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Lista</h2>
+
+<div class="row">
+    <div class="col-xs-12 col-md-12">
+        <h3 class="header smaller lighter blue">
+            Documentos
+            <a href="@Url.Action("Novo", "DocumentosPessoal")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"> Novo Documento</i>
+
+            </a>
+
+        </h3>
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        @if (ViewBag.Documentos != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="50px"></th>
+                            <th>Documentos</th>
+                            <th width="90px"></th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (DocumentosPessoal item in ViewBag.Documentos)
+                        {
+
+                            <tr id="linha-@item.IDDocumentosEmpregado">
+
+                                <td class="center">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace" />
+                                        <span class="lbl"></span>
+                                    </label>
+                                </td>
+                                <td>@item.NomeDocumento</td>
+
+                                <td>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+
+                                        <a class="red" href="#" onclick="DeletarDocumento('@item.IDDocumentosEmpregado','@item.NomeDocumento');">
+                                            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                        </a>
+                                        <a href='@Url.Action("Edicao", "DocumentosPessoal", new { id = @item.IDDocumentosEmpregado})' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                            <span class="green">
+                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                            </span>
+                                        </a>
+
+                                    </div>
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
+                                                <li>
+                                                    <a href='@Url.Action("Edicao", "DocumentosPessoal", new { id = @item.IDDocumentosEmpregado})' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                        <span class="green">
+                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="tooltip-error" onclick="DeletarDocumento('@item.IDDocumentosEmpregado');" data-rel="tooltip" title="Delete">
+                                                        <span class="red">
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+
+
+                </table>
+            </div>
+
+        }
+
+
+    </div>
+</div>
+
+@section Scripts{
+
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+    <script src="~/Scripts/Custom/DocumentosPessoal/Lista.js"></script>
+    <script src="~/Scripts/Custom/DocumentosPessoal/Edicao.js"></script>
+    <script src="~/Scripts/Custom/DocumentosPessoal/Excluir.js"></script>
+
+}

@@ -1,0 +1,282 @@
+﻿@model GISModel.DTO.Conta.NovaSenhaViewModel
+@using BotDetect.Web.UI.Mvc
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!-->
+<html>
+<!--<![endif]-->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link href="~/Images/favicon.ico" rel="shortcut icon" />
+    <title>Bem vindo ao @System.Configuration.ConfigurationManager.AppSettings["Web:NomeModulo"]</title>
+
+    @{
+        var path = string.Empty;
+        if (Request.ApplicationPath.Length > 1)
+        {
+            path = Request.ApplicationPath;
+        }
+    }
+
+    @Styles.Render("~/bundles/ace_css_master")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="@path/Content/Ace/css/ace-part2.css" class="ace-main-stylesheet" />
+    <link rel="stylesheet" href="@path/Content/Ace/css/ace-ie.css" />
+    <![endif]-->
+    @Scripts.Render("~/bundles/ace_js_extra")
+
+    <!--[if lte IE 8]>
+    <script src="@path/Scripts/Ace/html5shiv.js"></script>
+    <script src="@path/Scripts/Ace/respond.js"></script>
+    <![endif]-->
+</head>
+
+<body class="login-layout light-login">
+
+    <div class="main-container" id="main-container">
+        <div class="main-content">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="login-container">
+
+                        <div class="center">
+                            <h1 style="margin-bottom: 40px;">
+                                <i class="ace-icon fa fa-leaf green"></i>
+                                <span class="red">GiS</span>
+                                <span class="grey" id="id-text2">Aplicação</span>
+                            </h1>
+                        </div>
+
+                        <div class="space-6"></div>
+
+                        @if (TempData["MensagemErro"] != null && !string.IsNullOrWhiteSpace(TempData["MensagemErro"].ToString()))
+                        {
+                            <div class="alert alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">
+                                    <i class="ace-icon fa fa-times"></i>
+                                </button>
+
+                                <strong>
+                                    <i class="ace-icon fa fa-times-circle"></i>
+                                    Oops! Ocorreu algum problema!
+                                </strong>
+
+                                @TempData["MensagemErro"]
+                                <br />
+                            </div>
+
+                            <div class="position-relative">
+                                <div id="login-box" class="login-box visible widget-box no-border">
+                                    <div class="toolbar clearfix">
+                                        <div>
+                                            <a href="#" data-target="#forgot-box" class="forgot-password-link">
+                                                <i class="ace-icon fa fa-arrow-left"></i>
+                                                Solicitar acesso
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="forgot-box" class="forgot-box widget-box no-border">
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <h4 class="header red lighter bigger">
+                                            <i class="ace-icon fa fa-key"></i>
+                                            Solicitar acesso ao Sistema
+                                        </h4>
+
+                                        <div class="space-6"></div>
+                                        <p>
+                                            Informe seu email de contato
+                                        </p>
+
+                                        @using (Ajax.BeginForm("SolicitarAcesso", "Conta", null, new AjaxOptions
+                                        {
+                                            HttpMethod = "POST",
+                                            OnBegin = "OnBeginSolicicacaoAcesso",
+                                            OnSuccess = "OnSuccessSolicicacaoAcesso",
+                                            OnFailure = "FailMessage",
+                                            InsertionMode = InsertionMode.Replace,
+                                            LoadingElementId = "loadingSolicitacaoConta"
+                                        }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <fieldset>
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        @Html.EditorFor(d => d.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "E-mail ou Login" } })
+                                                        <i class="ace-icon fa fa-envelope"></i>
+                                                        @Html.ValidationMessageFor(d => d.Email, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                                    </span>
+                                                </label>
+
+                                                <div class="clearfix">
+                                                    <i id="loadingSolicitacaoConta" style="display: none; float: left; margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+
+                                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-danger">
+                                                        <i class="ace-icon fa fa-lightbulb-o"></i>
+                                                        <span class="bigger-110">Enviar</span>
+                                                    </button>
+                                                </div>
+                                            </fieldset>
+                                        }
+                                    </div>
+
+                                    <div class="toolbar center">
+                                        <a href="#" data-target="#login-box" class="back-to-login-link">
+                                            Voltar
+                                            <i class="ace-icon fa fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                        else
+                        {
+
+                            <div class="position-relative">
+                                <div id="login-box" class="login-box visible widget-box no-border">
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <h4 class="header blue lighter bigger center">
+                                                <i class="ace-icon fa fa-coffee green"></i>
+                                                Definição de nova senha
+                                            </h4>
+
+                                            <div class="space-6"></div>
+
+                                            @using (Ajax.BeginForm("DefinirSenha", "Conta", null, new AjaxOptions
+                                            {
+                                                HttpMethod = "POST",
+                                                OnBegin = "OnBeginDefinirNovaSenha",
+                                                OnSuccess = "OnSuccessDefinirNovaSenha",
+                                                InsertionMode = InsertionMode.Replace,
+                                                LoadingElementId = "loadingLogin"
+                                            }, new
+                                            {
+                                                id = "formLogin"
+                                            }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.HiddenFor(u => u.IDUsuario)
+
+                                                <fieldset>
+                                                    <label class="block clearfix">
+                                                        <span class="block input-icon input-icon-right">
+                                                            @Html.EditorFor(d => d.NovaSenha, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nova Senha" } })
+                                                            <i class="ace-icon fa fa-lock"></i>
+                                                            @Html.ValidationMessageFor(d => d.NovaSenha, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                                        </span>
+                                                    </label>
+
+                                                    <label class="block clearfix">
+                                                        <span class="block input-icon input-icon-right">
+                                                            @Html.EditorFor(d => d.ConfirmarNovaSenha, new { htmlAttributes = new { @class = "form-control", @placeholder = "Confirmar nova senha" } })
+                                                            <i class="ace-icon fa fa-lock" style="padding-right: 3px;"></i>
+                                                            @Html.ValidationMessageFor(d => d.ConfirmarNovaSenha, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                                        </span>
+                                                    </label>
+
+                                                    <div class="space"></div>
+
+
+                                                    <div class="clearfix">
+                                                        @*<img id="loadingLogin" style="display: none; float: left; margin-top: 5px;" src="~/Content/Images/ajax-loading.GIF" />*@
+                                                        <i id="loadingLogin" style="display: none; float: left; margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+
+                                                        <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                                            <i class="ace-icon fa fa-key"></i>
+                                                            <span class="bigger-110">Salvar</span>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="space-4"></div>
+                                                </fieldset>
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        }
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @{
+        Html.RenderPartial("_Footer");
+    }
+
+    <!--[if !IE]> -->
+    @Scripts.Render("~/bundles/jquery")
+    <!--<![endif]-->
+    <!--[if IE]>
+    <script src="@path/Scripts/jQuery/jquery1x.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement)
+            document.write("<script src='@path/Scripts/Ace/jQ/jquery.mobile.custom.js'>" + "<" + "/script>");
+    </script>
+
+    <!--[if lte IE 8]>
+    <script src="@path/Scripts/Ace/excanvas.js"></script>
+    <![endif]-->
+    @Scripts.Render("~/bundles/ace_js_master")
+
+    <script src="~/Scripts/Custom/custom-functions.js"></script>
+
+    <script type="text/javascript">
+        ace.vars['base'] = '..';
+        baseApplicationURL = '@Request.ApplicationPath';
+
+        if (baseApplicationURL.length == 1) {
+            baseApplicationURL = "";
+        }
+
+        (
+            function () {
+                var funcaoAlvo = $.ajax;
+
+                $.ajax = function () {
+
+                    if (parent.baseApplicationURL && parent.baseApplicationURL != '/' && arguments[0].url.indexOf("http:") == -1 && arguments[0].url.indexOf("https:") == -1) {
+                        var fixedUrl = arguments[0].url;
+                        fixedUrl = fixedUrl.indexOf("/") == 0 ? parent.baseApplicationURL + fixedUrl : parent.baseApplicationURL + '/' + fixedUrl;
+
+                        arguments[0].url = fixedUrl;
+                    }
+
+                    funcaoAlvo(arguments[0]);
+                };
+            }
+        )();
+    </script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/Custom/Account/NovaSenha.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+﻿@model GISModel.Entidades.Usuario
+
+@{
+    ViewBag.Title = "Cadastro de Usuário";
+}
+
+<div id="formCadUsuario">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Cadastro de Usuário
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm("Cadastrar", "Usuario", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarUsuario", OnSuccess = "OnSuccessCadastrarUsuario", }, new { @id = "formCadastroUsuario", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.CPF, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.CPF, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCPF" } })
+                        @Html.ValidationMessageFor(d => d.CPF, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        @Html.HiddenFor(d => d.IDUsuario)
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Login, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Login, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                        @Html.ValidationMessageFor(d => d.Login, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Nome, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Nome, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                        @Html.ValidationMessageFor(d => d.Nome, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Email, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Email, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.IDEmpresa, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.IDEmpresa, new SelectList(ViewBag.Empresas, "IDEmpresa", "NomeFantasia"), "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
+                        @Html.ValidationMessageFor(d => d.IDEmpresa, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.IDDepartamento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.IDDepartamento, new SelectList("IDDepartamento", "Sigla"), "Selecione antes uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on", @id = "ddlDepartamento", @disabled = "disabled" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.TipoDeAcesso, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EnumDropDownListFor(x => x.TipoDeAcesso, "Selecione um Tipo de Acesso", new { @class = "chosen-select form-control" })
+                        @Html.ValidationMessageFor(x => x.TipoDeAcesso, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                <button class="btn btn-info" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar
+                </button>
+                &nbsp;
+                <button class="btn btn-info" type="submit" onclick="$('#UniqueKey').val('redirect');">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar e Fechar
+                </button>
+                &nbsp;
+                <button class="btn btn-warning" id="btnLimpar" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;
+                <a class="btn" href="javascript:history.back()">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    }
+
+</div> <!-- Fim Form -->
+
+@section Scripts {
+    <script src="~/Scripts/jQuery/inputmask.js"></script>
+    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Custom/Usuario/Novo.js"></script>
+}

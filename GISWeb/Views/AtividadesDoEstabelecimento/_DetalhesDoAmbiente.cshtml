@@ -1,0 +1,174 @@
+﻿@using GISModel.Entidades
+
+@if (Model != null)
+{
+
+
+}
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            <b>Atividades relacionadas a este Ambiente </b>
+        </h3>
+    </div>
+</div>
+
+@if (ViewBag.Imagens != null)
+{
+
+    <div>
+        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+            <tbody>
+                @foreach (var iAlocacao1 in ViewBag.Imagens)
+                {
+
+                    if (@iAlocacao1.Ativo == true)
+                    {
+
+                        var idAlocacao = ViewBag.list;
+                        var idAdmissao = ViewBag.pAdmissao;
+
+                <tr id="linha-@iAlocacao1.IDAtividadesDoEstabelecimento">
+
+                    <td width="100px">
+                        <img src="/Images/AtividadesEstabelecimentoImagens/@iAlocacao1.IDAtividadesDoEstabelecimento/@iAlocacao1.Imagem" alt="Estabelecimento" width="70px" height="70px" />
+                        @*@iAlocacao1.NomeDaImagem*@
+                    </td>
+                    <td>
+                        <i class="" style="font-size:18px;color:red"><i style="font-size:26px;color:blue">Atividade</i></i>
+                        <br />
+                        <i class="fa fa-arrows-alt" style="font-size:16px"> @iAlocacao1.DescricaoDestaAtividade</i>
+
+
+                    </td>
+
+                    @*<td>
+                        <i class="fa fa-bolt" style="font-size:26px;color:red"><i style="font-size:26px;color:blue">&nbspRisco</i></i>
+                        <br /><br />
+                        <i class="fa fa-hand-o-right">@iAlocacao1.EClasseDoRisco</i>
+
+
+                    </td>
+                    <td>
+                        <i class="fa fa-bolt" style="font-size:26px;color:red"><i style="font-size:26px;color:blue">&nbspTipo do Risco</i></i>
+                        <br /><br />
+                        <i class="fa fa-hand-o-rigt"> @iAlocacao1.TipoDeRisco.DescricaoDoRisco</i>
+
+
+                    </td>*@
+
+                </tr>
+
+
+
+
+                    }
+                }
+
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@using GISModel.Entidades
+
+    @{
+        ViewBag.Title = "Lista de Imagens de Estabelecimentos";
+    }
+
+
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            @{
+                Html.RenderPartial("_MensagensDeRetorno");
+            }
+
+            @if (ViewBag.Imagens != null)
+            {
+                <div>
+                    <table >
+                        <thead>
+                            <tr>
+                                <th width="70px"></th>
+                                <th>Nome da Imagem</th>
+                                <th>Resumo do Local</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (EstabelecimentoImagens iImagens in ViewBag.Imagens)
+                            {
+                                <tr id="linha-@iImagens.IDEstabelecimentoImagens">
+                                    <td>
+                                        <img src="/Images/EstabelecimentoImagens/@iImagens.IDEstabelecimentoImagens/@iImagens.Imagem" alt="Estabelecimento" width="40px" />
+                                    </td>
+                                    <td>@iImagens.NomeDaImagem</td>
+                                    <td>@iImagens.ResumoDoLocal</td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jQ_dataTable")
+
+    }*@

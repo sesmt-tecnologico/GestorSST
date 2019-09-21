@@ -1,0 +1,646 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{320AB5F4-89AB-4986-8E19-0DA27259EE7A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GISWeb</RootNamespace>
+    <AssemblyName>GISWeb</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="BotDetect, Version=4.1.0.0, Culture=neutral, PublicKeyToken=74616036388b765f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Captcha.4.1.0\lib\net45\BotDetect.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="BotDetect.Web.Mvc, Version=4.1.0.0, Culture=neutral, PublicKeyToken=74616036388b765f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Captcha.4.1.0\lib\net45\BotDetect.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Ace\avatars\unknown.png" />
+    <Content Include="Content\Ace\css\ace-fonts.css" />
+    <Content Include="Content\Ace\css\ace-ie.css" />
+    <Content Include="Content\Ace\css\ace-part2.css" />
+    <Content Include="Content\Ace\css\ace.css" />
+    <Content Include="Content\Ace\css\bootstrap-datetimepicker.css" />
+    <Content Include="Content\Ace\css\bootstrap-multiselect.css" />
+    <Content Include="Content\Ace\css\bootstrap-timepicker.css" />
+    <Content Include="Content\Ace\css\bootstrap.css" />
+    <Content Include="Content\Ace\css\chosen-sprite%402x.png" />
+    <Content Include="Content\Ace\css\chosen-sprite.png" />
+    <Content Include="Content\Ace\css\chosen.css" />
+    <Content Include="Content\Ace\css\colorbox.css" />
+    <Content Include="Content\Ace\css\datepicker.css" />
+    <Content Include="Content\Ace\css\daterangepicker.css" />
+    <Content Include="Content\Ace\css\dropzone.css" />
+    <Content Include="Content\Ace\css\images\border.png" />
+    <Content Include="Content\Ace\css\images\border1.png" />
+    <Content Include="Content\Ace\css\images\border2.png" />
+    <Content Include="Content\Ace\css\images\controls.png" />
+    <Content Include="Content\Ace\css\images\loading.gif" />
+    <Content Include="Content\Ace\css\images\loading_background.png" />
+    <Content Include="Content\Ace\css\images\pattern.jpg" />
+    <Content Include="Content\Ace\css\images\pattern.png" />
+    <Content Include="Content\Ace\css\images\spritemap%402x.png" />
+    <Content Include="Content\Ace\css\images\spritemap.png" />
+    <Content Include="Content\Ace\css\jquery-ui.css" />
+    <Content Include="Content\Ace\css\jquery-ui.custom.css" />
+    <Content Include="Content\Ace\css\jquery.gritter.css" />
+    <Content Include="Content\Ace\css\ui.jqgrid.css" />
+    <Content Include="Content\Ace\FontAwesome\css\font-awesome.css" />
+    <Content Include="Content\Ace\FontAwesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Ace\Chosen\chosen-sprite.png" />
+    <Content Include="Content\Ace\Chosen\chosen.min.css" />
+    <Content Include="Content\Croppie\croppie.css" />
+    <Content Include="Images\CIPA-logo.png" />
+    <Content Include="Images\favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Ace\FontAwesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Ace\FontAwesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Ace\FontAwesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Ace\FontAwesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Ace\FontAwesome\fonts\FontAwesome.otf" />
+    <Content Include="Images\slack_loading.gif" />
+    <Content Include="Scripts\Ace\ace-elements.js" />
+    <Content Include="Scripts\Ace\ace-extra.js" />
+    <Content Include="Scripts\Ace\ace-require.js" />
+    <Content Include="Scripts\Ace\ace-small.js" />
+    <Content Include="Scripts\Ace\ace.js" />
+    <Content Include="Scripts\Ace\ace.sidebar-scroll-1.js" />
+    <Content Include="Scripts\Ace\ace.sidebar.js" />
+    <Content Include="Scripts\Ace\ace.submenu-hover.js" />
+    <Content Include="Scripts\Ace\ace.touch-drag.js" />
+    <Content Include="Scripts\Ace\ace.widget-box.js" />
+    <Content Include="Scripts\Ace\bootbox.js" />
+    <Content Include="Scripts\Ace\bootstrap-datepicker.js" />
+    <Content Include="Scripts\Ace\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\Ace\bootstrap-tag.js" />
+    <Content Include="Scripts\Ace\bootstrap-timepicker.js" />
+    <Content Include="Scripts\Ace\bootstrap.js" />
+    <Content Include="Scripts\Ace\chosen.jquery.js" />
+    <Content Include="Scripts\Ace\dataTables\dataTables.colVis.js" />
+    <Content Include="Scripts\Ace\dataTables\dataTables.tableTools.js" />
+    <Content Include="Scripts\Ace\dataTables\jquery.dataTables.bootstrap.js" />
+    <Content Include="Scripts\Ace\dataTables\jquery.dataTables.js" />
+    <Content Include="Scripts\Ace\dataTables\swf\copy_csv_xls.swf" />
+    <Content Include="Scripts\Ace\dataTables\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Scripts\Ace\daterangepicker.js" />
+    <Content Include="Scripts\Ace\dropzone.js" />
+    <Content Include="Scripts\Ace\elements.aside.js" />
+    <Content Include="Scripts\Ace\elements.fileinput.js" />
+    <Content Include="Scripts\Ace\elements.scroller.js" />
+    <Content Include="Scripts\Ace\elements.typeahead.js" />
+    <Content Include="Scripts\Ace\excanvas.js" />
+    <Content Include="Scripts\Ace\html5shiv.js" />
+    <Content Include="Scripts\Ace\jQ\jquery-2.1.1.js" />
+    <Content Include="Scripts\Ace\jQ\jquery-ui.custom.js" />
+    <Content Include="Scripts\Ace\jQ\jquery-ui.js" />
+    <Content Include="Scripts\Ace\jQ\jquery.colorbox.js" />
+    <Content Include="Scripts\Ace\jQ\jquery.gritter.js" />
+    <Content Include="Scripts\Ace\jQ\jquery.mobile.custom.js" />
+    <Content Include="Scripts\Ace\jQ\jquery.nestable.js" />
+    <Content Include="Scripts\Ace\jQ\jquery.ui.touch-punch.js" />
+    <Content Include="Scripts\Ace\jQ\typeahead.jquery.js" />
+    <Content Include="Scripts\Ace\moment.js" />
+    <Content Include="Scripts\Ace\respond.js" />
+    <Content Include="Scripts\Ace\src\ace.ajax-content.js" />
+    <Content Include="Scripts\Ace\src\ace.auto-container.js" />
+    <Content Include="Scripts\Ace\src\ace.auto-padding.js" />
+    <Content Include="Scripts\Ace\src\ace.basics.js" />
+    <Content Include="Scripts\Ace\src\ace.js" />
+    <Content Include="Scripts\Ace\src\ace.onpage-help.js" />
+    <Content Include="Scripts\Ace\src\ace.scrolltop.js" />
+    <Content Include="Scripts\Ace\src\ace.searchbox-autocomplete.js" />
+    <Content Include="Scripts\Ace\src\ace.settings-rtl.js" />
+    <Content Include="Scripts\Ace\src\ace.settings-skin.js" />
+    <Content Include="Scripts\Ace\src\ace.settings.js" />
+    <Content Include="Scripts\Ace\src\ace.sidebar-scroll-1.js" />
+    <Content Include="Scripts\Ace\src\ace.sidebar-scroll-2.js" />
+    <Content Include="Scripts\Ace\src\ace.sidebar.js" />
+    <Content Include="Scripts\Ace\src\ace.submenu-hover.js" />
+    <Content Include="Scripts\Ace\src\ace.touch-drag.js" />
+    <Content Include="Scripts\Ace\src\ace.widget-box.js" />
+    <Content Include="Scripts\Ace\src\ace.widget-on-reload.js" />
+    <Content Include="Scripts\Ace\src\chosen.jquery.min.js" />
+    <Content Include="Scripts\Ace\src\elements.aside.js" />
+    <Content Include="Scripts\Ace\src\elements.colorpicker.js" />
+    <Content Include="Scripts\Ace\src\elements.fileinput.js" />
+    <Content Include="Scripts\Ace\src\elements.onpage-help.js" />
+    <Content Include="Scripts\Ace\src\elements.scroller.js" />
+    <Content Include="Scripts\Ace\src\elements.spinner.js" />
+    <Content Include="Scripts\Ace\src\elements.treeview.js" />
+    <Content Include="Scripts\Ace\src\elements.typeahead.js" />
+    <Content Include="Scripts\Ace\src\elements.wizard.js" />
+    <Content Include="Scripts\Ace\src\elements.wysiwyg.js" />
+    <Content Include="Scripts\Custom\Account\custom-login.js" />
+    <Content Include="Scripts\Custom\Account\NovaSenha.js" />
+    <Content Include="Scripts\Custom\Admissao\Edicao.js" />
+    <Content Include="Scripts\Custom\Admissao\ListagemEmpresas.js" />
+    <Content Include="Scripts\Custom\Admissao\ListagemEmpregado.js" />
+    <Content Include="Scripts\Custom\Admissao\Listagem.js" />
+    <Content Include="Scripts\Custom\Admissao\Novo.js" />
+    <Content Include="Scripts\Custom\AlocacaoAtividades\Edicao.js" />
+    <Content Include="Scripts\Custom\AlocacaoAtividades\Listagem.js" />
+    <Content Include="Scripts\Custom\AlocacaoAtividades\Novo.js" />
+    <Content Include="Scripts\Custom\Alocacao\Edicao.js" />
+    <Content Include="Scripts\Custom\Alocacao\Listagem.js" />
+    <Content Include="Scripts\Custom\Alocacao\Novo.js" />
+    <Content Include="Scripts\Custom\AmbienteDoEstabelecimento\Edicao.js" />
+    <Content Include="Scripts\Custom\AmbienteDoEstabelecimento\Excluir.js" />
+    <Content Include="Scripts\Custom\AmbienteDoEstabelecimento\Lista.js" />
+    <Content Include="Scripts\Custom\AmbienteDoEstabelecimento\Novo.js" />
+    <Content Include="Scripts\Custom\AnaliseRisco\Novo.js" />
+    <Content Include="Scripts\Custom\Atidade\Edicao.js" />
+    <Content Include="Scripts\Custom\Atidade\Excluir.js" />
+    <Content Include="Scripts\Custom\Atidade\Lista.js" />
+    <Content Include="Scripts\Custom\Atidade\Novo.js" />
+    <Content Include="Scripts\Custom\AtividadeAlocada\Edicao.js" />
+    <Content Include="Scripts\Custom\AtividadeAlocada\Listagem.js" />
+    <Content Include="Scripts\Custom\AtividadeAlocada\Novo.js" />
+    <Content Include="Scripts\Custom\AtividadeFuncaoLiberada\Edicao.js" />
+    <Content Include="Scripts\Custom\AtividadeFuncaoLiberada\Listagem.js" />
+    <Content Include="Scripts\Custom\AtividadeFuncaoLiberada\Novo.js" />
+    <Content Include="Scripts\Custom\AtividadeRiscos\Edicao.js" />
+    <Content Include="Scripts\Custom\AtividadeRiscos\Excluir.js" />
+    <Content Include="Scripts\Custom\AtividadeRiscos\Listagem.js" />
+    <Content Include="Scripts\Custom\AtividadeRiscos\Novo.js" />
+    <Content Include="Scripts\Custom\AtividadesDoEstabelecimento\Edicao.js" />
+    <Content Include="Scripts\Custom\AtividadesDoEstabelecimento\Listagem.js" />
+    <Content Include="Scripts\Custom\AtividadesDoEstabelecimento\Novo.js" />
+    <Content Include="Scripts\Custom\Cargo\Edicao.js" />
+    <Content Include="Scripts\Custom\Cargo\Excluir.js" />
+    <Content Include="Scripts\Custom\Cargo\Lista.js" />
+    <Content Include="Scripts\Custom\Cargo\Novo.js" />
+    <Content Include="Scripts\Custom\Contrato\Edicao.js" />
+    <Content Include="Scripts\Custom\Contrato\Excluir.js" />
+    <Content Include="Scripts\Custom\Contrato\Lista.js" />
+    <Content Include="Scripts\Custom\Contrato\Novo.js" />
+    <Content Include="Scripts\Custom\custom-functions.js" />
+    <Content Include="Scripts\Custom\custom-master.js" />
+    <Content Include="Scripts\Custom\Departamento\Edicao.js" />
+    <Content Include="Scripts\Custom\Departamento\Excluir.js" />
+    <Content Include="Scripts\Custom\Departamento\Lista.js" />
+    <Content Include="Scripts\Custom\Departamento\Listagem.js" />
+    <Content Include="Scripts\Custom\Departamento\Novo.js" />
+    <Content Include="Scripts\Custom\Diretoria\Edicao.js" />
+    <Content Include="Scripts\Custom\Diretoria\Excluir.js" />
+    <Content Include="Scripts\Custom\Diretoria\Lista.js" />
+    <Content Include="Scripts\Custom\Diretoria\Novo.js" />
+    <Content Include="Scripts\Custom\DocsPorAtividade\Edicao.js" />
+    <Content Include="Scripts\Custom\DocsPorAtividade\Excluir.js" />
+    <Content Include="Scripts\Custom\DocsPorAtividade\Lista.js" />
+    <Content Include="Scripts\Custom\DocsPorAtividade\Novo.js" />
+    <Content Include="Scripts\Custom\DocumentosPessoal\Edicao.js" />
+    <Content Include="Scripts\Custom\DocumentosPessoal\Excluir.js" />
+    <Content Include="Scripts\Custom\DocumentosPessoal\Lista.js" />
+    <Content Include="Scripts\Custom\DocumentosPessoal\Novo.js" />
+    <Content Include="Scripts\Custom\Empregado\Editar.js" />
+    <Content Include="Scripts\Custom\Empregado\Listagem.js" />
+    <Content Include="Scripts\Custom\Empregado\Novo.js" />
+    <Content Include="Scripts\Custom\Empresa\Edicao.js" />
+    <Content Include="Scripts\Custom\Empresa\Listagem.js" />
+    <Content Include="Scripts\Custom\Empresa\Novo.js" />
+    <Content Include="Scripts\Custom\Equipe\Edicao.js" />
+    <Content Include="Scripts\Custom\Equipe\Excluir.js" />
+    <Content Include="Scripts\Custom\Equipe\Lista.js" />
+    <Content Include="Scripts\Custom\Equipe\Novo.js" />
+    <Content Include="Scripts\Custom\EstabelecimentoImagens\Edicao.js" />
+    <Content Include="Scripts\Custom\EstabelecimentoImagens\Lista .js" />
+    <Content Include="Scripts\Custom\EstabelecimentoImagens\Listagem.js" />
+    <Content Include="Scripts\Custom\EstabelecimentoImagens\Novo.js" />
+    <Content Include="Scripts\Custom\Estabelecimento\Editar.js" />
+    <Content Include="Scripts\Custom\Estabelecimento\Listagem.js" />
+    <Content Include="Scripts\Custom\Estabelecimento\Novo.js" />
+    <Content Include="Scripts\Custom\EventoPerigoso\Edicao.js" />
+    <Content Include="Scripts\Custom\EventoPerigoso\Excluir.js" />
+    <Content Include="Scripts\Custom\EventoPerigoso\Listagem.js" />
+    <Content Include="Scripts\Custom\EventoPerigoso\Novo.js" />
+    <Content Include="Scripts\Custom\Exposicao\Edicao.js" />
+    <Content Include="Scripts\Custom\Exposicao\Listagem.js" />
+    <Content Include="Scripts\Custom\Exposicao\Novo.js" />
+    <Content Include="Scripts\Custom\Funcao\Edicao.js" />
+    <Content Include="Scripts\Custom\Funcao\Excluir.js" />
+    <Content Include="Scripts\Custom\Funcao\Lista.js" />
+    <Content Include="Scripts\Custom\Funcao\Novo.js" />
+    <Content Include="Scripts\Custom\ListaDepartamento\Edicao.js" />
+    <Content Include="Scripts\Custom\ListaDepartamento\Excluir.js" />
+    <Content Include="Scripts\Custom\ListaDepartamento\Lista.js" />
+    <Content Include="Scripts\Custom\ListaDepartamento\Novo.js" />
+    <Content Include="Scripts\Custom\MedidaControleRiscoFuncao\Edicao.js" />
+    <Content Include="Scripts\Custom\MedidaControleRiscoFuncao\Listagem.js" />
+    <Content Include="Scripts\Custom\MedidaControleRiscoFuncao\Novo.js" />
+    <Content Include="Scripts\Custom\MedidasDeControle\Edicao.js" />
+    <Content Include="Scripts\Custom\MedidasDeControle\Listagem.js" />
+    <Content Include="Scripts\Custom\MedidasDeControle\Novo.js" />
+    <Content Include="Scripts\Custom\NivelHierarquico\Edicao.js" />
+    <Content Include="Scripts\Custom\NivelHierarquico\Listagem.js" />
+    <Content Include="Scripts\Custom\NivelHierarquico\Novo.js" />
+    <Content Include="Scripts\Custom\PlanoDeAcao\Listagem.js" />
+    <Content Include="Scripts\Custom\PlanoDeAcao\Novo.js" />
+    <Content Include="Scripts\Custom\PossiveisDanos\Edicao.js" />
+    <Content Include="Scripts\Custom\PossiveisDanos\Excluir.js" />
+    <Content Include="Scripts\Custom\PossiveisDanos\Listagem.js" />
+    <Content Include="Scripts\Custom\PossiveisDanos\Novo.js" />
+    <Content Include="Scripts\Custom\TipoDeRisco\Edicao.js" />
+    <Content Include="Scripts\Custom\TipoDeRisco\Excluir.js" />
+    <Content Include="Scripts\Custom\TipoDeRisco\Listagem.js" />
+    <Content Include="Scripts\Custom\TipoDeRisco\Novo.js" />
+    <Content Include="Scripts\Custom\Usuario\Edicao.js" />
+    <Content Include="Scripts\Custom\Usuario\Listagem.js" />
+    <Content Include="Scripts\Custom\Usuario\Novo.js" />
+    <Content Include="Scripts\jQuery\inputmask.js" />
+    <None Include="Scripts\jQuery\jquery-2.2.0.intellisense.js" />
+    <Content Include="Scripts\jQuery\jquery-2.2.0.js" />
+    <Content Include="Scripts\jQuery\jquery.inputmask.js" />
+    <Content Include="Scripts\jQuery\jquery.unobtrusive-ajax.js" />
+    <None Include="Scripts\jQuery\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jQuery\jquery.validate.js" />
+    <Content Include="Scripts\jQuery\jquery.validate.min.js" />
+    <Content Include="Scripts\jQuery\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jQuery\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jQuery\jquery1x.js" />
+    <Content Include="Scripts\jQuery\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ListaEstabelecimento\Edicao.js" />
+    <Content Include="Scripts\ListaEstabelecimento\Excluir.js" />
+    <Content Include="Scripts\ListaEstabelecimento\Lista.js" />
+    <Content Include="Scripts\ListaEstabelecimento\Novo.js" />
+    <Content Include="Views\AnaliseRisco\ListaRiscos.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdmissaoController.cs" />
+    <Compile Include="Controllers\AlocacaoController.cs" />
+    <Compile Include="Controllers\AnaliseRiscoController.cs" />
+    <Compile Include="Controllers\AtividadeAlocadaController.cs" />
+    <Compile Include="Controllers\AtividadeController.cs" />
+    <Compile Include="Controllers\AtividadeFuncaoLiberadaController.cs" />
+    <Compile Include="Controllers\AtividadesDoEstabelecimentoController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\DiretoriaController.cs" />
+    <Compile Include="Controllers\CargoController.cs" />
+    <Compile Include="Controllers\ContratoController.cs" />
+    <Compile Include="Controllers\DepartamentoController.cs" />
+    <Compile Include="Controllers\DocsPorAtividadeController.cs" />
+    <Compile Include="Controllers\DocumentosPessoalController.cs" />
+    <Compile Include="Controllers\EmpregadoController.cs" />
+    <Compile Include="Controllers\EmpresaController.cs" />
+    <Compile Include="Controllers\EstabelecimentoAmbienteController.cs" />
+    <Compile Include="Controllers\EstabelecimentoController.cs" />
+    <Compile Include="Controllers\EventoPerigosoController.cs" />
+    <Compile Include="Controllers\ExposicaoController.cs" />
+    <Compile Include="Controllers\FuncaoController.cs" />
+    <Compile Include="Controllers\MedidasDeControleController.cs" />
+    <Compile Include="Controllers\NivelHierarquicoController.cs" />
+    <Compile Include="Controllers\PlanoDeAcaoController.cs" />
+    <Compile Include="Controllers\PossiveisDanosController.cs" />
+    <Compile Include="Controllers\TipoDeRiscoController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Infraestrutura\DependencyResolver\NinjectDependencyResolver.cs" />
+    <Compile Include="Infraestrutura\FilterProvider\CustomFilterProvider.cs" />
+    <Compile Include="Infraestrutura\Filters\AutorizadorAttribute.cs" />
+    <Compile Include="Infraestrutura\Filters\DadosUsuarioAttribute.cs" />
+    <Compile Include="Infraestrutura\Filters\MenuAtivo.cs" />
+    <Compile Include="Infraestrutura\Filters\RestritoAAjaxAttribute.cs" />
+    <Compile Include="Infraestrutura\Helpers\CaptchaHelper.cs" />
+    <Compile Include="Infraestrutura\Helpers\DepartamentoRecursivoHelper.cs" />
+    <Compile Include="Infraestrutura\Helpers\reCaptchaHelper.cs" />
+    <Compile Include="Infraestrutura\Helpers\SSTHelperRazorFactory.cs" />
+    <Compile Include="Infraestrutura\Provider\Abstract\ICustomAuthorizationProvider.cs" />
+    <Compile Include="Infraestrutura\Provider\Concrete\CustomAuthorizationProvider.cs" />
+    <Compile Include="Infraestrutura\Utils\Serializador.cs" />
+    <Compile Include="LanguageMang.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\AnaliseRisco\ListaRiscos.aspx.cs">
+      <DependentUpon>ListaRiscos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\AnaliseRisco\ListaRiscos.aspx.designer.cs">
+      <DependentUpon>ListaRiscos.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="packages.config" />
+    <Content Include="Content\Ace\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Ace\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Ace\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\Ace\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Ace\fonts\OpenSans-300.woff" />
+    <Content Include="Content\Ace\fonts\OpenSans-400.woff" />
+    <Content Include="Views\Empresa\Edicao.cshtml" />
+    <Content Include="Views\Empresa\Index.cshtml" />
+    <Content Include="Views\Empresa\Novo.cshtml" />
+    <Content Include="Views\Empresa\_Detalhes.cshtml" />
+    <Content Include="Views\Empresa\_Upload.cshtml" />
+    <Content Include="Views\Registro.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Estabelecimento\Edicao.cshtml" />
+    <Content Include="Views\Estabelecimento\Index.cshtml" />
+    <Content Include="Views\Estabelecimento\Lista.cshtml" />
+    <Content Include="Views\Estabelecimento\Novo.cshtml" />
+    <Content Include="Views\Estabelecimento\_Detalhes.cshtml" />
+    <Content Include="Views\Shared\_Cabecalho.cshtml" />
+    <Content Include="Views\Shared\_Error.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_MensagensDeRetorno.cshtml" />
+    <Content Include="Views\Shared\_MenuEsquerda.cshtml" />
+    <Content Include="Views\Shared\_MenuSuperior.cshtml" />
+    <Content Include="Views\Departamento\Edicao.cshtml" />
+    <Content Include="Views\Departamento\Excluir.cshtml" />
+    <Content Include="Views\Departamento\Index.cshtml" />
+    <Content Include="Views\Departamento\Novo.cshtml" />
+    <Content Include="Views\Departamento\_Detalhes.cshtml" />
+    <Content Include="Views\EstabelecimentoAmbiente\Edicao.cshtml" />
+    <Content Include="Views\EstabelecimentoAmbiente\Index.cshtml" />
+    <Content Include="Views\EstabelecimentoAmbiente\Lista.cshtml" />
+    <Content Include="Views\EstabelecimentoAmbiente\Novo.cshtml" />
+    <Content Include="Views\EstabelecimentoAmbiente\_Detalhes.cshtml" />
+    <Content Include="Views\EstabelecimentoAmbiente\_Upload.cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\Index.cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\Lista.cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\Novo.cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\_AtivarAtividades.cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\_Detalhes.cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\_DetalhesDoAmbiente.cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\_DetalhesDosRiscos .cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\_Upload.cshtml" />
+    <Content Include="Views\MedidasDeControle\Index.cshtml" />
+    <Content Include="Views\MedidasDeControle\Novo.cshtml" />
+    <Content Include="Views\MedidasDeControle\_Detalhes.cshtml" />
+    <Content Include="Views\MedidasDeControle\_DetalhesDosRiscos .cshtml" />
+    <Content Include="Views\TipoDeRisco\Edicao.cshtml" />
+    <Content Include="Views\TipoDeRisco\Excluir.cshtml" />
+    <Content Include="Views\TipoDeRisco\Index.cshtml" />
+    <Content Include="Views\TipoDeRisco\Novo.cshtml" />
+    <Content Include="Views\TipoDeRisco\_Detalhes.cshtml" />
+    <Content Include="Views\EventoPerigoso\Edicao.cshtml" />
+    <Content Include="Views\EventoPerigoso\Excluir.cshtml" />
+    <Content Include="Views\EventoPerigoso\Index.cshtml" />
+    <Content Include="Views\EventoPerigoso\Novo.cshtml" />
+    <Content Include="Views\PossiveisDanos\Edicao.cshtml" />
+    <Content Include="Views\PossiveisDanos\Excluir.cshtml" />
+    <Content Include="Views\PossiveisDanos\Index.cshtml" />
+    <Content Include="Views\PossiveisDanos\Novo.cshtml" />
+    <Content Include="Views\Contrato\Edicao.cshtml" />
+    <Content Include="Views\Contrato\Excluir.cshtml" />
+    <Content Include="Views\Contrato\Index.cshtml" />
+    <Content Include="Views\Contrato\Novo.cshtml" />
+    <Content Include="Views\Empregado\BuscarDetalhesEmpregado.cshtml" />
+    <Content Include="Views\Empregado\BuscarEmpregado.cshtml" />
+    <Content Include="Views\Empregado\Edicao.cshtml" />
+    <Content Include="Views\Empregado\EmpregadosSemAdmissao.cshtml" />
+    <Content Include="Views\Empregado\Index.cshtml" />
+    <Content Include="Views\Empregado\Lista.cshtml" />
+    <Content Include="Views\Empregado\ListaEmpregado.cshtml" />
+    <Content Include="Views\Empregado\Novo.cshtml" />
+    <Content Include="Views\Empregado\_BuscarDetalhesEmpregado.cshtml" />
+    <Content Include="Views\Empregado\_Detalhes.cshtml" />
+    <Content Include="Views\Admissao\Edicao.cshtml" />
+    <Content Include="Views\Admissao\Index.cshtml" />
+    <Content Include="Views\Admissao\Novo.cshtml" />
+    <Content Include="Views\Admissao\PerfilEmpregado.cshtml" />
+    <Content Include="Views\Admissao\_Detalhes.cshtml" />
+    <Content Include="Views\Admissao\_Upload.cshtml" />
+    <Content Include="Views\Admissao\EmpregadoDemitido.cshtml" />
+    <Content Include="Views\Alocar\Novo.cshtml" />
+    <Content Include="Views\Cargo\Index.cshtml" />
+    <Content Include="Views\Cargo\Novo.cshtml" />
+    <Content Include="Views\Diretoria\Index.cshtml" />
+    <Content Include="Views\Diretoria\Novo.cshtml" />
+    <Content Include="Views\Funcao\Index.cshtml" />
+    <Content Include="Views\Funcao\Novo.cshtml" />
+    <Content Include="Views\Funcao\ListaFuncao.cshtml" />
+    <Content Include="Views\Atividade\Index.cshtml" />
+    <Content Include="Views\Atividade\Novo.cshtml" />
+    <Content Include="Views\Atividade\_Detalhes.cshtml" />
+    <Content Include="Views\Admissao\Empresas.cshtml" />
+    <Content Include="Views\Admissao\EmpregadosPorEmpresa.cshtml" />
+    <Content Include="Views\Alocacao\_Novo.cshtml" />
+    <Content Include="Views\Alocacao\_Desaloca.cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\_DetalhesAmbienteAlocado.cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\_ControleAmbienteAlocado.cshtml" />
+    <Content Include="Views\AtividadeAlocada\Novo.cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\_AmbientesAlocado.cshtml" />
+    <Content Include="Views\PlanoDeAcao\Index.cshtml" />
+    <Content Include="Views\PlanoDeAcao\Novo.cshtml" />
+    <Content Include="Views\PlanoDeAcao\_PlanoDeAcao.cshtml" />
+    <Content Include="Views\PlanoDeAcao\_Detalhes.cshtml" />
+    <Content Include="Views\Exposicao\Novo.cshtml" />
+    <Content Include="Views\Exposicao\_Detalhes.cshtml" />
+    <Content Include="Views\Empresa\EmpresaCriacoes.cshtml" />
+    <Content Include="Views\Estabelecimento\_Novo.cshtml" />
+    <Content Include="Views\Departamento\_Novo.cshtml" />
+    <Content Include="Views\Diretoria\_Novo.cshtml" />
+    <Content Include="Views\AtividadesDoEstabelecimento\_DetalhesAtividade.cshtml" />
+    <Content Include="Views\Exposicao\_Novo.cshtml" />
+    <Content Include="Views\Admissao\_ListaExposicao.cshtml" />
+    <Content Include="Views\PlanoDeAcao\_ListarPlanoDeAcao.cshtml" />
+    <Content Include="Views\AnaliseRisco\_ListaAtividadesDeRiscos.cshtml" />
+    <Content Include="Views\AnaliseRisco\SalvarAnaliseRisco.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Perfil.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Usuario\Novo.cshtml" />
+    <Content Include="Views\Usuario\Edicao.cshtml" />
+    <Content Include="Views\Account\DefinirNovaSenha.cshtml" />
+    <Content Include="Views\DocumentosPessoal\Edicao.cshtml" />
+    <Content Include="Views\DocumentosPessoal\Index.cshtml" />
+    <Content Include="Views\DocumentosPessoal\Novo.cshtml" />
+    <Content Include="Views\DocsPorAtividade\Index.cshtml" />
+    <Content Include="Views\DocsPorAtividade\Novo.cshtml" />
+    <Content Include="Views\DocsPorAtividade\_ListaDocumentos.cshtml" />
+    <Content Include="Views\Atividade\_NovosRiscos.cshtml" />
+    <Content Include="Views\TipoDeRisco\_NovosRiscos.cshtml" />
+    <Content Include="Views\TipoDeRisco\NovoRisco.cshtml" />
+    <Content Include="Views\MedidasDeControle\NovoControleRiscoFuncao.cshtml" />
+    <Content Include="Views\Atividade\_Upload.cshtml" />
+    <Content Include="Views\Atividade\_AlocarAtivFuncao.cshtml" />
+    <Content Include="Views\Atividade\_ListaExpoAtivFuncao.cshtml" />
+    <Content Include="Views\Atividade\_ControleRiscoFuncao.cshtml" />
+    <Content Include="Views\AnaliseRisco\_Detalhes.cshtml" />
+    <Content Include="Views\NivelHierarquico\Edicao.cshtml" />
+    <Content Include="Views\NivelHierarquico\Novo.cshtml" />
+    <Content Include="Views\NivelHierarquico\Index.cshtml" />
+    <Content Include="Views\NivelHierarquico\_ListagemNiveis.cshtml" />
+    <Content Include="Views\Departamento\_BuscarDepartamentosPorEmpresa.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\Custom\" />
+    <Folder Include="Images\AdmissaoImagens\" />
+    <Folder Include="Images\AtividadesEstabelecimentoImagens\" />
+    <Folder Include="Images\AtividadesImagens\" />
+    <Folder Include="Images\Empregado\" />
+    <Folder Include="Images\Empresas\" />
+    <Folder Include="Images\EstabelecimentoImagens\" />
+    <Folder Include="Images\MedidasDeControle\" />
+    <Folder Include="Images\Relatorios\" />
+    <Folder Include="Views\AtividadeFuncaoLiberada\" />
+    <Folder Include="Views\Base\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GISCore\GISCore.csproj">
+      <Project>{cb60d092-e5f0-490f-903b-b4cd3f346640}</Project>
+      <Name>GISCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GISHelpers\GISHelpers.csproj">
+      <Project>{0abafe77-95a2-49ca-a270-d36f8948d3d1}</Project>
+      <Name>GISHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GISModel\GISModel.csproj">
+      <Project>{ca63050f-996a-4912-8282-b00bf4438fb7}</Project>
+      <Name>GISModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>26717</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:26717/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

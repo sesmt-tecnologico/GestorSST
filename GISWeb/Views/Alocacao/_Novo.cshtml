@@ -1,0 +1,167 @@
+﻿@*@model GISModel.Entidades.Alocacao*@
+
+
+
+@{
+    ViewBag.Title = "Novo";
+}
+
+
+@model GISModel.Entidades.Alocacao
+
+@{
+    ViewBag.Title = "Alocação do Empregado";
+}
+
+@{
+    Html.RenderPartial("_MensagensDeRetorno");
+}
+
+@foreach (var iAdmissao in ViewBag.Admissao)
+{
+    <i class="material-icons" style="font-size:36px;color:blue">@iAdmissao.Empregado.Nome&nbsp @iAdmissao.Empregado.CPF</i>
+
+
+    <tr id="linha-@iAdmissao.IDAdmissao">
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-2">
+                <div class="form-group">
+
+                    <td>
+                        <img src="/Images/AdmissaoImagens/@iAdmissao.IDAdmissao/@iAdmissao.Imagem" alt="Admissao" width="100px" />
+                    </td>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-10">
+                <div class="form-group">
+                    <td>
+                        <b>
+
+                            <i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Empresa:</i>@iAdmissao.Empresa.NomeFantasia</i>
+                            <br />
+
+                            <i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Email:</i>@iAdmissao.Empregado.Email</i>
+                            <br />
+
+                            <i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Data de Nascimento:</i>@iAdmissao.Empregado.DataNascimento</i>
+                            <br />
+
+                            <i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Data de Admissão:</i>@iAdmissao.DataAdmissao</i>
+                            <br />
+
+                            <i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Admitido por:</i>@iAdmissao.UsuarioInclusao</i>
+                        </b>
+                    </td>
+                </div>
+            </div>
+        </div>
+
+
+
+    </tr>
+
+}
+
+
+@using (Ajax.BeginForm("Cadastrar", "Alocacao", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarAlocacao", OnSuccess = "OnSuccessCadastrarAlocacao", }, new { @id = "formCadastroAlocacao", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.Contrato, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.IdContrato, (SelectList)ViewBag.Contrato, "Selecione um Contrato...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlContrato", @autocomplete = "on" })
+                    @Html.ValidationMessageFor(d => d.IdContrato, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    <input type="text" name="IDAdmissao" id="IDAdmissao" value=@ViewBag.pAdmissao hidden />
+                    <input type="text" name="IDEmpregado" id="IDEmpregado" value=@ViewBag.pEmpregado hidden />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.IDDepartamento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.IDDepartamento, (SelectList)ViewBag.Departamento, "Selecione um Departamento...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlDepartamento", @autocomplete = "on" })
+                    @Html.ValidationMessageFor(d => d.IDDepartamento, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                       
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.Label("Cargo", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.IDCargo, (SelectList)ViewBag.Cargo, "Selecione um Cargo...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlDepartamento", @autocomplete = "on" })
+                    @Html.ValidationMessageFor(d => d.IDCargo, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                       
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.Label("Função", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.IDFuncao, (SelectList)ViewBag.Funcao, "Selecione uma Função...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlDepartamento", @autocomplete = "on" })
+                    @Html.ValidationMessageFor(d => d.IDFuncao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.idEstabelecimento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.idEstabelecimento, (SelectList)ViewBag.Estabelecimento, "Selecione um Estabelecimento...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlDepartamento", @autocomplete = "on" })
+                    @Html.ValidationMessageFor(d => d.idEstabelecimento, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.IDEquipe, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.IDEquipe, (SelectList)ViewBag.Equipe, "Selecione uma Equipe...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEquipe", @autocomplete = "on" })
+                    @Html.ValidationMessageFor(d => d.IDEquipe, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                <button class="btn btn-info" id="btnSalvar" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar
+                </button>
+                @*&nbsp;
+                <button class="btn btn-warning" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;*@
+                <a class="btn" href="javascript:history.back()">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+        }

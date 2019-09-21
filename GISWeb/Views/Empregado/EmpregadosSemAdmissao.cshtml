@@ -1,0 +1,119 @@
+﻿
+<h1>Em construção</h1>
+
+
+@*@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Empregado sem Admissão";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Sem Admissão
+            <a href="@Url.Action("Novo", "Empregado")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                Perfil
+            </a>
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        @if (ViewBag.Empregado != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th class="hidden-480">Email</th>
+                            <th width="89px"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (Empregado iEmpregado in ViewBag.Empregado)
+                        {
+                            <tr id="linha-@iEmpregado.IDEmpregado">
+
+
+                                <td>@iEmpregado.Nome</td>
+                                <td>@iEmpregado.CPF</td>
+                                <td>@iEmpregado.Email</td>
+
+
+                                <td>
+                                    <div>
+                                        <a class="btn btn-primary" href="@Url.Action("Novo","Admissao",new { id = iEmpregado.IDEmpregado })"
+                                           title="Admitir" role="button">Admitir</a>
+
+                                    </div>
+
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href="#" class="tooltip-info" onclick="BuscarDetalhesEmpresa('@iEmpregado.IDEmpregado'); return false;" data-rel="tooltip" title="View">
+                                                        <span class="blue">
+                                                            <i class="fa fa-industry" aria-hidden="true"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#" class="tooltip-info" onclick="BuscarDetalhesEmpresa('@iEmpregado.IDEmpregado'); return false;" data-rel="tooltip" title="View">
+                                                        <span class="blue">
+                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href='@Url.Action("Edicao", "Empregado", new { id = @iEmpregado.IDEmpregado })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                        <span class="green">
+                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#" class="tooltip-error" onclick="DeletarEmpregado('@iEmpregado.IDEmpregado', '@iEmpregado.CPF');" data-rel="tooltip" title="Delete">
+                                                        <span class="red">
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Custom/Empregado/Listagem.js"></script>
+}*@

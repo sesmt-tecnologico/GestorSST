@@ -1,0 +1,187 @@
+﻿@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Listagem de Plano de Ação";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Plano de Ação
+            @*<a href="@Url.Action("Novo", "PlanoDeAcao")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                    <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                    Novo Plano de Ação
+                </a>*@
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        @if (ViewBag.PlanoDeAcao != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+
+                    <thead>
+                        <tr>
+                            <th class="center">
+                                <label class="pos-rel">
+                                    <input type="checkbox" class="ace" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </th>
+                            <th width="250">Resumo do Plano de Ação</th>
+                            <th>Responsável</th>
+                            <th>Descrição da Atividade</th>
+                            <th>Gerência</th>
+                            <th>Data Prevista</th>
+                            <th>Status</th>
+                            <th width="89px"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (PlanoDeAcao iPlanoDeAcao in ViewBag.PlanoDeAcao)
+                        {
+
+
+                            <tr id="linha-@iPlanoDeAcao.IDPlanoDeAcao">
+                                <td class="center">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace" />
+                                        <span class="lbl"></span>
+                                    </label>
+                                </td>
+
+                                <td>@iPlanoDeAcao.DescricaoDoPlanoDeAcao.Substring(0, 30)</td>
+                                <td>@iPlanoDeAcao.Responsavel</td>
+
+                                @foreach (AtividadesDoEstabelecimento iAtiviEstabe in ViewBag.AtivEstab)
+                                {
+
+                                    if (iAtiviEstabe.IDAtividadesDoEstabelecimento == iPlanoDeAcao.Identificador)
+                                    {
+
+                                        <td>@iAtiviEstabe.DescricaoDestaAtividade</td>
+
+                                    }
+                                }
+
+                                <td>@iPlanoDeAcao.Gerencia</td>
+
+                                @if (ViewBag.DataAtual <= @iPlanoDeAcao.DataPrevista)
+                                {
+                                    <td style="color:lawngreen">
+                                        <i class="material-icons" style="font-size:18px;color:green">@iPlanoDeAcao.DataPrevista.ToString("dd/MM/yyyy")</i>
+                                    </td>
+
+                                }
+
+                                else
+
+                                {
+                                    <td style="color:red">
+                                        <i class="material-icons" style="font-size:18px;color:red">@iPlanoDeAcao.DataPrevista.ToString("dd/MM/yyyy")</i>
+                                    </td>
+                                }
+
+                                @if (ViewBag.DataAtual <= @iPlanoDeAcao.DataPrevista)
+                                {
+                                    <td>
+                                        <i class="fa fa-thumbs-up" style="font-size:18px;color:green" aria-hidden="true">&nbsp;&nbsp;No Prazo</i>
+                                    </td>
+
+                                }
+
+                                else
+
+                                {
+                                    <td>
+                                        <i class="fa fa-thumbs-down" style="font-size:18px;color:red">&nbsp;&nbsp;Vencido </i>
+                                        @*<i class="material-icons" style="font-size:18px;color:red">@iPlanoDeAcao.DataPrevista</i>*@
+                                    </td>
+                                }
+
+
+                                <td>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        <a href="#" class="tooltip-error" onclick="Detalhes('@iPlanoDeAcao.IDPlanoDeAcao');" data-rel="tooltip" title="Detalhes">
+                                            <span class="red">
+                                                <i class="ace-icon fa fa-search bigger-130"></i>
+                                            </span>
+                                        </a>
+
+                                        <a href="#" class="tooltip-error" onclick="EncerrarPlano('@iPlanoDeAcao.IDPlanoDeAcao','@iPlanoDeAcao.Identificador');" data-rel="tooltip" title="Encerrar">
+                                            <span class="red">
+                                                <i class="ace-icon fa fa-minus-square bigger-130"></i>
+                                            </span>
+                                        </a>
+
+                                        @*<a href="#" class="tooltip-error" onclick="DeletarPossiveisDanos('@iPlanoDeAcao.IDPlanoDeAcao');" data-rel="tooltip" title="Delete">
+                                                <span class="red">
+                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                </span>
+                                            </a>*@
+
+                                    </div>
+
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                                        <span class="blue">
+                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                @*<li>
+                                                        @Html.ActionLink("Hello", "Edicao", "PossiveisDanos", new { i = "123" }, null)
+                                                        <a href='@Url.Action("Edicao", "PossiveisDanos")' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                            <span class="green">
+                                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>*@
+
+                                                <li>
+                                                    <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                                        <span class="red">
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+
+
+    </div>
+</div>
+
+
+
+
+

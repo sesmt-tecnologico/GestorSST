@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!-->
+<html>
+<!--<![endif]-->
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link href="~/Images/favicon.ico" rel="shortcut icon" />   
+
+    <title>@System.Configuration.ConfigurationManager.AppSettings["Web:NomeModulo"] - @ViewBag.Title</title>
+
+    @{
+        var path = string.Empty;
+        if (Request.ApplicationPath.Length > 1)
+        {
+            path = Request.ApplicationPath;
+        }
+    }
+
+    @RenderSection("Stylesheets", required: false)
+    @Styles.Render("~/bundles/ace_css_master")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="~/Content/Ace/css/ace-part2.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="~/Content/Ace/css/ace-ie.css" />
+    <![endif]-->
+    
+    <!-- inline styles related to this page -->
+    <!-- ace settings handler -->
+    <script src="~/Scripts/Ace/ace-extra.js"></script>
+
+</head>
+
+<body class="no-skin">
+
+    @{ Html.RenderPartial("_Cabecalho"); }
+
+    <div class="main-container" id="main-container">
+        <script type="text/javascript">
+            try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+        </script>
+
+        <div class="page-content-area">
+
+            <div id="sidebar" class="sidebar h-sidebar navbar-collapse collapse">
+                <script type="text/javascript">
+                    try { ace.settings.check('sidebar', 'fixed') } catch (e) { }
+                </script>
+
+                @{
+                    Html.RenderPartial("_MenuSuperior");
+                }
+
+                <script type="text/javascript">
+                    try { ace.settings.check('sidebar', 'collapsed') } catch (e) { }
+                </script>
+            </div>
+
+            <div class="main-content">
+                <div class="main-content-inner">
+                    <div class="page-content">
+                        @{
+                            Html.RenderPartial("_MensagensDeRetorno");
+                        }
+
+                        @RenderSection("Sliders", required: false)
+
+                        @RenderBody()
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+        </a>
+    </div>
+
+    <!--[if !IE]> -->
+    @Scripts.Render("~/bundles/jquery")
+    <!--<![endif]-->
+    <!--[if IE]>
+    <script src="@path/Scripts/jQuery/jquery1x.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript">
+        if ('ontouchstart' in document.documentElement)
+            document.write("<script src='@path/Scripts/Ace/jQ/jquery.mobile.custom.js'>" + "<" + "/script>");
+    </script>
+
+    <!--[if lte IE 8]>
+    <script src="@path/Scripts/Ace/excanvas.js"></script>
+    <![endif]-->
+    @Scripts.Render("~/bundles/ace_js_master")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/Custom/custom-functions.js"></script>
+    <script src="~/Scripts/Custom/custom-master.js"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    <script type="text/javascript">
+        ace.vars['base'] = '..';
+        baseApplicationURL = '@Request.ApplicationPath';
+
+        if (baseApplicationURL.length == 1) {
+            baseApplicationURL = "";
+        }
+
+        (
+            function () {
+                var funcaoAlvo = $.ajax;
+
+                $.ajax = function () {
+
+                    if (parent.baseApplicationURL && parent.baseApplicationURL != '/' && arguments[0].url != null) {
+
+                        if (arguments[0].url.indexOf("http:") == -1 && arguments[0].url.indexOf("https:") == -1) {
+
+                            var fixedUrl = arguments[0].url;
+                            fixedUrl = fixedUrl.indexOf("/") == 0 ? parent.baseApplicationURL + fixedUrl : parent.baseApplicationURL + '/' + fixedUrl;
+
+                            arguments[0].url = fixedUrl;
+                        }
+
+                    }
+
+                    funcaoAlvo(arguments[0]);
+                };
+            }
+        )();
+    </script>
+
+</body>
+</html>

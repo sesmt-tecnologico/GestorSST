@@ -1,0 +1,275 @@
+﻿@model GISModel.Entidades.MedidasDeControleExistentes
+
+@{
+    ViewBag.Title = "Cadastro de Medidas de Controle";
+}
+
+<div id="formCadImagens">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Cadastro de Medidas de Controle
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            @{
+                Html.RenderPartial("_MensagensDeRetorno");
+            }
+
+            @if (ViewBag.TipoDeRisco != null)
+            {
+                <div>
+                    <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                @*<th class="center">
+            <label class="pos-rel">
+                <input type="checkbox" class="ace" />
+                <span class="lbl"></span>
+            </label>
+        </th>*@
+
+                                <th>Estabelecimento</th>
+                                <th>Atividade</th>                                
+                                <th>Descrição</th>
+                                <th>Descrição do Risco</th>
+                                <th>Possíveis Danos</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var iEstabelecimento in ViewBag.TipoDeRisco)
+                            {
+
+                            <tr id="linha-@iEstabelecimento.IDTipoDeRisco">
+
+                                @*<td class="center">
+            <label class="pos-rel">
+                <input type="checkbox" class="ace" />
+                <span class="lbl"></span>
+            </label>
+        </td>*@
+                                <td>
+                                    <img src="/Images/EstabelecimentoImagens/@iEstabelecimento.AtividadesDoEstabelecimento.EstabelecimentoImagens.IDEstabelecimentoImagens/@iEstabelecimento.AtividadesDoEstabelecimento.EstabelecimentoImagens.Imagem" alt="Estabelecimento" width="90px" title="@iEstabelecimento.AtividadesDoEstabelecimento.EstabelecimentoImagens.NomeDaImagem" />
+
+                                </td>
+                                <td>
+                                    <img src="/Images/AtividadesEstabelecimentoImagens/@iEstabelecimento.AtividadesDoEstabelecimento.IDAtividadesDoEstabelecimento/@iEstabelecimento.AtividadesDoEstabelecimento.Imagem" alt="Estabelecimento" width="90px" title="@iEstabelecimento.AtividadesDoEstabelecimento.NomeDaImagem" />
+
+                                </td>
+                               
+                                <td>@iEstabelecimento.AtividadesDoEstabelecimento.DescricaoDestaAtividade</td>
+                                <td>@iEstabelecimento.EventoPerigoso.Descricao</td>
+                                <td>@iEstabelecimento.PossiveisDanos.DescricaoDanos</td>
+
+                            </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm("Cadastrar", "MedidasDeControle", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarMedidasDeControle", OnSuccess = "OnSuccessCadastrarMedidasDeControle", }, new { @id = "formCadastroMedidasDeControle", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.Label("Imagem da Medida de Controle", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(d => d.Imagem, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @readonly = "readonly", @id = "URLLogoMarca" } })
+                    @Html.ValidationMessageFor(d => d.Imagem, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.NomeDaImagem, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(d => d.NomeDaImagem, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.EClassificacaoDaMedida, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EnumDropDownListFor(model => model.EClassificacaoDaMedida, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(d => d.EClassificacaoDaMedida, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    <input type="text" name="RegistroID" id="RegistroID" value=@ViewBag.EstabID hidden />
+                    <input type="text" name="AtivRiscoID" id="AtivRiscoID" value=@ViewBag.AtivRisco hidden />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.MedidasExistentes, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(d => d.MedidasExistentes, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                    @Html.ValidationMessageFor(d => d.MedidasExistentes, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.EControle, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EnumDropDownListFor(model => model.EControle, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EControle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                <button class="btn btn-info" id="btnSalvar" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar
+                </button>
+                &nbsp;
+                <button class="btn btn-warning" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;
+                <a class="btn" href="javascript:history.back()">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+        }
+
+    </div> <!-- Fim FormQuery -->
+
+<br />
+
+<div id="modalArquivo" class="modal fade" style="z-index: 10001">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modalArquivoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="smaller lighter blue no-margin"><i class="ace-icon fa fa-folder-open orange2"></i> Arquivo referente ao Estabelecimento</h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="modalArquivoCorpoLoading" style="float: right; display: none">
+                            ...Carregando
+                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </div>
+                        <div id="modalArquivoCorpo"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="modalArquivoLoading" style="display: none; float: left; padding-top: 6px">
+                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </span>
+
+                        <button id="modalArquivoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                            <i class="ace-icon fa fa-times"></i>
+                            Fechar
+                        </button>
+
+                        <button id="modalArquivoProsseguir" class="btn btn-sm btn-info" style="right: 5px; left: auto">
+                            <i class="ace-icon fa fa-check"></i>
+                            Prosseguir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="row">
+        <div class="col-xs-12">
+
+            @*@{
+                    Html.RenderPartial("_MensagensDeRetorno");
+                }*@
+
+            @if (ViewBag.Imagens != null)
+            {
+                <div>
+                    <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th width="100px"></th>
+                                <th width="300px">Tipo do Controle</th>
+                                <th>Descrição</th>
+                                @*<th width="89px"></th>*@
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var iImagens in ViewBag.Imagens)
+                            {
+                            <tr id="linha-@iImagens.IDMedidasDeControle">
+                                <td>
+                                    <img src="/Images/MedidasDeControle/@iImagens.IDMedidasDeControle/@iImagens.Imagem" alt="Estabelecimento" width="60px" height="60px" />
+                                </td>
+                                <td>@iImagens.EClassificacaoDaMedida</td>
+                                <td>@iImagens.MedidasExistentes</td>
+                                
+                            </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
+    @*@Scripts.Render("~/bundles/jQ_dataTable")*@
+    <script src="~/Scripts/jQuery/inputmask.js"></script>
+    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Custom/MedidasDeControle/Novo.js"></script>
+
+
+    <script src="~/Scripts/Custom/MedidasDeControle/Listagem.js"></script>
+    <script src="~/Scripts/Custom/AtividadesDoEstabelecimento/Listagem.js"></script>
+}
+
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+}

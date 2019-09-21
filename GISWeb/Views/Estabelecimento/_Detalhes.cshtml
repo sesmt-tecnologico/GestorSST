@@ -1,0 +1,42 @@
+﻿@model GISModel.Entidades.EstabelecimentoImagens
+
+@if (Model != null)
+{
+
+<table class="table table-striped table-bordered table-hover">
+    <tr>
+        <td><strong>Empresa</strong></td>
+        <td>@Model.Estabelecimento.Empresa</td>
+    </tr>
+    <tr>
+        <td><strong>Departamento</strong></td>
+        <td>@Model.Estabelecimento.Departamento</td>
+    </tr>
+    <tr>
+        <td><strong>Nome do Estabelecimento</strong></td>
+        <td>@Model.Estabelecimento.NomeCompleto</td>
+    </tr>
+    <tr>
+        <td><strong>Tipo de Estabelecimento</strong></td>
+        <td>@Model.Estabelecimento.TipoDeEstabelecimento</td>
+    </tr>
+    <tr>
+        <td><strong>Código</strong></td>
+        <td>@Model.Estabelecimento.Codigo</td>
+    </tr>
+    <tr>
+        <td><strong>Descrição</strong></td>
+        <td>@Model.Estabelecimento</td>
+    </tr>
+
+
+
+
+</table>
+
+    
+
+
+
+
+}

@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CA63050F-996A-4912-8282-B00BF4438FB7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GISModel</RootNamespace>
+    <AssemblyName>GISModel</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomAttributes\CustomValidationCNPJAttribute.cs" />
+    <Compile Include="CustomAttributes\CustomValidationCPFAttribute.cs" />
+    <Compile Include="DTO\AnaliseRisco\AnaliseRiscosViewModel.cs" />
+    <Compile Include="DTO\AtividadesAlocada\AtividadesAlocadasViewModel.cs" />
+    <Compile Include="DTO\Atividade\AtividadeAlocadaFuncaoViewModel.cs" />
+    <Compile Include="DTO\Conta\AutenticacaoModel.cs" />
+    <Compile Include="DTO\Conta\NovaSenhaViewModel.cs" />
+    <Compile Include="DTO\Contrato\ContratoViewModel.cs" />
+    <Compile Include="DTO\Departamento\CadastroViewModel.cs" />
+    <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
+    <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
+    <Compile Include="DTO\Permissoes\VMPermissao.cs" />
+    <Compile Include="DTO\Shared\RetornoJSON.cs" />
+    <Compile Include="Entidades\Admissao.cs" />
+    <Compile Include="Entidades\Alocacao.cs" />
+    <Compile Include="Entidades\AnaliseRisco.cs" />
+    <Compile Include="Entidades\Atividade.cs" />
+    <Compile Include="Entidades\AtividadeAlocada.cs" />
+    <Compile Include="Entidades\AtividadeFuncaoLiberada.cs" />
+    <Compile Include="Entidades\AtividadesDoEstabelecimento.cs" />
+    <Compile Include="Entidades\Cargo.cs" />
+    <Compile Include="Entidades\CNAE.cs" />
+    <Compile Include="Entidades\Contrato.cs" />
+    <Compile Include="Entidades\Diretoria.cs" />
+    <Compile Include="Entidades\Departamento.cs" />
+    <Compile Include="Entidades\DocAtividade.cs" />
+    <Compile Include="Entidades\DocsPorAtividade.cs" />
+    <Compile Include="Entidades\DocumentosPessoal.cs" />
+    <Compile Include="Entidades\Empregado.cs" />
+    <Compile Include="Entidades\Empresa.cs" />
+    <Compile Include="Entidades\EntidadeBase.cs" />
+    <Compile Include="Entidades\Equipe.cs" />
+    <Compile Include="Entidades\Estabelecimento.cs" />
+    <Compile Include="Entidades\EstabelecimentoAmbiente.cs" />
+    <Compile Include="Entidades\EventoPerigoso.cs" />
+    <Compile Include="Entidades\NivelHierarquico.cs" />
+    <Compile Include="Entidades\Perfil.cs" />
+    <Compile Include="Entidades\PerigoPotencial.cs" />
+    <Compile Include="Entidades\Exposicao.cs" />
+    <Compile Include="Entidades\Funcao.cs" />
+    <Compile Include="Entidades\MedidasDeControleExistentes.cs" />
+    <Compile Include="Entidades\PlanoDeAcao.cs" />
+    <Compile Include="Entidades\PossiveisDanos.cs" />
+    <Compile Include="Entidades\Rel_AtivEstabTipoRisco.cs" />
+    <Compile Include="Entidades\TipoDeRisco.cs" />
+    <Compile Include="Entidades\Usuario.cs" />
+    <Compile Include="Entidades\UsuarioPerfil.cs" />
+    <Compile Include="Enums\ETipoPlanoAcao.cs" />
+    <Compile Include="Enums\EControle.cs" />
+    <Compile Include="Enums\ESeveridadeSeg.cs" />
+    <Compile Include="Enums\EProbabilidadeSeg.cs" />
+    <Compile Include="Enums\EExposicaoSeg.cs" />
+    <Compile Include="Enums\EExposicaoCalor.cs" />
+    <Compile Include="Enums\EExposicaoInsalubre.cs" />
+    <Compile Include="Enums\EClasseDoRisco.cs" />
+    <Compile Include="Enums\EClassificacaoDaMedia.cs" />
+    <Compile Include="Enums\TipoEstabelecimento.cs" />
+    <Compile Include="Enums\EAtividades.cs" />
+    <Compile Include="Enums\ECentroEmpresa.cs" />
+    <Compile Include="Enums\EConsequencia.cs" />
+    <Compile Include="Enums\EOrgaoClasse.cs" />
+    <Compile Include="Enums\ETipoAcidenrte.cs" />
+    <Compile Include="Enums\ETipoAcidente.cs" />
+    <Compile Include="Enums\ETipoCAT.cs" />
+    <Compile Include="Enums\ETipoEntrada.cs" />
+    <Compile Include="Enums\ETipoIniciativa.cs" />
+    <Compile Include="Enums\ETipoLocalAcid.cs" />
+    <Compile Include="Enums\ETipoRegistrador.cs" />
+    <Compile Include="Enums\EUnidadeFederacao.cs" />
+    <Compile Include="Enums\Situacao.cs" />
+    <Compile Include="Enums\TipoDeAcesso.cs" />
+    <Compile Include="Enums\YesNo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GISHelpers\GISHelpers.csproj">
+      <Project>{0abafe77-95a2-49ca-a270-d36f8948d3d1}</Project>
+      <Name>GISHelpers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

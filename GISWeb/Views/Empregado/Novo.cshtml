@@ -1,0 +1,157 @@
+﻿@model GISModel.Entidades.Empregado
+
+@{
+    ViewBag.Title = "Cadastro de Empregado";
+}
+
+<div id="formCadEmpregado">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Cadastrar Empregado
+                </h1>
+            </div>
+        </div>
+    </div>    
+       
+
+    @using (Ajax.BeginForm("Cadastrar", "Empregado", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarEmpregado", OnSuccess = "OnSuccessCadastrarEmpregado", }, new { @id = "formCadastroEmpregado", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+               
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.Nome, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(d => d.Nome, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                    @Html.ValidationMessageFor(d => d.Nome, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.CPF, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">            
+                    @Html.EditorFor(d => d.CPF, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCPF" } })
+                    @Html.ValidationMessageFor(d => d.CPF, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    <input type="text" name="RegistroID" id="RegistroID" value=@ViewBag.EstabID hidden />
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Email, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-at bigger-110"></i>
+                            </span>
+                            @Html.EditorFor(d => d.Email, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                            @Html.ValidationMessageFor(d => d.Email, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.DataNascimento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-calendar bigger-110"></i>
+                            </span>
+                            @Html.EditorFor(d => d.DataNascimento, new { htmlAttributes = new { @class = "form-control date-picker", @data_placeholder = "Data Nascimento" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                <button class="btn btn-info" id="btnSalvar" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar
+                </button>
+                &nbsp;
+                <button class="btn btn-warning" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;
+                <a class="btn" href="javascript:history.back()">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    }
+
+</div> <!-- Fim FormQuery -->
+
+<script type="text/javascript">
+
+    var scripts = ["/Components/jquery.maskedinput/dist/jquery.maskedinput.js", "/Components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js", "/Components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min.js", "/Components/bootbox.js/bootbox.js"]
+    $('.page-content-area').ace_ajax('loadScripts', scripts, function () {
+        jQuery(function ($) {
+
+            $('#txtCPF').mask('999.999.999-99');
+            $("#txtTelefone").mask("(99) 9999 - 9999?9", { placeholder: " " });
+
+            $('.date-picker').datepicker({
+                autoclose: true,
+                todayhighlight: true,
+                language: "pt-BR"
+            })
+                .next().on(ace.click_event, function () {
+                    $(this).prev().focus();
+                });
+
+
+        });
+
+    });
+
+    AplicaValidacaoCPF();
+
+    function OnBeginCadastrarEmpregado() {
+        $('.page-content-area').ace_ajax('startLoading');
+    }
+
+    function OnSuccessCadastrarEmpregado(data) {
+        $('.page-content-area').ace_ajax('stopLoading', true);
+        TratarResultadoJSON(data.resultado);
+    }
+
+</script>
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
+    @*@Scripts.Render("~/bundles/jQ_dataTable")*@
+    <script src="~/Scripts/jQuery/inputmask.js"></script>
+    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Custom/Empregado/Novo.js"></script>
+   
+    
+}
+
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+}

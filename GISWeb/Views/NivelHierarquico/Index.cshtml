@@ -1,0 +1,113 @@
+﻿@using GISModel.Entidades
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Listagem de Níveis
+            <a href="@Url.Action("Novo", "NivelHierarquico")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                Nível
+            </a>
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        <div class="conteudoAjax">
+            @if (ViewBag.NiveisHierarquicos != null && ViewBag.NiveisHierarquicos.Count > 0)
+            {
+                <div>
+                    <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th class="hidden-480">Data Cadastro</th>
+                                <th class="hidden-480">Usuário Cadastro</th>
+                                <th width="89px"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (NivelHierarquico iNivel in ((List<NivelHierarquico>)ViewBag.NiveisHierarquicos).OrderBy(a => a.Nome))
+                            {
+                                <tr id="linha-@iNivel.UniqueKey">
+
+                                    <td>@iNivel.Nome</td>
+                                    <td class="hidden-480">@iNivel.DataInclusao</td>
+                                    <td class="hidden-480">@iNivel.UsuarioInclusao</td>
+                                    <td class="center">
+                                        <div class="hidden-sm hidden-xs action-buttons">
+                                            <a href='@Url.Action("Edicao", "NivelHierarquico", new { id = @iNivel.UniqueKey })' class="green CustomTooltip" title="Editar nível">
+                                                <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                            </a>
+
+                                            <a class="red CustomTooltip" href="#" onclick="DeletarNivel('@iNivel.UniqueKey', '@iNivel.Nome'); return false;" title="Excluir nível">
+                                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="hidden-md hidden-lg">
+                                            <div class="inline pos-rel">
+                                                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                    <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                                </button>
+
+                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                    <li>
+                                                        <a href='#@Url.Action("Edicao", "NivelHierarquico", new { id = @iNivel.UniqueKey }).Substring(1)' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                            <span class="green">
+                                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#" class="tooltip-error" onclick="DeletarNivel('@iNivel.UniqueKey', '@iNivel.Nome'); return false;" data-rel="tooltip" title="Delete">
+                                                            <span class="red">
+                                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    <strong>
+                        <i class="ace-icon fa fa-meh-o"></i>
+                        Oops!
+                    </strong>
+
+                    No momento, nenhum nível encontrado.
+                    <br>
+                </div>
+            }
+
+
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Custom/NivelHierarquico/Listagem.js"></script>
+}

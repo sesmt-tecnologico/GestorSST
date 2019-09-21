@@ -1,0 +1,113 @@
+﻿@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Listagem de Estabelcimentos";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Lista de Estabelecimentos
+            @*<a href="@Url.Action("Novo", "Estabelecimento")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                Novo Estabelecimento
+            </a>*@
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        @if (ViewBag.Estabelecimento != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="center">
+                                <label class="pos-rel">
+                                    <input type="checkbox" class="ace" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </th>
+                            <th>Empresa</th>
+                            <th>Departamento</th>
+                            <th>Tipo</th>                           
+                            <th>Nome do Estabelecimento</th>
+                            <th>Descrição</th>
+
+                            <th width="60px">Ambientes</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (Estabelecimento iEstabelecimento in ViewBag.Estabelecimento)
+                        {
+
+                        <tr id="linha-@iEstabelecimento.IDEstabelecimento">
+
+                            <td class="center">
+                                <label class="pos-rel">
+                                    <input type="checkbox" class="ace" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </td>
+                            <td>@*@iEstabelecimento.Empresa.NomeFantasia*@</td>
+                            <td>@iEstabelecimento.Departamento.Sigla</td>
+                            <td>@iEstabelecimento.TipoDeEstabelecimento</td>                           
+                            <td>@iEstabelecimento.NomeCompleto</td>
+                            <td>@iEstabelecimento.Descricao</td>
+
+
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons center">
+
+                                    <a class="red" href='@Url.Action("Lista", "EstabelecimentoAmbiente", new { id = @iEstabelecimento.IDEstabelecimento, nome=@iEstabelecimento.NomeCompleto })' title="Listar Ambientes">
+
+                                        <i class="ace-icon fa fa-search bigger-130"></i>
+                                    </a>
+                                </div>
+
+                                <div class="hidden-md hidden-lg">
+                                    <div class="inline pos-rel">
+                                        <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                            <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                        </button>
+
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
+                                            <li>
+                                                <a class="red" href='@Url.Action("Lista", "EstabelecimentoAmbiente", new { id = @iEstabelecimento.IDEstabelecimento })' title="Listar Ambiente">
+
+                                                    <i class="ace-icon fa fa-search bigger-130"></i>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+    <script src="~/Scripts/Custom/Estabelecimento/Listagem.js"></script>
+}

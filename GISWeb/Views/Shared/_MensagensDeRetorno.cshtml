@@ -1,0 +1,69 @@
+﻿@using GISCore.Infrastructure.Utils
+
+@if (!string.IsNullOrWhiteSpace(Extensions.RecuperaCookie("MensagemSucesso")))
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="ace-icon fa fa-times"></i>
+        </button>
+
+        <strong>
+            <i class="ace-icon fa fa-check-circle"></i>
+            Sucesso!
+        </strong>
+
+        @Html.Raw(Extensions.RecuperaCookie("MensagemSucesso", true))
+        <br />
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Extensions.RecuperaCookie("MensagemErro")))
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="ace-icon fa fa-times"></i>
+        </button>
+
+        <strong>
+            <i class="ace-icon fa fa-times-circle"></i>
+            Oops! Ocorreu algum problema!
+        </strong>
+
+        @Html.Raw(Extensions.RecuperaCookie("MensagemErro", true))
+        <br />
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Extensions.RecuperaCookie("MensagemAlerta")))
+{
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="ace-icon fa fa-times"></i>
+        </button>
+
+        <strong>
+            <i class="ace-icon fa fa-exclamation-circle"></i>
+            Alerta!
+        </strong>
+
+        @Html.Raw(Extensions.RecuperaCookie("MensagemAlerta", true))
+        <br />
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Extensions.RecuperaCookie("MensagemInformacao")))
+{
+    <div class="alert alert-info">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="ace-icon fa fa-times"></i>
+        </button>
+
+        <strong>
+            <i class="ace-icon fa fa-info-circle"></i>
+            Mensagem!
+        </strong>
+
+        @Html.Raw(Extensions.RecuperaCookie("MensagemInformacao", true))
+        <br />
+    </div>
+}

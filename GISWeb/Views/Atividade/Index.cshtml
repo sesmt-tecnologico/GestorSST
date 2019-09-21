@@ -1,0 +1,131 @@
+﻿@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Listagem de Atividades";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Atividades
+            <a href="@Url.Action("Novo", "Atividade")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                Nova Atividade de Risco
+            </a>
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        @if (ViewBag.Atividade != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="50px"></th>
+                            <th>Diretoria</th>
+                            <th>Função</th>
+                            <th>Atividade</th>
+                            <th width="90px">Imagem</th>
+                            <th width="89px"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (Atividade iAtividade in ViewBag.Atividade)
+                        {
+                            <tr id="linha-@iAtividade.IDAtividade">
+                                <td class="center">
+                                    <label class="pos-rel">
+                                        <input type="checkbox" class="ace" />
+                                        <span class="lbl"></span>
+                                    </label>
+                                </td>
+                                <td>@iAtividade.Diretoria.Sigla</td>
+                                <td>@iAtividade.Funcao.NomeDaFuncao</td>
+                                <td>@iAtividade.Descricao</td>
+                                <td>
+                                    <img src="/Images/AtividadesImagens/@iAtividade.IDAtividade/@iAtividade.Imagem" alt="Atividades" width="90" height="70" />
+                                </td>
+
+
+
+                                <td>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        @*<a class="blue" href="#" onclick="BuscarDetalhesContrato('@iAtividade.IDAtividade'); return false;">
+                                                <i class="ace-icon fa fa-search-plus bigger-130"></i>
+                                            </a>*@
+
+                                        <a href='@Url.Action("Novo", "Atividade", new { id = @iAtividade.Funcao.IDFuncao })' class="green">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                        </a>
+                                        <a href='@Url.Action("Novo", "AtividadeRiscos", new { id = @iAtividade.IDAtividade })' title="Cadastrar Perigo Existente" class="green">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                        </a>
+
+                                        <a class="red" href="#" onclick="DeletarContrato('@iAtividade.IDAtividade');">
+                                            <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                        </a>
+                                    </div>
+
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href="#" class="tooltip-info" onclick="BuscarDetalhesContrato('@iAtividade.IDAtividade'); return false;" data-rel="tooltip" title="View">
+                                                        <span class="blue">
+                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href='@Url.Action("Edicao", "Cargo", new { id = @iAtividade.IDAtividade})' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                        <span class="green">
+                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#" class="tooltip-error" onclick="DeletarContrato('@iAtividade.IDAtividade');" data-rel="tooltip" title="Delete">
+                                                        <span class="red">
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+
+    <script src="~/Scripts/Custom/Atidade/Lista.js"></script>
+    <script src="~/Scripts/Custom/Admissao/Listagem.js"></script>
+}

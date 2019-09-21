@@ -1,0 +1,123 @@
+﻿@model GISModel.Entidades.Diretoria
+@{
+    ViewBag.Title = "Cadastro de Diretoria";
+}
+
+<div id="formCadDiretoria">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Cadastro de Diretoria
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm("Cadastrar", "Diretoria", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarDiretoria", }, new { @id = "formCadastroDiretoria", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.IDEmpresa, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.IDEmpresa, (SelectList)ViewBag.Empresa, "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
+                        @Html.ValidationMessageFor(d => d.IDEmpresa, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Codigo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Codigo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                        @Html.ValidationMessageFor(d => d.Codigo, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Sigla, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Sigla, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                        @Html.ValidationMessageFor(d => d.Sigla, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Descricao, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Descricao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                        @Html.ValidationMessageFor(d => d.Descricao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                    <button class="btn btn-info" id="btnSalvar" type="submit">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        Salvar
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-warning" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        Limpar
+                    </button>
+                    &nbsp;
+                    <a class="btn" href="javascript:history.back()">
+                        <i class="ace-icon fa fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+            }
+
+
+        </div> <!-- Fim FormQuery -->
+
+
+
+        @section Scripts {
+
+            <script src="~/Scripts/Custom/Diretoria/Novo.js"></script>
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

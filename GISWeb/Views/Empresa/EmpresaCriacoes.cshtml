@@ -1,0 +1,176 @@
+﻿@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Lista de Empresas";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Criações da Empresa
+
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        @if (ViewBag.Empresas != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="50px"></th>
+                            <th>CNPJ</th>
+                            <th>Nome Fatasia</th>
+                            <th class="hidden-480">Razão Social</th>
+                            <th width="120px"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (Empresa iEmpresa in ViewBag.Empresas)
+                        {
+                            <tr id="linha-@iEmpresa.IDEmpresa">
+                                <td>
+                                    <img src="/Images/Empresas/@iEmpresa.CNPJ.Replace("/", "").Replace("-", "").Replace(".", "")/@iEmpresa.URL_LogoMarca" alt="Logo-Marca" width="40px" />
+                                </td>
+
+                                <td>@iEmpresa.CNPJ</td>
+                                <td>
+                                    @if (string.IsNullOrEmpty(iEmpresa.URL_Site))
+                                    {
+                                        <span>@iEmpresa.NomeFantasia</span>
+                                    }
+                                    else
+                                    {
+                                        <a href="@iEmpresa.URL_Site">@iEmpresa.NomeFantasia</a>
+                                    }
+                                </td>
+                                <td class="hidden-480">@iEmpresa.RazaoSocial</td>
+                                <td>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        <a class="orange2" href="#" onclick="CriarDiretoria('@iEmpresa.IDEmpresa','@iEmpresa.NomeFantasia'); return false;">
+                                            <i class="fa fa-plus-square bigger-130" aria-hidden="true" title="Criar Diretoria"></i>
+                                        </a>
+
+                                        <a class="red" href="#" onclick="CriarDepartamento('@iEmpresa.IDEmpresa','@iEmpresa.NomeFantasia'); return false;">
+                                            <i class="fa fa-tag bigger-130" title="Criar Departamento"></i>
+                                        </a>
+
+                                        <a class="blue" href="#" onclick="CriarEstabelecimento('@iEmpresa.IDEmpresa','@iEmpresa.NomeFantasia'); return false;">
+                                            <i class="fa fa-tags bigger-130" aria-hidden="true" title="Criar Estabelecimento"></i>
+                                        </a>
+
+
+                                    </div>
+
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href="#" class="tooltip-info" onclick="BuscarDetalhesEmpresa('@iEmpresa.IDEmpresa'); return false;" data-rel="tooltip" title="View">
+                                                        <span class="blue">
+                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href='@Url.Action("Edicao", "Empresa", new { id = @iEmpresa.IDEmpresa })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                        <span class="green">
+                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#" class="tooltip-error" onclick="DeletarEmpresa('@iEmpresa.IDEmpresa', '@iEmpresa.NomeFantasia');" data-rel="tooltip" title="Delete">
+                                                        <span class="red">
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+
+        <a class="btn" href="javascript:history.back()">
+            <i class="ace-icon fa fa-arrow-left"></i>
+            Voltar
+        </a>
+    </div>
+
+    @if (ViewBag.Lista != null)
+    {
+        <div>
+            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+
+                        <th width="300px">Diretoria</th>
+                        <th>Departamento</th>
+                        <th>Estabelecimento</th>
+                        @*<th width="89px"></th>*@
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (Estabelecimento item in ViewBag.Lista)
+                    {
+                        <tr id="linha-@item.IDEstabelecimento">
+                            <
+                            <td>@item.Departamento.Diretoria.Sigla</td>
+                            <td>@item.Departamento.Sigla</td>
+                            <td>@item.NomeCompleto</td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+
+    }
+
+  
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Custom/Empresa/Listagem.js"></script>
+    <script src="~/Scripts/Custom/Estabelecimento/Novo.js"></script>
+    <script src="~/Scripts/Custom/Departamento/Novo.js"></script>
+    <script src="~/Scripts/Custom/Diretoria/Novo.js"></script>
+
+}
+

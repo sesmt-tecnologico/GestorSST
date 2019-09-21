@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://starscloud.com.br/services" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:i0="http://ec2-13-58-74-236.us-east-2.compute.amazonaws.com/services" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Suporte" targetNamespace="http://starscloud.com.br/services" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="http://ec2-13-58-74-236.us-east-2.compute.amazonaws.com/services" location="http://ec2-13-58-74-236.us-east-2.compute.amazonaws.com/SST.Services/SVC/Suporte.svc?wsdl=wsdl0" />
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://starscloud.com.br/services/Imports">
+      <xsd:import schemaLocation="http://ec2-13-58-74-236.us-east-2.compute.amazonaws.com/SST.Services/SVC/Suporte.svc?xsd=xsd0" namespace="http://starscloud.com.br/services" />
+      <xsd:import schemaLocation="http://ec2-13-58-74-236.us-east-2.compute.amazonaws.com/SST.Services/SVC/Suporte.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="Suporte_SalvarFotoPerfil_InputMessage">
+    <wsdl:part name="parameters" element="tns:SalvarFotoPerfil" />
+  </wsdl:message>
+  <wsdl:message name="Suporte_SalvarFotoPerfil_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SalvarFotoPerfilResponse" />
+  </wsdl:message>
+  <wsdl:message name="Suporte_SalvarFotoPerfil_FaultSTARSServicesFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultSTARSServices" />
+  </wsdl:message>
+  <wsdl:message name="Suporte_BuscarFotoPerfil_InputMessage">
+    <wsdl:part name="parameters" element="tns:BuscarFotoPerfil" />
+  </wsdl:message>
+  <wsdl:message name="Suporte_BuscarFotoPerfil_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BuscarFotoPerfilResponse" />
+  </wsdl:message>
+  <wsdl:message name="Suporte_BuscarFotoPerfil_FaultSTARSServicesFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultSTARSServices" />
+  </wsdl:message>
+  <wsdl:message name="Suporte_SalvarArquivoNoVault_InputMessage">
+    <wsdl:part name="parameters" element="tns:SalvarArquivoNoVault" />
+  </wsdl:message>
+  <wsdl:message name="Suporte_SalvarArquivoNoVault_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SalvarArquivoNoVaultResponse" />
+  </wsdl:message>
+  <wsdl:message name="Suporte_SalvarArquivoNoVault_FaultSTARSServicesFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultSTARSServices" />
+  </wsdl:message>
+  <wsdl:message name="Suporte_BuscarArquivoDoVault_InputMessage">
+    <wsdl:part name="parameters" element="tns:BuscarArquivoDoVault" />
+  </wsdl:message>
+  <wsdl:message name="Suporte_BuscarArquivoDoVault_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BuscarArquivoDoVaultResponse" />
+  </wsdl:message>
+  <wsdl:message name="Suporte_BuscarArquivoDoVault_FaultSTARSServicesFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultSTARSServices" />
+  </wsdl:message>
+  <wsdl:portType name="Suporte">
+    <wsdl:operation name="SalvarFotoPerfil">
+      <wsdl:input wsaw:Action="http://starscloud.com.br/services/Suporte/SalvarFotoPerfil" message="tns:Suporte_SalvarFotoPerfil_InputMessage" />
+      <wsdl:output wsaw:Action="http://starscloud.com.br/services/Suporte/SalvarFotoPerfilResponse" message="tns:Suporte_SalvarFotoPerfil_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://starscloud.com.br/services/Suporte/SalvarFotoPerfilFaultSTARSServicesFault" name="FaultSTARSServicesFault" message="tns:Suporte_SalvarFotoPerfil_FaultSTARSServicesFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarFotoPerfil">
+      <wsdl:input wsaw:Action="http://starscloud.com.br/services/Suporte/BuscarFotoPerfil" message="tns:Suporte_BuscarFotoPerfil_InputMessage" />
+      <wsdl:output wsaw:Action="http://starscloud.com.br/services/Suporte/BuscarFotoPerfilResponse" message="tns:Suporte_BuscarFotoPerfil_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://starscloud.com.br/services/Suporte/BuscarFotoPerfilFaultSTARSServicesFault" name="FaultSTARSServicesFault" message="tns:Suporte_BuscarFotoPerfil_FaultSTARSServicesFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SalvarArquivoNoVault">
+      <wsdl:input wsaw:Action="http://starscloud.com.br/services/Suporte/SalvarArquivoNoVault" message="tns:Suporte_SalvarArquivoNoVault_InputMessage" />
+      <wsdl:output wsaw:Action="http://starscloud.com.br/services/Suporte/SalvarArquivoNoVaultResponse" message="tns:Suporte_SalvarArquivoNoVault_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://starscloud.com.br/services/Suporte/SalvarArquivoNoVaultFaultSTARSServicesFault" name="FaultSTARSServicesFault" message="tns:Suporte_SalvarArquivoNoVault_FaultSTARSServicesFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarArquivoDoVault">
+      <wsdl:input wsaw:Action="http://starscloud.com.br/services/Suporte/BuscarArquivoDoVault" message="tns:Suporte_BuscarArquivoDoVault_InputMessage" />
+      <wsdl:output wsaw:Action="http://starscloud.com.br/services/Suporte/BuscarArquivoDoVaultResponse" message="tns:Suporte_BuscarArquivoDoVault_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://starscloud.com.br/services/Suporte/BuscarArquivoDoVaultFaultSTARSServicesFault" name="FaultSTARSServicesFault" message="tns:Suporte_BuscarArquivoDoVault_FaultSTARSServicesFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:service name="Suporte">
+    <wsdl:port name="BasicHttpBinding_Suporte" binding="i0:BasicHttpBinding_Suporte">
+      <soap:address location="http://ec2-13-58-74-236.us-east-2.compute.amazonaws.com/SST.Services/SVC/Suporte.svc/Soap11" />
+    </wsdl:port>
+    <wsdl:port name="WSHttpBinding_Suporte" binding="i0:WSHttpBinding_Suporte">
+      <soap12:address location="http://ec2-13-58-74-236.us-east-2.compute.amazonaws.com/SST.Services/SVC/Suporte.svc/Soap12" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://ec2-13-58-74-236.us-east-2.compute.amazonaws.com/SST.Services/SVC/Suporte.svc/Soap12</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Spn>host/WIN-LF69LIORUBB</Spn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

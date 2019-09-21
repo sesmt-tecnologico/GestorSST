@@ -1,0 +1,79 @@
+﻿@using GISModel.Entidades
+@using GISModel.DTO.AtividadesAlocada
+@model List<AtividadesAlocadasViewModel>
+
+
+@{
+    /**/
+
+
+    if (Model.Count > 0)
+    {
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="clearfix">
+                    <div class="pull-right tableTools-container"></div>
+                </div>
+
+                <div>
+                    <table id="tablePerfisPorMenu" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="center">
+                                    &nbsp;
+                                </th>
+                                <th>Ambientes</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (AtividadesAlocadasViewModel item in Model)
+                            {
+                                <tr>
+                                    <td class="center">
+                                        <label class="pos-rel">
+
+                                            @{
+                                                string PossuiOMenu = string.Empty;
+                                                if (item.AlocaAtividade)
+                                                {
+                                                    PossuiOMenu = " checked=\" ";
+                                                }
+                                            }
+
+                                            <input type="checkbox" onclick="SalvarAtividadeEstabelecimento(this.checked, '@item.IDAtividadeEstabelecimento','@item.IDAlocacao');" @PossuiOMenu class="ace">
+                                            <span class="lbl"></span>
+                                        </label>
+                                    </td>
+
+                                    <td>@item.DescricaoAtividade</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="error-container" style="margin: 0;">
+                    <div class="well">
+                        <h4 class="blue" style="margin: 0;">
+                            <i class="ace-icon fa fa-slack bigger-110"></i>
+                            Nenhum perfil encontrado
+                        </h4>
+                    </div>
+                </div>
+            </div><!-- /.col -->
+        </div>
+    }
+
+}
+

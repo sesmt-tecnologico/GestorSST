@@ -1,0 +1,334 @@
+﻿@using GISModel.Entidades
+@using GISModel.DTO.AnaliseRisco
+@model GISModel.Entidades.AnaliseRisco
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Análise de Risco
+            <a href="" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                Visulizar Análise de Risco
+            </a>
+        </h3>
+    </div>
+</div>
+@foreach (var oEmp in ViewBag.Listaempregado)
+{
+    @*<img src="/Images/AdmissaoImagens/@oEmp.Admissao.IDAdmissao/@oEmp.Admissao.Imagem" alt="Admissao" width="100" />*@
+
+<div class="row ">
+
+    <span class="badge badge-success">
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                Empregado
+                <h4>@oEmp.Admissao.Empregado.Nome</h4>
+            </div>
+        </div>
+    </span>
+    <span class="badge badge-success">
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                Empresa
+                <h4>@oEmp.Admissao.Empresa.NomeFantasia</h4>
+            </div>
+        </div>
+    </span>
+    <span class="badge badge-success">
+        <div class="col-xs-12 col-sm-12 col-lg-12">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                Equipe
+                <h4>@oEmp.Equipe.NomeDaEquipe</h4>
+            </div>
+        </div>
+    </span>
+</div>
+
+
+}
+
+<br /><br />
+
+@if (ViewBag.Risco != null)
+{
+    
+    <div class="table-responsive">
+
+        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+
+    
+            <thead>
+                <tr>
+                    <th width="50px"></th>
+                    <th width="50px"></th>
+                    <th>
+                        <div class="responsive">
+                            Riscos
+                        </div>
+                    </th>
+                    <th>
+                        Possíveis Danos (clique para ver os Controles)
+                    </th>
+
+                    @*<th>
+                    @Html.Label("Perigo Adicional", new { @class = "form-field-select-3 col-xs-4 col-sm-12 no-padding-right" })</th>*@
+
+                    <th>
+
+                    </th>
+                    <th>
+
+                    </th>
+                    <th>
+
+                    </th>
+                    <th>
+
+                    </th>
+                    <th width="89px"></th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (AnaliseRiscosViewModel item in ViewBag.Risco)
+                {
+                    using (Ajax.BeginForm("SalvarAnaliseRisco", "AnaliseRisco", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarAnaliseRisco", OnSuccess = "OnSuccessCadastrarAnaliseRisco", }, new { @id = "formCadastroAnaliseRisco", @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                <tr id="linha-@item.IDAtividadeAlocada">
+
+                    <td class="center">
+                        <label class="pos-rel">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </td>
+                    <td>
+
+
+                        <img src="/Images/AtividadesEstabelecimentoImagens/@item.IDAtividadeEstabelecimento/@item.imagemEstab" alt="Atividade" title=" @item.DescricaoAtividade" width="100px" />
+
+
+                        <input type="hidden" name="AtivEstabID" id="AtivEstabID" value=@item.IDAtividadeEstabelecimento />
+                        <input type="hidden" name="idATivAlocada" id="idATivAlocada" value=@item.IDAtividadeAlocada />
+
+
+                    </td>
+                    <td>
+
+                        @item.Riscos
+
+
+                    </td>
+
+                    <td>
+                        <a class="red" href="#" onclick="BuscarDetalhesDeMedidasDeControleTipoRisco('@item.IDTipoDeRisco'); return false;">
+                            <span class="blue">
+                                @item.PossiveisDanos
+                            </span>
+                        </a>
+
+
+
+
+                    </td>
+
+                    @*<td>
+
+
+            @Html.DropDownListFor(d => d.IDPerigoPotencial, (SelectList)ViewBag.PerigoPotencial, "Selecione um Perigo...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlPerigo", @autocomplete = "on" })
+
+
+        </td>*@
+
+
+                    <td>
+                        @{
+
+                            string PossuiOMenu6 = string.Empty;
+
+                            if (item.Conhecimento == true)
+                            {
+                                PossuiOMenu6 = "checked=\" ";
+                            }
+                            else
+                            {
+                                PossuiOMenu6 = " ";
+                            }
+                        }
+
+                        <span class="badge badge-secondary">
+                            <span class="green">
+                                <i class="fa fa-smile-o bigger-280"></i>
+                            </span><br />
+
+                            <input type="radio" name="ConhecID" id="ConhecID" value="true" width="24px" height="50px" @PossuiOMenu6 title="Conheço Atividade">
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        @{
+
+                            string PossuiOMenu5 = string.Empty;
+
+                            if (item.Conhecimento == false)
+                            {
+                                PossuiOMenu5 = "checked=\" ";
+                            }
+                            else
+                            {
+                                PossuiOMenu5 = " ";
+                            }
+                        }
+
+                        <span class="badge badge-secondary">
+                            <span class="red">
+                                <i class="fa fa-frown-o bigger-280"></i>
+                            </span><br />
+                            <input type="radio" name="ConhecID" id="ConhecID" value="false" @PossuiOMenu5 title="Não Conheço a Atividade">
+                        </span>
+
+                    </td>
+
+                    <td>
+                        @{
+
+                            string PossuiOMenu2 = string.Empty;
+                            if (item.BemEstar == true)
+                            {
+                                PossuiOMenu2 = "checked=\" ";
+                            }
+                            else
+                            {
+                                PossuiOMenu2 = " ";
+                            }
+                        }
+
+                        <span class="badge badge-secondary">
+                            <span class="green">
+                                <i class="fa fa-smile-o bigger-280"></i>
+                            </span><br />
+                            <input type="radio" name="BemEstarID" id="BemEstarID" value="true" @PossuiOMenu2 title="Estou Bem">
+                        </span>
+
+
+                    </td>
+
+                    <td>
+                        @{
+
+                            string PossuiOMenu3 = string.Empty;
+                            if (item.BemEstar == false)
+                            {
+                                PossuiOMenu3 = "checked=\" ";
+                            }
+                            else
+                            {
+                                PossuiOMenu3 = " ";
+                            }
+                        }
+
+
+
+                        <span class="badge badge-secondary">
+                            <span class="red">
+                                <i class="fa fa-frown-o bigger-280"></i>
+                            </span><br />
+                            <input type="radio" name="BemEstarID" id="BemEstarID" value="false" @PossuiOMenu3 title="Não estou bem">
+
+                        </span>
+
+
+                    </td>
+
+                    <td>
+                        @{
+
+                            string PossuiOMenu4 = string.Empty;
+                            if (item.AlocaAtividade == false)
+                            {
+                                PossuiOMenu4 = "checked=\" ";
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-lg-12">
+                                        @*<button type="submit" class="btn btn-primary btn-lg btn-block btn-responsive" id="btnSalvar">*@
+                                        <button class="btn btn-info" id="btnSalvar" type="submit">
+                                            <i class="ace-icon fa fa-check bigger-55"></i>
+                                            Salvar
+                                        </button>
+
+                                    </div>
+                                </div>
+
+                            }
+                            else
+                            {
+                                PossuiOMenu4 = " ";
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-lg-12">
+                                        @*<button type="submit" class="btn btn-primary btn-lg btn-block btn-responsive" id="btnSalvar">*@
+
+                                        <i class="ace-icon fa fa-check bigger-55"></i>
+                                        Salvo
+
+
+                                    </div>
+                                </div>
+                            }
+
+
+                        }
+
+                    </td>
+
+
+
+
+
+
+
+                    @*}
+
+        }
+
+
+        }
+        else
+        {*@
+                    @*<div class="row">
+            <div class="col-xs-12">
+                <div class="error-container" style="margin: 0;">
+                    <div class="well">
+                        <h4 class="blue" style="margin: 0;">
+                            <i class="ace-icon fa fa-slack bigger-110"></i>
+                            Nenhum perfil encontrado
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+                            }*@
+
+
+                </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+    </div>
+
+}
+
+@section Scripts {
+
+
+    <script src="~/Scripts/Custom/AnaliseRisco/Novo.js"></script>
+
+}
+
+

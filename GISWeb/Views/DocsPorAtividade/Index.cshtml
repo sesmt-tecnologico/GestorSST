@@ -1,0 +1,147 @@
+﻿@using GISModel.Entidades
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Documentos por Atividade</h2>
+
+<div class="row">
+    <div class="col-xs-12 col-md-12">
+        <h3 class="header smaller lighter blue">
+            Documentos
+            @*<a href="@Url.Action("Novo", "DocsPorAtividade")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"> Novo Documento</i>
+
+            </a>*@
+
+        </h3>
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        @if (ViewBag.Atividade != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="50px"></th>
+                            <th>Diretoria</th>
+                            <th>Atividade (Clique na Atividade para listar os documentos)</th>
+
+                            <th width="90px"></th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (Atividade item in ViewBag.Atividade)
+                        {
+
+                        <tr id="linha-@item.IDAtividade">
+
+                            <td class="center">
+                                <label class="pos-rel">
+                                    <input type="checkbox" class="ace" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </td>
+                            <td>@item.Diretoria.Sigla</td>
+                            <td>
+                                <a href="#" class="tooltip-info" onclick="ListaDocumentos('@item.IDAtividade');" data-rel="tooltip" title="Exposições ">
+                                    <span class="blue">
+                                        @item.Descricao
+                                    </span>
+                                </a>
+                            </td>
+
+
+
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons">
+
+                                    <a href='@Url.Action("Novo", "DocsPorAtividade", new { id = @item.IDAtividade})' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                        <span class="green">
+                                            <i class="fa fa-plus-square bigger-130" aria-hidden="true" title="Cadastrar Documento"></i>
+                                        </span>
+                                    </a>
+                                    <a href='@Url.Action("Edicao", "DocumentosPessoal", new { id = @item.IDAtividade})' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                        <span class="green">
+                                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                        </span>
+                                    </a>
+                                    <a class="red" href="#" onclick="DeletarDocumento('@item.IDAtividade','@item.Descricao');">
+                                        <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                    </a>
+
+
+                                </div>
+                                <div class="hidden-md hidden-lg">
+                                    <div class="inline pos-rel">
+                                        <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                            <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
+                                            <li>
+                                                <a href='@Url.Action("Edicao", "DocumentosPessoal", new { id = @item.IDAtividade})' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                    <span class="green">
+                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="tooltip-error" onclick="DeletarDocumento('@item.IDAtividade');" data-rel="tooltip" title="Delete">
+                                                    <span class="red">
+                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        }
+
+                    </tbody>
+
+
+                </table>
+            </div>
+
+        }
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+@section Scripts{
+
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+
+    <script src="~/Scripts/Custom/DocsPorAtividade/Lista.js"></script>
+
+
+
+}

@@ -1,0 +1,130 @@
+﻿@model GISModel.Entidades.PlanoDeAcao
+
+@{
+    ViewBag.Title = "Cadastro de Plano de Ação";
+}
+
+<div id="formCadEvento">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Cadastro de Plano de Ação
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm("Cadastrar", "PlanoDeAcao", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarPlanoDeAcao", }, new { @id = "formCadastroPlanoDeAcao", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <div class="form-group">
+                    @Html.Label("Descrição", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.TextAreaFor(d => d.DescricaoDoPlanoDeAcao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                        @Html.ValidationMessageFor(d => d.DescricaoDoPlanoDeAcao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        <input type="text" name="IdentificadorID" id="IdentificadorID" value=@ViewBag.IDIentificador hidden />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.Label("Responsável", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Responsavel, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                        @Html.ValidationMessageFor(d => d.Responsavel, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                @Html.Label("Data Prevista", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                @Html.EditorFor(model => model.DataPrevista, "{0:dd/MM/yyyy}", new { htmlAttributes = new { @class = "form-control", placeholder = "Data Prevista" } })
+
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.TipoDoPlanoDeAcao, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EnumDropDownListFor(model => model.TipoDoPlanoDeAcao, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(d => d.TipoDoPlanoDeAcao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.Label("Departamento", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownList("IDDepartamento", (SelectList)ViewBag.Departamento, "Selecione um Departamento...", new { @class = "chosen-select form-control tag-input-style", @id = "IDDeparatamento", @autocomplete = "on" })
+                       
+                       
+
+                        @*@Html.DropDownListFor(d => d.IDTipoDeRisco, new SelectList(ViewBag.TipoDeRisco, "IDTipoDeRisco", "DescricaoDoRisco"), new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })*@
+                        @*@Html.ValidationMessageFor(d => d.IDTipoDeRisco, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })*@
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                    <button class="btn btn-info" id="btnSalvar" type="submit">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        Salvar
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-warning" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        Limpar
+                    </button>
+
+                </div>
+            </div>
+            }
+
+
+        </div> <!-- Fim FormQuery -->
+
+
+@section Scripts {
+
+    <script src="~/Scripts/Custom/PlanoDeAcao/Novo.js"></script>
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

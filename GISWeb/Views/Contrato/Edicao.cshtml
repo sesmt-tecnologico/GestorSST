@@ -1,0 +1,107 @@
+﻿@model GISModel.Entidades.Contrato
+
+
+
+@{
+    ViewBag.Title = "Edicao";
+}
+
+
+<div id="formEdicaoContrato">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Edição de contrato
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    @if (Model == null)
+    {
+        <div class="error-container">
+            <div class="well">
+                <h1 class="grey lighter smaller">
+                    <span class="blue bigger-125">
+                        <i class="ace-icon fa fa-exclamation-triangle"></i>
+                        Oops
+                    </span>
+                    Não foi possível encontrar o Contrato.
+                </h1>
+
+                <hr />
+                <div class="space"></div>
+
+                <div class="center">
+                    <a href="javascript:history.back()" class="btn btn-grey">
+                        <i class="ace-icon fa fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        using (Ajax.BeginForm("Atualizar", "Contrato", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginAtualizarContrato", OnSuccess = "OnSuccessCadastrarContrato", }, new { @id = "formEdicaoContrato", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.NumeroContrato, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.NumeroContrato, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                            @Html.HiddenFor(d => d.IDContrato)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-8">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.DescricaoContrato, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.DescricaoContrato, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCNPJ" } })
+                            @Html.ValidationMessageFor(d => d.DescricaoContrato, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                    <button class="btn btn-info" type="submit">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        Salvar
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-warning" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        Limpar
+                    </button>
+                    &nbsp;
+                    <a class="btn" href="javascript:history.back()">
+                        <i class="ace-icon fa fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+        }
+    }
+
+
+
+</div> <!-- Fim Form -->
+@section Scripts {
+
+
+    <script src="~/Scripts/Custom/Contrato/Edicao.js"></script>
+
+}

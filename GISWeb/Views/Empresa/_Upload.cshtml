@@ -1,0 +1,14 @@
+﻿@using (Html.BeginForm("Upload", "Empresa", FormMethod.Post, new
+{
+    @id = "formUpload",
+    @class = "dropzone",
+    @enctype = "multipart/form-data"
+}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="fallback" style="border: 1px solid red;">
+        <input name="file" style="border: 1px solid red;" type="file" multiple="" />
+    </div>
+}
+

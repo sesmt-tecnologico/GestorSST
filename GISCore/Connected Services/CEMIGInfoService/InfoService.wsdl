@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://gedoc2/INTEROP" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:i0="https://gedex.cemig.com.br/INTEROP/WebHost" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="InfoService" targetNamespace="http://gedoc2/INTEROP" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:import namespace="https://gedex.cemig.com.br/INTEROP/WebHost" location="https://gedex.cemig.com.br/INTEROP/WebHost/facadeservices/InfoService.svc?wsdl=wsdl0" />
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://gedoc2/INTEROP/Imports">
+      <xsd:import schemaLocation="https://gedex.cemig.com.br/INTEROP/WebHost/facadeservices/InfoService.svc?xsd=xsd0" namespace="http://gedoc2/INTEROP" />
+      <xsd:import schemaLocation="https://gedex.cemig.com.br/INTEROP/WebHost/facadeservices/InfoService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="https://gedex.cemig.com.br/INTEROP/WebHost/facadeservices/InfoService.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="InfoService_EmpregadoEValidador_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmpregadoEValidador" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_EmpregadoEValidador_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmpregadoEValidadorResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_EmpregadoEValidador_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarAprovadoresPorOrgao_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListarAprovadoresPorOrgao" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarAprovadoresPorOrgao_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListarAprovadoresPorOrgaoResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarAprovadoresPorOrgao_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarContratos_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListarContratos" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarContratos_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListarContratosResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarContratos_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarDadosAplicacoes_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListarDadosAplicacoes" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarDadosAplicacoes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListarDadosAplicacoesResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarDadosAplicacoes_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarFornecedores_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListarFornecedores" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarFornecedores_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListarFornecedoresResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarFornecedores_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarOrgaos_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListarOrgaos" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarOrgaos_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListarOrgaosResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarOrgaos_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarValidadoresPorEmpregado_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListarValidadoresPorEmpregado" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarValidadoresPorEmpregado_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListarValidadoresPorEmpregadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_ListarValidadoresPorEmpregado_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosContrato_InputMessage">
+    <wsdl:part name="parameters" element="tns:RecuperarDadosContrato" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosContrato_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RecuperarDadosContratoResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosContrato_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosEmpregado_InputMessage">
+    <wsdl:part name="parameters" element="tns:RecuperarDadosEmpregado" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosEmpregado_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RecuperarDadosEmpregadoResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosEmpregado_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosFornecedor_InputMessage">
+    <wsdl:part name="parameters" element="tns:RecuperarDadosFornecedor" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosFornecedor_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RecuperarDadosFornecedorResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosFornecedor_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosNS_InputMessage">
+    <wsdl:part name="parameters" element="tns:RecuperarDadosNS" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosNS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RecuperarDadosNSResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosNS_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosOrgao_InputMessage">
+    <wsdl:part name="parameters" element="tns:RecuperarDadosOrgao" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosOrgao_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RecuperarDadosOrgaoResponse" />
+  </wsdl:message>
+  <wsdl:message name="InfoService_RecuperarDadosOrgao_FaultInteropFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:FaultInterop" />
+  </wsdl:message>
+  <wsdl:portType name="InfoService">
+    <wsdl:operation name="EmpregadoEValidador">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/EmpregadoEValidador" message="tns:InfoService_EmpregadoEValidador_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/EmpregadoEValidadorResponse" message="tns:InfoService_EmpregadoEValidador_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/EmpregadoEValidadorFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_EmpregadoEValidador_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarAprovadoresPorOrgao">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarAprovadoresPorOrgao" message="tns:InfoService_ListarAprovadoresPorOrgao_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarAprovadoresPorOrgaoResponse" message="tns:InfoService_ListarAprovadoresPorOrgao_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarAprovadoresPorOrgaoFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_ListarAprovadoresPorOrgao_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarContratos">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarContratos" message="tns:InfoService_ListarContratos_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarContratosResponse" message="tns:InfoService_ListarContratos_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarContratosFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_ListarContratos_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarDadosAplicacoes">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarDadosAplicacoes" message="tns:InfoService_ListarDadosAplicacoes_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarDadosAplicacoesResponse" message="tns:InfoService_ListarDadosAplicacoes_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarDadosAplicacoesFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_ListarDadosAplicacoes_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarFornecedores">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarFornecedores" message="tns:InfoService_ListarFornecedores_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarFornecedoresResponse" message="tns:InfoService_ListarFornecedores_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarFornecedoresFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_ListarFornecedores_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarOrgaos">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarOrgaos" message="tns:InfoService_ListarOrgaos_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarOrgaosResponse" message="tns:InfoService_ListarOrgaos_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarOrgaosFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_ListarOrgaos_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ListarValidadoresPorEmpregado">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarValidadoresPorEmpregado" message="tns:InfoService_ListarValidadoresPorEmpregado_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarValidadoresPorEmpregadoResponse" message="tns:InfoService_ListarValidadoresPorEmpregado_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/ListarValidadoresPorEmpregadoFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_ListarValidadoresPorEmpregado_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecuperarDadosContrato">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosContrato" message="tns:InfoService_RecuperarDadosContrato_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosContratoResponse" message="tns:InfoService_RecuperarDadosContrato_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosContratoFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_RecuperarDadosContrato_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecuperarDadosEmpregado">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosEmpregado" message="tns:InfoService_RecuperarDadosEmpregado_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosEmpregadoResponse" message="tns:InfoService_RecuperarDadosEmpregado_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosEmpregadoFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_RecuperarDadosEmpregado_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecuperarDadosFornecedor">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosFornecedor" message="tns:InfoService_RecuperarDadosFornecedor_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosFornecedorResponse" message="tns:InfoService_RecuperarDadosFornecedor_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosFornecedorFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_RecuperarDadosFornecedor_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecuperarDadosNS">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosNS" message="tns:InfoService_RecuperarDadosNS_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosNSResponse" message="tns:InfoService_RecuperarDadosNS_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosNSFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_RecuperarDadosNS_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RecuperarDadosOrgao">
+      <wsdl:input wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosOrgao" message="tns:InfoService_RecuperarDadosOrgao_InputMessage" />
+      <wsdl:output wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosOrgaoResponse" message="tns:InfoService_RecuperarDadosOrgao_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://gedoc2/INTEROP/InfoService/RecuperarDadosOrgaoFaultInteropFault" name="FaultInteropFault" message="tns:InfoService_RecuperarDadosOrgao_FaultInteropFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:service name="InfoService">
+    <wsdl:port name="BasicHttpBinding_InfoService" binding="i0:BasicHttpBinding_InfoService">
+      <soap:address location="https://gedex.cemig.com.br/INTEROP/WebHost/facadeservices/InfoService.svc/Soap11" />
+    </wsdl:port>
+    <wsdl:port name="WSHttpBinding_InfoService" binding="i0:WSHttpBinding_InfoService">
+      <soap12:address location="https://gedex.cemig.com.br/INTEROP/WebHost/facadeservices/InfoService.svc/Soap12" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>https://gedex.cemig.com.br/INTEROP/WebHost/facadeservices/InfoService.svc/Soap12</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,139 @@
+﻿@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Medidas de Controle";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Medidas de Controle
+            @*<a href="@Url.Action("Novo", "EStabelecimentoImagens")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                    <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                    Nova Imagem
+                </a>*@
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        @if (ViewBag.Imagens != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="100px"></th>
+                            <th width="300px">Classificação</th>
+                            <th width="300px">Nome da Imagem</th>
+                            <th>Medida de Controle</th>
+                            @*<th width="89px"></th>*@
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (MedidasDeControleExistentes iImagens in ViewBag.Imagens)
+                        {
+                            <tr id="linha-@iImagens.IDMedidasDeControle">
+                                <td>
+                                    <img src="/Images/EstabelecimentoImagens/@iImagens.IDMedidasDeControle/@iImagens.Imagem" alt="Estabelecimento" width="90px" />
+                                </td>
+                                <td>@iImagens.EClassificacaoDaMedida</td>
+                                <td>@iImagens.NomeDaImagem</td>
+                                <td>@iImagens.MedidasExistentes</td>
+
+
+                                @*<td class="hidden-480">@iImagens.NomeDaImagem</td>*@
+                                @*<td>
+                                        <div class="hidden-sm hidden-xs action-buttons">
+                                            <a class="blue" href="#" onclick="BuscarDetalhesEmpresa('@iImagens.IDEstabelecimentoImagens'); return false;">
+                                                <i class="ace-icon fa fa-search-plus bigger-130"></i>
+                                            </a>
+
+                                            <a href='@Url.Action("Edicao", "Empresa", new { id = @iImagens.IDEstabelecimentoImagens })' class="green">
+                                                <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                            </a>
+
+                                            <a class="red" href="#" onclick="DeletarEmpresa('@iImagens.IDEstabelecimentoImagens', '@iImagens.NomeDaImagem');">
+                                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="hidden-md hidden-lg">
+                                            <div class="inline pos-rel">
+                                                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                    <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                                </button>
+
+                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                    <li>
+                                                        <a href="#" class="tooltip-info" onclick="BuscarDetalhesEmpresa('@iImagens.IDEstabelecimentoImagens'); return false;" data-rel="tooltip" title="View">
+                                                            <span class="blue">
+                                                                <i class="ace-icon fa fa-search-plus bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href='@Url.Action("Edicao", "Empresa", new { id = @iImagens.IDEstabelecimentoImagens })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                            <span class="green">
+                                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="#" class="tooltip-error" onclick="DeletarEmpresa('@iImagens.IDEstabelecimentoImagens', '@iImagens.NomeDaImagem');" data-rel="tooltip" title="Delete">
+                                                            <span class="red">
+                                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>*@
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                    @*<button class="btn btn-info" id="btnSalvar" type="submit">
+                            <i class="ace-icon fa fa-check bigger-110"></i>
+                            Salvar
+                        </button>
+                        &nbsp;
+                        <button class="btn btn-warning" type="reset">
+                            <i class="ace-icon fa fa-undo bigger-110"></i>
+                            Limpar
+                        </button>*@
+                    &nbsp;
+                    <a class="btn" href="javascript:history.back()">
+                        <i class="ace-icon fa fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+    <script src="~/Scripts/Custom/MedidasDeControle/Listagem.js"></script>
+}

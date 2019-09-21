@@ -1,0 +1,132 @@
+﻿@model GISModel.Entidades.Departamento
+
+@{
+    ViewBag.Title = "Edicao";
+}
+
+
+<div id="formCadDepartamento">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h2>
+                    Deseja excluir realmente este Departamento?
+                </h2>
+            </div>
+        </div>
+    </div>
+
+    @if (Model == null)
+    {
+        <div class="error-container">
+            <div class="well">
+                <h1 class="grey lighter smaller">
+                    <span class="blue bigger-125">
+                        <i class="ace-icon fa fa-exclamation-triangle"></i>
+                        Oops
+                    </span>
+                    Não foi possível encontrar o Departamento.
+                </h1>
+
+                <hr />
+                <div class="space"></div>
+
+                <div class="center">
+                    <a href="javascript:history.back()" class="btn btn-grey">
+                        <i class="ace-icon fa fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        using (Ajax.BeginForm("Excluir", "Departamento", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginExcluirDepartamento", OnSuccess = "OnSuccessExcluirDepartamento", }, new { @id = "formExcluirDepartamento", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.Codigo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.Codigo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCNPJ" } })
+                            @Html.ValidationMessageFor(d => d.Codigo, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                            @Html.HiddenFor(d => d.IDDepartamento)
+                            @Html.HiddenFor(d => d.IDEmpresa)
+                            @Html.HiddenFor(d=>d.DataInclusao)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.Sigla, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.Sigla, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                            @Html.ValidationMessageFor(d => d.Sigla, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.Descricao, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.Descricao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            @Html.LabelFor(d => d.IDEmpresa, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.DropDownListFor(d => d.IDEmpresa, (SelectList)ViewBag.Empresa, "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
+                                @Html.ValidationMessageFor(d => d.IDEmpresa, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            @Html.LabelFor(d => d.DepartamentoVinculado, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.DropDownListFor(d => d.DepartamentoVinculado, new SelectList("", "IDDepartamento", "Sigla"), "Selecione antes uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on", @id = "ddlDepartamento", @disabled = "disabled" })
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                    <button class="btn btn-info" type="submit">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        Excluir
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-warning" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        Limpar
+                    </button>
+                    &nbsp;
+                    <a class="btn" href="javascript:history.back()">
+                        <i class="ace-icon fa fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+        }
+    }
+
+
+
+</div> <!-- Fim Form -->
+@section Scripts {
+
+<script src="~/Scripts/Custom/Departamento/Excluir.js"></script>
+
+}

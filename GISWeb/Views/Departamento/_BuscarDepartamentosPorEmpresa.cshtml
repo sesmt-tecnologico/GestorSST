@@ -1,0 +1,66 @@
+﻿@using GISModel.Entidades
+@using GISWeb.Infraestrutura.Helpers
+@using System.Configuration
+@model List<Departamento>
+
+@if (Model != null && Model.Count > 0 && Model.Where(a => string.IsNullOrEmpty(a.UKDepartamentoVinculado)).Count() > 0)
+{
+    <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+        <ol class="dd-list">
+
+            @foreach (Departamento dep in Model.Where(a => string.IsNullOrEmpty(a.UKDepartamentoVinculado)))
+            {
+
+                string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+                <li class="dd-item collapseOne" data-id="@dep.UniqueKey">
+                    <div class="dd2-content" style="border-left: 2px solid @arrCores[((List<NivelHierarquico>)ViewBag.Niveis).FindIndex(a => a.UniqueKey == dep.UKNivelHierarquico)];">
+
+                        @dep.Sigla
+
+                        <div class="pull-right action-buttons">
+                            <a class="blue CustomTooltip" href="@Url.Action("Novo", "Departamento")?UKEmpresa=@ViewBag.UKEmpresa&UKDepartamento=@dep.UniqueKey" title="Novo departamento">
+                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                            </a>
+
+                            <a class="orange CustomTooltip" href="@Url.Action("Edicao", "Departamento")?UKEmpresa=@ViewBag.UKEmpresa&UKDepartamento=@dep.UniqueKey" title="Editar departamento">
+                                <i class="ace-icon fa fa-pencil bigger-130"></i>
+                            </a>
+
+                            @if (Model.Where(a => a.UKDepartamentoVinculado != null && a.UKDepartamentoVinculado.Equals(dep.UniqueKey)).Count() == 0)
+                            {
+                                <a class="red CustomTooltip" href="#" title="Excluir departamento" onclick="deleteDepartment('@dep.UniqueKey.ToString()', '@dep.Sigla', '@ViewBag.UKEmpresa'); return false;">
+                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                </a>
+                            }
+
+                        </div>
+
+                    </div>
+
+                    @if (Model.Where(a => a.UKDepartamentoVinculado != null && a.UKDepartamentoVinculado.Equals(dep.UniqueKey)).Count() > 0)
+                    {
+                        @Html.DepartamentoRecursivoHelperRazor().MontarListaDepartamentos((List<Departamento>)Model, ViewBag.UKEmpresa, dep.UniqueKey.ToString(), ((List<NivelHierarquico>)ViewBag.Niveis))
+                    }
+
+                </li>
+
+            }
+
+        </ol>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        No momento, nenhum departamento encontrado para esta empresa.
+        <br>
+    </div>
+}
+

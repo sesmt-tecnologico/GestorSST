@@ -1,0 +1,60 @@
+﻿@using GISModel.Entidades
+
+
+
+@{
+
+    <h3>@ViewBag.Sigla</h3>
+}
+
+<div class="row">
+    <div class="col-xs-12">
+
+        <div>
+            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="center">
+                            <label class="pos-rel">
+                                <input type="checkbox" class="ace" />
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+
+                        <th>Sigla </th>
+                        <th>Descrição </th>
+                        <th width="89px"></th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (Departamento item in ViewBag.Departamento)
+                    {
+                    <tr id="linha-@item.IDDepartamento">
+                        <td class="center">
+                            <label class="pos-rel">
+                                <input type="checkbox" class="ace" />
+                                <span class="lbl"></span>
+                            </label>
+                        </td>
+
+                        <td>@item.Sigla</td>
+                        <td>@item.Descricao</td>
+                        <td></td>
+
+
+                    </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+

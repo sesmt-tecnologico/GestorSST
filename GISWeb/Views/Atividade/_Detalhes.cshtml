@@ -1,0 +1,96 @@
+﻿@model GISModel.Entidades.Atividade
+
+@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Lista de Atividades";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+
+        @{
+        Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        <i class="" style="font-size:18px;color:green">
+            Função:</i> &nbsp;<i class="" style="font-size:18px;color:darkorange">
+        @ViewBag.Funcao</i>
+       
+
+
+
+    @if (ViewBag.ListaAtividadeFuncao != null)
+    {
+
+
+        <div>
+            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <i class="" style="font-size:18px">&nbsp;Atividades:</i>
+                        </th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (Atividade iAtividade in ViewBag.ListaAtividadeFuncao)
+                    {
+                        <tr id="linha-@iAtividade.IDAtividade">
+
+                            <td>
+                                <i class="fa fa-asterisk" style="font-size:16px">&nbsp;@iAtividade.Descricao</i>
+                            </td>
+
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+
+</div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+   
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

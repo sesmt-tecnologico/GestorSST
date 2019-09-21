@@ -1,0 +1,254 @@
+﻿@model GISModel.Entidades.Exposicao
+
+@{
+    ViewBag.Title = "Exposicao do Empregado";
+}
+
+<div id="formCadastroExposicao">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Exposição ao Risco
+                </h1>
+            </div>
+        </div>
+    </div>
+    @{
+        Html.RenderPartial("_MensagensDeRetorno");
+    }
+
+    @if (ViewBag.Imagens != null)
+    {
+        <div>
+            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+
+
+                <tbody>
+
+                    @foreach (var iImagens in ViewBag.Imagens)
+                    {
+                        <tr id="linha-@iImagens.IDAtividadesDoEstabelecimento">
+                            <td width="200px"height="200px">
+                                <img src="/Images/AtividadesEstabelecimentoImagens/@iImagens.IDAtividadesDoEstabelecimento/@iImagens.Imagem" alt="Estabelecimento" width="150px"height="150px" /><br />
+                                @iImagens.NomeDaImagem
+                                <br /> <br />
+                                <i class="material-icons" style="font-size:18px;color:red">Descrição:</i>
+                                <br />
+                                
+                                <i class="fa fa-arrows-alt" style="font-size:16px">@iImagens.DescricaoDestaAtividade</i>
+                            </td>
+
+                            <td>
+                                @using (Ajax.BeginForm("Cadastrar", "Exposicao", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarExposicao", OnSuccess = "OnSuccessCadastrarExposicao", }, new { @id = "formCadastroExposicao", @class = "form-horizontal" }))
+                                {
+                                     @Html.AntiForgeryToken()
+
+                                    foreach (var iRisco in ViewBag.Riscos)
+                                    {
+                                        if ( @iRisco.EClasseDoRisco.ToString() == "Acidente")
+                                        {
+                                            <h3>Reconhecimento de Riscos(PPRA)</h3>
+                                            <div class="container-fluid" style="border:1px solid #cecece;">
+                                                @*<div class="row">
+                                                    <div class="col-xs-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.EExposicaoInsalubre, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-12">
+                                                                @Html.EnumDropDownListFor(model => model.EExposicaoInsalubre, htmlAttributes: new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.EExposicaoInsalubre, "", new { @class = "text-danger" })
+                                                                <input type="text" name="IdEstabImagens" id="IdEstabImagens" value=@ViewBag.IdEstabImagens hidden />
+                                                                <input type="text" name="EstabID" id="EstabID" value=@ViewBag.EstabID hidden />
+                                                                <input type="text" name="IDAdmin" id="IDAdmin" value=@ViewBag.IDAdmin hidden />
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-12 col-sm-6">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(d => d.TempoEstimado, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-12">
+                                                                @Html.EditorFor(d => d.TempoEstimado, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                                                                @Html.ValidationMessageFor(d => d.TempoEstimado, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>*@
+                                            </div><br />
+
+                                            <h3>Reconhecimento de Riscos(HIRA)</h3>
+
+                                            <div class="container-fluid" style="border:1px solid #cecece;">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.EExposicaoSeg, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-12">
+                                                                @Html.EnumDropDownListFor(model => model.EExposicaoSeg, htmlAttributes: new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.EExposicaoSeg, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.EProbabilidadeSeg, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-12">
+                                                                @Html.EnumDropDownListFor(model => model.EProbabilidadeSeg, htmlAttributes: new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.EProbabilidadeSeg, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-4">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => model.ESeveridadeSeg, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                                            <div class="col-xs-12 col-sm-12">
+                                                                @Html.EnumDropDownListFor(model => model.ESeveridadeSeg, htmlAttributes: new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.ESeveridadeSeg, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+
+                                        }
+
+                                        if (@iRisco.EClasseDoRisco.ToString()=="Doenca_Ocupacional")
+                                        {
+
+                                        <h3>Reconhecimento de Riscos(PPRA)</h3>
+                                        <div class="container-fluid" style="border:1px solid #cecece;">
+                                            <div class="row">
+
+                                                <div class="col-xs-12 col-sm-6">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.EExposicaoInsalubre, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                                        <div class="col-xs-12 col-sm-12">
+                                                            @Html.EnumDropDownListFor(model => model.EExposicaoInsalubre, htmlAttributes: new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.EExposicaoInsalubre, "", new { @class = "text-danger" })
+                                                            <input type="text" name="idAdmin" id="idAdmin" value=@ViewBag.Admissao hidden />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-6">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.EExposicaoCalor, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                                        <div class="col-xs-12 col-sm-12">
+                                                            @Html.EnumDropDownListFor(model => model.EExposicaoCalor, htmlAttributes: new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.EExposicaoCalor, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(d => d.TempoEstimado, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                                        <div class="col-xs-12 col-sm-12">
+                                                            @Html.EditorFor(d => d.TempoEstimado, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                                                            @Html.ValidationMessageFor(d => d.TempoEstimado, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><br />
+
+                                        <h3>Reconhecimento de Riscos(HIRA)</h3>
+                                        <div class="container-fluid" style="border:1px solid #cecece;">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-4">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.EExposicaoSeg, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                                        <div class="col-xs-12 col-sm-12">
+                                                            @Html.EnumDropDownListFor(model => model.EExposicaoSeg, htmlAttributes: new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.EExposicaoSeg, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-4">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.EProbabilidadeSeg, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                                        <div class="col-xs-12 col-sm-12">
+                                                            @Html.EnumDropDownListFor(model => model.EProbabilidadeSeg, htmlAttributes: new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.EProbabilidadeSeg, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-4">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.ESeveridadeSeg, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                                        <div class="col-xs-12 col-sm-12">
+                                                            @Html.EnumDropDownListFor(model => model.ESeveridadeSeg, htmlAttributes: new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.ESeveridadeSeg, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            </div>
+                                            <br />
+
+                                         }
+
+
+
+                                    }
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                                                    <button class="btn btn-info" id="btnSalvar" type="submit">
+                                                        <i class="ace-icon fa fa-check bigger-110"></i>
+                                                        Salvar
+                                                    </button>
+                                                    &nbsp;
+                                                    <button class="btn btn-warning" type="reset">
+                                                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                                                        Limpar
+                                                    </button>
+                                                    &nbsp;
+                                                    <a class="btn" href="javascript:history.back()">
+                                                        <i class="ace-icon fa fa-arrow-left"></i>
+                                                        Voltar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                 }
+                            </td>
+                        </tr>
+
+                     }
+                </tbody>
+            </table>
+        </div>
+     }
+
+
+        
+  </div>
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/ace_js_fileUpload")
+        @*@Scripts.Render("~/bundles/jQ_dataTable")*@
+        <script src="~/Scripts/jQuery/inputmask.js"></script>
+        <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
+
+        <script src="~/Scripts/Custom/Exposicao/Novo.js"></script>
+
+
+
+
+
+
+    }
+
+    @section Stylesheets {
+        @Styles.Render("~/bundles/ace_css_fileUpload")
+    }

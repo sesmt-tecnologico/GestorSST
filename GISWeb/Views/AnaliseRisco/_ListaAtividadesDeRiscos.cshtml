@@ -1,0 +1,143 @@
+﻿@using GISModel.Entidades
+@using GISModel.DTO.AnaliseRisco
+@model List<AnaliseRiscosViewModel>
+
+
+    
+
+    @using (Ajax.BeginForm("SalvarAnaliseRisco", "AnaliseRisco", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarAnaliseRisco", OnSuccess = "OnSuccessCadastrarAnaliseRisco", }, new { @id = "formCadastroAnaliseRisco", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        if (Model.Count > 0)
+        {
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="clearfix">
+                        <div class="pull-right tableTools-container"></div>
+                    </div>
+
+                    <div>
+                        <table id="tablePerfisPorMenu" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        Ambientes
+                                    </th>
+
+                                    <th>
+                                        Riscos
+                                    </th>
+                                    <th>
+                                        Possíveis Danos
+                                    </th>
+                                    <th class="center">
+
+                                        Domina a Atividade
+                                    </th>
+                                    <th class="center">
+
+                                        Sente-se Bem?
+                                    </th>
+                                    <th class="center">
+                                        Salvar
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                @foreach (AnaliseRiscosViewModel item in Model)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @item.DescricaoAtividade
+                                        </td>
+
+                                        <td>
+                                            @item.Riscos
+                                        </td>
+                                        <td>
+                                            @item.PossiveisDanos
+                                        </td>
+                                        <td class="center">
+                                            <i class="ace-icon fa fa-smile-o bigger-140" style="color:green"></i>
+                                            <br />
+                                            <label class="pos-rel">
+
+
+
+                                                <input type="checkbox" onclick="" name="conhecimento" id="@item.Conhecimento" class="">
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </td>
+                                        <td class="center">
+                                            <i class="ace-icon fa fa-smile-o bigger-140" style="color:green"></i>
+                                            <br />
+                                            <label class="pos-rel">
+
+                                                <input type="checkbox" name="bemEstar" id="@item.BemEstar" class="">
+                                                @{
+                                                    string PossuiOMenu1 = string.Empty;
+                                                    if (item.BemEstar)
+                                                    {
+                                                        item.BemEstar = true;
+                                                    }
+                                                }
+                                                <span class="lbl" title="Me sinto bem!"></span>
+
+                                            </label>
+
+
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                                                    <button class="btn btn-info" id="btnSalvar" type="submit">
+                                                        <i class="ace-icon fa fa-check bigger-55"></i>
+                                                        Salvar
+                                                    </button>                                                   
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                }
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="error-container" style="margin: 0;">
+                        <div class="well">
+                            <h4 class="blue" style="margin: 0;">
+                                <i class="ace-icon fa fa-slack bigger-110"></i>
+                                Nenhum perfil encontrado
+                            </h4>
+                        </div>
+                    </div>
+                </div><!-- /.col -->
+            </div>
+        }
+
+    }
+                                                    
+                                                   
+
+

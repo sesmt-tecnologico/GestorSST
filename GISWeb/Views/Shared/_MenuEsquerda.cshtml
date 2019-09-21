@@ -1,0 +1,320 @@
+﻿@* ###########################################
+    Quatro botões no menu lateral à esquerda.*@
+<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+    <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+        <button class="CustomTooltip btn btn-danger btnModuloEstatistico" title="Módulo Estatístico" data-link-estatistico="@System.Configuration.ConfigurationManager.AppSettings["Web:ModuloEstatistico"]">
+            <i class="ace-icon fa fa-bar-chart bigger-115"></i>
+        </button>
+        <button class="CustomTooltip btn btn-grey" @*data-url="@Url.Action("ACTION", "CONTROLLER")"*@>
+            <i class="ace-icon fa fa-ban bigger-115"></i>
+        </button>
+        <button class="CustomTooltip btn btn-grey">
+            <i class="ace-icon fa fa-ban bigger-115"></i>
+        </button>
+        <button class="CustomTooltip btn btn-grey">
+            <i class="ace-icon fa fa-ban bigger-115"></i>
+        </button>
+    </div>
+
+    <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+        <span class="btn btn-success"></span>
+        <span class="btn btn-info"></span>
+        <span class="btn btn-warning"></span>
+        <span class="btn btn-danger"></span>
+    </div>
+</div>
+
+<ul id="ulMenuLateral" class="nav nav-list" data-menuativo="@ViewBag.MenuAtivo">
+    <li id="menuLateralPortal">
+        <a href="#" class="EmConstrucao">
+            <i class="menu-icon fa fa-home"></i>
+            <span class="menu-text" style="font-weight: bold;">
+                Portal de Colsultas
+            </span>
+        </a>
+
+        <b class="arrow"></b>
+    </li>
+    <li id="menuLateralPesquisa">
+        <a href="#" class="dropdown-toggle">
+            <i class="menu-icon fa fa-search"></i>
+            <span class="menu-text" style="font-weight: bold;">
+                Empregado
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li id="menuLateralPesquisaRapida">
+                <a href="@Url.Action("Empresas", "Admissao")">
+                    <i class="menu-icon fa fa-bolt"></i>
+                    Empregado por Empresa
+                </a>
+                <b class="arrow"></b>
+            </li>
+            @*<li id="menuLateralPesquisaRapida">
+                <a href="@Url.Action("EmpregadosSemAdmissao", "Empregado")">
+                    <i class="menu-icon fa fa-bolt"></i>
+                    Empregado sem Admissão
+                </a>
+                <b class="arrow"></b>
+            </li>*@
+
+
+        </ul>
+    </li>
+
+    <li id="menuLateralPesquisa">
+        <a href="#" class="dropdown-toggle">
+            <i class="menu-icon fa fa-search"></i>
+            <span class="menu-text" style="font-weight: bold;">
+                Estabelecimentos
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li id="menuLateralPesquisaRapida">
+                <a href="@Url.Action("Lista", "Estabelecimento")">
+                    <i class="menu-icon fa fa-bolt"></i>
+                    Estabelecimento
+                </a>
+                <b class="arrow"></b>
+            </li>
+            </ul>
+
+
+    </li>
+
+
+
+    <li id="menuLateralPesquisa">
+        <a href="#" class="dropdown-toggle">
+            <i class="menu-icon fa fa-list"></i>
+            <span class="menu-text" style="font-weight: bold;">
+              Menu
+            </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+
+            <li id="menuLateralCadastro">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-list"></i>
+                    <span class="menu-text" style="font-weight: bold;">
+                        Cadastro Empregado
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Novo", "Empregado")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Empregado
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "Empregado")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Empregado Admitido
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("BuscarEmpregado", "Empregado")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Buscar Empregado
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+            <li id="menuLateralCadastro">
+                <a href="#" class="dropdown-toggle">
+                    <i class="menu-icon fa fa-list"></i>
+                    <span class="menu-text" style="font-weight: bold;">
+                        Cadastro Empresas
+                    </span>
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+                <b class="arrow"></b>
+                <ul class="submenu">
+
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("index", "Empresa")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Empresas
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "Diretoria")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Diretoria
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "Estabelecimento")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Estabelecimentos
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "Departamento")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Departamento
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "TipoDeRisco")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Tipo de Risco
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "PlanoDeAcao")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Plano de Ação
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "Cargo")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Cargo
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "Funcao")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Função
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "Admissao")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Admissao
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "EventoPerigoso")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Evento Perigoso
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "TipoDeRisco")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Tipos de Perigos
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "PossiveisDanos")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Possiveis Danos
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "Atividade")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Atividades
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "AtividadeRiscos")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Atividades de Risco
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li id="menuLateralPesquisaRapida">
+                        <a href="@Url.Action("Index", "Contrato")">
+                            <i class="menu-icon fa fa-bolt"></i>
+                            Contratos
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    @*<li id="menuLateralPesquisaAvancada">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-caret-right"></i>
+                Avançada
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+
+                <li id="liTeste">
+                    <a href="#">
+                        Usuário
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+            </ul>
+        </li>*@
+                </ul>
+                </li>
+            </li>
+
+            @*@if (ViewBag.IsAdministrador)
+        {*@
+            @*<li id="menuLateralAdministracao">
+            <a href="@Url.Action("")">
+                <i class="menu-icon fa fa-gears"></i>
+                <span class="menu-text" style="font-weight: bold;">
+                    Administração
+                </span>
+                <b class="arrow"></b>
+            </a>
+        </li>*@
+            @*}*@
+
+            @*<li id="menuLateralMeusPedidos">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-shopping-cart"></i>
+                <span class="menu-text" style="font-weight: bold;">
+                    Meus Pedidos
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li id="subMenuPedidosEmprestimo">
+                    <a href="@Url.Action("Index", "MeusPedidos", new { tipo = "emprestimo" })">
+                        <i class="menu-icon fa fa-bolt"></i>
+                        Pedidos de Empréstimo
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                <li id="subMenuPedidosCopia">
+                    <a href="@Url.Action("Index", "MeusPedidos", new { tipo = "copia" })">
+                        <i class="menu-icon fa fa-bolt"></i>
+                        Pedidos de Cópia
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>*@
+
+        </ul>
+
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+        </div>

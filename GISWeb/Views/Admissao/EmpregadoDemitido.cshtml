@@ -1,0 +1,163 @@
+﻿
+@model GISModel.Entidades.Admissao
+
+@{
+    ViewBag.Title = "EmpregadoDemitido";
+}
+
+<h2>EmpregadoDemitido</h2>
+
+
+<div>
+    <div class="row">
+        <div class="col-xs-12">
+
+            @{
+                Html.RenderPartial("_MensagensDeRetorno");
+            }
+
+            @if (ViewBag.Demitir != null)
+            {
+                <div>
+                    <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                        
+                        <tbody>
+
+
+                            @foreach (var iAdmissao in ViewBag.Demitir)
+                            {
+
+                                <tr id="linha-@iAdmissao.IDAdmissao">
+                                    <td width="200px">
+                                        <h1><b> @iAdmissao.Empregado.Nome&nbsp CPF - @iAdmissao.Empregado.CPF</b></h1>
+                                        <br />
+                                        <img src="/Images/AdmissaoImagens/@iAdmissao.IDAdmissao/@iAdmissao.Imagem" alt="Admissao" width="200px" />
+
+                                        <br /><br /><br />
+                                                    <b>
+                                                        Empresa:&nbsp
+                                                        @iAdmissao.Empresa.NomeFantasia
+                                                        <br />
+                                                        Email:&nbsp
+                                                        @iAdmissao.Empregado.Email
+                                                        <br />
+                                                        Data de Nascimento:&nbsp
+                                                        @iAdmissao.Empregado.DataNascimento
+                                                        <br />
+                                                        Data de Admissão:&nbsp
+                                                        @iAdmissao.DataAdmissao
+                                                        <br />
+                                                        Admitido por:&nbsp
+                                                        @iAdmissao.UsuarioInclusao
+                                                        <br />
+                                                        Demitido por:&nbsp
+                                                        @iAdmissao.UsuarioExclusao
+
+                                                        <br /><br />
+                                                       
+                                                            <a class="btn btn-danger" href="@Url.Action("Novo","Empregado")" role="button" style="color:green">
+                                                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                                                Fechar  &nbsp
+                                                            </a>
+                                                            &nbsp; 
+                                                    </b>
+                                    </td>
+
+                                </tr>
+
+                            }
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            }
+
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+   
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

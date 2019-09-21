@@ -1,0 +1,104 @@
+﻿@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Lista de Empresas";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Lista de Empresas
+            @*<a href="@Url.Action("Novo", "EStabelecimentoImagens")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                    <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                    Nova Imagem
+                </a>*@
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        @if (ViewBag.Empresas != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="50px"></th>
+                            <th>CNPJ</th>
+                            <th>Nome Fatasia</th>                            
+                            <th width="100px">Empregados</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (Empresa iEmpresa in ViewBag.Empresas)
+                        {
+                            <tr id="linha-@iEmpresa.IDEmpresa">
+                                <td>
+                                    <img src="/Images/Empresas/@iEmpresa.CNPJ.Replace("/", "").Replace("-", "").Replace(".", "")/@iEmpresa.URL_LogoMarca" alt="Logo-Marca" width="40px" />
+                                </td>
+
+                                <td>@iEmpresa.CNPJ</td>
+                                <td>@iEmpresa.NomeFantasia</td>
+                                
+                                <td>
+                                    <div class="hidden-sm hidden-xs action-buttons center">
+
+                                        <a href='@Url.Action("EmpregadosPorEmpresa", "Admissao", new { idEmpresa = @iEmpresa.IDEmpresa })' class="green">
+                                            <span class="red">
+                                            <i class="ace-icon fa fa-search" ></i>
+                                                </span>
+                                        </a>
+
+                                    </div>
+
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
+                                                <li>
+                                                    <a href='@Url.Action("EmpregadosPorEmpresa", "Admissao", new { idEmpresa = @iEmpresa.IDEmpresa })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                        <span class="green">
+                                                            <i class="ace-icon fa fa-search"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+    <script src="~/Scripts/Custom/Admissao/ListagemEmpresas.js"></script>
+
+}
+
+
+

@@ -1,0 +1,252 @@
+﻿@model GISModel.Entidades.Atividade
+@{
+    ViewBag.Title = "Cadastro de Atividades por Função";
+}
+
+<div id="formCadFuncao">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Cadastro de Atividade por Função
+                    </br>
+                </h1>
+                <h3>
+                    Diretoria: &nbsp;@ViewBag.NomeDiretoria
+                    </br>
+                    Função: &nbsp;@ViewBag.NomeFuncao
+                </h3>
+
+            </div>
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm("Cadastrar", "Atividade", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarAtividade", }, new { @id = "formCadastroAtividade", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+
+            <div class="col-xs-12 col-sm-12">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Descricao, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Descricao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                        @Html.ValidationMessageFor(d => d.Descricao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        <input type="text" name="AtivId" id="AtivId" value=@ViewBag.AtivId hidden />
+                        <input type="text" name="idDiretoria" id="idDiretoria" value=@ViewBag.Diretoria hidden />
+
+
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-8">
+                <div class="form-group">
+                    @Html.Label("Clique aqui para inserir a imagem da Atividade", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Imagem, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @readonly = "readonly", @id = "URLLogoMarca" } })
+                        @Html.ValidationMessageFor(d => d.Imagem, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4
+                 ">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.NomeDaImagem, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.NomeDaImagem, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                        @Html.ValidationMessageFor(d => d.NomeDaImagem, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        <input type="text" name="RegistroID" id="RegistroID" value=@ViewBag.EstabID hidden />
+                        <input type="text" name="EstabID" id="EstabID" value=@ViewBag.EstabelecimentoID hidden />
+
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+        if (ViewBag.AtividadeTotal > 0)
+        {
+            <i class="material-icons" style="font-size:18px;color:green">Esta Função possui atividades cadastradas.</i>
+            <br />
+
+            foreach (var item in ViewBag.FuncaoCargo)
+            {
+                @*<i class="material-icons" style="font-size:18px;color:red">Função:</i>@item.Funcao.NomeDaFuncao*@
+            <tr id="linha-@item.Funcao.IdCargo">
+
+                <td class="center"></td>
+
+
+                <li>
+                <td>@item.Descricao</td></li>
+
+                @*Buscar parametros em ViewBag.FuncaoCargo*@
+
+                <a href="#" class="tooltip-info" onclick="NovoRisco('@item.IDAtividade','@item.Descricao','@ViewBag.AtivId','@TempData["Funcao"]','@ViewBag.Diretoria','@ViewBag.NomeDiretoria');" data-rel="tooltip" title="Exposições ">
+                    <span class="blue">
+                        <i class="ace-icon fa fa-bolt bigger-180" aria-hidden="true"></i>
+                        @* @iLista.AtividadesDoEstabelecimento.DescricaoDestaAtividade*@
+                    </span>
+                </a>
+
+
+
+            </tr>
+
+            }
+            <br /><br />
+            <i class="material-icons" style="font-size:18px;color:green">Perigos existentes para esta Atividade </i><br />
+            @*foreach (var item in ViewBag.TiposDeRiscos)
+                {
+
+                    <tr id="linha-@item.IDTipoDeRisco">
+
+
+                        <br />
+                        <td>@item.DescricaoDoRisco</td>
+
+                    </tr>
+
+                }*@
+
+
+        }
+        else
+        {
+            foreach (var item01 in ViewBag.Atividade)
+            {
+                <i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Função:</i>@item01.NomeDaFuncao</i>
+                <br />
+
+                <i class="material-icons" style="font-size:18px;color:red">Função sem Atividade</i>
+
+            }
+
+        }
+
+        <br />
+        <br />
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                <button class="btn btn-info" id="btnSalvar" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar
+                </button>
+                &nbsp;
+                <button class="btn btn-warning" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;
+                <a class="btn" href="javascript:history.back()">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    }
+
+
+</div> <!-- Fim FormQuery -->
+
+
+<div id="modalArquivo" class="modal fade" style="z-index: 10001">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modalArquivoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="smaller lighter blue no-margin"><i class="ace-icon fa fa-folder-open orange2"></i> Arquivo referente ao Ambiente de Trabalho</h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="modalArquivoCorpoLoading" style="float: right; display: none">
+                            ...Carregando
+                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </div>
+                        <div id="modalArquivoCorpo"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="modalArquivoLoading" style="display: none; float: left; padding-top: 6px">
+                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </span>
+
+                        <button id="modalArquivoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                            <i class="ace-icon fa fa-times"></i>
+                            Fechar
+                        </button>
+
+                        <button id="modalArquivoProsseguir" class="btn btn-sm btn-info" style="right: 5px; left: auto">
+                            <i class="ace-icon fa fa-check"></i>
+                            Prosseguir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
+    <script src="~/Scripts/Custom/Atidade/Novo.js"></script>
+    <script src="~/Scripts/Custom/TipoDeRisco/Novo.js"></script>
+    <script src="~/Scripts/Custom/PlanoDeAcao/Novo.js"></script>
+
+}
+
+
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

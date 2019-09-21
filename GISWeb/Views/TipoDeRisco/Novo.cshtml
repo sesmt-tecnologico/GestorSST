@@ -1,0 +1,239 @@
+﻿@model GISModel.Entidades.TipoDeRisco
+@*@using GISModel.Entidades*@
+@{
+    ViewBag.Title = "Cadastro de Tipo de Risco";
+}
+
+<div id="formCadTipoDeRisco">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Cadastro de Tipo de Risco
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    @ViewBag.Nome</br>
+    @ViewBag.Ativiade
+    </br></br>
+
+
+    @using (Ajax.BeginForm("Cadastrar", "TipoDeRisco", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarTipoDeRisco", }, new { @id = "formCadastroTipoDeRisco", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.Label("Perigo Existente", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.idEventoPerigoso, (SelectList)ViewBag.EventoPerigoso, "Selecione um Evento Perigoso...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEventoPerigoso", @autocomplete = "on" })
+                        @Html.ValidationMessageFor(d => d.idEventoPerigoso, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        <input type="text" name="idAtividadeEstabel" id="idAtividadeEstabel" value=@ViewBag.idAtividadeEstabel hidden />
+                        <input type="text" name="Nome" id="Nome" value=@ViewBag.Nome hidden />
+                        <input type="text" name="ativid" id="ativid" value=@ViewBag.Ativiade hidden />
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4">
+
+                <div class="form-group">
+                    @Html.Label("Perigo Potencial", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.idPerigoPotencial, (SelectList)ViewBag.EventPeriPotencial, "Selecione um Perigoso Potencial...", new { @class = "chosen-select form-control tag-input-style", @id = "ddl", @autocomplete = "on" })
+                        @Html.ValidationMessageFor(d => d.idPerigoPotencial, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.Label("Possiveis Danos", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.idPossiveisDanos, (SelectList)ViewBag.PossiveisDanos, "Selecione um Possivel Dano...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEventoPerigoso", @autocomplete = "on" })
+                        @Html.ValidationMessageFor(d => d.idPossiveisDanos, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.EClasseDoRisco, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EnumDropDownListFor(model => model.EClasseDoRisco, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(d => d.EClasseDoRisco, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Tragetoria, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Tragetoria, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                        @Html.ValidationMessageFor(d => d.Tragetoria, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.FonteGeradora, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.FonteGeradora, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                        @Html.ValidationMessageFor(d => d.FonteGeradora, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                <button class="btn btn-info" id="btnSalvar" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar
+                </button>
+                &nbsp;
+                <button class="btn btn-warning" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;
+                <a class="btn" href="javascript:history.back()">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    }
+
+
+</div> <!-- Fim FormQuery -->
+</br>
+</br>
+
+@if (ViewBag.DescricaoRiscos != null)
+{
+    <div>
+        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+
+            <thead>
+                <tr>
+                    <th class="center">
+                        <label class="pos-rel">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+
+                    <th>Classe do Risco</th>
+                    <th>Fonte</th>
+                    <th>Tragetória</th>
+                    <th>Evento Perigoso</th>
+                    <th>Perigo Potencial</th>
+                    <th>Possíveis Danos</th>
+                    <th width="80px">Controles</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var iRisco in ViewBag.DescricaoRiscos)
+                {
+                <tr id="linha-@iRisco.IDTipoDeRisco">
+                    <td class="center">
+                        <label class="pos-rel">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </td>
+
+                    <td>@iRisco.EClasseDoRisco</td>
+                    <td>@iRisco.FonteGeradora</td>
+                    <td>@iRisco.Tragetoria</td>
+                    <td>@iRisco.EventoPerigoso.Descricao</td>
+                    <td>@iRisco.PerigoPotencial.DescricaoEvento</td>
+                    <td>@iRisco.PossiveisDanos.DescricaoDanos</td>
+                    <td>
+                       
+                                       
+
+                        <div class="hidden-sm hidden-xs action-buttons center">
+
+
+                            <a href='@Url.Action("Novo", "MedidasDeControle", new { id = @iRisco.IDTipoDeRisco, idAtivRisco = iRisco.EventoPerigoso.Descricao})' class="tooltip-success" data-rel="tooltip" title="Cadastrar Controles deste Risco">
+                                <span class="green">
+                                    <i class="ace-icon fa fa-pencil-square-o bigger-180"></i>
+                                </span>
+                            </a>
+                            
+                            <a class="red" href="#" onclick="CriarPlanoDeAção(IDIdentificador='@iRisco.IDTipoDeRisco'); return false;">
+                                <i class="ace-icon fa fa-tags bigger-150" aria-hidden="true" title="Criar Plano de Ação"></i>
+                            </a>
+
+                        </div>
+                                           
+                                           
+                                            
+                                        
+
+                    </td>
+
+                </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+@section Scripts {
+
+    <script src="~/Scripts/Custom/TipoDeRisco/Novo.js"></script>
+    <script src="~/Scripts/Custom/PlanoDeAcao/Novo.js"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

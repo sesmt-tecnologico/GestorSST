@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Novo";
+}
+
+<h2>Nova Alocação</h2>
+
+
+@model GISModel.Entidades.Alocar
+
+@{
+    ViewBag.Title = "Alocação do Empregado";
+}
+
+@{
+    Html.RenderPartial("_MensagensDeRetorno");
+}
+
+@foreach (var iAdmissao in ViewBag.Admissao)
+{
+    <i class="material-icons" style="font-size:36px;color:blue">@iAdmissao.Empregado.Nome&nbsp @iAdmissao.Empregado.CPF</i>
+
+
+    <tr id="linha-@iAdmissao.IDAdmissao">
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-2">
+                <div class="form-group">
+
+                    <td>
+                        <img src="/Images/AdmissaoImagens/@iAdmissao.IDAdmissao/@iAdmissao.Imagem" alt="Admissao" width="100px" />
+                    </td>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-10">
+                <div class="form-group">
+                    <td>
+                        <b>
+
+                            <i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Empresa:</i>@iAdmissao.Empresa.NomeFantasia</i>
+                            <br />
+
+                            <i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Email:</i>@iAdmissao.Empregado.Email</i>
+                            <br />
+
+                            <i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Data de Nascimento:</i>@iAdmissao.Empregado.DataNascimento</i>
+                            <br />
+
+                            <i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Data de Admissão:</i>@iAdmissao.DataAdmissao</i>
+                            <br />
+
+                            <i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Admitido por:</i>@iAdmissao.UsuarioInclusao</i>
+                        </b>
+                    </td>
+                </div>
+            </div>
+        </div>
+
+
+
+    </tr>
+
+}

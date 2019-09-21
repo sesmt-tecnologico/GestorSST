@@ -1,0 +1,95 @@
+﻿@model GISModel.Entidades.DocsPorAtividade
+@using GISModel.Entidades
+
+
+@foreach (var AT in ViewBag.Ativ)
+{
+        <div class="row ">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                <div class="col-xs-12 col-sm-12 col-lg-12">
+                    Atividade:
+                    @AT.Descricao
+                </div>
+            </div>
+        </div>
+
+ }
+
+
+
+        @if (ViewBag.Docs != null)
+        {
+
+
+            <div class="row">
+
+                <div>
+                    <table id="tablePerfisPorMenu" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+
+                                <th>Documentos Vinculados</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in ViewBag.Docs)
+                            {
+                                <tr>
+
+                                    <td>@item.DocumentosEmpregado.NomeDocumento</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        }
+
+
+
+
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jQ_dataTable")
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

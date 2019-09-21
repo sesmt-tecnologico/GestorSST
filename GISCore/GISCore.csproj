@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CB60D092-E5F0-490F-903B-B4CD3F346640}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GISCore</RootNamespace>
+    <AssemblyName>GISCore</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions">
+      <HintPath>..\packages\ninject.extensions.conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Business\Abstract\IAnaliseRiscoBusiness.cs" />
+    <Compile Include="Business\Abstract\IAtividadeFuncaoLiberadaBusiness.cs" />
+    <Compile Include="Business\Abstract\IDocsPorAtividadeBusiness.cs" />
+    <Compile Include="Business\Abstract\IDocumentosPessoalBusiness .cs" />
+    <Compile Include="Business\Abstract\INivelHierarquicoBusiness.cs" />
+    <Compile Include="Business\Abstract\IPerfilBusiness.cs" />
+    <Compile Include="Business\Abstract\IPerigoPotencialBusiness.cs" />
+    <Compile Include="Business\Abstract\IExposicaoBusiness.cs" />
+    <Compile Include="Business\Abstract\IPlanoDeAcaoBusiness.cs" />
+    <Compile Include="Business\Abstract\IAtividadeAlocadaBusiness.cs" />
+    <Compile Include="Business\Abstract\IAdmissaoBusiness.cs" />
+    <Compile Include="Business\Abstract\IAlocacaoBusiness.cs" />
+    <Compile Include="Business\Abstract\IAtividadeBusiness.cs" />
+    <Compile Include="Business\Abstract\IAtividadesDoEstabelecimentoBusiness.cs" />
+    <Compile Include="Business\Abstract\IBaseBusiness.cs" />
+    <Compile Include="Business\Abstract\IDiretoriaBusiness .cs" />
+    <Compile Include="Business\Abstract\ICargoBusiness.cs" />
+    <Compile Include="Business\Abstract\ICNAEBusiness.cs" />
+    <Compile Include="Business\Abstract\IContratoBusiness.cs" />
+    <Compile Include="Business\Abstract\IDepartamentoBusiness.cs" />
+    <Compile Include="Business\Abstract\IEmpregadoBusiness.cs" />
+    <Compile Include="Business\Abstract\IEmpresaBusiness.cs" />
+    <Compile Include="Business\Abstract\IEquipeBusiness.cs" />
+    <Compile Include="Business\Abstract\IEstabelecimentoAmbienteBusiness.cs" />
+    <Compile Include="Business\Abstract\IEstabelecimentoBusiness.cs" />
+    <Compile Include="Business\Abstract\IEventoPerigosoBusiness.cs" />
+    <Compile Include="Business\Abstract\IMedidasDeControleBusiness.cs" />
+    <Compile Include="Business\Abstract\IPossiveisDanosBusiness.cs" />
+    <Compile Include="Business\Abstract\ITipoDeRiscoBusiness.cs" />
+    <Compile Include="Business\Abstract\IUsuarioBusiness.cs" />
+    <Compile Include="Business\Abstract\IUsuarioPerfilBusiness.cs" />
+    <Compile Include="Business\Concrete\AnaliseRiscoBusiness.cs" />
+    <Compile Include="Business\Concrete\AtividadeFuncaoLiberadaBusiness.cs" />
+    <Compile Include="Business\Concrete\DocsPorAtividadeBusiness.cs" />
+    <Compile Include="Business\Concrete\DocumentosPessoalBusiness .cs" />
+    <Compile Include="Business\Concrete\NivelHierarquicoBusiness.cs" />
+    <Compile Include="Business\Concrete\PerfilBusiness.cs" />
+    <Compile Include="Business\Concrete\PerigoPotencialBusiness.cs" />
+    <Compile Include="Business\Concrete\ExposicaoBusiness.cs" />
+    <Compile Include="Business\Concrete\PlanoDeAcaoBusiness.cs" />
+    <Compile Include="Business\Concrete\AtividadeAlocadaBusiness.cs" />
+    <Compile Include="Business\Concrete\AdmissaoBusiness.cs" />
+    <Compile Include="Business\Concrete\AlocacaoBusiness.cs" />
+    <Compile Include="Business\Concrete\AtividadeBusiness.cs" />
+    <Compile Include="Business\Concrete\DiretoriaBusiness.cs" />
+    <Compile Include="Business\Concrete\CargoBusiness.cs" />
+    <Compile Include="Business\Concrete\EmpregadoBusiness.cs" />
+    <Compile Include="Business\Concrete\EquipeBusiness.cs" />
+    <Compile Include="Business\Concrete\EventoPerigosoBusiness.cs" />
+    <Compile Include="Business\Concrete\FuncaoBusiness.cs" />
+    <Compile Include="Business\Concrete\MedidasDeControleBusiness.cs" />
+    <Compile Include="Business\Concrete\PossiveisDanosBusiness.cs" />
+    <Compile Include="Business\Concrete\TipoDeRiscoBusiness.cs" />
+    <Compile Include="Business\Concrete\AtividadesDoEstabelecimentoBusiness.cs" />
+    <Compile Include="Business\Concrete\BaseBusiness.cs" />
+    <Compile Include="Business\Concrete\CNAEBusiness .cs" />
+    <Compile Include="Business\Concrete\ContratoBusiness.cs" />
+    <Compile Include="Business\Concrete\DepartamentoBusiness.cs" />
+    <Compile Include="Business\Concrete\EmpresaBusiness.cs" />
+    <Compile Include="Business\Concrete\EstabelecimentoAmbienteBusiness.cs" />
+    <Compile Include="Business\Concrete\EstabelecimentoBusiness.cs" />
+    <Compile Include="Business\Abstract\IFuncaoBusiness.cs" />
+    <Compile Include="Business\Concrete\UsuarioBusiness.cs" />
+    <Compile Include="Business\Concrete\UsuarioPerfilBusiness.cs" />
+    <Compile Include="Connected Services\CEMIGInfoService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\WCF_Suporte\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="DI\GISNinjectModule.cs" />
+    <Compile Include="Infrastructure\Utils\Extensions.cs" />
+    <Compile Include="Migrations\201909211909385_a1.cs" />
+    <Compile Include="Migrations\201909211909385_a1.Designer.cs">
+      <DependentUpon>201909211909385_a1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909212002350_a2.cs" />
+    <Compile Include="Migrations\201909212002350_a2.Designer.cs">
+      <DependentUpon>201909212002350_a2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909212020435_a3.cs" />
+    <Compile Include="Migrations\201909212020435_a3.Designer.cs">
+      <DependentUpon>201909212020435_a3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\Abstract\IBaseRepository.cs" />
+    <Compile Include="Repository\Concrete\BaseRepository.cs" />
+    <Compile Include="Repository\Configuration\InitializerBanco.cs" />
+    <Compile Include="Repository\Configuration\SESTECContext.cs" />
+    <Compile Include="Web References\WSAutenticacao\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GISHelpers\GISHelpers.csproj">
+      <Project>{0abafe77-95a2-49ca-a270-d36f8948d3d1}</Project>
+      <Name>GISHelpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GISModel\GISModel.csproj">
+      <Project>{ca63050f-996a-4912-8282-b00bf4438fb7}</Project>
+      <Name>GISModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Connected Services\CEMIGInfoService\GISCore.CEMIGInfoService.Aplicacao.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\CEMIGInfoService\GISCore.CEMIGInfoService.Contrato.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\CEMIGInfoService\GISCore.CEMIGInfoService.Empregado.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\CEMIGInfoService\GISCore.CEMIGInfoService.Fornecedor.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\CEMIGInfoService\GISCore.CEMIGInfoService.NS.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\CEMIGInfoService\GISCore.CEMIGInfoService.Orgao.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\CEMIGInfoService\InfoService.wsdl" />
+    <None Include="Connected Services\CEMIGInfoService\InfoService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\CEMIGInfoService\InfoService1.wsdl" />
+    <None Include="Connected Services\CEMIGInfoService\InfoService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\CEMIGInfoService\InfoService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\WCF_Suporte\Suporte.wsdl" />
+    <None Include="Connected Services\WCF_Suporte\Suporte.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\WCF_Suporte\Suporte1.wsdl" />
+    <None Include="Connected Services\WCF_Suporte\Suporte1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\WSAutenticacao\cartaocorporativo.wsdl" />
+    <None Include="Web References\WSAutenticacao\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\CEMIGInfoService\" />
+    <WCFMetadataStorage Include="Connected Services\WCF_Suporte\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\WCF_Suporte\Suporte.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\WCF_Suporte\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\WCF_Suporte\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\WCF_Suporte\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\CEMIGInfoService\InfoService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\CEMIGInfoService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\CEMIGInfoService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\CEMIGInfoService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://web.cemig.com.br/gedoc/spf.custom.ws.gedocapp/cartaocorporativo.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WSAutenticacao\</RelPath>
+      <UpdateFromURL>https://web.cemig.com.br/gedoc/spf.custom.ws.gedocapp/cartaocorporativo.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>GISCore_WSAutenticacao_CartaoCorporativo</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WSAutenticacao\cartaocorporativo.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201909211909385_a1.resx">
+      <DependentUpon>201909211909385_a1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909212002350_a2.resx">
+      <DependentUpon>201909212002350_a2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909212020435_a3.resx">
+      <DependentUpon>201909212020435_a3.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

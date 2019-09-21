@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Novo";
+}
+
+
+@model GISModel.Entidades.AtividadeAlocada
+
+@{
+    ViewBag.Title = "Alocar Atividades";
+}
+
+@{
+    Html.RenderPartial("_MensagensDeRetorno");
+}
+
+
+
+@using (Ajax.BeginForm("Cadastrar", "AtividadeAlocada", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarAtividadeAlocada", OnSuccess = "OnSuccessCadastrarAtividadeAlocada", }, new { @id = "formCadastroAtividadeAlocada", @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.idAtividadesDoEstabelecimento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.idAtividadesDoEstabelecimento, (SelectList)ViewBag.AtiviEstab, "Selecione uma Atividade...", new { @class = "form-control tag-input-style multiselect", @id = "ddlAtivAloc", @autocomplete = "on", @multiple = "" })
+                    @Html.ValidationMessageFor(d => d.idAtividadesDoEstabelecimento, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    <input type="text" name="IDAdmissao" id="IDAdmissao" value=@ViewBag.pAdmissao hidden />
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+            <button class="btn btn-info" id="btnSalvar" type="submit">
+                <i class="ace-icon fa fa-check bigger-110"></i>
+                Salvar
+            </button>
+            @*&nbsp;
+                <button class="btn btn-warning" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;*@
+            <a class="btn" href="javascript:history.back()">
+                <i class="ace-icon fa fa-arrow-left"></i>
+                Voltar
+            </a>
+        </div>
+    </div>
+}
+
+@section Scripts{
+
+    
+    
+
+}

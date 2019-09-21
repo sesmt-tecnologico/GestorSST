@@ -1,0 +1,352 @@
+﻿@model GISModel.Entidades.Admissao
+
+<div class="container-fluid text-center">
+    <div class="row content">
+        <div class="col-sm-7 text-left">
+            <div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        @{
+                            Html.RenderPartial("_MensagensDeRetorno");
+                        }
+
+                        @if (ViewBag.Admissao != null)
+                        {
+
+                            <div class="table responsive">
+                                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr></tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var iAdmissao in ViewBag.Admissao)
+                                        {
+
+                                            <tr id="linha-@iAdmissao.IDAdmissao">
+                                                <td width="200px">
+                                                    <h1><b> @iAdmissao.Empregado.Nome&nbsp</b></h1> <h3>[ CPF - @iAdmissao.Empregado.CPF ]</h3>
+                                                    <br />
+                                                    <img src="/Images/AdmissaoImagens/@iAdmissao.IDAdmissao/@iAdmissao.Imagem" alt="Admissao" width="" />
+                                                    <br /><br /><br />
+                                                    <b>
+                                                        Empresa:&nbsp
+                                                        @iAdmissao.Empresa.NomeFantasia
+                                                        <br />
+                                                        Email:&nbsp
+                                                        @iAdmissao.Empregado.Email
+                                                        <br />
+                                                        Data de Nascimento:&nbsp
+                                                        @iAdmissao.Empregado.DataNascimento
+                                                        <br />
+                                                        Data de Admissão:&nbsp
+                                                        @iAdmissao.DataAdmissao
+                                                        <br />
+                                                        Admitido por:&nbsp
+                                                        @iAdmissao.UsuarioInclusao
+                                                    </b>
+                                                </td>
+
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+
+                                                    <a class="btn btn-success btn-lg btn-block" href="#" onclick="AlocarEmpregado('@iAdmissao.IDAdmissao','@iAdmissao.IDEmpregado','@iAdmissao.IDEmpresa');" data-rel="tooltip" title="Alocar ">
+                                                        @*<a class="btn btn-success" href="@Url.Action("Novo","Alocacao", new { AdmissaoID = @iAdmissao.IDAdmissao, id=iAdmissao.IDEmpregado, idEmpresa = @iAdmissao.IDEmpresa })" role="button" style="color:green">*@
+                                                        <i class="ace-icon fa fa-check bigger-110"></i>
+                                                        Alocar  &nbsp
+                                                    </a>
+                                                    &nbsp;
+                                                    <a class="btn btn-danger btn-lg btn-block" onclick="DeletarEmpresa('@iAdmissao.IDAdmissao', '@iAdmissao.Empresa.NomeFantasia');" data-rel="tooltip" title="Delete">
+                                                        <i class="ace-icon fa fa-check bigger-110"></i>
+                                                        Demitir
+                                                    </a>
+
+
+                                                </td>
+                                            </tr>
+
+
+
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        }
+
+                        @if (ViewBag.Alocacao != null)
+                        {
+
+                            <h1>Alocação Ativa </h1>
+                            <div>
+                                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                    @foreach (var item in ViewBag.Alocacao)
+                                    {
+
+                                        <tr id="linha-@item.IDAlocacao">
+                                            <td width="200px">
+                                                <b>
+                                                    Estabelecimento:&nbsp
+                                                    @item.Estabelecimento.NomeCompleto
+                                                    <br />
+                                                    Departamento:&nbsp
+                                                    @item.Departamento.Sigla
+                                                    <br />
+                                                    @*Equipe:&nbsp
+                                                    @item.Equipe.NomeDaEquipe
+                                                    <br />*@
+                                                    Cargo:&nbsp
+                                                    @item.Cargo.NomeDoCargo
+                                                    <br />
+                                                    Função:&nbsp
+                                                    @item.Funcao.NomeDaFuncao
+                                                    <br />
+                                                </b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <a class="btn btn-primary btn-lg btn-block" href="#" onclick="DesalocarEmpregado('@item.IDAlocacao','@item.Admissao.IDEmpregado');" data-rel="tooltip" title="Desalocar ">
+                                                    <i class="ace-icon fa fa-check bigger-110"></i>
+                                                    Desalocar  &nbsp
+                                                </a>
+                                                &nbsp;
+
+                                                <a class="btn btn-secondary btn-lg btn-block" href="#" onclick="AlocarEmAmbiente('@item.idEstabelecimento','@item.IDAlocacao');" data-rel="tooltip" title="Alocar Ambientes ">
+                                                    <i class="ace-icon fa fa-check bigger-110"></i>
+                                                    Alocar Atividades do Ambiente &nbsp
+                                                </a>
+                                                &nbsp;
+                                                <a class="btn btn-secondary btn-lg btn-block" href="#" onclick="AlocarAtivFuncao('@item.IDFuncao','@item.Admissao.IDEmpregado','@item.IDAlocacao');" data-rel="tooltip" title="Alocar Ambientes ">
+                                                    <i class="ace-icon fa fa-check bigger-110"></i>
+                                                    Alocar Atividades da Função &nbsp
+                                                </a>
+                                                &nbsp;
+                                                <a href="@Url.Action("SalvarAnaliseRisco", "AnaliseRisco", new { idEstabelecimento=@item.idEstabelecimento,idAlocacao= @item.IDAlocacao})" class="btn btn-danger btn-lg btn-block" data-rel="tooltip" title="Análise de Risco">
+                                                    <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                                                    Análise de Riscos &nbsp
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                    }
+                                </table>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="table-responsive-lg">
+            <div class="col-sm-5 sidenav">
+                @*<div class="col-sm-4 text-left">*@
+                <div class="well">
+                    <div>
+                        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Clique na Atividade do Estabelecimento para ver a exposição do empregado
+                                    </th>
+                                    <th>
+                                        Riscos
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @{
+                                    var id = @ViewBag.idEmpregado;
+
+                                }
+                                @foreach (var iLista in ViewBag.ListaAtividade)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="#" class="tooltip-info" onclick="ListaExposicao('@iLista.idAlocacao','@iLista.IDAtividadeAlocada',' @iLista.Alocacao.Admissao.Empregado.Nome','@iLista.Alocacao.Admissao.Empregado.CPF','@iLista.AtividadesDoEstabelecimento.IDAtividadesDoEstabelecimento');" data-rel="tooltip" title="Exposições ">
+                                                <span class="blue">
+                                                    @iLista.AtividadesDoEstabelecimento.DescricaoDestaAtividade
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="tooltip-info" onclick="EstabelecimentoAmbienteAlocado('@iLista.AtividadesDoEstabelecimento.IDEstabelecimento','@iLista.idAlocacao','@iLista.IDAtividadeAlocada','@iLista.idAtividadesDoEstabelecimento','@ViewBag.idEmpregado');" data-rel="tooltip" title="Riscos ">
+                                                <span class="blue">
+                                                    <i class="ace-icon fa fa-search bigger-120"></i>
+                                                </span>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="table-responsive-lg">
+            <div class="col-sm-5 sidenav">
+                @*<div class="col-sm-4 text-left">*@
+                <div class="well">
+                    <div>
+                        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Clique na Atividade da Função para ver a exposição do empregado
+                                    </th>
+                                    <th>
+                                        Riscos
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @{
+                                    var IDEmp = @ViewBag.idEmpregado;
+
+                                }
+                                @foreach (var iLista in ViewBag.ListaAtivFuncaoLiberada)
+                                {
+                                    <tr>
+                                        <td>
+                                            @*<a href="#" class="tooltip-info" onclick="ListaExposicao('@iLista.idAlocacao','@iLista.IDAtividade',' @iLista.Admissao.Empregado.Nome','@iLista.Alocacao.Admissao.Empregado.CPF','@iLista.IDAtividade');" data-rel="tooltip" title="Exposições ">*@
+                                            <span class="blue">
+                                                @iLista.Atividade.Descricao
+                                            </span>
+                                            @*</a>*@
+                                        </td>
+                                        <td>
+                                            <a href="#" class="tooltip-info" onclick="AtividadesDaFuncao('@iLista.Atividade.IDAtividade','@iLista.IDAlocacao','@iLista.IDAtividadeFuncaoLiberada','@iLista.Alocacao.Admissao.IDEmpregado');" data-rel="tooltip" title="Riscos ">
+                                                <span class="blue">
+                                                    <i class="ace-icon fa fa-search bigger-120"></i>
+                                                </span>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="table-responsive-lg">
+            <div class="col-sm-5 sidenav">
+                @*<div class="col-sm-4 text-left">*@
+                <div class="well">
+                    <div>
+                        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Documentação exigida
+                                    </th>
+                                    
+
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                
+                                @foreach (var iLista in ViewBag.ListaDocumentos)
+                                {
+                                    <tr>
+                                        <td>
+                                            @*<a href="#" class="tooltip-info" onclick="ListaExposicao('@iLista.idAlocacao','@iLista.IDAtividade',' @iLista.Admissao.Empregado.Nome','@iLista.Alocacao.Admissao.Empregado.CPF','@iLista.IDAtividade');" data-rel="tooltip" title="Exposições ">*@
+                                            <span class="blue">
+                                                @iLista.DocumentosEmpregado.NomeDocumento
+                                            </span>
+                                            @*</a>*@
+                                        </td>
+                                        
+                                    </tr>
+
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Custom/Admissao/Listagem.js"></script>
+    <script src="~/Scripts/Custom/Alocacao/Novo.js"></script>
+    <script src="~/Scripts/Custom/AtividadeAlocada/Novo.js"></script>
+    <script src="~/Scripts/Custom/Exposicao/Novo.js"></script>
+    <script src="~/Scripts/Custom/AnaliseRisco/Novo.js"></script>
+    <script src="~/Scripts/Custom/AtividadeFuncaoLiberada/Novo.js"></script>
+   
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

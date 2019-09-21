@@ -1,0 +1,103 @@
+﻿@model GISModel.Entidades.DocsPorAtividade
+@{
+    ViewBag.Title = "Cadastro de Documento por Atividade";
+}
+<div id="formCadastroDocsPorAtividade">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Cadastro de Documento por Atividade
+
+                </h1>
+
+            </div>
+        </div>
+    </div>
+
+    @foreach (var oAtiv in ViewBag.IDAtividade)
+    {
+        @*<img src="/Images/AdmissaoImagens/@oEmp.Admissao.IDAdmissao/@oEmp.Admissao.Imagem" alt="Admissao" width="100" />*@
+
+        <div class="row ">
+            <div class="col-xs-12 col-sm-12 col-lg-12">
+                <div class="col-xs-12 col-sm-12 col-lg-12">
+                    <h1>
+                        Atividade:
+                        @oAtiv.Descricao
+                    </h1>
+                </div>
+            </div>
+
+        </div>
+    }
+
+    <br /><br />
+
+    @using (Ajax.BeginForm("Cadastrar", "DocsPorAtividade", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnBegin = "OnBeginCadastrarDocsPorAtividade",
+        OnSuccess = "OnSuccessCadastrarDocsPorAtividade",
+    }, new { @id = "formCadastroDocsPorAtividade", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+
+            <div class="col-xs-12 col-sm-12">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.idDocumentosEmpregado, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.idDocumentosEmpregado, (SelectList)ViewBag.Documentos, "Selecione um Documento...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
+                        @Html.ValidationMessageFor(d => d.idDocumentosEmpregado, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        <input type="text" name="idAtiv" id="idAtiv" value=@ViewBag.idAtiv hidden />
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <br /><br /> <br /><br />
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                <button class="btn btn-info" id="btnSalvar" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar
+                </button>
+                &nbsp;
+                <button class="btn btn-warning" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;
+                <a class="btn" href="javascript:history.back()">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    }
+
+</div> <!-- Fim FormQuery -->
+
+@section Scripts {
+
+<script src="~/Scripts/Custom/DocsPorAtividade/Novo.js"></script>
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
