@@ -32,7 +32,7 @@ namespace GISWeb.Controllers
         public ActionResult Login(string path)
         {
             ViewBag.OcultarMenus = true;
-            ViewBag.IncluirCaptcha = Convert.ToBoolean(ConfigurationManager.AppSettings["AD:DMZ"]);
+            //ViewBag.IncluirCaptcha = Convert.ToBoolean(ConfigurationManager.AppSettings["AD:DMZ"]);
             ViewBag.UrlAnterior = path;
 
             return View();

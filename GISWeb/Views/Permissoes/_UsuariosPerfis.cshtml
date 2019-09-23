@@ -1,0 +1,89 @@
+﻿
+@model List<UsuarioPerfilViewModel>
+@using GISModel.Entidades
+@using GISModel.DTO.Permissoes
+
+@{
+    if (Model.Count > 0)
+    {
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="clearfix">
+                    <div class="pull-right tableTools-container"></div>
+                </div>
+
+                <div>
+                    <table id="dynamic-table1" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Login</th>
+                                <th>Nome</th>
+                                @{
+                                    int idx = -1;
+                                    foreach (Perfil iPerfil in ViewBag.Perfis)
+                                    {
+                                        idx += 1;
+                                        <th class="center">
+                                            @iPerfil.Nome
+                                        </th>
+                                    }
+                                }
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (UsuarioPerfilViewModel item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Login</td>
+                                    <td>@item.Nome</td>
+
+                                    @foreach (Perfil iPerfil in ViewBag.Perfis)
+                                    {
+                                        <td class="center">
+                                            <label class="pos-rel">
+
+                                                @{
+                                                    string PossuiPerfil = string.Empty;
+                                                    if (item.Perfis.FirstOrDefault(p => p.UniqueKey.Equals(iPerfil.UniqueKey)) != null)
+                                                    {
+                                                        PossuiPerfil = " checked=\"checked\" ";
+                                                    }
+                                                }
+
+                                                <input type="checkbox" onclick="SalvarPermissoes(this.checked, '@iPerfil.UniqueKey', '@item.IDUsuario');" id="@item.IDUsuario|" @PossuiPerfil class="ace" />
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </td>
+                                    }
+
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="error-container" style="margin: 0;">
+                    <div class="well">
+                        <h4 class="blue" style="margin: 0;">
+                            <i class="ace-icon fa fa-slack bigger-110"></i>
+                            Nenhum usuário encontrado no departamento ou no fornecedor selecionado.
+                        </h4>
+                    </div>
+                </div>
+            </div><!-- /.col -->
+        </div>
+    }
+
+}

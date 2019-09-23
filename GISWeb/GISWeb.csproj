@@ -338,6 +338,9 @@
     <Content Include="Scripts\Custom\NivelHierarquico\Edicao.js" />
     <Content Include="Scripts\Custom\NivelHierarquico\Listagem.js" />
     <Content Include="Scripts\Custom\NivelHierarquico\Novo.js" />
+    <Content Include="Scripts\Custom\Perfil\Edicao.js" />
+    <Content Include="Scripts\Custom\Perfil\Listagem.js" />
+    <Content Include="Scripts\Custom\Perfil\Novo.js" />
     <Content Include="Scripts\Custom\PlanoDeAcao\Listagem.js" />
     <Content Include="Scripts\Custom\PlanoDeAcao\Novo.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Edicao.js" />
@@ -348,6 +351,7 @@
     <Content Include="Scripts\Custom\TipoDeRisco\Excluir.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Listagem.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Novo.js" />
+    <Content Include="Scripts\Custom\UsuarioPerfil\Admin.js" />
     <Content Include="Scripts\Custom\Usuario\Edicao.js" />
     <Content Include="Scripts\Custom\Usuario\Listagem.js" />
     <Content Include="Scripts\Custom\Usuario\Novo.js" />
@@ -400,6 +404,8 @@
     <Compile Include="Controllers\FuncaoController.cs" />
     <Compile Include="Controllers\MedidasDeControleController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
+    <Compile Include="Controllers\PerfilController.cs" />
+    <Compile Include="Controllers\PermissoesController.cs" />
     <Compile Include="Controllers\PlanoDeAcaoController.cs" />
     <Compile Include="Controllers\PossiveisDanosController.cs" />
     <Compile Include="Controllers\TipoDeRiscoController.cs" />
@@ -576,6 +582,11 @@
     <Content Include="Views\NivelHierarquico\Index.cshtml" />
     <Content Include="Views\NivelHierarquico\_ListagemNiveis.cshtml" />
     <Content Include="Views\Departamento\_BuscarDepartamentosPorEmpresa.cshtml" />
+    <Content Include="Views\Permissoes\Index.cshtml" />
+    <Content Include="Views\Permissoes\_UsuariosPerfis.cshtml" />
+    <Content Include="Views\Perfil\Index.cshtml" />
+    <Content Include="Views\Perfil\Novo.cshtml" />
+    <Content Include="Views\Perfil\Edicao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
