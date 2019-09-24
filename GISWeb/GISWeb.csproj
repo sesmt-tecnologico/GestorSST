@@ -155,6 +155,7 @@
     <Content Include="Content\Ace\Chosen\chosen-sprite.png" />
     <Content Include="Content\Ace\Chosen\chosen.min.css" />
     <Content Include="Content\Croppie\croppie.css" />
+    <Content Include="Content\Custom\Shared.css" />
     <Content Include="Images\CIPA-logo.png" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Global.asax" />
@@ -462,7 +463,6 @@
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_MensagensDeRetorno.cshtml" />
-    <Content Include="Views\Shared\_MenuEsquerda.cshtml" />
     <Content Include="Views\Shared\_MenuSuperior.cshtml" />
     <Content Include="Views\Departamento\Edicao.cshtml" />
     <Content Include="Views\Departamento\Excluir.cshtml" />
@@ -596,7 +596,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Custom\" />
     <Folder Include="Images\AdmissaoImagens\" />
     <Folder Include="Images\AtividadesEstabelecimentoImagens\" />
     <Folder Include="Images\AtividadesImagens\" />

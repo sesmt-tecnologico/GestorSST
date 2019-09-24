@@ -1,0 +1,31 @@
+﻿.modal {
+    overflow: auto !important;
+}
+
+div > .bloquearDiv {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: #ffffff;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+@media (max-width: 767px) {
+    .marginTopBotoesInicial {
+        margin-top: 10px;
+    }
+
+    .customhidden-xs {
+        display: none;
+    }
+
+    .show-xs {
+        display: block;
+    }
+}
+

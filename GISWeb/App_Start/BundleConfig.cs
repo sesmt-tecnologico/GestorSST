@@ -47,7 +47,8 @@ namespace GISWeb.App_Start
                         "~/Content/Ace/css/jquery-ui.css",
                         "~/Content/Ace/css/jquery.gritter.css",
                         "~/Content/Ace/css/ace-fonts.css",
-                        "~/Content/Ace/css/ace.css"));
+                        "~/Content/Ace/css/ace.css",
+                        "~/Content/Custom/Shared.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/jQ_dataTable").Include(
                         "~/Scripts/Ace/dataTables/jquery.dataTables.js",
