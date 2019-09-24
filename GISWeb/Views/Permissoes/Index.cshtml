@@ -1,0 +1,83 @@
+﻿@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Gerenciador de Permissões";
+}
+
+    <div id="formCadPermissoes" class="form-horizontal">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+                <div class="page-header">
+                    <h1>
+                        Gerenciador de Permissões
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    <label class="form-field-select-3 col-xs-12 col-sm-6 no-padding-right">Empresas</label>
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownList("ddlEmpresa", new SelectList(@ViewBag.Empresas, "UniqueKey", "NomeFantasia"), "Selecione uma empresa...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on", @id = "ddlEmpresa" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    <label class="form-field-select-3 col-xs-12 col-sm-6 no-padding-right">Departamentos</label>
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownList("ddlDepartamento", new SelectList(new List<Departamento>(), "UniqueKey", "Sigla"), "Selecione antes uma empresa...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on", @id = "ddlDepartamento" })
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    <label class="form-field-select-3 col-xs-12 col-sm-6 no-padding-right">Fornecedores</label>
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownList("ddlFornecedor", new SelectList(@ViewBag.Fornecedores, "UniqueKey", "NomeFantasia"), "Selecione um fornecedor...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on", @id = "ddlFornecedor" })
+                    </div>
+                </div>
+            </div>*@
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-3">
+                <div class="form-group">
+                    <label class="form-field-select-3 col-xs-12 col-sm-6 no-padding-right">Usuário</label>
+                    <div class="col-xs-12 col-sm-12">
+                        <input type="text" id="txtMatricula" class="col-xs-12 col-sm-12" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xs-12 col-sm-1">
+                <div class="form-group">
+                    <label class="form-field-select-3 col-xs-12 col-sm-6 no-padding-right">&nbsp;</label>
+                    <div class="col-xs-12 col-sm-12 align-center">
+                        <button class="btn btn-white btn-info btn-bold CustomTooltip" title="Buscar um usuário específico" onclick="BuscarUsuario();">
+                            <i class="ace-icon fa fa-search-plus bigger-120 blue"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-8 align-center">
+                <div class="form-group">
+                    <label class="form-field-select-3 col-xs-12 col-sm-8 no-padding-right">&nbsp;</label>
+                    <div class="col-xs-12 col-sm-12">
+                        <input type="button" class="btn btn-minier btn-primary" style="padding: 5px 15px 5px 15px; " onclick="ListarUsuarios();" value="Pesquisar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="conteudoAjax"></div>
+
+    </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    @Scripts.Render("~/bundles/jQ_tableTools")
+    <script src="~/Scripts/Custom/UsuarioPerfil/Admin.js"></script>
+}
