@@ -15,7 +15,7 @@ namespace GISCore.Business.Concrete
 
         public override void Inserir(AtividadeAlocada pAtividadeAlocada)
         {
-            pAtividadeAlocada.ID = Guid.NewGuid().ToString();
+            pAtividadeAlocada.ID = Guid.NewGuid();
             
             base.Inserir(pAtividadeAlocada);
         }

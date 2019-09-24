@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -11,7 +12,7 @@ namespace GISModel.Entidades
         public string NomeDaFuncao { get; set; }
 
         [Display(Name ="Cargo")]
-        public string IdCargo { get; set; }
+        public Guid IdCargo { get; set; }
 
         public virtual Cargo Cargo { get; set; }
 

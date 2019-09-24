@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -17,7 +18,7 @@ namespace GISModel.Entidades
         public string Imagem { get; set; }
 
         [Display(Name ="Estabelecimento")]
-        public string IDEstabelecimento { get; set; }
+        public Guid IDEstabelecimento { get; set; }
 
         public virtual Estabelecimento Estabelecimento { get; set; }
     }

@@ -18,7 +18,7 @@ namespace GISCore.Business.Concrete
             if (Consulta.Any(u => u.Nome.Equals(Perfil.Nome)))
                 throw new InvalidOperationException("Não é possível inserir o perfil, pois já existe um perfil cadastro com este nome.");
 
-            Perfil.UniqueKey = Guid.NewGuid().ToString();
+            Perfil.UniqueKey = Guid.NewGuid();
 
             base.Inserir(Perfil);
         }

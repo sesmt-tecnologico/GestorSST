@@ -217,7 +217,7 @@ namespace GISWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cadastrar(PlanoDeAcao oPlanoDeAcao, string IdentificadorID, string IDDepartamento)
         {
-            oPlanoDeAcao.Identificador = IdentificadorID;
+            oPlanoDeAcao.Identificador = Guid.Parse(IdentificadorID);
             oPlanoDeAcao.Gerencia = IDDepartamento;
             if (ModelState.IsValid)
             {

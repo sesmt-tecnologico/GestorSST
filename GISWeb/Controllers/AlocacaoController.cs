@@ -130,7 +130,7 @@ namespace GISWeb.Controllers
         {
 
             //id da Admissão recebido por parametro
-            oAlocacao.IdAdmissao = IDAdmissao;
+            oAlocacao.IdAdmissao = Guid.Parse(IDAdmissao);
            
             if (ModelState.IsValid)
             {

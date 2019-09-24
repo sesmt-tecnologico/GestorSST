@@ -1,5 +1,6 @@
 ﻿using GISModel.CustomAttributes;
 using GISModel.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,7 +30,7 @@ namespace GISModel.Entidades
 
         [Display(Name = "Empresa")]
         [Required(ErrorMessage = "Selecione uma empresa")]
-        public string UKEmpresa { get; set; }
+        public Guid UKEmpresa { get; set; }
 
         public virtual Empresa Empresa { get; set; }
 
@@ -38,7 +39,7 @@ namespace GISModel.Entidades
 
         [Display(Name = "Departamento")]
         [Required(ErrorMessage = "Selecione um departamento")]
-        public string UKDepartamento { get; set; }
+        public Guid UKDepartamento { get; set; }
 
         public virtual Departamento Departamento { get; set; }
 

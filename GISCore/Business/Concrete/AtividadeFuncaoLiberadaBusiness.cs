@@ -13,7 +13,7 @@ namespace GISCore.Business.Concrete
         {
             
             
-            pAtividadeFuncaoLiberada.ID = Guid.NewGuid().ToString();
+            pAtividadeFuncaoLiberada.ID = Guid.NewGuid();
             
             base.Inserir(pAtividadeFuncaoLiberada);
 

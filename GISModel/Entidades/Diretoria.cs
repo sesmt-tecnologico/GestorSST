@@ -1,4 +1,5 @@
 ﻿using GISModel.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,7 +23,7 @@ namespace GISModel.Entidades
         
         [Display(Name = "Empresa")]
         [Required(ErrorMessage = "Selecione uma empresa")]
-        public string IDEmpresa { get; set; }
+        public Guid IDEmpresa { get; set; }
        
         public virtual Empresa Empresa { get; set; }
 

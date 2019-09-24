@@ -1,4 +1,5 @@
 ﻿using GISModel.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,11 +8,11 @@ namespace GISModel.Entidades
     [Table("tbExposicao")]
     public class Exposicao: EntidadeBase
     {
-        public string idAtividadeAlocada { get; set; }
+        public Guid idAtividadeAlocada { get; set; }
 
-        public string idAlocacao { get; set; }
+        public Guid idAlocacao { get; set; }
 
-        public string idTipoDeRisco { get; set; }               
+        public Guid idTipoDeRisco { get; set; }               
 
         [Display(Name = "Tempo Estimado Mensal")]
         public string TempoEstimado { get; set; }

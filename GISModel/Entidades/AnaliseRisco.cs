@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -10,16 +11,16 @@ namespace GISModel.Entidades
 
 
         [Display(Name = "Atividade Alocada")]
-        public string IDAtividadeAlocada { get; set; }
+        public Guid IDAtividadeAlocada { get; set; }
 
         [Display(Name = "Alocação")]
-        public string IDAlocacao { get; set; }
+        public Guid IDAlocacao { get; set; }
 
         [Display(Name = "Atividade")]
-        public string IDAtividadesDoEstabelecimento { get; set; }
+        public Guid IDAtividadesDoEstabelecimento { get; set; }
 
         [Display(Name = "Eventos Perigosos Adicionais")]
-        public string IDEventoPerigoso { get; set; }
+        public Guid IDEventoPerigoso { get; set; }
 
         [Display(Name = "Perigo Adicional")]
         public string IDPerigoPotencial { get; set; }

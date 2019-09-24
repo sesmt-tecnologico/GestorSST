@@ -1,4 +1,5 @@
 ﻿using GISModel.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace GISModel.Entidades
@@ -22,7 +23,7 @@ namespace GISModel.Entidades
         public EControle EControle { get; set; }
 
         [Display(Name ="Tipo de Risco")]
-        public string IDTipoDeRisco { get; set; }
+        public Guid IDTipoDeRisco { get; set; }
 
         public virtual TipoDeRisco TipoDeRisco { get; set; }
 

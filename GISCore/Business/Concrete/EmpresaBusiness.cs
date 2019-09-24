@@ -16,7 +16,7 @@ namespace GISCore.Business.Concrete
             if (Consulta.Any(u => u.NomeFantasia.ToUpper().Equals(pEmpresa.NomeFantasia.Trim().ToUpper())))
                 throw new InvalidOperationException("Não é possível inserir empresa, pois já existe uma empresa registrada com este Nome Fatasia.");
 
-            pEmpresa.UniqueKey = Guid.NewGuid().ToString();
+            pEmpresa.UniqueKey = Guid.NewGuid();
 
             base.Inserir(pEmpresa);
         }

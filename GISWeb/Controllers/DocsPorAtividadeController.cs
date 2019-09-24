@@ -72,7 +72,7 @@ namespace GISWeb.Controllers
             {
                 try
                 {
-                    oDocAtividade.idAtividade = idAtiv;
+                    oDocAtividade.idAtividade = Guid.Parse(idAtiv);
                     DocsPorAtividadeBusiness.Inserir(oDocAtividade);
 
                     TempData["MensagemSucesso"] = "O Documento foi cadastrado com sucesso.";

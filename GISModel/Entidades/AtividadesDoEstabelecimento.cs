@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -23,19 +24,19 @@ namespace GISModel.Entidades
         public string Imagem { get; set; }        
 
         [Display(Name = "Ambientes do Estabelecimento")]
-        public string IDEstabelecimentoImagens { get; set; }
+        public Guid IDEstabelecimentoImagens { get; set; }
 
         [Display(Name = "Estabelecimento")]
-        public string IDEstabelecimento { get; set; }
+        public Guid IDEstabelecimento { get; set; }
 
         [Display(Name = "Possiveis Danos")]
-        public string IDPossiveisDanos { get; set; }
+        public Guid IDPossiveisDanos { get; set; }
 
         [Display(Name = "Evento Perigoso")]
-        public string IDEventoPerigoso { get; set; }
+        public Guid IDEventoPerigoso { get; set; }
 
         [Display(Name = "Alocacao")]
-        public string IDAlocacao { get; set; }
+        public Guid IDAlocacao { get; set; }
 
         public virtual EstabelecimentoAmbiente EstabelecimentoImagens { get; set; }
 

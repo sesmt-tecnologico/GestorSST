@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GISModel.DTO.AtividadesAlocada
 {
@@ -19,8 +15,8 @@ namespace GISModel.DTO.AtividadesAlocada
 
         public bool AlocaAtividade { get; set; }
 
-        public string IDAtividadeEstabelecimento { get; set; }
-        public string IDAlocacao { get; set; }
+        public Guid IDAtividadeEstabelecimento { get; set; }
+        public Guid IDAlocacao { get; set; }
 
 
     }

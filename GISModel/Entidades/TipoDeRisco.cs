@@ -1,4 +1,5 @@
 ﻿using GISModel.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,18 +10,18 @@ namespace GISModel.Entidades
     {
 
         [Display(Name ="Descrição do evento Perigoso")]
-        public string idPerigoPotencial { get; set; }        
+        public Guid idPerigoPotencial { get; set; }        
         
         [Display(Name ="Possíveis Danos a Saúde")]
-        public string idPossiveisDanos { get; set; }
+        public Guid idPossiveisDanos { get; set; }
 
-        public string idEventoPerigoso { get; set; }
+        public Guid idEventoPerigoso { get; set; }
 
         [Display(Name = "Atividade do Estabelecimento")]
-        public string idAtividadesDoEstabelecimento { get; set; }
+        public Guid idAtividadesDoEstabelecimento { get; set; }
 
         [Display(Name ="Atividade da Função")]
-        public string idAtividade { get; set; }
+        public Guid idAtividade { get; set; }
 
         [Display(Name ="Classifique o Risco")]
         public EClasseDoRisco EClasseDoRisco { get; set; }

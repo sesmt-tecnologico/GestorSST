@@ -33,7 +33,7 @@ namespace GISModel.Entidades
         public string ResponsavelPelaEntrega { get; set; }
 
         [Display(Name ="Identificador")]
-        public string Identificador { get; set; }
+        public Guid Identificador { get; set; }
 
         [Display(Name = "Gerência")]
         public string Gerencia { get; set; }

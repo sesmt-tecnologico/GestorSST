@@ -256,10 +256,10 @@ namespace GISWeb.Controllers
                 try
                 {
 
-                    oAnaliseRisco.IDAtividadesDoEstabelecimento = AtivEstabID;
+                    oAnaliseRisco.IDAtividadesDoEstabelecimento = Guid.Parse(AtivEstabID);
                     oAnaliseRisco.Conhecimento = ConhecID;
                     oAnaliseRisco.BemEstar = BemEstarID;
-                    oAnaliseRisco.IDAtividadeAlocada = idATivAlocada;
+                    oAnaliseRisco.IDAtividadeAlocada = Guid.Parse(idATivAlocada);
 
                     //oAnaliseRisco.BemEstar = oAnaliseRiscosViewModel.BemEstar;
                     //oAnaliseRisco.Conhecimento = oAnaliseRiscosViewModel.Conhecimento;

@@ -36,7 +36,7 @@ namespace GISWeb.Controllers
         public ActionResult Cadastrar(AtividadesDoEstabelecimento oAtividadesDoEstabelecimentoBusiness, string IDAtividadesDoEstabelecimento)
         {
 
-            oAtividadesDoEstabelecimentoBusiness.ID = IDAtividadesDoEstabelecimento;
+            oAtividadesDoEstabelecimentoBusiness.ID = Guid.Parse(IDAtividadesDoEstabelecimento);
             //oMedidasDeControleExistentes.IDAtividadeRiscos = AtivRiscoID;
 
             if (ModelState.IsValid)
@@ -86,8 +86,8 @@ namespace GISWeb.Controllers
                             {
                                 AtividadeAlocadaBusiness.Inserir(new AtividadeAlocada()
                                 {
-                                    idAlocacao = item,
-                                    idAtividadesDoEstabelecimento = idAtividadeEstabelecimento,
+                                    idAlocacao = Guid.Parse(item),
+                                    idAtividadesDoEstabelecimento = Guid.Parse(idAtividadeEstabelecimento),
                                     //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login
                                 });
                             }
@@ -97,8 +97,8 @@ namespace GISWeb.Controllers
                     {
                         AtividadeAlocadaBusiness.Inserir(new AtividadeAlocada()
                         {
-                            idAlocacao = idAlocacao,
-                            idAtividadesDoEstabelecimento = idAtividadeEstabelecimento,
+                            idAlocacao = Guid.Parse(idAlocacao),
+                            idAtividadesDoEstabelecimento = Guid.Parse(idAtividadeEstabelecimento),
                             //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login
                         });
                     }
@@ -115,8 +115,8 @@ namespace GISWeb.Controllers
                                 AtividadeAlocadaBusiness.Alterar(new AtividadeAlocada()
                                 {
 
-                                    idAlocacao = item,
-                                    idAtividadesDoEstabelecimento = idAtividadeEstabelecimento,
+                                    idAlocacao = Guid.Parse(item),
+                                    idAtividadesDoEstabelecimento = Guid.Parse(idAtividadeEstabelecimento),
                                     DataExclusao = DateTime.Now,
                                     //UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login
                                 });
@@ -129,8 +129,8 @@ namespace GISWeb.Controllers
                         AtividadeAlocadaBusiness.Alterar( new AtividadeAlocada()
                         {
                            
-                            idAlocacao = idAlocacao,
-                            idAtividadesDoEstabelecimento = idAtividadeEstabelecimento,
+                            idAlocacao = Guid.Parse(idAlocacao),
+                            idAtividadesDoEstabelecimento = Guid.Parse(idAtividadeEstabelecimento),
                             DataExclusao = DateTime.Now,
                             UsuarioExclusao = "LoginTeste"
                             //UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login

@@ -1,4 +1,5 @@
 ﻿using GISModel.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,26 +26,20 @@ namespace GISModel.Entidades
         
 
         [Display(Name = "Empresa")]        
-        public string UKEmpresa { get; set; }
+        public Guid UKEmpresa { get; set; }
 
         public virtual Empresa Empresa { get; set; }
 
 
-        //[Display(Name = "Diretoria")]        
-        //public string IDDiretoria { get; set; }
-
-        //public virtual Diretoria Diretoria { get; set; }
-
 
         [Display(Name = "Departamento Vinculado")]
-        public string UKDepartamentoVinculado { get; set; }
+        public Guid? UKDepartamentoVinculado { get; set; }
 
 
 
         [Display(Name = "Nível Hierarquico")]
         [Required(ErrorMessage = "Selecione um nível")]
-        public string UKNivelHierarquico { get; set; }
-
+        public Guid UKNivelHierarquico { get; set; }
 
     }
 }

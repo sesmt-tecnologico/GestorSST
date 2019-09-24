@@ -90,7 +90,7 @@ namespace GISWeb.Controllers
         public ActionResult CadastrarControleRiscoFuncao(MedidasDeControleExistentes oMedidasDeControleExistentes, string RegistroID, string AtivRiscoID)
         {
 
-            oMedidasDeControleExistentes.IDTipoDeRisco = RegistroID;
+            oMedidasDeControleExistentes.IDTipoDeRisco = Guid.Parse(RegistroID);
             //oMedidasDeControleExistentes.IDAtividadeRiscos = AtivRiscoID;
 
             if (ModelState.IsValid)
@@ -149,7 +149,7 @@ namespace GISWeb.Controllers
         public ActionResult Cadastrar(MedidasDeControleExistentes oMedidasDeControleExistentes, string RegistroID,string AtivRiscoID)
         {
 
-            oMedidasDeControleExistentes.IDTipoDeRisco = RegistroID;
+            oMedidasDeControleExistentes.IDTipoDeRisco = Guid.Parse(RegistroID);
             //oMedidasDeControleExistentes.IDAtividadeRiscos = AtivRiscoID;
 
             if (ModelState.IsValid)

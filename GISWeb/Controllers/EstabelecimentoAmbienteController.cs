@@ -66,7 +66,7 @@ namespace GISWeb.Controllers
 
             var ExistePlanoAcao = from PA in PlanoDeAcaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                   join AE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                  on PA.Identificador equals id
+                                  on PA.Identificador equals Guid.Parse(id)
                                   select new PlanoDeAcao
                                   {
                                       Identificador = PA.Identificador
@@ -194,7 +194,7 @@ namespace GISWeb.Controllers
         {
 
             //id do Estabelecimento recebido por parametro
-            oEstabelecimentoImagens.IDEstabelecimento = RegistroID;
+            oEstabelecimentoImagens.IDEstabelecimento = Guid.Parse(RegistroID);
 
             if (ModelState.IsValid)
             {

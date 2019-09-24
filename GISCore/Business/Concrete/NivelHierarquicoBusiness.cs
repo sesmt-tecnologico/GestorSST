@@ -13,7 +13,7 @@ namespace GISCore.Business.Concrete
             if (Consulta.Any(u => string.IsNullOrEmpty(u.UsuarioExclusao) && u.Nome.Trim().ToUpper().Equals(entidade.Nome.ToUpper().Trim())))
                 throw new InvalidOperationException("Não é possível inserir o este nível, pois já existe um nível cadastro com este nome.");
 
-            entidade.UniqueKey = Guid.NewGuid().ToString();
+            entidade.UniqueKey = Guid.NewGuid();
 
             base.Inserir(entidade);
         }

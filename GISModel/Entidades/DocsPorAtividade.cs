@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -8,10 +9,10 @@ namespace GISModel.Entidades
     {
 
         [Display(Name ="Atividade")]
-        public string idAtividade { get; set; }
+        public Guid idAtividade { get; set; }
 
         [Display(Name = "Documento")]
-        public string idDocumentosEmpregado { get; set; }
+        public Guid idDocumentosEmpregado { get; set; }
         
         public virtual DocumentosPessoal DocumentosEmpregado { get; set; }
 

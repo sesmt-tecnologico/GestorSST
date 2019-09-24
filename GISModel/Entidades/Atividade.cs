@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -18,10 +19,10 @@ namespace GISModel.Entidades
 
 
         [Display(Name = "Função")]
-        public string idFuncao { get; set; }
+        public Guid idFuncao { get; set; }
 
         [Display(Name = "Diretoria")]
-        public string idDiretoria { get; set; }
+        public Guid idDiretoria { get; set; }
        
 
         public virtual Funcao Funcao { get; set; }

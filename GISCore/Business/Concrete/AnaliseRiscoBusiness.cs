@@ -11,7 +11,7 @@ namespace GISCore.Business.Concrete
 
         public override void Inserir(AnaliseRisco pAnaliseRisco)
         {
-            pAnaliseRisco.ID = Guid.NewGuid().ToString();
+            pAnaliseRisco.ID = Guid.NewGuid();
             base.Inserir(pAnaliseRisco);
         }
 

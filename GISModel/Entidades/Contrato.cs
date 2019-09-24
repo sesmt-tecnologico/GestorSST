@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -20,7 +21,7 @@ namespace GISModel.Entidades
         public string DataFim { get; set; }
 
         [Display(Name ="Empresa")]
-        public string  IdEmpresa { get; set; }
+        public Guid IdEmpresa { get; set; }
 
         public virtual Empresa Empresa { get; set; }
 

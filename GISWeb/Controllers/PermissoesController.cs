@@ -68,9 +68,9 @@ namespace GISWeb.Controllers
                             if (!string.IsNullOrEmpty(IDUsuario))
                             {
                                 UsuarioPerfilBusiness.Inserir(new UsuarioPerfil() {
-                                    UKUsuario = IDUsuario,
-                                    UKPerfil = Perfil,
-                                    UKConfig = Config, UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                    UKUsuario = Guid.Parse(IDUsuario),
+                                    UKPerfil = Guid.Parse(Perfil),
+                                    UKConfig = Guid.Parse(Config), UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                                 });
                             }
                         }
@@ -78,9 +78,9 @@ namespace GISWeb.Controllers
                     else
                     {
                         UsuarioPerfilBusiness.Inserir(new UsuarioPerfil() {
-                            UKUsuario = UIDsUsuarios,
-                            UKPerfil = Perfil,
-                            UKConfig = Config,
+                            UKUsuario = Guid.Parse(UIDsUsuarios),
+                            UKPerfil = Guid.Parse(Perfil),
+                            UKConfig = Guid.Parse(Config),
                             UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                         });
                     }
@@ -95,9 +95,9 @@ namespace GISWeb.Controllers
                             if (!string.IsNullOrEmpty(IDUsuario))
                             {
                                 UsuarioPerfilBusiness.Alterar(new UsuarioPerfil() {
-                                    UKUsuario = IDUsuario,
-                                    UKPerfil = Perfil,
-                                    UKConfig = Config,
+                                    UKUsuario = Guid.Parse(IDUsuario),
+                                    UKPerfil = Guid.Parse(Perfil),
+                                    UKConfig = Guid.Parse(Config),
                                     DataExclusao = DateTime.Now,
                                     UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                                 });
@@ -107,9 +107,9 @@ namespace GISWeb.Controllers
                     else
                     {
                         UsuarioPerfilBusiness.Alterar(new UsuarioPerfil() {
-                            UKUsuario = UIDsUsuarios,
-                            UKPerfil = Perfil,
-                            UKConfig = Config,
+                            UKUsuario = Guid.Parse(UIDsUsuarios),
+                            UKPerfil = Guid.Parse(Perfil),
+                            UKConfig = Guid.Parse(Config),
                             DataExclusao = DateTime.Now,
                             UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                         });
