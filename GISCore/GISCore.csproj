@@ -137,18 +137,6 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-    <Compile Include="Migrations\201909211909385_a1.cs" />
-    <Compile Include="Migrations\201909211909385_a1.Designer.cs">
-      <DependentUpon>201909211909385_a1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909212002350_a2.cs" />
-    <Compile Include="Migrations\201909212002350_a2.Designer.cs">
-      <DependentUpon>201909212002350_a2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909212020435_a3.cs" />
-    <Compile Include="Migrations\201909212020435_a3.Designer.cs">
-      <DependentUpon>201909212020435_a3.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -281,17 +269,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Web References\WSAutenticacao\cartaocorporativo.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909211909385_a1.resx">
-      <DependentUpon>201909211909385_a1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909212002350_a2.resx">
-      <DependentUpon>201909212002350_a2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909212020435_a3.resx">
-      <DependentUpon>201909212020435_a3.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
