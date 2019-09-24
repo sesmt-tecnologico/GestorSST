@@ -219,7 +219,7 @@ namespace GISWeb.Controllers
                 {
                     AtividadesDoEstabelecimento oAtividadesDoEstabelecimento = AtividadesDoEstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(idAtividade));
 
-                    oTipoDeRisco.idAtividade = idAtividade;
+                    oTipoDeRisco.idAtividade = Guid.Parse(idAtividade);
                     TipoDeRiscoBusiness.Inserir(oTipoDeRisco);
 
                    
@@ -272,7 +272,7 @@ namespace GISWeb.Controllers
                 {
                     AtividadesDoEstabelecimento oAtividadesDoEstabelecimento = AtividadesDoEstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(idAtividadeEstabel));
 
-                    oTipoDeRisco.idAtividadesDoEstabelecimento = idAtividadeEstabel;
+                    oTipoDeRisco.idAtividadesDoEstabelecimento = Guid.Parse(idAtividadeEstabel);
                     TipoDeRiscoBusiness.Inserir(oTipoDeRisco);
 
                     TempData["MensagemSucesso"] = "O Risco foi cadastrado com sucesso!";

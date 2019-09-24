@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GISModel.DTO.AnaliseRisco
 {
     public class AnaliseRiscosViewModel
     {
 
-        public string IDAmissao { get; set; }
+        public Guid IDAmissao { get; set; }
 
         public string DescricaoAtividade { get; set; }
 
@@ -24,21 +20,21 @@ namespace GISModel.DTO.AnaliseRisco
 
         public bool AlocaAtividade { get; set; }
 
-        public string IDAtividadeEstabelecimento { get; set; }
+        public Guid IDAtividadeEstabelecimento { get; set; }
 
-        public string IDAlocacao { get; set; }
+        public Guid IDAlocacao { get; set; }
 
-        public string IDAtividadeAlocada { get; set; }
+        public Guid IDAtividadeAlocada { get; set; }
 
         public string Riscos { get; set; }
 
         public string PossiveisDanos { get; set; }
 
-        public string IDEventoPerigoso { get; set; }
+        public Guid IDEventoPerigoso { get; set; }
 
-        public string IDPerigoPotencial { get; set; }
+        public Guid IDPerigoPotencial { get; set; }
 
-        public string IDTipoDeRisco { get; set; }
+        public Guid IDTipoDeRisco { get; set; }
 
         public string MedidaControleexistente { get; set; }
 

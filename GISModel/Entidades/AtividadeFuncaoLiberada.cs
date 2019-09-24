@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
 {
@@ -6,11 +7,11 @@ namespace GISModel.Entidades
    public class AtividadeFuncaoLiberada:EntidadeBase
     {
 
-        public string IDFuncao { get; set; }
+        public Guid IDFuncao { get; set; }
 
-        public string IDAtividade { get; set; }
+        public Guid IDAtividade { get; set; }
 
-        public string IDAlocacao { get; set; }
+        public Guid IDAlocacao { get; set; }
 
         public virtual Funcao Funcao { get; set; }
 

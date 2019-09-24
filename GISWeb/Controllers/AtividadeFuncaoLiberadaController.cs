@@ -39,7 +39,7 @@ namespace GISWeb.Controllers
         public ActionResult Cadastrar(AtividadesDoEstabelecimento oAtividadesDoEstabelecimentoBusiness, string IDAtividadesDoEstabelecimento)
         {
 
-            oAtividadesDoEstabelecimentoBusiness.ID = IDAtividadesDoEstabelecimento;
+            oAtividadesDoEstabelecimentoBusiness.ID = Guid.Parse(IDAtividadesDoEstabelecimento);
             //oMedidasDeControleExistentes.IDAtividadeRiscos = AtivRiscoID;
 
             if (ModelState.IsValid)
@@ -92,9 +92,9 @@ namespace GISWeb.Controllers
                             {
                                 AtividadeFuncaoLiberadaBusiness.Inserir(new AtividadeFuncaoLiberada()
                                 {
-                                    IDAlocacao = item,
-                                    IDAtividade = idAtividade,
-                                    IDFuncao = IDFuncao,
+                                    IDAlocacao = Guid.Parse(item),
+                                    IDAtividade = Guid.Parse(idAtividade),
+                                    IDFuncao = Guid.Parse(IDFuncao),
                                     //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login
                                 });
                             }
@@ -104,9 +104,9 @@ namespace GISWeb.Controllers
                     {
                         AtividadeFuncaoLiberadaBusiness.Inserir(new AtividadeFuncaoLiberada()
                         {
-                            IDAlocacao = idAlocacao,
-                            IDAtividade = idAtividade,
-                            IDFuncao = IDFuncao,
+                            IDAlocacao = Guid.Parse(idAlocacao),
+                            IDAtividade = Guid.Parse(idAtividade),
+                            IDFuncao = Guid.Parse(IDFuncao),
                             //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login
                         });
                     }
@@ -123,9 +123,9 @@ namespace GISWeb.Controllers
                                 AtividadeFuncaoLiberadaBusiness.Alterar(new AtividadeFuncaoLiberada()
                                 {
 
-                                    IDAlocacao = item,
-                                    IDAtividade = idAtividade,
-                                    IDFuncao = IDFuncao,
+                                    IDAlocacao = Guid.Parse(item),
+                                    IDAtividade = Guid.Parse(idAtividade),
+                                    IDFuncao = Guid.Parse(IDFuncao),
                                     DataExclusao = DateTime.Now,
                                     //UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login
                                 });
@@ -138,9 +138,9 @@ namespace GISWeb.Controllers
                         AtividadeFuncaoLiberadaBusiness.Alterar(new AtividadeFuncaoLiberada()
                         {
 
-                            IDAlocacao = idAlocacao,
-                            IDAtividade = idAtividade,
-                            IDFuncao = IDFuncao,
+                            IDAlocacao = Guid.Parse(idAlocacao),
+                            IDAtividade = Guid.Parse(idAtividade),
+                            IDFuncao = Guid.Parse(IDFuncao),
                             DataExclusao = DateTime.Now,
                             UsuarioExclusao = "LoginTeste"
                             //UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login

@@ -15,14 +15,14 @@ namespace GISCore.Repository.Configuration
             {
                 new Empregado
                 {
-                    ID = "14d57737-5611-4216-8f1d-cc120b16dbc3",
+                    ID = new Guid(),
                     CPF ="24547551812",
                     Nome ="Antonio Heriques Pereira",
                     DataNascimento = DateTime.Now
                 },
                 new Empregado
                 {
-                    ID = "d0dc096d-2929-4a85-88ff-993779d91745",
+                    ID = new Guid(),
                     CPF ="24547551812",
                     Nome ="Gabriel Henriques Pereira",
                     DataNascimento = DateTime.Now,

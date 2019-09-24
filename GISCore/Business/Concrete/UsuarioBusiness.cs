@@ -94,7 +94,7 @@ namespace GISCore.Business.Concrete
 
                                 string siglaFind = estrutura[i].Sigla;
 
-                                string UKNivel = string.Empty;
+                                Guid UKNivel = Guid.NewGuid();
 
                                 if (estrutura[i].NivelHierarquico.ToUpper().Equals("DIR"))
                                 {
@@ -115,13 +115,18 @@ namespace GISCore.Business.Concrete
                                 Departamento depFind = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Sigla.Equals(siglaFind));
                                 if (depFind == null)
                                 {
+
+                                    Guid? UKDepVinculado = null;
+                                    if (depAnterior != null)
+                                        UKDepVinculado = depAnterior.UniqueKey;
+
                                     depFind = new Departamento()
                                     {
                                         Sigla = estrutura[i].Sigla,
                                         Codigo = estrutura[i].UA,
                                         Descricao = estrutura[i].NomeCompleto,
-                                        UniqueKey = Guid.NewGuid().ToString(),
-                                        UKDepartamentoVinculado = depAnterior == null ? string.Empty : depAnterior.UniqueKey,
+                                        UniqueKey = Guid.NewGuid(),
+                                        UKDepartamentoVinculado = UKDepVinculado,
                                         UKEmpresa = empBase.UniqueKey,
                                         UKNivelHierarquico = UKNivel,
                                         UsuarioInclusao = autenticacaoModel.Login
@@ -202,7 +207,7 @@ namespace GISCore.Business.Concrete
                 if (lUsuarios[0].TipoDeAcesso == TipoDeAcesso.AD)
                 {
                     //Login, validando a senha no AD
-                    string UKEmpresa = lUsuarios[0].UKEmpresa;
+                    Guid UKEmpresa = lUsuarios[0].UKEmpresa;
                     Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKEmpresa));
                     if (emp == null)
                     {
@@ -223,7 +228,7 @@ namespace GISCore.Business.Concrete
                             }
                             else
                             {
-                                string IDUsuario = lUsuarios[0].UniqueKey;
+                                Guid IDUsuario = lUsuarios[0].UniqueKey;
 
                                 List<VMPermissao> listapermissoes = new List<VMPermissao>();
 
@@ -264,7 +269,8 @@ namespace GISCore.Business.Concrete
                 else
                 {
                     //Login, validando a senha interna no CIS
-                    string IDUsuario = lUsuarios[0].UniqueKey;
+                    Guid IDUsuario = lUsuarios[0].UniqueKey;
+
                     //Usuario oUsuario = Consulta.FirstOrDefault(p => p.UniqueKey.Equals(IDUsuario) && p.Senha.Equals(autenticacaoModel.Senha));
                     Usuario oUsuario = Consulta.FirstOrDefault(p => p.UniqueKey.Equals(IDUsuario));
                     if (oUsuario != null)
@@ -359,7 +365,7 @@ namespace GISCore.Business.Concrete
             if (Consulta.Any(u => u.Login.Equals(usuario.Login)))
                 throw new InvalidOperationException("Não é possível inserir usuário com o mesmo login.");
 
-            usuario.UniqueKey = Guid.NewGuid().ToString();
+            usuario.UniqueKey = Guid.NewGuid();
 
             base.Inserir(usuario);
         }

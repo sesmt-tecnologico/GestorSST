@@ -26,11 +26,11 @@ namespace GISCore.Repository.Concrete
             entidade.DataInclusao = DateTime.Now;
             entidade.DataExclusao = DateTime.MaxValue;
 
-            if (string.IsNullOrEmpty(entidade.ID))
-                entidade.ID = Guid.NewGuid().ToString();
+            if (entidade.ID == null)
+                entidade.ID = Guid.NewGuid();
 
-            if (string.IsNullOrEmpty(entidade.UniqueKey))
-                entidade.UniqueKey = Guid.NewGuid().ToString();
+            if (entidade.UniqueKey == null)
+                entidade.UniqueKey = Guid.NewGuid();
 
             if (entidade.DataInclusao == null || entidade.DataInclusao.CompareTo(DateTime.MinValue) == 0 || entidade.DataInclusao.CompareTo(DateTime.MaxValue) == 0)
                 entidade.DataInclusao = DateTime.Now;

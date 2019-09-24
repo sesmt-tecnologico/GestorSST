@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -7,27 +8,28 @@ namespace GISModel.Entidades
     public class Alocacao: EntidadeBase
     {
         
-        public string IdAdmissao { get; set; }
+        public Guid IdAdmissao { get; set; }
+
 
         [Display(Name = "Ativado")]
         public string Ativado { get; set; }
 
         [Display(Name ="Numero do Contrato")]
-        public string IdContrato { get; set; }
+        public Guid IdContrato { get; set; }
 
         [Display(Name = "Departamento")]
-        public string IDDepartamento { get; set; }
+        public Guid IDDepartamento { get; set; }
 
-        public string IDCargo { get; set; }
+        public Guid IDCargo { get; set; }
 
-        public string  IDFuncao { get; set; }
+        public Guid IDFuncao { get; set; }
 
         [Display(Name = "Estabelecimento")]
-        public string idEstabelecimento { get; set; }
+        public Guid idEstabelecimento { get; set; }
 
 
         [Display(Name = "Equipe")]
-        public string IDEquipe { get; set; }
+        public Guid IDEquipe { get; set; }
 
 
         public virtual Admissao Admissao { get; set; }

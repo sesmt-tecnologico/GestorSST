@@ -370,7 +370,6 @@ namespace GISWeb.Controllers
         public ActionResult ListaExpoAtivFuncao(string idAlocacao,string idAtividadeFuncaoLiberada,string Nome, string cpf,string idAtividade)
         {
 
-
             var TipoRisco = (from EX in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                              join TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                              on EX.idTipoDeRisco equals TR.ID
@@ -384,7 +383,7 @@ namespace GISWeb.Controllers
                              on TR.idPossiveisDanos equals PD.ID
                              join PP in PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                              on TR.idPerigoPotencial equals PP.ID
-                             where EX.idAlocacao.Equals(idAlocacao) && EX.idAtividadeAlocada.Equals(idAtividade)
+                             where EX.idAlocacao.Equals(Guid.Parse(idAlocacao)) && EX.idAtividadeAlocada.Equals(idAtividade)
                              select new Exposicao()
                              {
                                  ID = EX.ID,
@@ -569,7 +568,7 @@ namespace GISWeb.Controllers
                              on TR.idPossiveisDanos equals PD.ID
                              join PP in PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                              on TR.idPerigoPotencial equals PP.ID
-                             where EX.idAlocacao.Equals(idAlocacao) && EX.idAtividadeAlocada.Equals(idAtividadeAlocada)
+                             where EX.idAlocacao.Equals(Guid.Parse(idAlocacao)) && EX.idAtividadeAlocada.Equals(idAtividadeAlocada)
                              select new Exposicao()
                              {
                                  ID = EX.ID,
@@ -686,7 +685,7 @@ namespace GISWeb.Controllers
 
             #endregion
 
-            List<string> risc = new List<string>();
+            List<Guid> risc = new List<Guid>();
 
             foreach (var iten in TipoRisco)
             {
@@ -840,7 +839,7 @@ namespace GISWeb.Controllers
         {
 
             //id do Estabelecimento recebido por parametro
-            oAdmissao.IDEmpregado = EmpID;
+            oAdmissao.IDEmpregado = Guid.Parse(EmpID);
             
 
             if (ModelState.IsValid)

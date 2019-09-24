@@ -9,11 +9,11 @@ namespace GISModel.Entidades
     {
 
         [Display(Name = "Empregado")]
-        public string IDEmpregado { get; set; }
+        public Guid IDEmpregado { get; set; }
 
 
         [Display(Name = "Empresa")]
-        public string IDEmpresa { get; set; }
+        public Guid IDEmpresa { get; set; }
         
 
         [Display(Name = "Admissão")]

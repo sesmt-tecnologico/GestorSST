@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
 {
@@ -6,9 +7,9 @@ namespace GISModel.Entidades
     public class AtividadeAlocada:EntidadeBase
     {
 
-        public string idAtividadesDoEstabelecimento { get; set; }
+        public Guid idAtividadesDoEstabelecimento { get; set; }
         
-        public string  idAlocacao { get; set; }
+        public Guid idAlocacao { get; set; }
 
         public virtual AtividadesDoEstabelecimento AtividadesDoEstabelecimento { get; set; }
 

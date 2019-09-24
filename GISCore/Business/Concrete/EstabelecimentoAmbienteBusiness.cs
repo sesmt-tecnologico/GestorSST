@@ -22,7 +22,7 @@ namespace GISCore.Business.Concrete
             if (!File.Exists(sLocalFile))
                 throw new Exception("Não foi possível localizar o arquivo '" + pEstabelecimentoImagens.Imagem + "'. Favor realizar novamente o upload do mesmo.");
 
-            pEstabelecimentoImagens.ID = Guid.NewGuid().ToString();
+            pEstabelecimentoImagens.ID = Guid.NewGuid();
 
             base.Inserir(pEstabelecimentoImagens);
 

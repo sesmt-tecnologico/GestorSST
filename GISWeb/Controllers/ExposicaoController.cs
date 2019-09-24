@@ -110,11 +110,11 @@ namespace GISWeb.Controllers
 
             List<string> Filtro = new List<string>();
 
-            var filtro = "";
+            Guid? filtro = null;
 
-            foreach ( var item in Aloc)
+            foreach (var item in Aloc)
             {
-                filtro=item.id;
+                filtro = item.id;
             }
             
             List<string> model = Filtro;
@@ -153,28 +153,22 @@ namespace GISWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(Exposicao oExposicao, string idAtividadeAlocada,string idAlocacao, string idTipoDeRisco, string idEmpregado)
+        public ActionResult Cadastrar(Exposicao oExposicao, string idAtividadeAlocada, string idAlocacao, string idTipoDeRisco, string idEmpregado)
         {
             
-
             if (ModelState.IsValid)
             {
                 try
                 {
 
-                    oExposicao.idAtividadeAlocada = idAtividadeAlocada;
-                    oExposicao.idAlocacao = idAlocacao;
-                    oExposicao.idTipoDeRisco = idTipoDeRisco;
+                    oExposicao.idAtividadeAlocada = Guid.Parse(idAtividadeAlocada);
+                    oExposicao.idAlocacao = Guid.Parse(idAlocacao);
+                    oExposicao.idTipoDeRisco = Guid.Parse(idTipoDeRisco);
                     ExposicaoBusiness.Inserir(oExposicao);
-
-
-
-
 
                     TempData["MensagemSucesso"] = "A Exposição foi registrada com sucesso.";  
 
                     //return Json(new { data = RenderRazorViewToString("_DetalhesAmbienteAlocado", oExposicao) }); 
-                    
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("PerfilEmpregado", "Admissao", new { id = idEmpregado}) } });
                     

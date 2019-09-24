@@ -129,7 +129,7 @@ namespace GISWeb.Controllers
         {
             Departamento newDep = new Departamento();
 
-            newDep.UKEmpresa = ukEmpresa;
+            newDep.UKEmpresa = Guid.Parse(ukEmpresa);
             Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(ukEmpresa));
             if (emp != null)
                 ViewBag.Empresa = emp.NomeFantasia;
@@ -144,7 +144,7 @@ namespace GISWeb.Controllers
                 if (dep != null)
                 {
                     ViewBag.DepartamentoSuperior = dep.Sigla;
-                    newDep.UKDepartamentoVinculado = ukDepartamento;
+                    newDep.UKDepartamentoVinculado = Guid.Parse(ukDepartamento);
                 }
                 else
                 {

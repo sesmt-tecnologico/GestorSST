@@ -27,7 +27,7 @@ namespace GISCore.Business.Concrete
             if (!File.Exists(sLocalFile))
                 throw new Exception("Não foi possível localizar o arquivo '" + pAdmissao.Imagem + "'. Favor realizar novamente o upload do mesmo.");
 
-            pAdmissao.ID = Guid.NewGuid().ToString();
+            pAdmissao.ID = Guid.NewGuid();
             pAdmissao.Admitido = "Admitido";
             
             base.Inserir(pAdmissao);

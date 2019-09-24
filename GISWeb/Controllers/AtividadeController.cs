@@ -104,7 +104,7 @@ namespace GISWeb.Controllers
                                           NomeDaImagem = A.NomeDaImagem,
                                           Imagem = A.Imagem,
                                           AlocaAtividade = (item == null ? false : true),                                         
-                                          IDAlocacao = IDAlocacao, 
+                                          IDAlocacao = Guid.Parse(IDAlocacao), 
                                           IDAtividade = A.ID,
                                           IDFuncao = A.Funcao.ID
                                       };
@@ -224,7 +224,7 @@ namespace GISWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cadastrar(Atividade oAtividade, string AtivId)
         {
-            oAtividade.idFuncao = AtivId;
+            oAtividade.idFuncao = Guid.Parse(AtivId);
             if (ModelState.IsValid)
             {
                 try
@@ -313,7 +313,7 @@ namespace GISWeb.Controllers
                         ).ToList();
 
 
-            List<string> Filtro = new List<string>();
+            List<Guid> Filtro = new List<Guid>();
 
             foreach (var lista in Lista)
             {

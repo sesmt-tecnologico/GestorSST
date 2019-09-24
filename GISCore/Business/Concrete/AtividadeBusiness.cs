@@ -30,7 +30,7 @@ namespace GISCore.Business.Concrete
 
                 throw new InvalidOperationException("Não é possível inserir a Atividade, pois já existe uma Atividade com este ID.");
 
-            pAtividadeDeRisco.ID = Guid.NewGuid().ToString();
+            pAtividadeDeRisco.ID = Guid.NewGuid();
 
             base.Inserir(pAtividadeDeRisco);
 

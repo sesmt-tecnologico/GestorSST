@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -12,7 +13,7 @@ namespace GISModel.Entidades
 
         [Display(Name = "Diretoria")]
         [Required(ErrorMessage = "Selecione uma Diretoria")]
-        public string IDDiretoria { get; set; }
+        public Guid IDDiretoria { get; set; }
         
         public virtual  Diretoria Diretoria { get; set; }
 

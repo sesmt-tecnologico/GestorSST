@@ -1,4 +1,5 @@
 ﻿using GISModel.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,7 +22,7 @@ namespace GISModel.Entidades
         public string NomeCompleto { get; set; }
 
         [Display(Name = "departamento")]
-        public string IDDepartamento { get; set; }
+        public Guid IDDepartamento { get; set; }
         
         public virtual Departamento Departamento { get; set; }
 

@@ -16,7 +16,7 @@ namespace GISCore.Business.Concrete
                                    u.UKConfig.Equals(UsuarioPerfil.UKConfig) &&
                                    string.IsNullOrEmpty(u.UsuarioExclusao)))
             {
-                UsuarioPerfil.UniqueKey = Guid.NewGuid().ToString();
+                UsuarioPerfil.UniqueKey = Guid.NewGuid();
 
                 base.Inserir(UsuarioPerfil);
             }

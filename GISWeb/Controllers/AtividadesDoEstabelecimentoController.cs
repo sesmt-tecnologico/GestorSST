@@ -216,7 +216,7 @@ namespace GISWeb.Controllers
                                          Imagem = Ambiente.Imagem,
                                          AlocaAtividade = (item == null ? false : true),
                                          IDAtividadeEstabelecimento = Ambiente.ID,
-                                         IDAlocacao = idAlocacao
+                                         IDAlocacao = Guid.Parse(idAlocacao)
 
                                      };
 
@@ -601,7 +601,7 @@ namespace GISWeb.Controllers
                             IDTipo = g.Key 
                         }).ToList();
 
-            List<string> Filtro = new List<string>();
+            List<Guid> Filtro = new List<Guid>();
             
             foreach(var lista in Lista)
             {
@@ -729,8 +729,8 @@ namespace GISWeb.Controllers
         public ActionResult Cadastrar(AtividadesDoEstabelecimento oAtividadesDoEstabelecimento, string RegistroID, string EstabID)
         {
 
-            oAtividadesDoEstabelecimento.IDEstabelecimentoImagens = RegistroID;
-            oAtividadesDoEstabelecimento.IDEstabelecimento = EstabID;
+            oAtividadesDoEstabelecimento.IDEstabelecimentoImagens = Guid.Parse(RegistroID);
+            oAtividadesDoEstabelecimento.IDEstabelecimento = Guid.Parse(EstabID);
 
             if (ModelState.IsValid)
             {

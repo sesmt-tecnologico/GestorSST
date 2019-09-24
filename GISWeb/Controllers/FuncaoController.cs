@@ -85,7 +85,7 @@ namespace GISWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cadastrar(Funcao oFuncao, string cargID)
         {
-            oFuncao.IdCargo = cargID;
+            oFuncao.IdCargo = Guid.Parse(cargID);
             if (ModelState.IsValid)
             {
                 try

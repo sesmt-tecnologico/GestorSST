@@ -28,7 +28,7 @@ namespace GISModel.DTO.Conta
 
         public string Email { get; set; }
 
-        public string UniqueKey { get; set; }
+        public Guid UniqueKey { get; set; }
 
         public List<VMPermissao> Permissoes { get; set; }
 

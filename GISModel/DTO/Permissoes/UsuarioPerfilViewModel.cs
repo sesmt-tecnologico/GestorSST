@@ -1,4 +1,5 @@
 ﻿using GISModel.Entidades;
+using System;
 using System.Collections.Generic;
 
 namespace GISModel.DTO.Permissoes
@@ -6,7 +7,7 @@ namespace GISModel.DTO.Permissoes
     public class UsuarioPerfilViewModel
     {
 
-        public string IDUsuario { get; set; }
+        public Guid IDUsuario { get; set; }
 
         public string Login { get; set; }
 
