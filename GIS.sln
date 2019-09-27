@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GISWeb", "GISWeb\GISWeb.csproj", "{320AB5F4-89AB-4986-8E19-0DA27259EE7A}"
 EndProject
@@ -10,6 +10,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GISModel", "GISModel\GISModel.csproj", "{CA63050F-996A-4912-8282-B00BF4438FB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GISHelpers", "GISHelpers\GISHelpers.csproj", "{0ABAFE77-95A2-49CA-A270-D36F8948D3D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gestor 1.1", "Gestor 1.1", "{13932EFF-7E35-449E-AEBD-1BB1BA4A1608}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Core", "1 - Core", "{B150A016-8333-417D-B7DF-4B8A18512F26}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Infrastructure", "2 - Infrastructure", "{86DF733C-E44B-41A6-9ECD-7CB6DE53E644}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Service", "3 - Service", "{E615178B-20A8-437B-87CC-1CA2025DBBF9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Tests", "0 - Tests", "{5E247D17-434F-4E25-9998-EC80F27114E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestor.Domain", "Gestor.Domain\Gestor.Domain.csproj", "{6717E936-D9AC-4E54-BD2C-D2D04BEDC03A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +45,22 @@ Global
 		{0ABAFE77-95A2-49CA-A270-D36F8948D3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ABAFE77-95A2-49CA-A270-D36F8948D3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ABAFE77-95A2-49CA-A270-D36F8948D3D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6717E936-D9AC-4E54-BD2C-D2D04BEDC03A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6717E936-D9AC-4E54-BD2C-D2D04BEDC03A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6717E936-D9AC-4E54-BD2C-D2D04BEDC03A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6717E936-D9AC-4E54-BD2C-D2D04BEDC03A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B150A016-8333-417D-B7DF-4B8A18512F26} = {13932EFF-7E35-449E-AEBD-1BB1BA4A1608}
+		{86DF733C-E44B-41A6-9ECD-7CB6DE53E644} = {13932EFF-7E35-449E-AEBD-1BB1BA4A1608}
+		{E615178B-20A8-437B-87CC-1CA2025DBBF9} = {13932EFF-7E35-449E-AEBD-1BB1BA4A1608}
+		{5E247D17-434F-4E25-9998-EC80F27114E9} = {13932EFF-7E35-449E-AEBD-1BB1BA4A1608}
+		{6717E936-D9AC-4E54-BD2C-D2D04BEDC03A} = {B150A016-8333-417D-B7DF-4B8A18512F26}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02FC59B2-A2A0-470A-B732-0407FACEBAA3}
 	EndGlobalSection
 EndGlobal
