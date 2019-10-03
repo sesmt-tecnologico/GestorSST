@@ -54,7 +54,6 @@
     <Compile Include="Enums\StatusAdmissao.cs" />
     <Compile Include="Enums\StatusAlocacao.cs" />
     <Compile Include="Enums\StatusEmpregado.cs" />
-    <Compile Include="Exceptions\AtividadeJaExistenteNaAlocacaoException.cs" />
     <Compile Include="Exceptions\CampoNaoPodeSerNuloException.cs" />
     <Compile Include="Exceptions\CnpjInvalidoException.cs" />
     <Compile Include="Exceptions\CoreException.cs" />
@@ -71,8 +70,12 @@
     <Compile Include="ValueObjects\Cnpj.cs" />
     <Compile Include="ValueObjects\Cpf.cs" />
     <Compile Include="ViewModels\CadastrarResult.cs" />
+    <Compile Include="ViewModels\Empregados\AdicionarAtividadeNaAlocacaoDeEmpregadoViewModel.cs" />
+    <Compile Include="ViewModels\Empregados\AdmitirEmpregadoViewModel.cs" />
+    <Compile Include="ViewModels\Empregados\AlocarEmpregadoViewModel.cs" />
     <Compile Include="ViewModels\Empregados\AtualizarEmpregadoViewModel.cs" />
     <Compile Include="ViewModels\Empregados\CadastrarEmpregadoViewModel.cs" />
+    <Compile Include="ViewModels\Empregados\RemoverAtividadeDaAlocacaoDeEmpregadoViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

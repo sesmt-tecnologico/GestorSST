@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Gestor.Domain.Exceptions;
+using Gestor.Domain.ViewModels.Empregados;
+using System;
 
 namespace Gestor.Domain.Business.Empregados
 {
@@ -14,10 +12,7 @@ namespace Gestor.Domain.Business.Empregados
         /// <param name="empregadoId"></param>
         /// <param name="admitirEmpregadoViewModel"></param>
         /// <exception cref="RecursoNaoEncontradoException"></exception>
-        /// <exception cref="CpfInvalidoException"></exception>
-        /// <exception cref="CpfJaCadastradoException"></exception>
-        /// <exception cref="CampoNaoPodeSerNuloException"></exception>
-        /// <exception cref="IdadeNaoPermitidaException"></exception>
+        /// TODO: mapear demais exceções
         void Admitir(Guid empregadoId, AdmitirEmpregadoViewModel admitirEmpregadoViewModel);
     }
 }

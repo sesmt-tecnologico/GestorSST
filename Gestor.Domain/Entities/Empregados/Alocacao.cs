@@ -43,14 +43,28 @@ namespace Gestor.Domain.Entities.Empregados
             Status = StatusAlocacao.Pendente;
         }
 
-        public void AdicionarAtividade(string usuarioInclusao, Guid atividadeId)
+        public void AdicionarAtividades(string usuarioInclusao, IEnumerable<Guid> atividadesIds)
         {
             //TODO: validar status e estourar exceção se invalido .... 
 
-            if (Atividades.Any(a => a.AtividadeId == atividadeId))
-                throw new AtividadeJaExistenteNaAlocacaoException();
+            var atividadesIdsAindaNaoExistentes = atividadesIds.Where(a => !Atividades.Any(A => A.AtividadeId == a));
 
-            Atividades.Add(new Atividade(usuarioInclusao, Id, atividadeId));
+            foreach (var atividadeId in atividadesIdsAindaNaoExistentes)
+                Atividades.Add(new Atividade(usuarioInclusao, Id, atividadeId));
+        }
+
+        public void RemoverAtividades(string usuarioExclusao, IEnumerable<Guid> atividadesIds)
+        {
+            //TODO: validar status e estourar exceção se invalido .... 
+
+            var atividadesIdsASeremRemovidas = atividadesIds.Where(a => Atividades.Any(A => A.AtividadeId == a));
+
+            foreach (var atividadeId in atividadesIdsASeremRemovidas)
+            {
+                var atividadeASerRemovida = Atividades.First(a => a.AtividadeId == atividadeId);
+                atividadeASerRemovida.Excluir(usuarioExclusao);
+                Atividades.Remove(atividadeASerRemovida);
+            }
         }
 
         public void Finalizar(string usuarioDesalocacao, DateTime dataDesalocacao)

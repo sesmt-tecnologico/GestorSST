@@ -22,13 +22,13 @@ namespace Gestor.Domain.Entities.Empregados
         {
         }
 
-        public Admissao(string usuarioInclusao, Guid empregadoId, Guid empresaId, Guid? tomadoraId, DateTime dataAdmissao, IEnumerable<Alocacao> alocacoes = null) : base(usuarioInclusao)
+        public Admissao(string usuarioInclusao, Guid empregadoId, Guid empresaId, Guid? tomadoraId, DateTime dataAdmissao) : base(usuarioInclusao)
         {
             EmpregadoId = empregadoId;
             EmpresaId = empresaId;
             TomadoraId = tomadoraId;
             DataAdmissao = dataAdmissao;
-            Alocacoes = alocacoes?.ToList() ?? new List<Alocacao>();
+            Alocacoes = new List<Alocacao>();
 
             Status = StatusAdmissao.Atual;
         }
