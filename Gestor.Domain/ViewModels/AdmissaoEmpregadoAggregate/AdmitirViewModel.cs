@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Gestor.Domain.ViewModels.Empregados
+namespace Gestor.Domain.ViewModels.AdmissaoEmpregadoAggregate
 {
-    public class AdmitirEmpregadoViewModel
+    public class AdmitirViewModel
     {
         [Display(Name = "Empresa")]
         [Required]

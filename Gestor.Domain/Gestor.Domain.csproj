@@ -42,14 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Business\Empregados\IAdmissaoBusiness.cs" />
-    <Compile Include="Business\Empregados\IAlocacaoBusiness.cs" />
-    <Compile Include="Business\Empregados\IEmpregadoBusiness.cs" />
+    <Compile Include="Business\AdmissaoEmpregadoAggregate\IAdmissaoBusiness.cs" />
+    <Compile Include="Business\AdmissaoEmpregadoAggregate\IAlocacaoBusiness.cs" />
+    <Compile Include="Business\AdmissaoEmpregadoAggregate\IAtribuicaoBusiness.cs" />
+    <Compile Include="Business\IEmpregadoBusiness.cs" />
     <Compile Include="Business\IEntidadeComImagemService.cs" />
-    <Compile Include="Entities\Empregados\Admissao.cs" />
-    <Compile Include="Entities\Empregados\Alocacao.cs" />
-    <Compile Include="Entities\Empregados\Atividade.cs" />
-    <Compile Include="Entities\Empregados\Empregado.cs" />
+    <Compile Include="Entities\AdmissaoEmpregadoAggregate\Admissao.cs" />
+    <Compile Include="Entities\AdmissaoEmpregadoAggregate\Alocacao.cs" />
+    <Compile Include="Entities\AdmissaoEmpregadoAggregate\Atribuicao.cs" />
+    <Compile Include="Entities\Empregado.cs" />
     <Compile Include="Entities\EntidadeBase.cs" />
     <Compile Include="Enums\StatusAdmissao.cs" />
     <Compile Include="Enums\StatusAlocacao.cs" />
@@ -63,19 +64,20 @@
     <Compile Include="Exceptions\IdadeNaoPermitidaException.cs" />
     <Compile Include="Exceptions\RecursoNaoEncontradoException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Empregados\IEmpregadoRepository.cs" />
+    <Compile Include="Repositories\IEmpregadoRepository.cs" />
     <Compile Include="Repositories\IBaseRepository.cs" />
     <Compile Include="Repositories\IImageRepository.cs" />
     <Compile Include="Repositories\IUnitOfWork.cs" />
     <Compile Include="ValueObjects\Cnpj.cs" />
     <Compile Include="ValueObjects\Cpf.cs" />
+    <Compile Include="ViewModels\AdmissaoEmpregadoAggregate\AtribuirViewModel.cs" />
     <Compile Include="ViewModels\CadastrarResult.cs" />
-    <Compile Include="ViewModels\Empregados\AdicionarAtividadeNaAlocacaoDeEmpregadoViewModel.cs" />
-    <Compile Include="ViewModels\Empregados\AdmitirEmpregadoViewModel.cs" />
-    <Compile Include="ViewModels\Empregados\AlocarEmpregadoViewModel.cs" />
-    <Compile Include="ViewModels\Empregados\AtualizarEmpregadoViewModel.cs" />
-    <Compile Include="ViewModels\Empregados\CadastrarEmpregadoViewModel.cs" />
-    <Compile Include="ViewModels\Empregados\RemoverAtividadeDaAlocacaoDeEmpregadoViewModel.cs" />
+    <Compile Include="ViewModels\AdmissaoEmpregadoAggregate\AdmitirViewModel.cs" />
+    <Compile Include="ViewModels\AdmissaoEmpregadoAggregate\AlocarViewModel.cs" />
+    <Compile Include="ViewModels\AtualizarEmpregadoViewModel.cs" />
+    <Compile Include="ViewModels\CadastrarEmpregadoViewModel.cs" />
+    <Compile Include="ViewModels\AdmissaoEmpregadoAggregate\DemitirViewModel.cs" />
+    <Compile Include="ViewModels\AdmissaoEmpregadoAggregate\DesalocarViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,7 +3,7 @@ using Gestor.Domain.Exceptions;
 using Gestor.Domain.ValueObjects;
 using System;
 
-namespace Gestor.Domain.Entities.Empregados
+namespace Gestor.Domain.Entities
 {
     public class Empregado : EntidadeBase
     {

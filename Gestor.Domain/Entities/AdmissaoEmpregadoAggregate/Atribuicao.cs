@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Gestor.Domain.Entities.Empregados
+namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
 {
-    public class Atividade : EntidadeBase
+    public class Atribuicao : EntidadeBase
     {
         public Guid AlocacaoId { get; private set; }
         public Guid AtividadeId { get; private set; }
         
-        public Atividade(string usuarioInclusao, Guid alocacaoId, Guid atividadeId) : base(usuarioInclusao)
+        public Atribuicao(string usuarioInclusao, Guid alocacaoId, Guid atividadeId) : base(usuarioInclusao)
         {
             AlocacaoId = alocacaoId;
             AtividadeId = atividadeId;

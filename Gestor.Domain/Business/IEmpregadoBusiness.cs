@@ -1,14 +1,13 @@
 ﻿using Gestor.Domain.Exceptions;
 using Gestor.Domain.ViewModels;
-using Gestor.Domain.ViewModels.Empregados;
 using System;
 
-namespace Gestor.Domain.Business.Empregados
+namespace Gestor.Domain.Business
 {
     public interface IEmpregadoBusiness : IEntidadeComImagemService
     {
         /// <summary>
-        /// 
+        /// Cadastra um empregado.
         /// </summary>
         /// <param name="cadastrarEmpregadoViewModel"></param>
         /// <exception cref="CpfInvalidoException"></exception>
@@ -19,7 +18,7 @@ namespace Gestor.Domain.Business.Empregados
         CadastrarResult Cadastrar(CadastrarEmpregadoViewModel cadastrarEmpregadoViewModel);
 
         /// <summary>
-        /// 
+        /// Atualiza as informações de um empregado.
         /// </summary>
         /// <param name="empregadoId"></param>
         /// <param name="atualizarEmpregadoViewModel"></param>
@@ -29,5 +28,13 @@ namespace Gestor.Domain.Business.Empregados
         /// <exception cref="CampoNaoPodeSerNuloException"></exception>
         /// <exception cref="IdadeNaoPermitidaException"></exception>
         void Atualizar(Guid empregadoId, AtualizarEmpregadoViewModel atualizarEmpregadoViewModel);
+
+        /// <summary>
+        /// Exclui um empregado desde que este não possua um histórico consolidado no sistema.
+        /// </summary>
+        /// <param name="empregadoId"></param>
+        /// <exception cref="RecursoNaoEncontradoException"></exception>
+        /// /// TODO: mapear demais exceções
+        void Excluir(Guid empregadoId);
     }
 }

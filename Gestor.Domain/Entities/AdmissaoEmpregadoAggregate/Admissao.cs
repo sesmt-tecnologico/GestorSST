@@ -1,9 +1,9 @@
 ﻿using Gestor.Domain.Enums;
+using Gestor.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Gestor.Domain.Entities.Empregados
+namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
 {
     public class Admissao : EntidadeBase
     {
@@ -20,6 +20,7 @@ namespace Gestor.Domain.Entities.Empregados
 
         private Admissao()
         {
+            Alocacoes = new List<Alocacao>();
         }
 
         public Admissao(string usuarioInclusao, Guid empregadoId, Guid empresaId, Guid? tomadoraId, DateTime dataAdmissao) : base(usuarioInclusao)
@@ -38,6 +39,9 @@ namespace Gestor.Domain.Entities.Empregados
             //TODO: validar o status da admissão e estourar exceção se status invalido...
             //TODO: alterar as alocações ...
 
+            if (string.IsNullOrWhiteSpace(usuarioDemissao))
+                throw new CampoNaoPodeSerNuloException(nameof(usuarioDemissao));
+
             UsuarioDemissao = usuarioDemissao;
             DataDemissao = dataDemissao;
 
@@ -46,6 +50,7 @@ namespace Gestor.Domain.Entities.Empregados
 
         protected override void ValidarExclusao()
         {
+            //TODO: validar status ...
             //TODO: validar alocações... se existir alguma alocação válida (sem ser excluida), da exceção...
         }
     }

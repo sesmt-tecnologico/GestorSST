@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Gestor.Domain.ViewModels.Empregados
+namespace Gestor.Domain.ViewModels.AdmissaoEmpregadoAggregate
 {
-    public class AlocarEmpregadoViewModel
+    public class AlocarViewModel
     {
         [Display(Name = "Estabelecimento")]
         [Required]
@@ -17,6 +17,10 @@ namespace Gestor.Domain.ViewModels.Empregados
         [Display(Name = "Função")]
         [Required]
         public Guid? FuncaoId { get; set; }
+
+        [Display(Name = "Data de Alocação")]
+        [Required]
+        public DateTime? DataAlocacao { get; set; }
 
         [Display(Name = "Atividades")]
         public IEnumerable<Guid> AtividadesIds { get; set; }

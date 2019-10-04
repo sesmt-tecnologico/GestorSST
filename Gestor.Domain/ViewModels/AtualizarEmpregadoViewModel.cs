@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Gestor.Domain.ViewModels.Empregados
+namespace Gestor.Domain.ViewModels
 {
     public class AtualizarEmpregadoViewModel
     {
