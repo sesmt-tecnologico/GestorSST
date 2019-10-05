@@ -75,7 +75,11 @@ namespace GISWeb.Controllers
 
         public ActionResult Edicao(string id)
         {
-            return View(PerfilBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(id)));
+
+            Guid UKPerfil = Guid.Parse(id);
+            Perfil obj = PerfilBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(UKPerfil));
+
+            return View(obj);
         }
 
         [HttpPost]

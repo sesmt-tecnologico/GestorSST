@@ -1,6 +1,5 @@
 ﻿using GISCore.Business.Abstract;
 using GISModel.Entidades;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,7 +10,6 @@ namespace GISCore.Business.Concrete
 
         public override void Inserir(AnaliseRisco pAnaliseRisco)
         {
-            pAnaliseRisco.ID = Guid.NewGuid();
             base.Inserir(pAnaliseRisco);
         }
 

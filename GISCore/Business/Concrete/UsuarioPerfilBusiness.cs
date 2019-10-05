@@ -1,6 +1,5 @@
 ﻿using GISCore.Business.Abstract;
 using GISModel.Entidades;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,8 +15,7 @@ namespace GISCore.Business.Concrete
                                    u.UKConfig.Equals(UsuarioPerfil.UKConfig) &&
                                    string.IsNullOrEmpty(u.UsuarioExclusao)))
             {
-                UsuarioPerfil.UniqueKey = Guid.NewGuid();
-
+                
                 base.Inserir(UsuarioPerfil);
             }
         }

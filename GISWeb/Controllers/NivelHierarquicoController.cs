@@ -79,8 +79,8 @@ namespace GISWeb.Controllers
 
         public ActionResult Edicao(string id)
         {
-            NivelHierarquico oNivel = NivelHierarquicoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(id));
-
+            Guid UKNivel = Guid.Parse(id);
+            NivelHierarquico oNivel = NivelHierarquicoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKNivel));
             return View(oNivel);
         }
 

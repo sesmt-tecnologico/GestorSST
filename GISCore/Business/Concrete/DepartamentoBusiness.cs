@@ -26,8 +26,6 @@ namespace GISCore.Business.Concrete
             if (Consulta.Any(u => u.Sigla.ToUpper().Equals(pDepartamento.Sigla.Trim().ToUpper()) && u.UKEmpresa.Equals(pDepartamento.UKEmpresa)))
                 throw new InvalidOperationException("Não é possível inserir o departamento, pois já existe um departamento com esta sigla para esta empresa.");
 
-            pDepartamento.UniqueKey = Guid.NewGuid();
-
             base.Inserir(pDepartamento);
 
         }
