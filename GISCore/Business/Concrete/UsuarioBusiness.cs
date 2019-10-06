@@ -271,8 +271,9 @@ namespace GISCore.Business.Concrete
                     //Login, validando a senha interna no CIS
                     Guid IDUsuario = lUsuarios[0].UniqueKey;
 
-                    //Usuario oUsuario = Consulta.FirstOrDefault(p => p.UniqueKey.Equals(IDUsuario) && p.Senha.Equals(autenticacaoModel.Senha));
-                    Usuario oUsuario = Consulta.FirstOrDefault(p => p.UniqueKey.Equals(IDUsuario));
+                    string senhaCifrada = CreateHashFromPassword(autenticacaoModel.Senha);
+
+                    Usuario oUsuario = Consulta.FirstOrDefault(p => p.UniqueKey.Equals(IDUsuario) && p.Senha.Equals(senhaCifrada));
                     if (oUsuario != null)
                     {
                         List<VMPermissao> listapermissoes = new List<VMPermissao>();
@@ -364,8 +365,6 @@ namespace GISCore.Business.Concrete
         {
             if (Consulta.Any(u => u.Login.Equals(usuario.Login)))
                 throw new InvalidOperationException("Não é possível inserir usuário com o mesmo login.");
-
-            usuario.UniqueKey = Guid.NewGuid();
 
             base.Inserir(usuario);
         }

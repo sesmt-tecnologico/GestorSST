@@ -23,15 +23,14 @@ namespace GISCore.Repository.Concrete
 
         public void Inserir(T entidade)
         {
-            entidade.DataInclusao = DateTime.Now;
             entidade.DataExclusao = DateTime.MaxValue;
 
-            if (entidade.ID == null)
+            if (entidade.ID == null || entidade.ID == Guid.Empty)
                 entidade.ID = Guid.NewGuid();
 
-            if (entidade.UniqueKey == null)
+            if (entidade.UniqueKey == null || entidade.UniqueKey == Guid.Empty)
                 entidade.UniqueKey = Guid.NewGuid();
-
+            
             if (entidade.DataInclusao == null || entidade.DataInclusao.CompareTo(DateTime.MinValue) == 0 || entidade.DataInclusao.CompareTo(DateTime.MaxValue) == 0)
                 entidade.DataInclusao = DateTime.Now;
 

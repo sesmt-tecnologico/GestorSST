@@ -120,7 +120,9 @@ namespace GISWeb.Controllers
 
         public ActionResult Edicao(string id)
         {
-            return View(EmpresaBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
+            Guid UKEmpresa = Guid.Parse(id);
+            Empresa obj = EmpresaBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(UKEmpresa));
+            return View(obj);
         }
 
         [HttpPost]

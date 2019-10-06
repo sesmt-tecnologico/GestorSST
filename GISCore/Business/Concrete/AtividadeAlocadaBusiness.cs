@@ -1,12 +1,7 @@
 ﻿using GISCore.Business.Abstract;
 using GISModel.Entidades;
-using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GISCore.Business.Concrete
 {
@@ -15,8 +10,6 @@ namespace GISCore.Business.Concrete
 
         public override void Inserir(AtividadeAlocada pAtividadeAlocada)
         {
-            pAtividadeAlocada.ID = Guid.NewGuid();
-            
             base.Inserir(pAtividadeAlocada);
         }
 

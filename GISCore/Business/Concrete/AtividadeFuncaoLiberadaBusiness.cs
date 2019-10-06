@@ -1,6 +1,5 @@
 ﻿using GISCore.Business.Abstract;
 using GISModel.Entidades;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,14 +10,7 @@ namespace GISCore.Business.Concrete
 
         public override void Inserir(AtividadeFuncaoLiberada pAtividadeFuncaoLiberada)
         {
-            
-            
-            pAtividadeFuncaoLiberada.ID = Guid.NewGuid();
-            
             base.Inserir(pAtividadeFuncaoLiberada);
-
-           
-
         }
 
         public override void Alterar(AtividadeFuncaoLiberada pAtividadeFuncaoLiberada)

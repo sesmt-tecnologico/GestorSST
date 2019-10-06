@@ -18,7 +18,6 @@ namespace GISCore.Business.Concrete
             
                throw new InvalidCastException("Existe uma Alaocação ativa, favor desativá-la antes! ");
 
-            oAlocacao.ID = Guid.NewGuid();
             oAlocacao.Ativado = "true";
             
             base.Inserir(oAlocacao);

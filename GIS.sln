@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GISWeb", "GISWeb\GISWeb.csproj", "{320AB5F4-89AB-4986-8E19-0DA27259EE7A}"
 EndProject
@@ -10,6 +10,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GISModel", "GISModel\GISModel.csproj", "{CA63050F-996A-4912-8282-B00BF4438FB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GISHelpers", "GISHelpers\GISHelpers.csproj", "{0ABAFE77-95A2-49CA-A270-D36F8948D3D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{8B95BBD5-A084-48AA-88BC-F8ADB161AFFE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Job", "Job", "{937722D9-42E7-46FD-B4D1-809422287FE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestor.Job.Startup", "Gestor.Job.Startup\Gestor.Job.Startup.csproj", "{FC155C13-AFEF-40B1-A15B-5AF1E14A7B6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +39,22 @@ Global
 		{0ABAFE77-95A2-49CA-A270-D36F8948D3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0ABAFE77-95A2-49CA-A270-D36F8948D3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ABAFE77-95A2-49CA-A270-D36F8948D3D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC155C13-AFEF-40B1-A15B-5AF1E14A7B6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC155C13-AFEF-40B1-A15B-5AF1E14A7B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC155C13-AFEF-40B1-A15B-5AF1E14A7B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC155C13-AFEF-40B1-A15B-5AF1E14A7B6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{320AB5F4-89AB-4986-8E19-0DA27259EE7A} = {8B95BBD5-A084-48AA-88BC-F8ADB161AFFE}
+		{CB60D092-E5F0-490F-903B-B4CD3F346640} = {8B95BBD5-A084-48AA-88BC-F8ADB161AFFE}
+		{CA63050F-996A-4912-8282-B00BF4438FB7} = {8B95BBD5-A084-48AA-88BC-F8ADB161AFFE}
+		{0ABAFE77-95A2-49CA-A270-D36F8948D3D1} = {8B95BBD5-A084-48AA-88BC-F8ADB161AFFE}
+		{FC155C13-AFEF-40B1-A15B-5AF1E14A7B6E} = {937722D9-42E7-46FD-B4D1-809422287FE8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C26D77E-BB94-4A8E-AF95-A74C886778F6}
 	EndGlobalSection
 EndGlobal

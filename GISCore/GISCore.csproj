@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\Abstract\IAnaliseRiscoBusiness.cs" />
+    <Compile Include="Business\Abstract\IArquivoBusiness.cs" />
     <Compile Include="Business\Abstract\IAtividadeFuncaoLiberadaBusiness.cs" />
     <Compile Include="Business\Abstract\IDocsPorAtividadeBusiness.cs" />
     <Compile Include="Business\Abstract\IDocumentosPessoalBusiness .cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Business\Abstract\IUsuarioBusiness.cs" />
     <Compile Include="Business\Abstract\IUsuarioPerfilBusiness.cs" />
     <Compile Include="Business\Concrete\AnaliseRiscoBusiness.cs" />
+    <Compile Include="Business\Concrete\ArquivoBusiness.cs" />
     <Compile Include="Business\Concrete\AtividadeFuncaoLiberadaBusiness.cs" />
     <Compile Include="Business\Concrete\DocsPorAtividadeBusiness.cs" />
     <Compile Include="Business\Concrete\DocumentosPessoalBusiness .cs" />
