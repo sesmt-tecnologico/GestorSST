@@ -2,6 +2,7 @@
 using Gestor.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
 {
@@ -23,13 +24,13 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
             Alocacoes = new List<Alocacao>();
         }
 
-        public Admissao(string usuarioInclusao, Guid empregadoId, Guid empresaId, Guid? tomadoraId, DateTime dataAdmissao) : base(usuarioInclusao)
+        public Admissao(string usuarioInclusao, Guid empregadoId, Guid empresaId, Guid? tomadoraId, DateTime dataAdmissao, IEnumerable<Alocacao> alocacoes = null) : base(usuarioInclusao)
         {
             EmpregadoId = empregadoId;
             EmpresaId = empresaId;
             TomadoraId = tomadoraId;
             DataAdmissao = dataAdmissao;
-            Alocacoes = new List<Alocacao>();
+            Alocacoes = alocacoes?.ToList() ?? new List<Alocacao>();
 
             Status = StatusAdmissao.Atual;
         }

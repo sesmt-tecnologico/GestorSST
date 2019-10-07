@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestor.Domain", "Gestor.Dom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestor.Infrastructure.EntityFramework", "Gestor.Infrastructure.EntityFramework\Gestor.Infrastructure.EntityFramework.csproj", "{7E0EB753-4E95-44BE-8041-60EE968F0445}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestor.Application", "Gestor.Application\Gestor.Application.csproj", "{646BFBD4-224D-4609-9949-C653E4730C5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{7E0EB753-4E95-44BE-8041-60EE968F0445}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E0EB753-4E95-44BE-8041-60EE968F0445}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E0EB753-4E95-44BE-8041-60EE968F0445}.Release|Any CPU.Build.0 = Release|Any CPU
+		{646BFBD4-224D-4609-9949-C653E4730C5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{646BFBD4-224D-4609-9949-C653E4730C5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{646BFBD4-224D-4609-9949-C653E4730C5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{646BFBD4-224D-4609-9949-C653E4730C5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{5E247D17-434F-4E25-9998-EC80F27114E9} = {13932EFF-7E35-449E-AEBD-1BB1BA4A1608}
 		{6717E936-D9AC-4E54-BD2C-D2D04BEDC03A} = {B150A016-8333-417D-B7DF-4B8A18512F26}
 		{7E0EB753-4E95-44BE-8041-60EE968F0445} = {86DF733C-E44B-41A6-9ECD-7CB6DE53E644}
+		{646BFBD4-224D-4609-9949-C653E4730C5D} = {B150A016-8333-417D-B7DF-4B8A18512F26}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02FC59B2-A2A0-470A-B732-0407FACEBAA3}
