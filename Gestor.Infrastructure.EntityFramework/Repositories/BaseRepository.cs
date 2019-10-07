@@ -32,10 +32,5 @@ namespace Gestor.Infrastructure.EntityFramework.Repositories
         {
             gestorContext.Entry(entidade).State = EntityState.Modified;
         }
-
-        public virtual void Excluir(T entidade)
-        {
-            gestorContext.Entry(entidade).State = EntityState.Deleted;
-        }
     }
 }

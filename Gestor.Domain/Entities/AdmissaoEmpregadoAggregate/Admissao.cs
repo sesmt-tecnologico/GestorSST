@@ -49,7 +49,7 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
             Status = StatusAdmissao.Finalizada;
         }
 
-        protected override void ValidarExclusao()
+        protected override void ValidarTerminoDoRegistro()
         {
             //TODO: validar status ...
             //TODO: validar alocações... se existir alguma alocação válida (sem ser excluida), da exceção...

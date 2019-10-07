@@ -11,9 +11,9 @@ namespace Gestor.Domain.Entities
 
         public DateTime DataInclusao { get; private set; }
 
-        public string UsuarioExclusao { get; private set; }
+        public string UsuarioTermino { get; private set; }
 
-        public DateTime? DataExclusao { get; private set; }
+        public DateTime? DataTermino { get; private set; }
 
         protected EntidadeBase()
         {
@@ -29,17 +29,17 @@ namespace Gestor.Domain.Entities
             DataInclusao = DateTime.Now;
         }
 
-        protected abstract void ValidarExclusao();
+        protected abstract void ValidarTerminoDoRegistro();
 
-        public void Excluir(string usuarioExclusao)
+        public void Terminar(string usuarioTermino)
         {
-            if (string.IsNullOrWhiteSpace(usuarioExclusao))
-                throw new CampoNaoPodeSerNuloException(nameof(usuarioExclusao));
+            if (string.IsNullOrWhiteSpace(usuarioTermino))
+                throw new CampoNaoPodeSerNuloException(nameof(usuarioTermino));
 
-            ValidarExclusao();
+            ValidarTerminoDoRegistro();
 
-            UsuarioExclusao = usuarioExclusao;
-            DataExclusao = DateTime.Now;
+            UsuarioTermino = usuarioTermino;
+            DataTermino = DateTime.Now;
         }
     }
 }

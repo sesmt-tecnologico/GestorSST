@@ -57,7 +57,7 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
             Status = StatusAlocacao.Finalizada;
         }
 
-        protected override void ValidarExclusao()
+        protected override void ValidarTerminoDoRegistro()
         {
         }
     }

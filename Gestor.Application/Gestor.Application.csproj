@@ -45,6 +45,11 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Gestor.Domain\Gestor.Domain.csproj">
+      <Project>{6717e936-d9ac-4e54-bd2c-d2d04bedc03a}</Project>
+      <Name>Gestor.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

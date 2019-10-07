@@ -12,7 +12,5 @@ namespace Gestor.Domain.Repositories
         void Inserir(T entidade);
 
         void Alterar(T entidade);
-
-        void Excluir(T entidade);
     }
 }

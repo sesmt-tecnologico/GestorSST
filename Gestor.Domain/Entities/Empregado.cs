@@ -62,7 +62,7 @@ namespace Gestor.Domain.Entities
             Email = email.Trim().ToLower();
         }
 
-        protected override void ValidarExclusao()
+        protected override void ValidarTerminoDoRegistro()
         {
             //TODO: validar admissão .... se possuir admissao vinculada que nao esteja excluida, atual u finalizada, da erro ...  
         }        

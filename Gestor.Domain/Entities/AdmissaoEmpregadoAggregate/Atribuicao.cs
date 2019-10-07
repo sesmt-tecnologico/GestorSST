@@ -13,7 +13,7 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
             AtividadeId = atividadeId;
         }
 
-        protected override void ValidarExclusao()
+        protected override void ValidarTerminoDoRegistro()
         {
         }
     }
