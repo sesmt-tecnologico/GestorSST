@@ -13,7 +13,7 @@ namespace Gestor.Infrastructure.EntityFramework.Repositories
 
         public Empregado ObterPeloCpf(Cpf cpf)
         {
-            var empregado = gestorContext.Empregados.SingleOrDefault(e => e.Cpf == cpf);
+            var empregado = gestorContext.Set<Empregado>().SingleOrDefault(e => e.Cpf == cpf && e.DataTermino == null);
             return empregado;
         }
     }

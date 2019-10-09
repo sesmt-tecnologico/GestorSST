@@ -19,7 +19,7 @@ namespace Gestor.Infrastructure.EntityFramework.Repositories
 
         public virtual T ObterPeloId(Guid id)
         {
-            var entidade = gestorContext.Set<T>().SingleOrDefault(e => e.Id == id);
+            var entidade = gestorContext.Set<T>().SingleOrDefault(e => e.Id == id && e.DataTermino == null);
             return entidade;
         }
 

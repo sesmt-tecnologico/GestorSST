@@ -1,4 +1,6 @@
-﻿using GISCore.DI;
+﻿using Gestor.Application;
+using Gestor.Infrastructure.EntityFramework;
+using GISCore.DI;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using GISWeb.Infraestrutura.Provider.Concrete;
 using Ninject;
@@ -14,7 +16,7 @@ namespace GISWeb.Infraestrutura.DependencyResolver
 
         public NinjectDependencyResolver()
         {
-            Kernel = new StandardKernel(new GISNinjectModule());
+            Kernel = new StandardKernel(new GISNinjectModule(), new GestorApplicationNinjectModule(), new GestorEntityFrameworkNinjectModule());
             Addbindings();
         }
 
@@ -31,6 +33,7 @@ namespace GISWeb.Infraestrutura.DependencyResolver
         private void Addbindings()
         {
             Kernel.Bind<ICustomAuthorizationProvider>().To<CustomAuthorizationProvider>();
+            Kernel.Bind<IAuthenticatedUser>().To<AuthenticatedUserResolver>();
         }
     }
 }

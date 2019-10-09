@@ -62,9 +62,10 @@ namespace Gestor.Domain.Entities
             Email = email.Trim().ToLower();
         }
 
-        protected override void ValidarTerminoDoRegistro()
+        protected override void ValidarTerminoDaEntidade()
         {
-            //TODO: validar admissão .... se possuir admissao vinculada que nao esteja excluida, atual u finalizada, da erro ...  
+            if (Status != StatusEmpregado.Livre)
+                throw new SituacaoInvalidaParaExclusaoException("Status do empregado diferente de Livre.");
         }        
     }
 }

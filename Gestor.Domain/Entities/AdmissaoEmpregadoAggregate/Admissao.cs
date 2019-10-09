@@ -49,10 +49,13 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
             Status = StatusAdmissao.Finalizada;
         }
 
-        protected override void ValidarTerminoDoRegistro()
+        protected override void ValidarTerminoDaEntidade()
         {
-            //TODO: validar status ...
-            //TODO: validar alocações... se existir alguma alocação válida (sem ser excluida), da exceção...
+            if (Status != StatusAdmissao.Atual)
+                throw new SituacaoInvalidaParaExclusaoException("Status da admissão diferente de Atual.");
+
+            if (Alocacoes != null && Alocacoes.Any())
+                throw new SituacaoInvalidaParaExclusaoException("Admissão possui alocações.");
         }
     }
 }

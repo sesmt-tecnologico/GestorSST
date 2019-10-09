@@ -9,8 +9,6 @@ namespace Gestor.Infrastructure.EntityFramework
 {
     internal class GestorContext : DbContext, IUnitOfWork
     {
-        public DbSet<Empregado> Empregados { get; set; }
-
         public GestorContext() : base(GestorEntityFrameworkConfiguration.Database)
         {
         }

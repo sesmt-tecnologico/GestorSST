@@ -29,17 +29,17 @@ namespace Gestor.Domain.Entities
             DataInclusao = DateTime.Now;
         }
 
-        protected abstract void ValidarTerminoDoRegistro();
-
-        public void Terminar(string usuarioTermino)
+        public virtual void Terminar(string usuarioTermino)
         {
             if (string.IsNullOrWhiteSpace(usuarioTermino))
                 throw new CampoNaoPodeSerNuloException(nameof(usuarioTermino));
 
-            ValidarTerminoDoRegistro();
+            ValidarTerminoDaEntidade();
 
             UsuarioTermino = usuarioTermino;
             DataTermino = DateTime.Now;
         }
+
+        protected abstract void ValidarTerminoDaEntidade();
     }
 }

@@ -68,8 +68,8 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject">
-      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.DynamicData" />
@@ -425,6 +425,8 @@
     <Compile Include="Infraestrutura\Helpers\reCaptchaHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\SSTHelperRazorFactory.cs" />
     <Compile Include="Infraestrutura\Provider\Abstract\ICustomAuthorizationProvider.cs" />
+    <Compile Include="Infraestrutura\Provider\Concrete\AuthenticatedUserResolver.cs" />
+    <Compile Include="Infraestrutura\Provider\Concrete\AuthenticatedUserRoleAssignment.cs" />
     <Compile Include="Infraestrutura\Provider\Concrete\CustomAuthorizationProvider.cs" />
     <Compile Include="Infraestrutura\Utils\Serializador.cs" />
     <Compile Include="LanguageMang.cs" />
@@ -608,6 +610,18 @@
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Gestor.Application\Gestor.Application.csproj">
+      <Project>{646bfbd4-224d-4609-9949-c653e4730c5d}</Project>
+      <Name>Gestor.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gestor.Domain\Gestor.Domain.csproj">
+      <Project>{6717e936-d9ac-4e54-bd2c-d2d04bedc03a}</Project>
+      <Name>Gestor.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gestor.Infrastructure.EntityFramework\Gestor.Infrastructure.EntityFramework.csproj">
+      <Project>{7e0eb753-4e95-44be-8041-60ee968f0445}</Project>
+      <Name>Gestor.Infrastructure.EntityFramework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GISCore\GISCore.csproj">
       <Project>{cb60d092-e5f0-490f-903b-b4cd3f346640}</Project>
       <Name>GISCore</Name>

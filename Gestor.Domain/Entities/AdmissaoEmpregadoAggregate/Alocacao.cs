@@ -1,4 +1,5 @@
 ﻿using Gestor.Domain.Enums;
+using Gestor.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,8 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
 
         public void Finalizar(string usuarioDesalocacao, DateTime dataDesalocacao)
         {
-            //TODO: validar o status da alocação e estourar exceção se status invalido...
+            if (Status == StatusAlocacao.Finalizada)
+                throw new SituacaoInvalidaParaFinalizacaoException("Status da alocação já consta como Finalizada.");
 
             UsuarioDesalocacao = usuarioDesalocacao;
             DataDesalocacao = dataDesalocacao;
@@ -57,8 +59,19 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
             Status = StatusAlocacao.Finalizada;
         }
 
-        protected override void ValidarTerminoDoRegistro()
+        public override void Terminar(string usuarioTermino)
         {
+            base.Terminar(usuarioTermino);
+
+            if (Atribuicoes != null && Atribuicoes.Any())
+                foreach (var atribuicao in Atribuicoes)
+                    atribuicao.Terminar(usuarioTermino);
+        }
+
+        protected override void ValidarTerminoDaEntidade()
+        {
+            if (Status != StatusAlocacao.Pendente)
+                throw new SituacaoInvalidaParaExclusaoException("Status da alocação diferente de Pendente.");
         }
     }
 }

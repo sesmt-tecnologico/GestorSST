@@ -1,7 +1,9 @@
 ﻿using Gestor.Domain.Business;
 using Gestor.Domain.Entities;
+using Gestor.Domain.Enums;
 using Gestor.Domain.Exceptions;
 using Gestor.Domain.Repositories;
+using Gestor.Domain.Repositories.AdmissaoEmpregadoAggregate;
 using Gestor.Domain.ValueObjects;
 using Gestor.Domain.ViewModels;
 using System;
@@ -10,13 +12,19 @@ namespace Gestor.Application.Business
 {
     internal class EmpregadoBusiness : IEmpregadoBusiness
     {
+        private readonly IAuthenticatedUser authenticatedUser;
         private readonly IEmpregadoRepository empregadoRepository;
+        private readonly IAdmissaoRepository admissaoRepository;
         private readonly IImageRepository imageRepository;
 
-        public EmpregadoBusiness(IEmpregadoRepository empregadoRepository,
+        public EmpregadoBusiness(IAuthenticatedUser authenticatedUser,
+            IEmpregadoRepository empregadoRepository,
+            IAdmissaoRepository admissaoRepository,
             IImageRepository imageRepository)
         {
+            this.authenticatedUser = authenticatedUser ?? throw new ArgumentNullException(nameof(authenticatedUser));
             this.empregadoRepository = empregadoRepository ?? throw new ArgumentNullException(nameof(empregadoRepository));
+            this.admissaoRepository = admissaoRepository ?? throw new ArgumentNullException(nameof(admissaoRepository));
             this.imageRepository = imageRepository ?? throw new ArgumentNullException(nameof(imageRepository));
         }
 
@@ -27,8 +35,7 @@ namespace Gestor.Application.Business
             if (empregado != null)
                 throw new CpfJaCadastradoException();
 
-            //TODO: ajustar usuario... recuperar de alguma ínterface desenvolvida para controlar o mecanismo de autenticação do sistema (estilo Furiza)
-            empregado = new Empregado("ivan", cpf, cadastrarEmpregadoViewModel.Nome, cadastrarEmpregadoViewModel.DataNascimento.Value, cadastrarEmpregadoViewModel.Email, cadastrarEmpregadoViewModel.Telefone, cadastrarEmpregadoViewModel.Matricula);
+            empregado = new Empregado(authenticatedUser.UserName, cpf, cadastrarEmpregadoViewModel.Nome, cadastrarEmpregadoViewModel.DataNascimento.Value, cadastrarEmpregadoViewModel.Email, cadastrarEmpregadoViewModel.Telefone, cadastrarEmpregadoViewModel.Matricula);
 
             empregadoRepository.Inserir(empregado);
 
@@ -39,7 +46,7 @@ namespace Gestor.Application.Business
 
         public void Atualizar(Guid empregadoId, AtualizarEmpregadoViewModel atualizarEmpregadoViewModel)
         {
-            //TODO: falta auditoria deste método, já que até então salvamos apenas os usuários de criação e exclusão da entidade.
+            //TODO: falta auditoria deste método, já que até então salvamos apenas os usuários de criação e término da entidade.
             //posteriormente incluir a Furiza.AuditTrails no projeto para armazenar o historico de todas operações.
 
             var empregado = empregadoRepository.ObterPeloId(empregadoId)
@@ -67,8 +74,10 @@ namespace Gestor.Application.Business
             var empregado = empregadoRepository.ObterPeloId(empregadoId)
                 ?? throw new RecursoNaoEncontradoException(nameof(Empregado));
 
-            //TODO: ajustar usuario... recuperar de alguma ínterface desenvolvida para controlar o mecanismo de autenticação do sistema (estilo Furiza)
-            empregado.Terminar("ivan");
+            if (empregado.Status == StatusEmpregado.Livre && admissaoRepository.PossuiAdmissaoNaoTerminada(empregadoId))
+                throw new SituacaoInvalidaParaExclusaoException("Empregado possui histórico de admissões.");
+
+            empregado.Terminar(authenticatedUser.UserName);
 
             empregadoRepository.Alterar(empregado);
 

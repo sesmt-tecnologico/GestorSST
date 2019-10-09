@@ -72,6 +72,7 @@
     <Compile Include="GestorEntityFrameworkConfiguration.cs" />
     <Compile Include="GestorEntityFrameworkNinjectModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AdmissaoEmpregadoAggregate\AdmissaoRepository.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\EmpregadoRepository.cs" />
   </ItemGroup>
