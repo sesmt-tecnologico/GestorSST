@@ -63,10 +63,13 @@
     <Compile Include="Exceptions\DataNaoPodeSerNoPassadoException.cs" />
     <Compile Include="Exceptions\IdadeNaoPermitidaException.cs" />
     <Compile Include="Exceptions\RecursoNaoEncontradoException.cs" />
+    <Compile Include="Exceptions\SituacaoInvalidaParaAprovacaoException.cs" />
     <Compile Include="Exceptions\SituacaoInvalidaParaExclusaoException.cs" />
     <Compile Include="Exceptions\SituacaoInvalidaParaFinalizacaoException.cs" />
+    <Compile Include="Exceptions\SituacaoInvalidaParaRevogacaoException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AdmissaoEmpregadoAggregate\IAdmissaoRepository.cs" />
+    <Compile Include="Repositories\AdmissaoEmpregadoAggregate\IAlocacaoRepository.cs" />
     <Compile Include="Repositories\IEmpregadoRepository.cs" />
     <Compile Include="Repositories\IBaseRepository.cs" />
     <Compile Include="Repositories\IImageRepository.cs" />

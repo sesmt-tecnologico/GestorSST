@@ -8,15 +8,13 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
 {
     public class Alocacao : EntidadeBase
     {
-        //TODO: criar um override do baseRepository para esta classe para que ao obter uma alocação via id, ele busque as atividades relacionadas mas que tenha um filtro no terminationdate para pegar somente os que nao foram removidos...
-        //replicar ideia para admissão com alocações...
-
         public Guid AdmissaoId { get; private set; }
         public Guid EstabelecimentoId { get; private set; }
+        public Guid AmbienteId { get; private set; }
         public Guid CargoId { get; private set; }
         public Guid FuncaoId { get; private set; }
         public DateTime DataAlocacao { get; private set; }
-        public virtual ICollection<Atribuicao> Atribuicoes { get; private set; }
+        public ICollection<Atribuicao> Atribuicoes { get; private set; }
 
         public Guid? DepartamentoId { get; private set; }
         public Guid? EquipeId { get; private set; }
@@ -32,10 +30,11 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
             Atribuicoes = new List<Atribuicao>();
         }
 
-        public Alocacao(string usuarioInclusao, Guid admissaoId, Guid estabelecimentoId, Guid cargoId, Guid funcaoId, DateTime dataAlocacao, IEnumerable<Guid> atividadesIds = null, Guid? departamentoId = null, Guid? equipeId = null, Guid? contratoId = null) : base(usuarioInclusao)
+        public Alocacao(string usuarioInclusao, Guid admissaoId, Guid estabelecimentoId, Guid ambienteId, Guid cargoId, Guid funcaoId, DateTime dataAlocacao, IEnumerable<Guid> atividadesIds = null, Guid? departamentoId = null, Guid? equipeId = null, Guid? contratoId = null) : base(usuarioInclusao)
         {
             AdmissaoId = admissaoId;
             EstabelecimentoId = estabelecimentoId;
+            AmbienteId = ambienteId;
             CargoId = cargoId;
             FuncaoId = funcaoId;
             DataAlocacao = dataAlocacao;
@@ -48,8 +47,27 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
             Status = StatusAlocacao.Pendente;
         }
 
+        public void DefinirComoAprovada()
+        {
+            if (Status != StatusAlocacao.Pendente && Status != StatusAlocacao.Revogada)
+                throw new SituacaoInvalidaParaAprovacaoException("Status da alocação não está Pendente ou Irregular.");
+
+            Status = StatusAlocacao.Aprovada;
+        }
+
+        public void DefinirComoRevogada()
+        {
+            if (Status != StatusAlocacao.Aprovada)
+                throw new SituacaoInvalidaParaRevogacaoException("Status da alocação deve ser Aprovada.");
+
+            Status = StatusAlocacao.Revogada;
+        }
+
         public void Finalizar(string usuarioDesalocacao, DateTime dataDesalocacao)
         {
+            if (string.IsNullOrWhiteSpace(usuarioDesalocacao))
+                throw new CampoNaoPodeSerNuloException(nameof(usuarioDesalocacao));
+
             if (Status == StatusAlocacao.Finalizada)
                 throw new SituacaoInvalidaParaFinalizacaoException("Status da alocação já consta como Finalizada.");
 

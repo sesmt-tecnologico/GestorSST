@@ -12,7 +12,7 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
         public Guid EmpresaId { get; private set; }
         public Guid? TomadoraId { get; private set; }
         public DateTime DataAdmissao { get; private set; }
-        public virtual ICollection<Alocacao> Alocacoes { get; private set; }
+        public ICollection<Alocacao> Alocacoes { get; private set; }
 
         public string UsuarioDemissao { get; private set; }
         public DateTime? DataDemissao { get; private set; }
@@ -37,16 +37,20 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
 
         public void Finalizar(string usuarioDemissao, DateTime dataDemissao)
         {
-            //TODO: validar o status da admissão e estourar exceção se status invalido...
-            //TODO: alterar as alocações ...
-
             if (string.IsNullOrWhiteSpace(usuarioDemissao))
                 throw new CampoNaoPodeSerNuloException(nameof(usuarioDemissao));
+
+            if (Status == StatusAdmissao.Finalizada)
+                throw new SituacaoInvalidaParaFinalizacaoException("Status da admissão já consta como Finalizada.");
 
             UsuarioDemissao = usuarioDemissao;
             DataDemissao = dataDemissao;
 
             Status = StatusAdmissao.Finalizada;
+
+            if (Alocacoes != null && Alocacoes.Any())
+                foreach (var alocacao in Alocacoes)
+                    alocacao.Finalizar(usuarioDemissao, dataDemissao);
         }
 
         protected override void ValidarTerminoDaEntidade()

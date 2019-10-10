@@ -1,5 +1,4 @@
-﻿using Gestor.Domain.Entities;
-using Gestor.Domain.Repositories;
+﻿using Gestor.Domain.Repositories;
 using Gestor.Infrastructure.EntityFramework.EntityConfigurations;
 using Gestor.Infrastructure.EntityFramework.EntityConfigurations.AdmissaoEmpregadoAggregate;
 using System.Data.Entity;

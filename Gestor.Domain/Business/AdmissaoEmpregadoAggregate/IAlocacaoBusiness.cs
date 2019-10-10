@@ -30,5 +30,23 @@ namespace Gestor.Domain.Business.AdmissaoEmpregadoAggregate
         /// <exception cref="RecursoNaoEncontradoException"></exception>
         /// /// TODO: mapear demais exceções
         void Excluir(Guid alocacaoId);
+
+        /// <summary>
+        /// Aprova uma alocação válida de um empregado.
+        /// </summary>
+        /// <param name="alocacaoId"></param>
+        /// <param name="desalocarViewModel"></param>
+        /// <exception cref="RecursoNaoEncontradoException"></exception>
+        /// TODO: mapear demais exceções
+        void Aprovar(Guid alocacaoId);
+
+        /// <summary>
+        /// Revoga uma alocação aprovada de um empregado.
+        /// </summary>
+        /// <param name="alocacaoId"></param>
+        /// <param name="desalocarViewModel"></param>
+        /// <exception cref="RecursoNaoEncontradoException"></exception>
+        /// TODO: mapear demais exceções
+        void Revogar(Guid alocacaoId);
     }
 }
