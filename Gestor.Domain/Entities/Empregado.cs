@@ -62,6 +62,41 @@ namespace Gestor.Domain.Entities
             Email = email.Trim().ToLower();
         }
 
+        public void SetAdmitido()
+        {
+            if (Status != StatusEmpregado.Livre)
+                throw new EmpregadoNaoEstaLivreException();
+
+            Status = StatusEmpregado.Admitido;
+        }
+
+        public void SetAlocado()
+        {
+            switch (Status)
+            {
+                case StatusEmpregado.Livre:
+                    throw new EmpregadoNaoEstaAdmitidoException();
+
+                case StatusEmpregado.Admitido:
+                    Status = StatusEmpregado.Alocado;
+                    break;
+            }
+        }
+
+        public void SetLiberado()
+        {
+            switch (Status)
+            {
+                case StatusEmpregado.Livre:
+                case StatusEmpregado.Admitido:
+                    throw new EmpregadoNaoEstaAlocadoException();
+
+                case StatusEmpregado.Alocado:
+                    Status = StatusEmpregado.Liberado;
+                    break;
+            }
+        }
+
         protected override void ValidarTerminoDaEntidade()
         {
             if (Status != StatusEmpregado.Livre)

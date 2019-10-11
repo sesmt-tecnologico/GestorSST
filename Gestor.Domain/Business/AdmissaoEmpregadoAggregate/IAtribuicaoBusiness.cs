@@ -11,7 +11,7 @@ namespace Gestor.Domain.Business.AdmissaoEmpregadoAggregate
         /// </summary>
         /// <param name="alocacaoId"></param>
         /// <param name="atribuirViewModel"></param>
-        /// TODO: mapear demais exceções
+        /// <exception cref="RecursoNaoEncontradoException"></exception>
         void Atribuir(Guid alocacaoId, AtribuirViewModel atribuirViewModel);
 
         /// <summary>
@@ -19,7 +19,8 @@ namespace Gestor.Domain.Business.AdmissaoEmpregadoAggregate
         /// </summary>
         /// <param name="atividadeId"></param>
         /// <exception cref="RecursoNaoEncontradoException"></exception>
-        /// /// TODO: mapear demais exceções
+        /// <exception cref="CampoNaoPodeSerNuloException"></exception>
+        /// <exception cref="SituacaoInvalidaParaExclusaoException"></exception>
         void Excluir(Guid atividadeId);
     }
 }

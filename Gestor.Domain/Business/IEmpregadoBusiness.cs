@@ -34,7 +34,8 @@ namespace Gestor.Domain.Business
         /// </summary>
         /// <param name="empregadoId"></param>
         /// <exception cref="RecursoNaoEncontradoException"></exception>
-        /// /// TODO: mapear demais exceções
+        /// <exception cref="CampoNaoPodeSerNuloException"></exception>
+        /// <exception cref="SituacaoInvalidaParaExclusaoException"></exception>
         void Excluir(Guid empregadoId);
     }
 }

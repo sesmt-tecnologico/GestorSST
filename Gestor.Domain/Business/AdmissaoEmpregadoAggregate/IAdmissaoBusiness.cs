@@ -11,7 +11,7 @@ namespace Gestor.Domain.Business.AdmissaoEmpregadoAggregate
         /// </summary>
         /// <param name="empregadoId"></param>
         /// <param name="admitirViewModel"></param>
-        /// TODO: mapear demais exceções
+        /// <exception cref="RecursoNaoEncontradoException"></exception>
         void Admitir(Guid empregadoId, AdmitirViewModel admitirViewModel);
 
         /// <summary>
@@ -20,7 +20,8 @@ namespace Gestor.Domain.Business.AdmissaoEmpregadoAggregate
         /// <param name="admissaoId"></param>
         /// <param name="demitirViewModel"></param>
         /// <exception cref="RecursoNaoEncontradoException"></exception>
-        /// TODO: mapear demais exceções
+        /// <exception cref="CampoNaoPodeSerNuloException"></exception>
+        /// <exception cref="SituacaoInvalidaParaFinalizacaoException"></exception>
         void Demitir(Guid admissaoId, DemitirViewModel demitirViewModel);
 
         /// <summary>
@@ -28,7 +29,8 @@ namespace Gestor.Domain.Business.AdmissaoEmpregadoAggregate
         /// </summary>
         /// <param name="admissaoId"></param>
         /// <exception cref="RecursoNaoEncontradoException"></exception>
-        /// /// TODO: mapear demais exceções
+        /// <exception cref="CampoNaoPodeSerNuloException"></exception>
+        /// <exception cref="SituacaoInvalidaParaExclusaoException"></exception>
         void Excluir(Guid admissaoId);
     }
 }

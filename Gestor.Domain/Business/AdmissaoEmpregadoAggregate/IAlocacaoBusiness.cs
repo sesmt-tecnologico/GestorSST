@@ -11,7 +11,7 @@ namespace Gestor.Domain.Business.AdmissaoEmpregadoAggregate
         /// </summary>
         /// <param name="admissaoId"></param>
         /// <param name="alocarViewModel"></param>
-        /// TODO: mapear demais exceções
+        /// <exception cref="RecursoNaoEncontradoException"></exception>
         void Alocar(Guid admissaoId, AlocarViewModel alocarViewModel);
 
         /// <summary>
@@ -20,7 +20,8 @@ namespace Gestor.Domain.Business.AdmissaoEmpregadoAggregate
         /// <param name="alocacaoId"></param>
         /// <param name="desalocarViewModel"></param>
         /// <exception cref="RecursoNaoEncontradoException"></exception>
-        /// TODO: mapear demais exceções
+        /// <exception cref="CampoNaoPodeSerNuloException"></exception>
+        /// <exception cref="SituacaoInvalidaParaFinalizacaoException"></exception>
         void Desalocar(Guid alocacaoId, DesalocarViewModel desalocarViewModel);
 
         /// <summary>
@@ -28,25 +29,24 @@ namespace Gestor.Domain.Business.AdmissaoEmpregadoAggregate
         /// </summary>
         /// <param name="alocacaoId"></param>
         /// <exception cref="RecursoNaoEncontradoException"></exception>
-        /// /// TODO: mapear demais exceções
+        /// <exception cref="CampoNaoPodeSerNuloException"></exception>
+        /// <exception cref="SituacaoInvalidaParaExclusaoException"></exception>
         void Excluir(Guid alocacaoId);
 
         /// <summary>
         /// Aprova uma alocação válida de um empregado.
         /// </summary>
         /// <param name="alocacaoId"></param>
-        /// <param name="desalocarViewModel"></param>
         /// <exception cref="RecursoNaoEncontradoException"></exception>
-        /// TODO: mapear demais exceções
+        /// <exception cref="SituacaoInvalidaParaAprovacaoException"></exception>
         void Aprovar(Guid alocacaoId);
 
         /// <summary>
         /// Revoga uma alocação aprovada de um empregado.
         /// </summary>
         /// <param name="alocacaoId"></param>
-        /// <param name="desalocarViewModel"></param>
         /// <exception cref="RecursoNaoEncontradoException"></exception>
-        /// TODO: mapear demais exceções
+        /// <exception cref="SituacaoInvalidaParaRevogacaoException"></exception>
         void Revogar(Guid alocacaoId);
     }
 }

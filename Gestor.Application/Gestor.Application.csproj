@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\AdmissaoEmpregadoAggregate\AdmissaoBusiness.cs" />
     <Compile Include="Business\EmpregadoBusiness.cs" />
     <Compile Include="GestorApplicationNinjectModule.cs" />
     <Compile Include="IAuthenticatedUser.cs" />
@@ -70,5 +71,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

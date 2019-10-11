@@ -47,7 +47,7 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
             Status = StatusAlocacao.Pendente;
         }
 
-        public void DefinirComoAprovada()
+        public void SetAprovada()
         {
             if (Status != StatusAlocacao.Pendente && Status != StatusAlocacao.Revogada)
                 throw new SituacaoInvalidaParaAprovacaoException("Status da alocação não está Pendente ou Irregular.");
@@ -55,7 +55,7 @@ namespace Gestor.Domain.Entities.AdmissaoEmpregadoAggregate
             Status = StatusAlocacao.Aprovada;
         }
 
-        public void DefinirComoRevogada()
+        public void SetRevogada()
         {
             if (Status != StatusAlocacao.Aprovada)
                 throw new SituacaoInvalidaParaRevogacaoException("Status da alocação deve ser Aprovada.");
