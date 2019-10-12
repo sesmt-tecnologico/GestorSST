@@ -140,11 +140,12 @@
     <Compile Include="Entidades\MedidasDeControleExistentes.cs" />
     <Compile Include="Entidades\PlanoDeAcao.cs" />
     <Compile Include="Entidades\PossiveisDanos.cs" />
+    <Compile Include="Entidades\REL_ContratoFornecedor.cs" />
     <Compile Include="Entidades\REL_DepartamentoContrato.cs" />
-    <Compile Include="Entidades\Rel_AtivEstabTipoRisco.cs" />
     <Compile Include="Entidades\TipoDeRisco.cs" />
     <Compile Include="Entidades\Usuario.cs" />
     <Compile Include="Entidades\UsuarioPerfil.cs" />
+    <Compile Include="Enums\ETipoContratoFornecedor.cs" />
     <Compile Include="Enums\ETipoPlanoAcao.cs" />
     <Compile Include="Enums\EControle.cs" />
     <Compile Include="Enums\ESeveridadeSeg.cs" />

@@ -34,6 +34,7 @@ namespace GISWeb.Controllers
 
         #endregion
 
+
         [MenuAtivo(MenuAtivo = "Administracao/Usuarios")]
         public ActionResult Index()
         {
@@ -282,6 +283,5 @@ namespace GISWeb.Controllers
 
         }
 
-    
     }
 }

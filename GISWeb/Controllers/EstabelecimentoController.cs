@@ -30,6 +30,7 @@ namespace GISWeb.Controllers
 
         #endregion
 
+
         public ActionResult Index()
         {
             ViewBag.Estabelecimento = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
@@ -80,7 +81,6 @@ namespace GISWeb.Controllers
 
 
         }
-
 
         public ActionResult ListarEstabelecimentoPorDepartamento(string idDepartamento)
         {
@@ -166,30 +166,12 @@ namespace GISWeb.Controllers
             }
         }
 
-
-        private string RenderRazorViewToString(string viewName, object model = null)
-        {
-            ViewData.Model = model;
-            using (var sw = new System.IO.StringWriter())
-            {
-                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
-                                                                         viewName);
-                var viewContext = new ViewContext(ControllerContext, viewResult.View,
-                                             ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
-                return sw.GetStringBuilder().ToString();
-            }
-        }
-
         public ActionResult Excluir(string id)
         {
             ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
             return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
 
         }
-
-
 
         [HttpPost]
         public ActionResult Excluir(Estabelecimento oEstabelecimento)
@@ -232,33 +214,5 @@ namespace GISWeb.Controllers
 
         }
         
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (ModelError i in item.Errors)
-                    {
-                        if (!string.IsNullOrEmpty(i.ErrorMessage))
-                            msgAlerta += i.ErrorMessage;
-                        else
-                            msgAlerta += i.Exception.Message;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
-        }
-
     }
 }

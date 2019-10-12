@@ -2,6 +2,7 @@
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Linq;
@@ -18,26 +19,22 @@ namespace GISWeb.Controllers
     {
 
         #region
-
-
-        
-
+             
         [Inject]
         public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
 
         [Inject]
         public IAtividadeBusiness AtividadeBusiness { get; set; }
 
-        //[Inject]
-        //public IExposicaoBusiness ExposicaoBusiness { get; set; }
-
         [Inject]
         public IEquipeBusiness EquipeBusiness { get; set; }
 
         [Inject]
         public IFuncaoBusiness FuncaoBusiness { get; set; }
+
         [Inject]
         public ICargoBusiness CargoBusiness { get; set; }
+
         [Inject]
         public IContratoBusiness ContratoBusiness { get; set; }
 
@@ -48,7 +45,6 @@ namespace GISWeb.Controllers
 
         [Inject]
         public IDepartamentoBusiness DepartamentoBusiness { get; set; }
-
 
         [Inject]
         public IEmpresaBusiness EmpresaBusiness { get; set; }
@@ -68,11 +64,8 @@ namespace GISWeb.Controllers
         [Inject]
         public IEstabelecimentoAmbienteBusiness EstabelecimentoAmbienteBusiness { get; set; }
 
-        //[Inject]
-        //public IAlocacaoAtividadesBusiness AlocacaoAtividadesBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadeRiscosBusiness AtividadeRiscosBusiness { get; set; }
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
         #endregion
 
@@ -166,9 +159,6 @@ namespace GISWeb.Controllers
             }
         }
 
-
-
-
         [HttpPost]
         public ActionResult TerminarComRedirect(string idAlocacao,string idEmpregado)
         {
@@ -183,7 +173,7 @@ namespace GISWeb.Controllers
                 else
                 {
                     oAlocacao.DataExclusao = DateTime.Now;
-                    oAlocacao.UsuarioExclusao = "LoginTeste";
+                    oAlocacao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     oAlocacao.Ativado = "false";
                     AlocacaoBusiness.Alterar(oAlocacao);
 
@@ -207,54 +197,5 @@ namespace GISWeb.Controllers
 
         }
 
-
-
-
-
-
-        private string RenderRazorViewToString(string viewName, object model = null)
-        {
-            ViewData.Model = model;
-            using (var sw = new System.IO.StringWriter())
-            {
-                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
-                                                                         viewName);
-                var viewContext = new ViewContext(ControllerContext, viewResult.View,
-                                             ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
-                return sw.GetStringBuilder().ToString();
-            }
-        }
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (System.Web.Mvc.ModelError i in item.Errors)
-                    {
-                        msgAlerta += i.ErrorMessage;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
-        }
-
     }
-
-
-
-
 }

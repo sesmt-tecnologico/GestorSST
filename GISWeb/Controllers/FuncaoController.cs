@@ -2,6 +2,7 @@
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Linq;
@@ -15,11 +16,9 @@ namespace GISWeb.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class FuncaoController : BaseController
     {
+
         #region Inject
-       // [Inject]
-       // public IAtividadeBusiness AtividadeBusiness { get; set; }
-
-
+       
         [Inject]
         public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
 
@@ -29,8 +28,12 @@ namespace GISWeb.Controllers
         [Inject]
         public IFuncaoBusiness FuncaoBusiness { get; set; }
 
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
         #endregion
-        
+
+
         public ActionResult Index()
         {
             ViewBag.Funcao = FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).OrderBy(d=>d.Cargo.NomeDoCargo).ToList();
@@ -45,7 +48,6 @@ namespace GISWeb.Controllers
             return View();
         }
 
-        //Parametro passados(id do Cargo e Nome da Função
         public ActionResult Novo(string id, string nome)
         {
             ViewBag.Cargo = id;
@@ -117,14 +119,12 @@ namespace GISWeb.Controllers
             }
         }
 
-
         public ActionResult Edicao(string id)
         {
             //ViewBag.Riscos = TipoDeRiscoBusiness.Consulta.Where(p => p.IDTipoDeRisco.Equals(id));
 
             return View(FuncaoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -159,7 +159,6 @@ namespace GISWeb.Controllers
             }
         }
 
-
         [HttpPost]
         public ActionResult TerminarComRedirect(string IDFuncao)
         {
@@ -174,7 +173,7 @@ namespace GISWeb.Controllers
                 else
                 {
                     oFuncao.DataExclusao = DateTime.Now;
-                    oFuncao.UsuarioExclusao = "LoginTeste";
+                    oFuncao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     FuncaoBusiness.Alterar(oFuncao);
 
                     TempData["MensagemSucesso"] = "A Função'" + oFuncao.NomeDaFuncao + "' foi excluida com sucesso.";
@@ -196,44 +195,6 @@ namespace GISWeb.Controllers
 
 
         }
-
-
-
-
-
-
-
-
-
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (System.Web.Mvc.ModelError i in item.Errors)
-                    {
-                        if (!string.IsNullOrEmpty(i.ErrorMessage))
-                            msgAlerta += i.ErrorMessage;
-                        else
-                            msgAlerta += i.Exception.Message;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
-        }
-
-
 
     }
 }

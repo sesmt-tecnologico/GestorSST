@@ -41,6 +41,7 @@ namespace GISWeb.Controllers
 
         #endregion
 
+
         public ActionResult Index()
         {
             ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(a => a.Sigla);

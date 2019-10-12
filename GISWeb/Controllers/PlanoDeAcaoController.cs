@@ -2,6 +2,7 @@
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace GISWeb.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class PlanoDeAcaoController : BaseController
     {
+
         #region Inject
 
         [Inject]
@@ -32,21 +34,21 @@ namespace GISWeb.Controllers
         [Inject]
         public IAtividadeBusiness AtividadeBusiness { get; set; }
 
-
         [Inject]
         public IFuncaoBusiness FuncaoBusiness { get; set; }
 
         [Inject]
         public IMedidasDeControleBusiness MedidasDeControleBusiness { get; set; }
 
-        //[Inject]
-        //public IAtividadeRiscosBusiness AtividadeRiscosBusiness { get; set; }
-
         [Inject]
         public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
 
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
         #endregion
-        // GET: TipoDeRisco
+
+
         public ActionResult Index()
         {
 
@@ -71,8 +73,6 @@ namespace GISWeb.Controllers
 
             return View();
         }
-
-
 
         public ActionResult ListarPlanoDeAcao(string idTipoDeRisco)
         {
@@ -132,7 +132,6 @@ namespace GISWeb.Controllers
             //return View();
         }
 
-
         public ActionResult Detalhes(string IDPlanoDeAcao)
         {
             //ViewBag.PlanoDeAcao = PlanoDeAcaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao) && d.IDPlanoDeAcao.Equals(IDPlanoDeAcao)).ToList();
@@ -158,9 +157,6 @@ namespace GISWeb.Controllers
                 }
             }
         }
-
-
-
 
         public ActionResult CriarPlanoDeAção(string IDIdentificador)
         {
@@ -202,7 +198,6 @@ namespace GISWeb.Controllers
             }
 
         }
-
 
         public ActionResult Novo(string IDIdentificador)
         {
@@ -272,7 +267,7 @@ namespace GISWeb.Controllers
                 else
                 {
                     oPlanoDeAcao.DataExclusao = DateTime.Now;
-                    oPlanoDeAcao.UsuarioExclusao = "LoginTeste";
+                    oPlanoDeAcao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     oPlanoDeAcao.Entregue = "Entregue";
                     PlanoDeAcaoBusiness.Alterar(oPlanoDeAcao);
 
@@ -296,17 +291,10 @@ namespace GISWeb.Controllers
 
         }
 
-
-
-
-
-
-
         public ActionResult Edicao(string id)
         {
             return View(AtividadeBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -341,16 +329,11 @@ namespace GISWeb.Controllers
             }
         }
 
-
-
         public ActionResult Excluir(string id)
         {
             //ViewBag.Cargo = new SelectList(CargoBusiness.Consulta.ToList(), "IDCargo", "NomeDoCargo");
             return View(AtividadeBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
-
         }
-
-
 
         [HttpPost]
         public ActionResult Excluir(Atividade oAtividadeDeRisco)
@@ -393,36 +376,6 @@ namespace GISWeb.Controllers
 
         }
 
-
-
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (System.Web.Mvc.ModelError i in item.Errors)
-                    {
-                        if (!string.IsNullOrEmpty(i.ErrorMessage))
-                            msgAlerta += i.ErrorMessage;
-                        else
-                            msgAlerta += i.Exception.Message;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
-        }
-
         [RestritoAAjax]
         public ActionResult _Upload()
         {
@@ -436,25 +389,6 @@ namespace GISWeb.Controllers
                 return Content(ex.Message, "text/html");
             }
         }
-
-        private string RenderRazorViewToString(string viewName, object model = null)
-        {
-            ViewData.Model = model;
-            using (var sw = new System.IO.StringWriter())
-            {
-                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
-                                                                         viewName);
-                var viewContext = new ViewContext(ControllerContext, viewResult.View,
-                                             ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
-                return sw.GetStringBuilder().ToString();
-            }
-        }
-
-
-
-
 
     }
 }

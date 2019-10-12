@@ -2,6 +2,7 @@
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace GISWeb.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class DocumentosPessoalController : BaseController
     {
+
         #region Inject
 
         [Inject]
@@ -27,22 +29,20 @@ namespace GISWeb.Controllers
         [Inject]
         public IAtividadeBusiness AtividadeBusiness { get; set; }
 
-
         [Inject]
         public IFuncaoBusiness FuncaoBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadeRiscosBusiness AtividadeRiscosBusiness { get; set; }
 
         [Inject]
         public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
 
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
         #endregion
-        
+
+
         public ActionResult Index()
         {
-            
-
             return View(ViewBag.Documentos = DocumentosPessoalBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList());
         }
 
@@ -92,7 +92,6 @@ namespace GISWeb.Controllers
             return View(DocumentosPessoalBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Atualizar(DocumentosPessoal oDocumentosPessoalBusiness)
@@ -126,7 +125,6 @@ namespace GISWeb.Controllers
             }
         }
 
-
         [HttpPost]
         public ActionResult TerminarComRedirect(string IDDocumentosEmpregado, string NomeDocumento)
         {
@@ -141,7 +139,7 @@ namespace GISWeb.Controllers
                 else
                 {
                     oDocumentosPessoal.DataExclusao = DateTime.Now;
-                    oDocumentosPessoal.UsuarioExclusao = "LoginTeste";
+                    oDocumentosPessoal.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     DocumentosPessoalBusiness.Alterar(oDocumentosPessoal);
 
                     TempData["MensagemSucesso"] = "O Documento foi excluido com sucesso.";
@@ -163,51 +161,6 @@ namespace GISWeb.Controllers
 
 
         }
-
-        private string RenderRazorViewToString(string viewName, object model = null)
-        {
-            ViewData.Model = model;
-            using (var sw = new System.IO.StringWriter())
-            {
-                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
-                                                                         viewName);
-                var viewContext = new ViewContext(ControllerContext, viewResult.View,
-                                             ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
-                return sw.GetStringBuilder().ToString();
-            }
-        }
-
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (System.Web.Mvc.ModelError i in item.Errors)
-                    {
-                        if (!string.IsNullOrEmpty(i.ErrorMessage))
-                            msgAlerta += i.ErrorMessage;
-                        else
-                            msgAlerta += i.Exception.Message;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
-        }
-
-
 
     }
 }

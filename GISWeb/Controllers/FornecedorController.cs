@@ -1,4 +1,5 @@
 ﻿using GISCore.Business.Abstract;
+using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
@@ -8,6 +9,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+
 
 namespace GISWeb.Controllers
 {
@@ -27,6 +29,7 @@ namespace GISWeb.Controllers
 
         #endregion
 
+
         public ActionResult Index()
         {
             ViewBag.Fornecedor = FornecedorBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
@@ -40,7 +43,6 @@ namespace GISWeb.Controllers
            
             return View();
         }
-
 
         public ActionResult Edicao(string id)
         {
@@ -59,7 +61,7 @@ namespace GISWeb.Controllers
                     entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     FornecedorBusiness.Inserir(entidade);
 
-                    TempData["MensagemSucesso"] = "O fornecedor '" + entidade.NomeFantasia + "' foi cadastrado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O fornecedor '" + entidade.NomeFantasia + "' foi cadastrado com sucesso.", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Fornecedor") } });
                 }
@@ -81,9 +83,6 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
-
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -206,7 +205,6 @@ namespace GISWeb.Controllers
 
 
         }
-
 
     }
 }

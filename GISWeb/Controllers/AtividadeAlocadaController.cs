@@ -2,6 +2,7 @@
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Web.Mvc;
@@ -21,8 +22,9 @@ namespace GISWeb.Controllers
         [Inject]
         public IAtividadeAlocadaBusiness AtividadeAlocadaBusiness { get; set; }
 
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
-        // GET: AtividadeAlocada
         public ActionResult Novo(string id)
         {
             
@@ -66,8 +68,6 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
-
-
 
         [HttpPost]
         public ActionResult SalvarAtividadeEstabelecimento(bool Acao, string idAtividadeEstabelecimento, string idAlocacao)
@@ -132,8 +132,7 @@ namespace GISWeb.Controllers
                             idAlocacao = Guid.Parse(idAlocacao),
                             idAtividadesDoEstabelecimento = Guid.Parse(idAtividadeEstabelecimento),
                             DataExclusao = DateTime.Now,
-                            UsuarioExclusao = "LoginTeste"
-                            //UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login
+                            UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                         });
                     }
                 }
@@ -155,53 +154,5 @@ namespace GISWeb.Controllers
             
         }
 
-
-
-
-
-
-
-        private string RenderRazorViewToString(string viewName, object model = null)
-        {
-            ViewData.Model = model;
-            using (var sw = new System.IO.StringWriter())
-            {
-                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
-                                                                         viewName);
-                var viewContext = new ViewContext(ControllerContext, viewResult.View,
-                                             ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
-                return sw.GetStringBuilder().ToString();
-            }
-        }
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (System.Web.Mvc.ModelError i in item.Errors)
-                    {
-                        msgAlerta += i.ErrorMessage;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
-        }
-
     }
-
-
-
 }
