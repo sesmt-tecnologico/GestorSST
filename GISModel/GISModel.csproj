@@ -111,6 +111,7 @@
     <Compile Include="Entidades\Admissao.cs" />
     <Compile Include="Entidades\Alocacao.cs" />
     <Compile Include="Entidades\AnaliseRisco.cs" />
+    <Compile Include="Entidades\Arquivo.cs" />
     <Compile Include="Entidades\Atividade.cs" />
     <Compile Include="Entidades\AtividadeAlocada.cs" />
     <Compile Include="Entidades\AtividadeFuncaoLiberada.cs" />

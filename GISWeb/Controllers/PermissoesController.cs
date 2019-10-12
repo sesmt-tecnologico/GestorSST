@@ -36,9 +36,6 @@ namespace GISWeb.Controllers
         [Inject]
         public IDepartamentoBusiness DepartamentoBusiness { get; set; }
 
-        //[Inject]
-        //public IFornecedorBusiness FornecedorBusiness { get; set; }
-
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
@@ -46,9 +43,7 @@ namespace GISWeb.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
-
-            //ViewBag.Fornecedores = FornecedorBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+            ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(a => a.Sigla);
 
             return View();
         }
@@ -139,7 +134,8 @@ namespace GISWeb.Controllers
 
                 ViewBag.Perfis = PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 
-                List<Usuario> lUsuarios = UsuarioBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpresa.Equals(id)).ToList();
+                Guid UKEmpresa = Guid.Parse(id);
+                List<Usuario> lUsuarios = UsuarioBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpresa.Equals(UKEmpresa)).ToList();
 
                 List<UsuarioPerfilViewModel> lUsuariosPerfis = new List<UsuarioPerfilViewModel>();
                 foreach (Usuario iUsr in lUsuarios)
@@ -178,51 +174,6 @@ namespace GISWeb.Controllers
             }
         }
 
-        //[HttpPost]
-        //public ActionResult BuscarUsuariosPorFornecedor(string id)
-        //{
-        //    try
-        //    {
-        //        ViewBag.Perfis = PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
-
-        //        List<Usuario> lUsuarios = UsuarioBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKFornecedor.Equals(id)).ToList();
-
-        //        List<UsuarioPerfilViewModel> lUsuariosPerfis = new List<UsuarioPerfilViewModel>();
-        //        foreach (Usuario iUsr in lUsuarios)
-        //        {
-        //            UsuarioPerfilViewModel oUsrPerfViewModel = new UsuarioPerfilViewModel()
-        //            {
-        //                IDUsuario = iUsr.UniqueKey,
-        //                Login = iUsr.Login,
-        //                Nome = iUsr.Nome
-        //            };
-
-        //            var lPerfis = from usuarioperfil in UsuarioPerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-        //                          //join forne in FornecedorBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKConfig equals forne.UniqueKey
-        //                          join perfil in PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKPerfil equals perfil.UniqueKey
-        //                          where usuarioperfil.UKUsuario.Equals(iUsr.UniqueKey)
-        //                          select new Perfil { Nome = perfil.Nome, UniqueKey = perfil.UniqueKey };
-
-        //            oUsrPerfViewModel.Perfis = lPerfis.ToList();
-
-        //            lUsuariosPerfis.Add(oUsrPerfViewModel);
-        //        }
-
-        //        return Json(new { data = RenderRazorViewToString("_UsuariosPerfis", lUsuariosPerfis), usuarios = lUsuariosPerfis.Count, colunas = ViewBag.Perfis.Count + 2 });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        if (ex.GetBaseException() == null)
-        //        {
-        //            return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-        //        }
-        //        else
-        //        {
-        //            return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
-        //        }
-        //    }
-        //}
-
         [HttpPost]
         public ActionResult BuscarUsuariosPorDepartamento(string id)
         {
@@ -230,7 +181,9 @@ namespace GISWeb.Controllers
             {
                 ViewBag.Perfis = PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 
-                List<Usuario> lUsuarios = UsuarioBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKDepartamento.Equals(id)).ToList();
+                Guid UKDepartamento = Guid.Parse(id);
+
+                List<Usuario> lUsuarios = UsuarioBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKDepartamento.Equals(UKDepartamento)).ToList();
 
                 List<UsuarioPerfilViewModel> lUsuariosPerfis = new List<UsuarioPerfilViewModel>();
                 foreach (Usuario iUsr in lUsuarios)

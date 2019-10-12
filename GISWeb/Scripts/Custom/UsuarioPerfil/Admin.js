@@ -2,44 +2,14 @@
 
     AplicaTooltip();
 
-    $("#ddlEmpresa").change(function () {
+    Chosen();
 
-        if ($(this).val() != "") {
-
-            $('#ddlDepartamento').empty();
-            $('#ddlDepartamento').append($('<option></option>').val("").html("Aguarde ..."));
-            $("#ddlDepartamento").attr("disabled", true);
-
-            $.ajax({
-                method: "POST",
-                url: "/Departamento/ListarDepartamentosPorEmpresa",
-
-                data: { idEmpresa: $(this).val() },
-                error: function (erro) {
-                    ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-                },
-                success: function (content) {
-                    if (content.resultado.length > 0) {
-                        $("#ddlDepartamento").attr("disabled", false);
-                        $('#ddlDepartamento').empty();
-                        $('#ddlDepartamento').append($('<option></option>').val("").html("Selecione um departamento"));
-                        for (var i = 0; i < content.resultado.length; i++) {
-                            $('#ddlDepartamento').append(
-                                $('<option></option>').val(content.resultado[i].UniqueKey).html(content.resultado[i].Sigla)
-                            );
-                        }
-                    }
-                    else {
-                        $('#ddlDepartamento').empty();
-                        $('#ddlDepartamento').append($('<option></option>').val("").html("Nenhum departamento encontrado para esta empresa"));
-                    }
-                }
-            });
+    $("#ddlDepartamento").change(function () {
+        if ($(this).val() == "") {
+            $(".conteudoAjax").html("");
         }
         else {
-            $('#ddlDepartamento').empty();
-            $('#ddlDepartamento').append($('<option></option>').val("").html("Selecione antes uma Empresa..."));
-            $("#ddlDepartamento").attr("disabled", true);
+            ListarUsuarios();
         }
     });
 
@@ -47,38 +17,17 @@
 
 function ListarUsuarios() {
 
-    var valEmpresa = $.trim($("#ddlEmpresa").val());
     var valOrgao = $.trim($("#ddlDepartamento").val());
-    var valFornecedor = $.trim($("#ddlFornecedor").val());
-
-    if (valEmpresa == "" && valOrgao == "" && valFornecedor == "") {
-        ExibirMensagemDeAlerta("Selecione uma empresa, um departamento ou um fornecedor!");
+    if (valOrgao == "") {
+        ExibirMensagemDeAlerta("Selecione um departamento antes de prosseguir!");
     }
-    if ((valEmpresa != "" || valOrgao != "") && valFornecedor != "") {
-        ExibirMensagemDeAlerta("Selecione uma empresa/departamento ou um fornecedor!");
-    }
-    else if (valOrgao != "") {
+    else {
         $(".LoadingLayout").show();
         $.post('/Permissoes/BuscarUsuariosPorDepartamento', { id: valOrgao }, function (partial) {
             $(".LoadingLayout").hide();
             TratarResultadoListarUsuarios(partial);
         });
     }
-    else if (valFornecedor != "") {
-        $(".LoadingLayout").show();
-        $.post('/Permissoes/BuscarUsuariosPorFornecedor', { id: valFornecedor }, function (partial) {
-            $(".LoadingLayout").hide();
-            TratarResultadoListarUsuarios(partial);
-        });
-    }
-    else if (valEmpresa != "") {
-        $(".LoadingLayout").show();
-        $.post('/Permissoes/BuscarUsuariosPorEmpresa', { id: valEmpresa }, function (partial) {
-            $(".LoadingLayout").hide();
-            TratarResultadoListarUsuarios(partial);
-        });
-    }
-
 }
 
 function BuscarUsuario() {
