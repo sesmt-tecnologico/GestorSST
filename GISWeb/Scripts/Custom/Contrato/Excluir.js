@@ -1,46 +1,41 @@
-﻿//jQuery(function ($) {
+﻿
 
-//    $("#ddlEmpresa").change(function () {
+function DeletarContrato(IDContrato, NumeroContrato) {
 
-//        if ($(this).val() != "") {
+    var callback = function () {
+        $('.LoadingLayout').show();
+        $('#dynamic-table').css({ opacity: "0.5" });
 
-//            $('#ddlDepartamento').empty();
-//            $('#ddlDepartamento').append($('<option></option>').val("").html("Aguarde ..."));
-//            $("#ddlDepartamento").attr("disabled", true);
+        $.ajax({
+            method: "POST",
+            url: "/Contrato/Terminar",
+            data: { IDContrato: IDContrato },
+            error: function (erro) {
+                $(".LoadingLayout").hide();
+                $("#dynamic-table").css({ opacity: '' });
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            },
+            success: function (content) {
+                $('.LoadingLayout').hide();
+                $("#dynamic-table").css({ opacity: '' });
 
-//            $.ajax({
-//                method: "POST",
-//                url: "/Departamento/ListarDepartamentosPorEmpresa",
-//                data: { idEmpresa: $(this).val() },
-//                error: function (erro) {
-//                    ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-//                },
-//                success: function (content) {
-//                    if (content.resultado.length > 0) {
-//                        $("#ddlDepartamento").attr("disabled", false);
-//                        $('#ddlDepartamento').empty();
-//                        $('#ddlDepartamento').append($('<option></option>').val("").html("Selecione um departamento"));
-//                        for (var i = 0; i < content.resultado.length; i++) {
-//                            $('#ddlDepartamento').append(
-//                                $('<option></option>').val(content.resultado[i].IDDepartamento).html(content.resultado[i].Sigla)
-//                            );
-//                        }
-//                    }
-//                    else {
-//                        $('#ddlDepartamento').empty();
-//                        $('#ddlDepartamento').append($('<option></option>').val("").html("Nenhum departamento encontrado para esta empresa"));
-//                    }
-//                }
-//            });
-//        }
-//        else {
-//            $('#ddlDepartamento').empty();
-//            $('#ddlDepartamento').append($('<option></option>').val("").html("Selecione antes uma Empresa..."));
-//            $("#ddlDepartamento").attr("disabled", true);
-//        }
-//    });
+                TratarResultadoJSON(content.resultado);
 
-//});
+                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
+                    $("#linha-" + IDContrato).remove();
+                }
+            }
+        });
+    };
+
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir o Contrato '" + NumeroContrato + "'?", "Exclusão do Contrato", callback, "btn-danger");
+}
+
+
+
+
+
+
 
 function OnSuccessExcluirContrato(data) {
     $('#formExcluirContrato').removeAttr('style');

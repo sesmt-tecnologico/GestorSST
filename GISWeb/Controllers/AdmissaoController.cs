@@ -1066,7 +1066,7 @@ namespace GISWeb.Controllers
             }
         }
 
-        private string RenderRazorViewToString(string viewName, object model = null)
+        private new string RenderRazorViewToString(string viewName, object model = null)
         {
             ViewData.Model = model;
             using (var sw = new System.IO.StringWriter())
@@ -1081,7 +1081,7 @@ namespace GISWeb.Controllers
             }
         }
 
-        public RetornoJSON TratarRetornoValidacaoToJSON()
+        public new RetornoJSON TratarRetornoValidacaoToJSON()
         {
                 
 

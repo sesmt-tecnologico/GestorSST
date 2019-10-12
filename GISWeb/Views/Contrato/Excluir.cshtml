@@ -26,7 +26,7 @@
                     <div class="col-xs-12 col-sm-12">
                         @Html.EditorFor(d => d.NumeroContrato, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
                         @Html.ValidationMessageFor(d => d.NumeroContrato, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                        @Html.HiddenFor(p => p.IDContrato)
+                        @Html.HiddenFor(p => p.ID)
                     </div>
                 </div>
             </div>

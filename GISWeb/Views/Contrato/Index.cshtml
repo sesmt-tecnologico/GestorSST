@@ -40,7 +40,7 @@
 
                         @foreach (Contrato iContrato in ViewBag.Contrato)
                         {
-                            <tr id="linha-@iContrato.IDContrato">
+                            <tr id="linha-@iContrato.ID">
 
                                 <td>@iContrato.NumeroContrato</td>
 
@@ -48,15 +48,15 @@
 
                                 <td>
                                     <div class="hidden-sm hidden-xs action-buttons">
-                                        <a class="blue" href="#" onclick="BuscarDetalhesContrato('@iContrato.IDContrato'); return false;">
+                                        @*<a class="blue" href="#" onclick="BuscarDetalhesContrato('@iContrato.ID'); return false;">
                                             <i class="ace-icon fa fa-search-plus bigger-130"></i>
-                                        </a>
+                                        </a>*@
 
-                                        <a href='@Url.Action("Edicao", "Contrato", new { id = @iContrato.IDContrato })' class="green">
+                                        <a href='@Url.Action("Edicao", "Contrato", new { id = @iContrato.ID })' class="green">
                                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                                         </a>
 
-                                        <a class="red" href="#" onclick="DeletarContrato('@iContrato.IDContrato', '@iContrato.NumeroContrato');">
+                                        <a class="red" href="#" onclick="DeletarContrato('@iContrato.ID', '@iContrato.NumeroContrato');">
                                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                         </a>
                                     </div>
@@ -68,16 +68,16 @@
                                             </button>
 
                                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                                <li>
-                                                    <a href="#" class="tooltip-info" onclick="BuscarDetalhesContrato('@iContrato.IDContrato'); return false;" data-rel="tooltip" title="View">
+                                                @*<li>
+                                                    <a href="#" class="tooltip-info" onclick="BuscarDetalhesContrato('@iContrato.ID'); return false;" data-rel="tooltip" title="View">
                                                         <span class="blue">
                                                             <i class="ace-icon fa fa-search-plus bigger-120"></i>
                                                         </span>
                                                     </a>
-                                                </li>
+                                                </li>*@
 
                                                 <li>
-                                                    <a href='@Url.Action("Edicao", "Contrato", new { id = @iContrato.IDContrato })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                    <a href='@Url.Action("Edicao", "Contrato", new { id = @iContrato.ID })' class="tooltip-success" data-rel="tooltip" title="Edit">
                                                         <span class="green">
                                                             <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                         </span>
@@ -85,7 +85,7 @@
                                                 </li>
 
                                                 <li>
-                                                    <a href="#" class="tooltip-error" onclick="DeletarContrato('@iContrato.IDContrato', '@iContrato.NumeroContrato');" data-rel="tooltip" title="Delete">
+                                                    <a href="#" class="tooltip-error" onclick="DeletarContrato('@iContrato.ID', '@iContrato.NumeroContrato');" data-rel="tooltip" title="Delete">
                                                         <span class="red">
                                                             <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                         </span>
@@ -111,4 +111,7 @@
     @Scripts.Render("~/bundles/jQ_dataTable")
 
     <script src="~/Scripts/Custom/Contrato/Lista.js"></script>
+
+    <script src="~/Scripts/Custom/Contrato/Excluir.js"></script>
+
 }
