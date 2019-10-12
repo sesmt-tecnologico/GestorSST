@@ -20,10 +20,7 @@ namespace GISModel.Entidades
         [Display(Name ="Data de Término")]
         public string DataFim { get; set; }
 
-        [Display(Name ="Empresa")]
-        public Guid IdEmpresa { get; set; }
-
-        public virtual Empresa Empresa { get; set; }
+       
 
     }
 }

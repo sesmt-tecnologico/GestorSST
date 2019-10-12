@@ -1,0 +1,105 @@
+﻿@model GISModel.Entidades.REL_DepartamentoContrato
+@{
+    ViewBag.Title = "Vincular Contrato";
+}
+
+<div id="formCad VincularContrato">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Vincular Contrato
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm("Cadastrar", "REL_DepartamentoContrato", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarREL_DeapartamentoContrato", }, new { @id = "formCadastroREL_DeapartamentoContrato", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <div class="form-group">
+                    @Html.Label("Fornecedor", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.IDFornecedor, (SelectList)ViewBag.Fornecedor, "Selecione um Fornecedor...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
+                        @Html.ValidationMessageFor(d => d.IDFornecedor, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        <input type="hidden" id="IDDepartamento" name="IDDepartamento" value=@ViewBag.Guid />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <div class="form-group">
+                    @Html.Label("Contrato", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.IDContrato, (SelectList)ViewBag.Contrato, "Selecione um Contrato...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
+                        @Html.ValidationMessageFor(d => d.IDContrato, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                <button class="btn btn-info" id="btnSalvar" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar
+                </button>
+                &nbsp;
+                <button class="btn btn-warning" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;
+                <a class="btn" href="javascript:history.back()">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    }
+
+
+</div> <!-- Fim FormQuery -->
+
+
+
+@section Scripts {
+
+
+    <script src="~/Scripts/Custom/REL_DepartamentoContrato/Novo.js"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
