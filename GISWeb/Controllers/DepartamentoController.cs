@@ -55,7 +55,9 @@ namespace GISWeb.Controllers
         public ActionResult ListarDepartamentosPorEmpresa(string idEmpresa)
         {
 
-            return Json(new { resultado = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpresa.Equals(idEmpresa)).ToList().OrderBy(p => p.Sigla) });
+            Guid UK = Guid.Parse(idEmpresa);
+
+            return Json(new { resultado = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpresa.Equals(UK)).ToList().OrderBy(p => p.Sigla) });
 
         }
 

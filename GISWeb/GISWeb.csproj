@@ -601,7 +601,6 @@
     <Folder Include="Images\AtividadesEstabelecimentoImagens\" />
     <Folder Include="Images\AtividadesImagens\" />
     <Folder Include="Images\Empregado\" />
-    <Folder Include="Images\Empresas\" />
     <Folder Include="Images\EstabelecimentoImagens\" />
     <Folder Include="Images\MedidasDeControle\" />
     <Folder Include="Images\Relatorios\" />

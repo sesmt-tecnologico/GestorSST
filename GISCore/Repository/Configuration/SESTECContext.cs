@@ -74,5 +74,7 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<NivelHierarquico> NivelHierarquico { get; set; }
 
+        public DbSet<Arquivo> Arquivo { get; set; }
+
     }
 }
