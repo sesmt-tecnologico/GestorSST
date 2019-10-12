@@ -404,7 +404,6 @@
     <Compile Include="Controllers\AtividadeFuncaoLiberadaController.cs" />
     <Compile Include="Controllers\AtividadesDoEstabelecimentoController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\DiretoriaController.cs" />
     <Compile Include="Controllers\CargoController.cs" />
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
@@ -424,7 +423,6 @@
     <Compile Include="Controllers\PermissoesController.cs" />
     <Compile Include="Controllers\PlanoDeAcaoController.cs" />
     <Compile Include="Controllers\PossiveisDanosController.cs" />
-    <Compile Include="Controllers\REL_DepartamentoContratoController.cs" />
     <Compile Include="Controllers\TipoDeRiscoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -540,8 +538,6 @@
     <Content Include="Views\Alocar\Novo.cshtml" />
     <Content Include="Views\Cargo\Index.cshtml" />
     <Content Include="Views\Cargo\Novo.cshtml" />
-    <Content Include="Views\Diretoria\Index.cshtml" />
-    <Content Include="Views\Diretoria\Novo.cshtml" />
     <Content Include="Views\Funcao\Index.cshtml" />
     <Content Include="Views\Funcao\Novo.cshtml" />
     <Content Include="Views\Funcao\ListaFuncao.cshtml" />
@@ -565,7 +561,6 @@
     <Content Include="Views\Empresa\EmpresaCriacoes.cshtml" />
     <Content Include="Views\Estabelecimento\_Novo.cshtml" />
     <Content Include="Views\Departamento\_Novo.cshtml" />
-    <Content Include="Views\Diretoria\_Novo.cshtml" />
     <Content Include="Views\AtividadesDoEstabelecimento\_DetalhesAtividade.cshtml" />
     <Content Include="Views\Exposicao\_Novo.cshtml" />
     <Content Include="Views\Admissao\_ListaExposicao.cshtml" />
@@ -604,8 +599,6 @@
     <Content Include="Views\Perfil\Novo.cshtml" />
     <Content Include="Views\Perfil\Edicao.cshtml" />
     <Content Include="Views\Fornecedor\Index.cshtml" />
-    <Content Include="Views\REL_DepartamentoContrato\Index.cshtml" />
-    <Content Include="Views\REL_DepartamentoContrato\Novo.cshtml" />
     <Content Include="Views\Fornecedor\Novo.cshtml" />
     <Content Include="Views\Fornecedor\Edicao.cshtml" />
     <None Include="Web.Debug.config">

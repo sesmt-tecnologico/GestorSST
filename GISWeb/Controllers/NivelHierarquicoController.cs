@@ -28,14 +28,13 @@ namespace GISWeb.Controllers
 
         #endregion
 
+
         public ActionResult Index()
         {
             ViewBag.NiveisHierarquicos = NivelHierarquicoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
 
             return View();
         }
-
-
 
         public ActionResult Novo()
         {
@@ -75,7 +74,6 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
-
 
         public ActionResult Edicao(string id)
         {
@@ -119,9 +117,6 @@ namespace GISWeb.Controllers
             }
         }
 
-
-
-
         [HttpPost]
         public ActionResult Terminar(string id)
         {
@@ -154,10 +149,6 @@ namespace GISWeb.Controllers
 
 
         }
-
-
-
-
 
     }
 }

@@ -2,6 +2,7 @@
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Linq;
@@ -30,7 +31,11 @@ namespace GISWeb.Controllers
         [Inject]
         public IEventoPerigosoBusiness EventoPerigosBusiness { get; set; }
 
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
         #endregion
+
 
         public ActionResult Index()
         {
@@ -39,13 +44,11 @@ namespace GISWeb.Controllers
             return View();
         }
 
-
         public ActionResult Novo()
         {
            
             return View();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -83,12 +86,10 @@ namespace GISWeb.Controllers
             }
         }
 
-
         public ActionResult Edicao(string id)
         {
             return View(EventoPerigosoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -123,14 +124,12 @@ namespace GISWeb.Controllers
             }
         }
 
-
         public ActionResult Excluir(string id)
         {
             ViewBag.EventoPerigoso = new SelectList(EventoPerigosoBusiness.Consulta.ToList(), "IDEventoPerigoso", "Descricao");
             return View(EventoPerigosoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
 
         }
-
 
         [HttpPost]
         public ActionResult Terminar(string IDEventoPerigoso)
@@ -147,7 +146,7 @@ namespace GISWeb.Controllers
                 {
 
                     oEventoPerigoso.DataExclusao = DateTime.Now;
-                    oEventoPerigoso.UsuarioExclusao = "LoginTeste";
+                    oEventoPerigoso.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     EventoPerigosoBusiness.Alterar(oEventoPerigoso);
 
                     return Json(new { resultado = new RetornoJSON() { Sucesso = "O Evento Perigoso '" + oEventoPerigoso.Descricao + "' foi excluído com sucesso." } });
@@ -167,35 +166,6 @@ namespace GISWeb.Controllers
 
 
         }
-
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (System.Web.Mvc.ModelError i in item.Errors)
-                    {
-                        if (!string.IsNullOrEmpty(i.ErrorMessage))
-                            msgAlerta += i.ErrorMessage;
-                        else
-                            msgAlerta += i.Exception.Message;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
-        }
-
 
     }
 }

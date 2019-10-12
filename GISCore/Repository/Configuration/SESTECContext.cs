@@ -11,7 +11,6 @@ namespace GISCore.Repository.Configuration
             Database.SetInitializer<SESTECContext>(null);
         }
 
-        public DbSet<REL_DepartamentoContrato> REL_DepartamentoContrato { get; set; }
        
         public DbSet<Fornecedor> Fornecedor { get; set; }
 
@@ -25,8 +24,6 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<AnaliseRisco> AnaliseRisco { get; set; }
         
-        public DbSet<Rel_AtivEstabTipoRisco> Rel_AtivEstabTipoRisco { get; set; }
-
         public DbSet<Empresa> Empresa { get; set; }
 
         public DbSet<Departamento> Departamento { get; set; }
@@ -78,6 +75,14 @@ namespace GISCore.Repository.Configuration
         public DbSet<NivelHierarquico> NivelHierarquico { get; set; }
 
         public DbSet<Arquivo> Arquivo { get; set; }
+
+
+
+
+        public DbSet<REL_ContratoFornecedor> REL_ContratoFornecedor { get; set; }
+
+        public DbSet<REL_DepartamentoContrato> REL_DepartamentoContrato { get; set; }
+
 
     }
 }

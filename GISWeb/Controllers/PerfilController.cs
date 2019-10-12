@@ -17,7 +17,7 @@ namespace GISWeb.Controllers
     public class PerfilController : BaseController
     {
 
-        #region INJECT
+        #region Inject
 
         [Inject]
         public IPerfilBusiness PerfilBusiness { get; set; }
@@ -26,6 +26,7 @@ namespace GISWeb.Controllers
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
         #endregion
+
 
         public ActionResult Index()
         {
@@ -114,7 +115,6 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
-
 
     }
 }

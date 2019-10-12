@@ -2,6 +2,7 @@
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Linq;
@@ -31,16 +32,18 @@ namespace GISWeb.Controllers
         [Inject]
         public IEventoPerigosoBusiness EventoPerigosBusiness { get; set; }
 
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
         #endregion
-        // GET: TipoDeRisco
+
+
         public ActionResult Index()
         {
             ViewBag.PossiveisDanos = PossiveisDanosBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p => p.DescricaoDanos);
 
             return View();
         }
-
 
         public ActionResult Novo()
         {
@@ -84,14 +87,12 @@ namespace GISWeb.Controllers
             }
         }
 
-
         public ActionResult Edicao(string id)
         {
 
 
             return View(PossiveisDanosBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -126,16 +127,12 @@ namespace GISWeb.Controllers
             }
         }
 
-
-
         public ActionResult Excluir(string id)
         {
             ViewBag.PossiveisDanos = new SelectList(PossiveisDanosBusiness.Consulta.ToList(), "IDPossiveisDanos", "DescricaoDanos");
             return View(PossiveisDanosBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
 
         }
-
-
 
         [HttpPost]
         public ActionResult Terminar(string IDPossiveisDanos)
@@ -152,7 +149,7 @@ namespace GISWeb.Controllers
                 {
 
                     oPossiveisDanos.DataExclusao = DateTime.Now;
-                    oPossiveisDanos.UsuarioExclusao = "LoginTeste";
+                    oPossiveisDanos.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     PossiveisDanosBusiness.Alterar(oPossiveisDanos);
 
                     return Json(new { resultado = new RetornoJSON() { Sucesso = "O Possivel Dano '" + oPossiveisDanos.DescricaoDanos + "' foi excluído com sucesso." } });
@@ -172,38 +169,6 @@ namespace GISWeb.Controllers
 
 
         }
-
-
-
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (System.Web.Mvc.ModelError i in item.Errors)
-                    {
-                        if (!string.IsNullOrEmpty(i.ErrorMessage))
-                            msgAlerta += i.ErrorMessage;
-                        else
-                            msgAlerta += i.Exception.Message;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
-        }
-
-
 
     }
 }

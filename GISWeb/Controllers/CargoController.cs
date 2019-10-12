@@ -2,6 +2,7 @@
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Linq;
@@ -16,11 +17,11 @@ namespace GISWeb.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class CargoController : BaseController
     {
+
         #region Inject
 
         [Inject]
         public IEmpresaBusiness EmpresaBusiness { get; set; }
-
 
         [Inject]
         public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
@@ -31,15 +32,18 @@ namespace GISWeb.Controllers
         [Inject]
         public IDiretoriaBusiness DiretoriaBusiness { get; set; }
 
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
         #endregion
-        // GET: TipoDeRisco
+
+
         public ActionResult Index()
         {
             ViewBag.Cargo = CargoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).Distinct().ToList();
 
             return View();
         }
-
 
         public ActionResult Novo()
         {
@@ -92,14 +96,12 @@ namespace GISWeb.Controllers
             }
         }
 
-
         public ActionResult Edicao(string id)
         {
             //ViewBag.Riscos = TipoDeRiscoBusiness.Consulta.Where(p => p.IDTipoDeRisco.Equals(id));
 
             return View(CargoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -134,7 +136,6 @@ namespace GISWeb.Controllers
             }
         }
 
-
         [HttpPost]
         public ActionResult TerminarComRedirect(string IDCargo)
         {
@@ -149,7 +150,7 @@ namespace GISWeb.Controllers
                 else
                 {
                     oCargo.DataExclusao = DateTime.Now;
-                    oCargo.UsuarioExclusao = "LoginTeste";
+                    oCargo.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     CargoBusiness.Alterar(oCargo);
 
                     TempData["MensagemSucesso"] = "O Cargo'" + oCargo.NomeDoCargo + "' foi excluido com sucesso.";
@@ -172,37 +173,5 @@ namespace GISWeb.Controllers
 
         }
         
-
-
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (System.Web.Mvc.ModelError i in item.Errors)
-                    {
-                        if (!string.IsNullOrEmpty(i.ErrorMessage))
-                            msgAlerta += i.ErrorMessage;
-                        else
-                            msgAlerta += i.Exception.Message;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
-        }
-
-
-
     }
 }

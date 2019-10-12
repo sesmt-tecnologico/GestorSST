@@ -35,13 +35,13 @@ namespace GISWeb.Controllers
 
         #endregion
 
+
         public ActionResult Index()
         {
             ViewBag.Empresas = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
             return View();
         }
-
-
+        
         public ActionResult BuscarDepartamentosPorEmpresa(string id)
         {
             ViewBag.UKEmpresa = id;

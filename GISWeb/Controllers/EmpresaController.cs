@@ -2,6 +2,7 @@
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace GISWeb.Controllers
         public ICNAEBusiness CNAEBusiness { get; set; }
 
         [Inject]
-            public IEmpresaBusiness EmpresaBusiness { get; set; }
+        public IEmpresaBusiness EmpresaBusiness { get; set; }
 
         [Inject]
         public IDiretoriaBusiness DiretoriaBusiness { get; set; }
@@ -37,7 +38,11 @@ namespace GISWeb.Controllers
         [Inject]
         public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
 
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
         #endregion
+
 
         public ActionResult Index()
         {
@@ -46,6 +51,7 @@ namespace GISWeb.Controllers
 
             return View();
         }
+
         public ActionResult EmpresaCriacoes(string id)
         {
 
@@ -133,7 +139,7 @@ namespace GISWeb.Controllers
             {
                 try
                 {
-                    Empresa.UsuarioInclusao = "E211041";
+                    Empresa.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     EmpresaBusiness.Inserir(Empresa);
 
                     TempData["MensagemSucesso"] = "A empresa '" + Empresa.NomeFantasia + "' foi cadastrada com sucesso.";
@@ -155,9 +161,6 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
-
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -204,7 +207,7 @@ namespace GISWeb.Controllers
                 else {
 
                     //oEmpresa.DataExclusao = DateTime.Now;
-                    oEmpresa.UsuarioExclusao = "LoginTeste";
+                    oEmpresa.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     EmpresaBusiness.Alterar(oEmpresa);
 
                     return Json(new { resultado = new RetornoJSON() { Sucesso = "A empresa '" + oEmpresa.NomeFantasia + "' foi excluída com sucesso." } });
@@ -238,7 +241,7 @@ namespace GISWeb.Controllers
                 else
                 {
                     //oEmpresa.DataExclusao = DateTime.Now;
-                    oEmpresa.UsuarioExclusao = "LoginTeste";
+                    oEmpresa.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
 
                     EmpresaBusiness.Alterar(oEmpresa);
 
@@ -294,29 +297,7 @@ namespace GISWeb.Controllers
                         string sExtensao = oFile.FileName.Substring(oFile.FileName.LastIndexOf("."));
                         if (sExtensao.ToUpper().Contains("PNG") || sExtensao.ToUpper().Contains("JPG") || sExtensao.ToUpper().Contains("JPEG") || sExtensao.ToUpper().Contains("GIF")) {
                             //Após a autenticação está totalmente concluída, mudar para incluir uma pasta com o Login do usuário
-                            string sLocalFile = Path.Combine(Path.GetTempPath(), "GIS");
-                            sLocalFile = Path.Combine(sLocalFile, DateTime.Now.ToString("yyyyMMdd"));
-                            sLocalFile = Path.Combine(sLocalFile, "Empresa");
-                            sLocalFile = Path.Combine(sLocalFile, "LoginTeste");
-
-                            if (!System.IO.Directory.Exists(sLocalFile))
-                                Directory.CreateDirectory(sLocalFile);
-                            else
-                            {
-                                //Tratamento de limpar arquivos da pasta, pois o usuário pode estar apenas alterando o arquivo.
-                                //Limpar para não ficar lixo.
-                                //O arquivo que for salvo abaixo será limpado após o cadastro.
-                                //Se o usuário cancelar o cadastro, a rotina de limpar diretórios ficará responsável por limpá-lo.
-                                foreach (string iFile in System.IO.Directory.GetFiles(sLocalFile))
-                                {
-                                    System.IO.File.Delete(iFile);
-                                }
-                            }
-
-                            sLocalFile = Path.Combine(sLocalFile, oFile.FileName);
-
-                            oFile.SaveAs(sLocalFile);
-
+                            
                         }
                         else
                         {
@@ -334,45 +315,6 @@ namespace GISWeb.Controllers
             {
                 return Json(new { erro = ex.Message });
             }
-        }
-
-        private string RenderRazorViewToString(string viewName, object model = null)
-        {
-            ViewData.Model = model;
-            using (var sw = new System.IO.StringWriter())
-            {
-                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
-                                                                         viewName);
-                var viewContext = new ViewContext(ControllerContext, viewResult.View,
-                                             ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
-                return sw.GetStringBuilder().ToString();
-            }
-        }
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (System.Web.Mvc.ModelError i in item.Errors)
-                    {
-                        msgAlerta += i.ErrorMessage;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
         }
 
     }

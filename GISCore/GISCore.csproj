@@ -50,6 +50,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Migrations, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Migrations.1.0.1.0\lib\net40-Client\Migrations.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -66,9 +72,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.111.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.111.0\lib\net45\System.Data.SQLite.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.DirectoryServices.AccountManagement" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Runtime.Caching" />
@@ -96,9 +100,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -183,21 +185,9 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-    <Compile Include="Migrations\201910061441008_v01.cs" />
-    <Compile Include="Migrations\201910061441008_v01.Designer.cs">
-      <DependentUpon>201910061441008_v01.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201910061442493_v02.cs" />
-    <Compile Include="Migrations\201910061442493_v02.Designer.cs">
-      <DependentUpon>201910061442493_v02.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201910061512203_v03.cs" />
-    <Compile Include="Migrations\201910061512203_v03.Designer.cs">
-      <DependentUpon>201910061512203_v03.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201910070934340_v04.cs" />
-    <Compile Include="Migrations\201910070934340_v04.Designer.cs">
-      <DependentUpon>201910070934340_v04.cs</DependentUpon>
+    <Compile Include="Migrations\201910121853283_teste.cs" />
+    <Compile Include="Migrations\201910121853283_teste.Designer.cs">
+      <DependentUpon>201910121853283_teste.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -227,7 +217,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="Connected Services\CEMIGInfoService\GISCore.CEMIGInfoService.Aplicacao.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -347,17 +336,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910061441008_v01.resx">
-      <DependentUpon>201910061441008_v01.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910061442493_v02.resx">
-      <DependentUpon>201910061442493_v02.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910061512203_v03.resx">
-      <DependentUpon>201910061512203_v03.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201910070934340_v04.resx">
-      <DependentUpon>201910070934340_v04.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910121853283_teste.resx">
+      <DependentUpon>201910121853283_teste.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

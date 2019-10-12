@@ -17,17 +17,11 @@ namespace GISWeb.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class EmpregadoController : BaseController
     {
-        private SESTECContext db = new SESTECContext();
-        #region Inject
 
-        //[Inject]
-        //public IMedidaControleRiscoFuncaoBusiness MedidaControleRiscoFuncaoBusiness { get; set; }
+        #region Inject
 
         [Inject]
         public IAtividadesDoEstabelecimentoBusiness AtividadesDoEstabelecimentoBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadeBusiness AtividadeBusiness { get; set; }
 
         [Inject]
         public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
@@ -37,19 +31,9 @@ namespace GISWeb.Controllers
 
         [Inject]
         public IEmpresaBusiness EmpresaBusiness { get; set; }
-                
 
         [Inject]
         public IDepartamentoBusiness DepartamentoBusiness { get; set; }
-
-        //[Inject]
-        //public IAlocacaoBusiness AlocacaoBusiness { get; set; }
-
-        //[Inject]
-        //public IAdmissaoBusiness AdmissaoBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadeRiscosBusiness AtividadeRiscosBusiness { get; set; }
 
         [Inject]
         public IEstabelecimentoAmbienteBusiness EstabelecimentoAmbienteBusiness { get; set; }
@@ -62,10 +46,8 @@ namespace GISWeb.Controllers
         [Inject]
         public IEventoPerigosoBusiness EventoPerigosoBusiness { get; set; }
 
-        //[Inject]
-        //public IFuncaoBusiness FuncaoBusiness { get; set; }
-
         #endregion
+
 
         public ActionResult ListaEmpregado(string id)
         {
@@ -73,19 +55,15 @@ namespace GISWeb.Controllers
             return View();
         }
 
-
         public ActionResult Novo()
         {
             return View();
         }
 
-
         public ActionResult Edicao(string id)
         {
             return View(EmpregadoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
         }
-
-        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -154,7 +132,6 @@ namespace GISWeb.Controllers
             }
         }
 
-
         [HttpPost]
         public ActionResult Terminar(string IDEmpregado)
         {
@@ -189,43 +166,5 @@ namespace GISWeb.Controllers
 
         }
 
-        private string RenderRazorViewToString(string viewName, object model = null)
-        {
-            ViewData.Model = model;
-            using (var sw = new System.IO.StringWriter())
-            {
-                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext,
-                                                                         viewName);
-                var viewContext = new ViewContext(ControllerContext, viewResult.View,
-                                             ViewData, TempData, sw);
-                viewResult.View.Render(viewContext, sw);
-                viewResult.ViewEngine.ReleaseView(ControllerContext, viewResult.View);
-                return sw.GetStringBuilder().ToString();
-            }
-        }
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (System.Web.Mvc.ModelError i in item.Errors)
-                    {
-                        msgAlerta += i.ErrorMessage;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
-        }
     }
 }

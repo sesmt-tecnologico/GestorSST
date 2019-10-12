@@ -3,11 +3,13 @@ using GISModel.DTO.Contrato;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -19,8 +21,12 @@ namespace GISWeb.Controllers
     {
 
         #region Inject
+
         [Inject]
         public IBaseBusiness<REL_DepartamentoContrato> REL_DepartamentoContratoBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<REL_ContratoFornecedor> REL_ContratoFornecedorBusiness { get; set; }
 
         [Inject]
         public IDepartamentoBusiness DepartamentoBusiness { get; set; }
@@ -29,11 +35,13 @@ namespace GISWeb.Controllers
         public IContratoBusiness ContratoBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<Fornecedor> FornecedorBusiness { get; set; }
+
+        [Inject]
         public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
 
         [Inject]
         public IEventoPerigosoBusiness EventoPerigosoBusiness { get; set; }
-
 
         [Inject]
         public IPossiveisDanosBusiness PossiveisDanosBusiness { get; set; }
@@ -41,72 +49,107 @@ namespace GISWeb.Controllers
         [Inject]
         public IEventoPerigosoBusiness EventoPerigosBusiness { get; set; }
 
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
         #endregion
-        // GET: TipoDeRisco
+
         public ActionResult Index()
         {
-            ViewBag.Contrato = ContratoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p => p.DescricaoContrato);
+            ViewBag.Departametnos = DepartamentoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p => p.Sigla);
 
             return View();
         }
 
-
         public ActionResult Novo()
         {
-            ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "UniqueKey", "Sigla");
+            ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+
+            ViewBag.Fornecedores = FornecedorBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList().OrderBy(a => a.NomeFantasia);
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(NovoContratoViewModel oContrato)
+        public ActionResult Cadastrar(NovoContratoViewModel entidade)
         {
-            
-            
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    Contrato objContrato = new Contrato()
+                    if (entidade?.Departamento?.Count > 0)
                     {
-                        UniqueKey = Guid.NewGuid(),
-                        NumeroContrato = oContrato.NumeroContrato,
-                        DescricaoContrato = oContrato.DescricaoContrato,
-                        DataInicio = oContrato.DataInicio,
-                        DataFim = oContrato.DataFim
 
-                    };
-                    ContratoBusiness.Inserir(objContrato);
 
-                    if (oContrato.Departamento !=null)
-                    {
-                        foreach (string Dep in oContrato.Departamento)
+                        if (entidade?.SubContratadas?.Count > 0 && !string.IsNullOrEmpty(entidade.UKFornecedor))
                         {
+                            if (entidade.SubContratadas.Where(a => a.Equals(entidade.UKFornecedor)).Count() > 0)
+                            {
+                                throw new Exception("Não é possível selecionar o mesmo fornecedor no campo sub-contratada");
+                            }
+                        }
 
 
+
+                        Contrato obj = new Contrato()
+                        {
+                            UniqueKey = Guid.NewGuid(),
+                            Numero = entidade.Numero,
+                            Descricao = entidade.Descricao,
+                            DataInicio = entidade.DataInicio,
+                            DataFim = entidade.DataFim,
+                            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                        };
+                        ContratoBusiness.Inserir(obj);
+
+                        if (!string.IsNullOrEmpty(entidade.UKFornecedor))
+                        {
+                            REL_ContratoFornecedor rel = new REL_ContratoFornecedor()
+                            {
+                                UKContrato = obj.UniqueKey,
+                                UKFornecedor = Guid.Parse(entidade.UKFornecedor),
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                                TipoContratoFornecedor = GISModel.Enums.ETipoContratoFornecedor.Contratada
+                            };
+                            REL_ContratoFornecedorBusiness.Inserir(rel);
+                        }
+
+                        if (entidade?.SubContratadas?.Count > 0)
+                        {
+                            foreach (string sub in entidade.SubContratadas)
+                            {
+                                REL_ContratoFornecedor rel = new REL_ContratoFornecedor()
+                                {
+                                    UKContrato = obj.UniqueKey,
+                                    UKFornecedor = Guid.Parse(sub),
+                                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                                    TipoContratoFornecedor = GISModel.Enums.ETipoContratoFornecedor.SubContratada
+                                };
+                                REL_ContratoFornecedorBusiness.Inserir(rel);
+                            }
+                        }
+                    
+                        foreach (string Dep in entidade.Departamento)
+                        {
                             REL_DepartamentoContrato objDepContrato = new REL_DepartamentoContrato()
                             {
-                                UniqueKey = Guid.NewGuid(),
-                                IDContrato = objContrato.UniqueKey,
+                                IDContrato = obj.UniqueKey,
                                 IDDepartamento = Guid.Parse(Dep), 
-                                UsuarioInclusao = objContrato.UsuarioInclusao
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                            };
 
-
-                                };
-                                REL_DepartamentoContratoBusiness.Inserir(objDepContrato);
-
-                           
+                            REL_DepartamentoContratoBusiness.Inserir(objDepContrato);
                         }
-                     
+
+
                     }
-                    
+                    else
+                    {
+                        throw new Exception("É necessário informar pelo menos um departamento para prosseguir com o cadastro do contrato.");
+                    }
 
-
-
-                    TempData["MensagemSucesso"] = "O Contrato '" + oContrato.DescricaoContrato + "' foi cadastrado com sucesso!";
+                    Extensions.GravaCookie("MensagemSucesso", "O Contrato '" + entidade.Numero + "' foi cadastrado com sucesso!", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Contrato") } });
 
@@ -122,15 +165,12 @@ namespace GISWeb.Controllers
                         return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
                     }
                 }
-
             }
             else
             {
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
-
             }
         }
-
 
         public ActionResult Edicao(string id)
         {
@@ -138,7 +178,6 @@ namespace GISWeb.Controllers
              
             return View(ContratoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(Guid)));
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -150,7 +189,7 @@ namespace GISWeb.Controllers
                 {
                     ContratoBusiness.Alterar(oContrato);
 
-                    TempData["MensagemSucesso"] = "O Contrato '" + oContrato.DescricaoContrato + "' foi atualizado com sucesso.";
+                    TempData["MensagemSucesso"] = "O Contrato '" + oContrato.Numero + "' foi atualizado com sucesso.";
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Contrato") } });
                 }
@@ -165,7 +204,6 @@ namespace GISWeb.Controllers
                         return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
                     }
                 }
-
             }
             else
             {
@@ -173,16 +211,11 @@ namespace GISWeb.Controllers
             }
         }
 
-
-
         public ActionResult Excluir(string id)
         {
             ViewBag.Contrato = new SelectList(ContratoBusiness.Consulta.ToList(), "IDContrato", "DescricaoContrato");
             return View(ContratoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
-
         }
-
-
 
         [HttpPost]
         public ActionResult Terminar(string IDContrato)
@@ -197,12 +230,11 @@ namespace GISWeb.Controllers
                 }
                 else
                 {
-
                     oContrato.DataExclusao = DateTime.Now;
-                    oContrato.UsuarioExclusao = "LoginTeste";
+                    oContrato.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     ContratoBusiness.Alterar(oContrato);
 
-                    return Json(new { resultado = new RetornoJSON() { Sucesso = "O Contrato '" + oContrato.DescricaoContrato + "' foi excluído com sucesso." } });
+                    return Json(new { resultado = new RetornoJSON() { Sucesso = "O Contrato '" + oContrato.Numero + "' foi excluído com sucesso." } });
                 }
             }
             catch (Exception ex)
@@ -216,41 +248,7 @@ namespace GISWeb.Controllers
                     return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
                 }
             }
-
-
         }
-
-
-
-
-        public RetornoJSON TratarRetornoValidacaoToJSON()
-        {
-
-            string msgAlerta = string.Empty;
-            foreach (ModelState item in ModelState.Values)
-            {
-                if (item.Errors.Count > 0)
-                {
-                    foreach (System.Web.Mvc.ModelError i in item.Errors)
-                    {
-                        if (!string.IsNullOrEmpty(i.ErrorMessage))
-                            msgAlerta += i.ErrorMessage;
-                        else
-                            msgAlerta += i.Exception.Message;
-                    }
-                }
-            }
-
-            return new RetornoJSON()
-            {
-                Alerta = msgAlerta,
-                Erro = string.Empty,
-                Sucesso = string.Empty
-            };
-
-        }
-
-
 
     }
 }
