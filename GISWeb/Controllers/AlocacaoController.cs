@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -132,8 +133,10 @@ namespace GISWeb.Controllers
 
                     AlocacaoBusiness.Inserir(oAlocacao);
 
-                    TempData["MensagemSucesso"] = "O empregado foi Alocado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O empregado foi Alocado com sucesso.", 10);
 
+
+                    
                     
                     //precisa passa o id do Empregado
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("PerfilEmpregado", "Admissao", new { id = IDEmpregado }) } });
@@ -177,8 +180,9 @@ namespace GISWeb.Controllers
                     oAlocacao.Ativado = "false";
                     AlocacaoBusiness.Alterar(oAlocacao);
 
-                    TempData["MensagemSucesso"] = "O Empregado '" + oAlocacao.Admissao.Empregado.Nome + "' foi desalocado com sucesso.";
-
+                    Extensions.GravaCookie("MensagemSucesso", "O Empregado '" + oAlocacao.Admissao.Empregado.Nome + "' foi desalocado com sucesso.", 10);
+                    
+                   
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("PerfilEmpregado", "Admissao", new { id = idEmpregado }) } });
                 }
             }

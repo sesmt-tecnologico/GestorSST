@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -102,8 +103,9 @@ namespace GISWeb.Controllers
 
                     EstabelecimentoBusiness.Inserir(oEstabelecimento);
 
-                    TempData["MensagemSucesso"] = "O Estbelecimento '" + oEstabelecimento.NomeCompleto + "' foi cadastrado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O Estbelecimento '" + oEstabelecimento.NomeCompleto + "' foi cadastrado com sucesso.", 10);
 
+                                                           
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("EmpresaCriacoes", "Empresa", new { id = EmpresaID }) } });
                 }
                 catch (Exception ex)
@@ -143,8 +145,9 @@ namespace GISWeb.Controllers
                 {
                     EstabelecimentoBusiness.Alterar(oEstabelecimento);
 
-                   TempData["MensagemSucesso"] = "A empresa '" + oEstabelecimento.NomeCompleto + "' foi atualizado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O Estbelecimento '" + oEstabelecimento.NomeCompleto + "' foi atualizado com sucesso.", 10);
 
+                    
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Estabelecimento") } });
                 }
                 catch (Exception ex)
@@ -194,8 +197,9 @@ namespace GISWeb.Controllers
                     oEstabelecimento.DataExclusao = DateTime.Now;
                     EstabelecimentoBusiness.Excluir(oEstabelecimento);
 
-                    TempData["MensagemSucesso"] = "O Estabelecimento '" + oEstabelecimento.NomeCompleto + "' foi excluido com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O Estabelecimento '" + oEstabelecimento.NomeCompleto + "' foi excluido com sucesso.", 10);
 
+                   
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Departamento") } });
                 }
             }

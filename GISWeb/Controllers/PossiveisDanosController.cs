@@ -8,6 +8,8 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
+
 
 namespace GISWeb.Controllers
 {
@@ -62,8 +64,10 @@ namespace GISWeb.Controllers
                 {
                     PossiveisDanosBusiness.Inserir(oPossiveisDanoso);
 
-                    TempData["MensagemSucesso"] = "O Possivel dano '" + oPossiveisDanoso.DescricaoDanos + "' foi cadastrado com sucesso!";
+                    Extensions.GravaCookie("MensagemSucesso", "O Possivel dano '" + oPossiveisDanoso.DescricaoDanos + "' foi cadastrado com sucesso!", 10);
 
+
+                    
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "PossiveisDanos") } });
 
                 }
@@ -104,8 +108,8 @@ namespace GISWeb.Controllers
                 {
                     PossiveisDanosBusiness.Alterar(oPossiveisDanos);
 
-                    TempData["MensagemSucesso"] = "O Possivel Dano '" + oPossiveisDanos.DescricaoDanos + "' foi atualizado com sucesso.";
-
+                    Extensions.GravaCookie("MensagemSucesso", "O Possivel Dano '" + oPossiveisDanos.DescricaoDanos + "' foi atualizado com sucesso.", 10);
+                                                          
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "PossiveisDanos") } });
                 }
                 catch (Exception ex)

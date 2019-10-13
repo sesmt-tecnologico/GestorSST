@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -76,8 +77,9 @@ namespace GISWeb.Controllers
                     
                     EmpregadoBusiness.Inserir(empregado);
 
-                    TempData["MensagemSucesso"] = "O empregado '" + empregado.Nome + "' foi cadastrado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O empregado '" + empregado.Nome + "' foi cadastrado com sucesso.", 10);
 
+                   
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("ListaEmpregado", "Empregado",new {id=empregado.ID }) } });
                 }
                 catch (Exception ex)
@@ -109,8 +111,10 @@ namespace GISWeb.Controllers
                 {
                     EmpregadoBusiness.Alterar(empregado);
 
-                    TempData["MensagemSucesso"] = "O empregado '" + empregado.Nome + "' foi atualizado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O empregado '" + empregado.Nome + "' foi atualizado com sucesso.", 10);
 
+
+                   
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Empregado") } });
                 }
                 catch (Exception ex)

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -166,8 +167,10 @@ namespace GISWeb.Controllers
                     oExposicao.idTipoDeRisco = Guid.Parse(idTipoDeRisco);
                     ExposicaoBusiness.Inserir(oExposicao);
 
-                    TempData["MensagemSucesso"] = "A Exposição foi registrada com sucesso.";  
+                    Extensions.GravaCookie("MensagemSucesso", "A Exposição foi registrada com sucesso.", 10);
 
+
+                    
                     //return Json(new { data = RenderRazorViewToString("_DetalhesAmbienteAlocado", oExposicao) }); 
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("PerfilEmpregado", "Admissao", new { id = idEmpregado}) } });
@@ -210,8 +213,9 @@ namespace GISWeb.Controllers
                 {
                     EstabelecimentoImagensBusiness.Alterar(oEstabelecimentoImagens);
 
-                    TempData["MensagemSucesso"] = "A imagem '" + oEstabelecimentoImagens.NomeDaImagem + "' foi atualizada com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A imagem '" + oEstabelecimentoImagens.NomeDaImagem + "' foi atualizada com sucesso.", 10);
 
+                    
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "EstabelecimentoImagens") } });
                 }
                 catch (Exception ex)
@@ -287,8 +291,9 @@ namespace GISWeb.Controllers
 
                     EstabelecimentoImagensBusiness.Alterar(oEstabelecimentoImagens);
 
-                    TempData["MensagemSucesso"] = "A imagem '" + oEstabelecimentoImagens.NomeDaImagem + "' foi excluída com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A imagem '" + oEstabelecimentoImagens.NomeDaImagem + "' foi excluída com sucesso.", 10);
 
+                                        
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "EstabelecimentoImagens") } });
                 }
             }

@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
+
 
 namespace GISWeb.Controllers
 {
@@ -129,10 +131,18 @@ namespace GISWeb.Controllers
 
         public ActionResult Novo(string ukEmpresa, string ukDepartamento = "")
         {
+           
             Departamento newDep = new Departamento();
 
             newDep.UKEmpresa = Guid.Parse(ukEmpresa);
-            Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(ukEmpresa));
+
+           
+
+            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(newDep.UKEmpresa)).ToList();
+
+
+            Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(newDep.UKEmpresa));
+
             if (emp != null)
                 ViewBag.Empresa = emp.NomeFantasia;
             else
@@ -142,7 +152,10 @@ namespace GISWeb.Controllers
                 ViewBag.DepartamentoSuperior = string.Empty;
             else
             {
-                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(ukDepartamento));
+                newDep.UniqueKey = Guid.Parse(ukDepartamento);
+                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(newDep.UniqueKey));
+
+
                 if (dep != null)
                 {
                     ViewBag.DepartamentoSuperior = dep.Sigla;
@@ -172,8 +185,9 @@ namespace GISWeb.Controllers
                     Departamento.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     DepartamentoBusiness.Inserir(Departamento);
 
-                    TempData["MensagemSucesso"] = "O departamento '" + Departamento.Sigla + "' foi cadastrado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O departamento '" + Departamento.Sigla + "' foi cadastrado com sucesso.", 10);
 
+                    
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Departamento") } });
                 }
                 catch (Exception ex)
@@ -197,6 +211,10 @@ namespace GISWeb.Controllers
 
         public ActionResult Edicao(string UKEmpresa, string UKDepartamento)
         {
+            Departamento newDep = new Departamento();
+
+            newDep.UniqueKey = Guid.Parse(UKDepartamento);
+
             ViewBag.Niveis = NivelHierarquicoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(b => b.Nome);
 
             List<Empresa> emps = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
@@ -212,7 +230,7 @@ namespace GISWeb.Controllers
             else
                 ViewBag.Empresa = string.Empty;
 
-            Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKDepartamento));
+            Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(newDep.UniqueKey));
             if (dep != null)
             {
                 if (dep.UKDepartamentoVinculado != null)
@@ -253,8 +271,9 @@ namespace GISWeb.Controllers
                     Departamento.UsuarioExclusao = Departamento.UsuarioInclusao;
                     DepartamentoBusiness.Alterar(Departamento);
 
-                    TempData["MensagemSucesso"] = "O departamento '" + Departamento.Sigla + "' foi atualizado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O departamento '" + Departamento.Sigla + "' foi atualizado com sucesso.", 10);
 
+                                        
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Departamento") } });
                 }
                 catch (Exception ex)

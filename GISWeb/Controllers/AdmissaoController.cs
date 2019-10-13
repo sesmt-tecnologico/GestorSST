@@ -11,6 +11,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -843,7 +844,10 @@ namespace GISWeb.Controllers
 
                     AdmissaoBusiness.Inserir(oAdmissao);
 
-                    TempData["MensagemSucesso"] = "O empregado foi admitido com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O empregado '" + oAdmissao.Empregado.Nome + "' foi cadastrado com sucesso.", 10);
+
+
+                    //TempData["MensagemSucesso"] = "O empregado foi admitido com sucesso.";
 
                     //var iAdmin = oAdmissao.IDAdmissao;
 
@@ -881,8 +885,11 @@ namespace GISWeb.Controllers
                 try
                 {
                     EstabelecimentoImagensBusiness.Alterar(oEstabelecimentoImagens);
+                    Extensions.GravaCookie("MensagemSucesso", "A imagem '" + oEstabelecimentoImagens.NomeDaImagem + "' foi atualizada com sucesso.", 10);
 
-                    TempData["MensagemSucesso"] = "A imagem '" + oEstabelecimentoImagens.NomeDaImagem + "' foi atualizada com sucesso.";
+
+
+                    //TempData["MensagemSucesso"] = "A imagem '" + oEstabelecimentoImagens.NomeDaImagem + "' foi atualizada com sucesso.";
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "EstabelecimentoImagens") } });
                 }

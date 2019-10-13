@@ -1,4 +1,5 @@
 ﻿using GISCore.Business.Abstract;
+using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
@@ -6,12 +7,10 @@ using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
-
 namespace GISWeb.Controllers
 {
 
@@ -55,7 +54,9 @@ namespace GISWeb.Controllers
         public ActionResult EmpresaCriacoes(string id)
         {
 
-            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(id)).ToList();
+            Guid ID = Guid.Parse(id);
+
+            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(ID)).ToList();
 
             var Lista = from Dep in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                         join Est in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
@@ -142,8 +143,9 @@ namespace GISWeb.Controllers
                     Empresa.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     EmpresaBusiness.Inserir(Empresa);
 
-                    TempData["MensagemSucesso"] = "A empresa '" + Empresa.NomeFantasia + "' foi cadastrada com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A empresa '" + Empresa.NomeFantasia + "' foi cadastrada com sucesso.", 10);
 
+                    
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Empresa") } });
                 }
                 catch (Exception ex) {
@@ -172,8 +174,9 @@ namespace GISWeb.Controllers
                 {
                     EmpresaBusiness.Alterar(Empresa);
 
-                    TempData["MensagemSucesso"] = "A empresa '" + Empresa.NomeFantasia + "' foi atualizada com sucesso.";
-
+                    Extensions.GravaCookie("MensagemSucesso", "A empresa '" + Empresa.NomeFantasia + "' foi atualizada com sucesso.", 10);
+                    
+                    
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Empresa") } });
                 }
                 catch (Exception ex)

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -220,12 +221,10 @@ namespace GISWeb.Controllers
                     oTipoDeRisco.idAtividade = Guid.Parse(idAtividade);
                     TipoDeRiscoBusiness.Inserir(oTipoDeRisco);
 
-                   
 
+                    Extensions.GravaCookie("MensagemSucesso", "O Risco foi cadastrado com sucesso!", 10);
 
-
-                    TempData["MensagemSucesso"] = "O Risco foi cadastrado com sucesso!";
-                    //id funçao, nome da funçao, id da Diretoria, nome da diretoria
+                                        
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Novo", "Atividade", new { id= AtivId, nome= NomeFuncao, idDiretoria= Diretoria, nomeDiretoria= NomeDiretoria }) } });
 
                 }
@@ -266,7 +265,8 @@ namespace GISWeb.Controllers
                     oTipoDeRisco.idAtividadesDoEstabelecimento = Guid.Parse(idAtividadeEstabel);
                     TipoDeRiscoBusiness.Inserir(oTipoDeRisco);
 
-                    TempData["MensagemSucesso"] = "O Risco foi cadastrado com sucesso!";
+                    Extensions.GravaCookie("MensagemSucesso", "O Risco foi cadastrado com sucesso!", 10);
+                   
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Novo", "TipoDeRisco" , new { id = idAtividadeEstabel, Nome = oAtividadesDoEstabelecimento.Estabelecimento.NomeCompleto, Ativida = oAtividadesDoEstabelecimento.DescricaoDestaAtividade })  } });
 
@@ -308,8 +308,9 @@ namespace GISWeb.Controllers
                 {
                     TipoDeRiscoBusiness.Alterar(oTipoDeRisco);
 
-                    TempData["MensagemSucesso"] = "O Tipo de Risco foi atualizado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O Tipo de Risco foi atualizado com sucesso.", 10);
 
+                                       
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "TipoDeRisco") } });
                 }
                 catch (Exception ex)

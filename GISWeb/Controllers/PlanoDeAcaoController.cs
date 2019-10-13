@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -220,7 +221,7 @@ namespace GISWeb.Controllers
                 {
                     PlanoDeAcaoBusiness.Inserir(oPlanoDeAcao);
 
-                    TempData["MensagemSucesso"] = "O Plano de Ação'" + oPlanoDeAcao.DescricaoDoPlanoDeAcao + "' foi cadastrado com sucesso!";
+                    Extensions.GravaCookie("MensagemSucesso", "O Plano de Ação'" + oPlanoDeAcao.DescricaoDoPlanoDeAcao + "' foi cadastrado com sucesso!", 10);
 
                     
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "PlanoDeAcao") } });
@@ -271,8 +272,9 @@ namespace GISWeb.Controllers
                     oPlanoDeAcao.Entregue = "Entregue";
                     PlanoDeAcaoBusiness.Alterar(oPlanoDeAcao);
 
-                    TempData["MensagemSucesso"] = "O Plano '" + oPlanoDeAcao.DescricaoDoPlanoDeAcao + "' foi encerrado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O Plano '" + oPlanoDeAcao.DescricaoDoPlanoDeAcao + "' foi encerrado com sucesso.", 10);
 
+                    
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "PlanoDeAcao", new { id = IDplano }) } });
                 }
             }
@@ -306,8 +308,9 @@ namespace GISWeb.Controllers
                 {
                     AtividadeBusiness.Alterar(oAtividadeDeRisco);
 
-                    TempData["MensagemSucesso"] = "A Atividade '" + oAtividadeDeRisco.Descricao + "' foi atualizada com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A Atividade '" + oAtividadeDeRisco.Descricao + "' foi atualizada com sucesso.", 10);
 
+                   
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "AtividadeDeRisco") } });
                 }
                 catch (Exception ex)
@@ -356,8 +359,9 @@ namespace GISWeb.Controllers
                     oAtividadeDeRisco.DataExclusao = DateTime.Now;
                     AtividadeBusiness.Excluir(oAtividadeDeRisco);
 
-                    TempData["MensagemSucesso"] = "A Atividade '" + oAtividadeDeRisco.Descricao + "' foi excluida com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A Atividade '" + oAtividadeDeRisco.Descricao + "' foi excluida com sucesso.", 10);
 
+                                        
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "AtividadeDeRisco") } });
                 }
             }

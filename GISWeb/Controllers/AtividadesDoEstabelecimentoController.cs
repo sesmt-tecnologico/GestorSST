@@ -12,6 +12,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -732,8 +733,10 @@ namespace GISWeb.Controllers
 
                     AtividadesDoEstabelecimentoBusiness.Inserir(oAtividadesDoEstabelecimento);
 
-                    TempData["MensagemSucesso"] = "A imagem '" + oAtividadesDoEstabelecimento.Imagem + "'foi cadastrada com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A imagem '" + oAtividadesDoEstabelecimento.Imagem + "'foi cadastrada com sucesso.", 10);
 
+
+                    
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Novo", "AtividadesDoEstabelecimento", new { id = oAtividadesDoEstabelecimento.IDEstabelecimentoImagens }) } });
                 }
                 catch (Exception ex)
@@ -771,8 +774,9 @@ namespace GISWeb.Controllers
                 {
                     AtividadesDoEstabelecimentoBusiness.Alterar(oRiscosDoEstabelecimento);
 
-                    TempData["MensagemSucesso"] = "A imagem '" + oRiscosDoEstabelecimento.NomeDaImagem + "' foi atualizada com sucesso.";
-
+                    Extensions.GravaCookie("MensagemSucesso", "A imagem '" + oRiscosDoEstabelecimento.NomeDaImagem + "' foi atualizada com sucesso.", 10);
+                    
+                   
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "RiscosDoEstabelecimento") } });
                 }
                 catch (Exception ex)
@@ -809,8 +813,9 @@ namespace GISWeb.Controllers
                 {
                     AtividadesDoEstabelecimentoBusiness.Alterar(oRiscosDoEstabelecimento);
 
-                    TempData["MensagemSucesso"] = "A imagem '" + oRiscosDoEstabelecimento.NomeDaImagem + "' foi atualizada com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A imagem '" + oRiscosDoEstabelecimento.NomeDaImagem + "' foi atualizada com sucesso.", 10);
 
+                    
                     
                       return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Novo", "Alocacao", new {  }) } });
    

@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -94,8 +95,10 @@ namespace GISWeb.Controllers
                 {
                     FuncaoBusiness.Inserir(oFuncao);
 
-                    TempData["MensagemSucesso"] = "A Função '" + oFuncao.NomeDaFuncao + "' foi cadastrada com sucesso!";
+                    Extensions.GravaCookie("MensagemSucesso", "A Função '" + oFuncao.NomeDaFuncao + "' foi cadastrada com sucesso!", 10);
 
+
+                    
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Cargo") } });
 
                 }
@@ -136,8 +139,9 @@ namespace GISWeb.Controllers
                 {
                     FuncaoBusiness.Alterar(oFuncao);
 
-                    TempData["MensagemSucesso"] = "a Função '" + oFuncao.NomeDaFuncao + "' foi atualizada com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A Função '" + oFuncao.NomeDaFuncao + "' foi atualizada com sucesso.", 10);
 
+                                        
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Funcao") } });
                 }
                 catch (Exception ex)
@@ -176,8 +180,9 @@ namespace GISWeb.Controllers
                     oFuncao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     FuncaoBusiness.Alterar(oFuncao);
 
-                    TempData["MensagemSucesso"] = "A Função'" + oFuncao.NomeDaFuncao + "' foi excluida com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A Função'" + oFuncao.NomeDaFuncao + "' foi excluida com sucesso.", 10);
 
+                                        
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Funcao") } });
                 }
             }

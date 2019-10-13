@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -101,8 +102,8 @@ namespace GISWeb.Controllers
 
                     MedidasDeControleBusiness.Inserir(oMedidasDeControleExistentes);
 
-                    TempData["MensagemSucesso"] = "A imagem '" + oMedidasDeControleExistentes.NomeDaImagem + "'foi cadastrada com sucesso.";
-
+                    Extensions.GravaCookie("MensagemSucesso", "A imagem '" + oMedidasDeControleExistentes.NomeDaImagem + "'foi cadastrada com sucesso.", 10);
+                                                            
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("NovoControleRiscoFuncao", "MedidasDeControle", new { id = oMedidasDeControleExistentes.IDTipoDeRisco }) } });
                 }
@@ -152,9 +153,9 @@ namespace GISWeb.Controllers
 
                     MedidasDeControleBusiness.Inserir(oMedidasDeControleExistentes);
 
-                    TempData["MensagemSucesso"] = "A imagem '" + oMedidasDeControleExistentes.NomeDaImagem + "'foi cadastrada com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A imagem '" + oMedidasDeControleExistentes.NomeDaImagem + "'foi cadastrada com sucesso.", 10);
 
-                    
+                                        
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Novo", "MedidasDeControle", new { id = oMedidasDeControleExistentes.IDTipoDeRisco }) } });
                 }
                 catch (Exception ex)
@@ -186,8 +187,9 @@ namespace GISWeb.Controllers
                 {
                     MedidasDeControleBusiness.Alterar(oMedidasDeControleExistentes);
 
-                    TempData["MensagemSucesso"] = "A imagem '" + oMedidasDeControleExistentes.NomeDaImagem + "' foi atualizada com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A imagem '" + oMedidasDeControleExistentes.NomeDaImagem + "' foi atualizada com sucesso.", 10);
 
+                   
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "MedidasDeControle") } });
                 }
                 catch (Exception ex)
@@ -263,8 +265,10 @@ namespace GISWeb.Controllers
 
                     MedidasDeControleBusiness.Alterar(oEstabelecimentoImagens);
 
-                    TempData["MensagemSucesso"] = "A imagem '" + oEstabelecimentoImagens.NomeDaImagem + "' foi excluída com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A imagem '" + oEstabelecimentoImagens.NomeDaImagem + "' foi excluída com sucesso.", 10);
 
+
+                   
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "MedidasDeControle") } });
                 }
             }

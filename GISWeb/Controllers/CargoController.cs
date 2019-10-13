@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -71,8 +72,10 @@ namespace GISWeb.Controllers
                 {
                     CargoBusiness.Inserir(oCargo);
 
-                    TempData["MensagemSucesso"] = "O Cargo '" + oCargo.NomeDoCargo + "' foi cadastrado com sucesso!";
+                    Extensions.GravaCookie("MensagemSucesso", "O Cargo '" + oCargo.NomeDoCargo + "' foi cadastrado com sucesso!", 10);
 
+
+                   
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Cargo", new { id = oCargo.ID })}});
 
                 }
@@ -113,8 +116,9 @@ namespace GISWeb.Controllers
                 {
                     CargoBusiness.Alterar(oCargo);
 
-                    TempData["MensagemSucesso"] = "O Cargo '" + oCargo.NomeDoCargo + "' foi atualizado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O Cargo '" + oCargo.NomeDoCargo + "' foi atualizado com sucesso.", 10);
 
+                                        
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Cargo") } });
                 }
                 catch (Exception ex)
@@ -153,8 +157,10 @@ namespace GISWeb.Controllers
                     oCargo.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     CargoBusiness.Alterar(oCargo);
 
-                    TempData["MensagemSucesso"] = "O Cargo'" + oCargo.NomeDoCargo + "' foi excluido com sucesso.";
 
+                    Extensions.GravaCookie("MensagemSucesso", "O Cargo'" + oCargo.NomeDoCargo + "' foi excluido com sucesso.", 10);
+                    
+                   
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Cargo", new { id = IDCargo }) } });
                 }
             }

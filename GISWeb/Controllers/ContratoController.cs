@@ -189,8 +189,9 @@ namespace GISWeb.Controllers
                 {
                     ContratoBusiness.Alterar(oContrato);
 
-                    TempData["MensagemSucesso"] = "O Contrato '" + oContrato.Numero + "' foi atualizado com sucesso.";
-
+                    Extensions.GravaCookie("MensagemSucesso", "O Contrato '" + oContrato.Numero + "' foi atualizado com sucesso.", 10);
+                    
+                    
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Contrato") } });
                 }
                 catch (Exception ex)

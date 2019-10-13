@@ -153,7 +153,11 @@ namespace GISWeb.Controllers
             {
                 if (string.IsNullOrEmpty(id))
                 {
-                    TempData["MensagemErro"] = "Não foi possível recuperar a identificação do usuário.";
+
+                    Extensions.GravaCookie("MensagemSucesso", "Não foi possível recuperar a identificação do usuário.", 10);
+
+
+                    //TempData["MensagemErro"] = "Não foi possível recuperar a identificação do usuário.";
                 }
                 else
                 {
@@ -165,7 +169,10 @@ namespace GISWeb.Controllers
 
                     if (DateTime.Now.Subtract(DateTime.ParseExact(id.Substring(id.IndexOf("#") + 1), "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture)).Days > int.Parse(numDiasExpiracao))
                     {
-                        TempData["MensagemErro"] = "Este link já expirou, solicite um outro link na opção abaixo.";
+
+                        Extensions.GravaCookie("MensagemSucesso", "Este link já expirou, solicite um outro link na opção abaixo.", 10);
+
+                        //TempData["MensagemErro"] = "Este link já expirou, solicite um outro link na opção abaixo.";
                     }
                     else
                     {
@@ -205,7 +212,12 @@ namespace GISWeb.Controllers
                             return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível localizar o ID do usuário através de sua requisição. Solicite um novo acesso." } });
 
                         UsuarioBusiness.DefinirSenha(novaSenhaViewModel);
-                        TempData["MensagemSucesso"] = "Senha alterada com sucesso.";
+
+                        Extensions.GravaCookie("MensagemSucesso", "Senha alterada com sucesso.", 10);
+
+
+                        //TempData["MensagemSucesso"] = "Senha alterada com sucesso.";
+
                         return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Login", "Conta") } });
                     }
                     catch (Exception ex)
@@ -241,7 +253,10 @@ namespace GISWeb.Controllers
                 try
                 {
                     UsuarioBusiness.SolicitarAcesso(novaSenhaViewModel.Email);
-                    TempData["MensagemSucesso"] = "Solicitação de acesso realizada com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "Solicitação de acesso realizada com sucesso.", 10);
+
+
+                    //TempData["MensagemSucesso"] = "Solicitação de acesso realizada com sucesso.";
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Login", "Conta") } });
                 }
                 catch (Exception ex)

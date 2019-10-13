@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -79,7 +80,9 @@ namespace GISWeb.Controllers
 
                     if (bRedirect)
                     {
-                        TempData["MensagemSucesso"] = "O usuário '" + Usuario.Nome + "' foi cadastrado com sucesso.";
+                        Extensions.GravaCookie("MensagemSucesso", "O usuário '" + Usuario.Nome + "' foi cadastrado com sucesso.", 10);
+
+                        
                         return Json(new { resultado = new RetornoJSON() { URL = "#" + Url.Action("Index", "Usuario").Substring(1) } });
                     }
                     else
@@ -147,8 +150,9 @@ namespace GISWeb.Controllers
                     Usuario.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     UsuarioBusiness.Alterar(Usuario);
 
-                    TempData["MensagemSucesso"] = "O usuário '" + Usuario.Nome + "' foi atualizado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O usuário '" + Usuario.Nome + "' foi atualizado com sucesso.", 10);
 
+                                        
                     return Json(new { resultado = new RetornoJSON() { URL = "#" + Url.Action("Index", "Usuario").Substring(1) } });
                 }
                 catch (Exception ex)
@@ -263,8 +267,9 @@ namespace GISWeb.Controllers
 
                     UsuarioBusiness.Alterar(oUsuario);
 
-                    TempData["MensagemSucesso"] = "O usuário '" + oUsuario.Nome + "' foi excluído com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O usuário '" + oUsuario.Nome + "' foi excluído com sucesso.", 10);
 
+                                       
                     return Json(new { resultado = new RetornoJSON() { URL = "#" + Url.Action("Index", "Empresa").Substring(1) } });
                 }
             }

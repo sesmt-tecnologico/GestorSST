@@ -49,7 +49,7 @@
                         @foreach (Estabelecimento iEstabelecimento in ViewBag.Estabelecimento)
                         {
 
-                        <tr id="linha-@iEstabelecimento.IDEstabelecimento">
+                        <tr id="linha-@iEstabelecimento.ID">
 
                             <td class="center">
                                 <label class="pos-rel">
@@ -57,7 +57,7 @@
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-                            <td>@iEstabelecimento.Departamento.Diretoria.Empresa.NomeFantasia</td>
+                            <td>@iEstabelecimento.Departamento.Empresa.NomeFantasia</td>
                             <td>@iEstabelecimento.Departamento.Sigla</td>
                             <td>@iEstabelecimento.NomeCompleto</td>
                             <td>@iEstabelecimento.TipoDeEstabelecimento</td>
@@ -68,11 +68,11 @@
                                 <div class="hidden-sm hidden-xs action-buttons">
 
 
-                                    <a href='@Url.Action("Edicao", "Estabelecimento", new { id = @iEstabelecimento.IDEstabelecimento })' title="Editar" class="green">
+                                    <a href='@Url.Action("Edicao", "Estabelecimento", new { id = @iEstabelecimento.ID })' title="Editar" class="green">
                                         <i class="ace-icon fa fa-pencil bigger-130"></i>
                                     </a>
 
-                                    <a class="red" href='@Url.Action("Novo", "EstabelecimentoAmbiente", new { id = @iEstabelecimento.IDEstabelecimento })' title="Cadastrar Ambiente">
+                                    <a class="red" href='@Url.Action("Novo", "EstabelecimentoAmbiente", new { id = @iEstabelecimento.ID })' title="Cadastrar Ambiente">
 
                                         <i class="ace-icon fa fa-plus bigger-130"></i>
                                     </a>
@@ -86,13 +86,13 @@
 
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                             <li>
-                                                <a href='@Url.Action("Edicao", "Estabelecimento", new { id = @iEstabelecimento.IDEstabelecimento })' title="Editar" class="green">
+                                                <a href='@Url.Action("Edicao", "Estabelecimento", new { id = @iEstabelecimento.ID })' title="Editar" class="green">
                                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                                 </a>
                                             </li>
 
                                             <li>
-                                                <a class="red" href='@Url.Action("Novo", "EstabelecimentoAmbiente", new { id = @iEstabelecimento.IDEstabelecimento })' title="Cadastrar Ambiente">
+                                                <a class="red" href='@Url.Action("Novo", "EstabelecimentoAmbiente", new { id = @iEstabelecimento.ID })' title="Cadastrar Ambiente">
 
                                                     <i class="ace-icon fa fa-plus bigger-130"></i>
                                                 </a>

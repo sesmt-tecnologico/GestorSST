@@ -7,6 +7,7 @@ using Ninject;
 using System;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -16,6 +17,8 @@ namespace GISWeb.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class AtividadeFuncaoLiberadaController : BaseController
     {
+        #region
+
         [Inject]
         public IAtividadesDoEstabelecimentoBusiness AtividadesDoEstabelecimentoBusiness { get; set; }
 
@@ -28,6 +31,7 @@ namespace GISWeb.Controllers
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
+        #endregion
         public ActionResult Novo(string id)
         {
 
@@ -51,8 +55,9 @@ namespace GISWeb.Controllers
 
                     AtividadesDoEstabelecimentoBusiness.Inserir(oAtividadesDoEstabelecimentoBusiness);
 
-                    TempData["MensagemSucesso"] = "A imagem '" + oAtividadesDoEstabelecimentoBusiness.NomeDaImagem + "'foi cadastrada com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "A imagem '" + oAtividadesDoEstabelecimentoBusiness.NomeDaImagem + "'foi cadastrada com sucesso.", 10);
 
+                    
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Novo", "MedidasDeControle", new { id = oAtividadesDoEstabelecimentoBusiness.ID }) } });
                 }

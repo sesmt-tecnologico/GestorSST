@@ -16,7 +16,7 @@
         }
         else {
             $(".btnNewDepartment").attr("disabled", false);
-            $(".btnNewDepartment").attr("href", "Departamento/Novo?ukEmpresa=" + $(this).val());
+            $(".btnNewDepartment").attr("href","/Departamento/Novo?ukEmpresa=" + $(this).val());
             $(".btnNewDepartment").off("click");
 
             GetDepartments($(this).val());

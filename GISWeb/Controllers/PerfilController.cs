@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -51,8 +52,9 @@ namespace GISWeb.Controllers
                     Perfil.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     PerfilBusiness.Inserir(Perfil);
 
-                    TempData["MensagemSucesso"] = "O perfil '" + Perfil.Nome + "' foi cadastrado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O perfil '" + Perfil.Nome + "' foi cadastrado com sucesso.", 10);
 
+                                        
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Perfil") } });
                 }
                 catch (Exception ex)
@@ -93,8 +95,9 @@ namespace GISWeb.Controllers
                 {
                     PerfilBusiness.Alterar(Perfil);
 
-                    TempData["MensagemSucesso"] = "O perfil '" + Perfil.Nome + "' foi atualizado com sucesso.";
-
+                    Extensions.GravaCookie("MensagemSucesso", "O perfil '" + Perfil.Nome + "' foi atualizado com sucesso.", 10);
+                    
+                   
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Perfil") } });
                 }
                 catch (Exception ex)
