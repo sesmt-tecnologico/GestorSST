@@ -56,8 +56,8 @@ namespace GISWeb.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Departametnos = DepartamentoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p => p.Sigla);
-
+            ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p => p.Sigla);
+            ViewBag.Fornecedores = FornecedorBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList().OrderBy(a => a.NomeFantasia);
             return View();
         }
 
