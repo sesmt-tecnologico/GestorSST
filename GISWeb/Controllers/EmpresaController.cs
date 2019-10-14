@@ -60,7 +60,7 @@ namespace GISWeb.Controllers
 
             var Lista = from Dep in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                         join Est in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on Dep.ID equals Est.IDDepartamento
+                        on Dep.ID equals Est.ID
                         join Dir in DiretoriaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                         on Dep.ID equals Dir.ID
                         where Dir.IDEmpresa.Equals(id)
@@ -68,16 +68,16 @@ namespace GISWeb.Controllers
                         {
                             ID = Est.ID,
                             NomeCompleto = Est.NomeCompleto,
-                            Departamento = new Departamento
-                            {
-                                ID = Dep.ID,
-                                Sigla = Dep.Sigla,                            
-                                //Diretoria = new Diretoria
-                                //{
-                                //    ID = Dir.ID,
-                                //    Sigla = Dir.Sigla
-                                //}
-                            },
+                            //Departamento = new Departamento
+                            //{
+                            //    ID = Dep.ID,
+                            //    Sigla = Dep.Sigla,                            
+                            //    //Diretoria = new Diretoria
+                            //    //{
+                            //    //    ID = Dir.ID,
+                            //    //    Sigla = Dir.Sigla
+                            //    //}
+                            //},
 
                         };
 

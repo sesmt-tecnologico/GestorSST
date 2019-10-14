@@ -148,7 +148,7 @@ namespace GISWeb.Controllers
 
            List<Estabelecimento>  EstabAmbiente = (from Estab in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                 join Dep in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                on Estab.IDDepartamento equals Dep.ID
+                                on Estab.ID equals Dep.ID
                                 join Dir in DiretoriaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                 on Dep.ID equals Dir.ID
                                 join Emp in EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
@@ -160,22 +160,22 @@ namespace GISWeb.Controllers
                                     TipoDeEstabelecimento = Estab.TipoDeEstabelecimento,
                                     Descricao = Estab.Descricao,
                                     NomeCompleto = Estab.NomeCompleto,
-                                    IDDepartamento = Estab.IDDepartamento,
+                                    //ID = Estab.ID,
 
-                                    Departamento = new Departamento()
-                                    {
-                                        ID = Dep.ID,
-                                        Sigla = Dep.Sigla,
-                                        Descricao = Dep.Descricao
-                                        //Diretoria = new Diretoria()
-                                        //{
-                                        //    ID = Dir.ID,
-                                        //    Empresa = new Empresa()
-                                        //    {
-                                        //        ID = Emp.ID
-                                        //    }
-                                        //}
-                                    }
+                                    //Departamento = new Departamento()
+                                    //{
+                                    //    ID = Dep.ID,
+                                    //    Sigla = Dep.Sigla,
+                                    //    Descricao = Dep.Descricao
+                                    //    //Diretoria = new Diretoria()
+                                    //    //{
+                                    //    //    ID = Dir.ID,
+                                    //    //    Empresa = new Empresa()
+                                    //    //    {
+                                    //    //        ID = Emp.ID
+                                    //    //    }
+                                    //    //}
+                                    //}
 
                                   }
                                 ).ToList();

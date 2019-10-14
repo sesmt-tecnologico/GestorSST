@@ -8,6 +8,10 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using GISModel.DTO;
+using GISWeb.Infraestrutura.Provider.Concrete;
+using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 
 namespace GISWeb.Controllers
 {
@@ -21,6 +25,9 @@ namespace GISWeb.Controllers
         #region Inject
 
         [Inject]
+        public IBaseBusiness<REL_EstabelecimentoDepartamento> REL_EstabelecimentoDepartamentoBusiness { get; set; }
+
+        [Inject]
         public IEmpresaBusiness EmpresaBusiness { get; set; }
 
         [Inject]
@@ -28,6 +35,10 @@ namespace GISWeb.Controllers
 
         [Inject]
         public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
+
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
 
         #endregion
 
@@ -44,69 +55,73 @@ namespace GISWeb.Controllers
             return View();
         }
 
-        public ActionResult Novo(string IDEmpresa, string nome)
+        public ActionResult Novo()
         {
-            ViewBag.Empresas = IDEmpresa;
-            ViewBag.NomeEmpresa = nome;
-            ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.Where(p=>string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDDepartamento", "Sigla");
+            ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+
             
-
-            try
-            {
-                // Atividade oAtividade = AtividadeBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.idFuncao.Equals(id));
-
-                if (ViewBag.Empresas == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Alerta = "Parametro id não passado." } });
-                }
-                else
-                {
-                    return Json(new { data = RenderRazorViewToString("_Novo") });
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetBaseException() == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-                }
-                else
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
-                }
-            }
-
-
-
-
-
-
+            return View();
         }
 
         public ActionResult ListarEstabelecimentoPorDepartamento(string idDepartamento)
         {
 
-            return Json(new { resultado = EstabelecimentoBusiness.Consulta.Where(p => p.IDDepartamento.Equals(idDepartamento)).ToList().OrderBy(p => p.IDDepartamento) });
+            return Json(new { resultado = EstabelecimentoBusiness.Consulta.Where(p => p.ID.Equals(idDepartamento)).ToList().OrderBy(p => p.ID) });
 
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(Estabelecimento oEstabelecimento, string EmpresaID)
+        public ActionResult Cadastrar(EstabelecimentoViewModel entidade)
         {
-            
+
             if (ModelState.IsValid)
             {
-
                 try
                 {
+                    if (entidade?.Departamento?.Count > 0)
+                    {
 
-                    EstabelecimentoBusiness.Inserir(oEstabelecimento);
+                        Estabelecimento obj = new Estabelecimento()
+                        {
+                            UniqueKey = Guid.NewGuid(),
+                            NomeCompleto = entidade.NomeCompleto,
+                            Codigo = entidade.Codigo,
+                            Descricao = entidade.Descricao,
+                            TipoDeEstabelecimento = entidade.TipoDeEstabelecimento,
+                            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
 
-                    Extensions.GravaCookie("MensagemSucesso", "O Estbelecimento '" + oEstabelecimento.NomeCompleto + "' foi cadastrado com sucesso.", 10);
+                        };
+                        EstabelecimentoBusiness.Inserir(obj);
 
-                                                           
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("EmpresaCriacoes", "Empresa", new { id = EmpresaID }) } });
+                        if (entidade?.Departamento?.Count > 0)
+                        {
+                            foreach (string dep in entidade.Departamento)
+                            {
+                                REL_EstabelecimentoDepartamento rel = new REL_EstabelecimentoDepartamento()
+                                {
+
+                                    IDEstabelecimento = obj.UniqueKey,
+                                    IDDepartamento = Guid.Parse(dep),
+                                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+
+
+                                };
+                                REL_EstabelecimentoDepartamentoBusiness.Inserir(rel);
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("É necessário informar pelo menos um departamento para prosseguir com o cadastro do contrato.");
+                    }
+                        
+                        Extensions.GravaCookie("MensagemSucesso", "O Estabelecimento '" + entidade.NomeCompleto + "' foi cadastrado com sucesso!", 10);
+
+                        return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Estabelecimento") } });
+
+                    
                 }
                 catch (Exception ex)
                 {
@@ -119,7 +134,6 @@ namespace GISWeb.Controllers
                         return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
                     }
                 }
-
             }
             else
             {

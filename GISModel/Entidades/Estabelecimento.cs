@@ -21,10 +21,9 @@ namespace GISModel.Entidades
         [Display(Name = "Nome Completo")]
         public string NomeCompleto { get; set; }
 
-        [Display(Name = "departamento")]
-        public Guid IDDepartamento { get; set; }
-        
-        public virtual Departamento Departamento { get; set; }
+
+
+       
 
     }
 }

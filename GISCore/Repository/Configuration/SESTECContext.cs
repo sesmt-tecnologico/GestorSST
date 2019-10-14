@@ -83,6 +83,7 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<REL_DepartamentoContrato> REL_DepartamentoContrato { get; set; }
 
+        public DbSet<REL_EstabelecimentoDepartamento> REL_EstabelecimentoDepartamento { get; set; }
 
     }
 }
