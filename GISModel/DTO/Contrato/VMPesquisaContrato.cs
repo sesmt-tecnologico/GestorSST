@@ -10,6 +10,9 @@ namespace GISModel.DTO.Contrato
     public class VMPesquisaContrato
     {
 
+        public string UniqueKey { get; set; }
+
+
         [Display(Name = "Número do Contrato")]
         public string Numero { get; set; }
 
@@ -29,6 +32,9 @@ namespace GISModel.DTO.Contrato
         [Display(Name = "Departamento")]
         public IList<string> Departamento { get; set; }
 
+        [Display(Name = "Departamento")]
+        public string UKDepartamento { get; set; }
+        
 
         [Display(Name = "Fornecedor")]
         public string UKFornecedor { get; set; }
