@@ -281,10 +281,6 @@
     <Content Include="Scripts\Custom\Departamento\Lista.js" />
     <Content Include="Scripts\Custom\Departamento\Listagem.js" />
     <Content Include="Scripts\Custom\Departamento\Novo.js" />
-    <Content Include="Scripts\Custom\Diretoria\Edicao.js" />
-    <Content Include="Scripts\Custom\Diretoria\Excluir.js" />
-    <Content Include="Scripts\Custom\Diretoria\Lista.js" />
-    <Content Include="Scripts\Custom\Diretoria\Novo.js" />
     <Content Include="Scripts\Custom\DocsPorAtividade\Edicao.js" />
     <Content Include="Scripts\Custom\DocsPorAtividade\Excluir.js" />
     <Content Include="Scripts\Custom\DocsPorAtividade\Lista.js" />
@@ -601,6 +597,7 @@
     <Content Include="Views\Fornecedor\Index.cshtml" />
     <Content Include="Views\Fornecedor\Novo.cshtml" />
     <Content Include="Views\Fornecedor\Edicao.cshtml" />
+    <Content Include="Views\Contrato\_Pesquisar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

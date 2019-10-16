@@ -1,62 +1,106 @@
-﻿
+﻿@model GISModel.DTO.Contrato.VMPesquisaContrato
+
 @{
     ViewBag.Title = "Listagem de Empresas";
 }
+
 <div class="row">
     <div class="col-xs-12">
         <h3 class="header smaller lighter blue">
             Contratos
-            <a href="@Url.Action("Novo", "Contrato")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+
+            <button id="btnLocalizarEmpregados" class="btn btn-primary btnPesquisar" style="float: right; border: 0px; border-bottom: 2px; margin-top: -2px; height: 34px;">
+                <i class="ace-icon fa fa-search"></i>
+                Pesquisar
+            </button>
+
+            <a href="@Url.Action("Novo", "Contrato")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px; margin-right: 20px;">
                 <i class="ace-icon fa fa-plus bigger-120 blue"></i>
                 Novo Contrato
             </a>
+
         </h3>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xs-12 col-sm-4">
+@using (Ajax.BeginForm("Pesquisar", "Contrato", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginPesquisarContrato", OnSuccess = "OnSuccessPesquisarContrato" }, new { @id = "formCadastroContrato", @class = "form-horizontal", @autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
 
-    </div>
-    <div class="col-xs-12 col-sm-4">
-
-    </div>
-    <div class="col-xs-12 col-sm-4">
-
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12 col-sm-4">
-
-    </div>
-    <div class="col-xs-12 col-sm-4">
-
-    </div>
-    <div class="col-xs-12 col-sm-4">
-
-    </div>
-</div>
-
-<div class="hr hr-dotted"></div>
-
-<div class="row">
-    <div class="col-xs-12 col-sm-12">
-
-        <div class="">
-            <button id="btnLocalizarEmpregados" class="btn btn-sm btn-block btn-success" type="submit">
-                <i class="ace-icon fa fa-search"></i>
-                Pesquisar
-            </button>
+    <div class="row">
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.UKDepartamento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @*@Html.ListBoxFor(d => d.Departamento, new SelectList(ViewBag.Departamentos, "UniqueKey", "Sigla"), new { @class = "chosen-select form-control", @data_placeholder = "Selecione pelo menos um departamento" })*@
+                    @Html.DropDownListFor(d => d.UKDepartamento, new SelectList(ViewBag.Departamentos, "UniqueKey", "Sigla"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                </div>
+            </div>
         </div>
-
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.UKFornecedor, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.UKFornecedor, new SelectList(ViewBag.Fornecedores, "UniqueKey", "NomeFantasia"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.UKSubContratada, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.UKSubContratada, new SelectList(ViewBag.Fornecedores, "UniqueKey", "NomeFantasia"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.Numero, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(d => d.Numero, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                <label class="form-field-select-3 col-xs-12 col-sm-12 no-padding-right" for="DataIncidente">Data de inicio</label>
+                <div class="col-xs-12 col-sm-12">
+                    <div class="input-group">
+                        <input class="form-control date-picker" name="Datainicio" id="Datainicio" type="text" data-date-format="dd-mm-yyyy">
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.DataInicio, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                <label class="form-field-select-3 col-xs-12 col-sm-12 no-padding-right" for="DataIncidente">Data de término</label>
+                <div class="col-xs-12 col-sm-12">
+                    <div class="input-group">
+                        <input class="form-control date-picker" name="DataFim" id="DataFim" type="text" data-date-format="dd-mm-yyyy">
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.DataFim, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<div class="resultadoContratos"></div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jQ_dataTable")
 
     <script src="~/Scripts/Custom/Contrato/Lista.js"></script>
     <script src="~/Scripts/Custom/Contrato/Excluir.js"></script>
-
 }
