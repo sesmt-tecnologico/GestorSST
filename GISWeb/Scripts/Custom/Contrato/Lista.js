@@ -31,7 +31,7 @@ function OnSuccessPesquisarContrato(data) {
     $('#btnSalvar').show();
 
     if (data.resultado != null && data.resultado.Erro != null && data.resultado.Erro != undefined && data.resultado.Erro != "") {
-        ExibirMensagemDeErro(resultado.Erro);
+        ExibirMensagemDeErro(data.resultado.Erro);
     }
     else {
         
@@ -42,4 +42,8 @@ function OnSuccessPesquisarContrato(data) {
         }
     }
 
+}
+
+function BuscarDetalhesContrato(UK) {
+    alert(UK);
 }

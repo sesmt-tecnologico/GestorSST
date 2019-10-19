@@ -32,7 +32,7 @@
                             <th>CNPJ</th>
                             <th>Nome Fatasia</th>
                             <th class="hidden-480">Razão Social</th>
-                            <th width="120px"></th>
+                            <th width="80px"></th>
                         </tr>
                     </thead>
 
@@ -55,16 +55,6 @@
                             <td class="hidden-480">@iEmpresa.RazaoSocial</td>
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-
-
-                                    <a class="red" href='@Url.Action("EmpresaCriacoes","Empresa", new { id =iEmpresa.ID })'; return false;">
-                                        <i class="fa fa-tag bigger-130" title="Criações"></i>
-                                    </a>
-
-                                    <a class="blue" href="#" onclick="BuscarDetalhesEmpresa('@iEmpresa.ID'); return false;">
-                                        <i class="ace-icon fa fa-search-plus bigger-130" title="Detalhes"></i>
-                                    </a>
-
                                     <a href='@Url.Action("Edicao", "Empresa", new { id = @iEmpresa.ID })' class="green">
                                         <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
                                     </a>
@@ -81,14 +71,6 @@
                                         </button>
 
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <li>
-                                                <a href="#" class="tooltip-info" onclick="BuscarDetalhesEmpresa('@iEmpresa.ID'); return false;" data-rel="tooltip" title="View">
-                                                    <span class="blue">
-                                                        <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-
                                             <li>
                                                 <a href='@Url.Action("Edicao", "Empresa", new { id = @iEmpresa.ID })' class="tooltip-success" data-rel="tooltip" title="Edit">
                                                     <span class="green">

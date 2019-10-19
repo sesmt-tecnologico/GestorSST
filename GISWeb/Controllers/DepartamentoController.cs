@@ -132,7 +132,7 @@ namespace GISWeb.Controllers
             Departamento newDep = new Departamento();
 
             newDep.UKEmpresa = Guid.Parse(ukEmpresa);
-            Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(ukEmpresa));
+            Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(newDep.UKEmpresa));
             if (emp != null)
                 ViewBag.Empresa = emp.NomeFantasia;
             else
@@ -197,30 +197,33 @@ namespace GISWeb.Controllers
 
         public ActionResult Edicao(string UKEmpresa, string UKDepartamento)
         {
+            Guid UKEmp = Guid.Parse(UKEmpresa);
+            Guid UKDep = Guid.Parse(UKDepartamento);
+
             ViewBag.Niveis = NivelHierarquicoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(b => b.Nome);
 
             List<Empresa> emps = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
             ViewBag.Empresas = emps;
 
             List<Departamento> deps = DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
-            deps.RemoveAll(b => b.UniqueKey.Equals(UKDepartamento));
+            deps.RemoveAll(b => b.UniqueKey.Equals(UKDep));
             ViewBag.Departamentos = deps.OrderBy(a => a.Sigla).ToList();
 
-            Empresa emp = emps.FirstOrDefault(a => a.UniqueKey.Equals(UKEmpresa));
+            Empresa emp = emps.FirstOrDefault(a => a.UniqueKey.Equals(UKEmp));
             if (emp != null)
-                ViewBag.Empresa = emp.NomeFantasia;
+                ViewBag.Empresa = emp.ID;
             else
                 ViewBag.Empresa = string.Empty;
 
-            Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKDepartamento));
+            Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKDep));
             if (dep != null)
             {
                 if (dep.UKDepartamentoVinculado != null)
                 {
-                    Departamento dep2 = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(dep.UKDepartamentoVinculado));
+                    Departamento dep2 = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey == dep.UKDepartamentoVinculado);
                     if (dep2 != null)
                     {
-                        ViewBag.DepartamentoSuperior = dep2.Sigla;
+                        ViewBag.DepartamentoSuperior = dep2.ID;
                     }
                     else
                     {

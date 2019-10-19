@@ -52,44 +52,6 @@ namespace GISWeb.Controllers
             return View();
         }
 
-        public ActionResult EmpresaCriacoes(string id)
-        {
-
-            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(id)).ToList();
-
-            var Lista = from Dep in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        join Est in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on Dep.ID equals Est.IDDepartamento
-                        join Dir in DiretoriaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on Dep.ID equals Dir.ID
-                        where Dir.IDEmpresa.Equals(id)
-                        select new Estabelecimento
-                        {
-                            ID = Est.ID,
-                            NomeCompleto = Est.NomeCompleto,
-                            Departamento = new Departamento
-                            {
-                                ID = Dep.ID,
-                                Sigla = Dep.Sigla,                            
-                                //Diretoria = new Diretoria
-                                //{
-                                //    ID = Dir.ID,
-                                //    Sigla = Dir.Sigla
-                                //}
-                            },
-
-                        };
-
-            List<Estabelecimento> lista01 = Lista.ToList();
-
-            ViewBag.Lista = lista01;
-
-
-
-
-            return View();
-        }
-
         public ActionResult BuscarEmpresaPorID(string IDEmpresa) {
 
             try
@@ -127,7 +89,7 @@ namespace GISWeb.Controllers
         public ActionResult Edicao(string id)
         {
             Guid UKEmpresa = Guid.Parse(id);
-            Empresa obj = EmpresaBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(UKEmpresa));
+            Empresa obj = EmpresaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(UKEmpresa));
             return View(obj);
         }
 
@@ -170,6 +132,7 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+                    Empresa.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     EmpresaBusiness.Alterar(Empresa);
 
                     TempData["MensagemSucesso"] = "A empresa '" + Empresa.NomeFantasia + "' foi atualizada com sucesso.";
@@ -198,17 +161,17 @@ namespace GISWeb.Controllers
         [HttpPost]
         public ActionResult Terminar(string IDEmpresa)
         {
-
-            try {
-                Empresa oEmpresa = EmpresaBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(IDEmpresa));
+            try
+            {
+                Guid id = Guid.Parse(IDEmpresa);
+                Empresa oEmpresa = EmpresaBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id));
                 if (oEmpresa == null) {
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir a empresa, pois a mesma não foi localizada." } });
                 }
                 else {
 
-                    //oEmpresa.DataExclusao = DateTime.Now;
                     oEmpresa.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    EmpresaBusiness.Alterar(oEmpresa);
+                    EmpresaBusiness.Terminar(oEmpresa);
 
                     return Json(new { resultado = new RetornoJSON() { Sucesso = "A empresa '" + oEmpresa.NomeFantasia + "' foi excluída com sucesso." } });
                 }

@@ -225,7 +225,7 @@ namespace GISWeb.Controllers
             Guid Guid = Guid.Parse(IDContrato);
             try
             {
-                Contrato oContrato = ContratoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(Guid));
+                Contrato oContrato = ContratoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(Guid));
                 if (oContrato == null)
                 {
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o Contrato, pois o mesmo não foi localizado." } });
@@ -235,6 +235,25 @@ namespace GISWeb.Controllers
                     oContrato.DataExclusao = DateTime.Now;
                     oContrato.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     ContratoBusiness.Alterar(oContrato);
+
+                    List<REL_ContratoFornecedor> fornecedores = REL_ContratoFornecedorBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKContrato.Equals(Guid)).ToList();
+                    if (fornecedores?.Count > 0)
+                    {
+                        foreach (REL_ContratoFornecedor rel in fornecedores)
+                        {
+                            rel.DataExclusao = DateTime.Now;
+                            rel.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                            REL_ContratoFornecedorBusiness.Alterar(rel);
+                        }
+                    }
+
+                    REL_DepartamentoContrato dep = REL_DepartamentoContratoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.IDContrato.Equals(Guid));
+                    if (dep != null)
+                    {
+                        dep.DataExclusao = DateTime.Now;
+                        dep.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                        REL_DepartamentoContratoBusiness.Alterar(dep);
+                    }
 
                     return Json(new { resultado = new RetornoJSON() { Sucesso = "O Contrato '" + oContrato.Numero + "' foi excluído com sucesso." } });
                 }
@@ -256,14 +275,16 @@ namespace GISWeb.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Pesquisar(VMPesquisaContrato entidade) {
-            try {
+            try
+            {
 
+                string sFrom = string.Empty;
                 string sWhere = string.Empty;
 
                 if (string.IsNullOrEmpty(entidade.DataFim) &&
                     string.IsNullOrEmpty(entidade.DataInicio) &&
                     string.IsNullOrEmpty(entidade.Descricao) &&
-                    (entidade.Departamento == null || entidade.Departamento.Count == 0) &&
+                    string.IsNullOrEmpty(entidade.UKDepartamento) &&
                     string.IsNullOrEmpty(entidade.Numero) &&
                     string.IsNullOrEmpty(entidade.UKFornecedor) &&
                     string.IsNullOrEmpty(entidade.UKSubContratada))
@@ -279,7 +300,19 @@ namespace GISWeb.Controllers
                     sWhere += " and o.DataFim = '" + entidade.DataFim + "'";
 
                 if (!string.IsNullOrEmpty(entidade.UKFornecedor))
-                    sWhere += " AND r1.UKFornecedor = '" + entidade.UKFornecedor + "'"; 
+                    sWhere += " AND r1.UKFornecedor = '" + entidade.UKFornecedor + "'";
+
+                if (!string.IsNullOrEmpty(entidade.UKDepartamento))
+                {
+                    sFrom = ", REL_DepartamentoContrato r2 ";
+                    sWhere += " and o.UniqueKey = r2.IDContrato and r2.UsuarioExclusao is null and r2.IDDepartamento = '" + entidade.UKDepartamento + "'";
+                }
+
+                if (!string.IsNullOrEmpty(entidade.UKSubContratada))
+                {
+                    sFrom += ", REL_ContratoFornecedor r3 ";
+                    sWhere += " and o.UniqueKey = r3.UKContrato and r3.TipoContratoFornecedor = 1 and r3.UsuarioExclusao is null and r3.UKFornecedor = '" + entidade.UKSubContratada + "'";
+                }
 
                 string sql = @"select top 100 o.UniqueKey, o.Numero, o.DataInicio, o.DataFim,
 	                                   (select STRING_AGG(d.Sigla, ',') WITHIN GROUP (ORDER BY d.Sigla) 
@@ -292,7 +325,7 @@ namespace GISWeb.Controllers
 		                                 WHERE r2.UKContrato = o.UniqueKey and r2.UsuarioExclusao is null and
 			                                   r2.UKFornecedor = f.UniqueKey and f.UsuarioExclusao is null and
 			                                   r2.TipoContratoFornecedor = 1) as SubContratadas
-                               from tbcontrato o, REL_ContratoFornecedor r1, tbFornecedor f
+                               from tbcontrato o, REL_ContratoFornecedor r1, tbFornecedor f " + sFrom + @"
                                where o.UsuarioExclusao is null and r1.UsuarioExclusao is null and
 	                                 o.UniqueKey = r1.UKContrato and r1.TipoContratoFornecedor = 0 and
 	                                 r1.UKFornecedor = f.UniqueKey and f.UsuarioExclusao is null " + sWhere + @"

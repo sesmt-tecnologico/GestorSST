@@ -554,7 +554,6 @@
     <Content Include="Views\PlanoDeAcao\_Detalhes.cshtml" />
     <Content Include="Views\Exposicao\Novo.cshtml" />
     <Content Include="Views\Exposicao\_Detalhes.cshtml" />
-    <Content Include="Views\Empresa\EmpresaCriacoes.cshtml" />
     <Content Include="Views\Estabelecimento\_Novo.cshtml" />
     <Content Include="Views\Departamento\_Novo.cshtml" />
     <Content Include="Views\AtividadesDoEstabelecimento\_DetalhesAtividade.cshtml" />
