@@ -19,17 +19,17 @@
                         @dep.Sigla
 
                         <div class="pull-right action-buttons">
-                            <a class="blue CustomTooltip" href="@Url.Action("Novo", "Departamento")?UKEmpresa=@ViewBag.UKEmpresa&UKDepartamento=@dep.UniqueKey" title="Novo departamento">
+                            <a class="blue CustomTooltip" href="@Url.Action("Novo", "Departamento")?UKDepartamento=@dep.UniqueKey" title="Novo departamento">
                                 <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                             </a>
 
-                            <a class="orange CustomTooltip" href="@Url.Action("Edicao", "Departamento")?UKEmpresa=@ViewBag.UKEmpresa&UKDepartamento=@dep.UniqueKey" title="Editar departamento">
+                            <a class="orange CustomTooltip" href="@Url.Action("Edicao", "Departamento")?UKDepartamento=@dep.UniqueKey" title="Editar departamento">
                                 <i class="ace-icon fa fa-pencil bigger-130"></i>
                             </a>
 
                             @if (Model.Where(a => a.UKDepartamentoVinculado != null && a.UKDepartamentoVinculado.Equals(dep.UniqueKey)).Count() == 0)
                             {
-                                <a class="red CustomTooltip" href="#" title="Excluir departamento" onclick="deleteDepartment('@dep.UniqueKey.ToString()', '@dep.Sigla', '@ViewBag.UKEmpresa'); return false;">
+                                <a class="red CustomTooltip" href="#" title="Excluir departamento" onclick="deleteDepartment('@dep.UniqueKey.ToString()', '@dep.Sigla'); return false;">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                 </a>
                             }
@@ -40,7 +40,7 @@
 
                     @if (Model.Where(a => a.UKDepartamentoVinculado != null && a.UKDepartamentoVinculado.Equals(dep.UniqueKey)).Count() > 0)
                     {
-                        @Html.DepartamentoRecursivoHelperRazor().MontarListaDepartamentos((List<Departamento>)Model, ViewBag.UKEmpresa, dep.UniqueKey.ToString(), ((List<NivelHierarquico>)ViewBag.Niveis))
+                        @Html.DepartamentoRecursivoHelperRazor().MontarListaDepartamentos((List<Departamento>)Model, dep.UniqueKey.ToString(), ((List<NivelHierarquico>)ViewBag.Niveis))
                     }
 
                 </li>

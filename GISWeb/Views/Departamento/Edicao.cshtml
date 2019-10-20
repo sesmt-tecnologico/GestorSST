@@ -69,11 +69,20 @@
             </div>
 
             <div class="row">
-                <div class="col-xs-12 col-sm-12">
+                <div class="col-xs-12 col-sm-6">
                     <div class="form-group">
                         @Html.LabelFor(d => d.Descricao, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                         <div class="col-xs-12 col-sm-12">
                             @Html.EditorFor(d => d.Descricao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.UKNivelHierarquico, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.DropDownListFor(d => d.UKNivelHierarquico, new SelectList(ViewBag.Niveis, "UniqueKey", "Nome"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                            @Html.ValidationMessageFor(d => d.UKNivelHierarquico, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
                         </div>
                     </div>
                 </div>
@@ -84,7 +93,7 @@
                     <div class="form-group">
                         @Html.LabelFor(d => d.UKEmpresa, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                         <div class="col-xs-12 col-sm-12">
-                            @Html.DropDownListFor(d => d.UKEmpresa, new SelectList(ViewBag.Empresas, "ID", "NomeFantasia", ViewBag.Empresa), "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
+                            @Html.DropDownListFor(d => d.UKEmpresa, new SelectList(ViewBag.Empresas, "UniqueKey", "NomeFantasia", ViewBag.Empresa), "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
                             @Html.ValidationMessageFor(d => d.UKEmpresa, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
                         </div>
                     </div>
@@ -93,7 +102,7 @@
                     <div class="form-group">
                         @Html.LabelFor(d => d.UKDepartamentoVinculado, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                         <div class="col-xs-12 col-sm-12">
-                            @Html.DropDownListFor(d => d.UKDepartamentoVinculado, new SelectList(ViewBag.Departamentos, "ID", "Sigla", ViewBag.DepartamentoSuperior), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on", @id = "ddlDepartamento" })
+                            @Html.DropDownListFor(d => d.UKDepartamentoVinculado, new SelectList(ViewBag.Departamentos, "UniqueKey", "Sigla", ViewBag.DepartamentoSuperior), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on", @id = "ddlDepartamento" })
                         </div>
                     </div>
                 </div>
