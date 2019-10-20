@@ -2,7 +2,46 @@
 
     AplicajQdataTable("dynamic-table", [{ "bSortable": false }, null, null, null,null,null, { "bSortable": false }], false, 20);
 
+
+    $(".btnPesquisar").click(function () {
+        $("#formPesquisarEstabelecimento").submit();
+    });
+
+
+
+
 });
+
+function OnBeginPesquisarEstabelecimento() {
+    $(".LoadingLayout").show();
+    $('#blnSalvar').hide();
+    $("#formPesquisarEstabelecimento").css({ opacity: "0.5" });
+}
+
+function OnSuccessPesquisarEstabelecimento(data) {
+    $('#formPesquisarEstabelecimento').removeAttr('style');
+    $(".LoadingLayout").hide();
+    $('#btnSalvar').show();
+
+    //if (data.resultado != null && data.resultado.Erro != null && data.resultado.Erro != undefined && data.resultado.Erro != "") {
+    //    ExibirMensagemDeErro(resultado.Erro);
+    //}
+    //else {
+
+        $(".resultadoEstabelecimento").html(data);
+
+        if ($("#tableResultadoPesquisa").length > 0) {
+            AplicajQdataTable("tableResultadoPesquisa", [null, { "bSortable": false }], false, 20);
+        }
+    //}
+
+}
+
+
+
+
+
+
 
 function BuscarDetalhesEstabelecimentoImagens(IDEstabelecimentoImagens) {
 
@@ -11,6 +50,41 @@ function BuscarDetalhesEstabelecimentoImagens(IDEstabelecimentoImagens) {
     $.ajax({
         method: "POST",
         url: "/EstabelecimentoImagens/BuscarDetalhesEstabelecimentoImagens",
+        data: { idEstabelecimento: IDEstabelecimentoImagens },
+        error: function (erro) {
+            $(".LoadingLayout").hide();
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+        },
+        success: function (content) {
+            $(".LoadingLayout").hide();
+
+            if (content.data != null) {
+                bootbox.dialog({
+                    message: content.data,
+                    title: "<span class='bigger-110'>Detalhes do Estabelecimento</span>",
+                    backdrop: true,
+                    locale: "br",
+                    buttons: {},
+                    onEscape: true
+                });
+            }
+            else {
+                TratarResultadoJSON(content.resultado);
+            }
+
+        }
+    });
+
+}
+
+
+function PesquisarEstabelecimento(ID) {
+
+    $(".LoadingLayout").show();
+
+    $.ajax({
+        method: "POST",
+        url: "/EstabelecimentoImagens/PesquisarEstabelecimento",
         data: { idEstabelecimento: IDEstabelecimentoImagens },
         error: function (erro) {
             $(".LoadingLayout").hide();

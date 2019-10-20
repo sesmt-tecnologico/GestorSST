@@ -10,8 +10,9 @@ using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
 using GISModel.DTO;
 using GISWeb.Infraestrutura.Provider.Concrete;
-using GISWeb.Infraestrutura.Filters;
 using GISWeb.Infraestrutura.Provider.Abstract;
+using GISModel.DTO.Estabelecimento;
+using System.Collections.Generic;
 
 namespace GISWeb.Controllers
 {
@@ -46,6 +47,8 @@ namespace GISWeb.Controllers
         public ActionResult Index()
         {
             ViewBag.Estabelecimento = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+            ViewBag.Departamento = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+
             return View();
         }
 
@@ -140,6 +143,62 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
+
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PesquisarEstabelecimento(PesquisaEstabelecimentoViewModel entidade)
+        {
+
+            try
+            {
+
+               var dep = from r in REL_EstabelecimentoDepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()                          
+                          join d in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()                            
+                          on r.IDDepartamento equals d.UniqueKey                       
+                          join e in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          on r.IDEstabelecimento equals e.UniqueKey
+                          where r.IDDepartamento.Equals(entidade.UKDepartamento)
+                          select new PesquisaEstabelecimentoViewModel()
+                          {
+                             UKDepartamento = d.UniqueKey,
+                             NomeEstabelecimento = e.NomeCompleto,
+                             TipoDeEstabelecimento = e.TipoDeEstabelecimento
+
+                          };
+
+
+                List<PesquisaEstabelecimentoViewModel> lista = dep.ToList();
+
+                
+
+                return PartialView("_Pesquisa", lista);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
+
+
+
+
+
+        }
+
+    
+
+
+
+    public ActionResult BuscarEstabelecimentoPorDepartamento(string idDepartamento)
+        {
+           
+
+            return View();
+        }
+
+        
 
         public ActionResult Edicao(string id)
         {

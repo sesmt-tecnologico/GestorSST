@@ -1,0 +1,85 @@
+﻿@model List<PesquisaEstabelecimentoViewModel>
+
+@using GISModel.DTO.Estabelecimento
+
+<div class="space-6"></div>
+
+@if (Model != null && Model.Count > 0)
+{
+
+    <div id="divTableResultadoPesquisa" style="margin-top: 10px;">
+        @if (ViewBag.AlertaRownumAtingido != null && ViewBag.AlertaRownumAtingido)
+        {
+            <div style="margin-bottom: 10px">
+                <div class="alert alert-warning padding-10">
+                    <strong>
+                        <i class="ace-icon fa fa-exclamation-triangle"></i>
+                        Oops!
+                    </strong>
+
+                    @{
+                        string msg = "Sua pesquisa atingiu o número máximo de ocorrências retornadas. ";
+                        msg += "Refine os parâmetros de localização para um resultado mais preciso ou utilize o ícone de exportar para Excel # para ver todos os @ documentos encontrados.";
+
+                        msg = msg.Replace("@", "<strong>" + ViewBag.TotalDocs.ToString() + "</strong>").Replace("#", "(<i class=\"ace-icon fa fa-file-excel-o bigger-110 blue\"></i>)");
+                    }
+
+                    @Html.Raw(msg)
+
+                    <br />
+                </div>
+            </div>
+        }
+
+        <table id="tableResultadoPesquisa" class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr style="background-image: linear-gradient(to bottom, #ffffff 0%, #e2e2e2 80%); font-size: 12px; height: 28px; min-height: 10px">
+                    <th class="hidden-800 hidden-480 left" width="10px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
+                        Tipo
+                    </th>
+                    <th class="hidden-800 hidden-480 left" width="80px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
+                        Estabelecimento
+                    </th>
+
+                    <th class="center" width="5px" style="padding: 0px 0px 0px 8px; border-bottom: 0px">
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @{
+                    foreach (PesquisaEstabelecimentoViewModel item in Model)
+                    {
+                                <tr>
+
+                                    <td>
+                                        @item.TipoDeEstabelecimento
+                                    </td>
+                                    <td>
+                                        @item.NomeEstabelecimento
+                                    </td>
+
+                                    <td align="center">
+                                    </td>
+                                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        No momento, nenhum Estabelecimento encontrado.
+        <br>
+    </div>
+}
+

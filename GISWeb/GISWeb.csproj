@@ -598,6 +598,7 @@
     <Content Include="Views\Fornecedor\Novo.cshtml" />
     <Content Include="Views\Fornecedor\Edicao.cshtml" />
     <Content Include="Views\Contrato\_Pesquisar.cshtml" />
+    <Content Include="Views\Estabelecimento\_Pesquisa.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
