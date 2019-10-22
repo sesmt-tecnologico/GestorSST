@@ -177,8 +177,58 @@ namespace GISWeb.Controllers
         public ActionResult Edicao(string id)
         {
             Guid Guid = Guid.Parse(id);
-             
-            return View(ContratoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(Guid)));
+
+            EdicaoContratoViewModel obj = null;
+
+            Contrato oContrato = ContratoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(Guid));
+            if (oContrato != null)
+            {
+
+                ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+                ViewBag.Fornecedores = FornecedorBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList().OrderBy(a => a.NomeFantasia);
+
+                obj = new EdicaoContratoViewModel()
+                {
+                    ID = oContrato.ID.ToString(),
+                    Numero = oContrato.Numero,
+                    Descricao = oContrato.Descricao,
+                    DataInicio = oContrato.DataInicio,
+                    DataFim = oContrato.DataFim
+                };
+
+                REL_ContratoFornecedor rel1 = REL_ContratoFornecedorBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKContrato.Equals(oContrato.UniqueKey) && a.TipoContratoFornecedor == GISModel.Enums.ETipoContratoFornecedor.Contratada);
+                obj.UKFornecedor = rel1.UKFornecedor.ToString();
+
+                
+                List<REL_DepartamentoContrato> relsDep = REL_DepartamentoContratoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.IDContrato.Equals(oContrato.UniqueKey)).ToList();
+                if (relsDep?.Count > 0)
+                {
+                    obj.Departamento = new List<string>();
+                    foreach (REL_DepartamentoContrato item in relsDep)
+                    {
+                        obj.Departamento.Add(item.UniqueKey.ToString());
+                    }
+                }
+
+                List<REL_ContratoFornecedor> relsSub = REL_ContratoFornecedorBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && 
+                                                                                                          a.UKContrato.Equals(oContrato.UniqueKey) && 
+                                                                                                          a.TipoContratoFornecedor == GISModel.Enums.ETipoContratoFornecedor.SubContratada).ToList();
+                if (relsSub?.Count > 0)
+                {
+                    obj.SubContratadas = new List<string>();
+                    foreach (REL_ContratoFornecedor item in relsSub)
+                    {
+                        obj.SubContratadas.Add(item.UniqueKey.ToString());
+                    }
+                }
+
+                return View(obj);
+            }
+
+            
+
+
+            return View();
         }
 
         [HttpPost]

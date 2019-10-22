@@ -7,6 +7,7 @@
 function GetDepartments() {
 
     $('.page-content-area').ace_ajax('startLoading');
+    $("#contentDepartment").html("");
 
     $.ajax({
         method: "POST",
@@ -60,7 +61,7 @@ function deleteDepartment(UniqueKey, ShortName) {
                 else if (content.resultado.Sucesso != null && content.resultado.Sucesso != undefined && content.resultado.Sucesso != "") {
                     ExibirMensagemDeSucesso(content.resultado.Sucesso);
 
-                    $('.page-content-area').trigger("GetDepartments");
+                    GetDepartments();
                 }
             }
         });

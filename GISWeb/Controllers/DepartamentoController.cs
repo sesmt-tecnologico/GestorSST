@@ -146,11 +146,13 @@ namespace GISWeb.Controllers
                 ViewBag.DepartamentoSuperior = string.Empty;
             else
             {
-                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(ukDepartamento));
+                newDep.UKDepartamentoVinculado = Guid.Parse(ukDepartamento);
+
+                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey == newDep.UKDepartamentoVinculado);
                 if (dep != null)
                 {
                     ViewBag.DepartamentoSuperior = dep.Sigla;
-                    newDep.UKDepartamentoVinculado = Guid.Parse(ukDepartamento);
+                    
                 }
                 else
                 {
@@ -203,7 +205,11 @@ namespace GISWeb.Controllers
 
             ViewBag.Niveis = NivelHierarquicoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(b => b.Nome);
             ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
-            ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+
+
+            List<Departamento> deps = DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+            deps.RemoveAll(a => a.UniqueKey.Equals(UKDep));
+            ViewBag.Departamentos = deps;
             
             Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKDep));
             if (dep != null)
@@ -309,7 +315,8 @@ namespace GISWeb.Controllers
 
             try
             {
-                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(id));
+                Guid UKDep = Guid.Parse(id);
+                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKDep));
                 if (dep == null)
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o departamento, pois a mesmo não foi localizado." } });
 

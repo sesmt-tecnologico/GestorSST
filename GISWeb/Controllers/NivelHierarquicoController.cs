@@ -123,7 +123,9 @@ namespace GISWeb.Controllers
 
             try
             {
-                NivelHierarquico nivel = NivelHierarquicoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(id));
+                Guid UKNivel = Guid.Parse(id);
+
+                NivelHierarquico nivel = NivelHierarquicoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKNivel));
                 if (nivel == null)
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o nível, pois a mesmo não foi localizado." } });
 
