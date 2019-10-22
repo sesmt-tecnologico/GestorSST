@@ -217,7 +217,7 @@ function BuscarDetalhesEmpresa(IDEmpresa) {
 
 }
 
-function DeletarEmpresa(IDEmpresa, Nome) {
+function DeletarEstabelecimento(IDEstabelecimento, NomeEstabelecimento) {
     
     var callback = function () {
         $('.LoadingLayout').show();
@@ -225,8 +225,8 @@ function DeletarEmpresa(IDEmpresa, Nome) {
 
         $.ajax({
             method: "POST",
-            url: "/Empresa/Terminar",
-            data: { IDEmpresa: IDEmpresa },
+            url: "/Estabelecimento/Terminar",
+            data: { id: IDEstabelecimento },
             error: function (erro) {
                 $(".LoadingLayout").hide();
                 $("#dynamic-table").css({ opacity: '' });
@@ -239,12 +239,12 @@ function DeletarEmpresa(IDEmpresa, Nome) {
                 TratarResultadoJSON(content.resultado);
 
                 if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
-                    $("#linha-" + IDEmpresa).remove();
+                    $("#linha-" + IDEstabelecimento).remove();
                 }
             }
         });
     };
 
-    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a empresa '" + Nome + "'?", "Exclusão de Empresa", callback, "btn-danger");
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir este Estabelecimento '" + NomeEstabelecimento + "'?", "Exclusão de Estabelecimento", callback, "btn-danger");
 
 }

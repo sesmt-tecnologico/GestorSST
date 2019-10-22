@@ -12,7 +12,7 @@ namespace GISModel.DTO.Estabelecimento
         public string  UniqueKey { get; set; }
 
         [Display(Name = "Estabelecimento")]
-        public string IDEstabelecimento  { get; set; }
+        public Guid IDEstabelecimento  { get; set; }
 
         [Display(Name = "Estabelecimento")]
         public string  NomeEstabelecimento { get; set; }

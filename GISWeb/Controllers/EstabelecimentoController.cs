@@ -143,10 +143,7 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
-
-
-
-
+                     
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PesquisarEstabelecimento(PesquisaEstabelecimentoViewModel entidade)
@@ -165,7 +162,9 @@ namespace GISWeb.Controllers
                           {
                              UKDepartamento = d.UniqueKey,
                              NomeEstabelecimento = e.NomeCompleto,
-                             TipoDeEstabelecimento = e.TipoDeEstabelecimento
+                             TipoDeEstabelecimento = e.TipoDeEstabelecimento,
+                             IDEstabelecimento = e.UniqueKey
+                             
 
                           };
 
@@ -187,25 +186,13 @@ namespace GISWeb.Controllers
 
         }
 
-    
-
-
-
-    public ActionResult BuscarEstabelecimentoPorDepartamento(string idDepartamento)
-        {
-           
-
-            return View();
-        }
-
-        
-
         public ActionResult Edicao(string id)
         {
+            Guid ID = Guid.Parse(id);
             ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "IDDepartamento", "Sigla");
             ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
 
-            return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
+            return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(ID)));
         }
 
         [HttpPost]
@@ -216,6 +203,7 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+                    oEstabelecimento.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     EstabelecimentoBusiness.Alterar(oEstabelecimento);
 
                     Extensions.GravaCookie("MensagemSucesso", "O Estbelecimento '" + oEstabelecimento.NomeCompleto + "' foi atualizado com sucesso.", 10);
@@ -290,6 +278,37 @@ namespace GISWeb.Controllers
 
 
         }
-        
+
+        [HttpPost]
+        public ActionResult Terminar(string id)
+        {
+            Guid ID = Guid.Parse(id);
+            try
+            {
+                Estabelecimento dep = EstabelecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(ID));
+                if (dep == null)
+                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o departamento, pois a mesmo não foi localizado." } });
+
+                dep.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                EstabelecimentoBusiness.Terminar(dep);
+
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "O departamento '" + dep.NomeCompleto + "' foi excluído com sucesso." } });
+
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+
+
+        }
+
     }
 }
