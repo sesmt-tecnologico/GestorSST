@@ -12,6 +12,7 @@ using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
 using System.Collections.Generic;
 using System.Data;
+using GISHelpers.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -206,7 +207,7 @@ namespace GISWeb.Controllers
                     obj.Departamento = new List<string>();
                     foreach (REL_DepartamentoContrato item in relsDep)
                     {
-                        obj.Departamento.Add(item.UniqueKey.ToString());
+                        obj.Departamento.Add(item.IDDepartamento.ToString());
                     }
                 }
 
@@ -218,7 +219,7 @@ namespace GISWeb.Controllers
                     obj.SubContratadas = new List<string>();
                     foreach (REL_ContratoFornecedor item in relsSub)
                     {
-                        obj.SubContratadas.Add(item.UniqueKey.ToString());
+                        obj.SubContratadas.Add(item.UKFornecedor.ToString());
                     }
                 }
 
@@ -233,15 +234,145 @@ namespace GISWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Atualizar(Contrato oContrato)
+        public ActionResult Atualizar(EdicaoContratoViewModel entidade)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    ContratoBusiness.Alterar(oContrato);
+                    Contrato objBanco = ContratoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.ToString().Equals(entidade.ID));
+                    if (objBanco == null)
+                    {
+                        throw new Exception("Não foi possível localizar o contrato na base de dados.");
+                    }
+                    else
+                    {
+                        if (!entidade.Numero.Equals(objBanco.Numero) ||
+                            !entidade.Descricao.Equals(objBanco.Descricao) ||
+                            !entidade.DataInicio.Equals(objBanco.DataInicio) ||
+                            !entidade.DataFim.Equals(objBanco.DataFim))
+                        {
+                            objBanco.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                            ContratoBusiness.Terminar(objBanco);
 
-                    TempData["MensagemSucesso"] = "O Contrato '" + oContrato.Numero + "' foi atualizado com sucesso.";
+
+                            Contrato newContrato = new Contrato()
+                            {
+                                UniqueKey = objBanco.UniqueKey,
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                                Numero = entidade.Numero,
+                                Descricao = entidade.Descricao,
+                                DataInicio = entidade.DataInicio,
+                                DataFim = entidade.DataFim
+                            };
+                            ContratoBusiness.Inserir(newContrato);
+                        }
+
+
+
+
+                        REL_ContratoFornecedor rel1 = REL_ContratoFornecedorBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKContrato.Equals(objBanco.UniqueKey) && a.TipoContratoFornecedor == GISModel.Enums.ETipoContratoFornecedor.Contratada);
+                        if (!entidade.UKFornecedor.Equals(rel1.UKFornecedor.ToString())) {
+
+                            rel1.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                            REL_ContratoFornecedorBusiness.Terminar(rel1);
+
+
+                            REL_ContratoFornecedor newRel1 = new REL_ContratoFornecedor()
+                            {
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                                UKContrato = objBanco.UniqueKey,
+                                UKFornecedor = Guid.Parse(entidade.UKFornecedor),
+                                TipoContratoFornecedor = GISModel.Enums.ETipoContratoFornecedor.Contratada
+                            };
+                            REL_ContratoFornecedorBusiness.Inserir(newRel1);
+                        }
+
+
+
+
+                        List<REL_DepartamentoContrato> relsDep = REL_DepartamentoContratoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && 
+                                                                                                                      a.IDContrato.Equals(objBanco.UniqueKey)).ToList();
+
+                        //Primeira verificação, o que veio da web e não está no banco
+                        if (entidade?.Departamento?.Count > 0)
+                        {
+                            foreach (string dep in entidade.Departamento)
+                            {
+                                if (relsDep.Where(a => a.IDDepartamento.ToString().Equals(dep)).Count() == 0)
+                                {
+                                    //Dep não está nos departamentos do banco de dados, logo, inserir
+
+                                    REL_DepartamentoContratoBusiness.Inserir(new REL_DepartamentoContrato()
+                                    {
+                                        IDContrato = objBanco.UniqueKey,
+                                        IDDepartamento = Guid.Parse(dep),
+                                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                    });
+                                }
+                            }
+                        }
+
+
+                        //Segunda verificação, o que veio do banco que não está na web
+                        if (relsDep?.Count > 0)
+                        {
+                            foreach (REL_DepartamentoContrato item in relsDep)
+                            {
+                                if (entidade.Departamento.Where(a => a.Equals(item.IDDepartamento.ToString())).Count() == 0)
+                                {
+                                    //rel do banco não está entre os valores vindos da web, logo, terminar
+
+                                    item.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                                    REL_DepartamentoContratoBusiness.Terminar(item);
+                                }
+                            }
+                        }
+
+
+
+                        List<REL_ContratoFornecedor> relsSub = REL_ContratoFornecedorBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) &&
+                                                                                                                  a.UKContrato.Equals(objBanco.UniqueKey) &&
+                                                                                                                  a.TipoContratoFornecedor == GISModel.Enums.ETipoContratoFornecedor.SubContratada).ToList();
+
+
+                        //Primeira verificação, o que veio da web e não está no banco
+                        if (entidade?.SubContratadas?.Count > 0)
+                        {
+                            foreach (string sub in entidade.SubContratadas)
+                            {
+                                if (relsSub.Where(a => a.UKFornecedor.ToString().Equals(sub)).Count() == 0)
+                                {
+                                    //Sub não está nas subcontratadas do banco de dados, logo, inserir
+
+                                    REL_ContratoFornecedorBusiness.Inserir(new REL_ContratoFornecedor()
+                                    {
+                                        UKContrato = objBanco.UniqueKey,
+                                        UKFornecedor = Guid.Parse(sub),
+                                        TipoContratoFornecedor = GISModel.Enums.ETipoContratoFornecedor.SubContratada,
+                                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                    });
+                                }
+                            }
+                        }
+
+                        if (relsSub?.Count > 0)
+                        {
+                            foreach (REL_ContratoFornecedor item in relsSub)
+                            {
+                                if (entidade.SubContratadas.Where(a => a.Equals(item.UKFornecedor.ToString())).Count() == 0)
+                                {
+                                    //rel do banco não está entre os valores vindos da web, logo, terminar
+
+                                    item.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                                    REL_ContratoFornecedorBusiness.Terminar(item);
+                                }
+                            }
+                        }
+                        
+                    }
+
+                    Extensions.GravaCookie("MensagemSucesso", "O Contrato '" + entidade.Numero + "' foi atualizado com sucesso.", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Contrato") } });
                 }
@@ -367,16 +498,16 @@ namespace GISWeb.Controllers
                 string sql = @"select top 100 o.UniqueKey, o.Numero, o.DataInicio, o.DataFim,
 	                                   (select STRING_AGG(d.Sigla, ',') WITHIN GROUP (ORDER BY d.Sigla) 
 		                                from REL_DepartamentoContrato r1, tbDepartamento d 
-		                                where r1.UsuarioExclusao is null and d.UsuarioExclusao is null and 
+		                                where r1.DataExclusao = '9999-12-31 23:59:59.997' and d.DataExclusao = '9999-12-31 23:59:59.997' and 
 			                                  r1.IDContrato = o.UniqueKey and r1.IDDepartamento = d.UniqueKey) as Departamentos, 
 		                                f.NomeFantasia,
 		                                (select STRING_AGG(f.NomeFantasia, ',') WITHIN GROUP (ORDER BY f.NomeFantasia)   
 		                                 from REL_ContratoFornecedor r2, tbFornecedor f
-		                                 WHERE r2.UKContrato = o.UniqueKey and r2.UsuarioExclusao is null and
-			                                   r2.UKFornecedor = f.UniqueKey and f.UsuarioExclusao is null and
+		                                 WHERE r2.UKContrato = o.UniqueKey and r2.DataExclusao = '9999-12-31 23:59:59.997' and
+			                                   r2.UKFornecedor = f.UniqueKey and f.DataExclusao = '9999-12-31 23:59:59.997' and
 			                                   r2.TipoContratoFornecedor = 1) as SubContratadas
                                from tbcontrato o, REL_ContratoFornecedor r1, tbFornecedor f " + sFrom + @"
-                               where o.UsuarioExclusao is null and r1.UsuarioExclusao is null and
+                               where o.DataExclusao = '9999-12-31 23:59:59.997' and r1.DataExclusao = '9999-12-31 23:59:59.997' and
 	                                 o.UniqueKey = r1.UKContrato and r1.TipoContratoFornecedor = 0 and
 	                                 r1.UKFornecedor = f.UniqueKey and f.UsuarioExclusao is null " + sWhere + @"
                                order by o.Numero";
