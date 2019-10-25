@@ -139,6 +139,7 @@
     <Compile Include="Business\Abstract\ITipoDeRiscoBusiness.cs" />
     <Compile Include="Business\Abstract\IUsuarioBusiness.cs" />
     <Compile Include="Business\Abstract\IUsuarioPerfilBusiness.cs" />
+    <Compile Include="Business\Abstract\IWorkAreaBusiness.cs" />
     <Compile Include="Business\Concrete\AnaliseRiscoBusiness.cs" />
     <Compile Include="Business\Concrete\ArquivoBusiness.cs" />
     <Compile Include="Business\Concrete\AtividadeFuncaoLiberadaBusiness.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Business\Abstract\IFuncaoBusiness.cs" />
     <Compile Include="Business\Concrete\UsuarioBusiness.cs" />
     <Compile Include="Business\Concrete\UsuarioPerfilBusiness.cs" />
+    <Compile Include="Business\Concrete\WorkAreaBusiness.cs" />
     <Compile Include="Connected Services\CEMIGInfoService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -192,6 +194,10 @@
     <Compile Include="Migrations\201910140040023_v11.cs" />
     <Compile Include="Migrations\201910140040023_v11.Designer.cs">
       <DependentUpon>201910140040023_v11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201910221443210_WorkArea.cs" />
+    <Compile Include="Migrations\201910221443210_WorkArea.Designer.cs">
+      <DependentUpon>201910221443210_WorkArea.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -345,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201910140040023_v11.resx">
       <DependentUpon>201910140040023_v11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910221443210_WorkArea.resx">
+      <DependentUpon>201910221443210_WorkArea.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

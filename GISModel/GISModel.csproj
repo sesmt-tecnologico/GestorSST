@@ -111,6 +111,8 @@
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />
     <Compile Include="DTO\Shared\RetornoJSON.cs" />
+    <Compile Include="DTO\WorkArea\REL_WorkAreaAtividadeViewModel.cs" />
+    <Compile Include="DTO\WorkArea\WorkAreaViewModel.cs" />
     <Compile Include="Entidades\Admissao.cs" />
     <Compile Include="Entidades\Alocacao.cs" />
     <Compile Include="Entidades\AnaliseRisco.cs" />
@@ -146,9 +148,11 @@
     <Compile Include="Entidades\REL_ContratoFornecedor.cs" />
     <Compile Include="Entidades\REL_DepartamentoContrato.cs" />
     <Compile Include="Entidades\REL_EstabelecimentoDepartamento.cs" />
+    <Compile Include="Entidades\REL_WorkAreaAtividade.cs" />
     <Compile Include="Entidades\TipoDeRisco.cs" />
     <Compile Include="Entidades\Usuario.cs" />
     <Compile Include="Entidades\UsuarioPerfil.cs" />
+    <Compile Include="Entidades\WorkArea.cs" />
     <Compile Include="Enums\ETipoContratoFornecedor.cs" />
     <Compile Include="Enums\ETipoPlanoAcao.cs" />
     <Compile Include="Enums\EControle.cs" />

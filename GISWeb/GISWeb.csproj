@@ -354,6 +354,9 @@
     <Content Include="Scripts\Custom\Usuario\Listagem.js" />
     <Content Include="Scripts\Custom\Usuario\Novo.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Custom\WorkArea\Editar.js" />
+    <Content Include="Scripts\Custom\WorkArea\Listagem.js" />
+    <Content Include="Scripts\Custom\WorkArea\Novo.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -421,6 +424,7 @@
     <Compile Include="Controllers\PossiveisDanosController.cs" />
     <Compile Include="Controllers\TipoDeRiscoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\WorkAreaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -599,6 +603,8 @@
     <Content Include="Views\Fornecedor\Edicao.cshtml" />
     <Content Include="Views\Contrato\_Pesquisar.cshtml" />
     <Content Include="Views\Estabelecimento\_Pesquisa.cshtml" />
+    <Content Include="Views\WorkArea\Index.cshtml" />
+    <Content Include="Views\WorkArea\Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

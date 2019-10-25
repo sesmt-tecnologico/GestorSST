@@ -184,7 +184,9 @@ namespace GISWeb.Controllers
         //parametro id da função, nome da função e id da Diretoria, passados de index/função e ListaFunção
         public ActionResult Novo(string id, string nome, string idDiretoria, string nomeDiretoria)
         {
-            
+
+            Guid ID = Guid.Parse(id);
+
             ViewBag.AtivId = id;
 
             TempData["Funcao"] = nome;
@@ -193,7 +195,7 @@ namespace GISWeb.Controllers
 
             ViewBag.NomeDiretoria = nomeDiretoria;
 
-            ViewBag.Atividade = FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao) && (d.ID.Equals(id))).ToList();
+            ViewBag.Atividade = FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao) && (d.ID.Equals(ID))).ToList();
 
             ViewBag.Diretoria = idDiretoria;
 

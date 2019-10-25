@@ -1,5 +1,11 @@
 ﻿jQuery(function ($) {
 
+
+    Chosen();
+
+
+
+
     $("#ddlEmpresa").change(function () {
 
         if ($(this).val() != "") {

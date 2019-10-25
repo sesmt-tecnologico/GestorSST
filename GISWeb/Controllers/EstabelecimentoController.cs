@@ -46,6 +46,8 @@ namespace GISWeb.Controllers
 
         public ActionResult Index()
         {
+            
+
             ViewBag.Estabelecimento = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
             ViewBag.Departamento = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 

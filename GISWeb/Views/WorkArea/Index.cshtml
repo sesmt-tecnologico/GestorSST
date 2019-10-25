@@ -1,0 +1,54 @@
+﻿@model GISModel.DTO.WorkArea.WorkAreaViewModel
+
+
+
+
+@{
+    ViewBag.Title = "Listagem de WorkAreas";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            WorkArea
+            <button id="btnLocalizarEstabelecimento" class="btn btn-primary btnPesquisar" style="float: right; border: 0px; border-bottom: 2px; margin-top: -2px; height: 34px;">
+                <i class="ace-icon fa fa-search"></i>
+                Pesquisar
+            </button>
+
+            <a href="@Url.Action("Novo", "WorkArea")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px; margin-right: 20px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                Novo
+            </a>
+        </h3>
+    </div>
+</div>
+
+@using (Ajax.BeginForm("PesquisarWorkArea", "WorkArea", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginPesquisarWorkArea", OnSuccess = "OnSuccessPesquisarWorkarea" }, new { @id = "formPesquisarWorkArea", @class = "form-horizontal", @autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.IDEstabelecimento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @*@Html.ListBoxFor(d => d.Departamento, new SelectList(ViewBag.Departamentos, "UniqueKey", "Sigla"), new { @class = "chosen-select form-control", @data_placeholder = "Selecione pelo menos um departamento" })*@
+                    @Html.DropDownListFor(d => d.IDEstabelecimento, new SelectList(ViewBag.Estab, "UniqueKey", "NomeCompleto"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+}
+
+<div class="resultadoEstabelecimento"></div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+    <script src="~/Scripts/Custom/Estabelecimento/Listagem.js"></script>
+}

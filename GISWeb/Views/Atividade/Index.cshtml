@@ -39,7 +39,7 @@
 
                         @foreach (Atividade iAtividade in ViewBag.Atividade)
                         {
-                            <tr id="linha-@iAtividade.IDAtividade">
+                            <tr id="linha-@iAtividade.ID">
                                 <td class="center">
                                     <label class="pos-rel">
                                         <input type="checkbox" class="ace" />
@@ -50,7 +50,7 @@
                                 <td>@iAtividade.Funcao.NomeDaFuncao</td>
                                 <td>@iAtividade.Descricao</td>
                                 <td>
-                                    <img src="/Images/AtividadesImagens/@iAtividade.IDAtividade/@iAtividade.Imagem" alt="Atividades" width="90" height="70" />
+                                    <img src="/Images/AtividadesImagens/@iAtividade.ID/@iAtividade.Imagem" alt="Atividades" width="90" height="70" />
                                 </td>
 
 
@@ -61,14 +61,14 @@
                                                 <i class="ace-icon fa fa-search-plus bigger-130"></i>
                                             </a>*@
 
-                                        <a href='@Url.Action("Novo", "Atividade", new { id = @iAtividade.Funcao.IDFuncao })' class="green">
+                                        <a href='@Url.Action("Novo", "Atividade", new { id = @iAtividade.Funcao.ID })' class="green">
                                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                                         </a>
-                                        <a href='@Url.Action("Novo", "AtividadeRiscos", new { id = @iAtividade.IDAtividade })' title="Cadastrar Perigo Existente" class="green">
+                                        <a href='@Url.Action("Novo", "AtividadeRiscos", new { id = @iAtividade.ID })' title="Cadastrar Perigo Existente" class="green">
                                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                                         </a>
 
-                                        <a class="red" href="#" onclick="DeletarContrato('@iAtividade.IDAtividade');">
+                                        <a class="red" href="#" onclick="DeletarContrato('@iAtividade.ID');">
                                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                         </a>
                                     </div>
@@ -81,7 +81,7 @@
 
                                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                                 <li>
-                                                    <a href="#" class="tooltip-info" onclick="BuscarDetalhesContrato('@iAtividade.IDAtividade'); return false;" data-rel="tooltip" title="View">
+                                                    <a href="#" class="tooltip-info" onclick="BuscarDetalhesContrato('@iAtividade.ID'); return false;" data-rel="tooltip" title="View">
                                                         <span class="blue">
                                                             <i class="ace-icon fa fa-search-plus bigger-120"></i>
                                                         </span>
@@ -89,7 +89,7 @@
                                                 </li>
 
                                                 <li>
-                                                    <a href='@Url.Action("Edicao", "Cargo", new { id = @iAtividade.IDAtividade})' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                    <a href='@Url.Action("Edicao", "Cargo", new { id = @iAtividade.ID})' class="tooltip-success" data-rel="tooltip" title="Edit">
                                                         <span class="green">
                                                             <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                         </span>
@@ -97,7 +97,7 @@
                                                 </li>
 
                                                 <li>
-                                                    <a href="#" class="tooltip-error" onclick="DeletarContrato('@iAtividade.IDAtividade');" data-rel="tooltip" title="Delete">
+                                                    <a href="#" class="tooltip-error" onclick="DeletarContrato('@iAtividade.ID');" data-rel="tooltip" title="Delete">
                                                         <span class="red">
                                                             <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                         </span>

@@ -11,7 +11,7 @@ namespace GISCore.Repository.Configuration
             Database.SetInitializer<SESTECContext>(null);
         }
 
-       
+        public DbSet<WorkArea> WorkArea { get; set; }
         public DbSet<Fornecedor> Fornecedor { get; set; }
 
         public DbSet<AtividadeFuncaoLiberada> AtividadeFuncaoLiberada { get; set; }
