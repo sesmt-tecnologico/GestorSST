@@ -32,7 +32,6 @@
             <div class="form-group">
                 @Html.LabelFor(d => d.UKDepartamento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                 <div class="col-xs-12 col-sm-12">
-                    @*@Html.ListBoxFor(d => d.Departamento, new SelectList(ViewBag.Departamentos, "UniqueKey", "Sigla"), new { @class = "chosen-select form-control", @data_placeholder = "Selecione pelo menos um departamento" })*@
                     @Html.DropDownListFor(d => d.UKDepartamento, new SelectList(ViewBag.Departamentos, "UniqueKey", "Sigla"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
                 </div>
             </div>

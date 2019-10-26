@@ -1,5 +1,4 @@
 ﻿
-
 function DeletarContrato(IDContrato, NumeroContrato) {
 
     var callback = function () {
@@ -22,7 +21,8 @@ function DeletarContrato(IDContrato, NumeroContrato) {
                 TratarResultadoJSON(content.resultado);
 
                 if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
-                    $("#linha-" + IDContrato).remove();
+                    //$("#linha-" + IDContrato).remove();
+                    $(".btnPesquisar").click();
                 }
             }
         });
@@ -30,12 +30,6 @@ function DeletarContrato(IDContrato, NumeroContrato) {
 
     ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir o Contrato '" + NumeroContrato + "'?", "Exclusão do Contrato", callback, "btn-danger");
 }
-
-
-
-
-
-
 
 function OnSuccessExcluirContrato(data) {
     $('#formExcluirContrato').removeAttr('style');

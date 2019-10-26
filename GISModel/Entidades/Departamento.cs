@@ -25,7 +25,8 @@ namespace GISModel.Entidades
 
         
 
-        [Display(Name = "Empresa")]        
+        [Display(Name = "Empresa")]
+        [Required(ErrorMessage = "Selecione uma empresa")]
         public Guid UKEmpresa { get; set; }
 
         public virtual Empresa Empresa { get; set; }

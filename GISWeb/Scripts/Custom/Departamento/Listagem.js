@@ -1,5 +1,6 @@
 ﻿jQuery(function ($) {
 
+
     $(".btnNewDepartment").on("click", function () {
         return false;
     });
@@ -26,15 +27,19 @@
 
 
 
+    GetDepartments();
+
+
 });
 
-function GetDepartments(UKCompany) {
+function GetDepartments() {
+
     $('.page-content-area').ace_ajax('startLoading');
+    $("#contentDepartment").html("");
 
     $.ajax({
         method: "POST",
-        url: "/Departamento/BuscarDepartamentosPorEmpresa",
-        data: { id: UKCompany },
+        url: "/Departamento/BuscarDepartamentosTodasEmpresa",
         error: function (erro) {
             $('.page-content-area').ace_ajax('stopLoading', true);
 
@@ -62,7 +67,7 @@ function GetDepartments(UKCompany) {
     });
 }
 
-function deleteDepartment(UniqueKey, ShortName, UKCompany) {
+function deleteDepartment(UniqueKey, ShortName) {
 
     var callback = function () {
         $('.page-content-area').ace_ajax('startLoading');
@@ -84,7 +89,7 @@ function deleteDepartment(UniqueKey, ShortName, UKCompany) {
                 else if (content.resultado.Sucesso != null && content.resultado.Sucesso != undefined && content.resultado.Sucesso != "") {
                     ExibirMensagemDeSucesso(content.resultado.Sucesso);
 
-                    $('.page-content-area').trigger("GetDepartments", [UKCompany]);
+                    GetDepartments();
                 }
             }
         });
