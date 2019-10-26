@@ -43,8 +43,10 @@ namespace GISCore.Business.Concrete
                 tempDepartamento.UsuarioExclusao = departamento.UsuarioExclusao;
                 base.Alterar(tempDepartamento);
 
+                departamento.ID = Guid.NewGuid();
                 departamento.UniqueKey = tempDepartamento.UniqueKey;
                 departamento.UsuarioExclusao = string.Empty;
+                departamento.UKEmpresa = tempDepartamento.UKEmpresa;
                 base.Inserir(departamento);
             }
 

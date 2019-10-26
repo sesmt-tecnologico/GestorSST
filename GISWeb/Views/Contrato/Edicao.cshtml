@@ -1,11 +1,10 @@
-﻿@model GISModel.Entidades.Contrato
-
+﻿@model GISModel.DTO.Contrato.EdicaoContratoViewModel
+    @using GISModel.Entidades
 
 
 @{
     ViewBag.Title = "Edicao";
 }
-
 
 <div id="formEdicaoContrato">
     <div class="row">
@@ -44,40 +43,103 @@
     }
     else
     {
-        using (Ajax.BeginForm("Atualizar", "Contrato", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginAtualizarContrato", OnSuccess = "OnSuccessCadastrarContrato", }, new { @id = "formEdicaoContrato", @class = "form-horizontal" }))
+        using (Ajax.BeginForm("Atualizar", "Contrato", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginAtualizarContrato", OnSuccess = "OnSuccessAtualizarContrato", }, new { @id = "formEdicaoContrato", @class = "form-horizontal" }))
         {
             @Html.AntiForgeryToken()
 
             <div class="row">
                 <div class="col-xs-12 col-sm-4">
                     <div class="form-group">
-                        @Html.LabelFor(d => d.NumeroContrato, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        @Html.LabelFor(d => d.Departamento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                         <div class="col-xs-12 col-sm-12">
-                            @Html.EditorFor(d => d.NumeroContrato, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                            @Html.ListBoxFor(d => d.Departamento, new SelectList(ViewBag.Departamentos, "UniqueKey", "Sigla", Model.Departamento), new { @class = "chosen-select form-control", @data_placeholder = "Selecione pelo menos um departamento" })
+                            @Html.ValidationMessageFor(d => d.Departamento, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.UKFornecedor, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.DropDownListFor(d => d.UKFornecedor, new SelectList(ViewBag.Fornecedores, "UniqueKey", "NomeFantasia"), "Selecione um fornecedor...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                            @Html.ValidationMessageFor(d => d.UKFornecedor, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.SubContratadas, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.ListBoxFor(d => d.SubContratadas, new SelectList(ViewBag.Fornecedores, "UniqueKey", "NomeFantasia"), new { @class = "chosen-select form-control", @data_placeholder = "Selecione um departamento" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.Numero, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.Numero, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                            @Html.ValidationMessageFor(d => d.Numero, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
                             @Html.HiddenFor(d => d.ID)
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-8">
+                <div class="col-xs-12 col-sm-4">
                     <div class="form-group">
-                        @Html.LabelFor(d => d.DescricaoContrato, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+
+                        <label class="form-field-select-3 col-xs-12 col-sm-12 no-padding-right" for="DataIncidente">Data de inicio</label>
+
                         <div class="col-xs-12 col-sm-12">
-                            @Html.EditorFor(d => d.DescricaoContrato, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCNPJ" } })
-                            @Html.ValidationMessageFor(d => d.DescricaoContrato, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
 
+                            <div class="input-group">
+                                <input class="form-control date-picker" name="Datainicio" id="Datainicio" value="@Model.DataInicio" type="text" data-date-format="dd-mm-yyyy">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                            </div>
 
+                            @Html.ValidationMessageFor(model => model.DataInicio, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
 
+                        <label class="form-field-select-3 col-xs-12 col-sm-12 no-padding-right" for="DataIncidente">Data de término</label>
 
+                        <div class="col-xs-12 col-sm-12">
+
+                            <div class="input-group">
+                                <input class="form-control date-picker" name="DataFim" id="DataFim" value="@Model.DataFim" type="text" data-date-format="dd-mm-yyyy">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                            </div>
+
+                            @Html.ValidationMessageFor(model => model.DataFim, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
             </div>
 
-
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.Descricao, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.Descricao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                            @Html.ValidationMessageFor(d => d.Descricao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
-                    <button class="btn btn-info" type="submit">
+                    <button class="btn btn-info" id="btnSalvar" type="submit">
                         <i class="ace-icon fa fa-check bigger-110"></i>
                         Salvar
                     </button>
@@ -95,13 +157,14 @@
             </div>
         }
     }
-
-
-
 </div> <!-- Fim Form -->
-@section Scripts {
 
+
+@section Scripts {
+    <script src="~/Scripts/Ace/bootstrap-timepicker.js"></script>
+    
+    <script src="~/Scripts/Ace/ace.widget-box.js"></script>
+    <script src="~/Scripts/Ace/chosen.jquery.js"></script>
 
     <script src="~/Scripts/Custom/Contrato/Edicao.js"></script>
-
 }

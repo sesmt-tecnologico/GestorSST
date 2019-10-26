@@ -22,14 +22,14 @@ namespace GISWeb.Infraestrutura.Helpers
         }
 
 
-        public IHtmlString MontarListaDepartamentos(List<Departamento> lista, string UKEmpresa, string UKDepartment, List<NivelHierarquico> Niveis)
+        public IHtmlString MontarListaDepartamentos(List<Departamento> lista, string UKDepartment, List<NivelHierarquico> Niveis)
         {
 
-            HtmlString html = new HtmlString(TratarListaDepartamento(lista, UKEmpresa, UKDepartment, Niveis));
+            HtmlString html = new HtmlString(TratarListaDepartamento(lista, UKDepartment, Niveis));
             return html;
         }
 
-        public static string TratarListaDepartamento(List<Departamento> lista, string UKEmpresa, string UKDepartment, List<NivelHierarquico> Niveis)
+        public static string TratarListaDepartamento(List<Departamento> lista, string UKDepartment, List<NivelHierarquico> Niveis)
         {
             StringBuilder sHTML = new StringBuilder();
             sHTML.Append("<ol class=\"dd-list\">");
@@ -44,17 +44,17 @@ namespace GISWeb.Infraestrutura.Helpers
                 sHTML.Append(dep2.Sigla);
                 sHTML.Append("<div class=\"pull-right action-buttons\">");
 
-                sHTML.Append("<a class=\"blue CustomTooltip\" href=\"/Departamento/Novo?UKEmpresa=" + UKEmpresa + "&UKDepartamento=" + dep2.UniqueKey + "\" title=\"Novo departamento\">");
+                sHTML.Append("<a class=\"blue CustomTooltip\" href=\"/Departamento/Novo?UKDepartamento=" + dep2.UniqueKey + "\" title=\"Novo departamento\">");
                 sHTML.Append("  <i class=\"ace-icon fa fa-plus-circle green bigger-125\"></i>");
                 sHTML.Append("</a>");
 
-                sHTML.Append("<a class=\"orange CustomTooltip\" href=\"/Departamento/Edicao?UKEmpresa=" + UKEmpresa + "&UKDepartamento=" + dep2.UniqueKey + "\" title=\"Editar departamento\">");
+                sHTML.Append("<a class=\"orange CustomTooltip\" href=\"/Departamento/Edicao?UKDepartamento=" + dep2.UniqueKey + "\" title=\"Editar departamento\">");
                 sHTML.Append("  <i class=\"ace-icon fa fa-pencil bigger-130\"></i>");
                 sHTML.Append("</a>");
 
                 if (lista.Where(a => a.UKDepartamentoVinculado != null && a.UKDepartamentoVinculado.Equals(dep2.UniqueKey)).Count() == 0)
                 {
-                    sHTML.Append("<a class=\"red CustomTooltip\" href=\"#\" title=\"Excluir departamento\" onclick=\"deleteDepartment('" + dep2.UniqueKey.ToString() + "', '" + dep2.Sigla + "', '" + UKEmpresa + "'); return false; \"> ");
+                    sHTML.Append("<a class=\"red CustomTooltip\" href=\"#\" title=\"Excluir departamento\" onclick=\"deleteDepartment('" + dep2.UniqueKey.ToString() + "', '" + dep2.Sigla + "'); return false; \"> ");
                     sHTML.Append("  <i class=\"ace-icon fa fa-trash-o bigger-130\"></i>");
                     sHTML.Append("</a>");
                 }
@@ -65,7 +65,7 @@ namespace GISWeb.Infraestrutura.Helpers
 
                 if (lista.Where(a => a.UKDepartamentoVinculado != null && a.UKDepartamentoVinculado.Equals(dep2.UniqueKey)).Count() > 0)
                 {
-                    sHTML.Append(TratarListaDepartamento(lista, UKEmpresa, dep2.UniqueKey.ToString(), Niveis));
+                    sHTML.Append(TratarListaDepartamento(lista, dep2.UniqueKey.ToString(), Niveis));
                 }
 
                 sHTML.Append("</li>");

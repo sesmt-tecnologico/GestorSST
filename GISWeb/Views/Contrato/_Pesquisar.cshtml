@@ -58,7 +58,7 @@
                         Sub-contratadas
                     </th>
 
-                    <th class="center" width="60px" style="padding: 0px 0px 0px 8px; border-bottom: 0px">
+                    <th class="center" width="80px" style="padding: 0px 0px 0px 8px; border-bottom: 0px">
                     </th>
                 </tr>
             </thead>
@@ -79,7 +79,41 @@
                             <td>@item.UKDepartamento</td>
                             <td>@item.UKSubContratada</td>
                             <td align="center">
+                                <div class="hidden-sm hidden-xs action-buttons">
+                                    <a href='@Url.Action("Edicao", "Contrato", new { id = @item.UniqueKey })' class="green">
+                                        <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
+                                    </a>
 
+                                    <a class="red" href="#" onclick="DeletarContrato('@item.UniqueKey', '@item.Numero');">
+                                        <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
+                                    </a>
+                                </div>
+
+                                <div class="hidden-md hidden-lg">
+                                    <div class="inline pos-rel">
+                                        <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                            <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                        </button>
+
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                            <li>
+                                                <a href='@Url.Action("Edicao", "Contrato", new { id = item.UniqueKey })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                    <span class="green">
+                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#" class="tooltip-error" onclick="DeletarContrato('@item.UniqueKey', '@item.Numero');" data-rel="tooltip" title="Delete">
+                                                    <span class="red">
+                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -98,7 +132,7 @@ else
             Oops!
         </strong>
 
-        No momento, nenhum departamento encontrado para esta empresa.
+        Nenhum contrato encontrado para os filtros informados acima.
         <br>
     </div>
 }

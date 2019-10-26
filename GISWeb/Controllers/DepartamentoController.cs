@@ -40,7 +40,6 @@ namespace GISWeb.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
             return View();
         }
         
@@ -51,6 +50,14 @@ namespace GISWeb.Controllers
             ViewBag.Niveis = NivelHierarquicoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(a => a.Nome).ToList();
 
             List<Departamento> departamentos = DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKEmpresa.ToString().Equals(id)).ToList();
+            return PartialView("_BuscarDepartamentosPorEmpresa", departamentos);
+        }
+
+        public ActionResult BuscarDepartamentosTodasEmpresa()
+        {
+            ViewBag.Niveis = NivelHierarquicoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(a => a.Nome).ToList();
+
+            List<Departamento> departamentos = DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
             return PartialView("_BuscarDepartamentosPorEmpresa", departamentos);
         }
 
@@ -129,8 +136,9 @@ namespace GISWeb.Controllers
         }
 
 
-        public ActionResult Novo(string ukEmpresa, string ukDepartamento = "")
+        public ActionResult Novo(string ukDepartamento = "")
         {
+<
            
             Departamento newDep = new Departamento();
 
@@ -148,6 +156,13 @@ namespace GISWeb.Controllers
             else
                 ViewBag.Empresa = string.Empty;
 
+            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+            ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+            ViewBag.Niveis = NivelHierarquicoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(b => b.Nome);
+
+
+            Departamento newDep = new Departamento();
+            
             if (string.IsNullOrEmpty(ukDepartamento))
                 ViewBag.DepartamentoSuperior = string.Empty;
             else
@@ -156,18 +171,21 @@ namespace GISWeb.Controllers
                 Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(newDep.UniqueKey));
 
 
+
+                newDep.UKDepartamentoVinculado = Guid.Parse(ukDepartamento);
+
+                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey == newDep.UKDepartamentoVinculado);
+
                 if (dep != null)
                 {
                     ViewBag.DepartamentoSuperior = dep.Sigla;
-                    newDep.UKDepartamentoVinculado = Guid.Parse(ukDepartamento);
+                    
                 }
                 else
                 {
                     ViewBag.DepartamentoSuperior = string.Empty;
                 }
             }
-
-            ViewBag.Niveis = NivelHierarquicoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(b => b.Nome);
 
             return View(newDep);
         }
@@ -176,7 +194,7 @@ namespace GISWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(Departamento Departamento, string IDDiretoria)
+        public ActionResult Cadastrar(Departamento Departamento)
         {
             if (ModelState.IsValid)
             {
@@ -209,18 +227,22 @@ namespace GISWeb.Controllers
             }
         }
 
-        public ActionResult Edicao(string UKEmpresa, string UKDepartamento)
+        public ActionResult Edicao(string UKDepartamento)
         {
+<
             Departamento newDep = new Departamento();
 
             newDep.UniqueKey = Guid.Parse(UKDepartamento);
 
-            ViewBag.Niveis = NivelHierarquicoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(b => b.Nome);
+            Guid UKDep = Guid.Parse(UKDepartamento);
 
-            List<Empresa> emps = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
-            ViewBag.Empresas = emps;
+
+            ViewBag.Niveis = NivelHierarquicoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(b => b.Nome);
+            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+
 
             List<Departamento> deps = DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+
             deps.RemoveAll(b => b.UniqueKey.Equals(UKDepartamento));
             ViewBag.Departamentos = deps.OrderBy(a => a.Sigla).ToList();
 
@@ -231,14 +253,20 @@ namespace GISWeb.Controllers
                 ViewBag.Empresa = string.Empty;
 
             Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(newDep.UniqueKey));
+
+            deps.RemoveAll(a => a.UniqueKey.Equals(UKDep));
+            ViewBag.Departamentos = deps;
+            
+            Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKDep));
+
             if (dep != null)
             {
                 if (dep.UKDepartamentoVinculado != null)
                 {
-                    Departamento dep2 = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(dep.UKDepartamentoVinculado));
+                    Departamento dep2 = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey == dep.UKDepartamentoVinculado);
                     if (dep2 != null)
                     {
-                        ViewBag.DepartamentoSuperior = dep2.Sigla;
+                        ViewBag.DepartamentoSuperior = dep2.UniqueKey;
                     }
                     else
                     {
@@ -335,7 +363,8 @@ namespace GISWeb.Controllers
 
             try
             {
-                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(id));
+                Guid UKDep = Guid.Parse(id);
+                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKDep));
                 if (dep == null)
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o departamento, pois a mesmo não foi localizado." } });
 

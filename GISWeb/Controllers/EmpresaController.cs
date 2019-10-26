@@ -51,6 +51,7 @@ namespace GISWeb.Controllers
             return View();
         }
 
+
         public ActionResult EmpresaCriacoes(string id)
         {
 
@@ -91,6 +92,7 @@ namespace GISWeb.Controllers
             return View();
         }
 
+
         public ActionResult BuscarEmpresaPorID(string IDEmpresa) {
 
             try
@@ -128,7 +130,7 @@ namespace GISWeb.Controllers
         public ActionResult Edicao(string id)
         {
             Guid UKEmpresa = Guid.Parse(id);
-            Empresa obj = EmpresaBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(UKEmpresa));
+            Empresa obj = EmpresaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(UKEmpresa));
             return View(obj);
         }
 
@@ -172,6 +174,7 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+                    Empresa.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     EmpresaBusiness.Alterar(Empresa);
 
                     Extensions.GravaCookie("MensagemSucesso", "A empresa '" + Empresa.NomeFantasia + "' foi atualizada com sucesso.", 10);
@@ -201,17 +204,17 @@ namespace GISWeb.Controllers
         [HttpPost]
         public ActionResult Terminar(string IDEmpresa)
         {
-
-            try {
-                Empresa oEmpresa = EmpresaBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(IDEmpresa));
+            try
+            {
+                Guid id = Guid.Parse(IDEmpresa);
+                Empresa oEmpresa = EmpresaBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id));
                 if (oEmpresa == null) {
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir a empresa, pois a mesma não foi localizada." } });
                 }
                 else {
 
-                    //oEmpresa.DataExclusao = DateTime.Now;
                     oEmpresa.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    EmpresaBusiness.Alterar(oEmpresa);
+                    EmpresaBusiness.Terminar(oEmpresa);
 
                     return Json(new { resultado = new RetornoJSON() { Sucesso = "A empresa '" + oEmpresa.NomeFantasia + "' foi excluída com sucesso." } });
                 }
