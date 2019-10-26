@@ -605,6 +605,8 @@
     <Content Include="Views\Estabelecimento\_Pesquisa.cshtml" />
     <Content Include="Views\WorkArea\Index.cshtml" />
     <Content Include="Views\WorkArea\Novo.cshtml" />
+    <Content Include="Views\WorkArea\_Pesquisa.cshtml" />
+    <Content Include="Views\WorkArea\Edicao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
