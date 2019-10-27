@@ -64,27 +64,35 @@ namespace GISWeb.Controllers
             try
             {
 
+
                 var dep = from r in REL_WorkAreaAtividadeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           join d in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           on r.IDEstabelecimento equals entidade.IDEstabelecimento                          
                           join w in WorkAreaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           on r.IDWorkArea equals w.UniqueKey
+                          join a in AtividadeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          on r.IDAtividade equals a.ID
                           where d.ID.Equals(entidade.IDEstabelecimento)
                           select new PesquisaWorkAreaViewModel()
                           {
-                              IDWorkarea = w.ID,
+                             IDWorkarea = w.ID,
                              IDEstabelecimento = d.ID,
                              Nome = w.Nome,
-                             Descricao = w.Descricao
-                                   
+                             Descricao = w.Descricao,
+                             UniqueKey = w.UniqueKey,
+                             Atividade = a.Descricao
+                             
                               
-
-
                           };
 
 
-                List<PesquisaWorkAreaViewModel> lista = dep.ToList();
+               
 
+
+
+
+                List<PesquisaWorkAreaViewModel> lista = dep.ToList();    
+                   
 
                 return PartialView("_Pesquisa", lista);
             }

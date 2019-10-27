@@ -9,6 +9,8 @@ namespace GISModel.DTO.WorkArea
 {
    public class PesquisaWorkAreaViewModel
     {
+        [Display(Name = "UniqueKey")]
+        public Guid UniqueKey { get; set; }
 
         [Display(Name = "IDEstabelecimento")]
         public Guid IDEstabelecimento { get; set; }
