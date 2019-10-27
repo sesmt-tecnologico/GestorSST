@@ -10,7 +10,7 @@ namespace GISModel.DTO.WorkArea
    public class WorkAreaViewModel
     {
 
-        public Guid UniqueKey { get; set; }
+        public Guid UniqueKey { get; set; }       
 
         [Display(Name ="Nome da WorkArea")]
         public string Nome { get; set; }

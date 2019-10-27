@@ -295,7 +295,7 @@ namespace GISWeb.Controllers
                                                                                                                       a.IDContrato.Equals(objBanco.UniqueKey)).ToList();
 
 
-                    Extensions.GravaCookie("MensagemSucesso", "O Contrato '" + oContrato.Numero + "' foi atualizado com sucesso.", 10);
+                    Extensions.GravaCookie("MensagemSucesso", "O Contrato '" + entidade.Numero + "' foi atualizado com sucesso.", 10);
                     
                     
 

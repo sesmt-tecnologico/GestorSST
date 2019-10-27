@@ -19,7 +19,7 @@ namespace GISCore.Business.Concrete
 
         public override void Alterar(WorkArea pWorkArea)
         {
-            WorkArea tempWorkArea = Consulta.FirstOrDefault(p => p.ID.Equals(pWorkArea.ID));
+            WorkArea tempWorkArea = Consulta.FirstOrDefault(p => p.UniqueKey.Equals(pWorkArea.UniqueKey));
             if (tempWorkArea == null)
             {
                 throw new Exception("Não foi possível encontrar a WorkArea através do ID.");

@@ -25,6 +25,9 @@ namespace GISWeb.Controllers
     public class WorkAreaController : BaseController
     {
 
+        #region inject
+
+
         [Inject]
         public IWorkAreaBusiness WorkAreaBusiness { get; set; }
 
@@ -43,23 +46,56 @@ namespace GISWeb.Controllers
         [Inject]
         public IBaseBusiness<REL_WorkAreaAtividade> REL_WorkAreaAtividadeBusiness { get; set; }
 
+        #endregion
+
         // GET: WorkArea
         public ActionResult Index()
         {
-            var Est = from e in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                      select new WorkAreaViewModel()
-                      {
-                          IDEstabelecimento = e.ID,
-                          NomeCompleto = e.NomeCompleto
-                          
-                      };
-
-
-
-            ViewBag.Estab = Est.ToList();
+            ViewBag.Estab = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();  
 
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PesquisarWorkArea(PesquisaWorkAreaViewModel entidade)
+        {
+
+            try
+            {
+
+                var dep = from r in REL_WorkAreaAtividadeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          join d in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          on r.IDEstabelecimento equals entidade.IDEstabelecimento                          
+                          join w in WorkAreaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          on r.IDWorkArea equals w.UniqueKey
+                          where d.ID.Equals(entidade.IDEstabelecimento)
+                          select new PesquisaWorkAreaViewModel()
+                          {
+                              IDWorkarea = w.ID,
+                             IDEstabelecimento = d.ID,
+                             Nome = w.Nome,
+                             Descricao = w.Descricao
+                                   
+                              
+
+
+                          };
+
+
+                List<PesquisaWorkAreaViewModel> lista = dep.ToList();
+
+
+                return PartialView("_Pesquisa", lista);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
+
+
+        }
+
 
         public ActionResult Novo()
         {
@@ -179,5 +215,57 @@ namespace GISWeb.Controllers
         }
 
 
+
+        public ActionResult Edicao(string id)
+        {
+            Guid ID = Guid.Parse(id);
+            ViewBag.Workarea = new SelectList(WorkAreaBusiness.Consulta.ToList(), "ID", "Nome");
+
+            var lista = WorkAreaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID)));                       
+
+
+            return View(lista);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Atualizar(WorkArea entidade)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    entidade.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    WorkAreaBusiness.Alterar(entidade);
+
+                    Extensions.GravaCookie("MensagemSucesso", "A WorkArea '" + entidade.Nome + "' foi atualizado com sucesso.", 10);
+
+
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "WorkArea") } });
+                }
+                catch (Exception ex)
+                {
+                    if (ex.GetBaseException() == null)
+                    {
+                        return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                    }
+                    else
+                    {
+                        return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                    }
+                }
+
+            }
+            else
+            {
+                return Json(new { resultado = TratarRetornoValidacaoToJSON() });
+            }
+        }
+
+
+
     }
+
+
+
 }

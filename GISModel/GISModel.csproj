@@ -112,6 +112,7 @@
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />
     <Compile Include="DTO\Shared\RetornoJSON.cs" />
+    <Compile Include="DTO\WorkArea\PesquisaWorkAreaViewModel.cs" />
     <Compile Include="DTO\WorkArea\REL_WorkAreaAtividadeViewModel.cs" />
     <Compile Include="DTO\WorkArea\WorkAreaViewModel.cs" />
     <Compile Include="Entidades\Admissao.cs" />

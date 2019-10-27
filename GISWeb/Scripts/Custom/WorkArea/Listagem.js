@@ -4,7 +4,7 @@
 
 
     $(".btnPesquisar").click(function () {
-        $("#formPesquisarEstabelecimento").submit();
+        $("#formPesquisarWorkArea").submit();
     });
 
 
@@ -12,14 +12,14 @@
 
 });
 
-function OnBeginPesquisarEstabelecimento() {
+function OnBeginPesquisarWorkArea() {
     $(".LoadingLayout").show();
     $('#blnSalvar').hide();
-    $("#formPesquisarEstabelecimento").css({ opacity: "0.5" });
+    $("#formPesquisarWorkArea").css({ opacity: "0.5" });
 }
 
-function OnSuccessPesquisarEstabelecimento(data) {
-    $('#formPesquisarEstabelecimento').removeAttr('style');
+function OnSuccessPesquisarWorkarea(data) {
+    $('#formPesquisarWorkArea').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#btnSalvar').show();
 
@@ -28,11 +28,11 @@ function OnSuccessPesquisarEstabelecimento(data) {
     //}
     //else {
 
-        $(".resultadoEstabelecimento").html(data);
+    $(".resultadoWorkArea").html(data);
 
-        if ($("#tableResultadoPesquisa").length > 0) {
-            AplicajQdataTable("tableResultadoPesquisa", [null, { "bSortable": false }], false, 20);
-        }
+        //if ($("#tableResultadoPesquisa").length > 0) {
+        //    AplicajQdataTable("tableResultadoPesquisa", [null, { "bSortable": false }], false, 20);
+        //}
     //}
 
 }

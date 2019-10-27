@@ -12,6 +12,9 @@ namespace GISCore.Repository.Configuration
         }
 
         public DbSet<WorkArea> WorkArea { get; set; }
+
+        public DbSet<REL_WorkAreaAtividade> REL_WorkAreaAtividade { get; set; }
+
         public DbSet<Fornecedor> Fornecedor { get; set; }
 
         public DbSet<AtividadeFuncaoLiberada> AtividadeFuncaoLiberada { get; set; }

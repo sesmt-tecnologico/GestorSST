@@ -46,36 +46,36 @@
         {
             @Html.AntiForgeryToken()
 
-        <div class="row">
-            <div class="col-xs-12 col-sm-4">
-                <div class="form-group">
-                    @Html.LabelFor(d => d.TipoDeEstabelecimento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.EnumDropDownListFor(model => model.TipoDeEstabelecimento, htmlAttributes: new { @class = "form-control" })
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.TipoDeEstabelecimento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EnumDropDownListFor(model => model.TipoDeEstabelecimento, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.Codigo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.Codigo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCNPJ" } })
+                            @Html.ValidationMessageFor(d => d.Codigo, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                            @Html.HiddenFor(d => d.UniqueKey)
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.NomeCompleto, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.NomeCompleto, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                            @Html.ValidationMessageFor(d => d.NomeCompleto, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-4">
-                <div class="form-group">
-                    @Html.LabelFor(d => d.Codigo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.EditorFor(d => d.Codigo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCNPJ" } })
-                        @Html.ValidationMessageFor(d => d.Codigo, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                        @Html.HiddenFor(d => d.UniqueKey)
-                       
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-4">
-                <div class="form-group">
-                    @Html.LabelFor(d => d.NomeCompleto, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.EditorFor(d => d.NomeCompleto, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
-                        @Html.ValidationMessageFor(d => d.NomeCompleto, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                    </div>
-                </div>
-            </div>
-        </div>
 
             <div class="row">
                 <div class="col-xs-12 col-sm-12">
