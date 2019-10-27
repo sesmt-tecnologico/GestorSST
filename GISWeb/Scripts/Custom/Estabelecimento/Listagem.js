@@ -1,9 +1,9 @@
 ﻿jQuery(function ($) {
 
-    AplicajQdataTable("dynamic-table", [{ "bSortable": false }, null, null, null,null,null, { "bSortable": false }], false, 20);
+    //AplicajQdataTable("dynamic-table", [{ "bSortable": false }, null, null, null,null, { "bSortable": false }], false, 20);
 
 
-    $(".btnPesquisar").click(function () {
+    $(".ddPesquisar").change(function () {
         $("#formPesquisarEstabelecimento").submit();
     });
 
@@ -23,17 +23,17 @@ function OnSuccessPesquisarEstabelecimento(data) {
     $(".LoadingLayout").hide();
     $('#btnSalvar').show();
 
-    //if (data.resultado != null && data.resultado.Erro != null && data.resultado.Erro != undefined && data.resultado.Erro != "") {
-    //    ExibirMensagemDeErro(resultado.Erro);
-    //}
-    //else {
+    if (data.resultado != null && data.resultado.Erro != null && data.resultado.Erro != undefined && data.resultado.Erro != "") {
+      ExibirMensagemDeErro(resultado.Erro);
+    }
+    else {
 
         $(".resultadoEstabelecimento").html(data);
 
         if ($("#tableResultadoPesquisa").length > 0) {
-            AplicajQdataTable("tableResultadoPesquisa", [null, { "bSortable": false }], false, 20);
+            AplicajQdataTable("tableResultadoPesquisa", [null, null, null,null,{ "bSortable": false }], false, 20);
         }
-    //}
+    }
 
 }
 

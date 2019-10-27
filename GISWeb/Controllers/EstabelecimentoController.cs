@@ -63,8 +63,9 @@ namespace GISWeb.Controllers
         public ActionResult Novo()
         {
             ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+            ViewBag.Estabelecimento = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 
-            
+
             return View();
         }
 
@@ -159,13 +160,15 @@ namespace GISWeb.Controllers
                           on r.IDDepartamento equals d.UniqueKey                       
                           join e in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           on r.IDEstabelecimento equals e.UniqueKey
-                          where r.IDDepartamento.Equals(entidade.UKDepartamento)
+                          where e.ID.Equals(entidade.IDEstabelecimento)
                           select new PesquisaEstabelecimentoViewModel()
                           {
                              UKDepartamento = d.UniqueKey,
                              NomeEstabelecimento = e.NomeCompleto,
                              TipoDeEstabelecimento = e.TipoDeEstabelecimento,
-                             IDEstabelecimento = e.UniqueKey
+                             IDEstabelecimento = e.UniqueKey,
+                             Departamentos = d.Sigla,
+                             Codigo = e.Codigo
                              
 
                           };

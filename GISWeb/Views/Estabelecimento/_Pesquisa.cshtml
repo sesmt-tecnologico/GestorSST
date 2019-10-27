@@ -32,15 +32,22 @@
         }
 
         <table id="tableResultadoPesquisa" class="table table-striped table-bordered table-hover">
+
             <thead>
                 <tr style="background-image: linear-gradient(to bottom, #ffffff 0%, #e2e2e2 80%); font-size: 12px; height: 28px; min-height: 10px">
                     <th class="hidden-800 hidden-480 left" width="10px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
+                        Codigo
+                    </th>
+                    <th class="hidden-800 hidden-480 left" width="10px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
                         Tipo
                     </th>
+
                     <th class="hidden-800 hidden-480 left" width="80px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
                         Estabelecimento
                     </th>
-                    
+                    <th class="hidden-800 hidden-480 left" width="80px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
+                        Sigla
+                    </th>
 
                     <th class="center" width="5px" style="padding: 0px 0px 0px 8px; border-bottom: 0px">
                     </th>
@@ -51,58 +58,64 @@
                 @{
                     foreach (PesquisaEstabelecimentoViewModel item in Model)
                     {
-                                <tr>
+                        <tr>
+                            <td>
+                                @item.Codigo
+                            </td>
+                            <td>
+                                @item.TipoDeEstabelecimento
+                            </td>
 
-                                    <td>
-                                        @item.TipoDeEstabelecimento
-                                    </td>
-                                    <td>
-                                        @item.NomeEstabelecimento
-                                    </td>
-                                    
-
-                                    <td>
-                                        <div class="hidden-sm hidden-xs action-buttons">
-
-                                            <a href='@Url.Action("Edicao", "Estabelecimento", new { id = @item.IDEstabelecimento})' class="green">
-                                                <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
-                                            </a>
-
-                                            <a class="red" href="#" onclick="DeletarEstabelecimento('@item.IDEstabelecimento', '@item.NomeEstabelecimento');">
-                                                <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
-                                            </a>
-                                        </div>
-
-                                        <div class="hidden-md hidden-lg">
-                                            <div class="inline pos-rel">
-                                                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                                    <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-                                                </button>
-
-                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                            <td>
+                                @item.NomeEstabelecimento
+                            </td>
+                            <td>
+                                @item.Departamentos
+                            </td>
 
 
-                                                    <li>
-                                                        <a href='@Url.Action("Edicao", "Estabelecimento", new { id = item.IDEstabelecimento })' class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                            <span class="green">
-                                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                            </span>
-                                                        </a>
-                                                    </li>
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons">
 
-                                                    <li>
-                                                        <a href="#" class="tooltip-error" onclick="DeletarEstabelecimento('@item.IDEstabelecimento', '@item.NomeEstabelecimento');" data-rel="tooltip" title="Delete">
-                                                            <span class="red">
-                                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </td>
+                                    <a href='@Url.Action("Edicao", "Estabelecimento", new { id = @item.IDEstabelecimento})' class="green">
+                                        <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
+                                    </a>
 
-                                </tr>
+                                    <a class="red" href="#" onclick="DeletarEstabelecimento('@item.IDEstabelecimento', '@item.NomeEstabelecimento');">
+                                        <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
+                                    </a>
+                                </div>
+
+                                <div class="hidden-md hidden-lg">
+                                    <div class="inline pos-rel">
+                                        <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                            <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                        </button>
+
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
+
+                                            <li>
+                                                <a href='@Url.Action("Edicao", "Estabelecimento", new { id = item.IDEstabelecimento })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                    <span class="green">
+                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#" class="tooltip-error" onclick="DeletarEstabelecimento('@item.IDEstabelecimento', '@item.NomeEstabelecimento');" data-rel="tooltip" title="Delete">
+                                                    <span class="red">
+                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
                     }
                 }
             </tbody>
@@ -124,3 +137,8 @@ else
     </div>
 }
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+    <script src="~/Scripts/Custom/Estabelecimento/Listagem.js"></script>
+}
