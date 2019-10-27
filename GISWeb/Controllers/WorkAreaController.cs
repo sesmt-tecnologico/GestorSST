@@ -221,7 +221,10 @@ namespace GISWeb.Controllers
             Guid ID = Guid.Parse(id);
             ViewBag.Workarea = new SelectList(WorkAreaBusiness.Consulta.ToList(), "ID", "Nome");
 
-            return View(WorkAreaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID))).ToList());
+            var lista = WorkAreaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID)));                       
+
+
+            return View(lista);
         }
 
         [HttpPost]
