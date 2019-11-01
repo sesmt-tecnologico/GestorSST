@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GISModel.DTO.WorkArea
 {
-   public class PesquisaWorkAreaViewModel
+    public class PesquisaWorkAreaViewModel
     {
         [Display(Name = "UniqueKey")]
         public Guid UniqueKey { get; set; }

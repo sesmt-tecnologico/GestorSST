@@ -29,9 +29,9 @@
     <div class="row">
         <div class="col-xs-12 col-sm-6">
             <div class="form-group">
-                @Html.LabelFor(d => d.IDEstabelecimento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                @Html.LabelFor(d => d.UKEstabelecimento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                 <div class="col-xs-12 col-sm-12">                   
-                    @Html.DropDownListFor(d => d.IDEstabelecimento, new SelectList(ViewBag.Estab, "ID", "NomeCompleto"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                    @Html.DropDownListFor(d => d.UKEstabelecimento, new SelectList(ViewBag.Estab, "UniqueKey", "NomeCompleto"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
                 </div>
             </div>
         </div>

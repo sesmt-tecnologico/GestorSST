@@ -57,14 +57,15 @@ namespace GISWeb.Controllers
         public ActionResult Lista()
         {
             ViewBag.Estabelecimento = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+
             return View();
         }
 
         public ActionResult Novo()
         {
             ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
-            ViewBag.Estabelecimento = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 
+            
 
             return View();
         }
@@ -107,8 +108,8 @@ namespace GISWeb.Controllers
                                 REL_EstabelecimentoDepartamento rel = new REL_EstabelecimentoDepartamento()
                                 {
 
-                                    IDEstabelecimento = obj.UniqueKey,
-                                    IDDepartamento = Guid.Parse(dep),
+                                    UKEstabelecimento = obj.UniqueKey,
+                                    UKDepartamento = Guid.Parse(dep),
                                     UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
 
 
@@ -123,11 +124,10 @@ namespace GISWeb.Controllers
                         throw new Exception("É necessário informar pelo menos um departamento para prosseguir com o cadastro do contrato.");
                     }
                         
-                        Extensions.GravaCookie("MensagemSucesso", "O Estabelecimento '" + entidade.NomeCompleto + "' foi cadastrado com sucesso!", 10);
+                    Extensions.GravaCookie("MensagemSucesso", "O Estabelecimento '" + entidade.NomeCompleto + "' foi cadastrado com sucesso!", 10);
 
-                        return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Estabelecimento") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Estabelecimento") } });
 
-                    
                 }
                 catch (Exception ex)
                 {
@@ -151,32 +151,28 @@ namespace GISWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult PesquisarEstabelecimento(PesquisaEstabelecimentoViewModel entidade)
         {
-
             try
             {
 
-               var dep = from r in REL_EstabelecimentoDepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()                          
+                var dep = from r in REL_EstabelecimentoDepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()                          
                           join d in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()                            
-                          on r.IDDepartamento equals d.UniqueKey                       
+                          on r.UKDepartamento equals d.UniqueKey                       
                           join e in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                          on r.IDEstabelecimento equals e.UniqueKey
-                          where e.ID.Equals(entidade.IDEstabelecimento)
+
+                          on r.UKEstabelecimento equals e.UniqueKey
+                          where r.UKDepartamento.Equals(entidade.UKDepartamento)
+
                           select new PesquisaEstabelecimentoViewModel()
                           {
                              UKDepartamento = d.UniqueKey,
                              NomeEstabelecimento = e.NomeCompleto,
                              TipoDeEstabelecimento = e.TipoDeEstabelecimento,
-                             IDEstabelecimento = e.UniqueKey,
-                             Departamentos = d.Sigla,
-                             Codigo = e.Codigo
-                             
+
+                             IDEstabelecimento = e.UniqueKey
 
                           };
 
-
                 List<PesquisaEstabelecimentoViewModel> lista = dep.ToList();
-
-                
 
                 return PartialView("_Pesquisa", lista);
             }
@@ -184,11 +180,6 @@ namespace GISWeb.Controllers
             {
                 return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
             }
-
-
-
-
-
         }
 
         public ActionResult Edicao(string id)
