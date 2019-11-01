@@ -17,14 +17,21 @@ namespace GISModel.DTO.Estabelecimento
         [Display(Name = "Estabelecimento")]
         public string  NomeEstabelecimento { get; set; }
 
+        [Display(Name = "Codigo")]
+        public string Codigo { get; set; }
+
         [Display(Name = "Tipo")]
         public Enum TipoDeEstabelecimento { get; set; }
 
         [Display(Name = "Departamento")]
         public IList<string> Departamento { get; set; }
 
-        [Display(Name = "Departamento")]
+        [Display(Name = "UKDepartamento")]
         public Guid UKDepartamento { get; set; }
+
+
+        [Display(Name = "Departamento")]
+        public string Departamentos { get; set; }
 
     }
 }
