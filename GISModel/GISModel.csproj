@@ -106,6 +106,7 @@
     <Compile Include="DTO\Contrato\NovoContratoViewModel.cs" />
     <Compile Include="DTO\Contrato\VMPesquisaContrato.cs" />
     <Compile Include="DTO\Departamento\CadastroViewModel.cs" />
+    <Compile Include="DTO\Estabelecimento\EdicaoEstabelecimentoViewModel.cs" />
     <Compile Include="DTO\Estabelecimento\EstabelecimentoViewModel.cs" />
     <Compile Include="DTO\Estabelecimento\PesquisaEstabelecimentoViewModel.cs" />
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />

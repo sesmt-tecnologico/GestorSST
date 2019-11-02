@@ -12,10 +12,10 @@ namespace GISModel.Entidades
     public class REL_EstabelecimentoDepartamento: EntidadeBase
     {
 
-        [Display(Name = "Estabelcimento")]
+        [Display(Name = "idEstabelcimento")]
         public Guid IDEstabelecimento { get; set; }
 
-        [Display(Name = "Departamento")]
+        [Display(Name = "idDepartamento")]
         public Guid IDDepartamento { get; set; }
 
 

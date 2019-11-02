@@ -106,7 +106,7 @@ namespace GISWeb.Controllers
                             {
                                 REL_EstabelecimentoDepartamento rel = new REL_EstabelecimentoDepartamento()
                                 {
-
+                                    
                                     IDEstabelecimento = obj.UniqueKey,
                                     IDDepartamento = Guid.Parse(dep),
                                     UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
@@ -193,11 +193,34 @@ namespace GISWeb.Controllers
 
         public ActionResult Edicao(string id)
         {
-            Guid ID = Guid.Parse(id);
-            ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "IDDepartamento", "Sigla");
-            ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
+            Guid Guid = Guid.Parse(id);
 
-            return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(ID)));
+            EdicaoEstabelecimentoViewModel obj = null;
+
+            Estabelecimento oEstabelecimento = EstabelecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(Guid));
+            if(oEstabelecimento != null)
+            {
+                ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "IDDepartamento", "Sigla");
+                ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
+
+                obj = new EdicaoEstabelecimentoViewModel()
+                {
+
+                    IDEstabelecimento = oEstabelecimento.ID,
+                    NomeEstabelecimento = oEstabelecimento.NomeCompleto,
+                    TipoDeEstabelecimento = oEstabelecimento.TipoDeEstabelecimento,
+
+                };
+
+                REL_EstabelecimentoDepartamento rel_1 = REL_EstabelecimentoDepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.IDEstabelecimento.Equals(oEstabelecimento.UniqueKey));
+
+                obj.UKDepartamento = rel_1.UniqueKey;
+
+
+
+            }
+
+            return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(Guid)));
         }
 
         [HttpPost]
