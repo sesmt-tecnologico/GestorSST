@@ -137,8 +137,8 @@ namespace GISWeb.Controllers
                         {
                             REL_DepartamentoContrato objDepContrato = new REL_DepartamentoContrato()
                             {
-                                IDContrato = obj.UniqueKey,
-                                IDDepartamento = Guid.Parse(Dep), 
+                                UKContrato = obj.UniqueKey,
+                                UKDepartamento = Guid.Parse(Dep), 
                                 UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                             };
 
@@ -201,13 +201,13 @@ namespace GISWeb.Controllers
                 obj.UKFornecedor = rel1.UKFornecedor.ToString();
 
                 
-                List<REL_DepartamentoContrato> relsDep = REL_DepartamentoContratoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.IDContrato.Equals(oContrato.UniqueKey)).ToList();
+                List<REL_DepartamentoContrato> relsDep = REL_DepartamentoContratoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKContrato.Equals(oContrato.UniqueKey)).ToList();
                 if (relsDep?.Count > 0)
                 {
                     obj.Departamento = new List<string>();
                     foreach (REL_DepartamentoContrato item in relsDep)
                     {
-                        obj.Departamento.Add(item.IDDepartamento.ToString());
+                        obj.Departamento.Add(item.UKDepartamento.ToString());
                     }
                 }
 
@@ -292,7 +292,7 @@ namespace GISWeb.Controllers
 
 
                         List<REL_DepartamentoContrato> relsDep = REL_DepartamentoContratoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && 
-                                                                                                                      a.IDContrato.Equals(objBanco.UniqueKey)).ToList();
+                                                                                                                      a.UKContrato.Equals(objBanco.UniqueKey)).ToList();
 
 
                     Extensions.GravaCookie("MensagemSucesso", "O Contrato '" + entidade.Numero + "' foi atualizado com sucesso.", 10);
@@ -304,14 +304,14 @@ namespace GISWeb.Controllers
                         {
                             foreach (string dep in entidade.Departamento)
                             {
-                                if (relsDep.Where(a => a.IDDepartamento.ToString().Equals(dep)).Count() == 0)
+                                if (relsDep.Where(a => a.UKDepartamento.ToString().Equals(dep)).Count() == 0)
                                 {
                                     //Dep não está nos departamentos do banco de dados, logo, inserir
 
                                     REL_DepartamentoContratoBusiness.Inserir(new REL_DepartamentoContrato()
                                     {
-                                        IDContrato = objBanco.UniqueKey,
-                                        IDDepartamento = Guid.Parse(dep),
+                                        UKContrato = objBanco.UniqueKey,
+                                        UKDepartamento = Guid.Parse(dep),
                                         UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                                     });
                                 }
@@ -324,7 +324,7 @@ namespace GISWeb.Controllers
                         {
                             foreach (REL_DepartamentoContrato item in relsDep)
                             {
-                                if (entidade.Departamento.Where(a => a.Equals(item.IDDepartamento.ToString())).Count() == 0)
+                                if (entidade.Departamento.Where(a => a.Equals(item.UKDepartamento.ToString())).Count() == 0)
                                 {
                                     //rel do banco não está entre os valores vindos da web, logo, terminar
 
@@ -434,7 +434,7 @@ namespace GISWeb.Controllers
                         }
                     }
 
-                    REL_DepartamentoContrato dep = REL_DepartamentoContratoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.IDContrato.Equals(Guid));
+                    REL_DepartamentoContrato dep = REL_DepartamentoContratoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKContrato.Equals(Guid));
                     if (dep != null)
                     {
                         dep.DataExclusao = DateTime.Now;

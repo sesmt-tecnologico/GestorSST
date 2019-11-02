@@ -1,128 +1,65 @@
-﻿
-@model List<PesquisaWorkAreaViewModel>
-
-
-@using GISModel.DTO.WorkArea
+﻿@using GISModel.Entidades
+@using System.Configuration
+@model List<WorkArea>
 
 <div class="space-6"></div>
 
 @if (Model != null && Model.Count > 0)
 {
 
-<div id="divTableResultadoPesquisa" style="margin-top: 10px;">
-    @if (ViewBag.AlertaRownumAtingido != null && ViewBag.AlertaRownumAtingido)
-    {
-        <div style="margin-bottom: 10px">
-            <div class="alert alert-warning padding-10">
-                <strong>
-                    <i class="ace-icon fa fa-exclamation-triangle"></i>
-                    Oops!
-                </strong>
+    <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+        <ol class="dd-list">
 
-                @{
-                    string msg = "Sua pesquisa atingiu o número máximo de ocorrências retornadas. ";
-                    msg += "Refine os parâmetros de localização para um resultado mais preciso ou utilize o ícone de exportar para Excel # para ver todos os @ documentos encontrados.";
+            @foreach (WorkArea wa in Model)
+            {
 
-                    msg = msg.Replace("@", "<strong>" + ViewBag.TotalDocs.ToString() + "</strong>").Replace("#", "(<i class=\"ace-icon fa fa-file-excel-o bigger-110 blue\"></i>)");
-                }
+                string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
 
-                @Html.Raw(msg)
+                <li class="dd-item collapseOne" data-id="@wa.UniqueKey">
+                    <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
 
-                <br />
-            </div>
-        </div>
-    }
-    
+                        @wa.Nome <span> - </span> @wa.Descricao
 
-        
+                        <div class="pull-right action-buttons">
+                            <a class="blue CustomTooltip" href="#" title="Novo Risco" onclick="alert('Em construção.');">
+                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                            </a>
 
+                            <a class="orange CustomTooltip" href="@Url.Action("Edicao", "WorkArea")?UKDepartamento=@wa.UniqueKey.ToString()" title="Editar WorkArea">
+                                <i class="ace-icon fa fa-pencil bigger-130"></i>
+                            </a>
 
-        <table id="tableResultadoPesquisa" class="table table-striped table-bordered table-hover">
-            <thead>
-                <tr style="background-image: linear-gradient(to bottom, #ffffff 0%, #e2e2e2 80%); font-size: 12px; height: 28px; min-height: 10px">
-                    <th class="hidden-800 hidden-480 left" width="10px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
-                        Nome
-                    </th>
-                    <th class="hidden-800 hidden-480 left" width="80px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
-                        Descrição
-                    </th>
-                    <th class="hidden-800 hidden-480 left" width="80px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
-                        Atividade
-                    </th>
+                            @if (wa.Riscos.Count() == 0)
+                            {
+                                <a class="red CustomTooltip" href="#" title="Excluir departamento" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
+                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                </a>
+                            }
+                        </div>
+                    </div>
 
-
-
-                    <th class="center" width="5px" style="padding: 0px 0px 0px 8px; border-bottom: 0px">
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @{
-                    foreach (PesquisaWorkAreaViewModel item in Model)
+                    @if (wa.Riscos.Count() > 0)
                     {
-                                <tr>
-
-                                    <td>
-                                        @item.Nome
-                                    </td>
-                                    <td>
-                                        @item.Descricao
-                                    </td>
-                                    <td>
-                                        @item.Atividade
-                                    </td>
-
-
-
-                                    <td>
-                                        <div class="hidden-sm hidden-xs action-buttons">
-
-                                            <a href='@Url.Action("Edicao", "WorkArea", new { id = @item.IDWorkarea})' class="green">
-                                                <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
-                                            </a>
-
-                                            <a class="red" href="#" onclick="DeletarEstabelecimento('@item.IDWorkarea', '@item.Nome');">
-                                                <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
+                        <ol class="dd-list">
+                            @foreach (Risco risk in wa.Riscos)
+                            {
+                                <li class="dd-item" data-id="@risk.UniqueKey.ToString()">
+                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+                                        @risk.Nome
+                                        <div class="pull-right action-buttons">
+                                            <a href="#" class="blue CustomTooltip" title="Adicionar">
+                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                                             </a>
                                         </div>
-
-                                        <div class="hidden-md hidden-lg">
-                                            <div class="inline pos-rel">
-                                                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                                    <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-                                                </button>
-
-                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-
-
-                                                    <li>
-                                                        <a href='@Url.Action("Edicao", "WorkArea", new { id = item.IDWorkarea })' class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                            <span class="green">
-                                                                <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="#" class="tooltip-error" onclick="DeletarEstabelecimento('@item.IDWorkarea', '@item.Nome');" data-rel="tooltip" title="Delete">
-                                                            <span class="red">
-                                                                <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                            </span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                </tr>
+                                    </div>
+                                </li>
+                            }
+                        </ol>
                     }
-                }
-            </tbody>
-        </table>       
-
-</div>
+                </li>
+            }
+        </ol>
+    </div>
 
 }
 else
@@ -133,7 +70,7 @@ else
             Oops!
         </strong>
 
-        No momento, nenhum Estabelecimento encontrado.
+        Nenhum workarea encontrado para o estabelecimento selecionado.
         <br>
     </div>
 }

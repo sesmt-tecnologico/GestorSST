@@ -9,11 +9,11 @@ namespace GISModel.Entidades
     {
 
         [Display(Name ="Contrato")]
-        public Guid IDContrato { get; set; }
+        public Guid UKContrato { get; set; }
 
 
         [Display(Name = "Departamento")]
-        public Guid IDDepartamento { get; set; }
+        public Guid UKDepartamento { get; set; }
 
 
         public virtual Departamento Departamento { get; set; }

@@ -8,8 +8,6 @@
     });
 
 
-
-
 });
 
 function OnBeginPesquisarWorkArea() {
@@ -30,15 +28,11 @@ function OnSuccessPesquisarWorkarea(data) {
 
     $(".resultadoWorkArea").html(data);
 
-        //if ($("#tableResultadoPesquisa").length > 0) {
-        //    AplicajQdataTable("tableResultadoPesquisa", [null, { "bSortable": false }], false, 20);
-        //}
+    //if ($("#tableResultadoPesquisa").length > 0) {
+    //    AplicajQdataTable("tableResultadoPesquisa", [null, { "bSortable": false }], false, 20);
     //}
-
+    //}
 }
-
-
-
 
 
 
