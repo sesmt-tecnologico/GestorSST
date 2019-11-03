@@ -71,8 +71,8 @@ namespace GISWeb.Controllers
         [Inject]
         public IAdmissaoBusiness AdmissaoBusiness { get; set; }
 
-        //[Inject]
-        //public IExposicaoBusiness ExposicaoBusiness { get; set; }
+        [Inject]
+        public IExposicaoBusiness ExposicaoBusiness { get; set; }
 
 
 
@@ -286,9 +286,9 @@ namespace GISWeb.Controllers
                                                 DescricaoDanos = PD.DescricaoDanos,
 
                                             },
-                                            PerigoPotencial = new Perigo()
+                                            PerigoPotencial = new PerigoPotencial()
                                             {
-                                                Descricao = PP.Descricao,
+                                                DescricaoEvento = PP.DescricaoEvento,
                                             },
                                             EventoPerigoso = new EventoPerigoso()
                                             {
@@ -393,9 +393,9 @@ namespace GISWeb.Controllers
                                                                      DescricaoDanos = PD.DescricaoDanos,
 
                                                                  },
-                                                                 PerigoPotencial = new Perigo()
+                                                                 PerigoPotencial = new PerigoPotencial()
                                                                  {
-                                                                     Descricao = PP.Descricao,
+                                                                     DescricaoEvento = PP.DescricaoEvento,
                                                                  },
                                                                  EventoPerigoso = new EventoPerigoso()
                                                                  {
