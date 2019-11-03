@@ -22,7 +22,7 @@ namespace GISCore.Business.Concrete
             base.Terminar(tempEstabelecimento);
 
             tempEstabelecimento.ID = Guid.NewGuid();           
-            tempEstabelecimento.Codigo = pTEstabelecimento.Codigo;
+            //tempEstabelecimento.Codigo = pTEstabelecimento.Codigo;
             tempEstabelecimento.NomeCompleto = pTEstabelecimento.NomeCompleto;
             tempEstabelecimento.TipoDeEstabelecimento = pTEstabelecimento.TipoDeEstabelecimento;
             tempEstabelecimento.Descricao = pTEstabelecimento.Descricao;
