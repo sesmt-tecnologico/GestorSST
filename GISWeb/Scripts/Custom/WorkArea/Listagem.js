@@ -103,6 +103,10 @@ function BuscarDetalhesDeMedidasDeControle(IDEstabelecimentoImagens) {
 }
 
 
+function OnClickVincularPerigo() {
+
+}
+
 function OnClickNovoRisco(UKWorkArea) {
 
     $(".LoadingLayout").show();

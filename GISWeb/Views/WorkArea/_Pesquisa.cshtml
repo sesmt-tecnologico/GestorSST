@@ -21,7 +21,7 @@
                         @wa.Nome <span> - </span> @wa.Descricao
 
                         <div class="pull-right action-buttons">
-                            <a class="blue CustomTooltip" href="#" title="Novo Risco" onclick="OnClickNovoRisco('@wa.UniqueKey');" data-target="#modalNovoRisco" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                            <a class="blue CustomTooltip" href="#" title="Vincular Perigo" onclick="OnClickVincularPerigo('@wa.UniqueKey');" data-target="#modalAddPerigo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                 <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                             </a>
 
@@ -29,7 +29,7 @@
                                 <i class="ace-icon fa fa-pencil bigger-130"></i>
                             </a>
 
-                            @if (wa.Riscos.Count() == 0)
+                            @if (wa.Perigos.Count() == 0)
                             {
                                 <a class="red CustomTooltip" href="#" title="Excluir WorkArea" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
@@ -38,22 +38,48 @@
                         </div>
                     </div>
 
-                    @if (wa.Riscos.Count() > 0)
+                    @if (wa.Perigos.Count() > 0)
                     {
                         <ol class="dd-list">
-                            @foreach (Risco risk in wa.Riscos)
+                            @foreach (Perigo per in wa.Perigos)
                             {
-                                <li class="dd-item" data-id="@risk.UniqueKey.ToString()">
+                                <li class="dd-item" data-id="@per.UniqueKey.ToString()">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
-                                        @risk.Nome
+                                        @per.Descricao
 
                                         <div class="pull-right action-buttons">
+                                            <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickNovoRisco('@wa.UniqueKey');" data-target="#modalAddRisco" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                            </a>
+
                                             <a href="#" class="blue CustomTooltip" title="Adicionar">
                                                 <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                                             </a>
                                         </div>
 
                                     </div>
+
+                                    @if (per.Riscos.Count() > 0)
+                                    {
+                                        <ol class="dd-list">
+                                            @foreach (Risco risk in per.Riscos)
+                                            {
+                                                <li class="dd-item" data-id="@risk.UniqueKey.ToString()">
+                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                                        @risk.Nome
+
+                                                        <div class="pull-right action-buttons">
+                                                            <a href="#" class="blue CustomTooltip" title="Adicionar">
+                                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ol>
+                                    }
+
                                 </li>
                             }
                         </ol>

@@ -51,19 +51,19 @@
 
 @section Sliders {
 
-    <div id="modalNovoRisco" class="modal fade" style="overflow: auto">
+    <div id="modalAddPerigo" class="modal fade" style="overflow: auto">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button id="modalNovoRiscoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Novo Risco</h3>
+                    <button id="modalAddPerigoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Vincular Perigo</h3>
                 </div>
 
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-xs-12">
-                            <div id="modalNovoRiscoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
-                            <div id="modalNovoRiscoCorpo"></div>
+                            <div id="modalAddPerigoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                            <div id="modalAddPerigoCorpo"></div>
                         </div>
                     </div>
                 </div>
@@ -71,16 +71,56 @@
                 <div class="modal-footer">
                     <div class="row">
                         <div class="col-xs-12">
-                            <span id="modalNovoRiscoLoading" style="display: block; float: left; padding-top: 6px">
+                            <span id="modalAddPerigoLoading" style="display: block; float: left; padding-top: 6px">
                                 <img src="~/Images/slack_loading.gif" width="28px" />
                             </span>
 
-                            <button id="modalNovoRiscoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                            <button id="modalAddPerigoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
                                 <i class="ace-icon fa fa-times"></i>
                                 Fechar
                             </button>
 
-                            <button id="modalNovoRiscoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                            <button id="modalAddPerigoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                <i class="ace-icon fa fa-check"></i>
+                                Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAddRisco" class="modal fade" style="overflow: auto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalAddRiscoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Vincular Risco</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalAddRiscoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                            <div id="modalAddRiscoCorpo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span id="modalAddRiscoLoading" style="display: block; float: left; padding-top: 6px">
+                                <img src="~/Images/slack_loading.gif" width="28px" />
+                            </span>
+
+                            <button id="modalAddRiscoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                <i class="ace-icon fa fa-times"></i>
+                                Fechar
+                            </button>
+
+                            <button id="modalAddRiscoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
                                 <i class="ace-icon fa fa-check"></i>
                                 Confirmar
                             </button>
