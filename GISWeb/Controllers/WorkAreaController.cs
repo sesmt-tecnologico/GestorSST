@@ -125,6 +125,9 @@ namespace GISWeb.Controllers
             return View();
         }
 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Cadastrar(WorkArea entidade)
         {
             if (ModelState.IsValid)

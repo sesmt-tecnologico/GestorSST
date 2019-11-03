@@ -83,9 +83,9 @@ namespace GISWeb.Controllers
                                                 DescricaoDanos = PD.DescricaoDanos,
 
                                             },
-                                            PerigoPotencial = new PerigoPotencial()
+                                            PerigoPotencial = new Perigo()
                                             {
-                                                DescricaoEvento = PP.DescricaoEvento,
+                                                Descricao = PP.Descricao,
                                             },
                                             EventoPerigoso = new EventoPerigoso()
                                             {
@@ -147,9 +147,9 @@ namespace GISWeb.Controllers
                                                 DescricaoDanos = PD.DescricaoDanos,
 
                                             },
-                                            PerigoPotencial = new PerigoPotencial()
+                                            PerigoPotencial = new Perigo()
                                             {
-                                                DescricaoEvento = PP.DescricaoEvento,
+                                                Descricao = PP.Descricao,
                                             },
                                             EventoPerigoso = new EventoPerigoso()
                                             {

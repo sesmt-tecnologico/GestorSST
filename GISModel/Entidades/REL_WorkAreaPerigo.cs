@@ -5,19 +5,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace GISModel.Entidades
 {
 
-    [Table("REL_WorkAreaRisco")]
-    public class REL_WorkAreaRisco : EntidadeBase
+    [Table("REL_WorkAreaPerigo")]
+    public class REL_WorkAreaPerigo : EntidadeBase
     {
 
         [Display(Name = "WorkArea")]
         public Guid UKWorkArea { get; set; }
 
         [Display(Name = "Risco")]
-        public Guid UKRisco { get; set; }
+        public Guid UKPerigo { get; set; }
 
         public virtual WorkArea WorkArea { get; set; }
 
-        public virtual Risco Risco { get; set; }
+        public virtual Perigo Perigo { get; set; }
 
     }
 }

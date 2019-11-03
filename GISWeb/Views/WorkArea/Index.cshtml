@@ -30,15 +30,12 @@
         <div class="col-xs-12 col-sm-6">
             <div class="form-group">
                 @Html.LabelFor(d => d.UKEstabelecimento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
-                <div class="col-xs-12 col-sm-12">                   
+                <div class="col-xs-12 col-sm-12">
                     @Html.DropDownListFor(d => d.UKEstabelecimento, new SelectList(ViewBag.Estab, "UniqueKey", "NomeCompleto"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
                 </div>
             </div>
         </div>
-
     </div>
-
-
 }
 
 <div class="resultadoWorkArea"></div>
@@ -50,4 +47,47 @@
     <script src="~/Scripts/Custom/Estabelecimento/Listagem.js"></script>
     <script src="~/Scripts/Custom/WorkArea/Listagem.js"></script>
     <script src="~/Scripts/Custom/WorkArea/Editar.js"></script>
+}
+
+@section Sliders {
+
+    <div id="modalNovoRisco" class="modal fade" style="overflow: auto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalNovoRiscoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Novo Risco</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalNovoRiscoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                            <div id="modalNovoRiscoCorpo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span id="modalNovoRiscoLoading" style="display: block; float: left; padding-top: 6px">
+                                <img src="~/Images/slack_loading.gif" width="28px" />
+                            </span>
+
+                            <button id="modalNovoRiscoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                <i class="ace-icon fa fa-times"></i>
+                                Fechar
+                            </button>
+
+                            <button id="modalNovoRiscoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                <i class="ace-icon fa fa-check"></i>
+                                Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }

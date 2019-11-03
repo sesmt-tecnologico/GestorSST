@@ -53,11 +53,11 @@ namespace GISWeb.Controllers
         [Inject]
         public IAtividadeAlocadaBusiness AtividadeAlocadaBusiness { get; set; }
 
-        [Inject]
-        public IExposicaoBusiness ExposicaoBusiness { get; set; }
+        //[Inject]
+        //public IExposicaoBusiness ExposicaoBusiness { get; set; }
 
-        [Inject]
-        public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
+        //[Inject]
+        //public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
 
         [Inject]
         public IEventoPerigosoBusiness EventoPerigosoBusiness { get; set; }
@@ -124,53 +124,53 @@ namespace GISWeb.Controllers
 
 
 
-            //Esta query não deixa pegar todas as atividades se tiver exposição null
-            List<Exposicao> ListaExposicao = (from ATL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                              join ATV in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                              on ATL.idAtividadesDoEstabelecimento equals ATV.ID
-                                              join Est in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                              on ATV.IDEstabelecimento equals Est.ID
-                                              join ALOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                              on Est.ID equals ALOC.idEstabelecimento
-                                              join EXP in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                              on ATL.ID equals EXP.idAtividadeAlocada
-                                              where ALOC.Admissao.IDEmpregado.Equals(id)
-                                              select new Exposicao()
-                                              {
-                                                  ID = EXP.ID,
-                                                  TempoEstimado = EXP.TempoEstimado,
-                                                  EExposicaoCalor = EXP.EExposicaoCalor,
-                                                  EExposicaoInsalubre = EXP.EExposicaoInsalubre,
-                                                  EExposicaoSeg = EXP.EExposicaoSeg,
-                                                  EProbabilidadeSeg = EXP.EProbabilidadeSeg,
-                                                  ESeveridadeSeg = EXP.ESeveridadeSeg,
+            ////Esta query não deixa pegar todas as atividades se tiver exposição null
+            //List<Exposicao> ListaExposicao = (from ATL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                                  join ATV in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                                  on ATL.idAtividadesDoEstabelecimento equals ATV.ID
+            //                                  join Est in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                                  on ATV.IDEstabelecimento equals Est.ID
+            //                                  join ALOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                                  on Est.ID equals ALOC.idEstabelecimento
+            //                                  join EXP in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                                  on ATL.ID equals EXP.idAtividadeAlocada
+            //                                  where ALOC.Admissao.IDEmpregado.Equals(id)
+            //                                  select new Exposicao()
+            //                                  {
+            //                                      ID = EXP.ID,
+            //                                      TempoEstimado = EXP.TempoEstimado,
+            //                                      EExposicaoCalor = EXP.EExposicaoCalor,
+            //                                      EExposicaoInsalubre = EXP.EExposicaoInsalubre,
+            //                                      EExposicaoSeg = EXP.EExposicaoSeg,
+            //                                      EProbabilidadeSeg = EXP.EProbabilidadeSeg,
+            //                                      ESeveridadeSeg = EXP.ESeveridadeSeg,
 
 
-                                                  AtividadeAlocada = new AtividadeAlocada()
-                                                  {
-                                                      idAlocacao = ATL.idAlocacao,
-                                                      idAtividadesDoEstabelecimento = ATL.idAtividadesDoEstabelecimento,
-                                                      ID = ATL.ID,
+            //                                      AtividadeAlocada = new AtividadeAlocada()
+            //                                      {
+            //                                          idAlocacao = ATL.idAlocacao,
+            //                                          idAtividadesDoEstabelecimento = ATL.idAtividadesDoEstabelecimento,
+            //                                          ID = ATL.ID,
 
 
-                                                      AtividadesDoEstabelecimento = new AtividadesDoEstabelecimento()
-                                                      {
-                                                          DescricaoDestaAtividade = ATV.DescricaoDestaAtividade,
+            //                                          AtividadesDoEstabelecimento = new AtividadesDoEstabelecimento()
+            //                                          {
+            //                                              DescricaoDestaAtividade = ATV.DescricaoDestaAtividade,
 
-                                                          Estabelecimento = new Estabelecimento()
-                                                          {
-                                                              ID = Est.ID,
-                                                              Descricao = Est.Descricao
-                                                          }
-                                                      }
-
-
-                                                  }
+            //                                              Estabelecimento = new Estabelecimento()
+            //                                              {
+            //                                                  ID = Est.ID,
+            //                                                  Descricao = Est.Descricao
+            //                                              }
+            //                                          }
 
 
-                                              }
-                                                        ).ToList();
-            ViewBag.ListaExposicao = ListaExposicao;
+            //                                      }
+
+
+            //                                  }
+            //                                            ).ToList();
+            //ViewBag.ListaExposicao = ListaExposicao;
 
 
 
@@ -304,50 +304,50 @@ namespace GISWeb.Controllers
 
 
             //verifica se existe exposição para o empregado
-            var Expo = (from EX in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        join ATA in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on EX.idAtividadeAlocada equals ATA.ID
-                        join AlOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on ATA.idAlocacao equals AlOC.ID
-                        join ADM in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on AlOC.IdAdmissao equals ADM.ID
-                        join EMP in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on ADM.IDEmpregado equals EMP.ID
-                        join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on ATA.idAtividadesDoEstabelecimento equals ATE.ID
-                        where EMP.ID.Equals(id)
-                        select new Exposicao()
-                        {
-                            ID = EX.ID,
-                            TempoEstimado = EX.TempoEstimado,
-                            EExposicaoCalor = EX.EExposicaoCalor,
-                            EExposicaoInsalubre = EX.EExposicaoInsalubre,
-                            EExposicaoSeg = EX.EExposicaoSeg,
-                            EProbabilidadeSeg = EX.EProbabilidadeSeg,
-                            ESeveridadeSeg = EX.ESeveridadeSeg,
-                            AtividadeAlocada = new AtividadeAlocada()
-                            {
-                                ID = ATA.ID,
-                                idAlocacao = ATA.ID,
-                                idAtividadesDoEstabelecimento = ATA.idAtividadesDoEstabelecimento,
+            //var Expo = (from EX in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            join ATA in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            on EX.idAtividadeAlocada equals ATA.ID
+            //            join AlOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            on ATA.idAlocacao equals AlOC.ID
+            //            join ADM in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            on AlOC.IdAdmissao equals ADM.ID
+            //            join EMP in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            on ADM.IDEmpregado equals EMP.ID
+            //            join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            on ATA.idAtividadesDoEstabelecimento equals ATE.ID
+            //            where EMP.ID.Equals(id)
+            //            select new Exposicao()
+            //            {
+            //                ID = EX.ID,
+            //                TempoEstimado = EX.TempoEstimado,
+            //                EExposicaoCalor = EX.EExposicaoCalor,
+            //                EExposicaoInsalubre = EX.EExposicaoInsalubre,
+            //                EExposicaoSeg = EX.EExposicaoSeg,
+            //                EProbabilidadeSeg = EX.EProbabilidadeSeg,
+            //                ESeveridadeSeg = EX.ESeveridadeSeg,
+            //                AtividadeAlocada = new AtividadeAlocada()
+            //                {
+            //                    ID = ATA.ID,
+            //                    idAlocacao = ATA.ID,
+            //                    idAtividadesDoEstabelecimento = ATA.idAtividadesDoEstabelecimento,
 
-                                Alocacao = new Alocacao()
-                                {
-                                    ID = AlOC.ID
-                                },
-                                AtividadesDoEstabelecimento = new AtividadesDoEstabelecimento()
-                                {
-                                    ID = ATE.ID,
-                                    DescricaoDestaAtividade = ATE.DescricaoDestaAtividade,
-                                    IDEstabelecimento = ATE.IDEstabelecimento,
-                                }
-                            }
+            //                    Alocacao = new Alocacao()
+            //                    {
+            //                        ID = AlOC.ID
+            //                    },
+            //                    AtividadesDoEstabelecimento = new AtividadesDoEstabelecimento()
+            //                    {
+            //                        ID = ATE.ID,
+            //                        DescricaoDestaAtividade = ATE.DescricaoDestaAtividade,
+            //                        IDEstabelecimento = ATE.IDEstabelecimento,
+            //                    }
+            //                }
 
-                        }
+            //            }
 
-                        ).ToList();
+            //            ).ToList();
 
-            ViewBag.Expo = Expo;
+            //ViewBag.Expo = Expo;
 
 
 
@@ -365,99 +365,99 @@ namespace GISWeb.Controllers
         public ActionResult ListaExpoAtivFuncao(string idAlocacao,string idAtividadeFuncaoLiberada,string Nome, string cpf,string idAtividade)
         {
 
-            var TipoRisco = (from EX in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             join TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on EX.idTipoDeRisco equals TR.ID
-                             join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idAtividadesDoEstabelecimento equals ATE.ID
-                             join ATL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on EX.idAtividadeAlocada equals ATL.ID
-                             join EP in EventoPerigosoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idEventoPerigoso equals EP.ID
-                             join PD in PossiveisDanosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idPossiveisDanos equals PD.ID
-                             join PP in PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idPerigoPotencial equals PP.ID
-                             where EX.idAlocacao.Equals(Guid.Parse(idAlocacao)) && EX.idAtividadeAlocada.Equals(idAtividade)
-                             select new Exposicao()
-                             {
-                                 ID = EX.ID,
-                                 TempoEstimado = EX.TempoEstimado,
-                                 EExposicaoCalor = EX.EExposicaoCalor,
-                                 EExposicaoInsalubre = EX.EExposicaoInsalubre,
-                                 EExposicaoSeg = EX.EExposicaoSeg,
-                                 EProbabilidadeSeg = EX.EProbabilidadeSeg,
-                                 ESeveridadeSeg = EX.ESeveridadeSeg,
-                                 idTipoDeRisco = EX.idTipoDeRisco,
+            //    var TipoRisco = (from EX in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                     join TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                     on EX.idTipoDeRisco equals TR.ID
+            //                     join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                     on TR.idAtividadesDoEstabelecimento equals ATE.ID
+            //                     join ATL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                     on EX.idAtividadeAlocada equals ATL.ID
+            //                     join EP in EventoPerigosoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                     on TR.idEventoPerigoso equals EP.ID
+            //                     join PD in PossiveisDanosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                     on TR.idPossiveisDanos equals PD.ID
+            //                     join PP in PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                     on TR.idPerigoPotencial equals PP.ID
+            //                     where EX.idAlocacao.Equals(Guid.Parse(idAlocacao)) && EX.idAtividadeAlocada.Equals(idAtividade)
+            //                     select new Exposicao()
+            //                     {
+            //                         ID = EX.ID,
+            //                         TempoEstimado = EX.TempoEstimado,
+            //                         EExposicaoCalor = EX.EExposicaoCalor,
+            //                         EExposicaoInsalubre = EX.EExposicaoInsalubre,
+            //                         EExposicaoSeg = EX.EExposicaoSeg,
+            //                         EProbabilidadeSeg = EX.EProbabilidadeSeg,
+            //                         ESeveridadeSeg = EX.ESeveridadeSeg,
+            //                         idTipoDeRisco = EX.idTipoDeRisco,
 
-                                 AtividadeAlocada = new AtividadeAlocada()
-                                 {
-                                     idAtividadesDoEstabelecimento = ATL.idAtividadesDoEstabelecimento
-                                 },
+            //                         AtividadeAlocada = new AtividadeAlocada()
+            //                         {
+            //                             idAtividadesDoEstabelecimento = ATL.idAtividadesDoEstabelecimento
+            //                         },
 
-                                 TipoDeRisco = new TipoDeRisco()
-                                 {
-                                     ID = TR.ID,
-                                     EClasseDoRisco = TR.EClasseDoRisco,
-                                     FonteGeradora = TR.FonteGeradora,
-                                     Tragetoria = TR.Tragetoria,
-                                     idPossiveisDanos = TR.idPossiveisDanos,
-                                     idEventoPerigoso = TR.idEventoPerigoso,
-                                     idPerigoPotencial = TR.idPerigoPotencial,
+            //                         TipoDeRisco = new TipoDeRisco()
+            //                         {
+            //                             ID = TR.ID,
+            //                             EClasseDoRisco = TR.EClasseDoRisco,
+            //                             FonteGeradora = TR.FonteGeradora,
+            //                             Tragetoria = TR.Tragetoria,
+            //                             idPossiveisDanos = TR.idPossiveisDanos,
+            //                             idEventoPerigoso = TR.idEventoPerigoso,
+            //                             idPerigoPotencial = TR.idPerigoPotencial,
 
-                                     EventoPerigoso = new EventoPerigoso()
-                                     {
-                                         Descricao = EP.Descricao
-                                     },
-                                     PossiveisDanos = new PossiveisDanos()
-                                     {
-                                         DescricaoDanos = PD.DescricaoDanos
-                                     },
-                                     PerigoPotencial = new PerigoPotencial()
-                                     {
-                                         DescricaoEvento = PP.DescricaoEvento
-                                     }
+            //                             EventoPerigoso = new EventoPerigoso()
+            //                             {
+            //                                 Descricao = EP.Descricao
+            //                             },
+            //                             PossiveisDanos = new PossiveisDanos()
+            //                             {
+            //                                 DescricaoDanos = PD.DescricaoDanos
+            //                             },
+            //                             PerigoPotencial = new Perigo()
+            //                             {
+            //                                 DescricaoEvento = PP.DescricaoEvento
+            //                             }
 
-                                 }
-
-
-                             }
-                             ).ToList();
-
-        ViewBag.Riscos = TipoRisco;
+            //                         }
 
 
+            //                     }
+            //                     ).ToList();
 
-            try
-            {
-                Exposicao oExposicao = ExposicaoBusiness.Consulta.FirstOrDefault(p => p.idAtividadeAlocada.Equals(idAtividade) && p.idAlocacao.Equals(idAlocacao));
-
-
-                if (oExposicao == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Alerta = "Exposição não encontrada. Solicite ao Administrador que cadastre esta exposição!." } });
-                }
-                else
-                {
-                    return Json(new { data = RenderRazorViewToString("_ListaExpoAtivFuncao", oExposicao) });
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-                if (ex.GetBaseException() == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-                }
-                else
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
-                }
-            }
+            //ViewBag.Riscos = TipoRisco;
 
 
 
+            //try
+            //{
+            //    Exposicao oExposicao = ExposicaoBusiness.Consulta.FirstOrDefault(p => p.idAtividadeAlocada.Equals(idAtividade) && p.idAlocacao.Equals(idAlocacao));
+
+
+            //    if (oExposicao == null)
+            //    {
+            //        return Json(new { resultado = new RetornoJSON() { Alerta = "Exposição não encontrada. Solicite ao Administrador que cadastre esta exposição!." } });
+            //    }
+            //    else
+            //    {
+            //        return Json(new { data = RenderRazorViewToString("_ListaExpoAtivFuncao", oExposicao) });
+            //    }
+
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    if (ex.GetBaseException() == null)
+            //    {
+            //        return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            //    }
+            //    else
+            //    {
+            //        return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+            //    }
+            //}
+
+
+            return Json(new { resultado = new RetornoJSON() { Erro = "" } });
 
         }
 
@@ -469,147 +469,147 @@ namespace GISWeb.Controllers
 
         public ActionResult ListaExposicao(string idAlocacao,string idAtividadeAlocada, string Nome, string cpf, string idAtividadeEstabelecimento)
         {
-            var Expo = (from EX in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        join ATA in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on EX.idAtividadeAlocada equals ATA.ID
-                        join AlOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on ATA.idAlocacao equals AlOC.ID
-                        join ADM in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on AlOC.IdAdmissao equals ADM.ID
-                        join EMP in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on ADM.IDEmpregado equals EMP.ID
-                        join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on ATA.idAtividadesDoEstabelecimento equals ATE.ID
-                        where EX.idAlocacao.Equals(idAlocacao) && EX.idAtividadeAlocada.Equals(idAtividadeAlocada)
-                        select new Exposicao()
-                        {
-                            ID = EX.ID,
-                            TempoEstimado = EX.TempoEstimado,
-                            EExposicaoCalor = EX.EExposicaoCalor,
-                            EExposicaoInsalubre = EX.EExposicaoInsalubre,
-                            EExposicaoSeg = EX.EExposicaoSeg,
-                            EProbabilidadeSeg = EX.EProbabilidadeSeg,
-                            ESeveridadeSeg = EX.ESeveridadeSeg,
-                            AtividadeAlocada = new AtividadeAlocada()
-                            {
-                                ID = ATA.ID,
-                                idAlocacao = ATA.ID,
-                                idAtividadesDoEstabelecimento = ATA.idAtividadesDoEstabelecimento,
+            //var Expo = (from EX in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            join ATA in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            on EX.idAtividadeAlocada equals ATA.ID
+            //            join AlOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            on ATA.idAlocacao equals AlOC.ID
+            //            join ADM in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            on AlOC.IdAdmissao equals ADM.ID
+            //            join EMP in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            on ADM.IDEmpregado equals EMP.ID
+            //            join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //            on ATA.idAtividadesDoEstabelecimento equals ATE.ID
+            //            where EX.idAlocacao.Equals(idAlocacao) && EX.idAtividadeAlocada.Equals(idAtividadeAlocada)
+            //            select new Exposicao()
+            //            {
+            //                ID = EX.ID,
+            //                TempoEstimado = EX.TempoEstimado,
+            //                EExposicaoCalor = EX.EExposicaoCalor,
+            //                EExposicaoInsalubre = EX.EExposicaoInsalubre,
+            //                EExposicaoSeg = EX.EExposicaoSeg,
+            //                EProbabilidadeSeg = EX.EProbabilidadeSeg,
+            //                ESeveridadeSeg = EX.ESeveridadeSeg,
+            //                AtividadeAlocada = new AtividadeAlocada()
+            //                {
+            //                    ID = ATA.ID,
+            //                    idAlocacao = ATA.ID,
+            //                    idAtividadesDoEstabelecimento = ATA.idAtividadesDoEstabelecimento,
 
-                                Alocacao = new Alocacao()
-                                {
-                                    ID = AlOC.ID,
+            //                    Alocacao = new Alocacao()
+            //                    {
+            //                        ID = AlOC.ID,
 
-                                },
+            //                    },
 
-                                AtividadesDoEstabelecimento = new AtividadesDoEstabelecimento()
-                                {
-                                    ID = ATE.ID,
-                                    DescricaoDestaAtividade = ATE.DescricaoDestaAtividade,
-                                    IDEstabelecimento = ATE.IDEstabelecimento,
-                                }
-                            },
+            //                    AtividadesDoEstabelecimento = new AtividadesDoEstabelecimento()
+            //                    {
+            //                        ID = ATE.ID,
+            //                        DescricaoDestaAtividade = ATE.DescricaoDestaAtividade,
+            //                        IDEstabelecimento = ATE.IDEstabelecimento,
+            //                    }
+            //                },
                             
 
-                        }
+            //            }
 
-                        ).ToList();
+            //            ).ToList();
 
-            ViewBag.Expo = Expo;
+            //ViewBag.Expo = Expo;
 
-            ViewBag.Nome = Nome;
-            ViewBag.cpf = cpf;
+            //ViewBag.Nome = Nome;
+            //ViewBag.cpf = cpf;
 
-            List<Exposicao> ListaExpo = (from EXP in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                         join ATL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                         on EXP.idAtividadeAlocada equals ATL.ID
-                                         join ALOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                         on ATL.idAlocacao equals ALOC.ID
-                                         where EXP.idAlocacao.Equals(idAlocacao) && EXP.idAtividadeAlocada.Equals(idAtividadeAlocada)
-                                         select new Exposicao()
-                                         {
-                                             ID = EXP.ID,
-                                             TempoEstimado = EXP.TempoEstimado,
-                                             EExposicaoCalor = EXP.EExposicaoCalor,
-                                             EExposicaoInsalubre = EXP.EExposicaoInsalubre,
-                                             EExposicaoSeg = EXP.EExposicaoSeg,
-                                             EProbabilidadeSeg = EXP.EProbabilidadeSeg,
-                                             ESeveridadeSeg = EXP.ESeveridadeSeg,
-                                             AtividadeAlocada = new AtividadeAlocada()
-                                             {
-                                                 idAlocacao = ATL.idAlocacao,
-                                                 idAtividadesDoEstabelecimento = ATL.idAtividadesDoEstabelecimento,
-                                                 ID = ATL.ID
-                                             }
-
-
-                                         }).ToList();
+            //List<Exposicao> ListaExpo = (from EXP in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                             join ATL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                             on EXP.idAtividadeAlocada equals ATL.ID
+            //                             join ALOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                             on ATL.idAlocacao equals ALOC.ID
+            //                             where EXP.idAlocacao.Equals(idAlocacao) && EXP.idAtividadeAlocada.Equals(idAtividadeAlocada)
+            //                             select new Exposicao()
+            //                             {
+            //                                 ID = EXP.ID,
+            //                                 TempoEstimado = EXP.TempoEstimado,
+            //                                 EExposicaoCalor = EXP.EExposicaoCalor,
+            //                                 EExposicaoInsalubre = EXP.EExposicaoInsalubre,
+            //                                 EExposicaoSeg = EXP.EExposicaoSeg,
+            //                                 EProbabilidadeSeg = EXP.EProbabilidadeSeg,
+            //                                 ESeveridadeSeg = EXP.ESeveridadeSeg,
+            //                                 AtividadeAlocada = new AtividadeAlocada()
+            //                                 {
+            //                                     idAlocacao = ATL.idAlocacao,
+            //                                     idAtividadesDoEstabelecimento = ATL.idAtividadesDoEstabelecimento,
+            //                                     ID = ATL.ID
+            //                                 }
 
 
-            ViewBag.ListaAtividade = ListaExpo;
+            //                             }).ToList();
+
+
+            //ViewBag.ListaAtividade = ListaExpo;
 
            
 
-            var TipoRisco = (from EX in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             join TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on EX.idTipoDeRisco equals TR.ID
-                             join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idAtividadesDoEstabelecimento equals ATE.ID
-                             join ATL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on EX.idAtividadeAlocada equals ATL.ID
-                             join EP in EventoPerigosoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idEventoPerigoso equals EP.ID
-                             join PD in PossiveisDanosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idPossiveisDanos equals PD.ID
-                             join PP in PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idPerigoPotencial equals PP.ID
-                             where EX.idAlocacao.Equals(Guid.Parse(idAlocacao)) && EX.idAtividadeAlocada.Equals(idAtividadeAlocada)
-                             select new Exposicao()
-                             {
-                                 ID = EX.ID,
-                                 TempoEstimado = EX.TempoEstimado,
-                                 EExposicaoCalor = EX.EExposicaoCalor,
-                                 EExposicaoInsalubre = EX.EExposicaoInsalubre,
-                                 EExposicaoSeg = EX.EExposicaoSeg,
-                                 EProbabilidadeSeg = EX.EProbabilidadeSeg,
-                                 ESeveridadeSeg = EX.ESeveridadeSeg,
-                                 idTipoDeRisco = EX.idTipoDeRisco,
+            //var TipoRisco = (from EX in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 join TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 on EX.idTipoDeRisco equals TR.ID
+            //                 join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 on TR.idAtividadesDoEstabelecimento equals ATE.ID
+            //                 join ATL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 on EX.idAtividadeAlocada equals ATL.ID
+            //                 join EP in EventoPerigosoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 on TR.idEventoPerigoso equals EP.ID
+            //                 join PD in PossiveisDanosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 on TR.idPossiveisDanos equals PD.ID
+            //                 join PP in PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 on TR.idPerigoPotencial equals PP.ID
+            //                 where EX.idAlocacao.Equals(Guid.Parse(idAlocacao)) && EX.idAtividadeAlocada.Equals(idAtividadeAlocada)
+            //                 select new Exposicao()
+            //                 {
+            //                     ID = EX.ID,
+            //                     TempoEstimado = EX.TempoEstimado,
+            //                     EExposicaoCalor = EX.EExposicaoCalor,
+            //                     EExposicaoInsalubre = EX.EExposicaoInsalubre,
+            //                     EExposicaoSeg = EX.EExposicaoSeg,
+            //                     EProbabilidadeSeg = EX.EProbabilidadeSeg,
+            //                     ESeveridadeSeg = EX.ESeveridadeSeg,
+            //                     idTipoDeRisco = EX.idTipoDeRisco,
 
-                                 AtividadeAlocada = new AtividadeAlocada()
-                                 {
-                                     idAtividadesDoEstabelecimento = ATL.idAtividadesDoEstabelecimento
-                                 },
+            //                     AtividadeAlocada = new AtividadeAlocada()
+            //                     {
+            //                         idAtividadesDoEstabelecimento = ATL.idAtividadesDoEstabelecimento
+            //                     },
 
-                                 TipoDeRisco = new TipoDeRisco()
-                                 {
-                                     ID = TR.ID,
-                                     EClasseDoRisco = TR.EClasseDoRisco,
-                                     FonteGeradora = TR.FonteGeradora,
-                                     Tragetoria = TR.Tragetoria,
-                                     idPossiveisDanos = TR.idPossiveisDanos,
-                                     idEventoPerigoso = TR.idEventoPerigoso,
-                                     idPerigoPotencial = TR.idPerigoPotencial,
+            //                     TipoDeRisco = new TipoDeRisco()
+            //                     {
+            //                         ID = TR.ID,
+            //                         EClasseDoRisco = TR.EClasseDoRisco,
+            //                         FonteGeradora = TR.FonteGeradora,
+            //                         Tragetoria = TR.Tragetoria,
+            //                         idPossiveisDanos = TR.idPossiveisDanos,
+            //                         idEventoPerigoso = TR.idEventoPerigoso,
+            //                         idPerigoPotencial = TR.idPerigoPotencial,
 
-                                     EventoPerigoso = new EventoPerigoso()
-                                     {
-                                         Descricao = EP.Descricao
-                                     },
-                                     PossiveisDanos = new PossiveisDanos()
-                                     {
-                                         DescricaoDanos = PD.DescricaoDanos
-                                     },
-                                     PerigoPotencial = new PerigoPotencial()
-                                     {
-                                         DescricaoEvento = PP.DescricaoEvento
-                                     }
+            //                         EventoPerigoso = new EventoPerigoso()
+            //                         {
+            //                             Descricao = EP.Descricao
+            //                         },
+            //                         PossiveisDanos = new PossiveisDanos()
+            //                         {
+            //                             DescricaoDanos = PD.DescricaoDanos
+            //                         },
+            //                         PerigoPotencial = new Perigo()
+            //                         {
+            //                             DescricaoEvento = PP.DescricaoEvento
+            //                         }
 
-                                 }
+            //                     }
 
 
-                             }
-                             ).ToList();
+            //                 }
+            //                 ).ToList();
 
-            ViewBag.Riscos = TipoRisco;
+            //ViewBag.Riscos = TipoRisco;
 
 
             #region ConsultaEsquerda
@@ -682,98 +682,98 @@ namespace GISWeb.Controllers
 
             List<Guid> risc = new List<Guid>();
 
-            foreach (var iten in TipoRisco)
-            {
-                risc.Add(iten.idTipoDeRisco);
-            }
+            //foreach (var iten in TipoRisco)
+            //{
+            //    risc.Add(iten.idTipoDeRisco);
+            //}
 
-            ViewBag.risc = risc;
-            ViewBag.totalrisc = risc.Count();
-
-
+            //ViewBag.risc = risc;
+            //ViewBag.totalrisc = risc.Count();
 
 
 
 
-            var TodosRiscos = (from TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                               
-                             join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idAtividadesDoEstabelecimento equals ATE.ID
-                             join AL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on ATE.ID equals AL.idAtividadesDoEstabelecimento
-                             join EP in EventoPerigosoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idEventoPerigoso equals EP.ID
-                             join PD in PossiveisDanosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idPossiveisDanos equals PD.ID
-                             join PP in PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on TR.idPerigoPotencial equals PP.ID
-                             where ATE.ID.Equals(idAtividadeEstabelecimento)
-                             select new TipoDeRisco()
-                             {
-                                ID = TR.ID,
-                                EClasseDoRisco = TR.EClasseDoRisco,
-                                FonteGeradora = TR.FonteGeradora,
-                                Tragetoria = TR.Tragetoria,
-                                idPossiveisDanos = TR.idPossiveisDanos,
-                                idEventoPerigoso = TR.idEventoPerigoso,
-                                idPerigoPotencial = TR.idPerigoPotencial,
-
-                                EventoPerigoso = new EventoPerigoso()
-                                {
-                                    Descricao = EP.Descricao
-                                },
-                                PossiveisDanos = new PossiveisDanos()
-                                {
-                                    DescricaoDanos = PD.DescricaoDanos
-                                },
-                                PerigoPotencial = new PerigoPotencial()
-                                {
-                                    DescricaoEvento = PP.DescricaoEvento
-                                },
-                                     
-                                AtividadesDoEstabelecimento = new AtividadesDoEstabelecimento()
-                                {
-                                    ID = ATE.ID                                        
-                                }                                
-                             }
-                             ).ToList();
-            ViewBag.TipoRisco = TodosRiscos;
-
-            ViewBag.TipoRisc = TodosRiscos.ToString();
-
-            ViewBag.Exposi = ListaExpo;
 
 
-            try
-            {
-                Exposicao oExposicao = ExposicaoBusiness.Consulta.FirstOrDefault(p => p.idAtividadeAlocada.Equals(idAtividadeAlocada) && p.idAlocacao.Equals(idAlocacao));
+            //var TodosRiscos = (from TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
 
-                
-                if (oExposicao == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Alerta = "Exposição não encontrada. Solicite ao Administrador que cadastre esta exposição!." } });
-                }
-                else
-                {
-                    return Json(new { data = RenderRazorViewToString("_ListaExposicao", oExposicao) });
-                }
+            //                 join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 on TR.idAtividadesDoEstabelecimento equals ATE.ID
+            //                 join AL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 on ATE.ID equals AL.idAtividadesDoEstabelecimento
+            //                 join EP in EventoPerigosoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 on TR.idEventoPerigoso equals EP.ID
+            //                 join PD in PossiveisDanosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 on TR.idPossiveisDanos equals PD.ID
+            //                 join PP in PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                 on TR.idPerigoPotencial equals PP.ID
+            //                 where ATE.ID.Equals(idAtividadeEstabelecimento)
+            //                 select new TipoDeRisco()
+            //                 {
+            //                    ID = TR.ID,
+            //                    EClasseDoRisco = TR.EClasseDoRisco,
+            //                    FonteGeradora = TR.FonteGeradora,
+            //                    Tragetoria = TR.Tragetoria,
+            //                    idPossiveisDanos = TR.idPossiveisDanos,
+            //                    idEventoPerigoso = TR.idEventoPerigoso,
+            //                    idPerigoPotencial = TR.idPerigoPotencial,
 
-            }
-            catch (Exception ex)
-            {
+            //                    EventoPerigoso = new EventoPerigoso()
+            //                    {
+            //                        Descricao = EP.Descricao
+            //                    },
+            //                    PossiveisDanos = new PossiveisDanos()
+            //                    {
+            //                        DescricaoDanos = PD.DescricaoDanos
+            //                    },
+            //                    PerigoPotencial = new Perigo()
+            //                    {
+            //                        DescricaoEvento = PP.DescricaoEvento
+            //                    },
 
-                if (ex.GetBaseException() == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-                }
-                else
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
-                }
-            }
+            //                    AtividadesDoEstabelecimento = new AtividadesDoEstabelecimento()
+            //                    {
+            //                        ID = ATE.ID                                        
+            //                    }                                
+            //                 }
+            //                 ).ToList();
+            //ViewBag.TipoRisco = TodosRiscos;
 
-            
+            //ViewBag.TipoRisc = TodosRiscos.ToString();
 
+            //ViewBag.Exposi = ListaExpo;
+
+
+            //try
+            //{
+            //    Exposicao oExposicao = ExposicaoBusiness.Consulta.FirstOrDefault(p => p.idAtividadeAlocada.Equals(idAtividadeAlocada) && p.idAlocacao.Equals(idAlocacao));
+
+
+            //    if (oExposicao == null)
+            //    {
+            //        return Json(new { resultado = new RetornoJSON() { Alerta = "Exposição não encontrada. Solicite ao Administrador que cadastre esta exposição!." } });
+            //    }
+            //    else
+            //    {
+            //        return Json(new { data = RenderRazorViewToString("_ListaExposicao", oExposicao) });
+            //    }
+
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    if (ex.GetBaseException() == null)
+            //    {
+            //        return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            //    }
+            //    else
+            //    {
+            //        return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+            //    }
+            //}
+
+
+            return Json(new { resultado = new RetornoJSON() { Erro = "" } });
         }
 
         //Assim que o empregado for demitido, retorne esta visão

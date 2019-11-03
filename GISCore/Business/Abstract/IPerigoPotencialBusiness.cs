@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GISCore.Business.Abstract
 {
-    public interface IPerigoPotencialBusiness:IBaseBusiness<PerigoPotencial>
+    public interface IPerigoPotencialBusiness:IBaseBusiness<Perigo>
     {
     }
 }

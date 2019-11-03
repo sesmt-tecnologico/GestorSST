@@ -28,8 +28,8 @@ namespace GISWeb.Controllers
         public IAtividadeAlocadaBusiness AtividadeAlocadaBusiness { get; set; }
 
 
-        [Inject]
-        public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
+        //[Inject]
+        //public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
 
         [Inject]
         public IAnaliseRiscoBusiness AnaliseRiscoBusiness { get; set; }
@@ -68,67 +68,69 @@ namespace GISWeb.Controllers
         //está apto a executar a atividade.
         public ActionResult PesquisarAtividadesRiscos(string idEstabelecimento, string idAlocacao)
         {
-            ViewBag.Imagens = AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEstabelecimento.Equals(idEstabelecimento))).ToList();
+            //ViewBag.Imagens = AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEstabelecimento.Equals(idEstabelecimento))).ToList();
 
-            try
-            {
-
-
-                var listaAmbientes = from AL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.idAlocacao.Equals(idAlocacao)).ToList()
-                                     join AR in AnaliseRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                     on AL.ID equals AR.IDAtividadeAlocada
-                                     into ARGroup
-                                     from item in ARGroup.DefaultIfEmpty()
-
-                                     join AE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                     on AL.idAtividadesDoEstabelecimento equals AE.ID
-                                     into AEGroup
-                                     from item0 in AEGroup.DefaultIfEmpty()
-
-                                     join TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                     on item0.ID equals TR.idAtividadesDoEstabelecimento
-                                     into TRGroup
-                                     from item1 in TRGroup.DefaultIfEmpty()
-
-                                     select new AnaliseRiscosViewModel
-                                     {
-                                         DescricaoAtividade = AL.AtividadesDoEstabelecimento.DescricaoDestaAtividade,
-                                         //Riscos = item1.PerigoPotencial.DescricaoEvento,
-                                         //FonteGeradora = item1.FonteGeradora,
-                                         AlocaAtividade = (item == null ? false : true),
-                                         //Conhecimento = item.Conhecimento,
-                                         //BemEstar = item.BemEstar,
+            //try
+            //{
 
 
+            //    var listaAmbientes = from AL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.idAlocacao.Equals(idAlocacao)).ToList()
+            //                         join AR in AnaliseRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                         on AL.ID equals AR.IDAtividadeAlocada
+            //                         into ARGroup
+            //                         from item in ARGroup.DefaultIfEmpty()
 
-                                     };
+            //                         join AE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                         on AL.idAtividadesDoEstabelecimento equals AE.ID
+            //                         into AEGroup
+            //                         from item0 in AEGroup.DefaultIfEmpty()
 
+            //                         join TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                         on item0.ID equals TR.idAtividadesDoEstabelecimento
+            //                         into TRGroup
+            //                         from item1 in TRGroup.DefaultIfEmpty()
 
-                List<AnaliseRiscosViewModel> lAtividadesRiscos = listaAmbientes.ToList();
+            //                         select new AnaliseRiscosViewModel
+            //                         {
+            //                             DescricaoAtividade = AL.AtividadesDoEstabelecimento.DescricaoDestaAtividade,
+            //                             //Riscos = item1.PerigoPotencial.DescricaoEvento,
+            //                             //FonteGeradora = item1.FonteGeradora,
+            //                             AlocaAtividade = (item == null ? false : true),
+            //                             //Conhecimento = item.Conhecimento,
+            //                             //BemEstar = item.BemEstar,
 
 
 
-                AtividadesDoEstabelecimento oIDRiscosDoEstabelecimento = AtividadesDoEstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.IDEstabelecimento.Equals(idEstabelecimento));
-                if (oIDRiscosDoEstabelecimento == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Alerta = "Atividades de Riscos não encontrada." } });
-                }
-                else
-                {
-                    return Json(new { data = RenderRazorViewToString("SalvarAnaliseRisco", lAtividadesRiscos), Contar = lAtividadesRiscos.Count() });
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetBaseException() == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-                }
-                else
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
-                }
-            }
+            //                         };
+
+
+            //    List<AnaliseRiscosViewModel> lAtividadesRiscos = listaAmbientes.ToList();
+
+
+
+            //    AtividadesDoEstabelecimento oIDRiscosDoEstabelecimento = AtividadesDoEstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.IDEstabelecimento.Equals(idEstabelecimento));
+            //    if (oIDRiscosDoEstabelecimento == null)
+            //    {
+            //        return Json(new { resultado = new RetornoJSON() { Alerta = "Atividades de Riscos não encontrada." } });
+            //    }
+            //    else
+            //    {
+            //        return Json(new { data = RenderRazorViewToString("SalvarAnaliseRisco", lAtividadesRiscos), Contar = lAtividadesRiscos.Count() });
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (ex.GetBaseException() == null)
+            //    {
+            //        return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            //    }
+            //    else
+            //    {
+            //        return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+            //    }
+            //}
+
+            return Json(new { resultado = new RetornoJSON() { Erro = "" } });
 
         }
 
@@ -136,110 +138,110 @@ namespace GISWeb.Controllers
         public ActionResult SalvarAnaliseRisco(string idEstabelecimento, string idAlocacao)
         {
 
-            ViewBag.EventoPerigoso = new SelectList(EventoPerigosoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDEventoPerigoso", "Descricao");
+            //ViewBag.EventoPerigoso = new SelectList(EventoPerigosoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDEventoPerigoso", "Descricao");
 
-            ViewBag.PerigoPotencial = new SelectList(PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDPerigoPotencial", "DescricaoEvento");
+            //ViewBag.PerigoPotencial = new SelectList(PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDPerigoPotencial", "DescricaoEvento");
 
 
 
-            var ListaAmbientes = from AL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.idAlocacao.Equals(idAlocacao)).ToList()
-                                 join AR in AnaliseRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                 on AL.ID equals AR.IDAtividadeAlocada
-                                 into ARGroup
-                                 from item in ARGroup.DefaultIfEmpty()
+            //var ListaAmbientes = from AL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.idAlocacao.Equals(idAlocacao)).ToList()
+            //                     join AR in AnaliseRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                     on AL.ID equals AR.IDAtividadeAlocada
+            //                     into ARGroup
+            //                     from item in ARGroup.DefaultIfEmpty()
 
-                                 join AE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                 on AL.idAtividadesDoEstabelecimento equals AE.ID
-                                 into AEGroup
-                                 from item2 in AEGroup.DefaultIfEmpty()
+            //                     join AE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                     on AL.idAtividadesDoEstabelecimento equals AE.ID
+            //                     into AEGroup
+            //                     from item2 in AEGroup.DefaultIfEmpty()
 
-                                 join TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                 on item2.ID equals TR.idAtividadesDoEstabelecimento
-                                 into TRGroup
-                                 from item3 in TRGroup.DefaultIfEmpty()
+            //                     join TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //                     on item2.ID equals TR.idAtividadesDoEstabelecimento
+            //                     into TRGroup
+            //                     from item3 in TRGroup.DefaultIfEmpty()
 
                                 
 
-                                 select new AnaliseRiscosViewModel
-                                 {
-                                     IDTipoDeRisco= item3.ID,
-                                     FonteGeradora = item3.FonteGeradora,
-                                     IDAmissao = AL.Alocacao.Admissao.ID,
-                                     Imagem = AL.Alocacao.Admissao.Imagem,
-                                     Riscos = item3.EventoPerigoso.Descricao,
-                                     DescricaoAtividade = item2.DescricaoDestaAtividade,
-                                     IDAtividadeAlocada = AL.ID,
-                                     Conhecimento = item? .Conhecimento??false,                                     
-                                     BemEstar = item?.BemEstar??false,
-                                     PossiveisDanos = item3.PossiveisDanos.DescricaoDanos,
-                                     IDAtividadeEstabelecimento = AL.AtividadesDoEstabelecimento.ID,
-                                     imagemEstab = AL.AtividadesDoEstabelecimento.Imagem,
-                                     AlocaAtividade = item == null ? false : true
-                                 };
+            //                     select new AnaliseRiscosViewModel
+            //                     {
+            //                         IDTipoDeRisco= item3.ID,
+            //                         FonteGeradora = item3.FonteGeradora,
+            //                         IDAmissao = AL.Alocacao.Admissao.ID,
+            //                         Imagem = AL.Alocacao.Admissao.Imagem,
+            //                         Riscos = item3.EventoPerigoso.Descricao,
+            //                         DescricaoAtividade = item2.DescricaoDestaAtividade,
+            //                         IDAtividadeAlocada = AL.ID,
+            //                         Conhecimento = item? .Conhecimento??false,                                     
+            //                         BemEstar = item?.BemEstar??false,
+            //                         PossiveisDanos = item3.PossiveisDanos.DescricaoDanos,
+            //                         IDAtividadeEstabelecimento = AL.AtividadesDoEstabelecimento.ID,
+            //                         imagemEstab = AL.AtividadesDoEstabelecimento.Imagem,
+            //                         AlocaAtividade = item == null ? false : true
+            //                     };
 
 
-            List<AnaliseRiscosViewModel> lAtividadesRiscos = ListaAmbientes.ToList();
+            //List<AnaliseRiscosViewModel> lAtividadesRiscos = ListaAmbientes.ToList();
 
-            ViewBag.Risco = ListaAmbientes.ToList();
+            //ViewBag.Risco = ListaAmbientes.ToList();
 
-            var Emp = from Adm in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                      join Aloc in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                      on Adm.ID equals Aloc.IdAdmissao
-                      join Empre in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                      on Adm.IDEmpregado equals Empre.ID
-                      join Firm in EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                      on Adm.IDEmpresa equals Firm.ID
-                      where Aloc.ID.Equals(idAlocacao)
-                      select new Admissao()
-                      {
-                          DataAdmissao = Adm.DataAdmissao,
-                          Empresa = new Empresa()
-                          {
-                              NomeFantasia = Firm.NomeFantasia
+            //var Emp = from Adm in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //          join Aloc in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //          on Adm.ID equals Aloc.IdAdmissao
+            //          join Empre in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //          on Adm.IDEmpregado equals Empre.ID
+            //          join Firm in EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+            //          on Adm.IDEmpresa equals Firm.ID
+            //          where Aloc.ID.Equals(idAlocacao)
+            //          select new Admissao()
+            //          {
+            //              DataAdmissao = Adm.DataAdmissao,
+            //              Empresa = new Empresa()
+            //              {
+            //                  NomeFantasia = Firm.NomeFantasia
 
-                          },
+            //              },
 
-                          Empregado = new Empregado()
-                          {
-                              Nome = Empre.Nome,
-                              DataNascimento = Empre.DataNascimento,
+            //              Empregado = new Empregado()
+            //              {
+            //                  Nome = Empre.Nome,
+            //                  DataNascimento = Empre.DataNascimento,
 
-                          },
+            //              },
                           
                           
 
-                      };
+            //          };
 
-            ViewBag.Emp = Emp.ToList();
+            //ViewBag.Emp = Emp.ToList();
 
 
 
-            var ListaEmpregado = from AL in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(idAlocacao)).ToList()
-                                 select new Alocacao()
-                                 {
-                                     Admissao = new Admissao()
-                                     {
-                                       Empregado = new Empregado()
-                                       {
-                                           Nome = AL.Admissao.Empregado.Nome,
+            //var ListaEmpregado = from AL in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(idAlocacao)).ToList()
+            //                     select new Alocacao()
+            //                     {
+            //                         Admissao = new Admissao()
+            //                         {
+            //                           Empregado = new Empregado()
+            //                           {
+            //                               Nome = AL.Admissao.Empregado.Nome,
                                        
-                                       },
-                                         Empresa = new Empresa()
-                                         {
-                                             NomeFantasia = AL.Admissao.Empresa.NomeFantasia
-                                         }
-                                     },
+            //                           },
+            //                             Empresa = new Empresa()
+            //                             {
+            //                                 NomeFantasia = AL.Admissao.Empresa.NomeFantasia
+            //                             }
+            //                         },
 
-                                   Equipe = new Equipe()
-                                   {
-                                       NomeDaEquipe = AL.Equipe.NomeDaEquipe
-                                   },
+            //                       Equipe = new Equipe()
+            //                       {
+            //                           NomeDaEquipe = AL.Equipe.NomeDaEquipe
+            //                       },
                                                              
 
 
-                                 };
+            //                     };
 
-            ViewBag.Listaempregado = ListaEmpregado;
+            //ViewBag.Listaempregado = ListaEmpregado;
 
 
 

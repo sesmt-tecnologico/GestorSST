@@ -13,7 +13,7 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<WorkArea> WorkArea { get; set; }
 
-        public DbSet<REL_WorkAreaRisco> REL_WorkAreaRisco { get; set; }
+        
 
         public DbSet<Risco> Risco { get; set; }
 
@@ -38,8 +38,6 @@ namespace GISCore.Repository.Configuration
         public DbSet<Contrato> Contrato { get; set; }
 
         public DbSet<AtividadesDoEstabelecimento> AtividadesDoEstabelecimento { get; set; }
-
-        public DbSet<TipoDeRisco> TipoDeRisco { get; set; }
 
         public DbSet<MedidasDeControleExistentes> MedidasDeControleExistentes { get; set; }
 
@@ -67,9 +65,7 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<PlanoDeAcao> PlanoDeAcao { get; set; }
 
-        public DbSet<Exposicao> Exposicao { get; set; }
-
-        public DbSet<PerigoPotencial> PerigoPotencial { get; set; }
+        public DbSet<Perigo> Perigo { get; set; }
 
         public DbSet<Usuario> Usuario { get; set; }
 
@@ -89,6 +85,10 @@ namespace GISCore.Repository.Configuration
         public DbSet<REL_DepartamentoContrato> REL_DepartamentoContrato { get; set; }
 
         public DbSet<REL_EstabelecimentoDepartamento> REL_EstabelecimentoDepartamento { get; set; }
+
+        public DbSet<REL_WorkAreaPerigo> REL_WorkAreaPerigo { get; set; }
+
+        public DbSet<REL_PerigoRisco> REL_PerigoRisco { get; set; }
 
     }
 }
