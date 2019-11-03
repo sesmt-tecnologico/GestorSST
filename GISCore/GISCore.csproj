@@ -187,7 +187,9 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-
+    <Compile Include="Migrations\201911021102562_v01.cs" />
+    <Compile Include="Migrations\201911021102562_v01.Designer.cs">
+      <DependentUpon>201911021102562_v01.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
