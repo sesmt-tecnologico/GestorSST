@@ -112,10 +112,10 @@
     <Compile Include="Business\Abstract\IAtividadeFuncaoLiberadaBusiness.cs" />
     <Compile Include="Business\Abstract\IDocsPorAtividadeBusiness.cs" />
     <Compile Include="Business\Abstract\IDocumentosPessoalBusiness .cs" />
+    <Compile Include="Business\Abstract\IExposicaoBusiness.cs" />
     <Compile Include="Business\Abstract\INivelHierarquicoBusiness.cs" />
     <Compile Include="Business\Abstract\IPerfilBusiness.cs" />
     <Compile Include="Business\Abstract\IPerigoPotencialBusiness.cs" />
-    <Compile Include="Business\Abstract\IExposicaoBusiness.cs" />
     <Compile Include="Business\Abstract\IPlanoDeAcaoBusiness.cs" />
     <Compile Include="Business\Abstract\IAtividadeAlocadaBusiness.cs" />
     <Compile Include="Business\Abstract\IAdmissaoBusiness.cs" />
@@ -145,10 +145,10 @@
     <Compile Include="Business\Concrete\AtividadeFuncaoLiberadaBusiness.cs" />
     <Compile Include="Business\Concrete\DocsPorAtividadeBusiness.cs" />
     <Compile Include="Business\Concrete\DocumentosPessoalBusiness .cs" />
+    <Compile Include="Business\Concrete\ExposicaoBusiness.cs" />
     <Compile Include="Business\Concrete\NivelHierarquicoBusiness.cs" />
     <Compile Include="Business\Concrete\PerfilBusiness.cs" />
     <Compile Include="Business\Concrete\PerigoPotencialBusiness.cs" />
-    <Compile Include="Business\Concrete\ExposicaoBusiness.cs" />
     <Compile Include="Business\Concrete\PlanoDeAcaoBusiness.cs" />
     <Compile Include="Business\Concrete\AtividadeAlocadaBusiness.cs" />
     <Compile Include="Business\Concrete\AdmissaoBusiness.cs" />
@@ -162,7 +162,6 @@
     <Compile Include="Business\Concrete\FuncaoBusiness.cs" />
     <Compile Include="Business\Concrete\MedidasDeControleBusiness.cs" />
     <Compile Include="Business\Concrete\PossiveisDanosBusiness.cs" />
-    <Compile Include="Business\Concrete\TipoDeRiscoBusiness.cs" />
     <Compile Include="Business\Concrete\AtividadesDoEstabelecimentoBusiness.cs" />
     <Compile Include="Business\Concrete\BaseBusiness.cs" />
     <Compile Include="Business\Concrete\CNAEBusiness .cs" />
@@ -172,6 +171,7 @@
     <Compile Include="Business\Concrete\EstabelecimentoAmbienteBusiness.cs" />
     <Compile Include="Business\Concrete\EstabelecimentoBusiness.cs" />
     <Compile Include="Business\Abstract\IFuncaoBusiness.cs" />
+    <Compile Include="Business\Concrete\TipoDeRiscoBusiness.cs" />
     <Compile Include="Business\Concrete\UsuarioBusiness.cs" />
     <Compile Include="Business\Concrete\UsuarioPerfilBusiness.cs" />
     <Compile Include="Business\Concrete\WorkAreaBusiness.cs" />
@@ -187,9 +187,7 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-    <Compile Include="Migrations\201911021102562_v01.cs" />
-    <Compile Include="Migrations\201911021102562_v01.Designer.cs">
-      <DependentUpon>201911021102562_v01.cs</DependentUpon>
+
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -261,8 +259,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Scripts\jquery-3.4.1.min.map" />
-    <None Include="Scripts\jquery-3.4.1.slim.min.map" />
     <None Include="Web References\WSAutenticacao\cartaocorporativo.wsdl" />
     <None Include="Web References\WSAutenticacao\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -326,16 +322,9 @@
     <None Include="Web References\WSAutenticacao\cartaocorporativo.disco" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
-    <Content Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <EmbeddedResource Include="Migrations\201911031536215_r2.resx">
+      <DependentUpon>201911031536215_r2.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201911021102562_v01.resx">

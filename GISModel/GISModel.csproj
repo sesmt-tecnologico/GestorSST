@@ -113,6 +113,7 @@
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />
+    <Compile Include="DTO\Risco\VMNovoRisco.cs" />
     <Compile Include="DTO\Shared\RetornoJSON.cs" />
     <Compile Include="DTO\WorkArea\PesquisaWorkAreaViewModel.cs" />
     <Compile Include="DTO\WorkArea\REL_WorkAreaAtividadeViewModel.cs" />
@@ -140,11 +141,11 @@
     <Compile Include="Entidades\Estabelecimento.cs" />
     <Compile Include="Entidades\EstabelecimentoAmbiente.cs" />
     <Compile Include="Entidades\EventoPerigoso.cs" />
+    <Compile Include="Entidades\Exposicao.cs" />
     <Compile Include="Entidades\Fornecedor.cs" />
     <Compile Include="Entidades\NivelHierarquico.cs" />
     <Compile Include="Entidades\Perfil.cs" />
-    <Compile Include="Entidades\PerigoPotencial.cs" />
-    <Compile Include="Entidades\Exposicao.cs" />
+    <Compile Include="Entidades\Perigo.cs" />
     <Compile Include="Entidades\Funcao.cs" />
     <Compile Include="Entidades\MedidasDeControleExistentes.cs" />
     <Compile Include="Entidades\PlanoDeAcao.cs" />
@@ -152,7 +153,8 @@
     <Compile Include="Entidades\REL_ContratoFornecedor.cs" />
     <Compile Include="Entidades\REL_DepartamentoContrato.cs" />
     <Compile Include="Entidades\REL_EstabelecimentoDepartamento.cs" />
-    <Compile Include="Entidades\REL_WorkAreaRisco.cs" />
+    <Compile Include="Entidades\REL_PerigoRisco.cs" />
+    <Compile Include="Entidades\REL_WorkAreaPerigo.cs" />
     <Compile Include="Entidades\Risco.cs" />
     <Compile Include="Entidades\TipoDeRisco.cs" />
     <Compile Include="Entidades\Usuario.cs" />

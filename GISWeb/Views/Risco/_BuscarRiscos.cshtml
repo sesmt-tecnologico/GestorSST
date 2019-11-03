@@ -1,0 +1,72 @@
+﻿@using GISModel.Entidades
+@model List<Risco>
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <table id="tableRiscos" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Data de Cadastro</th>
+                        <th class="hidden-480">Usuário de Cadastro</th>
+                        <th width="89px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Risco item in Model)
+                    {
+                        <tr>
+                            <td>@item.Nome</td>
+                            <td>@item.DataInclusao.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="hidden-480">@item.UsuarioInclusao</td>
+                            <td align="center">
+                                <div class="hidden-sm hidden-xs action-buttons">
+                                    <a href='@Url.Action("Edicao", "Risco", new { id = item.ID })' class="green CustomTooltip" title="Editar">
+                                        <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                    </a>
+                                    <a class="red CustomTooltip" href="#" onclick="ExcluirRisco('@item.ID', '@item.Nome');" title="Excluir">
+                                        <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                    </a>
+                                </div>
+                                <div class="hidden-md hidden-lg">
+                                    <div class="inline pos-rel">
+                                        <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                            <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                        </button>
+
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                            <li>
+                                                <a href='@Url.Action("Edicao", "Risco", new { id = item.ID })' class="green CustomTooltip" title="Editar">
+                                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="red CustomTooltip" href="#" onclick="ExcluirRisco('@item.ID', '@item.Nome');" title="Excluir">
+                                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        Nenhum risco cadastrado até o momento.
+        <br>
+    </div>
+}

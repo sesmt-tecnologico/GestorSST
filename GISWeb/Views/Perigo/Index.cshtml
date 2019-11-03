@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Listagem de Perigos";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Perigos
+            <a href="@Url.Action("Novo", "Perigo")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                Novo
+            </a>
+        </h3>
+    </div>
+</div>
+
+<div class="conteudoAjax">
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Custom/Perigo/Listagem.js"></script>
+}
