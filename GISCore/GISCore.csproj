@@ -187,9 +187,7 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-    <Compile Include="Migrations\201911031536215_r2.cs" />
-    <Compile Include="Migrations\201911031536215_r2.Designer.cs">
-      <DependentUpon>201911031536215_r2.cs</DependentUpon>
+
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -326,6 +324,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201911031536215_r2.resx">
       <DependentUpon>201911031536215_r2.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201911021102562_v01.resx">
+      <DependentUpon>201911021102562_v01.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

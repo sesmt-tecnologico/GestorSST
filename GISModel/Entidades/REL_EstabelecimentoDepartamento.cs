@@ -8,12 +8,12 @@ namespace GISModel.Entidades
     public class REL_EstabelecimentoDepartamento : EntidadeBase
     {
 
+
         [Display(Name = "Estabelcimento")]
         public Guid UKEstabelecimento { get; set; }
 
         [Display(Name = "Departamento")]
         public Guid UKDepartamento { get; set; }
-
 
         public virtual Departamento Departamento { get; set; }
 

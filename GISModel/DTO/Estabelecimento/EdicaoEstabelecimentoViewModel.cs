@@ -7,34 +7,28 @@ using System.Threading.Tasks;
 
 namespace GISModel.DTO.Estabelecimento
 {
-    public class PesquisaEstabelecimentoViewModel
+    public class EdicaoEstabelecimentoViewModel
     {
-        public string  UniqueKey { get; set; }
+        public string UniqueKey { get; set; }
 
         [Display(Name = "Estabelecimento")]
-        public Guid IDEstabelecimento  { get; set; }
+        public Guid IDEstabelecimento { get; set; }
 
-        [Display(Name = "UKEstabelecimento")]
-        public Guid UKEstabelecimento { get; set; }
-
-        [Display(Name = "Estabelecimento")]
-        public string  NomeEstabelecimento { get; set; }
+        [Display(Name = "Nome do Estabelecimento")]
+        public string NomeEstabelecimento { get; set; }
 
         [Display(Name = "Codigo")]
         public string Codigo { get; set; }
 
         [Display(Name = "Tipo")]
         public Enum TipoDeEstabelecimento { get; set; }
-
-        [Display(Name = "Departamento")]
-        public IList<string> Departamento { get; set; }
-
+      
         [Display(Name = "UKDepartamento")]
         public Guid UKDepartamento { get; set; }
 
-
         [Display(Name = "Departamento")]
         public string Departamentos { get; set; }
+
 
     }
 }
