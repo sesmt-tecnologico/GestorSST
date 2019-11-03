@@ -14,6 +14,9 @@ namespace GISModel.DTO.Estabelecimento
         [Display(Name = "Estabelecimento")]
         public Guid IDEstabelecimento  { get; set; }
 
+        [Display(Name = "UKEstabelecimento")]
+        public Guid UKEstabelecimento { get; set; }
+
         [Display(Name = "Estabelecimento")]
         public string  NomeEstabelecimento { get; set; }
 

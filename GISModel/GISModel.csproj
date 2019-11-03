@@ -109,6 +109,7 @@
     <Compile Include="DTO\Estabelecimento\EdicaoEstabelecimentoViewModel.cs" />
     <Compile Include="DTO\Estabelecimento\EstabelecimentoViewModel.cs" />
     <Compile Include="DTO\Estabelecimento\PesquisaEstabelecimentoViewModel.cs" />
+    <Compile Include="DTO\Estabelecimento\TerminarEstabelecimentoViewModel.cs" />
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />
