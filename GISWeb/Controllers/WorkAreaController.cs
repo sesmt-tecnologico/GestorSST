@@ -229,15 +229,11 @@ namespace GISWeb.Controllers
 
 
 
-        public ActionResult Edicao(string id)
+        public ActionResult Edicao(string uk)
         {
-            Guid ID = Guid.Parse(id);
-            ViewBag.Workarea = new SelectList(WorkAreaBusiness.Consulta.ToList(), "ID", "Nome");
-
-            var lista = WorkAreaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID)));                       
-
-
-            return View(lista);
+            Guid ID = Guid.Parse(uk);
+            WorkArea wa = WorkAreaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(ID));
+            return View(wa);
         }
 
         [HttpPost]
@@ -248,10 +244,22 @@ namespace GISWeb.Controllers
             {
                 try
                 {
-                    entidade.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    WorkAreaBusiness.Alterar(entidade);
+                    WorkArea waBanco = WorkAreaBusiness.Consulta.FirstOrDefault(a => a.ID.Equals(entidade.ID));
+                    if (waBanco == null)
+                    {
+                        throw new Exception("Não possível localizar a workarea na base de dados.");
+                    }
 
-                    Extensions.GravaCookie("MensagemSucesso", "A WorkArea '" + entidade.Nome + "' foi atualizado com sucesso.", 10);
+
+                    waBanco.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    WorkAreaBusiness.Terminar(waBanco);
+
+                    entidade.ID = Guid.NewGuid();
+                    entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    WorkAreaBusiness.Inserir(entidade);
+
+
+                    Extensions.GravaCookie("MensagemSucesso", "A WorkArea '" + entidade.Nome + "' foi atualizada com sucesso.", 10);
 
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "WorkArea") } });
