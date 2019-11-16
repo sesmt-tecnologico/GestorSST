@@ -46,7 +46,7 @@ namespace GISWeb.Controllers
 
         public ActionResult Index()
         {
-            
+
 
             ViewBag.Estabelecimento = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
             ViewBag.Departamento = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
@@ -65,7 +65,7 @@ namespace GISWeb.Controllers
         {
             ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 
-            
+
 
             return View();
         }
@@ -125,7 +125,7 @@ namespace GISWeb.Controllers
                     {
                         throw new Exception("É necessário informar pelo menos um departamento para prosseguir com o cadastro do contrato.");
                     }
-                        
+
                     Extensions.GravaCookie("MensagemSucesso", "O Estabelecimento '" + entidade.NomeCompleto + "' foi cadastrado com sucesso!", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Estabelecimento") } });
@@ -148,7 +148,7 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
-                     
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PesquisarEstabelecimento(PesquisaEstabelecimentoViewModel entidade)
@@ -158,19 +158,19 @@ namespace GISWeb.Controllers
 
                 var dep = from r in REL_EstabelecimentoDepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           join e in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                          on r.UKEstabelecimento equals e.UniqueKey 
-                          join d in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()                            
-                          on r.UKDepartamento equals d.UniqueKey                       
-                          
-                          where r.UKEstabelecimento.Equals(entidade.IDEstabelecimento) 
+                          on r.UKEstabelecimento equals e.UniqueKey
+                          join d in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          on r.UKDepartamento equals d.UniqueKey
+
+                          where r.UKEstabelecimento.Equals(entidade.IDEstabelecimento)
 
                           select new PesquisaEstabelecimentoViewModel()
                           {
-                             UKDepartamento = d.UniqueKey,
-                             Codigo = d.Codigo,                           
-                             NomeEstabelecimento = e.NomeCompleto,
-                             TipoDeEstabelecimento = e.TipoDeEstabelecimento,
-                             IDEstabelecimento = e.UniqueKey
+                              UKDepartamento = d.UniqueKey,
+                              Codigo = d.Codigo,
+                              NomeEstabelecimento = e.NomeCompleto,
+                              TipoDeEstabelecimento = e.TipoDeEstabelecimento,
+                              IDEstabelecimento = e.ID
 
                           };
 
@@ -190,8 +190,8 @@ namespace GISWeb.Controllers
 
             EdicaoEstabelecimentoViewModel obj = null;
 
-            Estabelecimento oEstabelecimento = EstabelecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(Guid));
-            if(oEstabelecimento != null)
+            Estabelecimento oEstabelecimento = EstabelecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(Guid));
+            if (oEstabelecimento != null)
             {
                 ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "IDDepartamento", "Sigla");
                 ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
@@ -205,33 +205,59 @@ namespace GISWeb.Controllers
 
                 };
 
-                REL_EstabelecimentoDepartamento rel_1 = REL_EstabelecimentoDepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEstabelecimento.Equals(oEstabelecimento.UniqueKey));
+                //REL_EstabelecimentoDepartamento rel_1 = REL_EstabelecimentoDepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEstabelecimento.Equals(obj.UniqueKey));
 
-                obj.UKDepartamento = rel_1.UniqueKey;
+                //obj.UKDepartamento = rel_1.UniqueKey;
 
 
 
             }
 
-            return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(Guid)));
+            return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(Guid)));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Atualizar(Estabelecimento oEstabelecimento)
         {
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    oEstabelecimento.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    EstabelecimentoBusiness.Alterar(oEstabelecimento);
+                    Estabelecimento dep = EstabelecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(oEstabelecimento.UniqueKey));
+                    if (dep == null)
+                    {
 
-                    Extensions.GravaCookie("MensagemSucesso", "O Estbelecimento '" + oEstabelecimento.NomeCompleto + "' foi atualizado com sucesso.", 10);
 
-                    
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Estabelecimento") } });
+                        return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o Estabelecimento, pois a mesmo não foi localizado." } });
+                    }
+
+                    else
+                    {
+                        dep.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                        EstabelecimentoBusiness.Terminar(dep);
+
+
+                        Estabelecimento objEstab = new Estabelecimento()
+                        {
+                            UniqueKey = oEstabelecimento.UniqueKey,
+                            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                            TipoDeEstabelecimento = oEstabelecimento.TipoDeEstabelecimento,
+                            Codigo = oEstabelecimento.Codigo,
+                            Descricao = oEstabelecimento.Descricao,
+                            NomeCompleto = oEstabelecimento.NomeCompleto
+                        };
+                        EstabelecimentoBusiness.Inserir(objEstab);
+
+
+                        Extensions.GravaCookie("MensagemSucesso", "O Estbelecimento '" + oEstabelecimento.NomeCompleto + "' foi atualizado com sucesso.", 10);
+
+
+                        return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Estabelecimento") } });
+                    }
                 }
+
                 catch (Exception ex)
                 {
                     if (ex.GetBaseException() == null)
@@ -249,7 +275,7 @@ namespace GISWeb.Controllers
             {
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
-        }
+        } 
 
         public ActionResult Excluir(string id)
         {

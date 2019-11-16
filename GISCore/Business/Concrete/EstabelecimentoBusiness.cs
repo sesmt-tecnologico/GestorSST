@@ -7,6 +7,14 @@ namespace GISCore.Business.Concrete
 {
     public class EstabelecimentoBusiness : BaseBusiness<Estabelecimento>, IEstabelecimentoBusiness
     {
+        public override void Inserir(Estabelecimento pTEstabelecimento)
+        {
+
+            //if (Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.Numero.Equals(entidade.Numero)).Count() > 0)
+            //    throw new Exception("Já existe um contrato no banco de dados com o número: " + entidade.Numero);
+
+            base.Inserir(pTEstabelecimento);
+        }
 
         public override void Alterar(Estabelecimento pTEstabelecimento)
         {
@@ -16,20 +24,9 @@ namespace GISCore.Business.Concrete
             {
                 throw new Exception("Não foi possível encontrar o Estabelecimento.");
             }
-                                  
+                               
 
-            tempEstabelecimento.UsuarioExclusao = pTEstabelecimento.UsuarioExclusao;
-            base.Terminar(tempEstabelecimento);
-
-            tempEstabelecimento.ID = Guid.NewGuid();           
-            tempEstabelecimento.Codigo = pTEstabelecimento.Codigo;
-            tempEstabelecimento.NomeCompleto = pTEstabelecimento.NomeCompleto;
-            tempEstabelecimento.TipoDeEstabelecimento = pTEstabelecimento.TipoDeEstabelecimento;
-            tempEstabelecimento.Descricao = pTEstabelecimento.Descricao;
-            tempEstabelecimento.UsuarioInclusao = pTEstabelecimento.UsuarioExclusao;
-            tempEstabelecimento.UsuarioExclusao = string.Empty;
-
-            base.Inserir(tempEstabelecimento);
+            base.Alterar(pTEstabelecimento);
 
 
 
