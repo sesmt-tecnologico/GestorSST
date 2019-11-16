@@ -176,6 +176,13 @@ function BuscarDetalhesDeMedidasDeControle(IDEstabelecimentoImagens) {
 
 
 
+function OnClickVincularPerigo() {
+
+}
+
+function OnClickNovoRisco(UKWorkArea) {
+
+
 
 function BuscarDetalhesEmpresa(IDEmpresa) {
     

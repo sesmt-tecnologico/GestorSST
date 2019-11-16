@@ -8,7 +8,7 @@ function OnSuccessCadastrarWorkArea(data) {
     $('#formEdicaoWorkArea').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#blnSalvar').show();
-    ExibirMsgGritter(data.resultado);
+    TratarResultadoJSON(data.resultado);
 }
 
 function OnBeginAtualizarWorkArea() {

@@ -187,9 +187,15 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
+
+    <Compile Include="Migrations\201911092010076_r1.cs" />
+    <Compile Include="Migrations\201911092010076_r1.Designer.cs">
+      <DependentUpon>201911092010076_r1.cs</DependentUpon>
+
     <Compile Include="Migrations\201911021102562_v01.cs" />
     <Compile Include="Migrations\201911021102562_v01.Designer.cs">
       <DependentUpon>201911021102562_v01.cs</DependentUpon>
+
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -326,6 +332,10 @@
     <None Include="Web References\WSAutenticacao\cartaocorporativo.disco" />
   </ItemGroup>
   <ItemGroup>
+
+    <EmbeddedResource Include="Migrations\201911092010076_r1.resx">
+      <DependentUpon>201911092010076_r1.cs</DependentUpon>
+
     <Content Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -340,6 +350,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201911021102562_v01.resx">
       <DependentUpon>201911021102562_v01.cs</DependentUpon>
+
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

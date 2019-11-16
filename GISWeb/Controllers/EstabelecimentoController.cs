@@ -108,10 +108,8 @@ namespace GISWeb.Controllers
                                 REL_EstabelecimentoDepartamento rel = new REL_EstabelecimentoDepartamento()
                                 {
 
-
                                     UKEstabelecimento = obj.UniqueKey,
                                     UKDepartamento = Guid.Parse(dep),
-
                                     UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
 
 
@@ -156,6 +154,7 @@ namespace GISWeb.Controllers
             try
             {
 
+
                 var dep = from r in REL_EstabelecimentoDepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           join e in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           on r.UKEstabelecimento equals e.UniqueKey
@@ -172,6 +171,7 @@ namespace GISWeb.Controllers
                               TipoDeEstabelecimento = e.TipoDeEstabelecimento,
                               IDEstabelecimento = e.ID
 
+
                           };
 
                 List<PesquisaEstabelecimentoViewModel> lista = dep.ToList();
@@ -186,6 +186,13 @@ namespace GISWeb.Controllers
 
         public ActionResult Edicao(string id)
         {
+
+            Guid ID = Guid.Parse(id);
+            ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "IDDepartamento", "Sigla");
+            ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
+
+            return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(ID)));
+
             Guid Guid = Guid.Parse(id);
 
             EdicaoEstabelecimentoViewModel obj = null;
@@ -214,6 +221,7 @@ namespace GISWeb.Controllers
             }
 
             return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(Guid)));
+
         }
 
         [HttpPost]
@@ -329,42 +337,18 @@ namespace GISWeb.Controllers
         [HttpPost]
         public ActionResult Terminar(string id)
         {
-            Guid Guid = Guid.Parse(id);
+            Guid ID = Guid.Parse(id);
             try
             {
-                Estabelecimento dep = EstabelecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(Guid));
+                Estabelecimento dep = EstabelecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(ID));
                 if (dep == null)
-                {
-
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o departamento, pois a mesmo não foi localizado." } });
-                }
-                else
-                {
 
-                    
-                    dep.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    EstabelecimentoBusiness.Terminar(dep);
+                dep.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                EstabelecimentoBusiness.Terminar(dep);
 
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "O departamento '" + dep.NomeCompleto + "' foi excluído com sucesso." } });
 
-                    List<REL_EstabelecimentoDepartamento> relEstDep = REL_EstabelecimentoDepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEstabelecimento.Equals(Guid)).ToList();
-
-
-                    if (relEstDep?.Count > 0)
-                    {
-                        foreach (REL_EstabelecimentoDepartamento rel in relEstDep)
-                        {
-                           
-                            rel.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                            REL_EstabelecimentoDepartamentoBusiness.Terminar(rel);
-
-                        }
-                    }
-
-                    return Json(new { resultado = new RetornoJSON() { Sucesso = "O Estabelecimento '" + dep.NomeCompleto + "' foi excluído com sucesso." } });
-
-
-
-                }
             }
             catch (Exception ex)
             {
@@ -377,10 +361,9 @@ namespace GISWeb.Controllers
                     return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
                 }
             }
+
+
         }
 
-
-        
-
-   }
+    }
 }
