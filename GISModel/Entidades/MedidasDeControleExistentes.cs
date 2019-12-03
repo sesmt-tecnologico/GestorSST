@@ -25,7 +25,7 @@ namespace GISModel.Entidades
         [Display(Name ="Tipo de Risco")]
         public Guid IDTipoDeRisco { get; set; }
 
-        public TipoDeRisco TipoDeRisco { get; set; }
+        public virtual TipoDeRisco TipoDeRisco { get; set; }
 
     }
 }
