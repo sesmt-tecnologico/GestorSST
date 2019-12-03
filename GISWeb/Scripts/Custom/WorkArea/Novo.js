@@ -11,7 +11,8 @@ function OnSuccessCadastrarWorkArea(data) {
     $('#formCadastroWorkArea').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#btnSalvar').show();
-    TratarResultadoJSON(data.resultado);    
+    TratarResultadoJSON(data.resultado);
+    ExibirMsgGritter(data.resultado);
 }
 
 function OnBeginCadastrarWorkArea() {
