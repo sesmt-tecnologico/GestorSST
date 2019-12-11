@@ -193,34 +193,34 @@ namespace GISWeb.Controllers
 
             return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(ID)));
 
-            Guid Guid = Guid.Parse(id);
+            //Guid Guid = Guid.Parse(id);
 
-            EdicaoEstabelecimentoViewModel obj = null;
+            //EdicaoEstabelecimentoViewModel obj = null;
 
-            Estabelecimento oEstabelecimento = EstabelecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(Guid));
-            if (oEstabelecimento != null)
-            {
-                ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "IDDepartamento", "Sigla");
-                ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
+            //Estabelecimento oEstabelecimento = EstabelecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(Guid));
+            //if (oEstabelecimento != null)
+            //{
+            //    ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "IDDepartamento", "Sigla");
+            //    ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
 
-                obj = new EdicaoEstabelecimentoViewModel()
-                {
+            //    obj = new EdicaoEstabelecimentoViewModel()
+            //    {
 
-                    IDEstabelecimento = oEstabelecimento.ID,
-                    NomeEstabelecimento = oEstabelecimento.NomeCompleto,
-                    TipoDeEstabelecimento = oEstabelecimento.TipoDeEstabelecimento,
+            //        IDEstabelecimento = oEstabelecimento.ID,
+            //        NomeEstabelecimento = oEstabelecimento.NomeCompleto,
+            //        TipoDeEstabelecimento = oEstabelecimento.TipoDeEstabelecimento,
 
-                };
+            //    };
 
-                //REL_EstabelecimentoDepartamento rel_1 = REL_EstabelecimentoDepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEstabelecimento.Equals(obj.UniqueKey));
+            //    //REL_EstabelecimentoDepartamento rel_1 = REL_EstabelecimentoDepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEstabelecimento.Equals(obj.UniqueKey));
 
-                //obj.UKDepartamento = rel_1.UniqueKey;
+            //    //obj.UKDepartamento = rel_1.UniqueKey;
 
 
 
-            }
+            //}
 
-            return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(Guid)));
+            //return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(Guid)));
 
         }
 
