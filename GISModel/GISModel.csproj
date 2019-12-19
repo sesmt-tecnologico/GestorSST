@@ -141,6 +141,7 @@
     <Compile Include="Entidades\Fornecedor.cs" />
     <Compile Include="Entidades\NivelHierarquico.cs" />
     <Compile Include="Entidades\Perfil.cs" />
+    <Compile Include="Entidades\Perigo.cs" />
     <Compile Include="Entidades\PerigoPotencial.cs" />
     <Compile Include="Entidades\Exposicao.cs" />
     <Compile Include="Entidades\Funcao.cs" />

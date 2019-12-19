@@ -15,13 +15,8 @@ namespace GISModel.Entidades
 
         public virtual Estabelecimento Estabelecimento { get; set; }
 
-
-
         [Display(Name ="Nome da Workarea")]
-        [Required(ErrorMessage = "Informe o nome da workarea")]
         public string  Nome { get; set; }
-
-
 
         [Display(Name ="Descrição")]
         public string Descricao { get; set; }

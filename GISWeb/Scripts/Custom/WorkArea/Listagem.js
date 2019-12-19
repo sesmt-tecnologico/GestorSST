@@ -47,7 +47,7 @@ function BuscarDetalhesEstabelecimentoImagens(IDEstabelecimentoImagens) {
         data: { idEstabelecimento: IDEstabelecimentoImagens },
         error: function (erro) {
             $(".LoadingLayout").hide();
-            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
         },
         success: function (content) {
             $(".LoadingLayout").hide();
@@ -182,6 +182,7 @@ function OnClickVincularPerigo() {
 
 function OnClickNovoRisco(UKWorkArea) {
 
+}
 
 
 function BuscarDetalhesEmpresa(IDEmpresa) {

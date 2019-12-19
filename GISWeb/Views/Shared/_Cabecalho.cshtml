@@ -6,29 +6,24 @@
         </script>
 
         <div class="navbar-header pull-left">
-            @*@if (ViewBag.UKArquivoLogoEmp != null)
-        {
-            <a href="/" class="navbar-brand" style="margin-top: 4px;">
-                <small>
-                    <img src="~/Images/logo-cemig.png" />
-                </small>
-            </a>
-            <img id="LogoEmpresa" style="height: 42px; margin-left: 20px;" src="@Url.Action("RecuperarArquivo", "Arquivo", new { id = ViewBag.UKArquivoLogoEmp })" />
-        }
-        else
-        {
-            <a href="/" class="navbar-brand">
-                <small>
-                    <img src="~/Images/logo-cemig-white.png" class="white" width="85px" />
-                </small>
-            </a>
-        }*@
-
-            <a href="/" class="navbar-brand">
-                <small>
-                    Gestor de Segurança
-                </small>
-            </a>
+            @if (ViewBag.UKArquivoLogoEmp != null)
+            {
+                <a href="/" class="navbar-brand" style="margin-top: 4px;">
+                    <small>
+                        <img src="~/Images/logo-cemig.png" />
+                    </small>
+                </a>
+                <img id="LogoEmpresa" style="height: 42px; margin-left: 20px;" src="@Url.Action("RecuperarArquivo", "Arquivo", new { id = ViewBag.UKArquivoLogoEmp })" />
+            }
+            else
+            {
+                <a href="/" class="navbar-brand">
+                    <small>
+                        GESTOR SST
+                        @*<img src="~/Images/logo-cemig-white.png" class="white" width="85px" />*@
+                    </small>
+                </a>
+            }
 
             <button class="pull-right navbar-toggle navbar-toggle-img collapsed" type="button" data-toggle="collapse" data-target=".navbar-buttons">
                 <span class="sr-only">Toggle user menu</span>

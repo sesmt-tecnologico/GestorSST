@@ -492,7 +492,7 @@ namespace GISWeb.Controllers
                 if (!string.IsNullOrEmpty(entidade.UKDepartamento))
                 {
                     sFrom = ", REL_DepartamentoContrato r2 ";
-                    sWhere += " and o.UniqueKey = r2.IDContrato and r2.UsuarioExclusao is null and r2.IDDepartamento = '" + entidade.UKDepartamento + "'";
+                    sWhere += " and o.UniqueKey = r2.UKContrato and r2.UsuarioExclusao is null and r2.UKDepartamento = '" + entidade.UKDepartamento + "'";
                 }
 
                 if (!string.IsNullOrEmpty(entidade.UKSubContratada))
@@ -505,7 +505,7 @@ namespace GISWeb.Controllers
 	                                   (select STRING_AGG(d.Sigla, ',') WITHIN GROUP (ORDER BY d.Sigla) 
 		                                from REL_DepartamentoContrato r1, tbDepartamento d 
 		                                where r1.DataExclusao = '9999-12-31 23:59:59.997' and d.DataExclusao = '9999-12-31 23:59:59.997' and 
-			                                  r1.IDContrato = o.UniqueKey and r1.IDDepartamento = d.UniqueKey) as Departamentos, 
+			                                  r1.UKContrato = o.UniqueKey and r1.UKDepartamento = d.UniqueKey) as Departamentos, 
 		                                f.NomeFantasia,
 		                                (select STRING_AGG(f.NomeFantasia, ',') WITHIN GROUP (ORDER BY f.NomeFantasia)   
 		                                 from REL_ContratoFornecedor r2, tbFornecedor f
