@@ -23,6 +23,7 @@ namespace GISModel.DTO.Estabelecimento
         [Display(Name = "Tipo")]
         public Enum TipoDeEstabelecimento { get; set; }
 
+        //Este Ilist recebe uma lista de departamentos para cadastro
         [Display(Name = "Departamento")]
         public IList<string> Departamento { get; set; }
 
@@ -32,6 +33,9 @@ namespace GISModel.DTO.Estabelecimento
 
         [Display(Name = "Departamento")]
         public string Departamentos { get; set; }
+
+        [Display(Name ="Sigla")]
+        public string Sigla { get; set; }
 
     }
 }

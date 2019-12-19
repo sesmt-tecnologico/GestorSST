@@ -161,7 +161,7 @@ namespace GISWeb.Controllers
                           join d in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           on r.UKDepartamento equals d.UniqueKey
 
-                          where r.UKEstabelecimento.Equals(entidade.IDEstabelecimento)
+                          where e.ID.Equals(entidade.IDEstabelecimento)
 
                           select new PesquisaEstabelecimentoViewModel()
                           {
@@ -169,7 +169,10 @@ namespace GISWeb.Controllers
                               Codigo = d.Codigo,
                               NomeEstabelecimento = e.NomeCompleto,
                               TipoDeEstabelecimento = e.TipoDeEstabelecimento,
-                              IDEstabelecimento = e.ID
+                              IDEstabelecimento = e.ID,
+                              Sigla = d.Sigla
+                             
+                              
 
 
                           };
