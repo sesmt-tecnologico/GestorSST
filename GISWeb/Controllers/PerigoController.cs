@@ -15,7 +15,7 @@ namespace GISWeb.Controllers
     [Autorizador]
     [DadosUsuario]
     [SessionState(SessionStateBehavior.ReadOnly)]
-    public class EventoPerigosoController : BaseController
+    public class PerigoController : BaseController
     {
 
         #region Inject
@@ -40,32 +40,32 @@ namespace GISWeb.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.EventoPerigoso = EventoPerigosBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p=>p.Descricao);
+            ViewBag.EventoPerigoso = EventoPerigosBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p => p.Descricao);
 
             return View();
         }
 
         public ActionResult Novo()
         {
-           
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(EventoPerigoso oEventoPerigoso)
+        public ActionResult Cadastrar(Perigo oPerigo)
         {
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    EventoPerigosoBusiness.Inserir(oEventoPerigoso);
+                    //PerigoBusiness.Inserir(oPerigo);
 
-                    Extensions.GravaCookie("MensagemSucesso", "O evento '" + oEventoPerigoso.Descricao + "' foi cadastrado com sucesso!", 10);
+                    Extensions.GravaCookie("MensagemSucesso", "O evento '" + oPerigo.Descricao + "' foi cadastrado com sucesso!", 10);
 
 
-                    
+
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "EventoPerigoso") } });
 
                 }
@@ -91,7 +91,7 @@ namespace GISWeb.Controllers
 
         public ActionResult Edicao(string id)
         {
-           var ID = Guid.Parse(id);
+            var ID = Guid.Parse(id);
 
             return View(EventoPerigosoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(ID)));
         }
@@ -108,7 +108,7 @@ namespace GISWeb.Controllers
 
                     Extensions.GravaCookie("MensagemSucesso", "O Evento Perigoso '" + oEventoPerigoso.Descricao + "' foi atualizado com sucesso.", 10);
 
-                                        
+
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "EventoPerigoso") } });
                 }
                 catch (Exception ex)

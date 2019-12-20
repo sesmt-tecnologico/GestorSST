@@ -3,7 +3,7 @@
     AplicajQdataTable("dynamic-table", [{ "bSortable": false }, null, null, null,null,null, { "bSortable": false }], false, 20);
 
 
-    $(".btnPesquisar").click(function () {
+    $(".waPesquisar").change(function () {
         $("#formPesquisarWorkArea").submit();
     });
 

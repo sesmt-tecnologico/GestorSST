@@ -165,6 +165,7 @@ namespace GISWeb.Controllers
 
                           select new PesquisaEstabelecimentoViewModel()
                           {
+                              UniqueKey = e.UniqueKey,
                               UKDepartamento = d.UniqueKey,
                               Codigo = d.Codigo,
                               NomeEstabelecimento = e.NomeCompleto,
@@ -172,8 +173,6 @@ namespace GISWeb.Controllers
                               IDEstabelecimento = e.ID,
                               Sigla = d.Sigla
                              
-                              
-
 
                           };
 
@@ -187,14 +186,14 @@ namespace GISWeb.Controllers
             }
         }
 
-        public ActionResult Edicao(string id)
+        public ActionResult Edicao(Guid Uk)
         {
 
-            Guid ID = Guid.Parse(id);
+           //Guid Uk = Guid.Parse(Uk);
             ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "IDDepartamento", "Sigla");
             ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
 
-            return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(ID)));
+            return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(Uk)));
 
             //Guid Guid = Guid.Parse(id);
 

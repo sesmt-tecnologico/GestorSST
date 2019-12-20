@@ -9,7 +9,7 @@ namespace GISModel.DTO.Estabelecimento
 {
     public class PesquisaEstabelecimentoViewModel
     {
-        public string  UniqueKey { get; set; }
+        public Guid  UniqueKey { get; set; }
 
         [Display(Name = "Estabelecimento")]
         public Guid IDEstabelecimento  { get; set; }

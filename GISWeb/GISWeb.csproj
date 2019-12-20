@@ -345,6 +345,10 @@
     <Content Include="Scripts\Custom\PossiveisDanos\Novo.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Novo.js" />
+    <Content Include="Scripts\Custom\Risco\Edicao.js" />
+    <Content Include="Scripts\Custom\Risco\Excluir.js" />
+    <Content Include="Scripts\Custom\Risco\Listagem.js" />
+    <Content Include="Scripts\Custom\Risco\Novo.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Edicao.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Excluir.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Listagem.js" />
@@ -419,9 +423,11 @@
     <Compile Include="Controllers\MedidasDeControleController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
+    <Compile Include="Controllers\PerigoController.cs" />
     <Compile Include="Controllers\PermissoesController.cs" />
     <Compile Include="Controllers\PlanoDeAcaoController.cs" />
     <Compile Include="Controllers\PossiveisDanosController.cs" />
+    <Compile Include="Controllers\RiscoController.cs" />
     <Compile Include="Controllers\TipoDeRiscoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\WorkAreaController.cs" />
@@ -606,6 +612,10 @@
     <Content Include="Views\WorkArea\Novo.cshtml" />
     <Content Include="Views\WorkArea\_Pesquisa.cshtml" />
     <Content Include="Views\WorkArea\Edicao.cshtml" />
+    <Content Include="Views\Risco\Edicao.cshtml" />
+    <Content Include="Views\Risco\Excluir.cshtml" />
+    <Content Include="Views\Risco\Index.cshtml" />
+    <Content Include="Views\Risco\Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -625,6 +635,7 @@
     <Folder Include="Views\Arquivo\" />
     <Folder Include="Views\AtividadeFuncaoLiberada\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Perigo\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GISCore\GISCore.csproj">

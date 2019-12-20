@@ -1,4 +1,6 @@
 ﻿AplicaValidacaoCPF();
+AplicaDatePicker();
+DatePTBR();
 
 jQuery(function ($) {
     $('#txtCPF').mask('999.999.999-99');
@@ -21,3 +23,4 @@ function OnBeginCadastrarEmpregado() {
     $('#blnSalvar').hide();
     $("#formCadastroEmpregado").css({ opacity: "0.5" });
 }
+

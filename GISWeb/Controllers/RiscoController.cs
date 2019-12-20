@@ -15,7 +15,7 @@ namespace GISWeb.Controllers
     [Autorizador]
     [DadosUsuario]
     [SessionState(SessionStateBehavior.ReadOnly)]
-    public class EventoPerigosoController : BaseController
+    public class RiscoController : BaseController
     {
 
         #region Inject
@@ -33,40 +33,45 @@ namespace GISWeb.Controllers
         public IEventoPerigosoBusiness EventoPerigosBusiness { get; set; }
 
         [Inject]
+        public IRiscoBusiness RiscoBusiness { get; set; }
+
+        [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
+        
 
         #endregion
 
 
         public ActionResult Index()
         {
-            ViewBag.EventoPerigoso = EventoPerigosBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p=>p.Descricao);
+            ViewBag.Risco = RiscoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p => p.Nome);
 
             return View();
         }
 
         public ActionResult Novo()
         {
-           
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(EventoPerigoso oEventoPerigoso)
+        public ActionResult Cadastrar(Risco oRisco)
         {
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    EventoPerigosoBusiness.Inserir(oEventoPerigoso);
+                    RiscoBusiness.Inserir(oRisco);
 
-                    Extensions.GravaCookie("MensagemSucesso", "O evento '" + oEventoPerigoso.Descricao + "' foi cadastrado com sucesso!", 10);
+                    Extensions.GravaCookie("MensagemSucesso", "O evento '" + oRisco.Nome + "' foi cadastrado com sucesso!", 10);
 
 
-                    
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "EventoPerigoso") } });
+
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Risco") } });
 
                 }
                 catch (Exception ex)
@@ -91,25 +96,25 @@ namespace GISWeb.Controllers
 
         public ActionResult Edicao(string id)
         {
-           var ID = Guid.Parse(id);
+            var ID = Guid.Parse(id);
 
-            return View(EventoPerigosoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(ID)));
+            return View(RiscoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(ID)));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Atualizar(EventoPerigoso oEventoPerigoso)
+        public ActionResult Atualizar(Risco oRisco)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    EventoPerigosoBusiness.Alterar(oEventoPerigoso);
+                    RiscoBusiness.Alterar(oRisco);
 
-                    Extensions.GravaCookie("MensagemSucesso", "O Evento Perigoso '" + oEventoPerigoso.Descricao + "' foi atualizado com sucesso.", 10);
+                    Extensions.GravaCookie("MensagemSucesso", "O Risco '" + oRisco.Nome + "' foi atualizado com sucesso.", 10);
 
-                                        
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "EventoPerigoso") } });
+
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Risco") } });
                 }
                 catch (Exception ex)
                 {
@@ -132,32 +137,32 @@ namespace GISWeb.Controllers
 
         public ActionResult Excluir(string id)
         {
-            ViewBag.EventoPerigoso = new SelectList(EventoPerigosoBusiness.Consulta.ToList(), "IDEventoPerigoso", "Descricao");
-            return View(EventoPerigosoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
+            ViewBag.Risco = new SelectList(RiscoBusiness.Consulta.ToList(), "ID", "Risco");
+            return View(RiscoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
 
         }
 
         [HttpPost]
-        public ActionResult Terminar(string IDEventoPerigoso)
+        public ActionResult Terminar(string id)
         {
 
-            var ID = Guid.Parse(IDEventoPerigoso);
+            var ID = Guid.Parse(id);
 
             try
             {
-                EventoPerigoso oEventoPerigoso = EventoPerigosoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(ID));
-                if (oEventoPerigoso == null)
+                Risco oRisco = RiscoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(ID));
+                if (oRisco == null)
                 {
-                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o Evento Perigoso, pois o mesmo não foi localizado." } });
+                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o Risco, pois o mesmo não foi localizado." } });
                 }
                 else
                 {
 
-                    oEventoPerigoso.DataExclusao = DateTime.Now;
-                    oEventoPerigoso.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    EventoPerigosoBusiness.Alterar(oEventoPerigoso);
+                    oRisco.DataExclusao = DateTime.Now;
+                    oRisco.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    RiscoBusiness.Alterar(oRisco);
 
-                    return Json(new { resultado = new RetornoJSON() { Sucesso = "O Evento Perigoso '" + oEventoPerigoso.Descricao + "' foi excluído com sucesso." } });
+                    return Json(new { resultado = new RetornoJSON() { Sucesso = "O Risco '" + oRisco.Nome + "' foi excluído com sucesso." } });
                 }
             }
             catch (Exception ex)
