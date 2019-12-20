@@ -115,6 +115,7 @@
     <Compile Include="Business\Abstract\IAtividadeFuncaoLiberadaBusiness.cs" />
     <Compile Include="Business\Abstract\IDocsPorAtividadeBusiness.cs" />
     <Compile Include="Business\Abstract\IDocumentosPessoalBusiness .cs" />
+    <Compile Include="Business\Abstract\IPerigoBusiness.cs" />
     <Compile Include="Business\Abstract\IRiscoBusiness.cs" />
     <Compile Include="Business\Abstract\INivelHierarquicoBusiness.cs" />
     <Compile Include="Business\Abstract\IPerfilBusiness.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Business\Concrete\AtividadeFuncaoLiberadaBusiness.cs" />
     <Compile Include="Business\Concrete\DocsPorAtividadeBusiness.cs" />
     <Compile Include="Business\Concrete\DocumentosPessoalBusiness .cs" />
+    <Compile Include="Business\Concrete\PerigoBusiness.cs" />
     <Compile Include="Business\Concrete\RiscoBusiness.cs" />
     <Compile Include="Business\Concrete\NivelHierarquicoBusiness.cs" />
     <Compile Include="Business\Concrete\PerfilBusiness.cs" />

@@ -42,8 +42,9 @@ namespace GISWeb.Controllers
 
         public ActionResult Index(string id)
         {
+            var ID = Guid.Parse(id);
 
-            ViewBag.Imagens = MedidasDeControleBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(id))).ToList();
+            ViewBag.Imagens = MedidasDeControleBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID))).ToList();
             return View();
         }
 

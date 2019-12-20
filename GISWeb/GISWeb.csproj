@@ -337,6 +337,10 @@
     <Content Include="Scripts\Custom\Perfil\Edicao.js" />
     <Content Include="Scripts\Custom\Perfil\Listagem.js" />
     <Content Include="Scripts\Custom\Perfil\Novo.js" />
+    <Content Include="Scripts\Custom\Perigo\Edicao.js" />
+    <Content Include="Scripts\Custom\Perigo\Excluir.js" />
+    <Content Include="Scripts\Custom\Perigo\Listagem.js" />
+    <Content Include="Scripts\Custom\Perigo\Novo.js" />
     <Content Include="Scripts\Custom\PlanoDeAcao\Listagem.js" />
     <Content Include="Scripts\Custom\PlanoDeAcao\Novo.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Edicao.js" />
@@ -616,6 +620,10 @@
     <Content Include="Views\Risco\Excluir.cshtml" />
     <Content Include="Views\Risco\Index.cshtml" />
     <Content Include="Views\Risco\Novo.cshtml" />
+    <Content Include="Views\Perigo\Edicao.cshtml" />
+    <Content Include="Views\Perigo\Excluir.cshtml" />
+    <Content Include="Views\Perigo\Index.cshtml" />
+    <Content Include="Views\Perigo\Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -635,7 +643,6 @@
     <Folder Include="Views\Arquivo\" />
     <Folder Include="Views\AtividadeFuncaoLiberada\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Perigo\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GISCore\GISCore.csproj">
