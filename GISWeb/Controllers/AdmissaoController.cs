@@ -820,11 +820,12 @@ namespace GISWeb.Controllers
 
         public ActionResult Novo(string id)
         {
+            var ID = Guid.Parse(id);
             ViewBag.EmpID = id;
-            ViewBag.Sigla = new SelectList(DepartamentoBusiness.Consulta.ToList(), "IDDepartamento", "Sigla");
-            ViewBag.Empresas = new SelectList(EmpresaBusiness.Consulta.Where(p=> string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDEmpresa", "NomeFantasia");
-            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(id))).ToList();
-            ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(id))).ToList();
+            ViewBag.Sigla = new SelectList(DepartamentoBusiness.Consulta.ToList(), "ID", "Sigla");
+            ViewBag.Empresas = new SelectList(EmpresaBusiness.Consulta.Where(p=> string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeFantasia");
+            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(ID))).ToList();
+            ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID))).ToList();
             return View();
         }
 
@@ -834,7 +835,7 @@ namespace GISWeb.Controllers
         {
 
             //id do Estabelecimento recebido por parametro
-            oAdmissao.IDEmpregado = Guid.Parse(EmpID);
+            oAdmissao.ID = Guid.Parse(EmpID);
             
 
             if (ModelState.IsValid)

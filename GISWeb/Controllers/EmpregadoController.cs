@@ -52,7 +52,8 @@ namespace GISWeb.Controllers
 
         public ActionResult ListaEmpregado(string id)
         {
-            ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(id))).ToList();
+            var ID = Guid.Parse(id);
+            ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID))).ToList();
             return View();
         }
 
