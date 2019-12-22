@@ -11,9 +11,9 @@ namespace GISCore.Repository.Configuration
             Database.SetInitializer<SESTECContext>(null);
         }
 
-        public DbSet<WorkArea> WorkArea { get; set; }
 
-        public DbSet<REL_WorkAreaRisco> REL_WorkAreaRisco { get; set; }
+
+        public DbSet<WorkArea> WorkArea { get; set; }
 
         public DbSet<Risco> Risco { get; set; }
 
@@ -28,7 +28,7 @@ namespace GISCore.Repository.Configuration
         public DbSet<DocumentosPessoal> DocumentosPessoal { get; set; }
 
         public DbSet<AnaliseRisco> AnaliseRisco { get; set; }
-        
+
         public DbSet<Empresa> Empresa { get; set; }
 
         public DbSet<Departamento> Departamento { get; set; }
@@ -89,6 +89,10 @@ namespace GISCore.Repository.Configuration
         public DbSet<REL_DepartamentoContrato> REL_DepartamentoContrato { get; set; }
 
         public DbSet<REL_EstabelecimentoDepartamento> REL_EstabelecimentoDepartamento { get; set; }
+
+        public DbSet<REL_PerigoRisco> REL_PerigoRisco { get; set; }
+
+        public DbSet<REL_WorkAreaPerigo> REL_WorkAreaPerigo { get; set; }
 
     }
 }

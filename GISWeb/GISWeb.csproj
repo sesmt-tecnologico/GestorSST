@@ -624,6 +624,8 @@
     <Content Include="Views\Perigo\Excluir.cshtml" />
     <Content Include="Views\Perigo\Index.cshtml" />
     <Content Include="Views\Perigo\Novo.cshtml" />
+    <Content Include="Views\WorkArea\_VincularPegigo.cshtml" />
+    <Content Include="Views\WorkArea\_VincularRisco.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

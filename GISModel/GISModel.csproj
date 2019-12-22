@@ -151,6 +151,7 @@
     <Compile Include="Entidades\REL_ContratoFornecedor.cs" />
     <Compile Include="Entidades\REL_DepartamentoContrato.cs" />
     <Compile Include="Entidades\REL_EstabelecimentoDepartamento.cs" />
+    <Compile Include="Entidades\REL_PerigoRisco.cs" />
     <Compile Include="Entidades\REL_WorkAreaRisco.cs" />
     <Compile Include="Entidades\Risco.cs" />
     <Compile Include="Entidades\TipoDeRisco.cs" />
