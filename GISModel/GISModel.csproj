@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="CustomAttributes\CustomValidationCNPJAttribute.cs" />
     <Compile Include="CustomAttributes\CustomValidationCPFAttribute.cs" />
+    <Compile Include="DTO\Admissao\AdmissaoViewModel.cs" />
     <Compile Include="DTO\AnaliseRisco\AnaliseRiscosViewModel.cs" />
     <Compile Include="DTO\AtividadesAlocada\AtividadesAlocadasViewModel.cs" />
     <Compile Include="DTO\Atividade\AtividadeAlocadaFuncaoViewModel.cs" />

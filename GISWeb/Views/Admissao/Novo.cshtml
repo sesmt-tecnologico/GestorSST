@@ -63,36 +63,36 @@
         </div>
     </div>
 
-    <div>
+    @*<div>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-12">*@
 
                 @*@{
                         Html.RenderPartial("_MensagensDeRetorno");
                     }*@
 
-                @if (ViewBag.Admissao != null)
+                @*@@if (ViewBag.Admissao != null)
                 {
-                    <div>
+                    @*<div>
                         <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                             <thead>
-                                <tr>
-                                    <th width="100px"></th>
+                                <tr>*@
+                                    @*@<th width="100px"></th>@
                                     @*<th width="300px">Nome da Ambiente</th>*@
-                                    <th>Empresa Admitido</th>                                    
+                                    @*<th>Empresa Admitido</th>                                    
                                     <th>Data de Admissao</th>
                                     <th width="100px"></th>
                                 </tr>
 
                             </thead>
 
-                            <tbody>
+                            <tbody>*@
 
-                                @foreach (var iAdmissao in ViewBag.Admissao)
+                               @*@ @foreach (var iAdmissao in ViewBag.Admissao)
                                 {
-                                    <tr id="linha-@iAdmissao.IDAdmissao">
+                                    <tr id="linha-@iAdmissao.ID">
                                         <td>
-                                            <img src="/Images/AdmissaoImagens/@iAdmissao.IDAdmissao/@iAdmissao.Imagem" alt="Admissao" width="90px" />
+                                            <img src="/Images/AdmissaoImagens/@iAdmissao.ID/@iAdmissao.Imagem" alt="Admissao" width="90px" />
 
                                         </td>
                                                                                 
@@ -100,10 +100,10 @@
                                         <td>@iAdmissao.DataAdmissao</td>
                                         <td>
                                             <div class="hidden-sm hidden-xs action-buttons">
-                                                <a href='@Url.Action("Index", "Admissao", new { id = @iAdmissao.IDAdmissao, nome = iAdmissao.IDAdmissao })' class="tooltip-success" data-rel="tooltip" title="Riscos relacionados a este Ambiente">
+                                                <a href='@Url.Action("Index", "Admissao", new { id = @iAdmissao.ID, nome = iAdmissao.ID })' class="tooltip-success" data-rel="tooltip" title="Riscos relacionados a este Ambiente">
                                                     <i class="ace-icon fa fa-search-plus bigger-140"></i>
                                                 </a>
-                                                <a href='@Url.Action("Edicao", "Admissao", new { id = @iAdmissao.IDAdmissao })' class="green" data-rel="tooltip" title="Editar">
+                                                <a href='@Url.Action("Edicao", "Admissao", new { id = @iAdmissao.ID })' class="green" data-rel="tooltip" title="Editar">
                                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                                 </a>
                                                 @*<a href='@Url.Action("Novo", "Admissao", new { id = @iAdmissao.IDAdmissao, nome = iAdmissao.NomeDaImagem })' class="tooltip-success" data-rel="tooltip" title="Cadastrar Riscos deste Ambiente">
@@ -113,7 +113,7 @@
                                                     </a>*@
 
 
-                                            </div>
+                                            @*</div>
                                         </td>
 
 
@@ -130,7 +130,7 @@
             </div>
         </div>
 
-    </div>
+    </div>*@
 
 
 
@@ -166,7 +166,7 @@
                         @Html.DropDownListFor(d => d.IDEmpresa, (SelectList)ViewBag.Empresas, "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
                         @Html.ValidationMessageFor(d => d.IDEmpresa, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
 
-                        <input type="text" name="EmpID" id="EmpID" value=@ViewBag.EmpID hidden />
+                        <input type="text" name="EmpID" id="EmpID" value=@ViewBag.IDEmpregado hidden />
                     </div>
                 </div>
             </div>

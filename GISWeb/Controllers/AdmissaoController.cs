@@ -819,12 +819,12 @@ namespace GISWeb.Controllers
 
 
         public ActionResult Novo(string id)
-        {
+       {
             var ID = Guid.Parse(id);
-            ViewBag.EmpID = id;
+            ViewBag.IDempregado = ID;
             ViewBag.Sigla = new SelectList(DepartamentoBusiness.Consulta.ToList(), "ID", "Sigla");
             ViewBag.Empresas = new SelectList(EmpresaBusiness.Consulta.Where(p=> string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeFantasia");
-            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(ID))).ToList();
+            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID))).ToList();
             ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID))).ToList();
             return View();
         }
@@ -833,9 +833,9 @@ namespace GISWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cadastrar(Admissao oAdmissao, string EmpID)
         {
+            var idEmpregado = Guid.Parse(EmpID);
 
-            //id do Estabelecimento recebido por parametro
-            oAdmissao.ID = Guid.Parse(EmpID);
+            oAdmissao.IDEmpregado = idEmpregado;
             
 
             if (ModelState.IsValid)
@@ -845,14 +845,14 @@ namespace GISWeb.Controllers
 
                     AdmissaoBusiness.Inserir(oAdmissao);
 
-                    Extensions.GravaCookie("MensagemSucesso", "O empregado '" + oAdmissao.Empregado.Nome + "' foi cadastrado com sucesso.", 10);
+                    Extensions.GravaCookie("MensagemSucesso", "O empregado foi cadastrado com sucesso.", 10);
 
 
                     //TempData["MensagemSucesso"] = "O empregado foi admitido com sucesso.";
 
                     //var iAdmin = oAdmissao.IDAdmissao;
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("PerfilEmpregado", "Admissao", new { id = EmpID }) } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("ListaEmpregado", "Empregado", new { id = EmpID }) } });
                 }
                 catch (Exception ex)
                 {
