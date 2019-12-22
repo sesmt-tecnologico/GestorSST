@@ -22,11 +22,7 @@
 
                         <div class="pull-right action-buttons">
 
-                            <a class="blue CustomTooltip" href="#" title="Vincular Perigo" onclick="OnClickVincularPerigo('@wa.UniqueKey');" data-target="#modalAddPerigo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                <i class="ace-icon fa fa-plus-circle red bigger-125"></i>
-                            </a>
-                            <a class="blue CustomTooltip" href="#" title="Novo Risco" onclick="alert('Em construção.');">
-
+                            <a class="blue CustomTooltip" href="#" title="Adicionar evento perigoso" onclick="OnClickVincularPerigo('@wa.UniqueKey');" data-target="#modalAddPerigo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                 <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                             </a>
 
@@ -53,16 +49,13 @@
 
                                         @per.Descricao
 
-
-                                        @*@risk.Nome*@
-
                                         <div class="pull-right action-buttons">
-                                            <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickNovoRisco('@wa.UniqueKey');" data-target="#modalAddRisco" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                            <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickNovoRisco('@per.UniqueKey');" data-target="#modalAddRisco" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                                 <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                                             </a>
 
-                                            <a href="#" class="blue CustomTooltip" title="Adicionar">
-                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                            <a href="#" class="blue CustomTooltip" title="Desvincular Perigo" onclick="OnClickRemoverPerigo('@per.UniqueKey', '@wa.UniqueKey', '@per.Descricao')">
+                                                <i class="ace-icon fa fa-trash red bigger-125"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -77,8 +70,8 @@
                                                         @risk.Nome
 
                                                         <div class="pull-right action-buttons">
-                                                            <a href="#" class="blue CustomTooltip" title="Adicionar">
-                                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                            <a href="#" class="blue CustomTooltip" title="Desvincular Risco" onclick="OnClickRemoverRisco('@risk.UniqueKey', '@per.UniqueKey', '@risk.Nome')">
+                                                                <i class="ace-icon fa fa-trash red bigger-125"></i>
                                                             </a>
                                                         </div>
 

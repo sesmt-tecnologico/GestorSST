@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using System.Collections.Generic;
 
 namespace GISWeb.Controllers
 {
@@ -178,6 +179,45 @@ namespace GISWeb.Controllers
 
 
         }
+
+
+        [RestritoAAjax]
+        public ActionResult BuscarPerigoForAutoComplete(string key)
+        {
+            try
+            {
+                List<string> perigoAsString = new List<string>();
+                List<Perigo> lista = PerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.ToUpper().Contains(key.ToUpper())).ToList();
+
+                foreach (Perigo com in lista)
+                    perigoAsString.Add(com.Descricao);
+
+                return Json(new { Result = perigoAsString });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { erro = ex.Message });
+            }
+        }
+
+        [RestritoAAjax]
+        public ActionResult ConfirmarPerigoForAutoComplete(string key)
+        {
+            try
+            {
+                Perigo item = PerigoBusiness.Consulta.FirstOrDefault(a => a.Descricao.ToUpper().Equals(key.ToUpper()));
+
+                if (item == null)
+                    throw new Exception();
+
+                return Json(new { Result = true });
+            }
+            catch
+            {
+                return Json(new { Result = false });
+            }
+        }
+
 
     }
 }
