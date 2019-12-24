@@ -8,13 +8,17 @@ namespace GISModel.DTO.Admissao
 {
    public class AdmissaoViewModel
     {
-        public string IDAdmissao { get; set; }
+        public Guid ID { get; set; }
 
         public string NomeEmpregado { get; set; }
 
         public string CPF { get; set; }
 
+        public string Admitido { get; set; }
+
         public string IDEmpresa { get; set; }
+
+        public string NomeEmpresa { get; set; }
 
         public string DataAdmissao { get; set; }
 

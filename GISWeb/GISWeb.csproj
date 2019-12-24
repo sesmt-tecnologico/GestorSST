@@ -24,6 +24,7 @@
     <Use64BitIISExpress />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -69,6 +70,7 @@
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.SQLite, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.112.0\lib\net45\System.Data.SQLite.dll</HintPath>
     </Reference>
@@ -79,8 +81,6 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -103,13 +103,13 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
@@ -290,6 +290,7 @@
     <Content Include="Scripts\Custom\DocumentosPessoal\Lista.js" />
     <Content Include="Scripts\Custom\DocumentosPessoal\Novo.js" />
     <Content Include="Scripts\Custom\Empregado\Editar.js" />
+    <Content Include="Scripts\Custom\Empregado\ListagemPorEmpresa.js" />
     <Content Include="Scripts\Custom\Empregado\Listagem.js" />
     <Content Include="Scripts\Custom\Empregado\Novo.js" />
     <Content Include="Scripts\Custom\Empresa\Edicao.js" />
@@ -534,7 +535,7 @@
     <Content Include="Views\Empregado\EmpregadosSemAdmissao.cshtml" />
     <Content Include="Views\Empregado\Index.cshtml" />
     <Content Include="Views\Empregado\Lista.cshtml" />
-    <Content Include="Views\Empregado\ListaEmpregado.cshtml" />
+    <Content Include="Views\Empregado\ListaEmpregadoNaoAdmitido.cshtml" />
     <Content Include="Views\Empregado\Novo.cshtml" />
     <Content Include="Views\Empregado\_BuscarDetalhesEmpregado.cshtml" />
     <Content Include="Views\Empregado\_Detalhes.cshtml" />
@@ -626,6 +627,8 @@
     <Content Include="Views\Perigo\Novo.cshtml" />
     <Content Include="Views\WorkArea\_VincularPegigo.cshtml" />
     <Content Include="Views\WorkArea\_VincularRisco.cshtml" />
+    <Content Include="Views\Empregado\ListaEmpregadoAdmitidoPorEmpresa.cshtml" />
+    <Content Include="Views\Empregado\_ListaEmpregadoPorEmpresa.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

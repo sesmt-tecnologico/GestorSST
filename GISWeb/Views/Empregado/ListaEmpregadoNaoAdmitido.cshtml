@@ -1,7 +1,8 @@
-﻿@using GISModel.Entidades
+﻿@using GISModel.DTO.Admissao
+
 
 @{
-    ViewBag.Title = "Consulta Empregado";
+    ViewBag.Title = "Empregado nao Admitido";
 }
 
 <div class="row">
@@ -28,23 +29,28 @@
                     <thead>
                         <tr>                           
                             <th>Nome</th>
-                            <th>CPF</th>
-                            <th class="hidden-480">Email</th>
+                            <th>CPF</th>                            
                             <th width="89px"></th>
                         </tr>
                     </thead>
 
                     <tbody>
 
-                        @foreach (Empregado iEmpregado in ViewBag.Empregado)
-                        {
+                        @foreach (AdmissaoViewModel iEmpregado in ViewBag.Empregado)
+                            {
+                                var v = string.Empty;
+
+                                if(iEmpregado.Admitido == v)
+                                {
+
                         <tr id="linha-@iEmpregado.ID">
 
 
-                            <td>@iEmpregado.Nome</td>
+                            <td>@iEmpregado.NomeEmpregado</td>
                             <td>@iEmpregado.CPF</td>
-                            <td>@iEmpregado.Email</td>
-                            
+                           
+
+
 
                             <td>
                                 <div>
@@ -106,7 +112,8 @@
                         </div>
                     </div>
                 </td>*@
-</tr>
+                </tr>
+                        }
 
                         }
 

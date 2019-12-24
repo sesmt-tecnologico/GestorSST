@@ -852,7 +852,7 @@ namespace GISWeb.Controllers
 
                     //var iAdmin = oAdmissao.IDAdmissao;
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("ListaEmpregado", "Empregado", new { id = EmpID }) } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("ListaEmpregadoNaoAdmitido", "Empregado", new { id = EmpID }) } });
                 }
                 catch (Exception ex)
                 {

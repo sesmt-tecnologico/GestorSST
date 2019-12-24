@@ -1,5 +1,6 @@
 ﻿using GISCore.Business.Abstract;
 using GISModel.Entidades;
+using Ninject;
 using System;
 using System.Linq;
 
@@ -7,6 +8,9 @@ namespace GISCore.Business.Concrete
 {
     public class EmpregadoBusiness : BaseBusiness<Empregado>, IEmpregadoBusiness
     {
+        [Inject]
+        public IAdmissaoBusiness AdmissaoBusiness { get; set; }
+
 
         public override void Alterar(Empregado pEmpregado)
         {
@@ -24,7 +28,16 @@ namespace GISCore.Business.Concrete
             base.Alterar(tempEmpregado);
         }
 
+        public void NaoAdmitido(string id)
+        {
+
+            
+
+        }
+
     }
 
+
+    
 
 }

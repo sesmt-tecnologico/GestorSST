@@ -9,6 +9,8 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using GISModel.DTO.Admissao;
+using System.Collections.Generic;
 
 namespace GISWeb.Controllers
 {
@@ -47,15 +49,118 @@ namespace GISWeb.Controllers
         [Inject]
         public IEventoPerigosoBusiness EventoPerigosoBusiness { get; set; }
 
+        [Inject]
+        public IAdmissaoBusiness AdmissaoBusiness { get; set; }
+
         #endregion
 
 
-        public ActionResult ListaEmpregado(string id)
+        public ActionResult ListaEmpregadoNaoAdmitido()
         {
-            var ID = Guid.Parse(id);
-            ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID))).ToList();
+           // var ID = Guid.Parse(id);
+
+            var listEmp = from e in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          join a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          on e.ID equals a.IDEmpregado
+                          into g
+                          from NaoAdm in g.DefaultIfEmpty()
+                          select new AdmissaoViewModel()
+                          {
+                              ID = e.ID,
+                              NomeEmpregado = e.Nome,
+                              CPF = e.CPF,
+                              Admitido = NaoAdm?.Admitido ?? string.Empty
+
+                          };
+
+            
+            List<AdmissaoViewModel> lista = new List<AdmissaoViewModel>();
+
+            lista = listEmp.ToList();
+
+            ViewBag.Empregado = lista;
+
+            //ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+
             return View();
         }
+
+
+        public ActionResult ListaEmpregadoAdmitidoPorEmpresa()
+        {
+
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ListaEmpregadoAdmitidoPorEmpresa(PesquisaEmpregadoViewModel entidade)
+        {
+            try
+            {
+
+                string sWhere = string.Empty;
+
+                if (string.IsNullOrEmpty(entidade.NomeEmpregado) &&
+                   string.IsNullOrEmpty(entidade.CPF) &&
+                   string.IsNullOrEmpty(entidade.NomeEmpresa)
+                   )
+                    throw new Exception("Informe pelo menos um filtro para prosseguir na pesquisa.");
+
+                
+                var listEmp = from e in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                              join a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                              on e.ID equals a.IDEmpregado
+                              into g
+                              from y in EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                              join a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                              on y.ID equals a.IDEmpresa
+                              into h
+
+                              from NaoAdm in g.DefaultIfEmpty()
+
+                              where e.Nome.Contains(entidade.NomeEmpregado) ||
+                              e.CPF.Equals(entidade.CPF) ||
+                              y.NomeFantasia.Equals(entidade.NomeEmpresa)
+
+                              select new PesquisaEmpregadoViewModel()
+                              {
+                                  idEmpregado = e.ID,
+                                  NomeEmpregado = e.Nome,
+                                  CPF = e.CPF,
+                                  NomeEmpresa = y.NomeFantasia,
+                                  Admitido = NaoAdm?.Admitido ?? string.Empty
+
+                              };
+
+
+                List<PesquisaEmpregadoViewModel> lista = listEmp.ToList();
+
+               
+
+                return PartialView("_ListaEmpregadoPorEmpresa", lista);
+            }
+            catch (Exception ex)
+            {
+
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+                                            
+        }
+
+
+
+
+
+
 
         public ActionResult Novo()
         {
