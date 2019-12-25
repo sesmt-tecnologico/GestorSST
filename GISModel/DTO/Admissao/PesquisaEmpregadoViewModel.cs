@@ -9,6 +9,7 @@ namespace GISModel.DTO.Admissao
 {
     public class PesquisaEmpregadoViewModel
     {
+        public Guid UniqueKey { get; set; }
         public Guid idEmpregado { get; set; }
 
         [Display(Name ="Nome do Empreagado")]

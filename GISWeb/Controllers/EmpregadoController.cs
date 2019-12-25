@@ -11,6 +11,7 @@ using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Admissao;
 using System.Collections.Generic;
+using System.Data;
 
 namespace GISWeb.Controllers
 {
@@ -108,36 +109,72 @@ namespace GISWeb.Controllers
                    )
                     throw new Exception("Informe pelo menos um filtro para prosseguir na pesquisa.");
 
-                
-                var listEmp = from e in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                              join a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                              on e.ID equals a.IDEmpregado
-                              into g
-                              from y in EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                              join a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                              on y.ID equals a.IDEmpresa
-                              into h
+                if (!string.IsNullOrEmpty(entidade.NomeEmpregado))
+                    sWhere += " and e.Nome like '%" + entidade.NomeEmpregado.Replace("*", "%") + "%'";
 
-                              from NaoAdm in g.DefaultIfEmpty()
+                if (!string.IsNullOrEmpty(entidade.CPF))
+                    sWhere += " and e.CPF = '" + entidade.CPF + "'";
 
-                              where e.Nome.Contains(entidade.NomeEmpregado) ||
-                              e.CPF.Equals(entidade.CPF) ||
-                              y.NomeFantasia.Equals(entidade.NomeEmpresa)
-
-                              select new PesquisaEmpregadoViewModel()
-                              {
-                                  idEmpregado = e.ID,
-                                  NomeEmpregado = e.Nome,
-                                  CPF = e.CPF,
-                                  NomeEmpresa = y.NomeFantasia,
-                                  Admitido = NaoAdm?.Admitido ?? string.Empty
-
-                              };
+                if (!string.IsNullOrEmpty(entidade.NomeEmpresa))
+                    sWhere += " and b.NomeFantasia like '%" + entidade.NomeEmpresa.Replace("*", "%") + "%'";
 
 
-                List<PesquisaEmpregadoViewModel> lista = listEmp.ToList();
 
-               
+                string sql = @" select e.UniqueKey, e.ID, e.Nome, e.CPF, e.ID, a.IDEmpregado, a.IDEmpresa, b.ID, b.NomeFantasia from tbEmpregado e, tbAdmissao a, tbEmpresa b
+                            where e.ID = a.IDEmpregado and b.ID = a.IDEmpresa" + sWhere +
+                            @" order by a.IDEmpregado";
+
+
+
+
+                //var listEmp = from e in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                //              join a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                //              on e.ID equals a.IDEmpregado
+                //              into g
+                //              from y in EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                //              join a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                //              on y.ID equals a.IDEmpresa
+                //              into h
+
+                //              from NaoAdm in g.DefaultIfEmpty()
+
+                //              where e.Nome.Contains(entidade.NomeEmpregado) ||
+                //              e.CPF.Equals(entidade.CPF) ||
+                //              y.NomeFantasia.Equals(entidade.NomeEmpresa)
+
+                //              select new PesquisaEmpregadoViewModel()
+                //              {
+                //                  idEmpregado = e.ID,
+                //                  NomeEmpregado = e.Nome,
+                //                  CPF = e.CPF,
+                //                  NomeEmpresa = y.NomeFantasia,
+                //                  Admitido = NaoAdm?.Admitido ?? string.Empty
+
+                //              };
+
+
+                //List<PesquisaEmpregadoViewModel> lista = listEmp.ToList();
+
+                List<PesquisaEmpregadoViewModel> lista = new List<PesquisaEmpregadoViewModel>();
+
+                DataTable result = EmpregadoBusiness.GetDataTable(sql);
+                if (result.Rows.Count > 0)
+                {
+                    foreach (DataRow row in result.Rows)
+                    {
+                        lista.Add(new PesquisaEmpregadoViewModel()
+                        {
+                            
+                            NomeEmpregado = row["Nome"].ToString(),
+                            CPF = row["CPF"].ToString(),
+                            NomeEmpresa = row["NomeFantasia"].ToString()
+                            
+                        });
+                    }
+                }
+
+
+
 
                 return PartialView("_ListaEmpregadoPorEmpresa", lista);
             }

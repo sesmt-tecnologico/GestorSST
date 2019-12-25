@@ -22,42 +22,43 @@
    {
        HttpMethod = "POST",
        OnBegin = "OnBeginPesquisaEmpregado",
-       OnSuccess = "OnSuccessPesquisaEmpregado",      
+       OnSuccess = "OnSuccessPesquisaEmpregado",
+       OnFailure = "OnFailurePesquisaEmpregado"
    }, new { @id = "formPesquisaEmpregado", @class = "form-horizontal" }))
     {
         @Html.AntiForgeryToken()
 
-<div class="row">
-    <div class="col-xs-12 col-sm-4">
-        <div class="form-group">
-            @Html.LabelFor(model => model.NomeEmpregado, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-            <div class="col-xs-12 col-sm-12">
-                @Html.EditorFor(model => model.NomeEmpregado, new { htmlAttributes = new { @class = "form-control" } })
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NomeEmpregado, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(model => model.NomeEmpregado, new { htmlAttributes = new { @class = "form-control", @placeholder ="Digite o Nome ou parte do Nome."} })
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-4">
-        <div class="form-group">
-            @Html.LabelFor(model => model.CPF, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-            <div class="col-xs-12 col-sm-12">
-                @Html.EditorFor(model => model.CPF, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CPF, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(model => model.CPF, new { htmlAttributes = new { @class = "form-control", @placeholder ="Digite todo CPF." } })
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-4">
-        <div class="form-group">
-            @Html.LabelFor(model => model.NomeEmpresa, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-            <div class="col-xs-12 col-sm-12">
-                @Html.EditorFor(model => model.NomeEmpresa, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NomeEmpresa, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(model => model.NomeEmpresa, new { htmlAttributes = new { @class = "form-control", @placeholder ="Digite o Nome ou parte do Nome." } })
+                    </div>
+                </div>
             </div>
+
+
+
+
+
         </div>
-    </div>
-
-
-
-
-
-</div>
 
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
@@ -81,6 +82,8 @@
 
 <div class="ResultadoPesquisa">
 </div>
+
+
 <style type="text/css">
     textarea {
         resize: none;
@@ -95,4 +98,20 @@
 
     <script src="~/Scripts/Custom/Empregado/ListagemPorEmpresa.js"></script>
 
+    <script src="~/Scripts/Ace/ace.widget-box.js"></script>
+    <script src="~/Scripts/Ace/chosen.jquery.js"></script>
+
+    <script src="~/Scripts/Ace/jQ/jquery.maskedinput.js"></script>
+
+    <script src="~/Scripts/jQuery/inputmask.js"></script>
+    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
+
+    
+
+}
+
+@section Sliders {
+    @{
+        Html.RenderPartial("~/Views/Shared/_SlidersIncidente.cshtml");
+    }
 }

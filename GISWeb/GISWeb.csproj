@@ -629,6 +629,8 @@
     <Content Include="Views\WorkArea\_VincularRisco.cshtml" />
     <Content Include="Views\Empregado\ListaEmpregadoAdmitidoPorEmpresa.cshtml" />
     <Content Include="Views\Empregado\_ListaEmpregadoPorEmpresa.cshtml" />
+    <Content Include="Views\Empregado\_ResultadoPesquisaRow.cshtml" />
+    <Content Include="Views\Shared\_SlidersIncidente.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
