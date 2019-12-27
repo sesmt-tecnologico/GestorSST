@@ -10,6 +10,7 @@ namespace GISModel.DTO.Admissao
     {
         public Guid ID { get; set; }
 
+        public Guid UK_empregado { get; set; }
         public string NomeEmpregado { get; set; }
 
         public string CPF { get; set; }

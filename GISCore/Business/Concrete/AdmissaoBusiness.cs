@@ -5,11 +5,14 @@ using System.Linq;
 
 namespace GISCore.Business.Concrete
 {
+   
     public class AdmissaoBusiness : BaseBusiness<Admissao>, IAdmissaoBusiness
     {
+        
 
         public override void Inserir(Admissao pAdmissao)
         {
+                        
             pAdmissao.Admitido = "Admitido";
             base.Inserir(pAdmissao);
         }

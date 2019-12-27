@@ -9,14 +9,17 @@ namespace GISModel.DTO.Admissao
 {
     public class PesquisaEmpregadoViewModel
     {
-        public Guid UniqueKey { get; set; }
-        public Guid idEmpregado { get; set; }
+        public string UniqueKey { get; set; }
+        public string idEmpregado { get; set; }
 
         [Display(Name ="Nome do Empreagado")]
         public string NomeEmpregado { get; set; }
 
         [Display(Name ="CPF")]
         public string CPF { get; set; }
+
+        [Display(Name ="Justificativa desta Admissão")]
+        public string  justificativa { get; set; }
 
         [Display(Name ="Empresa")]
         public string NomeEmpresa { get; set; }

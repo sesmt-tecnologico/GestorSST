@@ -4,6 +4,7 @@ using Ninject;
 using System;
 using System.Linq;
 
+
 namespace GISCore.Business.Concrete
 {
     public class EmpregadoBusiness : BaseBusiness<Empregado>, IEmpregadoBusiness
@@ -11,7 +12,19 @@ namespace GISCore.Business.Concrete
         [Inject]
         public IAdmissaoBusiness AdmissaoBusiness { get; set; }
 
+        public override void Inserir(Empregado pEmpregado)
+        {
+            Empregado tempEmpregado = Consulta.FirstOrDefault(p => p.CPF.Equals(pEmpregado.CPF));
 
+            if(tempEmpregado.CPF == pEmpregado.CPF)
+            {
+                              
+
+                throw new Exception("Este empregado já está cadastrado no sistema!");
+            }
+                       
+            base.Inserir(pEmpregado);
+        }
         public override void Alterar(Empregado pEmpregado)
         {
             Empregado tempEmpregado = Consulta.FirstOrDefault(p => p.ID.Equals(pEmpregado.ID));
@@ -28,12 +41,7 @@ namespace GISCore.Business.Concrete
             base.Alterar(tempEmpregado);
         }
 
-        public void NaoAdmitido(string id)
-        {
-
-            
-
-        }
+        
 
     }
 

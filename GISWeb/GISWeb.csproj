@@ -237,6 +237,7 @@
     <Content Include="Scripts\Custom\Admissao\ListagemEmpresas.js" />
     <Content Include="Scripts\Custom\Admissao\ListagemEmpregado.js" />
     <Content Include="Scripts\Custom\Admissao\Listagem.js" />
+    <Content Include="Scripts\Custom\Admissao\AdmitirEmMaisEmpresa .js" />
     <Content Include="Scripts\Custom\Admissao\Novo.js" />
     <Content Include="Scripts\Custom\AlocacaoAtividades\Edicao.js" />
     <Content Include="Scripts\Custom\AlocacaoAtividades\Listagem.js" />
@@ -631,6 +632,7 @@
     <Content Include="Views\Empregado\_ListaEmpregadoPorEmpresa.cshtml" />
     <Content Include="Views\Empregado\_ResultadoPesquisaRow.cshtml" />
     <Content Include="Views\Shared\_SlidersIncidente.cshtml" />
+    <Content Include="Views\Admissao\AdmitirEmMaisEmpresas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

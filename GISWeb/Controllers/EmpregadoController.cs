@@ -62,15 +62,17 @@ namespace GISWeb.Controllers
 
             var listEmp = from e in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           join a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                          on e.ID equals a.IDEmpregado
+                          on e.UniqueKey equals a.IDEmpregado
                           into g
                           from NaoAdm in g.DefaultIfEmpty()
                           select new AdmissaoViewModel()
                           {
+                              UK_empregado = e.UniqueKey,
                               ID = e.ID,
                               NomeEmpregado = e.Nome,
                               CPF = e.CPF,
-                              Admitido = NaoAdm?.Admitido ?? string.Empty
+                              Admitido = NaoAdm?.Admitido ?? string.Empty,
+
 
                           };
 
@@ -120,40 +122,12 @@ namespace GISWeb.Controllers
 
 
 
-                string sql = @" select e.UniqueKey, e.ID, e.Nome, e.CPF, e.ID, a.IDEmpregado, a.IDEmpresa, b.ID, b.NomeFantasia from tbEmpregado e, tbAdmissao a, tbEmpresa b
-                            where e.ID = a.IDEmpregado and b.ID = a.IDEmpresa" + sWhere +
+                string sql = @" select e.UniqueKey, e.ID, e.Nome, e.CPF, e.ID, a.IDEmpregado, a.IDEmpresa, b.ID, b.NomeFantasia, a.MaisAdmin from tbEmpregado e, tbAdmissao a, tbEmpresa b
+                            where e.UniqueKey = a.IDEmpregado and b.ID = a.IDEmpresa" + sWhere +
                             @" order by a.IDEmpregado";
 
-
-
-
-                //var listEmp = from e in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                //              join a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                //              on e.ID equals a.IDEmpregado
-                //              into g
-                //              from y in EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                //              join a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                //              on y.ID equals a.IDEmpresa
-                //              into h
-
-                //              from NaoAdm in g.DefaultIfEmpty()
-
-                //              where e.Nome.Contains(entidade.NomeEmpregado) ||
-                //              e.CPF.Equals(entidade.CPF) ||
-                //              y.NomeFantasia.Equals(entidade.NomeEmpresa)
-
-                //              select new PesquisaEmpregadoViewModel()
-                //              {
-                //                  idEmpregado = e.ID,
-                //                  NomeEmpregado = e.Nome,
-                //                  CPF = e.CPF,
-                //                  NomeEmpresa = y.NomeFantasia,
-                //                  Admitido = NaoAdm?.Admitido ?? string.Empty
-
-                //              };
-
-
-                //List<PesquisaEmpregadoViewModel> lista = listEmp.ToList();
+                               
+                
 
                 List<PesquisaEmpregadoViewModel> lista = new List<PesquisaEmpregadoViewModel>();
 
@@ -165,11 +139,14 @@ namespace GISWeb.Controllers
                         lista.Add(new PesquisaEmpregadoViewModel()
                         {
                             
+                            UniqueKey = row["UniqueKey"].ToString(),
+                            idEmpregado = row["IDEmpregado"].ToString(),
                             NomeEmpregado = row["Nome"].ToString(),
                             CPF = row["CPF"].ToString(),
-                            NomeEmpresa = row["NomeFantasia"].ToString()
-                            
-                        });
+                            NomeEmpresa = row["NomeFantasia"].ToString(),
+                            justificativa = row["MaisAdmin"].ToString()
+
+                        }); ;
                     }
                 }
 
@@ -223,7 +200,7 @@ namespace GISWeb.Controllers
                     Extensions.GravaCookie("MensagemSucesso", "O empregado '" + empregado.Nome + "' foi cadastrado com sucesso.", 10);
 
                    
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("ListaEmpregado", "Empregado",new {id=empregado.ID }) } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("ListaEmpregadoNaoAdmitido", "Empregado") } });
                 }
                 catch (Exception ex)
                 {
