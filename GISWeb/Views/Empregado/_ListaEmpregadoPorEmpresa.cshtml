@@ -1,0 +1,155 @@
+﻿
+@model List<PesquisaEmpregadoViewModel>
+
+
+@using GISModel.DTO.Admissao
+
+<div class="space-6"></div>
+
+@if (Model != null && Model.Count > 0)
+{
+
+    <div id="divTableResultadoPesquisa" style="margin-top: 10px;">
+        @if (ViewBag.AlertaRownumAtingido != null && ViewBag.AlertaRownumAtingido)
+        {
+            <div style="margin-bottom: 10px">
+                <div class="alert alert-warning padding-10">
+                    <strong>
+                        <i class="ace-icon fa fa-exclamation-triangle"></i>
+                        Oops!
+                    </strong>
+
+                    @{
+                        string msg = "Sua pesquisa atingiu o número máximo de ocorrências retornadas. ";
+                        msg += "Refine os parâmetros de localização para um resultado mais preciso ou utilize o ícone de exportar para Excel # para ver todos os @ documentos encontrados.";
+
+                        msg = msg.Replace("@", "<strong>" + ViewBag.TotalDocs.ToString() + "</strong>").Replace("#", "(<i class=\"ace-icon fa fa-file-excel-o bigger-110 blue\"></i>)");
+                    }
+
+                    @Html.Raw(msg)
+
+                    <br />
+                </div>
+            </div>
+        }
+
+    <table id="tableResultadoPesquisa" class="table table-striped table-bordered table-hover">
+
+        <thead>
+            <tr style="background-image: linear-gradient(to bottom, #ffffff 0%, #e2e2e2 80%); font-size: 12px; height: 28px; min-height: 10px">
+                <th class="hidden-800 hidden-480 left" width="10px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
+                    Empregado
+                </th>
+                <th class="hidden-800 hidden-480 left" width="10px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
+                    CPF
+                </th>
+
+                <th class="hidden-800 hidden-480 left" width="80px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
+                    Empresa
+                </th>
+                <th class="hidden-800 hidden-480 left" width="80px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
+                    Justificativa de Admissão
+                </th>
+                <th class="center" width="5px" style="padding: 0px 0px 0px 8px; border-bottom: 0px">
+                </th>
+            </tr>
+        </thead>
+
+                @*<tbody>
+                    @{
+                        foreach (var ficha in Model)
+                        {
+                            Html.RenderPartial("~/Views/Empregado/_ResultadoPesquisaRow.cshtml", ficha);
+                        }
+                    }
+                </tbody>*@
+
+        <tbody>
+            @{
+                foreach (PesquisaEmpregadoViewModel item in Model)
+                {
+                        <tr>
+                            <td>
+                                @item.NomeEmpregado
+                            </td>
+                            <td>
+                                @item.CPF
+                            </td>
+
+                            <td>
+                                @item.NomeEmpresa
+                            </td>
+                            <td>
+                                @item.justificativa
+                            </td>
+
+
+
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons">
+
+                                    <a href='@Url.Action("AdmitirEmMaisEmpresas", "Admissao", new { UK = @item.UniqueKey, cpf = item.CPF})' class="green">
+                                        <i class="ace-icon fa fa-gavel bigger-130" title="Admitir em mais empresas" aria-hidden="true"></i>
+                                    </a>
+
+                                    @*<a class="red" href="#" onclick="DeletarEstabelecimento('@item.IDEstabelecimento', '@item.NomeEstabelecimento');">
+                                        <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
+                                    </a>*@
+                                </div>
+
+                                <div class="hidden-md hidden-lg">
+                                    <div class="inline pos-rel">
+                                        <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                            <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                        </button>
+
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
+
+                                            <li>
+                                                @*<a href='@Url.Action("Edicao", "Estabelecimento", new { id = item.IDEstabelecimento })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                    <span class="green">
+                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                    </span>
+                                                </a>*@
+                                            </li>
+
+                                            <li>
+                                                @*<a href="#" class="tooltip-error" onclick="DeletarEstabelecimento('@item.IDEstabelecimento', '@item.NomeEstabelecimento');" data-rel="tooltip" title="Delete">
+                                                <span class="red">
+                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                </span>
+                                            </a>*@
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    </div>
+
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        No momento, nenhum Empregado foi encontrado.
+        <br>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+   
+}

@@ -1,0 +1,90 @@
+﻿@using GISModel.DTO.Admissao
+
+
+@{
+    ViewBag.Title = "Empregado nao Admitido";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+           Admitir Empregado
+            @*<a href="@Url.Action("Novo", "Empregado")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                Perfil
+            </a>*@
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+       
+
+        @if (ViewBag.Empregado != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>                           
+                            <th>Nome</th>
+                            <th>CPF</th>                            
+                            <th width="89px"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (AdmissaoViewModel iEmpregado in ViewBag.Empregado)
+                            {
+                                var v = string.Empty;
+
+                                if(iEmpregado.Admitido == v)
+                                {
+
+                        <tr id="linha-@iEmpregado.ID">
+
+
+                            <td>@iEmpregado.NomeEmpregado</td>
+                            <td>@iEmpregado.CPF</td>
+                           
+
+
+
+                            <td>
+                                <div>
+                                    <div class="hidden-xs hidden-sm">
+                                        <div class="inline pos-rel">
+                                            <a class="btn btn-primary" href="@Url.Action("Novo","Admissao",new { UK = iEmpregado.UK_empregado, cpf =iEmpregado.CPF })"
+                                               title="Admitir" role="button">Admitir</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="hidden-lg hidden-md">
+                                    <div class="inline pos-rel">
+                                        <a class="btn btn-success" href="@Url.Action("Novo","Admissao",new { UK = iEmpregado.UK_empregado,  cpf =iEmpregado.CPF })"
+                                           title="Admitir" role="button">Admitir</a>
+                                     </div>
+                                </div>
+
+
+                                      
+                </tr>
+                        }
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Custom/Empregado/Listagem.js"></script>
+}

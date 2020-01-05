@@ -1,0 +1,209 @@
+﻿@model GISModel.Entidades.Admissao
+
+@{
+    ViewBag.Title = "Admitir em mais empresas";
+}
+
+    <div id="formCadMaisDeUmaEmpresa">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+                <div class="page-header">
+                    <h1>
+                        Admitir Empregado em mais de um Empresa
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+
+
+                @if (ViewBag.Empregado != null)
+                {
+
+
+
+                    foreach (var iEmpregado in ViewBag.Empregado)
+                    {
+
+
+                        <div class="col-xs-12 col-sm-10">
+                            <div class="form-group">
+                                <td>
+                                    <b>
+
+                                        <i class="material-icons" style="font-size:16px;color:red">Nome:</i>&nbsp;&nbsp;@iEmpregado.Nome
+                                        <br />
+
+                                        <i class="material-icons" style="font-size:16px;color:red">CPF:</i>&nbsp;&nbsp;@iEmpregado.CPF
+                                        <br />
+
+                                        @*<i class="fa fa-arrows-alt" style="font-size:18px"><i class="material-icons" style="font-size:18px;color:red">Nascimento:</i>@iEmpregado.Empregado.DataNascimento</i>
+                                        <br />*@
+
+
+                                    </b>
+                                </td>
+                            </div>
+                        </div>
+
+
+
+                    }
+
+
+
+
+                }
+
+            </div>
+        </div>
+
+
+
+        @using (Ajax.BeginForm("AdmitirEmMaisEmpresas", "Admissao", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarMaisDeUmaEmpresa", OnSuccess = "OnSuccessCadastrarMaisDeUmaEmpresa", }, new { @id = "formCadastroMaisDeUmaEmpresa", @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.Label("Clique aqui para inserir a foto deste Empregado", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.Imagem, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12 ", @readonly = "readonly", @id = "FotoEmp" } })
+                            @Html.ValidationMessageFor(d => d.Imagem, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
+                    </div>
+                </div>
+            
+
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.IDEmpresa, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.DropDownListFor(d => d.IDEmpresa, (SelectList)ViewBag.Empresas, "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
+                            @Html.ValidationMessageFor(d => d.IDEmpresa, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                            <input type="text" name="EmpID" id="EmpID" value=@ViewBag.IDEmpregado hidden />
+                            <input type="text" name="id_cpf" id="id_cpf" value=@ViewBag.cpf hidden />
+
+                        </div>
+                    </div>
+                </div>           
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.DataAdmissao, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                                @Html.EditorFor(d => d.DataAdmissao, new { htmlAttributes = new { @class = "form-control date-picker" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.MaisAdmin, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.MaisAdmin, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                            @Html.ValidationMessageFor(d => d.MaisAdmin, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+                       
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                    <button class="btn btn-info" id="btnSalvar" type="submit">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        Salvar
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-warning" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        Limpar
+                    </button>
+                    &nbsp;
+                    <a class="btn" href="javascript:history.back()">
+                        <i class="ace-icon fa fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+        }
+
+    </div> <!-- Fim FormQuery -->
+
+<br />
+
+<div id="modalArquivo" class="modal fade" style="z-index: 10001">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modalArquivoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="smaller lighter blue no-margin"><i class="ace-icon fa fa-folder-open orange2"></i> Arquivo referente ao Estabelecimento</h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="modalArquivoCorpoLoading" style="float: right; display: none">
+                            ...Carregando
+                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </div>
+                        <div id="modalArquivoCorpo"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="modalArquivoLoading" style="display: none; float: left; padding-top: 6px">
+                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </span>
+
+                        <button id="modalArquivoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                            <i class="ace-icon fa fa-times"></i>
+                            Fechar
+                        </button>
+
+                        <button id="modalArquivoProsseguir" class="btn btn-sm btn-info" style="right: 5px; left: auto">
+                            <i class="ace-icon fa fa-check"></i>
+                            Prosseguir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
+    @*@Scripts.Render("~/bundles/jQ_dataTable")*@
+    <script src="~/Scripts/jQuery/inputmask.js"></script>
+    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
+
+    <script src="~/Scripts/Custom/Admissao/AdmitirEmMaisEmpresa .js"></script>
+
+
+}
+
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+}
+

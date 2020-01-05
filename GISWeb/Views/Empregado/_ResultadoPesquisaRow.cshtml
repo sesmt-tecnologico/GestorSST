@@ -1,0 +1,39 @@
+﻿@using GISModel.DTO.Admissao
+@model GISModel.DTO.Admissao.PesquisaEmpregadoViewModel
+
+<tr data-codigo="@Model.idEmpregado" data-uniquekey="@Model.idEmpregado" style="font-size: 8pt; font-family: Tahoma; height: 30px; min-height: 10px;">
+    <td style="vertical-align: middle; padding: 5px 0px 5px 5px;">
+        <a id="@Model.idEmpregado" href="#" title="Visualizar informações" class="CustomTooltip lnkAbrirDocumento" onclick="VisualizarDetalhesIncidente(this); return false;" style="text-decoration: none;" data-target="#modalDetalhesIncidente" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+            <span style="color: #777; font-weight: bold;">
+                @Model.idEmpregado
+            </span>
+        </a>
+    </td>
+
+    <td style="vertical-align: middle; padding: 0px; text-align: center">
+        @Model.NomeEmpregado
+    </td>
+
+    <td style="vertical-align: middle; padding: 0px; padding-left: 10px;">
+        @Model.CPF
+    </td>
+
+    
+
+    <td style="vertical-align: middle; padding: 0px; text-align: center;">
+
+        <div class="inline pos-rel">
+            <button class="btn btn-minier bigger btn-default btnDropdownMenu" data-toggle="dropdown">
+                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+            </button>
+
+            <ul id="menuOperacoes-@Model.idEmpregado" class="dropdown-menu dropdown-only-icon dropdown-yellow2 dropdown-menu-right dropdown-caret dropdown-close">
+                <li class="center">
+                    <img id="menuLoading-@Model.idEmpregado" src="~/Images/slack_loading.gif" />
+                </li>
+            </ul>
+        </div>
+
+    </td>
+</tr>
+

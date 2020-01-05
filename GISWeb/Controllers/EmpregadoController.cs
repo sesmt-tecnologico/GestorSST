@@ -9,6 +9,9 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using GISModel.DTO.Admissao;
+using System.Collections.Generic;
+using System.Data;
 
 namespace GISWeb.Controllers
 {
@@ -47,15 +50,131 @@ namespace GISWeb.Controllers
         [Inject]
         public IEventoPerigosoBusiness EventoPerigosoBusiness { get; set; }
 
+        [Inject]
+        public IAdmissaoBusiness AdmissaoBusiness { get; set; }
+
         #endregion
 
 
-        public ActionResult ListaEmpregado(string id)
+        public ActionResult ListaEmpregadoNaoAdmitido()
         {
-            var ID = Guid.Parse(id);
-            ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID))).ToList();
+           // var ID = Guid.Parse(id);
+
+            var listEmp = from e in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          join a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          on e.UniqueKey equals a.IDEmpregado
+                          into g
+                          from NaoAdm in g.DefaultIfEmpty()
+                          select new AdmissaoViewModel()
+                          {
+                              UK_empregado = e.UniqueKey,
+                              ID = e.ID,
+                              NomeEmpregado = e.Nome,
+                              CPF = e.CPF,
+                              Admitido = NaoAdm?.Admitido ?? string.Empty,
+
+
+                          };
+
+            
+            List<AdmissaoViewModel> lista = new List<AdmissaoViewModel>();
+
+            lista = listEmp.ToList();
+
+            ViewBag.Empregado = lista;
+
+            //ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+
             return View();
         }
+
+
+        public ActionResult ListaEmpregadoAdmitidoPorEmpresa()
+        {
+
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ListaEmpregadoAdmitidoPorEmpresa(PesquisaEmpregadoViewModel entidade)
+        {
+            try
+            {
+
+                string sWhere = string.Empty;
+
+                if (string.IsNullOrEmpty(entidade.NomeEmpregado) &&
+                   string.IsNullOrEmpty(entidade.CPF) &&
+                   string.IsNullOrEmpty(entidade.NomeEmpresa)
+                   )
+                    throw new Exception("Informe pelo menos um filtro para prosseguir na pesquisa.");
+
+                if (!string.IsNullOrEmpty(entidade.NomeEmpregado))
+                    sWhere += " and e.Nome like '%" + entidade.NomeEmpregado.Replace("*", "%") + "%'";
+
+                if (!string.IsNullOrEmpty(entidade.CPF))
+                    sWhere += " and e.CPF = '" + entidade.CPF + "'";
+
+                if (!string.IsNullOrEmpty(entidade.NomeEmpresa))
+                    sWhere += " and b.NomeFantasia like '%" + entidade.NomeEmpresa.Replace("*", "%") + "%'";
+
+
+
+                string sql = @" select e.UniqueKey, e.ID, e.Nome, e.CPF, e.ID, a.IDEmpregado, a.IDEmpresa, b.ID, b.NomeFantasia, a.MaisAdmin from tbEmpregado e, tbAdmissao a, tbEmpresa b
+                            where e.UniqueKey = a.IDEmpregado and b.ID = a.IDEmpresa" + sWhere +
+                            @" order by a.IDEmpregado";
+
+                               
+                
+
+                List<PesquisaEmpregadoViewModel> lista = new List<PesquisaEmpregadoViewModel>();
+
+                DataTable result = EmpregadoBusiness.GetDataTable(sql);
+                if (result.Rows.Count > 0)
+                {
+                    foreach (DataRow row in result.Rows)
+                    {
+                        lista.Add(new PesquisaEmpregadoViewModel()
+                        {
+                            
+                            UniqueKey = row["UniqueKey"].ToString(),
+                            idEmpregado = row["IDEmpregado"].ToString(),
+                            NomeEmpregado = row["Nome"].ToString(),
+                            CPF = row["CPF"].ToString(),
+                            NomeEmpresa = row["NomeFantasia"].ToString(),
+                            justificativa = row["MaisAdmin"].ToString()
+
+                        }); ;
+                    }
+                }
+
+
+
+
+                return PartialView("_ListaEmpregadoPorEmpresa", lista);
+            }
+            catch (Exception ex)
+            {
+
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+                                            
+        }
+
+
+
+
+
+
 
         public ActionResult Novo()
         {
@@ -81,7 +200,7 @@ namespace GISWeb.Controllers
                     Extensions.GravaCookie("MensagemSucesso", "O empregado '" + empregado.Nome + "' foi cadastrado com sucesso.", 10);
 
                    
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("ListaEmpregado", "Empregado",new {id=empregado.ID }) } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("ListaEmpregadoNaoAdmitido", "Empregado") } });
                 }
                 catch (Exception ex)
                 {

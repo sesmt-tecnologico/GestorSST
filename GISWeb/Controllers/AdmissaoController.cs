@@ -818,24 +818,102 @@ namespace GISWeb.Controllers
         }
 
 
-        public ActionResult Novo(string id)
-        {
-            var ID = Guid.Parse(id);
-            ViewBag.EmpID = id;
+        public ActionResult Novo(string UK, string cpf)
+       {
+            var Uk = Guid.Parse(UK);
+            ViewBag.cpf = cpf;
+            ViewBag.IDEmpregado = Uk;
             ViewBag.Sigla = new SelectList(DepartamentoBusiness.Consulta.ToList(), "ID", "Sigla");
             ViewBag.Empresas = new SelectList(EmpresaBusiness.Consulta.Where(p=> string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeFantasia");
-            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(ID))).ToList();
-            ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID))).ToList();
+            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(Uk))).ToList();
+            ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(Uk))).ToList();
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(Admissao oAdmissao, string EmpID)
+
+
+        //O administrador do sistema poderá admitir o empregado em mais de um cnpj. Este é um controle
+        //necessário para melhor organização do sistema
+        public ActionResult AdmitirEmMaisEmpresas(string UK, string cpf)
         {
 
-            //id do Estabelecimento recebido por parametro
-            oAdmissao.ID = Guid.Parse(EmpID);
+            var Uk = Guid.Parse(UK);
+            ViewBag.cpf = cpf;
+            ViewBag.IDempregado = Uk;
+            ViewBag.Sigla = new SelectList(DepartamentoBusiness.Consulta.ToList(), "ID", "Sigla");
+            ViewBag.Empresas = new SelectList(EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeFantasia");
+            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(Uk))).ToList();
+            ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(Uk))).ToList();
+
+
+            return View();
+
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AdmitirEmMaisEmpresas(Admissao oAdmissao, string EmpID, string id_cpf) {
+
+            var UK_empregado = Guid.Parse(EmpID);
+
+            oAdmissao.CPF = id_cpf;
+            oAdmissao.IDEmpregado = UK_empregado;
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                                    
+                    var tempAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.CPF.Equals(oAdmissao.CPF));
+                    
+                    if(tempAdmissao == null)
+                    {
+                        throw new Exception("Este empregado não está admitido em nenhuma empresa no momento!");
+                    }
+
+                    AdmissaoBusiness.Inserir(oAdmissao);
+
+                    Extensions.GravaCookie("MensagemSucesso", "O empregado foi Admitido com sucesso.", 10);
+
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("ListaEmpregadoNaoAdmitido", "Empregado", new { id = EmpID }) } });
+
+                }
+                 catch (Exception ex)
+                {
+                    if(ex.GetBaseException() == null)
+                    {
+                        return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+
+                    }
+                    else
+                    {
+                        return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                    }
+              
+
+                }
+
+
+            }
+            else
+            {
+                return Json(new { resultado = TratarRetornoValidacaoToJSON() });
+            }
+
+        }
+
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Cadastrar(Admissao oAdmissao, string EmpID, string id_cpf)
+        {
+            var UK_empregado = Guid.Parse(EmpID);
+
+            oAdmissao.IDEmpregado = UK_empregado;
+            oAdmissao.CPF = id_cpf;
             
 
             if (ModelState.IsValid)
@@ -843,16 +921,25 @@ namespace GISWeb.Controllers
                 try
                 {
 
+                    var tempAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.CPF.Equals(oAdmissao.CPF)));
+                                        
+
+                    if (tempAdmissao !=null)
+                    {
+                        throw new Exception("Este empregado já está admitido em outra empresa, favor consultar o Administrador do sistema e justificar a " +
+                            "necessidade do cadastro!");
+                         
+                    }
+
+
+
                     AdmissaoBusiness.Inserir(oAdmissao);
 
-                    Extensions.GravaCookie("MensagemSucesso", "O empregado '" + oAdmissao.Empregado.Nome + "' foi cadastrado com sucesso.", 10);
 
-
-                    //TempData["MensagemSucesso"] = "O empregado foi admitido com sucesso.";
-
-                    //var iAdmin = oAdmissao.IDAdmissao;
-
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("PerfilEmpregado", "Admissao", new { id = EmpID }) } });
+                    Extensions.GravaCookie("MensagemSucesso", "O empregado foi Admitido com sucesso.", 10);                   
+                                                         
+                    //deve retornar para o perfil do empregado
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("ListaEmpregadoNaoAdmitido", "Empregado", new { id = EmpID }) } });
                 }
                 catch (Exception ex)
                 {

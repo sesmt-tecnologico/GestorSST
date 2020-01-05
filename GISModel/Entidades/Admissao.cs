@@ -11,10 +11,16 @@ namespace GISModel.Entidades
         [Display(Name = "Empregado")]
         public Guid IDEmpregado { get; set; }
 
+        [Display(Name ="CPF")]
+        public string CPF { get; set; }
+
 
         [Display(Name = "Empresa")]
         public Guid IDEmpresa { get; set; }
-        
+
+        [Display(Name ="Justificativa desta Admissão.")]
+        public string MaisAdmin { get; set; }
+
 
         [Display(Name = "Admissão")]
         [Required(ErrorMessage = "Informe a data de admissão")]

@@ -1,7 +1,8 @@
 ﻿jQuery(function ($) {
 
    
-      
+    
+
     AplicaDatePicker();
     DatePTBR();
 
@@ -13,14 +14,15 @@
     });
 
 
-    $("#URLLogoMarca").append("Texto");
-    $("#URLLogoMarca").attr("data-target", "#modalArquivo");
-    $("#URLLogoMarca").attr("data-toggle", "modal");
-    $("#URLLogoMarca").attr("data-backdrop", "static");
-    $("#URLLogoMarca").attr("data-keyboard", "false");
+
+    $("#FotoEmp").append("Texto");
+    $("#FotoEmp").attr("data-target", "#modalArquivo");
+    $("#FotoEmp").attr("data-toggle", "modal");
+    $("#FotoEmp").attr("data-backdrop", "static");
+    $("#FotoEmp").attr("data-keyboard", "false");
    
 
-    $("#URLLogoMarca").on("click", function () {
+    $("#FotoEmp").on("click", function () {
         
         var btnUploadArquivo = $(this);
 
@@ -139,7 +141,7 @@ function InitDropZoneSingle() {
             if (content.sucesso) {
                 ExibirMensagemGritter('Sucesso!', content.sucesso, 'gritter-success');
 
-                $("#URLLogoMarca").val(content.arquivo);
+                $("#FotoEmp").val(content.arquivo);
 
                 if (myDropzone.getUploadingFiles().length === 0 && myDropzone.getQueuedFiles().length === 0 && myDropzone.getRejectedFiles().length === 0) {
                     $('#modalArquivo').modal('hide');
@@ -192,16 +194,16 @@ function InitDropZoneSingle() {
     }
 }
 
-function OnSuccessCadastrarAdmissao(data) {
-    $('#formCadastroAdmissao').removeAttr('style');   
+function OnSuccessCadastrarMaisDeUmaEmpresa(data) {
+    $('#formCadastroMaisDeUmaEmpresa').removeAttr('style');   
     $(".LoadingLayout").hide();    
     $('#btnSalvar').show();  
 
     TratarResultadoJSON(data.resultado);
 }
 
-function OnBeginCadastrarAdmissao() {
+function OnBeginCadastrarMaisDeUmaEmpresa() {
     $(".LoadingLayout").show();
-    $('#btnSalvar').hide();    
-    $("#formCadastroAdmissao").css({ opacity: "0.5" });
+    $('#btnSalvar').hide();   
+    $("#formCadastroMaisDeUmaEmpresa").css({ opacity: "0.5" });
 }
