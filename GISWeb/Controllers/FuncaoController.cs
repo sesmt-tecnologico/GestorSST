@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Funcao;
+using System.Collections.Generic;
 
 namespace GISWeb.Controllers
 {
@@ -57,16 +58,21 @@ namespace GISWeb.Controllers
                              where c.UniqueKey.Equals(Uk_Cargo)
                              select new ListaFuncaoViewModel()
                              {
-                                 
+                                 Uk_Cargo = c.UniqueKey,
+                                 nomeCargo = c.NomeDoCargo,
+                                 Uk_Funcao = func.UniqueKey,
+                                 NomeFuncao = func.NomeDaFuncao
+
 
                              };
 
 
+            List<ListaFuncaoViewModel> lista = new List<ListaFuncaoViewModel>();
+
+            lista = ListFuncao.ToList();
 
 
-
-
-            return View();
+            return View("ListaFuncao", lista);
         }
 
         public ActionResult Novo(string Uk, string nome)
