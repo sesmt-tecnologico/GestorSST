@@ -11,11 +11,11 @@ namespace GISModel.Entidades
         [Display(Name ="Nome do Cargo")]
         public string NomeDoCargo { get; set; }
 
-        [Display(Name = "Diretoria")]
-        [Required(ErrorMessage = "Selecione uma Diretoria")]
-        public Guid IDDiretoria { get; set; }
+        //[Display(Name = "Diretoria")]
+        //[Required(ErrorMessage = "Selecione uma Diretoria")]
+        //public Guid IDDiretoria { get; set; }
         
-        public virtual  Diretoria Diretoria { get; set; }
+        //public virtual  Diretoria Diretoria { get; set; }
 
     }
 }

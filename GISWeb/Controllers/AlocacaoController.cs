@@ -81,20 +81,24 @@ namespace GISWeb.Controllers
         public ActionResult Novo(string IDAdmissao,string IDEmpregado,string IDEmpresa)
         {
 
-            ViewBag.Equipe = new SelectList(EquipeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDEquipe", "NomeDaEquipe");
+            var Id_Adm = Guid.Parse(IDAdmissao);
+            var Id_emp = Guid.Parse(IDEmpregado);
+            var Id_Empresa = Guid.Parse(IDEmpregado);
+
+            ViewBag.Equipe = new SelectList(EquipeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeDaEquipe");
             ViewBag.pAdmissao = IDAdmissao;
             ViewBag.pEmpregado = IDEmpregado;
-            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)&& p.ID.Equals(IDAdmissao) ).ToList();
-            ViewBag.Contrato = new SelectList(ContratoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDContrato", "NumeroContrato");
-            ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "IDDepartamento", "Sigla");
-            ViewBag.Cargo = new SelectList(CargoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDCargo", "NomeDoCargo");
-            ViewBag.Funcao = new SelectList(FuncaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDFuncao", "NomeDaFuncao");
-            ViewBag.Estabelecimento = new SelectList(EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDEstabelecimento", "NomeCompleto");
+            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)&& p.ID.Equals(Id_Adm) ).ToList();
+            ViewBag.Contrato = new SelectList(ContratoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "Numero");
+            ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "ID", "Sigla");
+            ViewBag.Cargo = new SelectList(CargoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeDoCargo");
+            ViewBag.Funcao = new SelectList(FuncaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeDaFuncao");
+            ViewBag.Estabelecimento = new SelectList(EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeCompleto");
 
 
             try
             {
-                Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => p.IDEmpregado.Equals(IDAdmissao));
+                Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => p.IDEmpregado.Equals(Id_Adm));
                 if (ViewBag.Admissao == null)
                 {
                     return Json(new { resultado = new RetornoJSON() { Alerta = "Imagens não encontrada." } });

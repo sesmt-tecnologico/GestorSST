@@ -27,7 +27,7 @@
                     <div class="col-xs-12 col-sm-12">
                         @Html.EditorFor(d => d.NomeDaFuncao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
                         @Html.ValidationMessageFor(d => d.NomeDaFuncao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                        <input type="text" name="cargID" id="cargID" value=@ViewBag.Cargo hidden />
+                        <input type="text" name="Uk_Cargo" id="Uk_Cargo" value=@ViewBag.Cargo hidden />
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
             foreach (var item in ViewBag.funcoesPorCargo)
             {
 
-                <tr id="linha-@item.IdCargo">
+                <tr id="linha-@item.Uk_Cargo">
 
                     <td class="center"></td>
                     &nbsp;@item.NomeDaFuncao

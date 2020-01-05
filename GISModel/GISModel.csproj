@@ -97,6 +97,7 @@
     <Compile Include="CustomAttributes\CustomValidationCNPJAttribute.cs" />
     <Compile Include="CustomAttributes\CustomValidationCPFAttribute.cs" />
     <Compile Include="DTO\Admissao\AdmissaoViewModel.cs" />
+    <Compile Include="DTO\Admissao\PerfilEmpregadoViewModel.cs" />
     <Compile Include="DTO\Admissao\PesquisaEmpregadoViewModel.cs" />
     <Compile Include="DTO\AnaliseRisco\AnaliseRiscosViewModel.cs" />
     <Compile Include="DTO\AtividadesAlocada\AtividadesAlocadasViewModel.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="DTO\Departamento\CadastroViewModel.cs" />
     <Compile Include="DTO\Estabelecimento\EstabelecimentoViewModel.cs" />
     <Compile Include="DTO\Estabelecimento\PesquisaEstabelecimentoViewModel.cs" />
+    <Compile Include="DTO\Funcao\ListaFuncaoViewModel.cs" />
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />

@@ -9,9 +9,10 @@ namespace GISModel.DTO.Admissao
 {
     public class PesquisaEmpregadoViewModel
     {
+        [Display(Name ="uniquekey do Empregado")]
         public string UniqueKey { get; set; }
         public string idEmpregado { get; set; }
-
+        
         [Display(Name ="Nome do Empreagado")]
         public string NomeEmpregado { get; set; }
 
@@ -26,6 +27,9 @@ namespace GISModel.DTO.Admissao
 
         [Display(Name ="Admitido")]
         public string Admitido { get; set; }
+
+        [Display(Name = "Data Nascimento")]
+        public DateTime Nascimento { get; set; }
 
 
 

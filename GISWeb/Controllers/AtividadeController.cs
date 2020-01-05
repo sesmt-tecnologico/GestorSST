@@ -212,7 +212,7 @@ namespace GISWeb.Controllers
                                         Funcao = new Funcao()
                                         {
                                             NomeDaFuncao = a.NomeDaFuncao,
-                                            IdCargo = a.IdCargo
+                                            //IdCargo = a.IdCargo
 
                                         }
                                     }

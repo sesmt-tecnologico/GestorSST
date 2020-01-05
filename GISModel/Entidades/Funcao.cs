@@ -11,10 +11,8 @@ namespace GISModel.Entidades
         [Display(Name ="Nome da Função")]
         public string NomeDaFuncao { get; set; }
 
-        [Display(Name ="Cargo")]
-        public Guid IdCargo { get; set; }
-
-        public virtual Cargo Cargo { get; set; }
+        [Display(Name ="Uk_Cargo")]
+        public Guid Uk_Cargo { get; set; }
 
     }
 }
