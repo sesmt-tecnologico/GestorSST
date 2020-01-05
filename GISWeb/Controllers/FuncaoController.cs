@@ -9,7 +9,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
-using GISModel.DTO.f
+using GISModel.DTO.Funcao;
 
 namespace GISWeb.Controllers
 {
@@ -55,7 +55,7 @@ namespace GISWeb.Controllers
                              into g
                              from func in g.DefaultIfEmpty()
                              where c.UniqueKey.Equals(Uk_Cargo)
-                             select new ListaFuncaoViewmodel()
+                             select new ListaFuncaoViewModel()
                              {
                                  
 
