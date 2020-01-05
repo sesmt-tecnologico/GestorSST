@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using GISModel.DTO.Admissao;
 
 namespace GISWeb.Controllers
 {
@@ -112,14 +113,46 @@ namespace GISWeb.Controllers
         }
 
         //passando IDEmpregado como parametro para montar o perfil
-        public ActionResult PerfilEmpregado(string id)
+        public ActionResult PerfilEmpregado(string Uk)
         {
-            ViewBag.Perfil = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(id))).ToList();
-            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(id)) && (p.Admitido == "Admitido")).ToList();
-            ViewBag.Alocacao = AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.Admissao.IDEmpregado.Equals(id)) && (p.Ativado == "true")).ToList();
-            ViewBag.idEmpregado = id;
+            var UK  = Guid.Parse(Uk);
 
-            Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => p.IDEmpregado.Equals(id));
+            ViewBag.Perfil = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(UK))).ToList();
+            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(UK)) && (p.Admitido == "Admitido")).ToList();
+            ViewBag.Alocacao = AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.Admissao.IDEmpregado.Equals(UK)) && (p.Ativado == "true")).ToList();
+            ViewBag.idEmpregado = UK;
+
+            var perfEmp = from a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          join e in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          on a.IDEmpregado equals e.UniqueKey
+                          into g                         
+                          from Emp in g.DefaultIfEmpty()
+                          join j in EmpresaBusiness.Consulta.Where(p=> string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          on a.IDEmpresa equals j.ID
+                          where a.IDEmpregado.Equals(UK) 
+
+                          select new PerfilEmpregadoViewModel()
+                          {
+                              ID_Admissao = j.ID,
+                              NomeEmpresa = j.NomeFantasia,
+                              UniqueKey = a.UniqueKey,
+                              NomeEmpregado = Emp.Nome,
+                              CPF = Emp.CPF,
+                              Email = Emp.Email,
+                              Nascimento = Emp.DataNascimento,
+                              DataAdmissao = a.DataAdmissao,
+                              UsuarioInclusao = a.UsuarioInclusao                              
+
+                          };
+
+
+            List<PerfilEmpregadoViewModel> lista = new List<PerfilEmpregadoViewModel>();
+
+            lista = perfEmp.ToList();
+
+            ViewBag.lista = lista;
+
+            Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => p.IDEmpregado.Equals(UK));
 
 
 
@@ -134,7 +167,7 @@ namespace GISWeb.Controllers
                                               on Est.ID equals ALOC.idEstabelecimento
                                               join EXP in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                               on ATL.ID equals EXP.idAtividadeAlocada
-                                              where ALOC.Admissao.IDEmpregado.Equals(id)
+                                              where ALOC.Admissao.IDEmpregado.Equals(UK)
                                               select new Exposicao()
                                               {
                                                   ID = EXP.ID,
@@ -187,7 +220,7 @@ namespace GISWeb.Controllers
                                                       on ADM.IDEmpregado equals Emp.ID
                                                       join Est in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                                       on ATV.IDEstabelecimento equals Est.ID
-                                                      where Emp.ID.Equals(id)
+                                                      where Emp.ID.Equals(UK)
                                                       select new AtividadeAlocada()
                                                       {
                                                           idAlocacao = ATL.idAlocacao,
@@ -235,7 +268,7 @@ namespace GISWeb.Controllers
             List<AtividadeFuncaoLiberada> IAtividadeFuncaoLiberada = (from AFL in AtividadeFuncaoLiberadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                                                       join A in AtividadeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                                                       on AFL.IDAtividade equals A.ID
-                                                                      where AFL.Alocacao.Admissao.IDEmpregado.Equals(id)                                                                     
+                                                                      where AFL.Alocacao.Admissao.IDEmpregado.Equals(UK)                                                                     
                                                                       select new AtividadeFuncaoLiberada()
                                                                       {
                                                                           
@@ -279,7 +312,7 @@ namespace GISWeb.Controllers
                                   on DOC.idAtividade equals AFL.IDAtividade
                                   join DP in DocumentosPessoalBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                   on DOC.idDocumentosEmpregado equals DP.ID
-                                  where AFL.Alocacao.Admissao.IDEmpregado.Equals(id)
+                                  where AFL.Alocacao.Admissao.IDEmpregado.Equals(UK)
                                   select new DocsPorAtividade()
                                   {
                                       Atividade = new Atividade()
@@ -315,7 +348,7 @@ namespace GISWeb.Controllers
                         on ADM.IDEmpregado equals EMP.ID
                         join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                         on ATA.idAtividadesDoEstabelecimento equals ATE.ID
-                        where EMP.ID.Equals(id)
+                        where EMP.ID.Equals(UK)
                         select new Exposicao()
                         {
                             ID = EX.ID,
@@ -352,7 +385,7 @@ namespace GISWeb.Controllers
 
 
 
-            return View(oAdmissao);
+            return View();
         }
 
         public ActionResult AlocarAtividadeFuncao()

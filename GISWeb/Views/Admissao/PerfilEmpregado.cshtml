@@ -1,5 +1,5 @@
-﻿@model GISModel.Entidades.Admissao
-
+﻿@model List<PerfilEmpregadoViewModel>
+@using GISModel.DTO.Admissao
 <div class="container-fluid text-center">
     <div class="row content">
         <div class="col-sm-7 text-left">
@@ -20,30 +20,32 @@
                                     </thead>
                                     <tbody>
 
-                                        @foreach (var iAdmissao in ViewBag.Admissao)
-                                        {
-
-                                            <tr id="linha-@iAdmissao.IDAdmissao">
+                                        @foreach (var iAdmissao in  ViewBag.lista)
+                                        {                                            
+                                            <tr id="linha-@iAdmissao.UniqueKey">
                                                 <td width="200px">
-                                                    <h1><b> @iAdmissao.Empregado.Nome&nbsp</b></h1> <h3>[ CPF - @iAdmissao.Empregado.CPF ]</h3>
-                                                    <br />
-                                                    <img src="/Images/AdmissaoImagens/@iAdmissao.IDAdmissao/@iAdmissao.Imagem" alt="Admissao" width="" />
+                                                    <h1><b> @iAdmissao.NomeEmpregado&nbsp</b></h1> <h3>[ CPF - @iAdmissao.CPF ]</h3>
+                                                    <br />                                                    
+
+                                                   @* C:\Users\Antonio\Documents\GitHub\GsetorSST_InicialIvan\GestorSST\GISWeb\Images\AdmissaoImagens\0a0f80a5-e9c8-4221-add2-9c9b91102dd2*@
+
+                                                    <img src="/Images/AdmissaoImagens/0a0f80a5-e9c8-4221-add2-9c9b91102dd2/homem-desarrumado.jpg" alt="Admissao" width="" />
                                                     <br /><br /><br />
                                                     <b>
                                                         Empresa:&nbsp
-                                                        @iAdmissao.Empresa.NomeFantasia
+                                                        @iAdmissao.NomeEmpresa
                                                         <br />
                                                         Email:&nbsp
-                                                        @iAdmissao.Empregado.Email
+                                                        @*@iAdmissao.Empregado.Email*@
                                                         <br />
                                                         Data de Nascimento:&nbsp
-                                                        @iAdmissao.Empregado.DataNascimento
+                                                        @iAdmissao.Nascimento
                                                         <br />
                                                         Data de Admissão:&nbsp
-                                                        @iAdmissao.DataAdmissao
+                                                        @iAdmissao.Nascimento
                                                         <br />
                                                         Admitido por:&nbsp
-                                                        @iAdmissao.UsuarioInclusao
+                                                        @*@iAdmissao.UsuarioInclusao*@
                                                     </b>
                                                 </td>
 
@@ -52,13 +54,13 @@
                                             <tr>
                                                 <td>
 
-                                                    <a class="btn btn-success btn-lg btn-block" href="#" onclick="AlocarEmpregado('@iAdmissao.IDAdmissao','@iAdmissao.IDEmpregado','@iAdmissao.IDEmpresa');" data-rel="tooltip" title="Alocar ">
+                                                    <a class="btn btn-success btn-lg btn-block" href="#" onclick="AlocarEmpregado('@iAdmissao.ID_Admissao','@iAdmissao.UniqueKey','@iAdmissao.IDEmprresa');" data-rel="tooltip" title="Alocar ">
                                                         @*<a class="btn btn-success" href="@Url.Action("Novo","Alocacao", new { AdmissaoID = @iAdmissao.IDAdmissao, id=iAdmissao.IDEmpregado, idEmpresa = @iAdmissao.IDEmpresa })" role="button" style="color:green">*@
                                                         <i class="ace-icon fa fa-check bigger-110"></i>
                                                         Alocar  &nbsp
                                                     </a>
                                                     &nbsp;
-                                                    <a class="btn btn-danger btn-lg btn-block" onclick="DeletarEmpresa('@iAdmissao.IDAdmissao', '@iAdmissao.Empresa.NomeFantasia');" data-rel="tooltip" title="Delete">
+                                                    <a class="btn btn-danger btn-lg btn-block" onclick="DeletarEmpresa('@iAdmissao.ID_Admissao', '@iAdmissao.NomeEmpresa');" data-rel="tooltip" title="Delete">
                                                         <i class="ace-icon fa fa-check bigger-110"></i>
                                                         Demitir
                                                     </a>
@@ -97,8 +99,8 @@
                                                     @item.Departamento.Sigla
                                                     <br />
                                                     @*Equipe:&nbsp
-                                                    @item.Equipe.NomeDaEquipe
-                                                    <br />*@
+                                                        @item.Equipe.NomeDaEquipe
+                                                        <br />*@
                                                     Cargo:&nbsp
                                                     @item.Cargo.NomeDoCargo
                                                     <br />
@@ -264,13 +266,13 @@
                                     <th>
                                         Documentação exigida
                                     </th>
-                                    
+
 
                                 </tr>
 
                             </thead>
                             <tbody>
-                                
+
                                 @foreach (var iLista in ViewBag.ListaDocumentos)
                                 {
                                     <tr>
@@ -281,7 +283,7 @@
                                             </span>
                                             @*</a>*@
                                         </td>
-                                        
+
                                     </tr>
 
                                 }
@@ -311,7 +313,7 @@
     <script src="~/Scripts/Custom/Exposicao/Novo.js"></script>
     <script src="~/Scripts/Custom/AnaliseRisco/Novo.js"></script>
     <script src="~/Scripts/Custom/AtividadeFuncaoLiberada/Novo.js"></script>
-   
+
 }
 
 

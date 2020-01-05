@@ -68,12 +68,21 @@
             @{
                 foreach (PesquisaEmpregadoViewModel item in Model)
                 {
-                        <tr>
+                            <tr>
                             <td>
+                            <a href='@Url.Action("PerfilEmpregado", "Admissao", new { UK = @item.UniqueKey, cpf = item.CPF})' class="green">
+                               
                                 @item.NomeEmpregado
+                            </a>
+                                            
                             </td>
                             <td>
-                                @item.CPF
+                                <a href='@Url.Action("PerfilEmpregado", "Admissao", new { UK = @item.UniqueKey, cpf = item.CPF})' class="green">
+                                   
+                                    @item.CPF
+                                </a>
+
+                               
                             </td>
 
                             <td>

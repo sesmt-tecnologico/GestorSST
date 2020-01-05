@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using GISModel.DTO.f
 
 namespace GISWeb.Controllers
 {
@@ -37,48 +38,47 @@ namespace GISWeb.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Funcao = FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).OrderBy(d=>d.Cargo.NomeDoCargo).ToList();
+            //ViewBag.Funcao = FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).OrderBy(d=>d.Cargo.NomeDoCargo).ToList();
 
             return View();
         }
 
-        public ActionResult ListaFuncao(string id)
+        public ActionResult ListaFuncao(string Uk)
         {
-            ViewBag.Funcao = FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)&&(d.IdCargo.Equals(id))).OrderBy(d => d.NomeDaFuncao).ToList();
+            var Uk_Cargo = Guid.Parse(Uk);
+
+            ViewBag.Funcao = FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)&&(d.Uk_Cargo.Equals(Uk_Cargo))).OrderBy(d => d.NomeDaFuncao).ToList();
+
+            var ListFuncao = from c in CargoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                             join f in FuncaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                             on c.UniqueKey equals f.Uk_Cargo
+                             into g
+                             from func in g.DefaultIfEmpty()
+                             where c.UniqueKey.Equals(Uk_Cargo)
+                             select new ListaFuncaoViewmodel()
+                             {
+                                 
+
+                             };
+
+
+
+
+
 
             return View();
         }
 
-        public ActionResult Novo(string id, string nome)
+        public ActionResult Novo(string Uk, string nome)
         {
-            ViewBag.Cargo = id;
+            var uk_Cargo = Guid.Parse(Uk);
+            ViewBag.Cargo = Uk;
             ViewBag.NomeDoCargo = nome;
 
-            ViewBag.FuncCarg = FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao) && (d.IdCargo.Equals(id))).Count();
+            ViewBag.FuncCarg = FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao) && (d.Uk_Cargo.Equals(uk_Cargo))).Count();
 
 
-            //List<Atividade> Ativ = (from a in FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList()
-            //                       join b in AtividadeBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList()
-            //                       on a.IDFuncao equals b.idFuncao
-            //                       where a.IdCargo.Equals(id)
-            //                       select new Atividade()
-            //                       {
-            //                           Descricao = b.Descricao,
-
-            
-            //                           Funcao = new Funcao()
-            //                           {
-            //                               NomeDaFuncao = a.NomeDaFuncao,
-            //                               IdCargo = a.IdCargo
-
-            //                           },                                      
-                                       
-            //                       }
-
-            //                       ).ToList();
-            //ViewBag.FuncaoCargo = Ativ;
-
-            ViewBag.funcoesPorCargo = FuncaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IdCargo.Equals(id))).ToList();
+            ViewBag.funcoesPorCargo = FuncaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.Uk_Cargo.Equals(uk_Cargo))).ToList();
 
 
             return View();
@@ -86,9 +86,9 @@ namespace GISWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(Funcao oFuncao, string cargID)
+        public ActionResult Cadastrar(Funcao oFuncao, string Uk_Cargo)
         {
-            oFuncao.IdCargo = Guid.Parse(cargID);
+            oFuncao.Uk_Cargo = Guid.Parse(Uk_Cargo);
             if (ModelState.IsValid)
             {
                 try

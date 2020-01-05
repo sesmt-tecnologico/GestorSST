@@ -19,15 +19,7 @@
         @Html.AntiForgeryToken()
 
     <div class="row">
-        <div class="col-xs-12 col-sm-4">
-            <div class="form-group">
-                @Html.LabelFor(d => d.IDDiretoria, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
-                <div class="col-xs-12 col-sm-12">
-                    @Html.DropDownListFor(d => d.IDDiretoria, (SelectList)ViewBag.Diretoria, "Selecione uma Diretoria...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlDiretoria", @autocomplete = "on" })
-                    @Html.ValidationMessageFor(d => d.IDDiretoria, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                </div>
-            </div>
-        </div>
+        
         <div class="col-xs-12 col-sm-6">
             <div class="form-group">
                 @Html.LabelFor(d => d.NomeDoCargo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
