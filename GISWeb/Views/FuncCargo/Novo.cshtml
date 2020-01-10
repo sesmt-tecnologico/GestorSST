@@ -1,4 +1,5 @@
-﻿@model GISModel.Entidades.Funcao
+﻿@model GISModel.Entidades.FuncCargo
+
 @{
     ViewBag.Title = "Cadastro de Função";
 }
@@ -16,7 +17,7 @@
 
     <h3>Cargo:&nbsp; @ViewBag.NomeDoCargo</h3>
 
-    @using (Ajax.BeginForm("Cadastrar", "Funcao", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarFuncao", }, new { @id = "formCadastroFuncao", @class = "form-horizontal" }))
+    @using (Ajax.BeginForm("Cadastrar", "FuncCargo", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarFuncao", }, new { @id = "formCadastroFuncao", @class = "form-horizontal" }))
     {
         @Html.AntiForgeryToken()
 
@@ -28,6 +29,7 @@
                         @Html.EditorFor(d => d.NomeDaFuncao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
                         @Html.ValidationMessageFor(d => d.NomeDaFuncao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
                         <input type="text" name="Uk_Cargo" id="Uk_Cargo" value=@ViewBag.Cargo hidden />
+                        <input type="text" name="ID_Cargo" id="ID_Cargo" value=@ViewBag.idCargo hidden />
                     </div>
                 </div>
             </div>
@@ -39,7 +41,7 @@
             <br /><br />
             <i class="material-icons" style="font-size:16px;color:red">Função:</i>
             <br />
-            foreach (var item in ViewBag.funcoesPorCargo)
+            foreach (var item in ViewBag.Lista)
             {
 
                 <tr id="linha-@item.Uk_Cargo">

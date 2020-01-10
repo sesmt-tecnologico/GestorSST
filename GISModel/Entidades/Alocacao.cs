@@ -36,11 +36,7 @@ namespace GISModel.Entidades
 
         public virtual Contrato Contrato { get; set; }
 
-        public virtual Departamento Departamento { get; set; }
-
-        public virtual Cargo Cargo { get; set; }
-
-        public virtual Funcao Funcao { get; set; }
+        public virtual Departamento Departamento { get; set; }  
 
         public virtual Estabelecimento Estabelecimento { get; set; }
 

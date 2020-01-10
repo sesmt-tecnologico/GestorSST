@@ -129,7 +129,7 @@
     <Compile Include="Business\Abstract\IAtividadesDoEstabelecimentoBusiness.cs" />
     <Compile Include="Business\Abstract\IBaseBusiness.cs" />
     <Compile Include="Business\Abstract\IDiretoriaBusiness .cs" />
-    <Compile Include="Business\Abstract\ICargoBusiness.cs" />
+    <Compile Include="Business\Abstract\ICargoesBusiness.cs" />
     <Compile Include="Business\Abstract\ICNAEBusiness.cs" />
     <Compile Include="Business\Abstract\IContratoBusiness.cs" />
     <Compile Include="Business\Abstract\IDepartamentoBusiness.cs" />
@@ -162,11 +162,11 @@
     <Compile Include="Business\Concrete\AlocacaoBusiness.cs" />
     <Compile Include="Business\Concrete\AtividadeBusiness.cs" />
     <Compile Include="Business\Concrete\DiretoriaBusiness.cs" />
-    <Compile Include="Business\Concrete\CargoBusiness.cs" />
+    <Compile Include="Business\Concrete\CargoesBusiness.cs" />
     <Compile Include="Business\Concrete\EmpregadoBusiness.cs" />
     <Compile Include="Business\Concrete\EquipeBusiness.cs" />
     <Compile Include="Business\Concrete\EventoPerigosoBusiness.cs" />
-    <Compile Include="Business\Concrete\FuncaoBusiness.cs" />
+    <Compile Include="Business\Concrete\FuncCargoBusiness.cs" />
     <Compile Include="Business\Concrete\MedidasDeControleBusiness.cs" />
     <Compile Include="Business\Concrete\PossiveisDanosBusiness.cs" />
     <Compile Include="Business\Concrete\TipoDeRiscoBusiness.cs" />
@@ -178,7 +178,7 @@
     <Compile Include="Business\Concrete\EmpresaBusiness.cs" />
     <Compile Include="Business\Concrete\EstabelecimentoAmbienteBusiness.cs" />
     <Compile Include="Business\Concrete\EstabelecimentoBusiness.cs" />
-    <Compile Include="Business\Abstract\IFuncaoBusiness.cs" />
+    <Compile Include="Business\Abstract\IFuncCargoBusiness.cs" />
     <Compile Include="Business\Concrete\UsuarioBusiness.cs" />
     <Compile Include="Business\Concrete\UsuarioPerfilBusiness.cs" />
     <Compile Include="Business\Concrete\WorkAreaBusiness.cs" />
@@ -194,21 +194,25 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-    <Compile Include="Migrations\201912261426051_v10.cs" />
-    <Compile Include="Migrations\201912261426051_v10.Designer.cs">
-      <DependentUpon>201912261426051_v10.cs</DependentUpon>
+    <Compile Include="Migrations\202001082155006_v01.cs" />
+    <Compile Include="Migrations\202001082155006_v01.Designer.cs">
+      <DependentUpon>202001082155006_v01.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201912262104398_v11.cs" />
-    <Compile Include="Migrations\201912262104398_v11.Designer.cs">
-      <DependentUpon>201912262104398_v11.cs</DependentUpon>
+    <Compile Include="Migrations\202001091151061_v02.cs" />
+    <Compile Include="Migrations\202001091151061_v02.Designer.cs">
+      <DependentUpon>202001091151061_v02.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202001042028091_v12.cs" />
-    <Compile Include="Migrations\202001042028091_v12.Designer.cs">
-      <DependentUpon>202001042028091_v12.cs</DependentUpon>
+    <Compile Include="Migrations\202001091302285_v03.cs" />
+    <Compile Include="Migrations\202001091302285_v03.Designer.cs">
+      <DependentUpon>202001091302285_v03.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202001042151371_v13.cs" />
-    <Compile Include="Migrations\202001042151371_v13.Designer.cs">
-      <DependentUpon>202001042151371_v13.cs</DependentUpon>
+    <Compile Include="Migrations\202001091342066_v04.cs" />
+    <Compile Include="Migrations\202001091342066_v04.Designer.cs">
+      <DependentUpon>202001091342066_v04.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001091914365_v05.cs" />
+    <Compile Include="Migrations\202001091914365_v05.Designer.cs">
+      <DependentUpon>202001091914365_v05.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -357,17 +361,20 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201912261426051_v10.resx">
-      <DependentUpon>201912261426051_v10.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001082155006_v01.resx">
+      <DependentUpon>202001082155006_v01.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912262104398_v11.resx">
-      <DependentUpon>201912262104398_v11.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001091151061_v02.resx">
+      <DependentUpon>202001091151061_v02.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001042028091_v12.resx">
-      <DependentUpon>202001042028091_v12.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001091302285_v03.resx">
+      <DependentUpon>202001091302285_v03.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001042151371_v13.resx">
-      <DependentUpon>202001042151371_v13.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001091342066_v04.resx">
+      <DependentUpon>202001091342066_v04.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001091914365_v05.resx">
+      <DependentUpon>202001091914365_v05.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

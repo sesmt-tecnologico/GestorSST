@@ -17,17 +17,11 @@ namespace GISModel.Entidades
         [Display(Name = "Imagem")]
         public string Imagem { get; set; }
 
+        //public Guid Uk_FuncCargo { get; set; }
 
-        [Display(Name = "Função")]
-        public Guid idFuncao { get; set; }
+        //public Guid FuncCargoID { get; set; }
 
-        [Display(Name = "Diretoria")]
-        public Guid idDiretoria { get; set; }
-       
-
-        public virtual Funcao Funcao { get; set; }
-
-        public virtual Diretoria Diretoria { get; set; }
+        //public virtual FuncCargo FuncCargo { get; set; }
 
     }
 }

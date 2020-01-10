@@ -5,20 +5,22 @@ using System.Linq;
 
 namespace GISCore.Business.Concrete
 {
-    public class FuncaoBusiness : BaseBusiness<Funcao>, IFuncaoBusiness
+    public class FuncCargoBusiness : BaseBusiness<FuncCargo>, IFuncCargoBusiness
     {
 
-        public override void Inserir(Funcao pFuncao)
+        public override void Inserir(FuncCargo pFuncao)
         {
             if (Consulta.Any(u => u.ID.Equals(pFuncao.ID)))
                 throw new InvalidOperationException("Não é possível inserir A Função, pois já existe uma Função com este ID.");
 
+           
+
             base.Inserir(pFuncao);
         }
 
-        public override void Alterar(Funcao pFuncao)
+        public override void Alterar(FuncCargo pFuncao)
         {
-            Funcao tempFuncao = Consulta.FirstOrDefault(p => p.ID.Equals(pFuncao.ID));
+            FuncCargo tempFuncao = Consulta.FirstOrDefault(p => p.ID.Equals(pFuncao.ID));
 
             if (tempFuncao == null)
             {

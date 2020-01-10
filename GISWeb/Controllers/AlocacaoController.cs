@@ -31,10 +31,10 @@ namespace GISWeb.Controllers
         public IEquipeBusiness EquipeBusiness { get; set; }
 
         [Inject]
-        public IFuncaoBusiness FuncaoBusiness { get; set; }
+        public IFuncCargoBusiness FuncaoBusiness { get; set; }
 
         [Inject]
-        public ICargoBusiness CargoBusiness { get; set; }
+        public ICargoesBusiness CargoBusiness { get; set; }
 
         [Inject]
         public IContratoBusiness ContratoBusiness { get; set; }

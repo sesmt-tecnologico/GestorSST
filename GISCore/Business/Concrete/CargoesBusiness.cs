@@ -5,10 +5,10 @@ using System.Linq;
 
 namespace GISCore.Business.Concrete
 {
-    public class CargoBusiness : BaseBusiness<Cargo>, ICargoBusiness
+    public class CargoesBusiness : BaseBusiness<Cargoes>, ICargoesBusiness
     {
 
-        public override void Inserir(Cargo pCargo)
+        public override void Inserir(Cargoes pCargo)
         {
             if (Consulta.Any(u => u.ID.Equals(pCargo.ID)))
                 throw new InvalidOperationException("Não é possível inserir o Cargo, pois já existe um Cargo com este ID.");
@@ -16,9 +16,9 @@ namespace GISCore.Business.Concrete
             base.Inserir(pCargo);
         }
 
-        public override void Alterar(Cargo pCargo)
+        public override void Alterar(Cargoes pCargo)
         {
-            Cargo tempCargo = Consulta.FirstOrDefault(p => p.ID.Equals(pCargo.ID));
+            Cargoes tempCargo = Consulta.FirstOrDefault(p => p.ID.Equals(pCargo.ID));
 
             if (tempCargo == null)
             {

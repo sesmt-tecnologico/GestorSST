@@ -413,7 +413,7 @@
     <Compile Include="Controllers\AtividadeFuncaoLiberadaController.cs" />
     <Compile Include="Controllers\AtividadesDoEstabelecimentoController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\CargoController.cs" />
+    <Compile Include="Controllers\CargoesController.cs" />
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Controllers\DocsPorAtividadeController.cs" />
@@ -425,7 +425,7 @@
     <Compile Include="Controllers\EventoPerigosoController.cs" />
     <Compile Include="Controllers\ExposicaoController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
-    <Compile Include="Controllers\FuncaoController.cs" />
+    <Compile Include="Controllers\FuncCargoController.cs" />
     <Compile Include="Controllers\MedidasDeControleController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -447,6 +447,7 @@
     <Compile Include="Infraestrutura\Filters\MenuAtivo.cs" />
     <Compile Include="Infraestrutura\Filters\RestritoAAjaxAttribute.cs" />
     <Compile Include="Infraestrutura\Helpers\CaptchaHelper.cs" />
+    <Compile Include="Infraestrutura\Helpers\CargoRecursivoHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\DepartamentoRecursivoHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\reCaptchaHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\SSTHelperRazorFactory.cs" />
@@ -548,11 +549,11 @@
     <Content Include="Views\Admissao\_Upload.cshtml" />
     <Content Include="Views\Admissao\EmpregadoDemitido.cshtml" />
     <Content Include="Views\Alocar\Novo.cshtml" />
-    <Content Include="Views\Cargo\Index.cshtml" />
-    <Content Include="Views\Cargo\Novo.cshtml" />
-    <Content Include="Views\Funcao\Index.cshtml" />
-    <Content Include="Views\Funcao\Novo.cshtml" />
-    <Content Include="Views\Funcao\ListaFuncao.cshtml" />
+    <Content Include="Views\Cargoes\Index.cshtml" />
+    <Content Include="Views\Cargoes\Novo.cshtml" />
+    <Content Include="Views\FuncCargo\Index.cshtml" />
+    <Content Include="Views\FuncCargo\Novo.cshtml" />
+    <Content Include="Views\FuncCargo\ListaFuncao.cshtml" />
     <Content Include="Views\Atividade\Index.cshtml" />
     <Content Include="Views\Atividade\Novo.cshtml" />
     <Content Include="Views\Atividade\_Detalhes.cshtml" />
@@ -633,6 +634,9 @@
     <Content Include="Views\Empregado\_ResultadoPesquisaRow.cshtml" />
     <Content Include="Views\Shared\_SlidersIncidente.cshtml" />
     <Content Include="Views\Admissao\AdmitirEmMaisEmpresas.cshtml" />
+    <Content Include="Views\Cargoes\_ListaCargo.cshtml" />
+    <Content Include="Views\FuncaoDoCargo\Novo.cshtml" />
+    <Content Include="Views\Atividade\Edicao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -16,19 +16,29 @@ namespace GISCore.Business.Concrete
             base.Inserir(pAtividadeDeRisco);
         }
 
-        public override void Alterar(Atividade pAtividadeDeRisco)
+        public override void Alterar(Atividade pAtividade)
         {
-            Atividade tempAtividadeDeRisco = Consulta.FirstOrDefault(p => p.ID.Equals(pAtividadeDeRisco.ID));
+            Atividade tempAtividade = Consulta.FirstOrDefault(p => p.UniqueKey.Equals(pAtividade.UniqueKey));
 
-            if (tempAtividadeDeRisco == null)
+            if (tempAtividade == null)
             {
                 throw new Exception("Não foi possível encontrar esta Atividade");
             }
 
-            tempAtividadeDeRisco.Descricao = pAtividadeDeRisco.Descricao;
-            
+            tempAtividade.DataExclusao = DateTime.Now;
+            tempAtividade.UsuarioExclusao = pAtividade.UsuarioExclusao;
+            base.Terminar(tempAtividade);
 
-            base.Alterar(tempAtividadeDeRisco);
+            pAtividade.ID = Guid.NewGuid();
+            pAtividade.UniqueKey = tempAtividade.UniqueKey;
+            pAtividade.UsuarioInclusao = tempAtividade.UsuarioExclusao;
+            pAtividade.UsuarioExclusao = string.Empty;
+            
+            base.Inserir(pAtividade);
+
+            //tempAtividade.Descricao = pAtividade.Descricao;            
+
+            //base.Alterar(tempAtividade);
 
         }
 

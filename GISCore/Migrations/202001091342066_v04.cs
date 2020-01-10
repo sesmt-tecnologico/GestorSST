@@ -3,16 +3,16 @@ namespace GISCore.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class v10 : DbMigration
+    public partial class v04 : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.tbAdmissao", "CPF", c => c.String());
+            AddColumn("dbo.tbAtividade", "Uk_FuncCargo", c => c.Guid(nullable: false));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.tbAdmissao", "CPF");
+            DropColumn("dbo.tbAtividade", "Uk_FuncCargo");
         }
     }
 }

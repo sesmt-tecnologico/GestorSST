@@ -36,31 +36,31 @@
 
                     <tbody>
 
-                        @foreach (Funcao iFuncao in ViewBag.Funcao)
+                        @foreach (FuncCargo iFuncao in ViewBag.Funcao)
                         {
-                        <tr id="linha-@iFuncao.IDFuncao">
+                        <tr id="linha-@iFuncao.ID">
                             <td class="center">
                                 <label class="pos-rel">
                                     <input type="checkbox" class="ace" />
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-                            <td>@iFuncao.Cargo.Diretoria.Sigla</td>
-                            <td>@iFuncao.Cargo.NomeDoCargo</td>
+                            <td>@iFuncao.</td>
+                            <td>@iFuncao.</td>
                             <td>@iFuncao.NomeDaFuncao</td>
 
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
 
-                                    <a href='@Url.Action("Novo", "Atividade", new { id = @iFuncao.IDFuncao, nome=@iFuncao.NomeDaFuncao, idDiretoria = iFuncao.Cargo.IDDiretoria,nomeDiretoria =@iFuncao.Cargo.Diretoria.Sigla })' title="Cadastrar Atividade" class="green">
+                                    <a href='@Url.Action("Novo", "Atividade", new { id = @iFuncao.ID, nome=@iFuncao.NomeDaFuncao, idDiretoria = iFuncao,nomeDiretoria =@iFuncao })' title="Cadastrar Atividade" class="green">
                                         <i class="ace-icon fa fa-plus-square" style="font-size:24px;color:green" title="Criar Atividade"></i>
                                     </a>
 
-                                    <a class="red" href="#" onclick="ListaAtividadePorFuncao('@iFuncao.IDFuncao','@iFuncao.NomeDaFuncao');">
+                                    <a class="red" href="#" onclick="ListaAtividadePorFuncao('@iFuncao.ID','@iFuncao.NomeDaFuncao');">
                                         <i class="fa fa-list" style="font-size:24px;color:darkorange" title="Lista Atividades"></i>
                                     </a>
 
-                                    <a class="red" href="#" onclick="DeletarFuncao('@iFuncao.IDFuncao');">
+                                    <a class="red" href="#" onclick="DeletarFuncao('@iFuncao.ID');">
                                         <i class="ace-icon fa fa-trash-o " style="font-size:24px" title="Deletar"></i>
                                     </a>
                                 </div>
@@ -74,7 +74,7 @@
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                            
                                             <li>
-                                                <a href='@Url.Action("Novo", "Atividade", new { id = @iFuncao.IDFuncao, nome=@iFuncao.NomeDaFuncao, idDiretoria = iFuncao.Cargo.IDDiretoria,nomeDiretoria =@iFuncao.Cargo.Diretoria.Sigla })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                <a href='@Url.Action("Novo", "Atividade", new { id = @iFuncao.ID, nome=@iFuncao.NomeDaFuncao, idDiretoria = iFuncao,nomeDiretoria =@iFuncao })' class="tooltip-success" data-rel="tooltip" title="Edit">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-plus-square" style="font-size:24px;color:green" title="Criar Atividade"></i>
                                                     </span>
@@ -82,7 +82,7 @@
                                             </li>
 
                                             <li>
-                                                <a href="#" class="tooltip-error" onclick="DeletarFuncao('@iFuncao.IDFuncao');" data-rel="tooltip" title="Delete">
+                                                <a href="#" class="tooltip-error" onclick="DeletarFuncao('@iFuncao.ID');" data-rel="tooltip" title="Delete">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o " style="font-size:24px" title="Deletar"></i>
                                                     </span>

@@ -51,11 +51,13 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<Empregado> Empregado { get; set; }
 
-        public DbSet<Admissao> Admissao { get; set; }
+        public DbSet<Admissao> Admissao { get; set; }       
 
-        public DbSet<Cargo> Cargo { get; set; }
+        public DbSet<Cargoes> Cargoes { get; set; }      
+        
 
-        public DbSet<Funcao> Funcao { get; set; }
+        public DbSet<FuncCargo> FuncCargo { get; set; }
+       
 
         public DbSet<Atividade> Atividade { get; set; }
 

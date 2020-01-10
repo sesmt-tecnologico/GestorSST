@@ -8,6 +8,8 @@ namespace GISModel.DTO.Funcao
 {
     public class ListaFuncaoViewModel
     {
+        public Guid ID_Cargo { get; set; }
+        public Guid ID_Funcao { get; set; }
         public Guid Uk_Funcao { get; set; }
 
         public Guid Uk_Cargo { get; set; }

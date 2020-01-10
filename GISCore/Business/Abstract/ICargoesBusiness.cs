@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GISCore.Business.Abstract
 {
-    public interface IFuncaoBusiness: IBaseBusiness<Funcao>
+    public interface ICargoesBusiness: IBaseBusiness<Cargoes>
     {
     }
 }
