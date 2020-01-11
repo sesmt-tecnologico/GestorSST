@@ -3,8 +3,8 @@
 
 
 
-function OnSuccessCadastrarEquipe(data) {
-    $('#formCadastroEquipe').removeAttr('style');
+function OnSucessCadastrarEquipe(data) {
+    $('#FormCadastroEquipe').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#btnSalvar').show();
     TratarResultadoJSON(data.resultado);
@@ -14,5 +14,5 @@ function OnSuccessCadastrarEquipe(data) {
 function OnBeginCadastrarEquipe() {
     $(".LoadingLayout").show();
     $('#blnSalvar').hide();
-    $("#formCadastroEquipe").css({ opacity: "0.5" });
+    $("#FormCadastroEquipe").css({ opacity: "0.5" });
 }

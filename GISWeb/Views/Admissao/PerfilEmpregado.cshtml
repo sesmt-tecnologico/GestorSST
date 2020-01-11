@@ -201,10 +201,10 @@
 
 
 
-        <div class="table-responsive-lg">
-            <div class="col-sm-5 sidenav">
+        @*<div class="table-responsive-lg">
+            <div class="col-sm-5 sidenav">*@
                 @*<div class="col-sm-4 text-left">*@
-                <div class="well">
+                @*<div class="well">
                     <div>
                         <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                             <thead>
@@ -227,13 +227,13 @@
                                 @foreach (var iLista in ViewBag.ListaAtivFuncaoLiberada)
                                 {
                                     <tr>
-                                        <td>
+                                        <td>*@
                                             @*<a href="#" class="tooltip-info" onclick="ListaExposicao('@iLista.idAlocacao','@iLista.IDAtividade',' @iLista.Admissao.Empregado.Nome','@iLista.Alocacao.Admissao.Empregado.CPF','@iLista.IDAtividade');" data-rel="tooltip" title="Exposições ">*@
-                                            <span class="blue">
+                                            <@*span class="blue">
                                                 @iLista.Atividade.Descricao
-                                            </span>
+                                            </span>*@
                                             @*</a>*@
-                                        </td>
+                                        @*</td>
                                         <td>
                                             <a href="#" class="tooltip-info" onclick="AtividadesDaFuncao('@iLista.Atividade.IDAtividade','@iLista.IDAlocacao','@iLista.IDAtividadeFuncaoLiberada','@iLista.Alocacao.Admissao.IDEmpregado');" data-rel="tooltip" title="Riscos ">
                                                 <span class="blue">
@@ -244,21 +244,21 @@
                                         </td>
                                     </tr>
 
-                                }
+                                }*@
 
 
-                            </tbody>
+                            @*</tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
 
 
-        <div class="table-responsive-lg">
-            <div class="col-sm-5 sidenav">
+        @*<div class="table-responsive-lg">
+            <div class="col-sm-5 sidenav">*@
                 @*<div class="col-sm-4 text-left">*@
-                <div class="well">
+                @*<div class="well">
                     <div>
                         <table id="dynamic-table" class="table table-striped table-bordered table-hover">
                             <thead>
@@ -271,18 +271,18 @@
                                 </tr>
 
                             </thead>
-                            <tbody>
+                            <tbody>*@
 
-                                @foreach (var iLista in ViewBag.ListaDocumentos)
+                                @*@foreach (var iLista in ViewBag.ListaDocumentos)
                                 {
                                     <tr>
-                                        <td>
+                                        <td>*@
                                             @*<a href="#" class="tooltip-info" onclick="ListaExposicao('@iLista.idAlocacao','@iLista.IDAtividade',' @iLista.Admissao.Empregado.Nome','@iLista.Alocacao.Admissao.Empregado.CPF','@iLista.IDAtividade');" data-rel="tooltip" title="Exposições ">*@
-                                            <span class="blue">
+                                            <@*span class="blue">
                                                 @iLista.DocumentosEmpregado.NomeDocumento
-                                            </span>
+                                            </span>*@
                                             @*</a>*@
-                                        </td>
+                                        @*</td>
 
                                     </tr>
 
@@ -294,7 +294,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
 
 
 

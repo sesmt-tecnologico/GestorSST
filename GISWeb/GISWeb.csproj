@@ -420,6 +420,7 @@
     <Compile Include="Controllers\DocumentosPessoalController.cs" />
     <Compile Include="Controllers\EmpregadoController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
+    <Compile Include="Controllers\EquipeController.cs" />
     <Compile Include="Controllers\EstabelecimentoAmbienteController.cs" />
     <Compile Include="Controllers\EstabelecimentoController.cs" />
     <Compile Include="Controllers\EventoPerigosoController.cs" />
@@ -638,6 +639,8 @@
     <Content Include="Views\FuncaoDoCargo\Novo.cshtml" />
     <Content Include="Views\Atividade\Edicao.cshtml" />
     <Content Include="Views\FuncCargo\_VincularFuncaoAtividade.cshtml" />
+    <Content Include="Views\Equipe\Index.cshtml" />
+    <Content Include="Views\Equipe\Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
