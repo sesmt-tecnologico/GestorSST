@@ -156,7 +156,8 @@ function OnClickVincularPerigo(pUKWorkArea) {
 
 
                         }
-                    });
+                    }
+                    );
                 }
                 
 

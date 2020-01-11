@@ -57,7 +57,7 @@
                                             @func.NomeDaFuncao
 
                                             <div class="pull-right action-buttons">
-                                                <a class="blue CustomTooltip" href="@Url.Action("Novo", "Atividade", new {ID=@func.ID, nome =@func.NomeDaFuncao, UK=@func.UniqueKey })"  title="Vincular Atividade">
+                                                <a class="blue CustomTooltip" href="#" title="Adicionar Atividades" onclick="OnClickVincularAtividade('@func.UniqueKey');" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                                     <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                                                 </a>
 

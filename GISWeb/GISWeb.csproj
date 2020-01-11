@@ -637,6 +637,7 @@
     <Content Include="Views\Cargoes\_ListaCargo.cshtml" />
     <Content Include="Views\FuncaoDoCargo\Novo.cshtml" />
     <Content Include="Views\Atividade\Edicao.cshtml" />
+    <Content Include="Views\FuncCargo\_VincularFuncaoAtividade.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

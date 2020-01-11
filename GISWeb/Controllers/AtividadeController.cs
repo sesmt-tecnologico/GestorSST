@@ -30,8 +30,8 @@ namespace GISWeb.Controllers
         public IAlocacaoBusiness AlocacaoBusiness { get; set; }
 
         [Inject]
-        public IAtividadeBusiness AtividadeBusiness { get; set; }             
-        
+        public IAtividadeBusiness AtividadeBusiness { get; set; }
+
 
         [Inject]
         public IFuncCargoBusiness FuncCargoBusiness { get; set; }
@@ -62,7 +62,7 @@ namespace GISWeb.Controllers
         public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
 
         [Inject]
-        public IAtividadeAlocadaBusiness AtividadeAlocadaBusiness { get; set; }        
+        public IAtividadeAlocadaBusiness AtividadeAlocadaBusiness { get; set; }
 
         [Inject]
         public IMedidasDeControleBusiness MedidasDeControleBusiness { get; set; }
@@ -86,12 +86,12 @@ namespace GISWeb.Controllers
         // GET: TipoDeRisco
         public ActionResult Index()
         {
-            ViewBag.Atividade = AtividadeBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).OrderBy(d=>d.Descricao).ToList();
+            ViewBag.Atividade = AtividadeBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).OrderBy(d => d.Descricao).ToList();
 
             return View();
         }
 
-                              
+
         //recebe parametro de Funcao/index e listaFuncao para listar atividades relacionadas a função
         public ActionResult ListaAtividadePorFuncao(string IDFuncao, string NomeFuncao)
         {
@@ -130,8 +130,8 @@ namespace GISWeb.Controllers
         //parametro id da função, nome da função e id da Diretoria, passados de index/função e ListaFunção
         public ActionResult Novo()
         {
-                        
-            
+
+
             return View();
         }
 
@@ -139,7 +139,7 @@ namespace GISWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cadastrar(Atividade oAtividade)
         {
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -149,7 +149,7 @@ namespace GISWeb.Controllers
                     Extensions.GravaCookie("MensagemSucesso", "A Atividade '" + oAtividade.Descricao + "' foi cadastrada com sucesso!", 10);
 
 
-                   
+
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Atividade") } });
 
                 }
@@ -172,6 +172,8 @@ namespace GISWeb.Controllers
 
             }
         }
+
+
 
 
         public ActionResult BuscarDetalhesDeMedidasDeControleAtividadeFuncao(string idTipoRisco, string idAtividade)
@@ -207,7 +209,7 @@ namespace GISWeb.Controllers
                                                 Descricao = EP.Descricao,
                                             },
                                         }
-                                           
+
 
 
                                         ).ToList();
@@ -372,6 +374,46 @@ namespace GISWeb.Controllers
 
         }
 
+
+        [RestritoAAjax]
+        public ActionResult BuscarAtividadeForAutoComplete(string key)
+        {
+            try
+            {
+                List<string> atividadeAsString = new List<string>();
+                List<Atividade> lista = AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.ToUpper().Contains(key.ToUpper())).ToList();
+
+                foreach (Atividade com in lista)
+                    atividadeAsString.Add(com.Descricao);
+
+                return Json(new { Result = atividadeAsString });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { erro = ex.Message });
+            }
+        }
+
+        [RestritoAAjax]
+        public ActionResult ConfirmarAtividadeForAutoComplete(string key)
+        {
+            try
+            {
+                Atividade item = AtividadeBusiness.Consulta.FirstOrDefault(a => a.Descricao.ToUpper().Equals(key.ToUpper()));
+
+                if (item == null)
+                    throw new Exception();
+
+                return Json(new { Result = true });
+            }
+            catch
+            {
+                return Json(new { Result = false });
+            }
+        }
+
+
+
         [RestritoAAjax]
         public ActionResult _Upload()
         {
@@ -385,6 +427,6 @@ namespace GISWeb.Controllers
                 return Content(ex.Message, "text/html");
             }
         }
-
     }
+    
 }

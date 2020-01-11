@@ -33,6 +33,12 @@ namespace GISWeb.Controllers
         public IFuncCargoBusiness FuncCargoBusiness { get; set; }
 
         [Inject]
+        public IAtividadeBusiness AtividadeBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<Rel_CargoFuncAtividade> Rel_CargoFuncAtividadeBusiness { get; set; }
+
+        [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
         #endregion
@@ -138,6 +144,8 @@ namespace GISWeb.Controllers
 
 
 
+
+        //Função deve ser vinculada a um cargo no ato da criação
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Cadastrar(FuncCargo oFuncao, string Uk_Cargo, string ID_Cargo)
@@ -176,6 +184,84 @@ namespace GISWeb.Controllers
 
             }
         }
+
+
+        
+        
+        public ActionResult VincularFuncaoAtividade(string UK_Funcao)
+        {
+
+            ViewBag.Uk_Funcao = UK_Funcao;
+
+            return PartialView("_VincularFuncaoAtividade");
+        }
+
+        [HttpPost]
+       
+        public ActionResult VincularCargoFuncaoAtividade(string UKAtividade, string UkFuncao)
+        {
+           
+
+            try
+            {
+                if (string.IsNullOrEmpty(UkFuncao))
+                    throw new Exception("Não foi possível localizar a função.");
+
+                if (string.IsNullOrEmpty(UKAtividade))
+                    throw new Exception("Nenhuma  atividade recebida como parâmetro para vincular a função.");
+
+                var UKFuncCargo = Guid.Parse(UkFuncao);
+
+                if (UKAtividade.Contains(","))
+                {
+                    foreach (string ativ in UKAtividade.Split(','))
+                    {
+                        if (!string.IsNullOrEmpty(ativ.Trim()))
+                        {
+                            Atividade pTemp = AtividadeBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(ativ.Trim()));
+                            if (pTemp != null)
+                            {
+                                if (Rel_CargoFuncAtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UkFuncCargo.Equals(UKFuncCargo) && a.UkAtividade.Equals(pTemp.UniqueKey)).Count() == 0)
+                                {
+                                    Rel_CargoFuncAtividadeBusiness.Inserir(new Rel_CargoFuncAtividade()
+                                    {
+                                        UkFuncCargo = UKFuncCargo,
+                                        UkAtividade = pTemp.UniqueKey,
+                                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Atividade pTemp = AtividadeBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(UKAtividade.Trim()));
+                    
+                    if (pTemp != null)
+                    {
+                        if (Rel_CargoFuncAtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UkFuncCargo.Equals(UKFuncCargo) && a.UkAtividade.Equals(pTemp.UniqueKey)).Count() == 0)
+                        {
+                            Rel_CargoFuncAtividadeBusiness.Inserir(new Rel_CargoFuncAtividade()
+                            {
+                                UkFuncCargo = UKFuncCargo,
+                                UkAtividade = pTemp.UniqueKey,
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                            });
+                        }
+                    }
+                }
+
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "Atividade relacionado a função com sucesso." } });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
+
+                                            
+        }
+
 
         public ActionResult Edicao(string id)
         {

@@ -12,7 +12,7 @@ namespace GISCore.Repository.Configuration
         }
 
 
-
+        public DbSet<Rel_CargoFuncAtividade> Rel_CargoFuncAtividade { get; set; }
         public DbSet<WorkArea> WorkArea { get; set; }
 
         public DbSet<Risco> Risco { get; set; }

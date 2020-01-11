@@ -26,7 +26,61 @@
     </div>
 </div>
 
+
+<div class="resultadoAtividade"></div>
+
+
 @section Scripts {
     <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+    <script src="~/Scripts/Ace/jQ/typeahead.jquery.js"></script>
+    <script src="~/Scripts/Ace/elements.typeahead.js"></script>
+
+    <script src="~/Scripts/Ace/bootstrap-tag.js"></script>
+
+
+
     <script src="~/Scripts/Custom/Cargo/Lista.js"></script>
+}
+
+@section Sliders {
+
+    <div id="modalAddAtividade" class="modal fade" style="overflow: auto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalAddAtividadeX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Vincular Atividade</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalAddAtividadeCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                            <div id="modalAddAtividadeCorpo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span id="modalAddAtividadeLoading" style="display: block; float: left; padding-top: 6px">
+                                <img src="~/Images/slack_loading.gif" width="28px" />
+                            </span>
+
+                            <button id="modalAddAtividadeFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                <i class="ace-icon fa fa-times"></i>
+                                Fechar
+                            </button>
+
+                            <button id="modalAddAtividadeProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                <i class="ace-icon fa fa-check"></i>
+                                Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }

@@ -150,7 +150,7 @@ namespace GISWeb.Controllers
         public ActionResult ListaCargo()
         {
 
-            string sql = @"select c.ID as id, c.UniqueKey, c.NomeDoCargo, f.ID as rel02, f.Uk_Cargo as rel01 ,f.NomeDaFuncao from tbCargoes c
+            string sql = @"select c.ID as id, c.UniqueKey, c.NomeDoCargo, f.ID as rel02,f.UniqueKey as UK_f, f.Uk_Cargo as rel01 ,f.NomeDaFuncao from tbCargoes c
                           left join tbFuncCargo f
                           on c.UniqueKey = f.Uk_Cargo
                           order by c.NomeDoCargo";
@@ -189,7 +189,7 @@ namespace GISWeb.Controllers
                                 {
                                     ID = Guid.Parse(Row2["rel02"].ToString()),
                                     Uk_Cargo = Guid.Parse(Row2["rel01"].ToString()),
-                                    UniqueKey = Guid.Parse(Row2["UniqueKey"].ToString()),
+                                    UniqueKey = Guid.Parse(Row2["UK_f"].ToString()),
                                     NomeDaFuncao = Row2["NomeDaFuncao"].ToString(),
                                     
 
@@ -213,7 +213,7 @@ namespace GISWeb.Controllers
         }
 
 
-
+        
 
 
         [HttpPost]
