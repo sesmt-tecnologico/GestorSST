@@ -37,7 +37,7 @@
 
     }
 
-    function DeletarEquipe(IDEquipe, nome) {
+function DeletarEquipe(ID, NomeDaEquipe) {
 
         var callback = function () {
             $('.LoadingLayout').show();
@@ -46,7 +46,7 @@
             $.ajax({
                 method: "POST",
                 url: "/Equipe/Terminar",
-                data: { IDEquipe: IDEquipe },
+                data: { id: ID },
                 error: function (erro) {
                     $(".LoadingLayout").hide();
                     $("#dynamic-table").css({ opacity: '' });
@@ -65,7 +65,7 @@
             });
         };
 
-        ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a '" + nome + "'?", "Exclusão de Equipe", callback, "btn-danger");
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a '" + NomeDaEquipe + "'?", "Exclusão de Equipe", callback, "btn-danger");
 
     }
 

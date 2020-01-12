@@ -641,6 +641,7 @@
     <Content Include="Views\FuncCargo\_VincularFuncaoAtividade.cshtml" />
     <Content Include="Views\Equipe\Index.cshtml" />
     <Content Include="Views\Equipe\Novo.cshtml" />
+    <Content Include="Views\Equipe\Edicao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
