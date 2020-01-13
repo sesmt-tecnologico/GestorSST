@@ -1,6 +1,6 @@
 ﻿
 
-function DeletarDocumento(IDDocumento,Nome) {
+function DeletarDocumento(ID,Nome) {
 
     var callback = function () {
         $('.LoadingLayout').show();
@@ -9,7 +9,7 @@ function DeletarDocumento(IDDocumento,Nome) {
         $.ajax({
             method: "POST",
             url: "/DocumentosPessoal/TerminarComRedirect",
-            data: { IDDocumentosEmpregado: IDDocumento, NomeDocumento: Nome },
+            data: { ID: ID, NomeDocumento: Nome },
             error: function (erro) {
                 $(".LoadingLayout").hide();
                 $("#dynamic-table").css({ opacity: '' });
@@ -22,7 +22,7 @@ function DeletarDocumento(IDDocumento,Nome) {
                 TratarResultadoJSON(content.resultado);
 
                 if (content.resultado.Sucesso !== null && content.resultado.Sucesso !== "") {
-                    $("#linha-" + IDDocumentosEmpregado).remove();
+                    $("#linha-" + ID).remove();
                 }
             }
         });

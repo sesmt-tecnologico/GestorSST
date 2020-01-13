@@ -48,11 +48,61 @@
                         <div class="col-xs-12 col-sm-12">
                             @Html.EditorFor(d => d.NomeDocumento, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtDOC" } })
                             @Html.ValidationMessageFor(d => d.NomeDocumento, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                            @Html.HiddenFor(d => d.IDDocumentosEmpregado)
+                            @Html.HiddenFor(d => d.ID)
                         </div>
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.DescriçãoDocumento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.DescriçãoDocumento, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtNDOC" } })
+                            @Html.ValidationMessageFor(d => d.DescriçãoDocumento, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.Validade, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.Validade, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtNDOC" } })
+                            @Html.ValidationMessageFor(d => d.Validade, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.Label("Última validação", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                                @Html.EditorFor(d => d.ApartirDe, new { htmlAttributes = new { @class = "form-control date-picker", disabled = "disabled" } })
+                                @Html.ValidationMessageFor(d => d.ApartirDe, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.Label("Fim desta validação", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar bigger-110"></i>
+                                </span>
+                                @Html.EditorFor(d => d.FimDE, new { htmlAttributes = new { @class = "form-control date-picker" } })
+                                @Html.ValidationMessageFor(d => d.FimDE, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="row">
@@ -120,8 +170,11 @@
 @section Scripts {
     @Scripts.Render("~/bundles/ace_js_fileUpload")
     <script src="~/Scripts/jQuery/inputmask.js"></script>
-    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>    
+    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
     <script src="~/Scripts/Custom/DocumentosPessoal/Edicao.js"></script>
+
+
+    
 }
 
 
