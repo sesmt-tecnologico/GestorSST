@@ -1,0 +1,135 @@
+﻿@using GISModel.Entidades
+@using GISModel.DTO.Funcao
+@using GISWeb.Infraestrutura.Helpers
+@using System.Configuration
+@model List<Cargoes>
+
+
+
+@if (Model != null && Model.Count > 0 )
+{
+
+    <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+        <ol class="dd-list">
+            @{
+                string Cargo = string.Empty;
+
+            }
+
+
+
+            @foreach (Cargoes dep in Model)
+            {
+                if (!Cargo.Contains(dep.NomeDoCargo + ";"))
+                {
+                    Cargo += dep.NomeDoCargo + ";";
+
+                    string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+                    <li class="dd-item collapseOne" data-id="@dep.UniqueKey">
+
+                        <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
+
+                            <span><i style="color: brown">Cargo - </i> </span>@dep.NomeDoCargo
+
+                            <div class="pull-right action-buttons">
+                                <a class="blue CustomTooltip" href="@Url.Action("Novo", "FuncCargo", new {id = @dep.ID, nome = @dep.NomeDoCargo, Uk = dep.UniqueKey })" title="Nova Função">
+                                    <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                </a>
+
+                                <a class="orange CustomTooltip" href="@Url.Action("Edicao", "FuncCargo")?UK=@dep.UniqueKey" title="Editar Cargo">
+                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                </a>
+
+
+                            </div>
+
+                        </div>
+                  
+                        @if (Model.Count > 0)
+                        {
+                            <ol class="dd-list">
+
+                               @*@{
+                                string Funcao = string.Empty;
+
+                                 }*@
+
+                                @foreach (FuncCargo func in dep.funcoes)
+                                {
+                                    //if (!Funcao.Contains(func.NomeDaFuncao + ";"))
+                                    //{
+                                    //    Funcao += func.NomeDaFuncao + ";";
+
+                                            <li class="dd-item" data-id="@func.UniqueKey.ToString()">
+                                                <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+
+                                                    <span><i style="color: orangered">Função - </i> </span>@func.NomeDaFuncao
+
+                                                    <div class="pull-right action-buttons">
+                                                        <a class="blue CustomTooltip" href="#" title="Adicionar Atividades" onclick="OnClickVincularAtividade('@func.UniqueKey');" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                            <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                        </a>
+
+                                                    </div>
+                                                </div>
+
+
+                                                        @if (func.atividade.Count() > 0)
+                                                        {
+                                                            <ol class="dd-list">  
+
+                                                                    @foreach (Atividade atv in func.atividade)
+                                                                      {
+
+                                                                            <li class="dd-item" data-id="@atv.UniqueKey.ToString()">
+                                                                                <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                                                                    <span><i style="color: yellowgreen">Atividades - </i> </span>@atv.Descricao
+
+                                                                                    <div class="pull-right action-buttons">
+                                                                                        <a href="#" class="blue CustomTooltip" title="Desvincular Atividade" onclick="OnClickRemoverAtividade('@atv.UniqueKey', '@atv.Descricao')">
+                                                                                            <i class="ace-icon fa fa-trash red bigger-125"></i>
+                                                                                        </a>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </li>
+
+                                                                     }
+
+                                                            </ol>
+                                                         }
+
+
+
+                                        </li>
+                                        @*}*@
+                                }
+                                </ol>
+                        }
+
+                    </li>
+                }
+
+
+            }
+
+        </ol>
+
+
+    </div>
+
+}
+else
+{
+<div class="alert alert-warning">
+    <strong>
+        <i class="ace-icon fa fa-meh-o"></i>
+        Oops!
+    </strong>
+
+    No momento, nenhum cargo encontrado para esta empresa.
+    <br>
+</div>
+}
+

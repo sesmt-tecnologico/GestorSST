@@ -77,7 +77,7 @@ namespace GISWeb.Controllers
         public IAtividadeBusiness AtividadeBusiness { get; set; }
 
         [Inject]
-        public IFuncaoBusiness FuncaoBusiness { get; set; }
+        public IFuncCargoBusiness FuncaoBusiness { get; set; }
 
         [Inject]
         public IDocsPorAtividadeBusiness DocsPorAtividadeBusiness { get; set; }
@@ -265,75 +265,11 @@ namespace GISWeb.Controllers
             //Criar consulta em nova classe AtividadeFuncaoLiberada
 
 
-            List<AtividadeFuncaoLiberada> IAtividadeFuncaoLiberada = (from AFL in AtividadeFuncaoLiberadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                                      join A in AtividadeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                                      on AFL.IDAtividade equals A.ID
-                                                                      where AFL.Alocacao.Admissao.IDEmpregado.Equals(UK)                                                                     
-                                                                      select new AtividadeFuncaoLiberada()
-                                                                      {
-                                                                          
-                                                                          ID = AFL.ID,
-                                                                          IDAlocacao = AFL.IDAlocacao,
-                                                                                                                                                   
-
-                                                                          Atividade = new Atividade()
-                                                                          {
-                                                                              ID = A.ID,
-                                                                              Descricao = A.Descricao,
-
-                                                                             
-                                                                          },
-
-                                                                          Alocacao = new Alocacao()
-                                                                          {
-
-                                                                              Admissao = new Admissao()
-                                                                              {
-                                                                                  IDEmpregado = AFL.Alocacao.Admissao.IDEmpregado
-
-                                                                              }
-
-                                                                          }
-
-
-                                                                      }
-                                                                      
-                                                                        ).ToList();
+           
 
 
 
-            ViewBag.ListaAtivFuncaoLiberada = IAtividadeFuncaoLiberada;
-
-
-            var ListaDocumentos =( from DOC in DocsPorAtividadeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                  join A in AtividadeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                  on DOC.idAtividade equals A.ID
-                                  join AFL in AtividadeFuncaoLiberadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                  on DOC.idAtividade equals AFL.IDAtividade
-                                  join DP in DocumentosPessoalBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                  on DOC.idDocumentosEmpregado equals DP.ID
-                                  where AFL.Alocacao.Admissao.IDEmpregado.Equals(UK)
-                                  select new DocsPorAtividade()
-                                  {
-                                      Atividade = new Atividade()
-                                      {
-                                          ID = A.ID,
-                                          Descricao = A.Descricao,
-
-                                      },
-
-                                      DocumentosEmpregado = new DocumentosPessoal()
-                                      {
-                                          ID = DP.ID,
-                                          NomeDocumento = DP.NomeDocumento,
-                                          DescriçãoDocumento = DP.DescriçãoDocumento
-
-                                      }
-                                  }                               
-                                    ).ToList();
-
-            ViewBag.ListaDocumentos = ListaDocumentos;
-
+           
 
 
             //verifica se existe exposição para o empregado

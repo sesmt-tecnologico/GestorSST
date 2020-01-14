@@ -15,52 +15,93 @@
             </div>
         </div>
     </div>
-    @using (Ajax.BeginForm("Cadastrar", "DocumentosPessoal", null, new AjaxOptions {
+    @using (Ajax.BeginForm("Cadastrar", "DocumentosPessoal", null, new AjaxOptions
+    {
         HttpMethod = "POST",
         OnBegin = "OnBeginCadastrarDocumento",
-        OnSuccess = "OnSuccessCadastrarDocumento", }, new { @id = "formCadastroDocumento", @class = "form-horizontal" }))
+        OnSuccess = "OnSuccessCadastrarDocumento",
+    }, new { @id = "formCadastroDocumento", @class = "form-horizontal" }))
     {
         @Html.AntiForgeryToken()
 
-        <div class="row">
+<div class="row">
 
+    <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+            @Html.LabelFor(d => d.NomeDocumento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
             <div class="col-xs-12 col-sm-12">
-                <div class="form-group">
-                    @Html.LabelFor(d => d.NomeDocumento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.EditorFor(d => d.NomeDocumento, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtNDOC" } })
-                        @Html.ValidationMessageFor(d => d.NomeDocumento, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                @Html.EditorFor(d => d.NomeDocumento, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtNDOC" } })
+                @Html.ValidationMessageFor(d => d.NomeDocumento, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
 
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+            @Html.LabelFor(d => d.DescriçãoDocumento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+            <div class="col-xs-12 col-sm-12">
+                @Html.EditorFor(d => d.DescriçãoDocumento, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtNDOC" } })
+                @Html.ValidationMessageFor(d => d.DescriçãoDocumento, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.Validade, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(d => d.Validade, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtNDOC" } })
+                    @Html.ValidationMessageFor(d => d.Validade, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.ApartirDe, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+                        @Html.EditorFor(d => d.ApartirDe, new { htmlAttributes = new { @class = "form-control date-picker" } })
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
-                <button class="btn btn-info" id="btnSalvar" type="submit">
-                    <i class="ace-icon fa fa-check bigger-110"></i>
-                    Salvar
-                </button>
-                &nbsp;
-                <button class="btn btn-warning" type="reset">
-                    <i class="ace-icon fa fa-undo bigger-110"></i>
-                    Limpar
-                </button>
-                &nbsp;
-                <a class="btn" href="javascript:history.back()">
-                    <i class="ace-icon fa fa-arrow-left"></i>
-                    Voltar
-                </a>
-            </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+            <button class="btn btn-info" id="btnSalvar" type="submit">
+                <i class="ace-icon fa fa-check bigger-110"></i>
+                Salvar
+            </button>
+            &nbsp;
+            <button class="btn btn-warning" type="reset">
+                <i class="ace-icon fa fa-undo bigger-110"></i>
+                Limpar
+            </button>
+            &nbsp;
+            <a class="btn" href="javascript:history.back()">
+                <i class="ace-icon fa fa-arrow-left"></i>
+                Voltar
+            </a>
         </div>
+    </div>
     }
 
 </div> <!-- Fim FormQuery -->
 
 @section Scripts {
 
-
+    <script src="~/Scripts/jQuery/inputmask.js"></script>
+    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
     <script src="~/Scripts/Custom/DocumentosPessoal/Novo.js"></script>
 }
 

@@ -127,7 +127,7 @@
     <Compile Include="Entidades\AtividadeAlocada.cs" />
     <Compile Include="Entidades\AtividadeFuncaoLiberada.cs" />
     <Compile Include="Entidades\AtividadesDoEstabelecimento.cs" />
-    <Compile Include="Entidades\Cargo.cs" />
+    <Compile Include="Entidades\Cargoes.cs" />
     <Compile Include="Entidades\CNAE.cs" />
     <Compile Include="Entidades\Contrato.cs" />
     <Compile Include="Entidades\Diretoria.cs" />
@@ -143,15 +143,17 @@
     <Compile Include="Entidades\EstabelecimentoAmbiente.cs" />
     <Compile Include="Entidades\EventoPerigoso.cs" />
     <Compile Include="Entidades\Fornecedor.cs" />
+    <Compile Include="Entidades\FuncCargo.cs" />
     <Compile Include="Entidades\NivelHierarquico.cs" />
     <Compile Include="Entidades\Perfil.cs" />
     <Compile Include="Entidades\Perigo.cs" />
     <Compile Include="Entidades\PerigoPotencial.cs" />
     <Compile Include="Entidades\Exposicao.cs" />
-    <Compile Include="Entidades\Funcao.cs" />
     <Compile Include="Entidades\MedidasDeControleExistentes.cs" />
     <Compile Include="Entidades\PlanoDeAcao.cs" />
     <Compile Include="Entidades\PossiveisDanos.cs" />
+    <Compile Include="Entidades\Rel_AtividadeDocumentos.cs" />
+    <Compile Include="Entidades\Rel_CargoFuncAtividade.cs" />
     <Compile Include="Entidades\REL_ContratoFornecedor.cs" />
     <Compile Include="Entidades\REL_DepartamentoContrato.cs" />
     <Compile Include="Entidades\REL_EstabelecimentoDepartamento.cs" />

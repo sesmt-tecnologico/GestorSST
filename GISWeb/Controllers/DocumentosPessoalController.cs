@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -30,7 +31,7 @@ namespace GISWeb.Controllers
         public IAtividadeBusiness AtividadeBusiness { get; set; }
 
         [Inject]
-        public IFuncaoBusiness FuncaoBusiness { get; set; }
+        public IFuncCargoBusiness FuncaoBusiness { get; set; }
 
         [Inject]
         public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
@@ -43,7 +44,8 @@ namespace GISWeb.Controllers
 
         public ActionResult Index()
         {
-            return View(ViewBag.Documentos = DocumentosPessoalBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList());
+            //return View(ViewBag.Documentos = DocumentosPessoalBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList());
+            return View(ViewBag.Documentos = DocumentosPessoalBusiness.Consulta.ToList().OrderByDescending(p=>p.ApartirDe));
         }
 
         public ActionResult Novo()
@@ -60,10 +62,11 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+                    oDocumento.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
 
                     DocumentosPessoalBusiness.Inserir(oDocumento);
 
-                    TempData["MensagemSucesso"] = "O Documento '" + oDocumento.NomeDocumento + "' foi cadastrado com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O documento  '" + oDocumento.NomeDocumento + "' foi salvo com sucesso.", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "DocumentosPessoal") } });
                 }
@@ -87,22 +90,24 @@ namespace GISWeb.Controllers
         }
 
         public ActionResult Edicao(string id)
-        {            
-
-            return View(DocumentosPessoalBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
+        {
+            var ID_Documento = Guid.Parse(id);
+            return View(DocumentosPessoalBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(ID_Documento)));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Atualizar(DocumentosPessoal oDocumentosPessoalBusiness)
+        public ActionResult Atualizar(DocumentosPessoal oDocumentosPessoal)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    DocumentosPessoalBusiness.Alterar(oDocumentosPessoalBusiness);
+                    oDocumentosPessoal.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
 
-                    TempData["MensagemSucesso"] = "O Documento '" + oDocumentosPessoalBusiness.NomeDocumento + "' foi atualizado com sucesso.";
+                    DocumentosPessoalBusiness.Alterar(oDocumentosPessoal);
+
+                    Extensions.GravaCookie("MensagemSucesso", "O documento  '"+ oDocumentosPessoal.NomeDocumento+ "' foi atualizado com sucesso.", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "DocumentosPessoal") } });
                 }
@@ -126,12 +131,13 @@ namespace GISWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult TerminarComRedirect(string IDDocumentosEmpregado, string NomeDocumento)
+        public ActionResult TerminarComRedirect(string ID, string NomeDocumento)
         {
+            var ID_Documento = Guid.Parse(ID);
 
             try
             {
-                DocumentosPessoal oDocumentosPessoal = DocumentosPessoalBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(IDDocumentosEmpregado));
+                DocumentosPessoal oDocumentosPessoal = DocumentosPessoalBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(ID_Documento));
                 if (oDocumentosPessoal == null)
                 {
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir este Documento." } });
@@ -142,7 +148,7 @@ namespace GISWeb.Controllers
                     oDocumentosPessoal.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     DocumentosPessoalBusiness.Alterar(oDocumentosPessoal);
 
-                    TempData["MensagemSucesso"] = "O Documento foi excluido com sucesso.";
+                    Extensions.GravaCookie("MensagemSucesso", "O documento foi removido com sucesso.", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "DocumentosPessoal") } });
                 }

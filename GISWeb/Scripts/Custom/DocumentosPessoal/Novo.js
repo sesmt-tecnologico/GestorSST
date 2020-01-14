@@ -1,14 +1,14 @@
 ﻿
 jQuery(function ($) {
 
-    alert("a00");
+    AplicaDatePicker();
+    DatePTBR();
 
 });
 
 
 function OnSuccessCadastrarDocumento(data) {
-
-    alert("A");
+   
     $('#formCadastroDocumento').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#btnSalvar').show();
@@ -19,7 +19,7 @@ function OnSuccessCadastrarDocumento(data) {
 
 
 function OnBeginCadastrarDocumento() {
-    alert("B");
+    
     $(".LoadingLayout").show();
     $('#blnSalvar').hide();
     $("#formCadastroDocumento").css({ opacity: "0.5" });

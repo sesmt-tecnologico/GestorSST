@@ -10,5 +10,12 @@ namespace GISWeb.Infraestrutura.Helpers
             return new DepartamentoRecursivoHelper(helper);
         }
 
+
+        public static CargoRecursivoHelper CargoRecursivoHelperRazor(this HtmlHelper helper)
+        {
+            return new CargoRecursivoHelper(helper);
+        }
+
+
     }
 }

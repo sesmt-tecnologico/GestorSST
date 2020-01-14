@@ -1,16 +1,20 @@
-﻿
+﻿jQuery(function ($) {
+
+    AplicaDatePicker();
+    DatePTBR();
+
+});
 
 
 function OnSuccessAtualizarDocumentos(data) {
-    alert("A");
+    
     $('#formEditarDocumentos').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#blnSalvar').show();
     TratarResultadoJSON(data.resultado);
 }
 
-function OnBeginAtualizarDocumentos() {
-    alert("B");
+function OnBeginAtualizarDocumentos() {    
     $(".LoadingLayout").show();
     $('#blnSalvar').hide();
     $("#formEditarDocumentos").css({ opacity: "0.5" });
