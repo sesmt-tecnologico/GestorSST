@@ -150,10 +150,13 @@ namespace GISWeb.Controllers
         public ActionResult ListaCargo()
         {
 
-            string sql = @"select c.ID as id, c.UniqueKey, c.NomeDoCargo, f.ID as rel02,f.UniqueKey as UK_f, f.Uk_Cargo as rel01 ,f.NomeDaFuncao from tbCargoes c
-                          left join tbFuncCargo f
-                          on c.UniqueKey = f.Uk_Cargo
-                          order by c.NomeDoCargo";
+            string sql = @"select c.ID as id, c.UniqueKey, c.NomeDoCargo, f.ID as rel02,f.UniqueKey as UK_f, f.Uk_Cargo as rel01 ,f.NomeDaFuncao, a.UniqueKey as rel03, a.Descricao, 
+                          cfa.UkFuncCargo as rel05,cfa.UkAtividade, cfa.UkAtividade as rel04
+						   from [dbGestor].[dbo].[tbCargoes] c
+                          left join [dbGestor].[dbo].[tbFuncCargo] f on f.Uk_Cargo = c.UniqueKey
+						  left join [dbGestor].[dbo].[Rel_CargoFuncAtividade] cfa on cfa.UkFuncCargo = f.UniqueKey
+						  left join [dbGestor].[dbo].[tbAtividade] a on a.UniqueKey = cfa.UkAtividade
+						  order by c.NomeDoCargo";
 
 
             DataTable result = CargoesBusiness.GetDataTable(sql);
@@ -170,40 +173,51 @@ namespace GISWeb.Controllers
                 {
                     if (result.Rows.Count > 0)
                     {
-                      
+
                         oCargos = new Cargoes()
                         {
                             ID = Guid.Parse(Row["ID"].ToString()),
                             UniqueKey = Guid.Parse(Row["UniqueKey"].ToString()),
-                            NomeDoCargo = Row["NomeDoCargo"].ToString(),                            
+                            NomeDoCargo = Row["NomeDoCargo"].ToString(),
                             funcoes = new List<FuncCargo>()
 
 
                         };
 
-                        foreach (DataRow Row2 in result.Rows)
+                        if (!string.IsNullOrEmpty(Row["rel01"].ToString()))
                         {
-                            if (!string.IsNullOrEmpty(Row2["rel01"].ToString()) && Row2["rel01"].ToString().Equals(Row["rel01"].ToString()))
+                            FuncCargo oFuncao = new FuncCargo()
                             {
-                                FuncCargo oFuncao = new FuncCargo()
-                                {
-                                    ID = Guid.Parse(Row2["rel02"].ToString()),
-                                    Uk_Cargo = Guid.Parse(Row2["rel01"].ToString()),
-                                    UniqueKey = Guid.Parse(Row2["UK_f"].ToString()),
-                                    NomeDaFuncao = Row2["NomeDaFuncao"].ToString(),
+                                ID = Guid.Parse(Row["rel02"].ToString()),
+                                Uk_Cargo = Guid.Parse(Row["rel01"].ToString()),
+                                UniqueKey = Guid.Parse(Row["UK_f"].ToString()),
+                                NomeDaFuncao = Row["NomeDaFuncao"].ToString(),
+                                atividade = new List<Atividade>()
+
+                            };
+
+                            if (!string.IsNullOrEmpty(Row["rel03"].ToString()))
+                            {
+                                oFuncao.atividade.Add(new Atividade() { 
                                     
 
-                                };
+                                    ID = Guid.Parse(Row["rel03"].ToString()),
+                                    Descricao = Row["Descricao"].ToString()
 
-                                oCargos.funcoes.Add(oFuncao);
+                                });                                
+
                             }
+                                
+                                oCargos.funcoes.Add(oFuncao);
+                                
+
+
+                            if (oCargos != null)
+                                lista.Add(oCargos);
 
                         }
-
-                        if (oCargos != null)
-                            lista.Add(oCargos);
-                        
                     }
+                        
                    
                     
                 }

@@ -17,6 +17,8 @@ namespace GISModel.Entidades
         [Display(Name = "Uk_Cargo")]
         public Guid Uk_Cargo { get; set; }
 
+        public List<Atividade> atividade { get; set; }
+
         public Guid CargoesID { get; set; }
 
         public virtual Cargoes Cargoes { get; set; }

@@ -47,7 +47,7 @@
                                 <li class="dd-item" data-id="@per.UniqueKey.ToString()">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
 
-                                        @per.Descricao
+                                        <span><i style="color: orangered">Evento perigoso - </i></span>@per.Descricao
 
                                         <div class="pull-right action-buttons">
                                             <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickNovoRisco('@per.UniqueKey');" data-target="#modalAddRisco" data-toggle="modal" data-backdrop="static" data-keyboard="false">
@@ -67,7 +67,7 @@
                                             {
                                                 <li class="dd-item" data-id="@risk.UniqueKey.ToString()">
                                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
-                                                        @risk.Nome
+                                                        <span><i style="color: yellowgreen">Risco existente - </i> </span>@risk.Nome
 
                                                         <div class="pull-right action-buttons">
                                                             <a href="#" class="blue CustomTooltip" title="Desvincular Risco" onclick="OnClickRemoverRisco('@risk.UniqueKey', '@per.UniqueKey', '@risk.Nome')">

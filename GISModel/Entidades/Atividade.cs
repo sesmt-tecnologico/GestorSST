@@ -15,14 +15,11 @@ namespace GISModel.Entidades
         public string NomeDaImagem { get; set; }
 
         [Display(Name = "Imagem")]
-        public string Imagem { get; set; }     
+        public string Imagem { get; set; }   
 
+        public Guid FuncCargoID { get; set; }
 
-
-
-        //public Guid FuncCargoID { get; set; }
-
-        //public virtual FuncCargo FuncCargo { get; set; }
+        public virtual FuncCargo FuncCargo { get; set; }
 
     }
 }

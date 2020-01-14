@@ -30,7 +30,7 @@
 
                         <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
 
-                            @dep.NomeDoCargo
+                            <span><i style="color: brown">Cargo - </i> </span>@dep.NomeDoCargo
 
                             <div class="pull-right action-buttons">
                                 <a class="blue CustomTooltip" href="@Url.Action("Novo", "FuncCargo", new {id = @dep.ID, nome = @dep.NomeDoCargo, Uk = dep.UniqueKey })" title="Nova Função">
@@ -49,25 +49,63 @@
                         @if (Model.Count > 0)
                         {
                             <ol class="dd-list">
+
+                               @*@{
+                                string Funcao = string.Empty;
+
+                                 }*@
+
                                 @foreach (FuncCargo func in dep.funcoes)
-                        {
-                                    <li class="dd-item" data-id="@func.UniqueKey.ToString()">
-                                        <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+                                {
+                                    //if (!Funcao.Contains(func.NomeDaFuncao + ";"))
+                                    //{
+                                    //    Funcao += func.NomeDaFuncao + ";";
 
-                                            @func.NomeDaFuncao
+                                            <li class="dd-item" data-id="@func.UniqueKey.ToString()">
+                                                <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
 
-                                            <div class="pull-right action-buttons">
-                                                <a class="blue CustomTooltip" href="#" title="Adicionar Atividades" onclick="OnClickVincularAtividade('@func.UniqueKey');" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                    <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
-                                                </a>
+                                                    <span><i style="color: orangered">Função - </i> </span>@func.NomeDaFuncao
 
-                                            </div>
-                                        </div>
+                                                    <div class="pull-right action-buttons">
+                                                        <a class="blue CustomTooltip" href="#" title="Adicionar Atividades" onclick="OnClickVincularAtividade('@func.UniqueKey');" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                            <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                        </a>
+
+                                                    </div>
+                                                </div>
 
 
-                                    </li>
-                        }
-                            </ol>
+                                                        @if (func.atividade.Count() > 0)
+                                                        {
+                                                            <ol class="dd-list">  
+
+                                                                    @foreach (Atividade atv in func.atividade)
+                                                                      {
+
+                                                                            <li class="dd-item" data-id="@atv.UniqueKey.ToString()">
+                                                                                <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                                                                    <span><i style="color: yellowgreen">Atividades - </i> </span>@atv.Descricao
+
+                                                                                    <div class="pull-right action-buttons">
+                                                                                        <a href="#" class="blue CustomTooltip" title="Desvincular Atividade" onclick="OnClickRemoverAtividade('@atv.UniqueKey', '@atv.Descricao')">
+                                                                                            <i class="ace-icon fa fa-trash red bigger-125"></i>
+                                                                                        </a>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </li>
+
+                                                                     }
+
+                                                            </ol>
+                                                         }
+
+
+
+                                        </li>
+                                        @*}*@
+                                }
+                                </ol>
                         }
 
                     </li>
