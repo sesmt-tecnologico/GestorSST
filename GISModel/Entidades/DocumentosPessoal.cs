@@ -18,11 +18,14 @@ namespace GISModel.Entidades
         [Required(ErrorMessage ="Insira o total de meses - de 0 a 12",AllowEmptyStrings =false)]
         public int Validade { get; set; }
 
-        [Display(GroupName ="Atulização da validade")]
+        [Display(Name = "Atulização da validade")]
         public string ApartirDe { get; set; }
 
-        [Display(GroupName = "Fim desta atualização")]
+        [Display(Name = "Fim desta atualização")]
         public string FimDE { get; set; }
+
+        [Display(Name ="Atualizado por")]
+        public string  AtualizadoPor { get; set; }
 
 
 

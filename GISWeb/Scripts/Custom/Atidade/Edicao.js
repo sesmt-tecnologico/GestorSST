@@ -46,7 +46,7 @@ function OnSuccessAtualizarAtividade(data) {
     $('#formEditAtividade').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#blnSalvar').show();
-    ExibirMsgGritter(data.resultado);
+    TratarResultadoJSON(data.resultado);
 }
 
 function OnBeginAtualizarAtividade() {

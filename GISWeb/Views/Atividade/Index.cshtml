@@ -56,7 +56,7 @@
                                             <i class="ace-icon fa fa-pencil bigger-130"></i>
                                         </a>
 
-                                        <a class="red" href="#" onclick="DeletarContrato('@iAtividade.ID');">
+                                        <a class="red" href="#" onclick="DeletarAtividade('@iAtividade.ID','@iAtividade.Descricao' );">
                                             <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                         </a>
                                     </div>
@@ -68,13 +68,7 @@
                                             </button>
 
                                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                                <li>
-                                                    <a href="#" class="tooltip-info" onclick="BuscarDetalhesContrato('@iAtividade.ID'); return false;" data-rel="tooltip" title="View">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                                    </a>
-                                                </li>
+                                              
 
                                                 <li>
                                                     <a href='@Url.Action("Edicao", "Cargo", new { id = @iAtividade.ID})' class="tooltip-success" data-rel="tooltip" title="Edit">
@@ -85,7 +79,7 @@
                                                 </li>
 
                                                 <li>
-                                                    <a href="#" class="tooltip-error" onclick="DeletarContrato('@iAtividade.ID');" data-rel="tooltip" title="Delete">
+                                                    <a href="#" class="tooltip-error" onclick="DeletarAtividade('@iAtividade.ID','@iAtividade.Descricao');" data-rel="tooltip" title="Delete">
                                                         <span class="red">
                                                             <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                         </span>
@@ -110,7 +104,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jQ_dataTable")
 
-
+<script src="~/Scripts/Custom/Atidade/Excluir.js"></script>
     <script src="~/Scripts/Custom/Atidade/Lista.js"></script>
     <script src="~/Scripts/Custom/Admissao/Listagem.js"></script>
 }

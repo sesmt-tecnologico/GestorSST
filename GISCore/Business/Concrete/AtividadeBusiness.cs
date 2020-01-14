@@ -27,19 +27,23 @@ namespace GISCore.Business.Concrete
 
             tempAtividade.DataExclusao = DateTime.Now;
             tempAtividade.UsuarioExclusao = pAtividade.UsuarioExclusao;
-            base.Terminar(tempAtividade);
+            base.Alterar(tempAtividade);
 
-            pAtividade.ID = Guid.NewGuid();
+            pAtividade.ID = Guid.Empty;
             pAtividade.UniqueKey = tempAtividade.UniqueKey;
-            pAtividade.UsuarioInclusao = tempAtividade.UsuarioExclusao;
             pAtividade.UsuarioExclusao = string.Empty;
+            pAtividade.UsuarioInclusao = tempAtividade.UsuarioExclusao;
             
+                        
             base.Inserir(pAtividade);
+            
 
-            //tempAtividade.Descricao = pAtividade.Descricao;            
+        }
 
-            //base.Alterar(tempAtividade);
-
+        public override void Excluir(Atividade entidade)
+        {
+            
+            base.Excluir(entidade);
         }
 
     }

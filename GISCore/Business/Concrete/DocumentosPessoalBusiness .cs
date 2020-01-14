@@ -30,14 +30,15 @@ namespace GISCore.Business.Concrete
             base.Alterar(tempDocumentosPessoal);
 
             
-            pDocumentosPessoal.NomeDocumento = tempDocumentosPessoal.NomeDocumento;
-            pDocumentosPessoal.DescriçãoDocumento = tempDocumentosPessoal.DescriçãoDocumento;
+           
+           
             pDocumentosPessoal.ApartirDe = DateTime.Now.ToString("dd/MM/yyyy");
             pDocumentosPessoal.FimDE = string.Empty;
             pDocumentosPessoal.UsuarioInclusao = tempDocumentosPessoal.UsuarioExclusao;
             pDocumentosPessoal.DataExclusao = DateTime.MaxValue;
             pDocumentosPessoal.UniqueKey = tempDocumentosPessoal.UniqueKey;
             pDocumentosPessoal.UsuarioExclusao = null;
+            pDocumentosPessoal.AtualizadoPor = pDocumentosPessoal.UsuarioExclusao;
             pDocumentosPessoal.ID = Guid.Empty;
 
             base.Inserir(pDocumentosPessoal);

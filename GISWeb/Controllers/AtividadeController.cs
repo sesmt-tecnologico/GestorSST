@@ -282,7 +282,10 @@ namespace GISWeb.Controllers
 
             Guid ID_Ativ = Guid.Parse(id);
             Guid UK_Ativ = Guid.Parse(Uk);
-            return View(AtividadeBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(UK_Ativ)));
+
+            ViewBag.Atividades = AtividadeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(UK_Ativ))).ToList();
+
+            return View(AtividadeBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(UK_Ativ))));
         }
 
 
@@ -295,13 +298,14 @@ namespace GISWeb.Controllers
                 try
                 {
                     pAtividade.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+
                     AtividadeBusiness.Alterar(pAtividade);
 
                     Extensions.GravaCookie("MensagemSucesso", "A Atividade '" + pAtividade.Descricao + "' foi atualizada com sucesso.", 10);
 
-                    return RedirectToAction("Index");
+                    //return RedirectToAction("Index");
 
-                    //return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Edicao", "Atividade") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Atividade") } });
                 }
                 catch (Exception ex)
                 {
@@ -333,30 +337,29 @@ namespace GISWeb.Controllers
 
 
 
+        
+
         [HttpPost]
-        public ActionResult Excluir(Atividade oAtividadeDeRisco)
+        public ActionResult TerminarComRedirect(string ID, string Descricao)
         {
+            var ID_Atividade = Guid.Parse(ID);
 
             try
             {
-
-                if (oAtividadeDeRisco == null)
+                Atividade oAtividade = AtividadeBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(ID_Atividade));
+                if (oAtividade == null)
                 {
-                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir a Atividade, pois a mesma não foi localizada." } });
+                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir este Documento." } });
                 }
                 else
                 {
+                    oAtividade.DataExclusao = DateTime.Now;
+                    oAtividade.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    AtividadeBusiness.Excluir(oAtividade);
 
-                    //oDepartamento.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login;
-                    // oDepartamento.UKUsuarioDemissao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login;
+                    Extensions.GravaCookie("MensagemSucesso", "Atividade '"+ oAtividade.Descricao +"' foi removida com sucesso.", 10);
 
-                    oAtividadeDeRisco.UsuarioExclusao = "Antonio Henriques";
-                    oAtividadeDeRisco.DataExclusao = DateTime.Now;
-                    AtividadeBusiness.Excluir(oAtividadeDeRisco);
-
-                    TempData["MensagemSucesso"] = "A Atividade '" + oAtividadeDeRisco.Descricao + "' foi excluida com sucesso.";
-
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "AtividadeDeRisco") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Atividade") } });
                 }
             }
             catch (Exception ex)
@@ -373,7 +376,6 @@ namespace GISWeb.Controllers
 
 
         }
-
 
         [RestritoAAjax]
         public ActionResult BuscarAtividadeForAutoComplete(string key)
