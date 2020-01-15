@@ -34,7 +34,7 @@ namespace GISWeb.Controllers
 
 
         [Inject]
-        public IFuncCargoBusiness FuncCargoBusiness { get; set; }
+        public IFuncaoBusiness FuncaoBusiness { get; set; }
 
         [Inject]
         public IAtividadeFuncaoLiberadaBusiness AtividadeFuncaoLiberadaBusiness { get; set; }

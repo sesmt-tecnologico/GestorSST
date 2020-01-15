@@ -1,4 +1,4 @@
-﻿@model GISModel.Entidades.Cargoes
+﻿@model GISModel.Entidades.Cargo
 @{
     ViewBag.Title = "Cadastro de Cargo";
 }
@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    @using (Ajax.BeginForm("Cadastrar", "Cargoes", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarCargo", }, new { @id = "formCadastroCargo", @class = "form-horizontal" }))
+    @using (Ajax.BeginForm("Cadastrar", "Cargo", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarCargo", }, new { @id = "formCadastroCargo", @class = "form-horizontal" }))
     {
         @Html.AntiForgeryToken()
 

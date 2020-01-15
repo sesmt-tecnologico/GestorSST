@@ -1,4 +1,4 @@
-﻿@model GISModel.Entidades.FuncCargo
+﻿@model GISModel.Entidades.Funcao
 
 @{
     ViewBag.Title = "Cadastro de Função";
@@ -17,7 +17,7 @@
 
     <h3>Cargo:&nbsp; @ViewBag.NomeDoCargo</h3>
 
-    @using (Ajax.BeginForm("Cadastrar", "FuncCargo", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarFuncao", }, new { @id = "formCadastroFuncao", @class = "form-horizontal" }))
+    @using (Ajax.BeginForm("Cadastrar", "Funcao", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarFuncao", }, new { @id = "formCadastroFuncao", @class = "form-horizontal" }))
     {
         @Html.AntiForgeryToken()
 
@@ -28,8 +28,7 @@
                     <div class="col-xs-12 col-sm-12">
                         @Html.EditorFor(d => d.NomeDaFuncao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
                         @Html.ValidationMessageFor(d => d.NomeDaFuncao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                        <input type="text" name="Uk_Cargo" id="Uk_Cargo" value=@ViewBag.Cargo hidden />
-                        <input type="text" name="ID_Cargo" id="ID_Cargo" value=@ViewBag.idCargo hidden />
+                        @Html.HiddenFor(d => d.UKCargo)
                     </div>
                 </div>
             </div>
@@ -44,7 +43,7 @@
             foreach (var item in ViewBag.Lista)
             {
 
-                <tr id="linha-@item.Uk_Cargo">
+                <tr id="linha-@item.UKCargo">
 
                     <td class="center"></td>
                     &nbsp;@item.NomeDaFuncao

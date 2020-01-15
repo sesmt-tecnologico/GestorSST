@@ -18,7 +18,7 @@ namespace GISWeb.Controllers
     [Autorizador]
     [DadosUsuario]
     [SessionState(SessionStateBehavior.ReadOnly)]
-    public class FuncCargoController : BaseController
+    public class FuncaoController : BaseController
     {
 
         #region Inject
@@ -27,16 +27,16 @@ namespace GISWeb.Controllers
         public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
 
         [Inject]
-        public ICargoesBusiness CargoBusiness { get; set; }
+        public ICargoBusiness CargoBusiness { get; set; }
 
         [Inject]
-        public IFuncCargoBusiness FuncCargoBusiness { get; set; }
+        public IFuncaoBusiness FuncaoBusiness { get; set; }
 
         [Inject]
         public IAtividadeBusiness AtividadeBusiness { get; set; }
 
         [Inject]
-        public IBaseBusiness<Rel_CargoFuncAtividade> Rel_CargoFuncAtividadeBusiness { get; set; }
+        public IBaseBusiness<REL_FuncaoAtividade> REL_FuncaoAtividadeBusiness { get; set; }
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
@@ -58,11 +58,11 @@ namespace GISWeb.Controllers
         {
             var Uk_Cargo = Guid.Parse(Uk);
 
-            ViewBag.Funcao = FuncCargoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)&&(d.Uk_Cargo.Equals(Uk_Cargo))).OrderBy(d => d.NomeDaFuncao).ToList();
+            ViewBag.Funcao = FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)&&(d.UKCargo.Equals(Uk_Cargo))).OrderBy(d => d.NomeDaFuncao).ToList();
 
             var ListFuncao = from c in CargoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             join f in FuncCargoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                             on c.UniqueKey equals f.Uk_Cargo
+                             join f in FuncaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                             on c.UniqueKey equals f.UKCargo
                              into g
                              from func in g.DefaultIfEmpty()
                              where c.UniqueKey.Equals(Uk_Cargo)
@@ -89,56 +89,48 @@ namespace GISWeb.Controllers
             return View();
         }
 
-        public ActionResult Novo(string Uk, string nome, string id)
+        public ActionResult Novo(string Uk, string nome)
         {
-            var uk_Cargo = Guid.Parse(Uk);
-            var idCargo = Guid.Parse(id);
-            ViewBag.Cargo = Uk;
+            Funcao func = new Funcao();
+            func.UKCargo = Guid.Parse(Uk);
+            
             ViewBag.NomeDoCargo = nome;
-            ViewBag.idCargo = idCargo;
 
-            ViewBag.FuncCarg = FuncCargoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao) && (d.Uk_Cargo.Equals(uk_Cargo))).Count();
-
-            string sql = @"select f.UniqueKey, f.NomeDaFuncao, f.Uk_Cargo 
-                             from tbFuncCargo f
-                             where f.Uk_Cargo = '" + uk_Cargo + @"' order by f.NomeDaFuncao ";
-
-            List<FuncCargo> lista = new List<FuncCargo>();
+            ViewBag.FuncCarg = FuncaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao) && (d.UKCargo.Equals(func.UKCargo))).Count();
 
 
-            DataTable result = FuncCargoBusiness.GetDataTable(sql);
+            string sql = @"select f.UniqueKey, f.NomeDaFuncao, f.UkCargo 
+                             from tbFuncao f
+                             where f.UkCargo = '" + func.UKCargo.ToString() + @"' order by f.NomeDaFuncao ";
 
+            List<Funcao> lista = new List<Funcao>();
+            DataTable result = FuncaoBusiness.GetDataTable(sql);
             if (result.Rows.Count > 0)
             {
-                FuncCargo obj = null;
+                Funcao obj = null;
 
                 foreach (DataRow row in result.Rows)
                 {
                     if (result.Rows.Count > 0)
                     {
-                        obj = new FuncCargo()
+                        obj = new Funcao()
                         {
                             UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
                             NomeDaFuncao = row["NomeDaFuncao"].ToString()
 
                         };
-
-
                     }
-
-                    if (obj != null)
-                        lista.Add(obj);
+                    
                 }
 
-
-                
+                if (obj != null)
+                    lista.Add(obj);
             }
-
 
             ViewBag.lista = lista;
 
 
-                        return View();
+            return View(func);
 
         }
 
@@ -148,21 +140,20 @@ namespace GISWeb.Controllers
         //Função deve ser vinculada a um cargo no ato da criação
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(FuncCargo oFuncao, string Uk_Cargo, string ID_Cargo)
+        public ActionResult Cadastrar(Funcao oFuncao)
         {
-            oFuncao.Uk_Cargo = Guid.Parse(Uk_Cargo);
-            oFuncao.CargoesID = Guid.Parse(ID_Cargo);
             if (ModelState.IsValid)
             {
                 try
                 {
-                    FuncCargoBusiness.Inserir(oFuncao);
+                    oFuncao.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    FuncaoBusiness.Inserir(oFuncao);
 
                     Extensions.GravaCookie("MensagemSucesso", "A Função '" + oFuncao.NomeDaFuncao + "' foi cadastrada com sucesso!", 10);
 
 
                     
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Cargoes") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Cargo") } });
 
                 }
                 catch (Exception ex)
@@ -221,12 +212,12 @@ namespace GISWeb.Controllers
                             Atividade pTemp = AtividadeBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(ativ.Trim()));
                             if (pTemp != null)
                             {
-                                if (Rel_CargoFuncAtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UkFuncCargo.Equals(UKFuncCargo) && a.UkAtividade.Equals(pTemp.UniqueKey)).Count() == 0)
+                                if (REL_FuncaoAtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKFuncao.Equals(UKFuncCargo) && a.UKAtividade.Equals(pTemp.UniqueKey)).Count() == 0)
                                 {
-                                    Rel_CargoFuncAtividadeBusiness.Inserir(new Rel_CargoFuncAtividade()
+                                    REL_FuncaoAtividadeBusiness.Inserir(new REL_FuncaoAtividade()
                                     {
-                                        UkFuncCargo = UKFuncCargo,
-                                        UkAtividade = pTemp.UniqueKey,
+                                        UKFuncao = UKFuncCargo,
+                                        UKAtividade = pTemp.UniqueKey,
                                         UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                                     });
                                 }
@@ -240,12 +231,12 @@ namespace GISWeb.Controllers
                     
                     if (pTemp != null)
                     {
-                        if (Rel_CargoFuncAtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UkFuncCargo.Equals(UKFuncCargo) && a.UkAtividade.Equals(pTemp.UniqueKey)).Count() == 0)
+                        if (REL_FuncaoAtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKFuncao.Equals(UKFuncCargo) && a.UKAtividade.Equals(pTemp.UniqueKey)).Count() == 0)
                         {
-                            Rel_CargoFuncAtividadeBusiness.Inserir(new Rel_CargoFuncAtividade()
+                            REL_FuncaoAtividadeBusiness.Inserir(new REL_FuncaoAtividade()
                             {
-                                UkFuncCargo = UKFuncCargo,
-                                UkAtividade = pTemp.UniqueKey,
+                                UKFuncao = UKFuncCargo,
+                                UKAtividade = pTemp.UniqueKey,
                                 UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                             });
                         }
@@ -267,18 +258,18 @@ namespace GISWeb.Controllers
         {
             //ViewBag.Riscos = TipoDeRiscoBusiness.Consulta.Where(p => p.IDTipoDeRisco.Equals(id));
 
-            return View(FuncCargoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
+            return View(FuncaoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Atualizar(FuncCargo oFuncao)
+        public ActionResult Atualizar(Funcao oFuncao)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    FuncCargoBusiness.Alterar(oFuncao);
+                    FuncaoBusiness.Alterar(oFuncao);
 
                     Extensions.GravaCookie("MensagemSucesso", "A Função '" + oFuncao.NomeDaFuncao + "' foi atualizada com sucesso.", 10);
 
@@ -310,7 +301,7 @@ namespace GISWeb.Controllers
 
             try
             {
-                FuncCargo oFuncao = FuncCargoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(IDFuncao));
+                Funcao oFuncao = FuncaoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(IDFuncao));
                 if (oFuncao == null)
                 {
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir esta Função." } });
@@ -319,7 +310,7 @@ namespace GISWeb.Controllers
                 {
                     oFuncao.DataExclusao = DateTime.Now;
                     oFuncao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    FuncCargoBusiness.Alterar(oFuncao);
+                    FuncaoBusiness.Alterar(oFuncao);
 
                     Extensions.GravaCookie("MensagemSucesso", "A Função'" + oFuncao.NomeDaFuncao + "' foi excluida com sucesso.", 10);
 

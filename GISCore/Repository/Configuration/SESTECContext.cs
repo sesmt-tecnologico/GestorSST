@@ -12,7 +12,7 @@ namespace GISCore.Repository.Configuration
         }
 
 
-        public DbSet<Rel_CargoFuncAtividade> Rel_CargoFuncAtividade { get; set; }
+        
         public DbSet<WorkArea> WorkArea { get; set; }
 
         public DbSet<Risco> Risco { get; set; }
@@ -53,13 +53,15 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<Admissao> Admissao { get; set; }       
 
-        public DbSet<Cargoes> Cargoes { get; set; }      
-        
 
-        public DbSet<FuncCargo> FuncCargo { get; set; }
-       
+
+        public DbSet<Cargo> Cargo { get; set; }      
+
+        public DbSet<Funcao> Funcao { get; set; }
 
         public DbSet<Atividade> Atividade { get; set; }
+
+
 
         public DbSet<Alocacao> Alocacao { get; set; }
 
@@ -95,6 +97,8 @@ namespace GISCore.Repository.Configuration
         public DbSet<REL_PerigoRisco> REL_PerigoRisco { get; set; }
 
         public DbSet<REL_WorkAreaPerigo> REL_WorkAreaPerigo { get; set; }
+
+        public DbSet<REL_FuncaoAtividade> REL_FuncaoAtividade { get; set; }
 
     }
 }
