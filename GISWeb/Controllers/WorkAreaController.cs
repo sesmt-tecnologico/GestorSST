@@ -159,6 +159,28 @@ namespace GISWeb.Controllers
                                         });
                                     }
                                 }
+                                else
+                                {
+                                    oPerigo = new Perigo()
+                                    {
+                                        ID = Guid.Parse(row["relwap"].ToString()),
+                                        UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
+                                        Descricao = row["perigo"].ToString(),
+                                        Riscos = new List<Risco>()
+                                    };
+
+                                    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                                    {
+                                        oPerigo.Riscos.Add(new Risco()
+                                        {
+                                            ID = Guid.Parse(row["relpr"].ToString()),
+                                            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                                            Nome = row["risco"].ToString()
+                                        });
+                                    }
+
+                                    obj.Perigos.Add(oPerigo);
+                                }
 
                                 
                             }

@@ -23,14 +23,14 @@ namespace GISWeb.Infraestrutura.Helpers
         }
 
 
-        public IHtmlString MontarListaCargo(List<ListaFuncaoViewModel> lista, string UKCargo, List<FuncCargo> Func)
+        public IHtmlString MontarListaCargo(List<ListaFuncaoViewModel> lista, string UKCargo, List<Funcao> Func)
         {
 
             HtmlString html = new HtmlString(TratarListaCargo(lista, UKCargo, Func));
             return html;
         }
 
-        public static string TratarListaCargo(List<ListaFuncaoViewModel> lista, string UKCargo, List<FuncCargo> Func)
+        public static string TratarListaCargo(List<ListaFuncaoViewModel> lista, string UKCargo, List<Funcao> Func)
         {
             StringBuilder sHTML = new StringBuilder();
             sHTML.Append("<ol class=\"dd-list\">");

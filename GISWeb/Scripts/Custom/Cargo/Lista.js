@@ -39,7 +39,7 @@ function GetDepartments() {
 
     $.ajax({
         method: "POST",
-        url: "/Cargoes/ListaCargo",
+        url: "/Cargo/ListaCargo",
         error: function (erro) {
             $('.page-content-area').ace_ajax('stopLoading', true);
 
@@ -111,7 +111,7 @@ function DeletarCargo(IDCargo, Nome) {
 function OnClickVincularAtividade(pUK_Funcao) {
     $.ajax({
         method: "POST",
-        url: "/FuncCargo/VincularFuncaoAtividade",
+        url: "/Funcao/VincularFuncaoAtividade",
         data: { UK_Funcao: pUK_Funcao },
         error: function (erro) {
             $("#modalAddAtividadeLoading").hide();
@@ -138,7 +138,7 @@ function OnClickVincularAtividade(pUK_Funcao) {
 
                     $.ajax({
                         method: "POST",
-                        url: "/FuncCargo/VincularCargoFuncaoAtividade",
+                        url: "/Funcao/VincularCargoFuncaoAtividade",
                         data: { UKAtividade: Ukativ, UkFuncao: ukFunc },
                         error: function (erro) {
                             $("#modalAddAtividadeLoading").hide();
@@ -151,12 +151,9 @@ function OnClickVincularAtividade(pUK_Funcao) {
 
                             if (content.resultado.Sucesso != "") {
                                 $(".resultadoAtividade").html("");
-
-                                //if ($("#UKEstabelecimento").val() != "") {
-                                //    $("#formPesquisarWorkArea").submit();
-                                //}
-
                                 $('#modalAddAtividade').modal('hide');
+
+                                GetDepartments();
                             }
 
 
