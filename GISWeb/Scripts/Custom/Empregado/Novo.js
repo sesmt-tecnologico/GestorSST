@@ -3,11 +3,19 @@ AplicaDatePicker();
 DatePTBR();
 
 jQuery(function ($) {
-    $('#txtCPF').mask('999.999.999-99');
-    $("#txtTelefone").mask("(99) 9999 - 9999?9", { placeholder: " " });
+
+    //$('#txtCPF').mask('999.999.999-99');
+    //$("#txtTelefone").mask("(99) 9999 - 9999?9", { placeholder: " " });
+
     AplicaDatePicker(false);
 
 });
+
+
+
+AplicaValidacaoCPF();
+
+
 
 
 function OnSuccessCadastrarEmpregado(data) {

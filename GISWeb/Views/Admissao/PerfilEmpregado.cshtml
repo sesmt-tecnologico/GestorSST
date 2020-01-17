@@ -1,318 +1,312 @@
 ﻿@model List<PerfilEmpregadoViewModel>
 @using GISModel.DTO.Admissao
-<div class="container-fluid text-center">
-    <div class="row content">
-        <div class="col-sm-7 text-left">
-            <div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        @{
-                            Html.RenderPartial("_MensagensDeRetorno");
-                        }
-
-                        @if (ViewBag.Admissao != null)
-                        {
-
-                            <div class="table responsive">
-                                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                        <tr></tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach (var iAdmissao in  ViewBag.lista)
-                                        {                                            
-                                            <tr id="linha-@iAdmissao.UniqueKey">
-                                                <td width="200px">
-                                                    <h1><b> @iAdmissao.NomeEmpregado&nbsp</b></h1> <h3>[ CPF - @iAdmissao.CPF ]</h3>
-                                                    <br />                                                    
-
-                                                   @* C:\Users\Antonio\Documents\GitHub\GsetorSST_InicialIvan\GestorSST\GISWeb\Images\AdmissaoImagens\0a0f80a5-e9c8-4221-add2-9c9b91102dd2*@
-
-                                                    <img src="/Images/AdmissaoImagens/0a0f80a5-e9c8-4221-add2-9c9b91102dd2/homem-desarrumado.jpg" alt="Admissao" width="" />
-                                                    <br /><br /><br />
-                                                    <b>
-                                                        Empresa:&nbsp
-                                                        @iAdmissao.NomeEmpresa
-                                                        <br />
-                                                        Email:&nbsp
-                                                        @*@iAdmissao.Empregado.Email*@
-                                                        <br />
-                                                        Data de Nascimento:&nbsp
-                                                        @iAdmissao.Nascimento
-                                                        <br />
-                                                        Data de Admissão:&nbsp
-                                                        @iAdmissao.Nascimento
-                                                        <br />
-                                                        Admitido por:&nbsp
-                                                        @*@iAdmissao.UsuarioInclusao*@
-                                                    </b>
-                                                </td>
-
-                                            </tr>
-
-                                            <tr>
-                                                <td>
-
-                                                    <a class="btn btn-success btn-lg btn-block" href="#" onclick="AlocarEmpregado('@iAdmissao.ID_Admissao','@iAdmissao.UniqueKey','@iAdmissao.IDEmprresa');" data-rel="tooltip" title="Alocar ">
-                                                        @*<a class="btn btn-success" href="@Url.Action("Novo","Alocacao", new { AdmissaoID = @iAdmissao.IDAdmissao, id=iAdmissao.IDEmpregado, idEmpresa = @iAdmissao.IDEmpresa })" role="button" style="color:green">*@
-                                                        <i class="ace-icon fa fa-check bigger-110"></i>
-                                                        Alocar  &nbsp
-                                                    </a>
-                                                    &nbsp;
-                                                    <a class="btn btn-danger btn-lg btn-block" onclick="DeletarEmpresa('@iAdmissao.ID_Admissao', '@iAdmissao.NomeEmpresa');" data-rel="tooltip" title="Delete">
-                                                        <i class="ace-icon fa fa-check bigger-110"></i>
-                                                        Demitir
-                                                    </a>
 
 
-                                                </td>
-                                            </tr>
+<div class="row content">
+    <div class="col-sm-12 col-xs-12 text-left">
+
+        <div id="user-profile-1" class="user-profile row" style="margin: 0">
+            <div class="col-xs-12 col-sm-3" style="padding: 0">
+                <div>
+                    <div class="space-6"></div>
+
+                    <div class="center">
 
 
+                        <div class="profile-picture" style="background-color: #82af6f">
+                            <span class="CustomTooltip label label-success" title="Admitido e alocado em 1 ou mais contratos, com todas alocações aprovadas.">
+                                <b>LIBERADO</b>
+                            </span>
 
-                                        }
+                            <ul class="ace-thumbnails clearfix">
+                                <li>
+                                    <a href="#" class="lnkAtualizarFotoPortfolio" data-target="#modalAtualizarFoto" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                        <img id="imagemPortfolio" class="editable img-responsive" src="">
 
-                                    </tbody>
-                                </table>
+                                        <div class="text">
+                                            <div class="inner">Clique para atualizar</div>
+                                        </div>
+                                    </a>
+                                    <div class="tools tools-bottom">
+                                        <a href="#">
+                                            <i class="ace-icon fa fa-times red"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="space-10"></div>
+
+                    <button id="btnAlocar" class="btn btn-mini btn-block btn-info btnApresentacao">
+                        <i class="ace-icon fa fa-plus-circle bigger-120"></i>
+                        <span class="bigger-110">Admitir</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-9" style="padding: 0">
+                <div class="space-4"></div>
+
+                <div class="profile-user-info">
+                    <div class="profile-info-row">
+                        <div class="profile-info-name"> Nome </div>
+
+                        <div class="profile-info-value">
+                            <span id="labelNomeCompleto">
+                                <span style="font-weight: 700">JOHNNATHAN RODRIGO</span>
+
+                                <span class="action-buttons">
+                                    &nbsp;
+
+                                    <a href="#" class="CustomTooltip btnAlterarValor" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxNomeCompleto" data-label="labelNomeCompleto">
+                                        <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                    </a>
+                                </span>
+                            </span>
+
+                            <div id="divTboxNomeCompleto" class="input-group" style="width: 300px; float: left; display: none">
+                                <input style="height: 20px; font-size: 10px;" class="form-control text-box single-line" id="tboxNomeCompleto" type="text" value="JOAO EXEMPLO">
+
+                                <span class="input-group-btn">
+                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarValor" title="Salvar" data-propriedade="NomeCompleto" data-referencia="tboxNomeCompleto" data-tipo="salvartextbox"></button>
+                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlteracao" title="Cancelar" data-combobox="divTboxNomeCompleto" data-label="labelNomeCompleto"></button>
+                                </span>
                             </div>
+                        </div>
+                    </div>
 
+                    <div class="profile-info-row">
+                        <div class="profile-info-name"> CPF </div>
 
-                        }
+                        <div class="profile-info-value">
+                            <span id="labelCPF">
+                                <span style="font-weight: 700">186.981.111-90</span>
 
-                        @if (ViewBag.Alocacao != null)
-                        {
+                                <span class="action-buttons">
+                                    &nbsp;
 
-                            <h1>Alocação Ativa </h1>
-                            <div>
-                                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
-                                    @foreach (var item in ViewBag.Alocacao)
-                                    {
+                                    <a href="#" class="CustomTooltip btnAlterarValor" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxCPF" data-label="labelCPF">
+                                        <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                    </a>
+                                </span>
+                            </span>
 
-                                        <tr id="linha-@item.IDAlocacao">
-                                            <td width="200px">
-                                                <b>
-                                                    Estabelecimento:&nbsp
-                                                    @item.Estabelecimento.NomeCompleto
-                                                    <br />
-                                                    Departamento:&nbsp
-                                                    @item.Departamento.Sigla
-                                                    <br />
-                                                    @*Equipe:&nbsp
-                                                        @item.Equipe.NomeDaEquipe
-                                                        <br />*@
-                                                    Cargo:&nbsp
-                                                    @item.Cargo.NomeDoCargo
-                                                    <br />
-                                                    Função:&nbsp
-                                                    @item.Funcao.NomeDaFuncao
-                                                    <br />
-                                                </b>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
+                            <div id="divTboxCPF" class="input-group" style="width: 200px; float: left; display: none">
+                                <input style="height: 20px; font-size: 10px;" class="form-control text-box single-line" id="tboxCPF" type="text" value="067.283.646-76">
 
-                                                <a class="btn btn-primary btn-lg btn-block" href="#" onclick="DesalocarEmpregado('@item.IDAlocacao','@item.Admissao.IDEmpregado');" data-rel="tooltip" title="Desalocar ">
-                                                    <i class="ace-icon fa fa-check bigger-110"></i>
-                                                    Desalocar  &nbsp
-                                                </a>
-                                                &nbsp;
-
-                                                <a class="btn btn-secondary btn-lg btn-block" href="#" onclick="AlocarEmAmbiente('@item.idEstabelecimento','@item.IDAlocacao');" data-rel="tooltip" title="Alocar Ambientes ">
-                                                    <i class="ace-icon fa fa-check bigger-110"></i>
-                                                    Alocar Atividades do Ambiente &nbsp
-                                                </a>
-                                                &nbsp;
-                                                <a class="btn btn-secondary btn-lg btn-block" href="#" onclick="AlocarAtivFuncao('@item.IDFuncao','@item.Admissao.IDEmpregado','@item.IDAlocacao');" data-rel="tooltip" title="Alocar Ambientes ">
-                                                    <i class="ace-icon fa fa-check bigger-110"></i>
-                                                    Alocar Atividades da Função &nbsp
-                                                </a>
-                                                &nbsp;
-                                                <a href="@Url.Action("SalvarAnaliseRisco", "AnaliseRisco", new { idEstabelecimento=@item.idEstabelecimento,idAlocacao= @item.IDAlocacao})" class="btn btn-danger btn-lg btn-block" data-rel="tooltip" title="Análise de Risco">
-                                                    <i class="ace-icon fa fa-plus bigger-120 blue"></i>
-                                                    Análise de Riscos &nbsp
-                                                </a>
-                                            </td>
-                                        </tr>
-
-                                    }
-                                </table>
+                                <span class="input-group-btn">
+                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarValor" title="Salvar" data-propriedade="CPF" data-referencia="tboxCPF" data-tipo="salvartextbox"></button>
+                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlteracao" title="Cancelar" data-combobox="divTboxCPF" data-label="labelCPF"></button>
+                                </span>
                             </div>
+                        </div>
+                    </div>
 
-                        }
+                    <div class="profile-info-row">
+                        <div class="profile-info-name"> Nascimento </div>
+
+                        <div class="profile-info-value">
+                            <span id="labelNascimento">
+                                <span>01/01/2017</span>
+                                <span style="font-size: 10px" class="hidden-480"> — (3 anos, 0 meses e 15 dias)</span>
+
+                                <span class="action-buttons">
+                                    &nbsp;
+
+                                    <a href="#" class="CustomTooltip btnAlterarValor" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxNascimento" data-label="labelNascimento">
+                                        <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                    </a>
+                                </span>
+                            </span>
+
+                            <div id="divTboxNascimento" class="input-group" style="width: 200px; float: left; display: none">
+                                <input style="height: 20px; font-size: 10px" class="form-control date-picker text-box single-line" id="tboxNascimento" type="text" value="01/01/2017">
+
+                                <span class="input-group-btn">
+                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarValor" title="Salvar" data-propriedade="DataNascimento" data-referencia="tboxNascimento" data-tipo="salvartextbox"></button>
+                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlteracao" title="Cancelar" data-combobox="divTboxNascimento" data-label="labelNascimento"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">
+                        <div class="profile-info-name"> Email </div>
+
+                        <div class="profile-info-value">
+                            <span id="labelEmail">
+                                johnnathanalmeida@gmail.com.br
+
+                                <span class="action-buttons">
+                                    &nbsp;
+
+                                    <a href="#" class="CustomTooltip btnAlterarValor" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxEmail" data-label="labelEmail">
+                                        <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                    </a>
+                                </span>
+                            </span>
+
+                            <div id="divTboxEmail" class="input-group" style="width: 200px; float: left; display: none">
+                                <input style="height: 20px; font-size: 10px;" class="form-control text-box single-line" id="tboxEmail" type="text" value="joaoexemplo@cemig.com.br">
+
+                                <span class="input-group-btn">
+                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarValor" title="Salvar" data-propriedade="Email" data-referencia="tboxEmail" data-tipo="salvartextbox"></button>
+                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlteracao" title="Cancelar" data-combobox="divTboxEmail" data-label="labelEmail"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">
+                        <div class="profile-info-name"> Telefone </div>
+
+                        <div class="profile-info-value">
+                            <span id="labelTelefone">
+
+
+                                <span class="action-buttons">
+                                    &nbsp;
+
+                                    <a href="#" class="CustomTooltip btnAlterarValor" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxTelefone" data-label="labelTelefone">
+                                        <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                    </a>
+                                </span>
+                            </span>
+
+                            <div id="divTboxTelefone" class="input-group" style="width: 200px; float: left; display: none">
+                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxTelefone" type="text" value="">
+
+                                <span class="input-group-btn">
+                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarValor" title="Salvar" data-propriedade="Telefone" data-referencia="tboxTelefone" data-tipo="salvartextbox"></button>
+                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlteracao" title="Cancelar" data-combobox="divTboxTelefone" data-label="labelTelefone"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">
+                        <div class="profile-info-name"> Cadastrado em </div>
+
+                        <div class="profile-info-value">
+                            <span class="editable" id="signup">01/06/2017 - 09:26:33</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-        <div class="table-responsive-lg">
-            <div class="col-sm-5 sidenav">
-                @*<div class="col-sm-4 text-left">*@
-                <div class="well">
-                    <div>
-                        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Clique na Atividade do Estabelecimento para ver a exposição do empregado
-                                    </th>
-                                    <th>
-                                        Riscos
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-                            <tbody>
-                                @{
-                                    var id = @ViewBag.idEmpregado;
-
-                                }
-                                @foreach (var iLista in ViewBag.ListaAtividade)
-                                {
-                                    <tr>
-                                        <td>
-                                            <a href="#" class="tooltip-info" onclick="ListaExposicao('@iLista.idAlocacao','@iLista.IDAtividadeAlocada',' @iLista.Alocacao.Admissao.Empregado.Nome','@iLista.Alocacao.Admissao.Empregado.CPF','@iLista.AtividadesDoEstabelecimento.IDAtividadesDoEstabelecimento');" data-rel="tooltip" title="Exposições ">
-                                                <span class="blue">
-                                                    @iLista.AtividadesDoEstabelecimento.DescricaoDestaAtividade
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#" class="tooltip-info" onclick="EstabelecimentoAmbienteAlocado('@iLista.AtividadesDoEstabelecimento.IDEstabelecimento','@iLista.idAlocacao','@iLista.IDAtividadeAlocada','@iLista.idAtividadesDoEstabelecimento','@ViewBag.idEmpregado');" data-rel="tooltip" title="Riscos ">
-                                                <span class="blue">
-                                                    <i class="ace-icon fa fa-search bigger-120"></i>
-                                                </span>
-                                            </a>
-
-                                        </td>
-                                    </tr>
-
-                                }
-
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        @*<div class="table-responsive-lg">
-            <div class="col-sm-5 sidenav">*@
-                @*<div class="col-sm-4 text-left">*@
-                @*<div class="well">
-                    <div>
-                        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Clique na Atividade da Função para ver a exposição do empregado
-                                    </th>
-                                    <th>
-                                        Riscos
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-                            <tbody>
-                                @{
-                                    var IDEmp = @ViewBag.idEmpregado;
-
-                                }
-                                @foreach (var iLista in ViewBag.ListaAtivFuncaoLiberada)
-                                {
-                                    <tr>
-                                        <td>*@
-                                            @*<a href="#" class="tooltip-info" onclick="ListaExposicao('@iLista.idAlocacao','@iLista.IDAtividade',' @iLista.Admissao.Empregado.Nome','@iLista.Alocacao.Admissao.Empregado.CPF','@iLista.IDAtividade');" data-rel="tooltip" title="Exposições ">*@
-                                            <@*span class="blue">
-                                                @iLista.Atividade.Descricao
-                                            </span>*@
-                                            @*</a>*@
-                                        @*</td>
-                                        <td>
-                                            <a href="#" class="tooltip-info" onclick="AtividadesDaFuncao('@iLista.Atividade.IDAtividade','@iLista.IDAlocacao','@iLista.IDAtividadeFuncaoLiberada','@iLista.Alocacao.Admissao.IDEmpregado');" data-rel="tooltip" title="Riscos ">
-                                                <span class="blue">
-                                                    <i class="ace-icon fa fa-search bigger-120"></i>
-                                                </span>
-                                            </a>
-
-                                        </td>
-                                    </tr>
-
-                                }*@
-
-
-                            @*</tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
-
-        @*<div class="table-responsive-lg">
-            <div class="col-sm-5 sidenav">*@
-                @*<div class="col-sm-4 text-left">*@
-                @*<div class="well">
-                    <div>
-                        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Documentação exigida
-                                    </th>
-
-
-                                </tr>
-
-                            </thead>
-                            <tbody>*@
-
-                                @*@foreach (var iLista in ViewBag.ListaDocumentos)
-                                {
-                                    <tr>
-                                        <td>*@
-                                            @*<a href="#" class="tooltip-info" onclick="ListaExposicao('@iLista.idAlocacao','@iLista.IDAtividade',' @iLista.Admissao.Empregado.Nome','@iLista.Alocacao.Admissao.Empregado.CPF','@iLista.IDAtividade');" data-rel="tooltip" title="Exposições ">*@
-                                            <@*span class="blue">
-                                                @iLista.DocumentosEmpregado.NomeDocumento
-                                            </span>*@
-                                            @*</a>*@
-                                        @*</td>
-
-                                    </tr>
-
-                                }
-
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
-
-
-
 
     </div>
-
 </div>
 
 
+
+
+
+<div class="space-20"></div>
+
+
+
+
+
+
+
+
+
+<div class="widget-box transparent collapsed" id="widget-box-1">
+    <div class="widget-header green" style="border-bottom: 1px solid #ddd">
+        <h5 class="widget-title">
+            <i class="ace-icon fa fa-building" style="color: #585858"></i>
+            <a href="#" data-action="collapse" class="green">
+                <b>EMPRESA: REMO</b>
+            </a>
+        </h5>
+
+        <!-- #section:custom/widget-box.toolbar -->
+        <div style="float: right; border: 0px;">
+
+            <a href="#" class="btn btn-mini btn-info" style="padding-left: 7px; padding-right: 7px; width: 110px;">
+                <i class="ace-icon fa fa-plus-circle bigger-120"></i>
+                <span class="bigger-110">Alocar</span>
+            </a>
+
+            <a href="#" class="btn btn-mini btn-danger" style="padding-left: 7px; padding-right: 7px; width: 110px;">
+                <i class="ace-icon fa fa-minus bigger-120"></i>
+                <span class="bigger-110">Demitir</span>
+            </a>
+
+            @*<a href="#" data-action="collapse" style="margin-left: 10px;">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>*@
+
+        </div>
+
+        <!-- /section:custom/widget-box.toolbar -->
+    </div>
+
+    <div class="widget-body">
+        <div class="widget-main">
+            <p class="alert alert-info">
+                Nunc aliquam enim ut arcu aliquet adipiscing. Fusce dignissim volutpat justo non consectetur. Nulla fringilla eleifend consectetur.
+            </p>
+            <p class="alert alert-success">
+                Raw denim you probably haven't heard of them jean shorts Austin.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="space-10"></div>
+
+<div class="widget-box transparent" id="widget-box-1">
+    <div class="widget-header green" style="border-bottom: 1px solid #ddd">
+
+        <h5 class="widget-title">
+            <i class="ace-icon fa fa-building" style="color: #585858"></i>
+            <a href="#" data-action="collapse" class="green">
+                <b>EMPRESA: Hexagon</b>
+            </a>
+        </h5>
+
+        <!-- #section:custom/widget-box.toolbar -->
+        <div style="float: right; border: 0px;">
+
+            <a href="#" class="btn btn-mini btn-danger" style="padding-left: 7px; padding-right: 7px; width: 110px;">
+                <i class="ace-icon fa fa-minus bigger-120"></i>
+                <span class="bigger-110">Desalocar</span>
+            </a>
+
+        </div>
+
+        <!-- /section:custom/widget-box.toolbar -->
+    </div>
+
+    <div class="widget-body">
+        <div class="widget-main">
+            <p class="alert alert-info">
+                Nunc aliquam enim ut arcu aliquet adipiscing. Fusce dignissim volutpat justo non consectetur. Nulla fringilla eleifend consectetur.
+            </p>
+            <p class="alert alert-success">
+                Raw denim you probably haven't heard of them jean shorts Austin.
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 @section Scripts {
+
+    <script src="~/Scripts/Ace/ace.widget-box.js"></script>
+
     @Scripts.Render("~/bundles/jQ_dataTable")
+
     <script src="~/Scripts/Custom/Admissao/Listagem.js"></script>
-    <script src="~/Scripts/Custom/Alocacao/Novo.js"></script>
-    <script src="~/Scripts/Custom/AtividadeAlocada/Novo.js"></script>
-    <script src="~/Scripts/Custom/Exposicao/Novo.js"></script>
-    <script src="~/Scripts/Custom/AnaliseRisco/Novo.js"></script>
-    <script src="~/Scripts/Custom/AtividadeFuncaoLiberada/Novo.js"></script>
 
 }
 

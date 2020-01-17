@@ -70,10 +70,7 @@ namespace GISWeb.Controllers
                               UK_empregado = e.UniqueKey,
                               ID = e.ID,
                               NomeEmpregado = e.Nome,
-                              CPF = e.CPF,
-                              Admitido = NaoAdm?.Admitido ?? string.Empty,
-
-
+                              CPF = e.CPF
                           };
 
             

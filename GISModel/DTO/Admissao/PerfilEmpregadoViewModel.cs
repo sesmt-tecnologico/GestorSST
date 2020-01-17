@@ -32,7 +32,7 @@ namespace GISModel.DTO.Admissao
         public string Admitido { get; set; }
 
         [Display(Name = "Data Nascimento")]
-        public DateTime Nascimento { get; set; }
+        public string Nascimento { get; set; }
 
         public string DataAdmissao { get; set; }
 

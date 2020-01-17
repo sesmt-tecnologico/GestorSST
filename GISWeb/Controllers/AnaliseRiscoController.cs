@@ -165,7 +165,6 @@ namespace GISWeb.Controllers
                                      IDTipoDeRisco= item3.ID,
                                      FonteGeradora = item3.FonteGeradora,
                                      IDAmissao = AL.Alocacao.Admissao.ID,
-                                     Imagem = AL.Alocacao.Admissao.Imagem,
                                      Riscos = item3.EventoPerigoso.Descricao,
                                      DescricaoAtividade = item2.DescricaoDestaAtividade,
                                      IDAtividadeAlocada = AL.ID,

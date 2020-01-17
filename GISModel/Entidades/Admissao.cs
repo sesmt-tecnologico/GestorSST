@@ -8,15 +8,21 @@ namespace GISModel.Entidades
     public class Admissao : EntidadeBase
     {
 
+
         [Display(Name = "Empregado")]
         public Guid IDEmpregado { get; set; }
 
-        [Display(Name ="CPF")]
-        public string CPF { get; set; }
+        public virtual Empregado Empregado { get; set; }
+
 
 
         [Display(Name = "Empresa")]
         public Guid IDEmpresa { get; set; }
+
+        public virtual Empresa Empresa { get; set; }
+
+
+
 
         [Display(Name ="Justificativa desta Admissão.")]
         public string MaisAdmin { get; set; }
@@ -29,16 +35,8 @@ namespace GISModel.Entidades
         [Display(Name = "Demissão")]
         public string DataDemissao { get; set; }
 
-        [Display(Name ="Foto")]
-        public string Imagem { get; set; }
 
-       
-        public string Admitido { get; set; }
-
-
-        public virtual Empresa Empresa { get; set; }       
-
-        public virtual Empregado Empregado { get; set; }
+        public string Status { get; set; }
 
     }
 }

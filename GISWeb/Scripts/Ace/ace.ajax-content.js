@@ -196,9 +196,9 @@
 				fixPos = true;
 			}
 				
-			$overlay.remove();
-            //$overlay = $('<div class="ajax-loading-overlay center"><i class="ajax-loading-icon '+(this.settings.loading_icon || '')+'"></i> '+this.settings.loading_text+'</div>')
-            //$overlay = $('<div class="ajax-loading-overlay center"><img class="imgLoding" src="' + baseApplicationURL + '/Images/slack_loading.gif" width="30px" style="margin-top: 52px;" /> ' + this.settings.loading_text + '</div>')
+            $overlay.remove();
+
+            //$overlay = $('<div class="ajax-loading-overlay center"><i class="ajax-loading-icon ' + (this.settings.loading_icon || '') + '"></i> ' + this.settings.loading_text + '</div>')
             $overlay = $('<div class="ajax-loading-overlay center"><img class="imgLoding" src="' + baseApplicationURL + '/Images/slack_loading.gif" width="30px" style="margin-top: 20px;" /> ' + this.settings.loading_text + '</div>')
 
 			if(this.settings.loading_overlay == 'body') $('body').append($overlay.addClass('ajax-overlay-body'));

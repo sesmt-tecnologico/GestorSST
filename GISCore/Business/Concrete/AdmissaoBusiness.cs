@@ -13,7 +13,7 @@ namespace GISCore.Business.Concrete
         public override void Inserir(Admissao pAdmissao)
         {
                         
-            pAdmissao.Admitido = "Admitido";
+            pAdmissao.Status = "Admitido";
             base.Inserir(pAdmissao);
         }
 
@@ -29,7 +29,6 @@ namespace GISCore.Business.Concrete
                 tempAdmissao.Empregado.Nome = pAdmissao.Empregado.Nome;
                 tempAdmissao.Empregado.CPF = pAdmissao.Empregado.CPF;
                 tempAdmissao.Empregado.DataNascimento = pAdmissao.Empregado.DataNascimento;
-                tempAdmissao.Imagem = pAdmissao.Imagem;
                 
                 base.Alterar(tempAdmissao);
             }

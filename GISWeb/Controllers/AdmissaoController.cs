@@ -118,14 +118,13 @@ namespace GISWeb.Controllers
             var UK  = Guid.Parse(Uk);
 
             ViewBag.Perfil = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(UK))).ToList();
-            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(UK)) && (p.Admitido == "Admitido")).ToList();
+            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(UK)) && (p.Status == "Admitido")).ToList();
             ViewBag.Alocacao = AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.Admissao.IDEmpregado.Equals(UK)) && (p.Ativado == "true")).ToList();
             ViewBag.idEmpregado = UK;
 
             var perfEmp = from a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           join e in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                          on a.IDEmpregado equals e.UniqueKey
-                          into g                         
+                          on a.IDEmpregado equals e.UniqueKey into g                         
                           from Emp in g.DefaultIfEmpty()
                           join j in EmpresaBusiness.Consulta.Where(p=> string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           on a.IDEmpresa equals j.ID
@@ -142,183 +141,7 @@ namespace GISWeb.Controllers
                               Nascimento = Emp.DataNascimento,
                               DataAdmissao = a.DataAdmissao,
                               UsuarioInclusao = a.UsuarioInclusao                              
-
                           };
-
-
-            List<PerfilEmpregadoViewModel> lista = new List<PerfilEmpregadoViewModel>();
-
-            lista = perfEmp.ToList();
-
-            ViewBag.lista = lista;
-
-            Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => p.IDEmpregado.Equals(UK));
-
-
-
-
-            //Esta query não deixa pegar todas as atividades se tiver exposição null
-            List<Exposicao> ListaExposicao = (from ATL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                              join ATV in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                              on ATL.idAtividadesDoEstabelecimento equals ATV.ID
-                                              join Est in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                              on ATV.IDEstabelecimento equals Est.ID
-                                              join ALOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                              on Est.ID equals ALOC.idEstabelecimento
-                                              join EXP in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                              on ATL.ID equals EXP.idAtividadeAlocada
-                                              where ALOC.Admissao.IDEmpregado.Equals(UK)
-                                              select new Exposicao()
-                                              {
-                                                  ID = EXP.ID,
-                                                  TempoEstimado = EXP.TempoEstimado,
-                                                  EExposicaoCalor = EXP.EExposicaoCalor,
-                                                  EExposicaoInsalubre = EXP.EExposicaoInsalubre,
-                                                  EExposicaoSeg = EXP.EExposicaoSeg,
-                                                  EProbabilidadeSeg = EXP.EProbabilidadeSeg,
-                                                  ESeveridadeSeg = EXP.ESeveridadeSeg,
-
-
-                                                  AtividadeAlocada = new AtividadeAlocada()
-                                                  {
-                                                      idAlocacao = ATL.idAlocacao,
-                                                      idAtividadesDoEstabelecimento = ATL.idAtividadesDoEstabelecimento,
-                                                      ID = ATL.ID,
-
-
-                                                      AtividadesDoEstabelecimento = new AtividadesDoEstabelecimento()
-                                                      {
-                                                          DescricaoDestaAtividade = ATV.DescricaoDestaAtividade,
-
-                                                          Estabelecimento = new Estabelecimento()
-                                                          {
-                                                              ID = Est.ID,
-                                                              Descricao = Est.Descricao
-                                                          }
-                                                      }
-
-
-                                                  }
-
-
-                                              }
-                                                        ).ToList();
-            ViewBag.ListaExposicao = ListaExposicao;
-
-
-
-
-
-            List<AtividadeAlocada> ListaAtividades = (from ATL in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                      join ATV in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                      on ATL.idAtividadesDoEstabelecimento equals ATV.ID
-                                                      join ALOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                      on ATL.idAlocacao equals ALOC.ID
-                                                      join ADM in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                      on ALOC.IdAdmissao equals ADM.ID
-                                                      join Emp in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                      on ADM.IDEmpregado equals Emp.ID
-                                                      join Est in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                      on ATV.IDEstabelecimento equals Est.ID
-                                                      where Emp.ID.Equals(UK)
-                                                      select new AtividadeAlocada()
-                                                      {
-                                                          idAlocacao = ATL.idAlocacao,
-                                                          idAtividadesDoEstabelecimento = ATL.idAtividadesDoEstabelecimento,
-                                                          ID = ATL.ID,
-
-                                                          Alocacao = new Alocacao()
-                                                          {
-                                                              ID = ALOC.ID,
-                                                              Admissao = new Admissao()
-                                                              {
-                                                                  Empregado = new Empregado()
-                                                                  {
-                                                                      Nome = Emp.Nome,
-                                                                      CPF = Emp.CPF,
-
-
-
-                                                                  },
-                                                              },
-                                                          },
-                                                          AtividadesDoEstabelecimento = new AtividadesDoEstabelecimento()
-                                                          {
-                                                              DescricaoDestaAtividade = ATV.DescricaoDestaAtividade,
-                                                              ID = ATV.ID,
-
-                                                              Estabelecimento = new Estabelecimento()
-                                                              {
-                                                                  ID = Est.ID,
-                                                                  Descricao = Est.Descricao
-                                                              }
-                                                          }
-
-
-                                                      }
-                                                        ).ToList();
-
-            ViewBag.ListaAtividade = ListaAtividades;
-
-
-
-            //Criar consulta em nova classe AtividadeFuncaoLiberada
-
-
-           
-
-
-
-           
-
-
-            //verifica se existe exposição para o empregado
-            var Expo = (from EX in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        join ATA in AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on EX.idAtividadeAlocada equals ATA.ID
-                        join AlOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on ATA.idAlocacao equals AlOC.ID
-                        join ADM in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on AlOC.IdAdmissao equals ADM.ID
-                        join EMP in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on ADM.IDEmpregado equals EMP.ID
-                        join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on ATA.idAtividadesDoEstabelecimento equals ATE.ID
-                        where EMP.ID.Equals(UK)
-                        select new Exposicao()
-                        {
-                            ID = EX.ID,
-                            TempoEstimado = EX.TempoEstimado,
-                            EExposicaoCalor = EX.EExposicaoCalor,
-                            EExposicaoInsalubre = EX.EExposicaoInsalubre,
-                            EExposicaoSeg = EX.EExposicaoSeg,
-                            EProbabilidadeSeg = EX.EProbabilidadeSeg,
-                            ESeveridadeSeg = EX.ESeveridadeSeg,
-                            AtividadeAlocada = new AtividadeAlocada()
-                            {
-                                ID = ATA.ID,
-                                idAlocacao = ATA.ID,
-                                idAtividadesDoEstabelecimento = ATA.idAtividadesDoEstabelecimento,
-
-                                Alocacao = new Alocacao()
-                                {
-                                    ID = AlOC.ID
-                                },
-                                AtividadesDoEstabelecimento = new AtividadesDoEstabelecimento()
-                                {
-                                    ID = ATE.ID,
-                                    DescricaoDestaAtividade = ATE.DescricaoDestaAtividade,
-                                    IDEstabelecimento = ATE.IDEstabelecimento,
-                                }
-                            }
-
-                        }
-
-                        ).ToList();
-
-            ViewBag.Expo = Expo;
-
-
 
 
             return View();
@@ -827,14 +650,13 @@ namespace GISWeb.Controllers
 
             var UK_empregado = Guid.Parse(EmpID);
 
-            oAdmissao.CPF = id_cpf;
             oAdmissao.IDEmpregado = UK_empregado;
             if (ModelState.IsValid)
             {
                 try
                 {
                                     
-                    var tempAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.CPF.Equals(oAdmissao.CPF));
+                    var tempAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.IDEmpregado.Equals(UK_empregado));
                     
                     if(tempAdmissao == null)
                     {
@@ -880,18 +702,13 @@ namespace GISWeb.Controllers
         public ActionResult Cadastrar(Admissao oAdmissao, string EmpID, string id_cpf)
         {
             var UK_empregado = Guid.Parse(EmpID);
-
             oAdmissao.IDEmpregado = UK_empregado;
-            oAdmissao.CPF = id_cpf;
-            
 
             if (ModelState.IsValid)
             {
                 try
                 {
-
-                    var tempAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.CPF.Equals(oAdmissao.CPF)));
-                                        
+                    var tempAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.IDEmpregado.Equals(UK_empregado));
 
                     if (tempAdmissao !=null)
                     {
@@ -900,14 +717,10 @@ namespace GISWeb.Controllers
                          
                     }
 
-
-
                     AdmissaoBusiness.Inserir(oAdmissao);
-
 
                     Extensions.GravaCookie("MensagemSucesso", "O empregado foi Admitido com sucesso.", 10);                   
                                                          
-                    //deve retornar para o perfil do empregado
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("ListaEmpregadoNaoAdmitido", "Empregado", new { id = EmpID }) } });
                 }
                 catch (Exception ex)
@@ -986,7 +799,7 @@ namespace GISWeb.Controllers
 
                     oAdmissao.DataExclusao = DateTime.Now;
                     oAdmissao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    oAdmissao.Admitido = "Demitido";
+                    oAdmissao.Status = "Demitido";
                     AdmissaoBusiness.Alterar(oAdmissao);
 
                     return Json(new { resultado = new RetornoJSON() { Sucesso = "O Empregado '" + oAdmissao.Empregado.Nome + "' foi demitido com sucesso." } });
@@ -1023,7 +836,7 @@ namespace GISWeb.Controllers
                 {
                     oAdmissao.DataExclusao = DateTime.Now;
                     oAdmissao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    oAdmissao.Admitido = "Demitido";
+                    oAdmissao.Status = "Demitido";
                     AdmissaoBusiness.Alterar(oAdmissao);
 
                     TempData["MensagemSucesso"] = "O Empregado '" + oAdmissao.Empregado.Nome + "' foi demitido com sucesso.";
