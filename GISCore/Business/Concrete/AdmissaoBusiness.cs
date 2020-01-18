@@ -10,13 +10,6 @@ namespace GISCore.Business.Concrete
     {
         
 
-        public override void Inserir(Admissao pAdmissao)
-        {
-                        
-            pAdmissao.Status = "Admitido";
-            base.Inserir(pAdmissao);
-        }
-
         public override void Alterar(Admissao pAdmissao)
         {
             Admissao tempAdmissao = Consulta.FirstOrDefault(p => p.ID.Equals(pAdmissao.ID));

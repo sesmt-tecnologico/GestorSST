@@ -220,10 +220,10 @@
     <Content Include="Scripts\Custom\AmbienteDoEstabelecimento\Lista.js" />
     <Content Include="Scripts\Custom\AmbienteDoEstabelecimento\Novo.js" />
     <Content Include="Scripts\Custom\AnaliseRisco\Novo.js" />
-    <Content Include="Scripts\Custom\Atidade\Edicao.js" />
-    <Content Include="Scripts\Custom\Atidade\Excluir.js" />
-    <Content Include="Scripts\Custom\Atidade\Lista.js" />
-    <Content Include="Scripts\Custom\Atidade\Novo.js" />
+    <Content Include="Scripts\Custom\Atividade\Edicao.js" />
+    <Content Include="Scripts\Custom\Atividade\Excluir.js" />
+    <Content Include="Scripts\Custom\Atividade\Listagem.js" />
+    <Content Include="Scripts\Custom\Atividade\Novo.js" />
     <Content Include="Scripts\Custom\AtividadeAlocada\Edicao.js" />
     <Content Include="Scripts\Custom\AtividadeAlocada\Listagem.js" />
     <Content Include="Scripts\Custom\AtividadeAlocada\Novo.js" />
@@ -599,6 +599,8 @@
     <Content Include="Views\Equipe\Index.cshtml" />
     <Content Include="Views\Equipe\Novo.cshtml" />
     <Content Include="Views\Equipe\Edicao.cshtml" />
+    <Content Include="Views\Empregado\Pesquisa.cshtml" />
+    <Content Include="Views\Empregado\_PesquisaAvancada.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

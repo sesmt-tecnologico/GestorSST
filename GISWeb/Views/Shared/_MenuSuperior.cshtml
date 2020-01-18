@@ -47,7 +47,7 @@
 
 <ul class="nav nav-list">
 
-    <li class="hover">
+    @*<li class="hover">
         <a href="#" class="dropdown-toggle">
             <i class="menu-icon ace-icon fa fa-inbox"></i>
             <span class="menu-text"> Caixa de Entrada </span>
@@ -73,12 +73,12 @@
             </li>
         </ul>
 
-    </li>
+    </li>*@
 
     <li class="hover">
         <a href="#" class="dropdown-toggle">
             <i class="menu-icon ace-icon fa fa-home"></i>
-            <span class="menu-text"> Pesquisa </span>
+            <span class="menu-text"> Empregado </span>
             <b class="arrow fa fa-angle-down"></b>
         </a>
         <b class="arrow"></b>
@@ -86,107 +86,19 @@
         <ul class="submenu">
 
             <li class="hover">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon ace-icon fa fa-search"></i>
-                    <span class="menu-text"> Incidentes </span>
-                    <b class="arrow fa fa-angle-down"></b>
+                <a href="@path/Empregado/Novo">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Cadastro
                 </a>
-
                 <b class="arrow"></b>
+            </li>
 
-                <ul class="submenu">
-                    <li class="hover">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            <span class="menu-text"> Pessoas </span>
-                            <b class="arrow fa fa-angle-down"></b>
-                        </a>
-
-                        <b class="arrow"></b>
-
-                        <ul class="submenu">
-                            <li class="hover">
-                                <a href="@path/Incidente/PesquisaDadosBase">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Por Dados Base
-                                </a>
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="hover">
-                                <a href="@path/Incidente/PesquisaEnvolvidosProprio">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Por Envolvido Próprio
-                                </a>
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="hover">
-                                <a href="@path/Incidente/PesquisaEnvolvidosTerceiro">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Por Envolvido Terceiro
-                                </a>
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="hover">
-                                <a href="@path/Incidente/PesquisaCodificacao">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Por Codificação
-                                </a>
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="hover">
-                                <a href="@path/Incidente/PesquisaCAT">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Por CAT
-                                </a>
-                                <b class="arrow"></b>
-                            </li>
-                        </ul>
-
-                    </li>
-
-                    <li class="hover">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            <span class="menu-text"> Veículos </span>
-                            <b class="arrow fa fa-angle-down"></b>
-                        </a>
-
-                        <b class="arrow"></b>
-
-                        <ul class="submenu">
-                            <li class="hover">
-                                <a href="@path/IncidenteVeiculo/PesquisaDadosBase">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Por Dados Base
-                                </a>
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="hover">
-                                <a href="@path/Incidente/PesquisaEnvolvidosProprio">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Por Estagiário
-                                </a>
-                                <b class="arrow"></b>
-                            </li>
-
-                            <li class="hover">
-                                <a href="@path/Incidente/PesquisaEnvolvidosTerceiro">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    Por Veículo
-                                </a>
-                                <b class="arrow"></b>
-                            </li>
-
-                        </ul>
-
-                    </li>
-
-                </ul>
+            <li class="hover">
+                <a href="@path/Empregado/Pesquisa">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Pesquisa
+                </a>
+                <b class="arrow"></b>
             </li>
 
         </ul>
@@ -279,47 +191,11 @@
                     </li>
                 </ul>
             </li>
-            <li class="hover">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon ace-icon fa fa-search"></i>
-                    <span class="menu-text"> Empregado </span>
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
-
-                <b class="arrow"></b>
-
-                <ul class="submenu">
-                    <li class="hover">
-                        <a href="@path/Empregado/Novo">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Cadastrar Empregado
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-
-                    <li class="hover">
-                        <a href="@path/Empregado/ListaEmpregadoAdmitidoPorEmpresa">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Empregado por Empresa
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-                    <li class="hover">
-                        <a href="@path/Empregado/ListaEmpregadoNaoAdmitido">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Empregado não Admitido
-                        </a>
-
-
-
-                    </li>
-
-                </ul>
-            </li>
+            
             <li class="hover">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon ace-icon fa fa-search"> </i>
-                    <span class="menu-text">Cargo</span>
+                    <span class="menu-text">Hierarquia Funcional</span>
                     <b class="arrow fa fa-angle-down"></b>
 
                 </a>
@@ -330,44 +206,19 @@
                     <li class="hover">
                         <a href="@path/Cargo/Index">
                             <i class="menu-icon fa fa-caret-right"></i>
-                            Lista Cargo
+                            Cargos / Funções
                         </a>
-
-
-
                     </li>
 
-
-                </ul>
-
-            </li>
-
-            <li class="hover">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon ace-icon fa fa-search"> </i>
-                    <span class="menu-text">Atividade</span>
-                    <b class="arrow fa fa-angle-down"></b>
-
-                </a>
-
-                <b class="arrow"></b>
-
-                <ul class="submenu">
                     <li class="hover">
                         <a href="@path/Atividade/Index">
                             <i class="menu-icon fa fa-caret-right"></i>
-                            Cadastrar Atividade
+                            Atividades
                         </a>
-
-
-
                     </li>
-
-
                 </ul>
 
             </li>
-
 
             <li class="hover">
                 <a href="@path/Perfil/">
@@ -394,13 +245,6 @@
             </li>
 
             <li class="hover">
-                <a href="@path/Fornecedor/">
-                    <i class="menu-icon fa fa-caret-right"></i>
-                    Fornecedor
-                </a>
-                <b class="arrow"></b>
-            </li>
-            <li class="hover">
                 <a href="@path/Contrato/">
                     <i class="menu-icon fa fa-caret-right"></i>
                     Contrato
@@ -409,36 +253,36 @@
             </li>
         </ul>
 
-            </li>
+    </li>
 
-            <li>
-                <a href="@path/Ferramentas/">
-                    <i class="menu-icon ace-icon fa fa-cubes"></i>
-                    <span class="menu-text"> Ferramentas </span>
-                </a>
-                <b class="arrow"></b>
-            </li>
+    <li>
+        <a href="@path/Ferramentas/">
+            <i class="menu-icon ace-icon fa fa-cubes"></i>
+            <span class="menu-text"> Ferramentas </span>
+        </a>
+        <b class="arrow"></b>
+    </li>
+
+    <li class="hover">
+        <a href="#" class="dropdown-toggle">
+            <i class="menu-icon ace-icon fa fa-info-circle"></i>
+            <span class="menu-text"> Informações </span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+
+        <ul class="submenu">
 
             <li class="hover">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon ace-icon fa fa-info-circle"></i>
-                    <span class="menu-text"> Informações </span>
-                    <b class="arrow fa fa-angle-down"></b>
+                <a href="@path/Home/Suporte">
+                    <i class="menu-icon fa fa-caret-right"></i>
+                    Equipe de Suporte
                 </a>
                 <b class="arrow"></b>
-
-                <ul class="submenu">
-
-                    <li class="hover">
-                        <a href="@path/Home/Suporte">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Equipe de Suporte
-                        </a>
-                        <b class="arrow"></b>
-                    </li>
-
-                </ul>
             </li>
 
         </ul>
+    </li>
+
+</ul>
 

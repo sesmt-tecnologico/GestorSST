@@ -1,0 +1,133 @@
+﻿@using GISModel.Entidades
+@model GISModel.DTO.Admissao.PesquisaEmpregadoViewModel
+
+@{
+    ViewBag.Title = "Pesquisa de Empregado";
+}
+
+<div id="PesquisaEmpregado">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="header smaller lighter blue">
+                Pesquisa de Empregado
+
+                <button class="btn btn-primary btnPesquisar" style="float: right; border: 0px; border-bottom: 2px; margin-top: -2px; height: 34px;">
+                    <i class="ace-icon fa fa-search"></i>
+                    Pesquisar
+                </button>
+            </h3>
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm("PesquisaAvancada", "Empregado", null,
+                   new AjaxOptions
+                   {
+                       HttpMethod = "POST",
+                       OnBegin = "OnBeginPesquisaEmpregado",
+                       OnSuccess = "OnSuccessPesquisaEmpregado",
+                       OnFailure = "OnFailurePesquisaEmpregado"
+                   }, new { @id = "formPesquisaEmpregado", @class = "form-horizontal", @autocomplete = "off" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite o Nome ou parte do Nome." } })
+                    </div>
+                </div>                
+            </div>
+        
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CPF, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(model => model.CPF, new { htmlAttributes = new { @class = "form-control", @placeholder = "Digite todo CPF." } })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.Status, new SelectList(ViewBag.Status), new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Empresa, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.Empresa, new SelectList(ViewBag.Empresas, "UniqueKey", "NomeFantasia"), "Todas ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Contrato, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.Empresa, new SelectList(ViewBag.Contratos, "UniqueKey", "NomeFantasia"), "Todas ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DataAdmissao, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(model => model.DataAdmissao, new { htmlAttributes = new { @class = "form-control", @placeholder = "Período..." } })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Cargo, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.Cargo, new SelectList(ViewBag.Cargos, "UniqueKey", "NomeDoCargo"), "Todas ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Funcao, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.Funcao, new SelectList(new List<EntidadeBase>(), "UniqueKey", "NomeFantasia"), new { @class = "chosen-select form-control tag-input-style", @data_placeholder = "Selecione antes um cargo", @autocomplete = "on" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Atividade, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.Funcao, new SelectList(new List<EntidadeBase>(), "UniqueKey", "NomeFantasia"), new { @class = "chosen-select form-control tag-input-style", @data_placeholder = "Selecione antes uma função", @autocomplete = "on" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+<div class="ResultadoPesquisa">
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+    <script src="~/Scripts/Ace/chosen.jquery.js"></script>
+    <script src="~/Scripts/Ace/jQ/jquery.maskedinput.js"></script>
+    <script src="~/Scripts/Custom/Empregado/Listagem.js"></script>
+
+}

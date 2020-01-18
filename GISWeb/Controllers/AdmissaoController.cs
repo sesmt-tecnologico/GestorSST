@@ -105,7 +105,7 @@ namespace GISWeb.Controllers
         public ActionResult EmpregadosPorEmpresa(string idEmpresa)
         {
 
-            ViewBag.EmpregadoPorEmpresa = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpresa.Equals(idEmpresa))).ToList();
+            ViewBag.EmpregadoPorEmpresa = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UKEmpresa.Equals(idEmpresa))).ToList();
 
 
             return View();
@@ -117,19 +117,18 @@ namespace GISWeb.Controllers
         {
             var UK  = Guid.Parse(Uk);
 
-            ViewBag.Perfil = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(UK))).ToList();
-            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(UK)) && (p.Status == "Admitido")).ToList();
-            ViewBag.Alocacao = AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.Admissao.IDEmpregado.Equals(UK)) && (p.Ativado == "true")).ToList();
+            ViewBag.Perfil = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UKEmpregado.Equals(UK))).ToList();
+            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpregado.Equals(UK) && p.Status == GISModel.Enums.Situacao.Ativo).ToList();
+            ViewBag.Alocacao = AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.Admissao.UKEmpregado.Equals(UK))).ToList();
             ViewBag.idEmpregado = UK;
 
             var perfEmp = from a in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                           join e in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                          on a.IDEmpregado equals e.UniqueKey into g                         
+                          on a.UKEmpregado equals e.UniqueKey into g                         
                           from Emp in g.DefaultIfEmpty()
                           join j in EmpresaBusiness.Consulta.Where(p=> string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                          on a.IDEmpresa equals j.ID
-                          where a.IDEmpregado.Equals(UK) 
-
+                          on a.UKEmpresa equals j.ID
+                          where a.UKEmpregado.Equals(UK) 
                           select new PerfilEmpregadoViewModel()
                           {
                               ID_Admissao = j.ID,
@@ -151,8 +150,6 @@ namespace GISWeb.Controllers
         {
             return View();
         }
-
-        //Listar Exposições relacionadas a função do empregado
 
         public ActionResult ListaExpoAtivFuncao(string idAlocacao,string idAtividadeFuncaoLiberada,string Nome, string cpf,string idAtividade)
         {
@@ -252,12 +249,7 @@ namespace GISWeb.Controllers
 
 
         }
-
-        
-
-            
-
-            
+    
 
         public ActionResult ListaExposicao(string idAlocacao,string idAtividadeAlocada, string Nome, string cpf, string idAtividadeEstabelecimento)
         {
@@ -267,9 +259,9 @@ namespace GISWeb.Controllers
                         join AlOC in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                         on ATA.idAlocacao equals AlOC.ID
                         join ADM in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on AlOC.IdAdmissao equals ADM.ID
+                        on AlOC.UKAdmissao equals ADM.ID
                         join EMP in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on ADM.IDEmpregado equals EMP.ID
+                        on ADM.UKEmpregado equals EMP.ID
                         join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                         on ATA.idAtividadesDoEstabelecimento equals ATE.ID
                         where EX.idAlocacao.Equals(idAlocacao) && EX.idAtividadeAlocada.Equals(idAtividadeAlocada)
@@ -585,7 +577,7 @@ namespace GISWeb.Controllers
             ViewBag.empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(id))).ToList();
             try
             {
-                Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => p.IDEmpregado.Equals(id));
+                Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => p.UKEmpregado.Equals(id));
                 if (oAdmissao == null)
                 {
                     return Json(new { resultado = new RetornoJSON() { Alerta = "Empregado com CPF '" +id+ "' não encontrado." } });
@@ -617,7 +609,7 @@ namespace GISWeb.Controllers
             ViewBag.IDEmpregado = Uk;
             ViewBag.Sigla = new SelectList(DepartamentoBusiness.Consulta.ToList(), "ID", "Sigla");
             ViewBag.Empresas = new SelectList(EmpresaBusiness.Consulta.Where(p=> string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeFantasia");
-            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(Uk))).ToList();
+            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UKEmpregado.Equals(Uk))).ToList();
             ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(Uk))).ToList();
             return View();
         }
@@ -634,7 +626,7 @@ namespace GISWeb.Controllers
             ViewBag.IDempregado = Uk;
             ViewBag.Sigla = new SelectList(DepartamentoBusiness.Consulta.ToList(), "ID", "Sigla");
             ViewBag.Empresas = new SelectList(EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeFantasia");
-            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDEmpregado.Equals(Uk))).ToList();
+            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UKEmpregado.Equals(Uk))).ToList();
             ViewBag.Empregado = EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(Uk))).ToList();
 
 
@@ -650,13 +642,13 @@ namespace GISWeb.Controllers
 
             var UK_empregado = Guid.Parse(EmpID);
 
-            oAdmissao.IDEmpregado = UK_empregado;
+            oAdmissao.UKEmpregado = UK_empregado;
             if (ModelState.IsValid)
             {
                 try
                 {
                                     
-                    var tempAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.IDEmpregado.Equals(UK_empregado));
+                    var tempAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpregado.Equals(UK_empregado));
                     
                     if(tempAdmissao == null)
                     {
@@ -702,13 +694,13 @@ namespace GISWeb.Controllers
         public ActionResult Cadastrar(Admissao oAdmissao, string EmpID, string id_cpf)
         {
             var UK_empregado = Guid.Parse(EmpID);
-            oAdmissao.IDEmpregado = UK_empregado;
+            oAdmissao.UKEmpregado = UK_empregado;
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var tempAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.IDEmpregado.Equals(UK_empregado));
+                    var tempAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpregado.Equals(UK_empregado));
 
                     if (tempAdmissao !=null)
                     {
@@ -799,7 +791,7 @@ namespace GISWeb.Controllers
 
                     oAdmissao.DataExclusao = DateTime.Now;
                     oAdmissao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    oAdmissao.Status = "Demitido";
+                    oAdmissao.Status = GISModel.Enums.Situacao.Inativo;
                     AdmissaoBusiness.Alterar(oAdmissao);
 
                     return Json(new { resultado = new RetornoJSON() { Sucesso = "O Empregado '" + oAdmissao.Empregado.Nome + "' foi demitido com sucesso." } });
@@ -836,7 +828,7 @@ namespace GISWeb.Controllers
                 {
                     oAdmissao.DataExclusao = DateTime.Now;
                     oAdmissao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    oAdmissao.Status = "Demitido";
+                    oAdmissao.Status = GISModel.Enums.Situacao.Inativo;
                     AdmissaoBusiness.Alterar(oAdmissao);
 
                     TempData["MensagemSucesso"] = "O Empregado '" + oAdmissao.Empregado.Nome + "' foi demitido com sucesso.";
@@ -873,47 +865,6 @@ namespace GISWeb.Controllers
             }
         }
 
-
-
-
-        [HttpPost]
-        [RestritoAAjax]
-        [ValidateAntiForgeryToken]
-        public ActionResult Upload()
-        {
-            try
-            {
-                string fName = string.Empty;
-                string msgErro = string.Empty;
-                foreach (string fileName in Request.Files.AllKeys)
-                {
-                    HttpPostedFileBase oFile = Request.Files[fileName];
-                    fName = oFile.FileName;
-                    if (oFile != null)
-                    {
-                        string sExtensao = oFile.FileName.Substring(oFile.FileName.LastIndexOf("."));
-                        if (sExtensao.ToUpper().Contains("PNG") || sExtensao.ToUpper().Contains("JPG") || sExtensao.ToUpper().Contains("JPEG") || sExtensao.ToUpper().Contains("GIF"))
-                        {
-                            
-
-                        }
-                        else
-                        {
-                            throw new Exception("Extensão do arquivo não permitida.");
-                        }
-
-                    }
-                }
-                if (string.IsNullOrEmpty(msgErro))
-                    return Json(new { sucesso = "O upload do arquivo '" + fName + "' foi realizado com êxito.", arquivo = fName, erro = msgErro });
-                else
-                    return Json(new { erro = msgErro });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { erro = ex.Message });
-            }
-        }
 
     }
 }

@@ -16,7 +16,11 @@
     </div>
 
 
-    @using (Ajax.BeginForm("Cadastrar", "Empregado", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarEmpregado", OnSuccess = "OnSuccessCadastrarEmpregado", }, new { @id = "formCadastroEmpregado", @class = "form-horizontal" }))
+    @using (Ajax.BeginForm("Cadastrar", "Empregado", null, new AjaxOptions { 
+                                                                    HttpMethod = "POST", 
+                                                                    OnBegin = "OnBeginCadastrarEmpregado", 
+                                                                    OnSuccess = "OnSuccessCadastrarEmpregado", 
+                                                            }, new { @id = "formCadastroEmpregado", @class = "form-horizontal", @autocomplete = "off" }))
     {
         @Html.AntiForgeryToken()
 
@@ -73,7 +77,7 @@
                             <span class="input-group-addon">
                                 <i class="fa fa-calendar bigger-110"></i>
                             </span>
-                            @Html.EditorFor(d => d.DataNascimento, new { htmlAttributes = new { @class = "form-control date-picker" } })
+                            @Html.EditorFor(d => d.DataNascimento, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                 </div>
@@ -107,15 +111,10 @@
 
 
 @section Scripts {
-
     @Scripts.Render("~/bundles/ace_js_fileUpload")
 
-    <script src="~/Scripts/jQuery/inputmask.js"></script>
-
-    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
-
+    <script src="~/Scripts/Ace/jQ/jquery.maskedinput.js"></script>
     <script src="~/Scripts/Custom/Empregado/Novo.js"></script>
-
 }
 
 @section Stylesheets {

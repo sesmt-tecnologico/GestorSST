@@ -25,10 +25,6 @@ namespace GISModel.Entidades
         [DataType(DataType.EmailAddress, ErrorMessage = "Informe um e-mail válido")]
         public string Email { get; set; }
 
-        public string Endereco { get; set; }
-
-        public bool Admitido { get; set; }
-
         public string Status { get; set; }
 
     }

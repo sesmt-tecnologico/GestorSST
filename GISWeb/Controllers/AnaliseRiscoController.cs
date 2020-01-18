@@ -183,11 +183,11 @@ namespace GISWeb.Controllers
 
             var Emp = from Adm in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                       join Aloc in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                      on Adm.ID equals Aloc.IdAdmissao
+                      on Adm.ID equals Aloc.UKAdmissao
                       join Empre in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                      on Adm.IDEmpregado equals Empre.ID
+                      on Adm.UKEmpregado equals Empre.ID
                       join Firm in EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                      on Adm.IDEmpresa equals Firm.ID
+                      on Adm.UKEmpresa equals Firm.ID
                       where Aloc.ID.Equals(idAlocacao)
                       select new Admissao()
                       {
@@ -195,18 +195,13 @@ namespace GISWeb.Controllers
                           Empresa = new Empresa()
                           {
                               NomeFantasia = Firm.NomeFantasia
-
                           },
-
                           Empregado = new Empregado()
                           {
                               Nome = Empre.Nome,
                               DataNascimento = Empre.DataNascimento,
 
-                          },
-                          
-                          
-
+                          }
                       };
 
             ViewBag.Emp = Emp.ToList();

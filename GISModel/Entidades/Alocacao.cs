@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GISModel.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,29 +8,38 @@ namespace GISModel.Entidades
     [Table("tbAlocacao")]
     public class Alocacao: EntidadeBase
     {
-        
-        public Guid IdAdmissao { get; set; }
 
 
-        [Display(Name = "Ativado")]
-        public string Ativado { get; set; }
+        [Display(Name = "Situação")]
+        public Situacao Status { get; set; }
+
+
+        [Display(Name = "Admissão")]
+        public Guid UKAdmissao { get; set; }
+
 
         [Display(Name ="Numero do Contrato")]
-        public Guid IdContrato { get; set; }
+        public Guid UKContrato { get; set; }
+
 
         [Display(Name = "Departamento")]
         public Guid IDDepartamento { get; set; }
 
-        public Guid IDCargo { get; set; }
 
-        public Guid IDFuncao { get; set; }
+        [Display(Name = "Cargo")]
+        public Guid UKCargo { get; set; }
+
+
+        [Display(Name = "Função")]
+        public Guid UKFuncao { get; set; }
+
 
         [Display(Name = "Estabelecimento")]
-        public Guid idEstabelecimento { get; set; }
+        public Guid UKEstabelecimento { get; set; }
 
 
         [Display(Name = "Equipe")]
-        public Guid IDEquipe { get; set; }
+        public Guid UKEquipe { get; set; }
 
 
         public virtual Admissao Admissao { get; set; }

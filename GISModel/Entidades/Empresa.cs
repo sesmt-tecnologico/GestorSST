@@ -13,12 +13,15 @@ namespace GISModel.Entidades
         [CustomValidationCNPJ(ErrorMessage = "CPNJ inválido")]
         public string CNPJ { get; set; }
 
+
         [Display(Name = "Razão Social")]
         public string RazaoSocial { get; set; }
+
 
         [Display(Name = "Nome Fantasia")]
         [Required(ErrorMessage = "Informe o nome da Empresa")]
         public string NomeFantasia { get; set; }
+
 
         [Display(Name = "URL do Site")]
         public string URL_Site { get; set; }
@@ -29,7 +32,7 @@ namespace GISModel.Entidades
         [Display(Name = "URL do AD na Intranet")]
         public string URL_AD { get; set; }
 
-
+        public bool? Fornecedor { get; set; }
 
     }
 }

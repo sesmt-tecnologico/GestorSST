@@ -14,7 +14,7 @@ namespace GISCore.Business.Concrete
 
         public override void Inserir(Empregado pEmpregado)
         {
-            if (Consulta.Where(p => p.CPF.Equals(pEmpregado.CPF)).Any())
+            if (Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioInclusao) && p.CPF.Equals(pEmpregado.CPF)).Any())
             {
                 throw new Exception("Este empregado já está cadastrado no sistema!");
             }

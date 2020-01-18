@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System;
+using GISModel.Enums;
 
 namespace GISModel.Entidades
 {
@@ -10,33 +11,36 @@ namespace GISModel.Entidades
 
 
         [Display(Name = "Empregado")]
-        public Guid IDEmpregado { get; set; }
+        public Guid UKEmpregado { get; set; }
 
         public virtual Empregado Empregado { get; set; }
 
 
 
         [Display(Name = "Empresa")]
-        public Guid IDEmpresa { get; set; }
+        public Guid UKEmpresa { get; set; }
 
         public virtual Empresa Empresa { get; set; }
 
 
 
+        [Display(Name ="Justificativa.")]
+        public string Justificativa { get; set; }
 
-        [Display(Name ="Justificativa desta Admissão.")]
-        public string MaisAdmin { get; set; }
 
 
-        [Display(Name = "Admissão")]
+        [Display(Name = "Data da Admissão")]
         [Required(ErrorMessage = "Informe a data de admissão")]
         public string DataAdmissao { get; set; }
 
-        [Display(Name = "Demissão")]
+
+
+        [Display(Name = "Data da Demissão")]
         public string DataDemissao { get; set; }
 
 
-        public string Status { get; set; }
+
+        public Situacao Status { get; set; }
 
     }
 }
