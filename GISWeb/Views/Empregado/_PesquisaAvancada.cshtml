@@ -65,7 +65,7 @@ else
                         {
                             <tr>
                                 <td>
-                                    <a href='@Url.Action("PerfilEmpregado", "Admissao", new { UK = @item.UniqueKey})' class="green CustomTooltip" title="Exibir perfil do empregado">
+                                    <a href='@Url.Action("Perfil", "Empregado", new { id = @item.UniqueKey})' class="green CustomTooltip" title="Exibir perfil do empregado">
                                         @item.Nome
                                     </a>
                                 </td>

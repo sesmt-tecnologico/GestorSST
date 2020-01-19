@@ -338,5 +338,20 @@ namespace GISWeb.Controllers
 
         }
 
+
+        public ActionResult Perfil(string id)
+        {
+
+            Guid UK = Guid.Parse(id);
+
+            Empregado oEmp = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UK));
+
+
+
+            return View(oEmp);
+        }
+
+
+
     }
 }

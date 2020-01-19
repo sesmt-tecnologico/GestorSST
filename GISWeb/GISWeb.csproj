@@ -601,6 +601,7 @@
     <Content Include="Views\Equipe\Edicao.cshtml" />
     <Content Include="Views\Empregado\Pesquisa.cshtml" />
     <Content Include="Views\Empregado\_PesquisaAvancada.cshtml" />
+    <Content Include="Views\Empregado\Perfil.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
