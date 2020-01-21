@@ -1,13 +1,13 @@
-﻿AplicaValidacaoCPF();
-AplicaDatePicker();
-DatePTBR();
+﻿//AplicaValidacaoCPF();
+
 
 jQuery(function ($) {
+
     $('#txtCPF').mask('999.999.999-99');
-    $("#txtTelefone").mask("(99) 9999 - 9999?9", { placeholder: " " });
-    AplicaDatePicker(false);
+    $('#DataNascimento').mask('99/99/9999');
 
 });
+
 
 
 function OnSuccessCadastrarEmpregado(data) {

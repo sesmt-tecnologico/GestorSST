@@ -13,106 +13,106 @@
 * http://jquery.org/license
 *
 */
-(function($ , undefined) {
+(function ($, undefined) {
 
-	if(!ace.vars['touch']) return;
+    if (!ace.vars['touch']) return;
 
-	var touchStartEvent = "touchstart MSPointerDown pointerdown",// : "mousedown",
-			touchStopEvent  =  "touchend touchcancel MSPointerUp MSPointerCancel pointerup pointercancel",// : "mouseup",
-			touchMoveEvent  =  "touchmove MSPointerMove MSPointerHover pointermove";// : "mousemove";
-
-
-	$.event.special.ace_drag = {
-		setup: function() {
-			var min_threshold = 0;
-		
-			var $this = $(this);
-			$this.on(touchStartEvent, function(event) {		
-				var data = event.originalEvent.touches ?
-					event.originalEvent.touches[ 0 ] :
-					event,
-					start = {
-						//time: Date.now(),
-						coords: [ data.pageX, data.pageY ],
-						origin: $(event.target)
-					},
-					stop;
-					//start.origin.trigger({'type' : 'ace_dragStart', 'start':(start || [-1,-1])});
-					
-					var direction = false, dx = 0, dy = 0;
-
-				function moveHandler(event) {
-					if (!start) {
-						return;
-					}
-					var data = event.originalEvent.touches ?
-							event.originalEvent.touches[ 0 ] :
-							event;
-					stop = {
-						coords: [ data.pageX, data.pageY ]
-					};
-					
-					// prevent scrolling
-					//if ( Math.abs(start.coords[1] - stop.coords[1]) > 0 || Math.abs(start.coords[0] - stop.coords[01]) > 0 ) {
-						//event.preventDefault();
-					//}
+    var touchStartEvent = "touchstart MSPointerDown pointerdown",// : "mousedown",
+        touchStopEvent = "touchend touchcancel MSPointerUp MSPointerCancel pointerup pointercancel",// : "mouseup",
+        touchMoveEvent = "touchmove MSPointerMove MSPointerHover pointermove";// : "mousemove";
 
 
-					if (start && stop) {
-						dx = 0;
-						dy = 0;
+    $.event.special.ace_drag = {
+        setup: function () {
+            var min_threshold = 0;
 
-						direction = 
-							(
-							 Math.abs(dy = start.coords[ 1 ] - stop.coords[ 1 ]) > min_threshold
-								&& 
-							 Math.abs(dx = start.coords[ 0 ] - stop.coords[ 0 ]) <= Math.abs(dy)
-							)
-							? 
-							(dy > 0 ? 'up' : 'down')
-							:
-							(
-							 Math.abs(dx = start.coords[ 0 ] - stop.coords[ 0 ]) > min_threshold
-								&& 
-							 Math.abs( dy ) <= Math.abs(dx)
-							)
-							?
-							(dx > 0 ? 'left' : 'right')
-							:
-							false;
-							
+            var $this = $(this);
+            $this.on(touchStartEvent, function (event) {
+                var data = event.originalEvent.touches ?
+                    event.originalEvent.touches[0] :
+                    event,
+                    start = {
+                        //time: Date.now(),
+                        coords: [data.pageX, data.pageY],
+                        origin: $(event.target)
+                    },
+                    stop;
+                //start.origin.trigger({'type' : 'ace_dragStart', 'start':(start || [-1,-1])});
 
-							if( direction !== false ) {
-							 var retval = {cancel: false}
-							 start.origin.trigger({
-								'type': 'ace_drag',
-								//'start': start.coords,
-								//'stop': stop.coords,
-								'direction': direction,
-								'dx': dx,
-								'dy': dy,
-								'retval': retval
-							 })
+                var direction = false, dx = 0, dy = 0;
 
-		 					  // prevent document scrolling unless retval.cancel == true
-							  if( retval.cancel == false ) event.preventDefault();
-							}
-					}
-					start.coords[0] = stop.coords[0];
-					start.coords[1] = stop.coords[1];
-				}
+                function moveHandler(event) {
+                    if (!start) {
+                        return;
+                    }
+                    var data = event.originalEvent.touches ?
+                        event.originalEvent.touches[0] :
+                        event;
+                    stop = {
+                        coords: [data.pageX, data.pageY]
+                    };
 
-				$this
-				.on(touchMoveEvent, moveHandler)
-				.one(touchStopEvent, function(event) {
-					$this.off(touchMoveEvent, moveHandler);
-					//start.origin.trigger({'type' : 'ace_dragEnd', 'stop':(stop || [-1,-1])});
-					
-					start = stop = undefined;
-				
-				});
-			});
-		}
-	}
+                    // prevent scrolling
+                    //if ( Math.abs(start.coords[1] - stop.coords[1]) > 0 || Math.abs(start.coords[0] - stop.coords[01]) > 0 ) {
+                    //event.preventDefault();
+                    //}
+
+
+                    if (start && stop) {
+                        dx = 0;
+                        dy = 0;
+
+                        direction =
+                            (
+                                Math.abs(dy = start.coords[1] - stop.coords[1]) > min_threshold
+                                &&
+                                Math.abs(dx = start.coords[0] - stop.coords[0]) <= Math.abs(dy)
+                            )
+                                ?
+                                (dy > 0 ? 'up' : 'down')
+                                :
+                                (
+                                    Math.abs(dx = start.coords[0] - stop.coords[0]) > min_threshold
+                                    &&
+                                    Math.abs(dy) <= Math.abs(dx)
+                                )
+                                    ?
+                                    (dx > 0 ? 'left' : 'right')
+                                    :
+                                    false;
+
+
+                        if (direction !== false) {
+                            var retval = { cancel: false }
+                            start.origin.trigger({
+                                'type': 'ace_drag',
+                                //'start': start.coords,
+                                //'stop': stop.coords,
+                                'direction': direction,
+                                'dx': dx,
+                                'dy': dy,
+                                'retval': retval
+                            })
+
+                            // prevent document scrolling unless retval.cancel == true
+                            if (retval.cancel == false) event.preventDefault();
+                        }
+                    }
+                    start.coords[0] = stop.coords[0];
+                    start.coords[1] = stop.coords[1];
+                }
+
+                $this
+                    .on(touchMoveEvent, moveHandler)
+                    .one(touchStopEvent, function (event) {
+                        $this.off(touchMoveEvent, moveHandler);
+                        //start.origin.trigger({'type' : 'ace_dragEnd', 'stop':(stop || [-1,-1])});
+
+                        start = stop = undefined;
+
+                    });
+            });
+        }
+    }
 
 })(window.jQuery);

@@ -10,13 +10,6 @@ namespace GISCore.Business.Concrete
     {
         
 
-        public override void Inserir(Admissao pAdmissao)
-        {
-                        
-            pAdmissao.Admitido = "Admitido";
-            base.Inserir(pAdmissao);
-        }
-
         public override void Alterar(Admissao pAdmissao)
         {
             Admissao tempAdmissao = Consulta.FirstOrDefault(p => p.ID.Equals(pAdmissao.ID));
@@ -29,7 +22,6 @@ namespace GISCore.Business.Concrete
                 tempAdmissao.Empregado.Nome = pAdmissao.Empregado.Nome;
                 tempAdmissao.Empregado.CPF = pAdmissao.Empregado.CPF;
                 tempAdmissao.Empregado.DataNascimento = pAdmissao.Empregado.DataNascimento;
-                tempAdmissao.Imagem = pAdmissao.Imagem;
                 
                 base.Alterar(tempAdmissao);
             }

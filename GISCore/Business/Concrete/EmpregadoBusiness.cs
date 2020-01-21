@@ -14,15 +14,11 @@ namespace GISCore.Business.Concrete
 
         public override void Inserir(Empregado pEmpregado)
         {
-            Empregado tempEmpregado = Consulta.FirstOrDefault(p => p.CPF.Equals(pEmpregado.CPF));
-
-            if(tempEmpregado.CPF == pEmpregado.CPF)
+            if (Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioInclusao) && p.CPF.Equals(pEmpregado.CPF)).Any())
             {
-                              
-
                 throw new Exception("Este empregado já está cadastrado no sistema!");
             }
-                       
+    
             base.Inserir(pEmpregado);
         }
         public override void Alterar(Empregado pEmpregado)

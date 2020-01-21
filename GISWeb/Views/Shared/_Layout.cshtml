@@ -101,12 +101,11 @@
     <script src="@path/Scripts/Ace/excanvas.js"></script>
     <![endif]-->
     @Scripts.Render("~/bundles/ace_js_master")
-    @Scripts.Render("~/bundles/jqueryval")
+
+    @RenderSection("Scripts", required: false)
 
     <script src="~/Scripts/Custom/custom-functions.js"></script>
     <script src="~/Scripts/Custom/custom-master.js"></script>
-
-    @RenderSection("Scripts", required: false)
 
     <script type="text/javascript">
         ace.vars['base'] = '..';
@@ -139,6 +138,8 @@
             }
         )();
     </script>
+
+    @Scripts.Render("~/bundles/jqueryval")
 
 </body>
 </html>

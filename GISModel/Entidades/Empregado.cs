@@ -19,16 +19,13 @@ namespace GISModel.Entidades
         public string Nome { get; set; }
 
         [Display(Name = "Data de Nascimento")]
-        public DateTime DataNascimento { get; set; }
+        public string DataNascimento { get; set; }
 
         [Required(ErrorMessage = "Informe o e-mail do empregado")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Informe um e-mail válido")]
         public string Email { get; set; }
 
-        public string Endereco { get; set; }
-
-        public bool Admitido { get; set; }
-
+        public string Status { get; set; }
 
     }
 }

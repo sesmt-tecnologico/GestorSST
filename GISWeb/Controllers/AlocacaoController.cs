@@ -98,7 +98,7 @@ namespace GISWeb.Controllers
 
             try
             {
-                Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => p.IDEmpregado.Equals(Id_Adm));
+                Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => p.UKEmpregado.Equals(Id_Adm));
                 if (ViewBag.Admissao == null)
                 {
                     return Json(new { resultado = new RetornoJSON() { Alerta = "Imagens não encontrada." } });
@@ -128,7 +128,7 @@ namespace GISWeb.Controllers
         {
 
             //id da Admissão recebido por parametro
-            oAlocacao.IdAdmissao = Guid.Parse(IDAdmissao);
+            oAlocacao.UKAdmissao = Guid.Parse(IDAdmissao);
            
             if (ModelState.IsValid)
             {
@@ -181,7 +181,7 @@ namespace GISWeb.Controllers
                 {
                     oAlocacao.DataExclusao = DateTime.Now;
                     oAlocacao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    oAlocacao.Ativado = "false";
+                    oAlocacao.Status = GISModel.Enums.Situacao.Ativo;
                     AlocacaoBusiness.Alterar(oAlocacao);
 
                     Extensions.GravaCookie("MensagemSucesso", "O Empregado '" + oAlocacao.Admissao.Empregado.Nome + "' foi desalocado com sucesso.", 10);

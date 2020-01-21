@@ -18,7 +18,7 @@ namespace GISModel.Entidades
 
         public virtual Contrato Contrato { get; set; }
 
-        public virtual Fornecedor Fornecedor { get; set; }
+        public virtual Empresa Fornecedor { get; set; }
 
         [Display(Name = "Vinculo Contrato x Fornecedor")]
         public ETipoContratoFornecedor TipoContratoFornecedor { get; set; }
