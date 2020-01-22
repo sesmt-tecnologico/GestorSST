@@ -201,6 +201,7 @@
     <Content Include="Scripts\Ace\jQ\typeahead.jquery.js" />
     <Content Include="Scripts\Ace\moment.js" />
     <Content Include="Scripts\Ace\respond.js" />
+    <Content Include="Scripts\Croppie\croppie.js" />
     <Content Include="Scripts\Custom\Account\custom-login.js" />
     <Content Include="Scripts\Custom\Account\NovaSenha.js" />
     <Content Include="Scripts\Custom\Admissao\Edicao.js" />
@@ -247,6 +248,7 @@
     <Content Include="Scripts\Custom\Contrato\Novo.js" />
     <Content Include="Scripts\Custom\custom-functions.js" />
     <Content Include="Scripts\Custom\custom-master.js" />
+    <Content Include="Scripts\Custom\custom-profile.js" />
     <Content Include="Scripts\Custom\Departamento\Edicao.js" />
     <Content Include="Scripts\Custom\Departamento\Excluir.js" />
     <Content Include="Scripts\Custom\Departamento\Lista.js" />
@@ -264,6 +266,7 @@
     <Content Include="Scripts\Custom\Empregado\ListagemPorEmpresa.js" />
     <Content Include="Scripts\Custom\Empregado\Listagem.js" />
     <Content Include="Scripts\Custom\Empregado\Novo.js" />
+    <Content Include="Scripts\Custom\Empregado\Perfil.js" />
     <Content Include="Scripts\Custom\Empresa\Edicao.js" />
     <Content Include="Scripts\Custom\Empresa\Listagem.js" />
     <Content Include="Scripts\Custom\Empresa\Novo.js" />
@@ -602,6 +605,7 @@
     <Content Include="Views\Empregado\Pesquisa.cshtml" />
     <Content Include="Views\Empregado\_PesquisaAvancada.cshtml" />
     <Content Include="Views\Empregado\Perfil.cshtml" />
+    <Content Include="Views\Admissao\_Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,48 @@
+﻿@using GISModel.Entidades
+@model Admissao
+
+<div id="formCadastroAdmissao">
+
+    @using (Ajax.BeginForm("Cadastrar", "Admissao", null, new AjaxOptions { 
+                                                                HttpMethod = "POST", 
+                                                                OnBegin = "OnBeginCadastrarAdmissao", 
+                                                                OnSuccess = "OnSuccessCadastrarAdmissao", }, new { @id = "formCadAdmissao", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(a => a.UKEmpregado)
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.UKEmpresa, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.UKEmpresa, new SelectList(ViewBag.Empresas, "UniqueKey", "NomeFantasia"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+
+                    @Html.LabelFor(d => d.DataAdmissao, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.DataAdmissao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12 date-picker" } })
+                        @Html.ValidationMessageFor(d => d.DataAdmissao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <div class="form-group">
+
+                    @Html.LabelFor(d => d.Justificativa, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Justificativa, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+</div>

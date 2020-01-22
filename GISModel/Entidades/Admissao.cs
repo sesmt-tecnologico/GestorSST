@@ -24,7 +24,7 @@ namespace GISModel.Entidades
 
 
 
-        [Display(Name ="Justificativa.")]
+        [Display(Name ="Justificativa")]
         public string Justificativa { get; set; }
 
 

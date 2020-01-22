@@ -63,9 +63,13 @@ namespace GISWeb.App_Start
             bundles.Add(new StyleBundle("~/bundles/ace_css_fileUpload").Include(
                         "~/Content/Ace/css/dropzone.css"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/custom/profile").Include(
+                        "~/Scripts/Custom/custom-profile.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/croppie_js").Include(
                         "~/Scripts/Croppie/croppie.js",
-                        "~/Scripts/Ace/src/elements.fileinput.js"));
+                        "~/Scripts/Ace/elements.fileinput.js"));
 
             bundles.Add(new StyleBundle("~/bundles/croppie_css").Include(
                         "~/Content/Croppie/croppie.css"));

@@ -30,7 +30,7 @@
                     <thead>
                         <tr>
                             <th>CNPJ</th>
-                            <th>Nome Fatasia</th>
+                            <th>Nome Fantasia</th>
                             <th class="hidden-480">Razão Social</th>
                             <th width="80px"></th>
                         </tr>
@@ -40,57 +40,63 @@
 
                         @foreach (Empresa iEmpresa in ViewBag.Empresas)
                         {
-                        <tr id="linha-@iEmpresa.ID">
-                            <td>@iEmpresa.CNPJ</td>
-                            <td>
-                                @if (string.IsNullOrEmpty(iEmpresa.URL_Site))
-                                {
-                                    <span>@iEmpresa.NomeFantasia</span>
-                                }
-                                else
-                                {
-                                 <a href="@iEmpresa.URL_Site">@iEmpresa.NomeFantasia</a>
-                                }
-                            </td>
-                            <td class="hidden-480">@iEmpresa.RazaoSocial</td>
-                            <td>
-                                <div class="hidden-sm hidden-xs action-buttons">
-                                    <a href='@Url.Action("Edicao", "Empresa", new { id = @iEmpresa.ID })' class="green">
-                                        <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
-                                    </a>
+                            string backcolor = string.Empty;
+                            if (iEmpresa.Fornecedor)
+                            {
+                                backcolor = "background-color: lightyellow";
+                            }
 
-                                    <a class="red" href="#" onclick="DeletarEmpresa('@iEmpresa.ID', '@iEmpresa.NomeFantasia');">
-                                        <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
-                                    </a>
-                                </div>
+                            <tr id="linha-@iEmpresa.ID" style="@backcolor">
+                                <td>@iEmpresa.CNPJ</td>
+                                <td>
+                                    @if (string.IsNullOrEmpty(iEmpresa.URL_Site))
+                                    {
+                                        <span>@iEmpresa.NomeFantasia</span>
+                                    }
+                                    else
+                                    {
+                                     <a href="@iEmpresa.URL_Site">@iEmpresa.NomeFantasia</a>
+                                    }
+                                </td>
+                                <td class="hidden-480">@iEmpresa.RazaoSocial</td>
+                                <td>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        <a href='@Url.Action("Edicao", "Empresa", new { id = @iEmpresa.ID })' class="green">
+                                            <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
+                                        </a>
 
-                                <div class="hidden-md hidden-lg">
-                                    <div class="inline pos-rel">
-                                        <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                            <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-                                        </button>
-
-                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                            <li>
-                                                <a href='@Url.Action("Edicao", "Empresa", new { id = @iEmpresa.ID })' class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#" class="tooltip-error" onclick="DeletarEmpresa('@iEmpresa.ID', '@iEmpresa.NomeFantasia');" data-rel="tooltip" title="Delete">
-                                                    <span class="red">
-                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                        <a class="red" href="#" onclick="DeletarEmpresa('@iEmpresa.ID', '@iEmpresa.NomeFantasia');">
+                                            <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
+                                        </a>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href='@Url.Action("Edicao", "Empresa", new { id = @iEmpresa.ID })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                        <span class="green">
+                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#" class="tooltip-error" onclick="DeletarEmpresa('@iEmpresa.ID', '@iEmpresa.NomeFantasia');" data-rel="tooltip" title="Delete">
+                                                        <span class="red">
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
 
                         }
 
