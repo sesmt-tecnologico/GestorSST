@@ -19,7 +19,7 @@
                             <ul class="ace-thumbnails clearfix">
                                 <li>
                                     <a href="#" class="lnkAtualizarFotoPortfolio" data-target="#modalAtualizarFoto" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                        <img id="imagemPortfolio" class="editable img-responsive" src="@Url.Action("FotoPerfil", "Account", new { login = Model.CPF })">
+                                        <img id="imagemPortfolio" class="editable img-responsive" src="@Url.Action("FotoPerfil", "Empregado", new { login = Model.CPF })">
 
                                         <div class="text">
                                             <div class="inner">Clique para atualizar</div>
@@ -79,6 +79,7 @@
 
                         <div class="profile-info-value">
                             <span id="labelCPF">
+                                <input type="hidden" id="txtCPF" value="@Model.CPF" />
                                 <span style="font-weight: 700">@Model.CPF</span>
 
                                 <span class="action-buttons">

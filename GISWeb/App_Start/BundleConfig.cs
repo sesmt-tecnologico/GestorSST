@@ -18,6 +18,26 @@ namespace GISWeb.App_Start
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/jQuery/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js_common_end").Include(
+                        "~/Scripts/Ace/ace.widget-box.js",
+                        "~/Scripts/Ace/chosen.jquery.js",
+                        "~/Scripts/Ace/bootstrap-multiselect.js",
+                        "~/Scripts/Ace/moment.js",
+                        "~/Scripts/Ace/daterangepicker.js",
+                        "~/Scripts/Ace/bootstrap-datepicker.js",
+                        "~/Scripts/Ace/bootstrap-tag.js",
+                        "~/Scripts/Ace/elements.typeahead.js",
+                        "~/Scripts/Ace/jQ/jquery.maskedinput.js",
+                        "~/Scripts/Ace/jQ/jquery.colorbox.js",
+                        "~/Scripts/Ace/jQ/jquery.nestable.js"));
+
+            bundles.Add(new StyleBundle("~/bundles/css_common_end").Include(
+                        "~/Content/Ace/css/chosen.css",
+                        "~/Content/Ace/css/bootstrap-multiselect.css",
+                        "~/Content/Ace/css/daterangepicker.css",
+                        "~/Content/Ace/css/datepicker.css",
+                        "~/Content/Ace/css/colorbox.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/ace_js_master").Include(
                         "~/Scripts/Ace/bootstrap.js",
                         "~/Scripts/Ace/bootbox.js",

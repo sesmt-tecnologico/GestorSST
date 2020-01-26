@@ -127,6 +127,8 @@ namespace GISWeb.Controllers
             return Json(new { url = Url.Action("Perfil") });
         }
 
+        
+
         [OutputCache(Duration = 604800, Location = OutputCacheLocation.Client, VaryByParam = "login")]
         public ActionResult FotoPerfil(string login)
         {
@@ -134,6 +136,8 @@ namespace GISWeb.Controllers
 
             try
             {
+                login = login.Replace(".", "").Replace("-", "");
+
                 avatar = UsuarioBusiness.RecuperarAvatar(login);
             }
             catch { }

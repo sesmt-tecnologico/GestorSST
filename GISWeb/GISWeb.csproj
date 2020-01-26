@@ -388,6 +388,7 @@
     <Compile Include="Controllers\ExposicaoController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\FuncaoController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MedidasDeControleController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -606,6 +607,7 @@
     <Content Include="Views\Empregado\_PesquisaAvancada.cshtml" />
     <Content Include="Views\Empregado\Perfil.cshtml" />
     <Content Include="Views\Admissao\_Novo.cshtml" />
+    <Content Include="Views\Home\Sobre.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

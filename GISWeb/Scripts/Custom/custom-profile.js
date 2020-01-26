@@ -152,7 +152,7 @@ function TratarResultadoCroppie(result) {
     if (result.src) {
         $.post('/Account/AtualizarFoto', { imagemStringBase64: result.src }, function (content) {
             if (content.url)
-                location.reload()
+                location.reload();
         });
     }
 }

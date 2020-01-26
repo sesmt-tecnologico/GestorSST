@@ -50,7 +50,7 @@
             droppable: false,
             thumbnail: false
         }).on('change', function () {
-            EnviaArquivoParaCroppie(this);
+            EnviaArquivoParaCroppieEmpregado(this);
 
             $('#modalAtualizarFotoProsseguir').show();
         });
@@ -81,7 +81,7 @@
                 type: 'canvas',
                 size: 'viewport'
             }).then(function (resp) {
-                TratarResultadoCroppie({
+                TratarResultadoCroppieEmpregado({
                     src: resp,
                     obid: $('#perfilAplicacao').data('obid-aplicacao')
                 });
@@ -91,6 +91,36 @@
 
 
 });
+
+function EnviaArquivoParaCroppieEmpregado(input) {
+    if (input.files && input.files[0]) {
+        var ext = input.files[0].name.split('.').pop().toLowerCase();
+
+        if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+            ExibirMensagemGritter('Oops!', 'Extensão de arquivo inválida.', 'gritter-warning');
+        } else {
+            var uploadCrop = $('#divCropie')
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                uploadCrop.croppie('bind', {
+                    url: e.target.result
+                });
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+}
+
+function TratarResultadoCroppieEmpregado(result) {
+    if (result.src) {
+        $.post('/Empregado/AtualizarFotoEmpregado', { imagemStringBase64: result.src, login: $("#txtCPF").val() }, function (content) {
+            if (content.url)
+                location.reload();
+        });
+    }
+}
 
 function OnBeginCadastrarAdmissao() {
 
