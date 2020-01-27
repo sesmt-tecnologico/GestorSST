@@ -80,7 +80,7 @@ namespace GISWeb.Controllers
         public IFuncaoBusiness FuncaoBusiness { get; set; }
 
         [Inject]
-        public IDocsPorAtividadeBusiness DocsPorAtividadeBusiness { get; set; }
+        public IREL_DocomumentoPessoalAtividadeBusiness DocsPorAtividadeBusiness { get; set; }
 
         [Inject]
         public IDocumentosPessoalBusiness DocumentosPessoalBusiness { get; set; }

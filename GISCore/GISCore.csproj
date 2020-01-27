@@ -113,7 +113,7 @@
     <Compile Include="Business\Abstract\IAnaliseRiscoBusiness.cs" />
     <Compile Include="Business\Abstract\IArquivoBusiness.cs" />
     <Compile Include="Business\Abstract\IAtividadeFuncaoLiberadaBusiness.cs" />
-    <Compile Include="Business\Abstract\IDocsPorAtividadeBusiness.cs" />
+    <Compile Include="Business\Abstract\IREL_DocomumentoPessoalAtividadeBusiness.cs" />
     <Compile Include="Business\Abstract\IDocumentosPessoalBusiness .cs" />
     <Compile Include="Business\Abstract\IPerigoBusiness.cs" />
     <Compile Include="Business\Abstract\IRiscoBusiness.cs" />
@@ -148,7 +148,7 @@
     <Compile Include="Business\Concrete\AnaliseRiscoBusiness.cs" />
     <Compile Include="Business\Concrete\ArquivoBusiness.cs" />
     <Compile Include="Business\Concrete\AtividadeFuncaoLiberadaBusiness.cs" />
-    <Compile Include="Business\Concrete\DocsPorAtividadeBusiness.cs" />
+    <Compile Include="Business\Concrete\REL_DocomumentoPessoalAtividadeBusiness.cs" />
     <Compile Include="Business\Concrete\DocumentosPessoalBusiness .cs" />
     <Compile Include="Business\Concrete\PerigoBusiness.cs" />
     <Compile Include="Business\Concrete\RiscoBusiness.cs" />
@@ -221,6 +221,22 @@
     <Compile Include="Migrations\202001172327434_v6.cs" />
     <Compile Include="Migrations\202001172327434_v6.Designer.cs">
       <DependentUpon>202001172327434_v6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001212021223_DocPessoal.cs" />
+    <Compile Include="Migrations\202001212021223_DocPessoal.Designer.cs">
+      <DependentUpon>202001212021223_DocPessoal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001212039292_DocPessoalNovo.cs" />
+    <Compile Include="Migrations\202001212039292_DocPessoalNovo.Designer.cs">
+      <DependentUpon>202001212039292_DocPessoalNovo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001212058443_DocumentoPessoal.cs" />
+    <Compile Include="Migrations\202001212058443_DocumentoPessoal.Designer.cs">
+      <DependentUpon>202001212058443_DocumentoPessoal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001212222022_DocumentoPessoalAtividade.cs" />
+    <Compile Include="Migrations\202001212222022_DocumentoPessoalAtividade.Designer.cs">
+      <DependentUpon>202001212222022_DocumentoPessoalAtividade.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -389,6 +405,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001172327434_v6.resx">
       <DependentUpon>202001172327434_v6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001212021223_DocPessoal.resx">
+      <DependentUpon>202001212021223_DocPessoal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001212039292_DocPessoalNovo.resx">
+      <DependentUpon>202001212039292_DocPessoalNovo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001212058443_DocumentoPessoal.resx">
+      <DependentUpon>202001212058443_DocumentoPessoal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001212222022_DocumentoPessoalAtividade.resx">
+      <DependentUpon>202001212222022_DocumentoPessoalAtividade.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

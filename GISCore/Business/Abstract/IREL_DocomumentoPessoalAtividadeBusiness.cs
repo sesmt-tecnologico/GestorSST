@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GISCore.Business.Abstract
 {
-    public interface IDocsPorAtividadeBusiness: IBaseBusiness<DocsPorAtividade>
+    public interface IREL_DocomumentoPessoalAtividadeBusiness: IBaseBusiness<REL_DocomumentoPessoalAtividade>
     {
     }
 }

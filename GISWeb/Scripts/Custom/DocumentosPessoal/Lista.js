@@ -1,6 +1,6 @@
 ﻿jQuery(function ($) {
 
-    AplicajQdataTable("dynamic-table", [{ "bSortable": false },null,null,null,null,null, { "bSortable": false }], false, 20);
+    AplicajQdataTable("dynamic-table", [{ "bSortable": false },null,null,null,null { "bSortable": false }], false, 20);
 
 });
 

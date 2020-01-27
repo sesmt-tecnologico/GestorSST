@@ -1,17 +1,16 @@
 ﻿using GISCore.Business.Abstract;
-using GISModel.DTO.AtividadeAlocadaFuncao;
+using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using GISCore.Infrastructure.Utils;
-using GISWeb.Infraestrutura.Provider.Concrete;
-using GISWeb.Infraestrutura.Provider.Abstract;
 
 namespace GISWeb.Controllers
 {
@@ -174,6 +173,92 @@ namespace GISWeb.Controllers
         }
 
 
+        public ActionResult ListaDocumentoPessoal()
+        {
+
+            string sql = @"select a.UniqueKey, a.Descricao as nome, d.UniqueKey, d.NomeDocumento as NomeD, d.DescricaoDocumento as DescricaoD,
+                            da.UKAtividade as rel1, da.UKDocumentoPessoal
+                            from [dbGestor].[dbo].[tbAtividade] a 
+                            left join [dbGestor].[dbo].[REL_DocumentoPessoalAtividade] da on da.UKAtividade = a.uniqueKey and a.DataExclusao = '9999-12-31 23:59:59.997'
+                            left join [dbGestor].[dbo].[tbDocumentosPessoal] d on d.UniqueKey = da.UKDocumentoPessoal and d.DataExclusao = '9999-12-31 23:59:59.997'
+                            order by nome";
+
+
+            DataTable result = AtividadeBusiness.GetDataTable(sql);
+
+            List<Atividade> lista = new List<Atividade>();
+
+            if (result.Rows.Count > 0)
+            {
+
+                Atividade obj = null;
+                DocumentosPessoal oDocumento = null;
+
+                foreach (DataRow row in result.Rows)
+                {
+
+                    if (obj == null)
+                    {
+                        obj = new Atividade()
+                        {
+                            UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                            Descricao = row["nome"].ToString(),
+                            DocumentosPessoal = new List<DocumentosPessoal>()
+                        };
+
+                        if (!string.IsNullOrEmpty(row["UKDocumentoPessoal"].ToString()))
+                        {
+
+                            oDocumento = new DocumentosPessoal()
+                            {
+                                UniqueKey = Guid.Parse(row["UKDocumentoPessoal"].ToString()),
+                                DescricaoDocumento = row["DescricaoDocumento"].ToString(),
+                                NomeDocumento = row["NomeDocumento"].ToString(),
+
+                            };
+
+                            obj.DocumentosPessoal.Add(oDocumento);
+
+                        }
+
+                    }
+                    //se a atividade for a mesma, carregar outro documento
+                    else if (obj.UniqueKey.Equals(Guid.Parse(row["UniqueKey"].ToString())))
+                    {
+                        if (!string.IsNullOrEmpty(row["UKDocumentoPessoal"].ToString()))
+                        {
+                            if (oDocumento == null)
+                            {
+                                oDocumento = new DocumentosPessoal()
+                                {
+                                    UniqueKey = Guid.Parse(row["UKDocumentoPessoal"].ToString()),
+                                    DescricaoDocumento = row["DescricaoDocumento"].ToString(),
+                                    NomeDocumento = row["NomeDocumento"].ToString()
+                                };
+                            }
+
+
+                        }
+
+                        obj.DocumentosPessoal.Add(oDocumento);
+                    }
+
+                    
+                }
+
+                if (obj != null)
+                    lista.Add(obj);
+
+               
+            }
+
+            return View("_ListaDocumento", lista);
+
+        }
+
+
+
+    
 
 
         public ActionResult BuscarDetalhesDeMedidasDeControleAtividadeFuncao(string idTipoRisco, string idAtividade)

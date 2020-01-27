@@ -1,4 +1,4 @@
-﻿@model GISModel.Entidades.DocsPorAtividade
+﻿@model GISModel.Entidades.REL_DocomumentoPessoalAtividade
 @{
     ViewBag.Title = "Cadastro de Documento por Atividade";
 }
@@ -34,7 +34,7 @@
 
     <br /><br />
 
-    @using (Ajax.BeginForm("Cadastrar", "DocsPorAtividade", null, new AjaxOptions
+    @using (Ajax.BeginForm("Cadastrar", "REL_DocomumentoPessoalAtividade", null, new AjaxOptions
     {
         HttpMethod = "POST",
         OnBegin = "OnBeginCadastrarDocsPorAtividade",
@@ -47,10 +47,10 @@
 
             <div class="col-xs-12 col-sm-12">
                 <div class="form-group">
-                    @Html.LabelFor(d => d.idDocumentosEmpregado, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    @Html.LabelFor(d => d.idDocumentosPessoal, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                     <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownListFor(d => d.idDocumentosEmpregado, (SelectList)ViewBag.Documentos, "Selecione um Documento...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
-                        @Html.ValidationMessageFor(d => d.idDocumentosEmpregado, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        @Html.DropDownListFor(d => d.idDocumentosPessoal, (SelectList)ViewBag.Documentos, "Selecione um Documento...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
+                        @Html.ValidationMessageFor(d => d.idDocumentosPessoal, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
                         <input type="text" name="idAtiv" id="idAtiv" value=@ViewBag.idAtiv hidden />
 
                     </div>
@@ -85,7 +85,7 @@
 
 @section Scripts {
 
-<script src="~/Scripts/Custom/DocsPorAtividade/Novo.js"></script>
+<script src="~/Scripts/Custom/REL_DocomumentoPessoalAtividade/Novo.js"></script>
     
 }
 

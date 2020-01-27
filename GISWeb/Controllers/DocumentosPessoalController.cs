@@ -44,8 +44,8 @@ namespace GISWeb.Controllers
 
         public ActionResult Index()
         {
-            //return View(ViewBag.Documentos = DocumentosPessoalBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList());
-            return View(ViewBag.Documentos = DocumentosPessoalBusiness.Consulta.ToList().OrderByDescending(p=>p.ApartirDe));
+            return View(ViewBag.Documentos = DocumentosPessoalBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderByDescending(p => p.ApartirDe));
+           // return View(ViewBag.Documentos = DocumentosPessoalBusiness.Consulta.ToList().OrderByDescending(p=>p.ApartirDe));
         }
 
         public ActionResult Novo()

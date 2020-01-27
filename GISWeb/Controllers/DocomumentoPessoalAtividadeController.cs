@@ -15,13 +15,13 @@ namespace GISWeb.Controllers
     [Autorizador]
     [DadosUsuario]
     [SessionState(SessionStateBehavior.ReadOnly)]
-    public class DocsPorAtividadeController : BaseController
+    public class DocomumentoPessoalAtividadeController : BaseController
     {
 
         #region Inject
 
         [Inject]
-        public IDocsPorAtividadeBusiness DocsPorAtividadeBusiness { get; set; }
+        public IREL_DocomumentoPessoalAtividadeBusiness DocsPorAtividadeBusiness { get; set; }
 
         [Inject]
         public IDocumentosPessoalBusiness DocumentosPessoalBusiness { get; set; }
@@ -54,29 +54,30 @@ namespace GISWeb.Controllers
         public ActionResult Novo(string id)
         {
 
+            var ID = Guid.Parse(id);
 
-            ViewBag.Documentos = new SelectList(DocumentosPessoalBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "IDDocumentosEmpregado", "NomeDocumento");
+            ViewBag.Documentos = new SelectList(DocumentosPessoalBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeDocumento");
            
-            ViewBag.IDAtividade = AtividadeBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)&&(d.ID.Equals(id))).ToList(); ;
-            ViewBag.idAtiv = id;
+            ViewBag.IDAtividade = AtividadeBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)&&(d.ID.Equals(ID))).ToList(); ;
+            ViewBag.idAtiv = ID;
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(DocsPorAtividade oDocAtividade, string idAtiv)
+        public ActionResult Cadastrar(REL_DocomumentoPessoalAtividade oDocAtividade, string idAtiv)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    oDocAtividade.idAtividade = Guid.Parse(idAtiv);
+                    oDocAtividade.UKAtividade = Guid.Parse(idAtiv);
                     DocsPorAtividadeBusiness.Inserir(oDocAtividade);
 
                     TempData["MensagemSucesso"] = "O Documento foi cadastrado com sucesso.";
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "DocsPorAtividade") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "DocomumentoPessoalAtividade") } });
                 }
                 catch (Exception ex)
                 {
