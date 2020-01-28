@@ -30,15 +30,11 @@
         });
     });
 
-
-
     $('.lnkAtualizarFotoPortfolio').on('click', function () {
         $('#modalAtualizarFotoProsseguir').removeClass('disabled');
         $('#modalAtualizarFotoProsseguir').removeAttr('disabled', 'disabled');
         $('#modalAtualizarFotoProsseguir').hide();
     });
-
-
 
     if ($('#inputUpload').length > 0) {
         $('#inputUpload').ace_file_input({
@@ -89,8 +85,34 @@
         });
     }
 
+    CarregarAdmissao();
 
 });
+
+function CarregarAdmissao() {
+
+    //BuscarAdmissoesAtuais
+
+    $.ajax({
+        method: "POST",
+        url: "/Admissao/BuscarAdmissoesAtuais",
+        data: { UKEmpregado: $("#UKEmp").val() },
+        error: function (erro) {
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+
+            if (content.erro != null && content.erro != undefined && content.erro != "") {
+                ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+            }
+            else {
+                $("#ConteudoAdmissao").html(content);
+            }
+
+        }
+    });
+
+}
 
 function EnviaArquivoParaCroppieEmpregado(input) {
     if (input.files && input.files[0]) {

@@ -13,6 +13,7 @@ using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Admissao;
+using System.Data;
 
 namespace GISWeb.Controllers
 {
@@ -139,6 +140,48 @@ namespace GISWeb.Controllers
             else
             {
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult BuscarAdmissoesAtuais(string UKEmpregado)
+        {
+            try
+            {
+                List<Admissao> lista = new List<Admissao>();
+
+                string query = @"select a.UniqueKey, a.DataAdmissao, a.DataDemissao, a.Justificativa, e.NomeFantasia as Empresa, u.Nome as NomeUsuario
+                             from tbAdmissao a, tbEmpresa e, tbUsuario u
+                             where a.UKEmpregado = '" + UKEmpregado + @"' and a.Status = 1 and a.UsuarioExclusao is null and
+	                               a.UKEmpresa = e.UniqueKey and e.UsuarioExclusao is null and
+	                               a.UsuarioInclusao = u.Login and u.UsuarioExclusao is null";
+
+                DataTable result = AdmissaoBusiness.GetDataTable(query);
+                if (result.Rows.Count > 0)
+                {
+                    foreach (DataRow row in result.Rows)
+                    {
+                        lista.Add(new Admissao()
+                        {
+                            UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                            DataAdmissao = row["DataAdmissao"].ToString(),
+                            DataDemissao = row["DataDemissao"].ToString(),
+                            Justificativa = row["Justificativa"].ToString(),
+                            Empresa = new Empresa()
+                            {
+                                NomeFantasia = row["Empresa"].ToString()
+                            },
+                            UsuarioInclusao = row["NomeUsuario"].ToString(),
+                            Alocacoes = new List<Alocacao>()
+                        });
+                    }
+                }
+
+                return PartialView("_BuscarAdmissoesAtuais", lista);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
             }
         }
 

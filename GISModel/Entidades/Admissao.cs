@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System;
 using GISModel.Enums;
+using System.Collections.Generic;
 
 namespace GISModel.Entidades
 {
@@ -41,6 +42,8 @@ namespace GISModel.Entidades
 
 
         public Situacao Status { get; set; }
+
+        public List<Alocacao> Alocacoes { get; set; }
 
     }
 }

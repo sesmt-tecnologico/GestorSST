@@ -608,6 +608,7 @@
     <Content Include="Views\Empregado\Perfil.cshtml" />
     <Content Include="Views\Admissao\_Novo.cshtml" />
     <Content Include="Views\Home\Sobre.cshtml" />
+    <Content Include="Views\Admissao\_BuscarAdmissoesAtuais.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
