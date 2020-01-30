@@ -15,12 +15,16 @@
             </div>
         </div>
 
-        @using (Ajax.BeginForm("Cadastrar", "Empresa", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarEmpresa", OnSuccess = "OnSuccessCadastrarEmpresa", }, new { @id = "formCadastroEmpresa", @class = "form-horizontal" }))
+        @using (Ajax.BeginForm("Cadastrar", "Empresa", null, new AjaxOptions { 
+                                                                    HttpMethod = "POST", 
+                                                                    OnBegin = "OnBeginCadastrarEmpresa", 
+                                                                    OnSuccess = "OnSuccessCadastrarEmpresa"
+                                                                }, new { @id = "formCadastroEmpresa", @class = "form-horizontal", @autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
 
             <div class="row">
-                <div class="col-xs-12 col-sm-6">
+                <div class="col-xs-12 col-sm-4">
                     <div class="form-group">
                         @Html.LabelFor(d => d.CNPJ, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                         <div class="col-xs-12 col-sm-12">
@@ -35,6 +39,14 @@
                         <div class="col-xs-12 col-sm-12">
                             @Html.EditorFor(d => d.NomeFantasia, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
                             @Html.ValidationMessageFor(d => d.NomeFantasia, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-2">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.Fornecedor, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.CheckBoxFor(d => d.Fornecedor, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
                         </div>
                     </div>
                 </div>
@@ -101,7 +113,6 @@
     </div>
 
 @section Scripts {
-    <script src="~/Scripts/jQuery/inputmask.js"></script>
-    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Ace/jQ/jquery.maskedinput.js"></script>
     <script src="~/Scripts/Custom/Empresa/Novo.js"></script>
 }

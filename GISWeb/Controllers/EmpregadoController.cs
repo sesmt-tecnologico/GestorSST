@@ -40,6 +40,9 @@ namespace GISWeb.Controllers
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
+        [Inject]
+        public IUsuarioBusiness UsuarioBusiness { get; set; }
+
         #endregion
 
 
@@ -351,7 +354,42 @@ namespace GISWeb.Controllers
             return View(oEmp);
         }
 
+        public ActionResult FotoPerfil(string login)
+        {
+            byte[] avatar = null;
 
+            try
+            {
+                login = login.Replace(".", "").Replace("-", "");
+
+                avatar = UsuarioBusiness.RecuperarAvatar(login);
+            }
+            catch { }
+
+            if (avatar == null || avatar.Length == 0)
+                avatar = System.IO.File.ReadAllBytes(Server.MapPath("~/Content/Ace/avatars/unknown.png"));
+
+            return File(avatar, "image/jpeg");
+        }
+
+        [HttpPost]
+        [Autorizador]
+        [DadosUsuario]
+        public ActionResult AtualizarFotoEmpregado(string imagemStringBase64, string login)
+        {
+            try
+            {
+                login = login.Replace(".", "").Replace("-", "");
+
+                UsuarioBusiness.SalvarAvatar(login, imagemStringBase64, "jpg");
+            }
+            catch (Exception ex)
+            {
+                Extensions.GravaCookie("MensagemErro", ex.Message, 2);
+            }
+
+            return Json(new { url = Url.Action("Perfil") });
+        }
 
     }
 }

@@ -32,7 +32,7 @@ namespace GISModel.Entidades
         [Display(Name = "URL do AD na Intranet")]
         public string URL_AD { get; set; }
 
-        public bool? Fornecedor { get; set; }
+        public bool Fornecedor { get; set; }
 
     }
 }

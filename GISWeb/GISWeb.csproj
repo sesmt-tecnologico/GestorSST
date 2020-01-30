@@ -210,6 +210,7 @@
     <Content Include="Scripts\Ace\jQ\typeahead.jquery.js" />
     <Content Include="Scripts\Ace\moment.js" />
     <Content Include="Scripts\Ace\respond.js" />
+    <Content Include="Scripts\Croppie\croppie.js" />
     <Content Include="Scripts\Custom\Account\custom-login.js" />
     <Content Include="Scripts\Custom\Account\NovaSenha.js" />
     <Content Include="Scripts\Custom\Admissao\Edicao.js" />
@@ -256,6 +257,7 @@
     <Content Include="Scripts\Custom\Contrato\Novo.js" />
     <Content Include="Scripts\Custom\custom-functions.js" />
     <Content Include="Scripts\Custom\custom-master.js" />
+    <Content Include="Scripts\Custom\custom-profile.js" />
     <Content Include="Scripts\Custom\Departamento\Edicao.js" />
     <Content Include="Scripts\Custom\Departamento\Excluir.js" />
     <Content Include="Scripts\Custom\Departamento\Lista.js" />
@@ -273,6 +275,7 @@
     <Content Include="Scripts\Custom\Empregado\ListagemPorEmpresa.js" />
     <Content Include="Scripts\Custom\Empregado\Listagem.js" />
     <Content Include="Scripts\Custom\Empregado\Novo.js" />
+    <Content Include="Scripts\Custom\Empregado\Perfil.js" />
     <Content Include="Scripts\Custom\Empresa\Edicao.js" />
     <Content Include="Scripts\Custom\Empresa\Listagem.js" />
     <Content Include="Scripts\Custom\Empresa\Novo.js" />
@@ -395,6 +398,7 @@
     <Compile Include="Controllers\ExposicaoController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\FuncaoController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MedidasDeControleController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -612,11 +616,17 @@
     <Content Include="Views\Empregado\Pesquisa.cshtml" />
     <Content Include="Views\Empregado\_PesquisaAvancada.cshtml" />
     <Content Include="Views\Empregado\Perfil.cshtml" />
+
+    <Content Include="Views\Admissao\_Novo.cshtml" />
+    <Content Include="Views\Home\Sobre.cshtml" />
+    <Content Include="Views\Admissao\_BuscarAdmissoesAtuais.cshtml" />
+
     <Content Include="Views\Atividade\_ListaDocumento1.cshtml" />
     <Content Include="Views\Atividade\_ListaDocumento.cshtml" />
     <Content Include="Views\DocumentosPessoal\_VincularDocs.cshtml" />
     <Content Include="Views\Perigo\_ListaPerigo.cshtml" />
     <Content Include="Views\Risco\_VincularRisco.cshtml" />
+
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

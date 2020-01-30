@@ -11,7 +11,6 @@
 
                     <div class="center">
 
-
                         <div class="profile-picture" style="background-color: #82af6f">
                             <span class="CustomTooltip label label-success" title="Admitido e alocado em 1 ou mais contratos, com todas alocações aprovadas.">
                                 <b>LIBERADO</b>
@@ -20,7 +19,7 @@
                             <ul class="ace-thumbnails clearfix">
                                 <li>
                                     <a href="#" class="lnkAtualizarFotoPortfolio" data-target="#modalAtualizarFoto" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                        <img id="imagemPortfolio" class="editable img-responsive" src="">
+                                        <img id="imagemPortfolio" class="editable img-responsive" src="@Url.Action("FotoPerfil", "Empregado", new { login = Model.CPF })">
 
                                         <div class="text">
                                             <div class="inner">Clique para atualizar</div>
@@ -36,12 +35,7 @@
                         </div>
                     </div>
 
-                    <div class="space-10"></div>
-
-                    <button id="btnAlocar" class="btn btn-mini btn-block btn-info btnApresentacao">
-                        <i class="ace-icon fa fa-plus-circle bigger-120"></i>
-                        <span class="bigger-110">Admitir</span>
-                    </button>
+                    
                 </div>
             </div>
 
@@ -54,7 +48,11 @@
 
                         <div class="profile-info-value">
                             <span id="labelNomeCompleto">
-                                <span style="font-weight: 700">JOHNNATHAN RODRIGO</span>
+                                <span style="font-weight: 700">
+                                    @Model.Nome
+
+                                    <input type="hidden" id="UKEmp" value="@Model.UniqueKey.ToString()" />
+                                </span>
 
                                 <span class="action-buttons">
                                     &nbsp;
@@ -81,7 +79,8 @@
 
                         <div class="profile-info-value">
                             <span id="labelCPF">
-                                <span style="font-weight: 700">186.981.111-90</span>
+                                <input type="hidden" id="txtCPF" value="@Model.CPF" />
+                                <span style="font-weight: 700">@Model.CPF</span>
 
                                 <span class="action-buttons">
                                     &nbsp;
@@ -108,8 +107,8 @@
 
                         <div class="profile-info-value">
                             <span id="labelNascimento">
-                                <span>01/01/2017</span>
-                                <span style="font-size: 10px" class="hidden-480"> — (3 anos, 0 meses e 15 dias)</span>
+                                <span>@Model.DataNascimento</span>
+                                <span style="font-size: 10px" class="hidden-480"> — (@GISHelpers.Utils.Severino.CalculaIdade(Model.DataNascimento))</span>
 
                                 <span class="action-buttons">
                                     &nbsp;
@@ -136,7 +135,7 @@
 
                         <div class="profile-info-value">
                             <span id="labelEmail">
-                                johnnathanalmeida@gmail.com.br
+                                @Model.Email
 
                                 <span class="action-buttons">
                                     &nbsp;
@@ -189,10 +188,19 @@
                         <div class="profile-info-name"> Cadastrado em </div>
 
                         <div class="profile-info-value">
-                            <span class="editable" id="signup">01/06/2017 - 09:26:33</span>
+                            <span class="editable" id="signup">@Model.DataInclusao.ToString("dd/MM/yyyy HH:mm")</span>
                         </div>
                     </div>
+
                 </div>
+
+                <div class="space-20"></div>
+
+                <button id="btnAdmissao" class="btn btn-mini btn-block btn-info" data-target="#modalAdmissao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                    <i class="ace-icon fa fa-plus-circle bigger-120"></i>
+                    <span class="bigger-110">Admitir</span>
+                </button>
+
 
             </div>
         </div>
@@ -200,111 +208,143 @@
     </div>
 </div>
 
-
-
-
-
 <div class="space-20"></div>
 
+<div id="ConteudoAdmissao">
 
-
-
-
-
-
-
-
-<div class="widget-box transparent collapsed" id="widget-box-1">
-    <div class="widget-header green" style="border-bottom: 1px solid #ddd">
-        <h5 class="widget-title">
-            <i class="ace-icon fa fa-building" style="color: #585858"></i>
-            <a href="#" data-action="collapse" class="green">
-                <b>EMPRESA: REMO</b>
-            </a>
-        </h5>
-
-        <!-- #section:custom/widget-box.toolbar -->
-        <div style="float: right; border: 0px;">
-
-            <a href="#" class="btn btn-mini btn-info" style="padding-left: 7px; padding-right: 7px; width: 110px;">
-                <i class="ace-icon fa fa-plus-circle bigger-120"></i>
-                <span class="bigger-110">Alocar</span>
-            </a>
-
-            <a href="#" class="btn btn-mini btn-danger" style="padding-left: 7px; padding-right: 7px; width: 110px;">
-                <i class="ace-icon fa fa-minus bigger-120"></i>
-                <span class="bigger-110">Demitir</span>
-            </a>
-
-            @*<a href="#" data-action="collapse" style="margin-left: 10px;">
-                    <i class="ace-icon fa fa-chevron-up"></i>
-                </a>*@
-
-        </div>
-
-        <!-- /section:custom/widget-box.toolbar -->
-    </div>
-
-    <div class="widget-body">
-        <div class="widget-main">
-            <p class="alert alert-info">
-                Nunc aliquam enim ut arcu aliquet adipiscing. Fusce dignissim volutpat justo non consectetur. Nulla fringilla eleifend consectetur.
-            </p>
-            <p class="alert alert-success">
-                Raw denim you probably haven't heard of them jean shorts Austin.
-            </p>
-        </div>
-    </div>
 </div>
 
-<div class="space-10"></div>
-
-<div class="widget-box transparent" id="widget-box-1">
-    <div class="widget-header green" style="border-bottom: 1px solid #ddd">
-
-        <h5 class="widget-title">
-            <i class="ace-icon fa fa-building" style="color: #585858"></i>
-            <a href="#" data-action="collapse" class="green">
-                <b>EMPRESA: Hexagon</b>
-            </a>
-        </h5>
-
-        <!-- #section:custom/widget-box.toolbar -->
-        <div style="float: right; border: 0px;">
-
-            <a href="#" class="btn btn-mini btn-danger" style="padding-left: 7px; padding-right: 7px; width: 110px;">
-                <i class="ace-icon fa fa-minus bigger-120"></i>
-                <span class="bigger-110">Desalocar</span>
-            </a>
-
-        </div>
-
-        <!-- /section:custom/widget-box.toolbar -->
-    </div>
-
-    <div class="widget-body">
-        <div class="widget-main">
-            <p class="alert alert-info">
-                Nunc aliquam enim ut arcu aliquet adipiscing. Fusce dignissim volutpat justo non consectetur. Nulla fringilla eleifend consectetur.
-            </p>
-            <p class="alert alert-success">
-                Raw denim you probably haven't heard of them jean shorts Austin.
-            </p>
-        </div>
-    </div>
-</div>
-
-
-
-
-
+@section Stylesheets {
+    @*@Styles.Render("~/bundles/css_common_end")*@
+    @Styles.Render("~/bundles/croppie_css")
+}
 
 @section Scripts {
-
     <script src="~/Scripts/Ace/ace.widget-box.js"></script>
-
     @Scripts.Render("~/bundles/jQ_dataTable")
+    @Scripts.Render("~/bundles/croppie_js")
+    <script src="~/Scripts/Ace/jQ/jquery.maskedinput.js"></script>
+    @*@Scripts.Render("~/bundles/js_common_end")*@
+    @Scripts.Render("~/bundles/custom/profile")
 
-    <script src="~/Scripts/Custom/Admissao/Listagem.js"></script>
+    <script src="~/Scripts/Custom/Empregado/Perfil.js"></script>
+}
+
+
+
+@section Sliders {
+
+    <div id="modalAdmissao" class="modal fade" style="overflow: auto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalAdmissaoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Admissão</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalAdmissaoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                            <div id="modalAdmissaoCorpo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span id="modalAdmissaoLoading" style="display: block; float: left; padding-top: 6px">
+                                <img src="~/Images/slack_loading.gif" width="28px" />
+                            </span>
+
+                            <button id="modalAdmissaoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                <i class="ace-icon fa fa-times"></i>
+                                Fechar
+                            </button>
+
+                            <button id="modalAdmissaoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                <i class="ace-icon fa fa-check"></i>
+                                Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAtualizarFoto" class="modal fade" style="z-index: 10001">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalAtualizarFotoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Atualizar Foto de Perfil</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalAtualizarFotoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.GIF" width="28px" /></div>
+                            <div id="modalAtualizarFotoCorpo">
+                                <div class="alert alert-info">
+                                    <button type="button" class="close" data-dismiss="alert">
+                                        <i class="ace-icon fa fa-times"></i>
+                                    </button>
+
+                                    <strong>
+                                        <i class="ace-icon fa fa-info-circle"></i>
+                                        Mensagem:
+                                    </strong>
+
+                                    Este recurso não funciona em Internet Explorer 9 ou inferior.
+                                    <br>
+                                </div>
+
+                                <div id="divFotoPerfil" class="row">
+                                    <div class="col-xs-12">
+                                        <div class="space-14"></div>
+
+                                        <div id="divInputUpload" class="row">
+                                            <div class="col-xs-8 col-xs-offset-2">
+                                                <input type="file" id="inputUpload" accept="image/*" style="max-width: 300px" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-8 col-xs-offset-2">
+                                                <div id="divCropie">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span id="modalAtualizarFotoLoading" style="display: none; float: left; padding-top: 6px">
+                                <img src="~/Images/slack_loading.GIF" width="28px" />
+                            </span>
+
+                            <button id="modalAtualizarFotoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                <i class="ace-icon fa fa-times"></i>
+                                Fechar
+                            </button>
+
+                            <button id="modalAtualizarFotoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                <i class="ace-icon fa fa-check"></i>
+                                Atualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 }

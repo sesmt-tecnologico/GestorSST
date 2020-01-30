@@ -157,5 +157,33 @@ namespace GISHelpers.Utils
             return cnpj.EndsWith(digito);
         }
 
+        public static string CalculaIdade(string nascimento)
+        {
+            try
+            {
+                DateTime today = DateTime.Today;
+                DateTime dob = DateTime.ParseExact(nascimento, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture);
+
+                int months = today.Month - dob.Month;
+                int years = today.Year - dob.Year;
+
+                if (today.Day < dob.Day)
+                {
+                    months--;
+                }
+
+                if (months < 0)
+                {
+                    years--;
+                    months += 12;
+                }
+
+                int days = (today - dob.AddMonths((years * 12) + months)).Days;
+
+                return string.Format("{0} anos, {1} meses e {2} dias", years, months, days);
+            }
+            catch { return string.Empty; }
+        }
+
     }
 }
