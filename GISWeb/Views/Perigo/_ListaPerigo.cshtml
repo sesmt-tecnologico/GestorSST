@@ -1,6 +1,8 @@
-﻿@using GISModel.Entidades
+﻿
+@using GISModel.Entidades
 @using System.Configuration
-@model List<Atividade>
+@model List<Perigo>
+
 
 @{ Layout = ""; }
 
@@ -11,17 +13,17 @@
     <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
         <ol class="dd-list">
             @{
-                string Atividade = string.Empty;
+                string Perigo = string.Empty;
 
             }
 
 
 
-            @foreach (Atividade dep in Model)
+            @foreach (Perigo dep in Model)
             {
-                if (!Atividade.Contains(dep.Descricao + ";"))
+                if (!Perigo.Contains(dep.Descricao + ";"))
                 {
-                    Atividade += dep.Descricao + ";";
+                    Perigo += dep.Descricao + ";";
 
                     string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
 
@@ -29,15 +31,15 @@
 
                         <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
 
-                            <span><i style="color: brown">Atividade - </i> </span>@dep.Descricao
+                            <span><i style="color: brown">Perigo - </i> </span>@dep.Descricao
 
                             <div class="pull-right action-buttons">
                                 @*<a class="blue CustomTooltip" href="@Url.Action("Novo", "DocumentoPessoalAtividade", new {nome = @dep.Descricao, Uk = @dep.UniqueKey })" title="Novo Documento">*@
-                                    <a class="blue CustomTooltip" href="#" title="Vincular Documento" onclick="OnClickVincularDocs('@dep.UniqueKey');" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                        <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
-                                    </a>
+                                <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickVincularRisco('@dep.UniqueKey');" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                    <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                </a>
 
-                                <a class="orange CustomTooltip" href="@Url.Action("Edicao", "Atividade")?UK=@dep.UniqueKey" title="Editar Atividade">
+                                <a class="orange CustomTooltip" href="@Url.Action("Edicao", "Perigo")?UK=@dep.UniqueKey" title="Editar Perigo">
                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                 </a>
                             </div>
@@ -46,12 +48,12 @@
                         @if (Model.Count > 0)
                         {
                             <ol class="dd-list">
-                                @foreach (DocumentosPessoal func in dep.DocumentosPessoal)
+                                @foreach (Risco func in dep.Riscos)
                                 {
                                     <li class="dd-item" data-id="@func.UniqueKey.ToString()">
                                         <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
 
-                                            <span><i style="color: orangered">Documento - </i> </span>@func.NomeDocumento
+                                            <span><i style="color: orangered">Risco - </i> </span>@func.Nome
 
 
                                         </div>
@@ -82,7 +84,7 @@ else
             Oops!
         </strong>
 
-        No momento, nenhum cargo encontrado para esta empresa.
+        No momento, nenhum Perigo encontrado.
         <br>
     </div>
 }

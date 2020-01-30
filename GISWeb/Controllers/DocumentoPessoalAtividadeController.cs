@@ -5,6 +5,8 @@ using GISWeb.Infraestrutura.Filters;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
@@ -15,7 +17,7 @@ namespace GISWeb.Controllers
     [Autorizador]
     [DadosUsuario]
     [SessionState(SessionStateBehavior.ReadOnly)]
-    public class DocomumentoPessoalAtividadeController : BaseController
+    public class DocumentoPessoalAtividadeController : BaseController
     {
 
         #region Inject
@@ -51,15 +53,59 @@ namespace GISWeb.Controllers
             return View();
         }
 
-        public ActionResult Novo(string id)
+        public ActionResult Novo(string nome, string uk)
         {
 
-            var ID = Guid.Parse(id);
+            var UK = Guid.Parse(uk);
 
-            ViewBag.Documentos = new SelectList(DocumentosPessoalBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeDocumento");
+            ViewBag.Documentos = new SelectList(DocumentosPessoalBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "UniqueKey", "NomeDocumento");
            
-            ViewBag.IDAtividade = AtividadeBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)&&(d.ID.Equals(ID))).ToList(); ;
-            ViewBag.idAtiv = ID;
+            ViewBag.IDAtividade = AtividadeBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)&&(d.UniqueKey.Equals(UK))).ToList(); ;
+            ViewBag.idAtiv = UK;
+
+            ViewBag.Doc = DocsPorAtividadeBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao) && (d.UKAtividade.Equals(UK))).Count();
+
+
+            string sql = @"select a.UniqueKey, a.Descricao as nome, d.UniqueKey as UniqueKeyD, d.NomeDocumento as NomeD, d.DescricaoDocumento as DescricaoD,
+                            da.UKAtividade as rel1, da.UKDocumentoPessoal
+                            from tbAtividade a 
+                            left join REL_DocumentoPessoalAtividade da on da.UKAtividade = a.uniqueKey  
+                            left join tbDocumentosPessoal d on d.UniqueKey = da.UKDocumentoPessoal  
+                             where da.UKAtividade = '" + UK.ToString() + @"' order by d.NomeDocumento ";
+                            
+
+
+            DataTable result = DocsPorAtividadeBusiness.GetDataTable(sql);
+
+            List<DocumentosPessoal> lista = new List<DocumentosPessoal>();
+
+
+            if (result.Rows.Count > 0)
+            {
+                DocumentosPessoal obj = null;
+
+                foreach (DataRow row in result.Rows)
+                {
+                    if (result.Rows.Count > 0)
+                    {
+                        obj = new DocumentosPessoal()
+                        {
+                            UniqueKey = Guid.Parse(row["UniqueKeyD"].ToString()),
+                            NomeDocumento = row["NomeD"].ToString()
+
+                        };
+                    }
+
+                }
+
+                if (obj != null)
+                    lista.Add(obj);
+            }
+
+            ViewBag.lista = lista;
+
+
+
 
             return View();
         }
@@ -77,7 +123,7 @@ namespace GISWeb.Controllers
 
                     TempData["MensagemSucesso"] = "O Documento foi cadastrado com sucesso.";
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "DocomumentoPessoalAtividade") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "DocumentoPessoalAtividade") } });
                 }
                 catch (Exception ex)
                 {

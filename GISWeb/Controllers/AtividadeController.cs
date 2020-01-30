@@ -178,9 +178,9 @@ namespace GISWeb.Controllers
 
             string sql = @"select a.UniqueKey, a.Descricao as nome, d.UniqueKey, d.NomeDocumento as NomeD, d.DescricaoDocumento as DescricaoD,
                             da.UKAtividade as rel1, da.UKDocumentoPessoal
-                            from [dbGestor].[dbo].[tbAtividade] a 
-                            left join [dbGestor].[dbo].[REL_DocumentoPessoalAtividade] da on da.UKAtividade = a.uniqueKey and a.DataExclusao = '9999-12-31 23:59:59.997'
-                            left join [dbGestor].[dbo].[tbDocumentosPessoal] d on d.UniqueKey = da.UKDocumentoPessoal and d.DataExclusao = '9999-12-31 23:59:59.997'
+                            from tbAtividade a 
+                            left join REL_DocumentoPessoalAtividade da on da.UKAtividade = a.uniqueKey  
+                            left join tbDocumentosPessoal d on d.UniqueKey = da.UKDocumentoPessoal  
                             order by nome";
 
 
@@ -212,8 +212,8 @@ namespace GISWeb.Controllers
                             oDocumento = new DocumentosPessoal()
                             {
                                 UniqueKey = Guid.Parse(row["UKDocumentoPessoal"].ToString()),
-                                DescricaoDocumento = row["DescricaoDocumento"].ToString(),
-                                NomeDocumento = row["NomeDocumento"].ToString(),
+                                DescricaoDocumento = row["DescricaoD"].ToString(),
+                                NomeDocumento = row["NomeD"].ToString(),
 
                             };
 
@@ -232,8 +232,8 @@ namespace GISWeb.Controllers
                                 oDocumento = new DocumentosPessoal()
                                 {
                                     UniqueKey = Guid.Parse(row["UKDocumentoPessoal"].ToString()),
-                                    DescricaoDocumento = row["DescricaoDocumento"].ToString(),
-                                    NomeDocumento = row["NomeDocumento"].ToString()
+                                    DescricaoDocumento = row["DescricaoD"].ToString(),
+                                    NomeDocumento = row["NomeD"].ToString(),
                                 };
                             }
 

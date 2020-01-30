@@ -194,49 +194,9 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-    <Compile Include="Migrations\202001150029172_v1.cs" />
-    <Compile Include="Migrations\202001150029172_v1.Designer.cs">
-      <DependentUpon>202001150029172_v1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001170033088_v2.cs" />
-    <Compile Include="Migrations\202001170033088_v2.Designer.cs">
-      <DependentUpon>202001170033088_v2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001170059104_v3.cs" />
-    <Compile Include="Migrations\202001170059104_v3.Designer.cs">
-      <DependentUpon>202001170059104_v3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001170104054_v4.cs" />
-    <Compile Include="Migrations\202001170104054_v4.Designer.cs">
-      <DependentUpon>202001170104054_v4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001172226322_v41.cs" />
-    <Compile Include="Migrations\202001172226322_v41.Designer.cs">
-      <DependentUpon>202001172226322_v41.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001172244138_v5.cs" />
-    <Compile Include="Migrations\202001172244138_v5.Designer.cs">
-      <DependentUpon>202001172244138_v5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001172327434_v6.cs" />
-    <Compile Include="Migrations\202001172327434_v6.Designer.cs">
-      <DependentUpon>202001172327434_v6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001212021223_DocPessoal.cs" />
-    <Compile Include="Migrations\202001212021223_DocPessoal.Designer.cs">
-      <DependentUpon>202001212021223_DocPessoal.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001212039292_DocPessoalNovo.cs" />
-    <Compile Include="Migrations\202001212039292_DocPessoalNovo.Designer.cs">
-      <DependentUpon>202001212039292_DocPessoalNovo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001212058443_DocumentoPessoal.cs" />
-    <Compile Include="Migrations\202001212058443_DocumentoPessoal.Designer.cs">
-      <DependentUpon>202001212058443_DocumentoPessoal.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001212222022_DocumentoPessoalAtividade.cs" />
-    <Compile Include="Migrations\202001212222022_DocumentoPessoalAtividade.Designer.cs">
-      <DependentUpon>202001212222022_DocumentoPessoalAtividade.cs</DependentUpon>
+    <Compile Include="Migrations\202001291326234_local.cs" />
+    <Compile Include="Migrations\202001291326234_local.Designer.cs">
+      <DependentUpon>202001291326234_local.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -385,38 +345,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001150029172_v1.resx">
-      <DependentUpon>202001150029172_v1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001170033088_v2.resx">
-      <DependentUpon>202001170033088_v2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001170059104_v3.resx">
-      <DependentUpon>202001170059104_v3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001170104054_v4.resx">
-      <DependentUpon>202001170104054_v4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001172226322_v41.resx">
-      <DependentUpon>202001172226322_v41.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001172244138_v5.resx">
-      <DependentUpon>202001172244138_v5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001172327434_v6.resx">
-      <DependentUpon>202001172327434_v6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001212021223_DocPessoal.resx">
-      <DependentUpon>202001212021223_DocPessoal.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001212039292_DocPessoalNovo.resx">
-      <DependentUpon>202001212039292_DocPessoalNovo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001212058443_DocumentoPessoal.resx">
-      <DependentUpon>202001212058443_DocumentoPessoal.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001212222022_DocumentoPessoalAtividade.resx">
-      <DependentUpon>202001212222022_DocumentoPessoalAtividade.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001291326234_local.resx">
+      <DependentUpon>202001291326234_local.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

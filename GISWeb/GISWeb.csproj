@@ -261,10 +261,10 @@
     <Content Include="Scripts\Custom\Departamento\Lista.js" />
     <Content Include="Scripts\Custom\Departamento\Listagem.js" />
     <Content Include="Scripts\Custom\Departamento\Novo.js" />
-    <Content Include="Scripts\Custom\REL_DocomumentoPessoalAtividade\Edicao.js" />
-    <Content Include="Scripts\Custom\REL_DocomumentoPessoalAtividade\Excluir.js" />
-    <Content Include="Scripts\Custom\REL_DocomumentoPessoalAtividade\Lista.js" />
-    <Content Include="Scripts\Custom\REL_DocomumentoPessoalAtividade\Novo.js" />
+    <Content Include="Scripts\Custom\DocomumentoPessoalAtividade\Edicao.js" />
+    <Content Include="Scripts\Custom\DocomumentoPessoalAtividade\Excluir.js" />
+    <Content Include="Scripts\Custom\DocomumentoPessoalAtividade\Lista.js" />
+    <Content Include="Scripts\Custom\DocomumentoPessoalAtividade\Novo.js" />
     <Content Include="Scripts\Custom\DocumentosPessoal\Edicao.js" />
     <Content Include="Scripts\Custom\DocumentosPessoal\Excluir.js" />
     <Content Include="Scripts\Custom\DocumentosPessoal\Lista.js" />
@@ -346,6 +346,7 @@
     <Content Include="Scripts\Custom\WorkArea\Listagem.js" />
     <Content Include="Scripts\Custom\WorkArea\Novo.js" />
     <Content Include="Scripts\jQuery\inputmask.js" />
+    <Content Include="Connected Services\AzureStorage1\ConnectedService.json" />
     <None Include="Scripts\jQuery\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jQuery\jquery-2.2.0.js" />
     <Content Include="Scripts\jQuery\jquery.inputmask.js" />
@@ -383,7 +384,7 @@
     <Compile Include="Controllers\CargoController.cs" />
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
-    <Compile Include="Controllers\DocomumentoPessoalAtividadeController.cs" />
+    <Compile Include="Controllers\DocumentoPessoalAtividadeController.cs" />
     <Compile Include="Controllers\DocumentosPessoalController.cs" />
     <Compile Include="Controllers\EmpregadoController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
@@ -556,9 +557,9 @@
     <Content Include="Views\DocumentosPessoal\Edicao.cshtml" />
     <Content Include="Views\DocumentosPessoal\Index.cshtml" />
     <Content Include="Views\DocumentosPessoal\Novo.cshtml" />
-    <Content Include="Views\REL_DocomumentoPessoalAtividade\Index.cshtml" />
-    <Content Include="Views\REL_DocomumentoPessoalAtividade\Novo.cshtml" />
-    <Content Include="Views\REL_DocomumentoPessoalAtividade\_ListaDocumentos.cshtml" />
+    <Content Include="Views\DocumentoPessoalAtividade\Index.cshtml" />
+    <Content Include="Views\DocumentoPessoalAtividade\Novo.cshtml" />
+    <Content Include="Views\DocumentoPessoalAtividade\_ListaDocumentos.cshtml" />
     <Content Include="Views\Atividade\_NovosRiscos.cshtml" />
     <Content Include="Views\TipoDeRisco\_NovosRiscos.cshtml" />
     <Content Include="Views\TipoDeRisco\NovoRisco.cshtml" />
@@ -613,6 +614,9 @@
     <Content Include="Views\Empregado\Perfil.cshtml" />
     <Content Include="Views\Atividade\_ListaDocumento1.cshtml" />
     <Content Include="Views\Atividade\_ListaDocumento.cshtml" />
+    <Content Include="Views\DocumentosPessoal\_VincularDocs.cshtml" />
+    <Content Include="Views\Perigo\_ListaPerigo.cshtml" />
+    <Content Include="Views\Risco\_VincularRisco.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -646,6 +650,9 @@
       <Project>{ca63050f-996a-4912-8282-b00bf4438fb7}</Project>
       <Name>GISModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
