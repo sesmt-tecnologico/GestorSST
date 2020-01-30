@@ -3,7 +3,7 @@ namespace GISCore.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class v1 : DbMigration
+    public partial class local : DbMigration
     {
         public override void Up()
         {
@@ -12,14 +12,12 @@ namespace GISCore.Migrations
                 c => new
                     {
                         ID = c.Guid(nullable: false),
-                        IDEmpregado = c.Guid(nullable: false),
-                        CPF = c.String(),
-                        IDEmpresa = c.Guid(nullable: false),
-                        MaisAdmin = c.String(),
+                        UKEmpregado = c.Guid(nullable: false),
+                        UKEmpresa = c.Guid(nullable: false),
+                        Justificativa = c.String(),
                         DataAdmissao = c.String(nullable: false),
                         DataDemissao = c.String(),
-                        Imagem = c.String(),
-                        Admitido = c.String(),
+                        Status = c.Int(nullable: false),
                         UniqueKey = c.Guid(nullable: false),
                         UsuarioInclusao = c.String(),
                         DataInclusao = c.DateTime(nullable: false),
@@ -41,10 +39,9 @@ namespace GISCore.Migrations
                         ID = c.Guid(nullable: false),
                         CPF = c.String(nullable: false),
                         Nome = c.String(nullable: false),
-                        DataNascimento = c.DateTime(nullable: false),
+                        DataNascimento = c.String(),
                         Email = c.String(nullable: false),
-                        Endereco = c.String(),
-                        Admitido = c.Boolean(nullable: false),
+                        Status = c.String(),
                         UniqueKey = c.Guid(nullable: false),
                         UsuarioInclusao = c.String(),
                         DataInclusao = c.DateTime(nullable: false),
@@ -64,6 +61,7 @@ namespace GISCore.Migrations
                         URL_Site = c.String(),
                         URL_WS = c.String(),
                         URL_AD = c.String(),
+                        Fornecedor = c.Boolean(),
                         UniqueKey = c.Guid(nullable: false),
                         UsuarioInclusao = c.String(),
                         DataInclusao = c.DateTime(nullable: false),
@@ -77,14 +75,14 @@ namespace GISCore.Migrations
                 c => new
                     {
                         ID = c.Guid(nullable: false),
-                        IdAdmissao = c.Guid(nullable: false),
-                        Ativado = c.String(),
-                        IdContrato = c.Guid(nullable: false),
+                        Status = c.Int(nullable: false),
+                        UKAdmissao = c.Guid(nullable: false),
+                        UKContrato = c.Guid(nullable: false),
                         IDDepartamento = c.Guid(nullable: false),
-                        IDCargo = c.Guid(nullable: false),
-                        IDFuncao = c.Guid(nullable: false),
-                        idEstabelecimento = c.Guid(nullable: false),
-                        IDEquipe = c.Guid(nullable: false),
+                        UKCargo = c.Guid(nullable: false),
+                        UKFuncao = c.Guid(nullable: false),
+                        UKEstabelecimento = c.Guid(nullable: false),
+                        UKEquipe = c.Guid(nullable: false),
                         UniqueKey = c.Guid(nullable: false),
                         UsuarioInclusao = c.String(),
                         DataInclusao = c.DateTime(nullable: false),
@@ -349,6 +347,28 @@ namespace GISCore.Migrations
                 .Index(t => t.Funcao_ID);
             
             CreateTable(
+                "dbo.tbDocumentosPessoal",
+                c => new
+                    {
+                        ID = c.Guid(nullable: false),
+                        NomeDocumento = c.String(),
+                        DescricaoDocumento = c.String(),
+                        Validade = c.Int(nullable: false),
+                        ApartirDe = c.String(),
+                        FimDE = c.String(),
+                        AtualizadoPor = c.String(),
+                        UniqueKey = c.Guid(nullable: false),
+                        UsuarioInclusao = c.String(),
+                        DataInclusao = c.DateTime(nullable: false),
+                        UsuarioExclusao = c.String(),
+                        DataExclusao = c.DateTime(nullable: false),
+                        Atividade_ID = c.Guid(),
+                    })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.tbAtividade", t => t.Atividade_ID)
+                .Index(t => t.Atividade_ID);
+            
+            CreateTable(
                 "dbo.tbAtividadeFuncaoLiberada",
                 c => new
                     {
@@ -409,46 +429,6 @@ namespace GISCore.Migrations
                         ID = c.Guid(nullable: false),
                         IDUniqueKey = c.Guid(nullable: false),
                         IDDocumentosEmpregado = c.Guid(nullable: false),
-                        UniqueKey = c.Guid(nullable: false),
-                        UsuarioInclusao = c.String(),
-                        DataInclusao = c.DateTime(nullable: false),
-                        UsuarioExclusao = c.String(),
-                        DataExclusao = c.DateTime(nullable: false),
-                        Atividade_ID = c.Guid(),
-                        DocumentosEmpregado_ID = c.Guid(),
-                    })
-                .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.tbAtividade", t => t.Atividade_ID)
-                .ForeignKey("dbo.tbDocumentosPessoal", t => t.DocumentosEmpregado_ID)
-                .Index(t => t.Atividade_ID)
-                .Index(t => t.DocumentosEmpregado_ID);
-            
-            CreateTable(
-                "dbo.tbDocumentosPessoal",
-                c => new
-                    {
-                        ID = c.Guid(nullable: false),
-                        NomeDocumento = c.String(),
-                        DescriçãoDocumento = c.String(),
-                        Validade = c.Int(nullable: false),
-                        ApartirDe = c.String(),
-                        FimDE = c.String(),
-                        AtualizadoPor = c.String(),
-                        UniqueKey = c.Guid(nullable: false),
-                        UsuarioInclusao = c.String(),
-                        DataInclusao = c.DateTime(nullable: false),
-                        UsuarioExclusao = c.String(),
-                        DataExclusao = c.DateTime(nullable: false),
-                    })
-                .PrimaryKey(t => t.ID);
-            
-            CreateTable(
-                "dbo.tbDocsPorAtividade",
-                c => new
-                    {
-                        ID = c.Guid(nullable: false),
-                        idAtividade = c.Guid(nullable: false),
-                        idDocumentosEmpregado = c.Guid(nullable: false),
                         UniqueKey = c.Guid(nullable: false),
                         UsuarioInclusao = c.String(),
                         DataInclusao = c.DateTime(nullable: false),
@@ -649,7 +629,7 @@ namespace GISCore.Migrations
                     })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.tbContrato", t => t.Contrato_ID)
-                .ForeignKey("dbo.tbFornecedor", t => t.Fornecedor_ID)
+                .ForeignKey("dbo.tbEmpresa", t => t.Fornecedor_ID)
                 .Index(t => t.Contrato_ID)
                 .Index(t => t.Fornecedor_ID);
             
@@ -673,6 +653,21 @@ namespace GISCore.Migrations
                 .ForeignKey("dbo.tbDepartamento", t => t.Departamento_ID)
                 .Index(t => t.Contrato_ID)
                 .Index(t => t.Departamento_ID);
+            
+            CreateTable(
+                "dbo.REL_DocumentoPessoalAtividade",
+                c => new
+                    {
+                        ID = c.Guid(nullable: false),
+                        UKAtividade = c.Guid(nullable: false),
+                        UKDocumentoPessoal = c.Guid(nullable: false),
+                        UniqueKey = c.Guid(nullable: false),
+                        UsuarioInclusao = c.String(),
+                        DataInclusao = c.DateTime(nullable: false),
+                        UsuarioExclusao = c.String(),
+                        DataExclusao = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.ID);
             
             CreateTable(
                 "dbo.REL_EstabelecimentoDepartamento",
@@ -881,7 +876,7 @@ namespace GISCore.Migrations
             DropForeignKey("dbo.REL_EstabelecimentoDepartamento", "Departamento_ID", "dbo.tbDepartamento");
             DropForeignKey("dbo.REL_DepartamentoContrato", "Departamento_ID", "dbo.tbDepartamento");
             DropForeignKey("dbo.REL_DepartamentoContrato", "Contrato_ID", "dbo.tbContrato");
-            DropForeignKey("dbo.REL_ContratoFornecedor", "Fornecedor_ID", "dbo.tbFornecedor");
+            DropForeignKey("dbo.REL_ContratoFornecedor", "Fornecedor_ID", "dbo.tbEmpresa");
             DropForeignKey("dbo.REL_ContratoFornecedor", "Contrato_ID", "dbo.tbContrato");
             DropForeignKey("dbo.MedidasDeControleExistentes", "TipoDeRisco_ID", "dbo.tbTipoDeRisco");
             DropForeignKey("dbo.tbExposicao", "TipoDeRisco_ID", "dbo.tbTipoDeRisco");
@@ -891,14 +886,13 @@ namespace GISCore.Migrations
             DropForeignKey("dbo.tbTipoDeRisco", "AtividadesDoEstabelecimento_ID", "dbo.tbAtividadesDoEstabelecimento");
             DropForeignKey("dbo.tbTipoDeRisco", "Atividade_ID", "dbo.tbAtividade");
             DropForeignKey("dbo.tbExposicao", "AtividadeAlocada_ID", "dbo.tbAtividadeAlocada");
-            DropForeignKey("dbo.tbDocsPorAtividade", "DocumentosEmpregado_ID", "dbo.tbDocumentosPessoal");
-            DropForeignKey("dbo.tbDocsPorAtividade", "Atividade_ID", "dbo.tbAtividade");
             DropForeignKey("dbo.tbDocAtividade", "DocumentosEmpregado_ID", "dbo.tbDocumentosPessoal");
             DropForeignKey("dbo.tbDocAtividade", "Atividade_ID", "dbo.tbAtividade");
             DropForeignKey("dbo.tbFuncao", "Cargo_ID", "dbo.tbCargo");
             DropForeignKey("dbo.tbAtividade", "Funcao_ID", "dbo.tbFuncao");
             DropForeignKey("dbo.tbAtividadeFuncaoLiberada", "Atividade_ID", "dbo.tbAtividade");
             DropForeignKey("dbo.tbAtividadeFuncaoLiberada", "Alocacao_ID", "dbo.tbAlocacao");
+            DropForeignKey("dbo.tbDocumentosPessoal", "Atividade_ID", "dbo.tbAtividade");
             DropForeignKey("dbo.tbAnaliseRisco", "AtividadeAlocada_ID", "dbo.tbAtividadeAlocada");
             DropForeignKey("dbo.tbAtividadeAlocada", "AtividadesDoEstabelecimento_ID", "dbo.tbAtividadesDoEstabelecimento");
             DropForeignKey("dbo.tbAtividadesDoEstabelecimento", "PossiveisDanos_ID", "dbo.tbPossiveisDanos");
@@ -944,13 +938,12 @@ namespace GISCore.Migrations
             DropIndex("dbo.tbTipoDeRisco", new[] { "Atividade_ID" });
             DropIndex("dbo.tbExposicao", new[] { "TipoDeRisco_ID" });
             DropIndex("dbo.tbExposicao", new[] { "AtividadeAlocada_ID" });
-            DropIndex("dbo.tbDocsPorAtividade", new[] { "DocumentosEmpregado_ID" });
-            DropIndex("dbo.tbDocsPorAtividade", new[] { "Atividade_ID" });
             DropIndex("dbo.tbDocAtividade", new[] { "DocumentosEmpregado_ID" });
             DropIndex("dbo.tbDocAtividade", new[] { "Atividade_ID" });
             DropIndex("dbo.tbFuncao", new[] { "Cargo_ID" });
             DropIndex("dbo.tbAtividadeFuncaoLiberada", new[] { "Atividade_ID" });
             DropIndex("dbo.tbAtividadeFuncaoLiberada", new[] { "Alocacao_ID" });
+            DropIndex("dbo.tbDocumentosPessoal", new[] { "Atividade_ID" });
             DropIndex("dbo.tbAtividade", new[] { "Funcao_ID" });
             DropIndex("dbo.tbEstabelecimentoAmbiente", new[] { "Estabelecimento_ID" });
             DropIndex("dbo.tbAtividadesDoEstabelecimento", new[] { "PossiveisDanos_ID" });
@@ -979,6 +972,7 @@ namespace GISCore.Migrations
             DropTable("dbo.REL_PerigoRisco");
             DropTable("dbo.REL_FuncaoAtividade");
             DropTable("dbo.REL_EstabelecimentoDepartamento");
+            DropTable("dbo.REL_DocumentoPessoalAtividade");
             DropTable("dbo.REL_DepartamentoContrato");
             DropTable("dbo.REL_ContratoFornecedor");
             DropTable("dbo.tbPlanoDeAcao");
@@ -989,12 +983,11 @@ namespace GISCore.Migrations
             DropTable("dbo.tbPerigoPotencial");
             DropTable("dbo.tbTipoDeRisco");
             DropTable("dbo.tbExposicao");
-            DropTable("dbo.tbDocsPorAtividade");
-            DropTable("dbo.tbDocumentosPessoal");
             DropTable("dbo.tbDocAtividade");
             DropTable("dbo.tbFuncao");
             DropTable("dbo.tbCargo");
             DropTable("dbo.tbAtividadeFuncaoLiberada");
+            DropTable("dbo.tbDocumentosPessoal");
             DropTable("dbo.tbAtividade");
             DropTable("dbo.tbArquivo");
             DropTable("dbo.tbPossiveisDanos");

@@ -59,10 +59,19 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=9.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.9.1.1\lib\net45\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -254,10 +263,10 @@
     <Content Include="Scripts\Custom\Departamento\Lista.js" />
     <Content Include="Scripts\Custom\Departamento\Listagem.js" />
     <Content Include="Scripts\Custom\Departamento\Novo.js" />
-    <Content Include="Scripts\Custom\DocsPorAtividade\Edicao.js" />
-    <Content Include="Scripts\Custom\DocsPorAtividade\Excluir.js" />
-    <Content Include="Scripts\Custom\DocsPorAtividade\Lista.js" />
-    <Content Include="Scripts\Custom\DocsPorAtividade\Novo.js" />
+    <Content Include="Scripts\Custom\DocomumentoPessoalAtividade\Edicao.js" />
+    <Content Include="Scripts\Custom\DocomumentoPessoalAtividade\Excluir.js" />
+    <Content Include="Scripts\Custom\DocomumentoPessoalAtividade\Lista.js" />
+    <Content Include="Scripts\Custom\DocomumentoPessoalAtividade\Novo.js" />
     <Content Include="Scripts\Custom\DocumentosPessoal\Edicao.js" />
     <Content Include="Scripts\Custom\DocumentosPessoal\Excluir.js" />
     <Content Include="Scripts\Custom\DocumentosPessoal\Lista.js" />
@@ -340,6 +349,7 @@
     <Content Include="Scripts\Custom\WorkArea\Listagem.js" />
     <Content Include="Scripts\Custom\WorkArea\Novo.js" />
     <Content Include="Scripts\jQuery\inputmask.js" />
+    <Content Include="Connected Services\AzureStorage1\ConnectedService.json" />
     <None Include="Scripts\jQuery\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jQuery\jquery-2.2.0.js" />
     <Content Include="Scripts\jQuery\jquery.inputmask.js" />
@@ -377,7 +387,7 @@
     <Compile Include="Controllers\CargoController.cs" />
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
-    <Compile Include="Controllers\DocsPorAtividadeController.cs" />
+    <Compile Include="Controllers\DocumentoPessoalAtividadeController.cs" />
     <Compile Include="Controllers\DocumentosPessoalController.cs" />
     <Compile Include="Controllers\EmpregadoController.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
@@ -551,9 +561,9 @@
     <Content Include="Views\DocumentosPessoal\Edicao.cshtml" />
     <Content Include="Views\DocumentosPessoal\Index.cshtml" />
     <Content Include="Views\DocumentosPessoal\Novo.cshtml" />
-    <Content Include="Views\DocsPorAtividade\Index.cshtml" />
-    <Content Include="Views\DocsPorAtividade\Novo.cshtml" />
-    <Content Include="Views\DocsPorAtividade\_ListaDocumentos.cshtml" />
+    <Content Include="Views\DocumentoPessoalAtividade\Index.cshtml" />
+    <Content Include="Views\DocumentoPessoalAtividade\Novo.cshtml" />
+    <Content Include="Views\DocumentoPessoalAtividade\_ListaDocumentos.cshtml" />
     <Content Include="Views\Atividade\_NovosRiscos.cshtml" />
     <Content Include="Views\TipoDeRisco\_NovosRiscos.cshtml" />
     <Content Include="Views\TipoDeRisco\NovoRisco.cshtml" />
@@ -606,9 +616,17 @@
     <Content Include="Views\Empregado\Pesquisa.cshtml" />
     <Content Include="Views\Empregado\_PesquisaAvancada.cshtml" />
     <Content Include="Views\Empregado\Perfil.cshtml" />
+
     <Content Include="Views\Admissao\_Novo.cshtml" />
     <Content Include="Views\Home\Sobre.cshtml" />
     <Content Include="Views\Admissao\_BuscarAdmissoesAtuais.cshtml" />
+
+    <Content Include="Views\Atividade\_ListaDocumento1.cshtml" />
+    <Content Include="Views\Atividade\_ListaDocumento.cshtml" />
+    <Content Include="Views\DocumentosPessoal\_VincularDocs.cshtml" />
+    <Content Include="Views\Perigo\_ListaPerigo.cshtml" />
+    <Content Include="Views\Risco\_VincularRisco.cshtml" />
+
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -642,6 +660,9 @@
       <Project>{ca63050f-996a-4912-8282-b00bf4438fb7}</Project>
       <Name>GISModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

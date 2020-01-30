@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
 using System.Collections.Generic;
+using System.Data;
 
 namespace GISWeb.Controllers
 {
@@ -133,6 +134,8 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
+
+
 
         public ActionResult Excluir(string id)
         {

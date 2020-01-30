@@ -133,7 +133,7 @@
     <Compile Include="Entidades\Diretoria.cs" />
     <Compile Include="Entidades\Departamento.cs" />
     <Compile Include="Entidades\DocAtividade.cs" />
-    <Compile Include="Entidades\DocsPorAtividade.cs" />
+    <Compile Include="Entidades\REL_DocomumentoPessoalAtividade.cs" />
     <Compile Include="Entidades\DocumentosPessoal.cs" />
     <Compile Include="Entidades\Empregado.cs" />
     <Compile Include="Entidades\Empresa.cs" />

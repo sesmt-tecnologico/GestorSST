@@ -36,7 +36,7 @@
                     <thead>
                         <tr>
                             <th width="50px"></th>
-                            <th>Diretoria</th>
+                            @*<th>Diretoria</th>*@
                             <th>Atividade (Clique na Atividade para listar os documentos)</th>
 
                             <th width="90px"></th>
@@ -49,7 +49,7 @@
                         @foreach (Atividade item in ViewBag.Atividade)
                         {
 
-                        <tr id="linha-@item.IDAtividade">
+                        <tr id="linha-@item.ID">
 
                             <td class="center">
                                 <label class="pos-rel">
@@ -57,9 +57,9 @@
                                     <span class="lbl"></span>
                                 </label>
                             </td>
-                            <td>@item.Diretoria.Sigla</td>
+                            @*<td>@item.Diretoria.Sigla</td>*@
                             <td>
-                                <a href="#" class="tooltip-info" onclick="ListaDocumentos('@item.IDAtividade');" data-rel="tooltip" title="Exposições ">
+                                <a href="#" class="tooltip-info" onclick="ListaDocumentos('@item.ID');" data-rel="tooltip" title="Exposições ">
                                     <span class="blue">
                                         @item.Descricao
                                     </span>
@@ -71,17 +71,17 @@
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
 
-                                    <a href='@Url.Action("Novo", "DocsPorAtividade", new { id = @item.IDAtividade})' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                    <a href='@Url.Action("Novo", "REL_DocomumentoPessoalAtividade", new { id = @item.ID})' class="tooltip-success" data-rel="tooltip" title="Edit">
                                         <span class="green">
                                             <i class="fa fa-plus-square bigger-130" aria-hidden="true" title="Cadastrar Documento"></i>
                                         </span>
                                     </a>
-                                    <a href='@Url.Action("Edicao", "DocumentosPessoal", new { id = @item.IDAtividade})' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                    <a href='@Url.Action("Edicao", "DocumentosPessoal", new { id = @item.ID})' class="tooltip-success" data-rel="tooltip" title="Edit">
                                         <span class="green">
                                             <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                         </span>
                                     </a>
-                                    <a class="red" href="#" onclick="DeletarDocumento('@item.IDAtividade','@item.Descricao');">
+                                    <a class="red" href="#" onclick="DeletarDocumento('@item.ID','@item.Descricao');">
                                         <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                     </a>
 
@@ -95,14 +95,14 @@
                                         <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
 
                                             <li>
-                                                <a href='@Url.Action("Edicao", "DocumentosPessoal", new { id = @item.IDAtividade})' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                <a href='@Url.Action("Edicao", "DocumentosPessoal", new { id = @item.ID})' class="tooltip-success" data-rel="tooltip" title="Edit">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#" class="tooltip-error" onclick="DeletarDocumento('@item.IDAtividade');" data-rel="tooltip" title="Delete">
+                                                <a href="#" class="tooltip-error" onclick="DeletarDocumento('@item.ID');" data-rel="tooltip" title="Delete">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>

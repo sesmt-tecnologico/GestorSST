@@ -154,11 +154,10 @@ namespace GISWeb.Controllers
 	                              f.UniqueKey as UKFuncao, f.NomeDaFuncao as Funcao, 
 	                              cfa.UniqueKey as UKRel,
 	                              a.UniqueKey UKAtividade, a.Descricao as Atividade
-						  from [dbGestor].[dbo].[tbCargo] c
-                                  left join [dbGestor].[dbo].[tbFuncao] f on f.UKCargo = c.UniqueKey and f.DataExclusao = '9999-12-31 23:59:59.997' 
-						          left join [dbGestor].[dbo].[REL_FuncaoAtividade] cfa on f.UniqueKey = cfa.UKFuncao and cfa.DataExclusao = '9999-12-31 23:59:59.997' 
-						          left join [dbGestor].[dbo].[tbAtividade] a on a.UniqueKey = cfa.UkAtividade and a.DataExclusao = '9999-12-31 23:59:59.997'
-                          where c.DataExclusao = '9999-12-31 23:59:59.997'
+						  from tbCargo c
+                                  left join tbFuncao f on f.UKCargo = c.UniqueKey 
+						          left join REL_FuncaoAtividade cfa on f.UniqueKey = cfa.UKFuncao  
+						          left join tbAtividade a on a.UniqueKey = cfa.UkAtividade                          
 						  order by c.NomeDoCargo, f.NomeDaFuncao ";
 
             DataTable result = CargoesBusiness.GetDataTable(sql);

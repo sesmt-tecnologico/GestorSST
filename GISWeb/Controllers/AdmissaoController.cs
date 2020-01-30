@@ -81,6 +81,14 @@ namespace GISWeb.Controllers
         public IFuncaoBusiness FuncaoBusiness { get; set; }
 
         [Inject]
+
+        public IREL_DocomumentoPessoalAtividadeBusiness DocsPorAtividadeBusiness { get; set; }
+
+        [Inject]
+        public IDocumentosPessoalBusiness DocumentosPessoalBusiness { get; set; }
+
+        [Inject]
+
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
         #endregion

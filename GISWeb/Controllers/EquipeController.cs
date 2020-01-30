@@ -1,18 +1,14 @@
 ﻿using GISCore.Business.Abstract;
-using GISCore.Business.Concrete;
-using GISModel.Entidades;
-using GISWeb.Infraestrutura.Filters;
-using Ninject;
-using System;
-using GISWeb.Infraestrutura.Provider.Concrete;
-using GISWeb.Infraestrutura.Provider.Abstract;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Shared;
-using GISWeb.Infraestrutura.Provider.Concrete;
+using GISModel.Entidades;
+using GISWeb.Infraestrutura.Filters;
+using GISWeb.Infraestrutura.Provider.Abstract;
+using Ninject;
+using System;
+using System.Linq;
+using System.Web.Mvc;
+using System.Web.SessionState;
 
 namespace GISWeb.Controllers
 {

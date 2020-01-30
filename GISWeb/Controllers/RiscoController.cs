@@ -39,7 +39,10 @@ namespace GISWeb.Controllers
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
-        
+        [Inject]
+        public IBaseBusiness<REL_PerigoRisco> REL_PerigoRiscoBusiness { get; set; }
+
+
 
         #endregion
 
@@ -180,6 +183,89 @@ namespace GISWeb.Controllers
 
 
         }
+
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult VincularRiscoPerigo(string UKPerigo)
+        {
+
+            ViewBag.UKPerigo = UKPerigo;
+
+            return PartialView("_VincularRisco");
+        }
+
+
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult VincularRisco(string UKPerigo, string UKRisco)
+        {
+
+            try
+            {
+                Guid UK_Perigo = Guid.Parse(UKPerigo);
+
+                if (string.IsNullOrEmpty(UKRisco))
+                    throw new Exception("Não foi possível localizar o Risco.");
+
+                if (string.IsNullOrEmpty(UKPerigo))
+                    throw new Exception("Nenhum Perigo para vincular.");
+
+
+                if (UKRisco.Contains(","))
+                {
+                    foreach (string ativ in UKRisco.Split(','))
+                    {
+                        if (!string.IsNullOrEmpty(ativ.Trim()))
+                        {
+                            Risco pTemp = RiscoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.Equals(ativ.Trim()));
+                            if (pTemp != null)
+                            {
+                                if (REL_PerigoRiscoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKRisco.Equals(pTemp.UniqueKey) && a.UKPerigo.Equals(UK_Perigo)).Count() == 0)
+                                {
+                                    REL_PerigoRiscoBusiness.Inserir(new REL_PerigoRisco()
+                                    {
+                                        UKPerigo = UK_Perigo,
+                                        UKRisco = pTemp.UniqueKey,
+                                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Risco pTemp = RiscoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.Equals(UKRisco.Trim()));
+
+                    if (pTemp != null)
+                    {
+                        if (REL_PerigoRiscoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKRisco.Equals(pTemp.UniqueKey) && a.UKPerigo.Equals(UK_Perigo)).Count() == 0)
+                        {
+                            REL_PerigoRiscoBusiness.Inserir(new REL_PerigoRisco()
+                            {
+                                UKPerigo = UK_Perigo,
+                                UKRisco = pTemp.UniqueKey,
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                            });
+                        }
+                    }
+                }
+
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "Risco vinculado ao perigo com sucesso." } });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
+
+
+        }
+
+
+
+
+
+
 
 
 
