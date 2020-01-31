@@ -13,6 +13,7 @@ using GISModel.DTO.Admissao;
 using System.Collections.Generic;
 using System.Data;
 using GISWeb.Infraestrutura.Provider.Abstract;
+using GISHelpers.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -95,7 +96,7 @@ namespace GISWeb.Controllers
         public ActionResult Pesquisa()
         {
 
-            ViewBag.Status = new List<string> { "Atualmente admitido", "Já admitido alguma vez", "Atualmente sem admissão" };
+            //ViewBag.Status = new List<string> { "Atualmente admitido", "Já admitido alguma vez", "Atualmente sem admissão" };
             ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
             ViewBag.Cargos = CargoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
             ViewBag.Contratos = ContratoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
@@ -117,8 +118,8 @@ namespace GISWeb.Controllers
             if (!string.IsNullOrEmpty(entidade.CPF))
                 sWhere += " and CPF = '" + entidade.CPF + "'";
 
-            if (!string.IsNullOrEmpty(entidade.Status))
-                sWhere += " and Status = '" + entidade.Status + "'";
+            if (entidade.Status != null)
+                sWhere += " and Status = '" + entidade.Status.GetDisplayName() + "'";
 
             string sql = @"select top 100 UniqueKey, Nome, CPF, DataNascimento, Email, Status
                            from tbEmpregado

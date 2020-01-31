@@ -30,58 +30,61 @@ namespace GISWeb.Controllers
         public IAdmissaoBusiness AdmissaoBusiness { get; set; }
 
         [Inject]
-        public IAtividadesDoEstabelecimentoBusiness AtividadesDoEstabelecimentoBusiness { get; set; }
-
-        [Inject]
-        public IDepartamentoBusiness DepartamentoBusiness { get; set; }
-
-        [Inject]
         public IEmpresaBusiness EmpresaBusiness { get; set; }
 
         [Inject]
         public IEmpregadoBusiness EmpregadoBusiness { get; set; }
-        [Inject]
-        public IEstabelecimentoAmbienteBusiness EstabelecimentoImagensBusiness { get; set; }
-
-        [Inject]
-        public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
-
-        [Inject]
-        public IAtividadesDoEstabelecimentoBusiness RiscosDoEstabelecimentoBusiness { get; set; }
-
-        [Inject]
-        public IAlocacaoBusiness AlocacaoBusiness { get; set; }
-
-        [Inject]
-        public IAtividadeAlocadaBusiness AtividadeAlocadaBusiness { get; set; }
-
-        [Inject]
-        public IExposicaoBusiness ExposicaoBusiness { get; set; }
-
-        [Inject]
-        public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
-
-        [Inject]
-        public IEventoPerigosoBusiness EventoPerigosoBusiness { get; set; }
-
-
-        [Inject]
-        public IPossiveisDanosBusiness PossiveisDanosBusiness { get; set; }
-
-        [Inject]
-        public IPerigoPotencialBusiness PerigoPotencialBusiness { get; set; }
-
-        [Inject]
-        public IAtividadeFuncaoLiberadaBusiness AtividadeFuncaoLiberadaBusiness { get; set; }
-
-        [Inject]
-        public IAtividadeBusiness AtividadeBusiness { get; set; }
-
-        [Inject]
-        public IFuncaoBusiness FuncaoBusiness { get; set; }
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
+        //[Inject]
+        //public IAtividadesDoEstabelecimentoBusiness AtividadesDoEstabelecimentoBusiness { get; set; }
+
+        //[Inject]
+        //public IDepartamentoBusiness DepartamentoBusiness { get; set; }
+
+        //[Inject]
+        //public IEstabelecimentoAmbienteBusiness EstabelecimentoImagensBusiness { get; set; }
+
+        //[Inject]
+        //public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
+
+        //[Inject]
+        //public IAtividadesDoEstabelecimentoBusiness RiscosDoEstabelecimentoBusiness { get; set; }
+
+        //[Inject]
+        //public IAlocacaoBusiness AlocacaoBusiness { get; set; }
+
+        //[Inject]
+        //public IAtividadeAlocadaBusiness AtividadeAlocadaBusiness { get; set; }
+
+        //[Inject]
+        //public IExposicaoBusiness ExposicaoBusiness { get; set; }
+
+        //[Inject]
+        //public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
+
+        //[Inject]
+        //public IEventoPerigosoBusiness EventoPerigosoBusiness { get; set; }
+
+
+        //[Inject]
+        //public IPossiveisDanosBusiness PossiveisDanosBusiness { get; set; }
+
+        //[Inject]
+        //public IPerigoPotencialBusiness PerigoPotencialBusiness { get; set; }
+
+        //[Inject]
+        //public IAtividadeFuncaoLiberadaBusiness AtividadeFuncaoLiberadaBusiness { get; set; }
+
+        //[Inject]
+        //public IAtividadeBusiness AtividadeBusiness { get; set; }
+
+        //[Inject]
+        //public IFuncaoBusiness FuncaoBusiness { get; set; }
+
+
 
         #endregion
 
@@ -93,7 +96,19 @@ namespace GISWeb.Controllers
             {
                 var UKEmpregado = Guid.Parse(id);
 
-                ViewBag.Empresas = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.Fornecedor).ToList();
+                List<Empresa> empresas = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.Fornecedor).ToList();
+                List<Admissao> admissoesAtivas = AdmissaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKEmpregado.Equals(UKEmpregado) && string.IsNullOrEmpty(a.DataDemissao)).ToList();
+
+                foreach (Admissao adm in admissoesAtivas)
+                {
+                    empresas.RemoveAll(a => a.UniqueKey.Equals(adm.UKEmpresa));
+                }
+
+                if (empresas.Count == 0)
+                    throw new Exception("Nenhuma empresa disponível para admissão.");
+
+                ViewBag.Empresas = empresas;
+                ViewBag.PossuiAdmissaoAtiva = admissoesAtivas.Count() > 0;
 
                 Admissao obj = new Admissao()
                 {
@@ -116,13 +131,32 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+                    Empregado oEmp = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(entidade.UKEmpregado));
+                    if (oEmp == null)
+                        throw new Exception("Não foi possível encontrar o empregado relacionado a admissão.");
+
                     entidade.Status = GISModel.Enums.Situacao.Ativo;
                     entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     AdmissaoBusiness.Inserir(entidade);
 
+                    oEmp.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    EmpregadoBusiness.Terminar(oEmp);
+
+                    EmpregadoBusiness.Inserir(new Empregado()
+                    {
+                        CPF = oEmp.CPF,
+                        Nome = oEmp.Nome,
+                        DataNascimento = oEmp.DataNascimento,
+                        Email = oEmp.Email,
+                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                        UniqueKey = oEmp.UniqueKey,
+                        Status = "Atualmente admitido"
+                    });
+
+
                     Extensions.GravaCookie("MensagemSucesso", "Admissão realizada com sucesso.", 10);
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Perfil", "Empregado", new { id = entidade.UniqueKey.ToString() }) } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Perfil", "Empregado", new { id = entidade.UKEmpregado.ToString() }) } });
                 }
                 catch (Exception ex)
                 {

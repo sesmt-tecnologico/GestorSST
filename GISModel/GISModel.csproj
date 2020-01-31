@@ -164,6 +164,7 @@
     <Compile Include="Entidades\Usuario.cs" />
     <Compile Include="Entidades\UsuarioPerfil.cs" />
     <Compile Include="Entidades\WorkArea.cs" />
+    <Compile Include="Enums\EStatusAdmissao.cs" />
     <Compile Include="Enums\ETipoContratoFornecedor.cs" />
     <Compile Include="Enums\ETipoPlanoAcao.cs" />
     <Compile Include="Enums\EControle.cs" />
