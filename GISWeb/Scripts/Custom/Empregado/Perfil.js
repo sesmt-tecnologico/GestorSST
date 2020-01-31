@@ -16,6 +16,7 @@
                 $("#modalAdmissaoLoading").hide();
                 if (content.erro != null && content.erro != undefined && content.erro != "") {
                     ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                    $("#modalAdmissao").modal("hide");
                 }
                 else {
                     $("#modalAdmissaoCorpo").html(content);
@@ -145,9 +146,29 @@ function TratarResultadoCroppieEmpregado(result) {
 }
 
 function OnBeginCadastrarAdmissao() {
-
+    $('#modalAdmissaoX').hide();
+    $('#modalAdmissaoFechar').addClass('disabled');
+    $('#modalAdmissaoFechar').attr('disabled', 'disabled');
+    $('#modalAdmissaoProsseguir').addClass('disabled');
+    $('#modalAdmissaoProsseguir').attr('disabled', 'disabled');
+    $('#modalAdmissaoLoading').show();
 }
 
 function OnSuccessCadastrarAdmissao(content) {
-    TratarResultadoJSON(content);
+
+    if (content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+        ExibirMensagemDeErro(content.resultado.Erro);
+
+        $('#modalAdmissaoX').show();
+        $('#modalAdmissaoFechar').removeClass('disabled');
+        $('#modalAdmissaoFechar').attr('disabled', false);
+        $('#modalAdmissaoProsseguir').removeClass('disabled');
+        $('#modalAdmissaoProsseguir').attr('disabled', false);
+        $('#modalAdmissaoLoading').hide();
+
+    }
+    else if (content.resultado.URL != null && content.resultado.URL != undefined && content.resultado.URL != "") {
+        window.location.href = content.resultado.URL;
+    }
+
 }

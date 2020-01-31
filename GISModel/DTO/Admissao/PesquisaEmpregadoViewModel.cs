@@ -1,4 +1,5 @@
 ﻿using GISModel.Entidades;
+using GISModel.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace GISModel.DTO.Admissao
@@ -23,7 +24,7 @@ namespace GISModel.DTO.Admissao
 
 
         [Display(Name ="Situação")]
-        public string Status { get; set; }
+        public EStatusAdmissao? Status { get; set; }
 
 
         [Display(Name = "Data de Admissão")]

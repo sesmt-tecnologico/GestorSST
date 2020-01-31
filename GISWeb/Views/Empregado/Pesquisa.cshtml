@@ -53,7 +53,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
                     <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownListFor(d => d.Status, new SelectList(ViewBag.Status), new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                        @Html.EnumDropDownListFor(d => d.Status, "Selecione uma opção...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
                     </div>
                 </div>
             </div>
