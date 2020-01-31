@@ -24,7 +24,7 @@ namespace GISCore.Business.Concrete
                 throw new Exception("Não foi possível encontrar este Documento");
             }
 
-            tempDocumentosPessoal.FimDE = pDocumentosPessoal.FimDE;            
+            tempDocumentosPessoal.FimDE = DateTime.Now.ToString("dd/MM/yyyy");
             tempDocumentosPessoal.UsuarioExclusao = pDocumentosPessoal.UsuarioExclusao;
             tempDocumentosPessoal.DataExclusao = DateTime.Now;
             base.Alterar(tempDocumentosPessoal);

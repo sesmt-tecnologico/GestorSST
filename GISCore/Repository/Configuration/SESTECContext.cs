@@ -23,7 +23,7 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<DocAtividade> DocAtividade { get; set; }
 
-        public DbSet<DocsPorAtividade> DocsPorAtividade { get; set; }
+        public DbSet<REL_DocomumentoPessoalAtividade> REL_DocomumentoPessoalAtividade { get; set; }
 
         public DbSet<DocumentosPessoal> DocumentosPessoal { get; set; }
 

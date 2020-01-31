@@ -10,7 +10,7 @@
             Risco
             <a href="@Url.Action("Novo", "Risco")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
                 <i class="ace-icon fa fa-plus bigger-120 blue"></i>
-                Novo Risco
+                Novo 
             </a>
         </h3>
     </div>
@@ -43,7 +43,7 @@
                         @foreach (Risco iRisco in ViewBag.Risco)
                         {
                             <tr id="linha-@iRisco.ID">
-                                <td class="center">
+                                <td class="center" width="60">
                                     <label class="pos-rel">
                                         <input type="checkbox" class="ace" />
                                         <span class="lbl"></span>

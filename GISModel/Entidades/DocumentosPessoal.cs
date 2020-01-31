@@ -12,7 +12,7 @@ namespace GISModel.Entidades
         public string NomeDocumento { get; set; }
 
         [Display(Name ="Descrição")]
-        public string DescriçãoDocumento { get; set; }
+        public string DescricaoDocumento { get; set; }
 
         [Display(Name ="Validade em meses")]
         [Required(ErrorMessage ="Insira o total de meses - de 0 a 12",AllowEmptyStrings =false)]
