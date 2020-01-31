@@ -194,13 +194,9 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-    <Compile Include="Migrations\202001291326234_local.cs" />
-    <Compile Include="Migrations\202001291326234_local.Designer.cs">
-      <DependentUpon>202001291326234_local.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001220136076_r1.cs" />
-    <Compile Include="Migrations\202001220136076_r1.Designer.cs">
-      <DependentUpon>202001220136076_r1.cs</DependentUpon>
+    <Compile Include="Migrations\202001302053252_merge.cs" />
+    <Compile Include="Migrations\202001302053252_merge.Designer.cs">
+      <DependentUpon>202001302053252_merge.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -349,11 +345,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001291326234_local.resx">
-      <DependentUpon>202001291326234_local.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001220136076_r1.resx">
-      <DependentUpon>202001220136076_r1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001302053252_merge.resx">
+      <DependentUpon>202001302053252_merge.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

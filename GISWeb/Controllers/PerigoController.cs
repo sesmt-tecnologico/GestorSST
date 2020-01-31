@@ -136,6 +136,117 @@ namespace GISWeb.Controllers
         }
 
 
+        public ActionResult ListaPerigo()
+        {
+
+            string sql = @"select p.UniqueKey as UK_P, p.Descricao, r.UniqueKey as UK_R, r.Nome, pr.UKPerigo, pr.UKRisco as relR
+                            from tbPerigo p
+                            left join REL_PerigoRisco pr on pr.UKPerigo = p.UniqueKey
+                            left join tbRisco r on r.UniqueKey = pr.UKRisco
+                            order by p.Descricao";
+
+
+            DataTable result = PerigoBusiness.GetDataTable(sql);
+
+            List<Perigo> lista = new List<Perigo>();
+
+
+            if (result.Rows.Count > 0)
+            {
+                Perigo obj = null;
+                Risco oRisco = null;
+
+                foreach (DataRow row in result.Rows)
+                {
+                    if (obj == null)
+                    {
+                        obj = new Perigo()
+                        {
+                            UniqueKey = Guid.Parse(row["UK_P"].ToString()),
+                            Descricao = row["Descricao"].ToString(),
+                            Riscos = new List<Risco>()
+                        };
+
+
+                        if (!string.IsNullOrEmpty(row["relR"].ToString()))
+                        {
+                            oRisco = new Risco()
+                            {
+                                UniqueKey = Guid.Parse(row["relR"].ToString()),
+                                Nome = row["Nome"].ToString(),
+
+                            };
+                            obj.Riscos.Add(oRisco);
+                        }
+
+
+                    }
+                    //if UniqueKey for igual a UKPerigo
+                    else if (obj.UniqueKey.Equals(Guid.Parse(row["UK_P"].ToString())))
+                    {
+                        //if UKRisco nao for nulo
+                        if (!string.IsNullOrEmpty(row["relR"].ToString()))
+                        {
+                            if (oRisco == null)
+                            {
+                                oRisco = new Risco()
+                                {
+                                    UniqueKey = Guid.Parse(row["relR"].ToString()),
+                                    Nome = row["Nome"].ToString(),
+
+                                };
+
+                                obj.Riscos.Add(oRisco);
+
+                            }
+
+
+                        }
+
+
+                    }
+                
+
+                    else 
+                    {
+                        lista.Add(obj);
+
+                        obj = new Perigo()
+                        {
+                            UniqueKey = Guid.Parse(row["UK_P"].ToString()),                            
+                            Descricao = row["Descricao"].ToString(),
+                            Riscos = new List<Risco>()
+                        };
+
+
+                        if (!string.IsNullOrEmpty(row["relR"].ToString()))
+                        {
+                            oRisco = new Risco()
+                            {
+                                ID = Guid.Parse(row["relR"].ToString()),
+                                UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                                Nome = row["Nome"].ToString(),
+                            
+                            };                        
+
+                            obj.Riscos.Add(oRisco);
+                        }
+                    }
+                }
+
+                    if (obj != null)
+                        lista.Add(obj);
+
+             }
+
+                    return View("_ListaPerigo", lista);
+
+        }
+
+
+
+
+
 
         public ActionResult Excluir(string id)
         {
