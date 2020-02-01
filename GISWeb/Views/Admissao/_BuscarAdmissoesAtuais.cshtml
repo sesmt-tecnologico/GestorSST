@@ -17,7 +17,7 @@ else
 {
     foreach (Admissao adm in Model)
     {
-        <div class="widget-box transparent collapsed" id="widget-box-1">
+        <div class="widget-box transparent collapsed" id="widget-box-1" data-ukadmissao="@adm.UniqueKey.ToString()">
             <div class="widget-header green" style="border-bottom: 1px solid #ddd">
                 <h5 class="widget-title">
                     <i class="ace-icon fa fa-building" style="color: #585858"></i>
@@ -30,12 +30,12 @@ else
 
                     @if (adm.Alocacoes != null && adm.Alocacoes.Count == 0)
                     {
-                        <a href="#" class="btn btn-mini btn-info" style="padding-left: 7px; padding-right: 7px; width: 110px;">
+                        <a href="#" class="btn btn-mini btn-info btnNovaAlocacao" style="padding-left: 7px; padding-right: 7px; width: 110px;" data-target="#modalAlocacao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                             <i class="ace-icon fa fa-plus-circle bigger-120"></i>
                             <span class="bigger-110">Alocar</span>
                         </a>
 
-                        <a href="#" class="btn btn-mini btn-danger" style="padding-left: 7px; padding-right: 7px; width: 110px;">
+                        <a href="#" class="btn btn-mini btn-danger btnDemitir" style="padding-left: 7px; padding-right: 7px; width: 110px;" data-target="#modalAdmissao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                             <i class="ace-icon fa fa-minus bigger-120"></i>
                             <span class="bigger-110">Demitir</span>
                         </a>

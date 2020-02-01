@@ -35,6 +35,9 @@ namespace GISWeb.Controllers
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
+        [Inject]
+        public IBaseBusiness<REL_DepartamentoContrato> REL_DepartamentoContratoBusiness { get; set; }
+
         #endregion
 
 
@@ -51,6 +54,28 @@ namespace GISWeb.Controllers
 
             List<Departamento> departamentos = DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKEmpresa.ToString().Equals(id)).ToList();
             return PartialView("_BuscarDepartamentosPorEmpresa", departamentos);
+        }
+
+        public ActionResult BuscarDepartamentosPorContratoParaSelect(string id)
+        {
+            try
+            {
+                Guid UKContrato = Guid.Parse(id);
+
+                List<Departamento> departamentos = (from relDepCont in REL_DepartamentoContratoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKContrato.Equals(UKContrato)).ToList()
+                                                    join dep in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on relDepCont.UKDepartamento equals dep.UniqueKey
+                                                    select new Departamento()
+                                                    {
+                                                        UniqueKey = dep.UniqueKey,
+                                                        Sigla = dep.Sigla
+                                                    }).ToList();
+
+                return Json(new { data = departamentos });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }            
         }
 
         public ActionResult BuscarDepartamentosTodasEmpresa()
@@ -139,50 +164,37 @@ namespace GISWeb.Controllers
         public ActionResult Novo(string ukDepartamento = "")
         {
 
-           
             Departamento newDep = new Departamento();
-
-           // newDep.UKEmpresa = Guid.Parse(ukEmpresa);
-
-           
-
-            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(newDep.UKEmpresa)).ToList();
-
-
-            Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(newDep.UKEmpresa));
-
-            if (emp != null)
-                ViewBag.Empresa = emp.NomeFantasia;
-            else
-                ViewBag.Empresa = string.Empty;
-
-            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
-            ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
             ViewBag.Niveis = NivelHierarquicoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList().OrderBy(b => b.Nome);
 
-
-            //Departamento newDep = new Departamento();
-            
             if (string.IsNullOrEmpty(ukDepartamento))
-                ViewBag.DepartamentoSuperior = string.Empty;
+            {
+                ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && !a.Fornecedor).ToList();
+            }
             else
             {
-                newDep.UniqueKey = Guid.Parse(ukDepartamento);
-                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(newDep.UniqueKey));
+                Guid ukdep = Guid.Parse(ukDepartamento);
 
-
-
-                newDep.UKDepartamentoVinculado = Guid.Parse(ukDepartamento);
-
-               // Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey == newDep.UKDepartamentoVinculado);
-
+                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(ukdep));
                 if (dep != null)
                 {
                     ViewBag.DepartamentoSuperior = dep.Sigla;
-                    
+                    newDep.UKDepartamentoVinculado = dep.UniqueKey;
+
+                    Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(dep.UKEmpresa));
+                    if (emp != null)
+                    {
+                        newDep.UKEmpresa = emp.UniqueKey;
+                        ViewBag.Empresa = emp.NomeFantasia;
+                    }
+                    else
+                    {
+                        ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && !a.Fornecedor).ToList();
+                    }
                 }
                 else
                 {
+                    ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && !a.Fornecedor).ToList();
                     ViewBag.DepartamentoSuperior = string.Empty;
                 }
             }
@@ -190,7 +202,7 @@ namespace GISWeb.Controllers
             return View(newDep);
         }
 
-
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]

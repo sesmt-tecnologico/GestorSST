@@ -38,19 +38,7 @@ namespace GISWeb.Controllers
         public IContratoBusiness ContratoBusiness { get; set; }
 
         [Inject]
-        public IBaseBusiness<Fornecedor> FornecedorBusiness { get; set; }
-
-        [Inject]
-        public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
-
-        [Inject]
-        public IEventoPerigosoBusiness EventoPerigosoBusiness { get; set; }
-
-        [Inject]
-        public IPossiveisDanosBusiness PossiveisDanosBusiness { get; set; }
-
-        [Inject]
-        public IEventoPerigosoBusiness EventoPerigosBusiness { get; set; }
+        public IEmpresaBusiness EmpresaBusiness { get; set; }
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
@@ -60,15 +48,14 @@ namespace GISWeb.Controllers
         public ActionResult Index()
         {
             ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p => p.Sigla);
-            ViewBag.Fornecedores = FornecedorBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList().OrderBy(a => a.NomeFantasia);
+            ViewBag.Fornecedores = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList().OrderBy(a => a.NomeFantasia);
             return View();
         }
 
         public ActionResult Novo()
         {
             ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
-
-            ViewBag.Fornecedores = FornecedorBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList().OrderBy(a => a.NomeFantasia);
+            ViewBag.Fornecedores = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList().OrderBy(a => a.NomeFantasia);
 
             return View();
         }
@@ -186,7 +173,7 @@ namespace GISWeb.Controllers
             {
 
                 ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
-                ViewBag.Fornecedores = FornecedorBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList().OrderBy(a => a.NomeFantasia);
+                ViewBag.Fornecedores = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList().OrderBy(a => a.NomeFantasia);
 
                 obj = new EdicaoContratoViewModel()
                 {
@@ -512,7 +499,7 @@ namespace GISWeb.Controllers
 		                                 WHERE r2.UKContrato = o.UniqueKey and r2.DataExclusao = '9999-12-31 23:59:59.997' and
 			                                   r2.UKFornecedor = f.UniqueKey and f.DataExclusao = '9999-12-31 23:59:59.997' and
 			                                   r2.TipoContratoFornecedor = 1) as SubContratadas
-                               from tbcontrato o, REL_ContratoFornecedor r1, tbFornecedor f " + sFrom + @"
+                               from tbcontrato o, REL_ContratoFornecedor r1, tbEmpresa f " + sFrom + @"
                                where o.DataExclusao = '9999-12-31 23:59:59.997' and r1.DataExclusao = '9999-12-31 23:59:59.997' and
 	                                 o.UniqueKey = r1.UKContrato and r1.TipoContratoFornecedor = 0 and
 	                                 r1.UKFornecedor = f.UniqueKey and f.UsuarioExclusao is null " + sWhere + @"

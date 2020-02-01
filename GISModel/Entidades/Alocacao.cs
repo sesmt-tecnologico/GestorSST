@@ -23,7 +23,7 @@ namespace GISModel.Entidades
 
 
         [Display(Name = "Departamento")]
-        public Guid IDDepartamento { get; set; }
+        public Guid UKDepartamento { get; set; }
 
 
         [Display(Name = "Cargo")]

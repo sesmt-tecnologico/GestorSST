@@ -1,4 +1,5 @@
 ﻿using GISCore.Business.Abstract;
+using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
@@ -6,14 +7,10 @@ using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Data;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using GISCore.Infrastructure.Utils;
-using GISModel.DTO.Admissao;
-using System.Data;
 
 namespace GISWeb.Controllers
 {
@@ -37,54 +34,6 @@ namespace GISWeb.Controllers
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
-
-        //[Inject]
-        //public IAtividadesDoEstabelecimentoBusiness AtividadesDoEstabelecimentoBusiness { get; set; }
-
-        //[Inject]
-        //public IDepartamentoBusiness DepartamentoBusiness { get; set; }
-
-        //[Inject]
-        //public IEstabelecimentoAmbienteBusiness EstabelecimentoImagensBusiness { get; set; }
-
-        //[Inject]
-        //public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadesDoEstabelecimentoBusiness RiscosDoEstabelecimentoBusiness { get; set; }
-
-        //[Inject]
-        //public IAlocacaoBusiness AlocacaoBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadeAlocadaBusiness AtividadeAlocadaBusiness { get; set; }
-
-        //[Inject]
-        //public IExposicaoBusiness ExposicaoBusiness { get; set; }
-
-        //[Inject]
-        //public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
-
-        //[Inject]
-        //public IEventoPerigosoBusiness EventoPerigosoBusiness { get; set; }
-
-
-        //[Inject]
-        //public IPossiveisDanosBusiness PossiveisDanosBusiness { get; set; }
-
-        //[Inject]
-        //public IPerigoPotencialBusiness PerigoPotencialBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadeFuncaoLiberadaBusiness AtividadeFuncaoLiberadaBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadeBusiness AtividadeBusiness { get; set; }
-
-        //[Inject]
-        //public IFuncaoBusiness FuncaoBusiness { get; set; }
-
-
 
         #endregion
 

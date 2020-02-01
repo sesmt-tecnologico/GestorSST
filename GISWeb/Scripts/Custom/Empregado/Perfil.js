@@ -92,8 +92,6 @@
 
 function CarregarAdmissao() {
 
-    //BuscarAdmissoesAtuais
-
     $.ajax({
         method: "POST",
         url: "/Admissao/BuscarAdmissoesAtuais",
@@ -108,6 +106,11 @@ function CarregarAdmissao() {
             }
             else {
                 $("#ConteudoAdmissao").html(content);
+
+                $(".btnNovaAlocacao").off("click").on("click", function (e) {
+                    e.preventDefault();
+                    OnClickNovaAlocacao($(this));
+                });
             }
 
         }
@@ -171,4 +174,135 @@ function OnSuccessCadastrarAdmissao(content) {
         window.location.href = content.resultado.URL;
     }
 
+}
+
+
+function OnClickNovaAlocacao(origemElemento) {
+    $('#modalAlocacaoX').show();
+    $('#modalAlocacaoFechar').removeClass('disabled');
+    $('#modalAlocacaoFechar').removeAttr('disabled', 'disabled');
+    $('#modalAlocacaoProsseguir').removeClass('disabled');
+    $('#modalAlocacaoProsseguir').removeAttr('disabled', 'disabled');
+    $('#modalAlocacaoProsseguir').hide();
+    $('#modalAlocacaoCorpo').html('');
+    $('#modalAlocacaoCorpoLoading').show();
+    $('#modalAlocacaoLoading').hide();
+
+    var ukAdmissao = origemElemento.closest('[data-ukadmissao]').attr('data-ukadmissao');
+
+    $.ajax({
+        method: 'POST',
+        url: '/Alocacao/Novo',
+        data: { id: ukAdmissao },
+        error: function (erro) {
+            $('#modalAlocacao').modal('hide');
+            ExibirMensagemGritter('Oops!', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+
+            $('#modalAlocacaoCorpoLoading').hide();
+
+            if (content.erro != undefined && content.erro != null && content.erro != "") {
+                
+                ExibirMensagemGritter('Oops!', content.erro, 'gritter-warning');
+                $('#modalAlocacaoCorpo').html('<div class="alert alert-warning"><strong><i class="ace-icon fa fa-meh-o"></i> Oops!</strong> ' + content.erro + '<br /></div>');
+            }
+            else {
+                $('#modalAlocacaoCorpoLoading').hide();
+                $('#modalAlocacaoCorpo').html(content);
+
+                Chosen();
+
+                AplicaTooltip();
+
+                $('#modalAlocacaoProsseguir').show();
+
+                $("#ddlContrato").off("change").on("change", function () {
+                    if ($(this).val() == "") {
+                        $('#ddlDepartamento').empty();
+
+                        $('#ddlDepartamento').append($('<option>', {
+                            value: "",
+                            text: "Selecione um departamento..."
+                        }));
+
+                        $("#ddlDepartamento").trigger("chosen:updated");
+                    }
+                    else {
+                        $('#modalAlocacaoLoading').show();
+
+
+                        $.ajax({
+                            method: "POST",
+                            url: "/Departamento/BuscarDepartamentosPorContratoParaSelect",
+                            data: { id: $(this).val() },
+                            error: function (erro) {
+                                $('#modalAlocacaoLoading').hide();
+                                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                            },
+                            success: function (content) {
+                                $('#modalAlocacaoLoading').hide();
+
+                                if (content.erro != null && content.erro != undefined && content.erro != "") {
+                                    ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                                }
+                                else {
+                                    $('#ddlDepartamento').empty();
+
+                                    $('#ddlDepartamento').append($('<option>', {
+                                        value: "",
+                                        text: "Selecione um departamento..."
+                                    }));
+
+                                    $("#ddlDepartamento").attr("placeholder", "Selecione um departamento...");
+
+                                    for (var i = 0; i < content.data.length; i++) {
+                                        $('#ddlDepartamento').append($('<option>', {
+                                            value: content.data[i].UniqueKey,
+                                            text: content.data[i].Sigla
+                                        }));
+                                    }
+
+                                    $("#ddlDepartamento").trigger("chosen:updated");
+
+                                }
+                            }
+                        });
+
+
+
+
+                    }
+                });
+
+
+
+                var funcSubmit = function (e) {
+
+                    $('#modalAlocacaoX').hide();
+                    $('#modalAlocacaoFechar').addClass('disabled');
+                    $('#modalAlocacaoFechar').attr('disabled', 'disabled');
+                    $('#modalAlocacaoProsseguir').addClass('disabled');
+                    $('#modalAlocacaoProsseguir').attr('disabled', 'disabled');
+
+                    $('#formCadastroAlocacao').submit();
+                };
+
+                
+                $('#modalAlocacaoProsseguir').off('click').on('click', function (event) {
+                    funcSubmit(event);
+                });
+
+                $('#modalAlocacaoFechar').off('click').on('click', function () {
+                    $('#modalAlocacaoCorpo').html('');
+                });
+
+                $('#modalAlocacao').on('hide', function () {
+                    $('#modalAlocacaoProsseguir').off('click', funcSubmit);
+                });
+
+            }
+
+        }
+    });
 }
