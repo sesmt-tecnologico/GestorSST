@@ -13,5 +13,7 @@ namespace GISModel.Entidades
 
         public List<DocumentosPessoal> DocumentosPessoal { get; set; }
 
+        public List<Perigo> Perigos { get; set; }
+
     }
 }

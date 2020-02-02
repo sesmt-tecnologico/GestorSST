@@ -1,14 +1,14 @@
 ﻿@{
-    ViewBag.Title = "Listagem de Perigo";
+    ViewBag.Title = "Listagem de Perigo/Atividade";
 }
 
 <div class="row">
     <div class="col-xs-12">
         <h3 class="header smaller lighter blue">
-            Perigo, Risco e Possíveis danos a Saúde
+            Perigo por Atividade
 
 
-            <a href="@Url.Action("Novo", "Perigo")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px; margin-right: 20px;">
+            <a href="@Url.Action("Novo", "Atividade")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px; margin-right: 20px;">
                 <i class="ace-icon fa fa-plus bigger-120 blue"></i>
                 Novo
             </a>
@@ -35,8 +35,9 @@
     <script src="~/Scripts/Ace/elements.typeahead.js"></script>
 
     <script src="~/Scripts/Ace/bootstrap-tag.js"></script>
+    <script src="~/Scripts/Custom/Atividade/ListaAtividadePerigo.js"></script>
 
-    <script src="~/Scripts/Custom/Perigo/Listagem.js"></script>
+   
 
 
 }
@@ -48,7 +49,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button id="modalAddAtividadeX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Vincular Risco</h3>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Vincular Perigo</h3>
                 </div>
 
                 <div class="modal-body">

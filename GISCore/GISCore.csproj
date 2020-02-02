@@ -198,6 +198,22 @@
     <Compile Include="Migrations\202001302053252_merge.Designer.cs">
       <DependentUpon>202001302053252_merge.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002012025088_AividadePerigo.cs" />
+    <Compile Include="Migrations\202002012025088_AividadePerigo.Designer.cs">
+      <DependentUpon>202002012025088_AividadePerigo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002012254366_Retirar_FK.cs" />
+    <Compile Include="Migrations\202002012254366_Retirar_FK.Designer.cs">
+      <DependentUpon>202002012254366_Retirar_FK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002021303118_CriarREL_RiscoDanosSaude.cs" />
+    <Compile Include="Migrations\202002021303118_CriarREL_RiscoDanosSaude.Designer.cs">
+      <DependentUpon>202002021303118_CriarREL_RiscoDanosSaude.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002022134138_idRisco.cs" />
+    <Compile Include="Migrations\202002022134138_idRisco.Designer.cs">
+      <DependentUpon>202002022134138_idRisco.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -347,6 +363,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202001302053252_merge.resx">
       <DependentUpon>202001302053252_merge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002012025088_AividadePerigo.resx">
+      <DependentUpon>202002012025088_AividadePerigo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002012254366_Retirar_FK.resx">
+      <DependentUpon>202002012254366_Retirar_FK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002021303118_CriarREL_RiscoDanosSaude.resx">
+      <DependentUpon>202002021303118_CriarREL_RiscoDanosSaude.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002022134138_idRisco.resx">
+      <DependentUpon>202002022134138_idRisco.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

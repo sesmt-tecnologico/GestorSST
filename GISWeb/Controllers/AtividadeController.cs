@@ -76,6 +76,12 @@ namespace GISWeb.Controllers
         public IExposicaoBusiness ExposicaoBusiness { get; set; }
 
         [Inject]
+        public IPerigoBusiness PerigoBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<REL_AtividadePerigo> AtividadePerigoBusiness { get; set; }
+
+        [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
 
@@ -90,6 +96,120 @@ namespace GISWeb.Controllers
             return View();
         }
 
+        public ActionResult AtividadePerigo()
+        {
+
+
+            return View();
+
+        }
+
+        public ActionResult ListaPerigoPorAtividade()
+        {
+            string sql = @"select a.UniqueKey as UK_Atividade, a.Descricao as nome, p.UniqueKey as UK_Perigo, p.Descricao as NomePerigo, ap.UniqueKey as relap,
+                             ap.UKAtividade as rel01, ap.UKPerigo as rel02
+                             from tbAtividade a
+                             left join REL_AtividadePerigo ap on ap.UKAtividade = a.UniqueKey and a.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
+                             left join tbPerigo p on p.UniqueKey = ap.UKPerigo and a.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
+                             order by a.Descricao";
+
+
+            DataTable result = AtividadeBusiness.GetDataTable(sql);
+
+            List<Atividade> lista = new List<Atividade>();
+
+            if (result.Rows.Count > 0)
+            {
+
+                Atividade obj = null;
+                Perigo oPerigo = null;
+
+                foreach (DataRow row in result.Rows)
+                {
+
+                    if (obj == null)
+                    {
+                        obj = new Atividade()
+                        {
+                            UniqueKey = Guid.Parse(row["UK_Atividade"].ToString()),
+                            Descricao = row["nome"].ToString(),
+                            Perigos = new List<Perigo>()
+                        };
+
+                        if (!string.IsNullOrEmpty(row["relap"].ToString()))
+                        {
+
+                            oPerigo = new Perigo()
+                            {
+                                UniqueKey = Guid.Parse(row["rel02"].ToString()),
+                                Descricao = row["NomePerigo"].ToString(),
+                                
+
+                            };
+
+                            obj.Perigos.Add(oPerigo);
+
+                        }
+
+                    }
+                    //se a atividade for a mesma, carregar outro documento
+                    else if (obj.UniqueKey.Equals(Guid.Parse(row["UK_Atividade"].ToString())))
+                    {
+                        if (!string.IsNullOrEmpty(row["rel02"].ToString()))
+                        {
+                            if (oPerigo != null)
+                            {
+                                oPerigo = new Perigo()
+                                {
+                                    UniqueKey = Guid.Parse(row["rel02"].ToString()),
+                                    Descricao = row["NomePerigo"].ToString(),
+                                   
+
+                                };
+                            }
+                        }
+
+                        obj.Perigos.Add(oPerigo);
+                    }
+
+                    else
+                    {
+                        lista.Add(obj);
+
+                        obj = new Atividade()
+                        {
+                            UniqueKey = Guid.Parse(row["UK_Atividade"].ToString()),
+                            Descricao = row["nome"].ToString(),
+                            Perigos = new List<Perigo>()
+                        };
+
+
+                        if (!string.IsNullOrEmpty(row["rel02"].ToString()))
+                        {
+                            oPerigo = new Perigo()
+                            {
+                                UniqueKey = Guid.Parse(row["rel02"].ToString()),
+                                Descricao = row["NomePerigo"].ToString()
+                            };
+
+
+
+                            obj.Perigos.Add(oPerigo);
+                        }
+                    }
+
+
+                }
+
+                if (obj != null)
+                    lista.Add(obj);
+
+
+            }
+
+            return View("_ListaPerigoPorAtividade", lista);
+
+        }
 
         //recebe parametro de Funcao/index e listaFuncao para listar atividades relacionadas a função
         public ActionResult ListaAtividadePorFuncao(string IDFuncao, string NomeFuncao)
@@ -176,11 +296,11 @@ namespace GISWeb.Controllers
         public ActionResult ListaDocumentoPessoal()
         {
 
-            string sql = @"select a.UniqueKey, a.Descricao as nome, d.UniqueKey, d.NomeDocumento as NomeD, d.DescricaoDocumento as DescricaoD,
-                            da.UKAtividade as rel1, da.UKDocumentoPessoal
+            string sql = @"select a.UniqueKey as UK_Ativ, a.Descricao as nome, d.UniqueKey, d.NomeDocumento as NomeD, d.DescricaoDocumento as DescricaoD,
+                            da.UKAtividade as rel1, da.UKDocumentoPessoal as rel2
                             from tbAtividade a 
-                            left join REL_DocumentoPessoalAtividade da on da.UKAtividade = a.uniqueKey  
-                            left join tbDocumentosPessoal d on d.UniqueKey = da.UKDocumentoPessoal  
+                            left join REL_DocumentoPessoalAtividade da on da.UKAtividade = a.uniqueKey and a.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2) 
+                            left join tbDocumentosPessoal d on d.UniqueKey = da.UKDocumentoPessoal  and d.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
                             order by nome";
 
 
@@ -201,17 +321,17 @@ namespace GISWeb.Controllers
                     {
                         obj = new Atividade()
                         {
-                            UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                            UniqueKey = Guid.Parse(row["UK_Ativ"].ToString()),
                             Descricao = row["nome"].ToString(),
                             DocumentosPessoal = new List<DocumentosPessoal>()
                         };
 
-                        if (!string.IsNullOrEmpty(row["UKDocumentoPessoal"].ToString()))
+                        if (!string.IsNullOrEmpty(row["rel2"].ToString()))
                         {
 
                             oDocumento = new DocumentosPessoal()
                             {
-                                UniqueKey = Guid.Parse(row["UKDocumentoPessoal"].ToString()),
+                                UniqueKey = Guid.Parse(row["rel2"].ToString()),
                                 DescricaoDocumento = row["DescricaoD"].ToString(),
                                 NomeDocumento = row["NomeD"].ToString(),
 
@@ -223,27 +343,53 @@ namespace GISWeb.Controllers
 
                     }
                     //se a atividade for a mesma, carregar outro documento
-                    else if (obj.UniqueKey.Equals(Guid.Parse(row["UniqueKey"].ToString())))
-                    {
-                        if (!string.IsNullOrEmpty(row["UKDocumentoPessoal"].ToString()))
+                    else if (obj.UniqueKey.Equals(Guid.Parse(row["UK_Ativ"].ToString())))
+                            {
+                                if (!string.IsNullOrEmpty(row["rel2"].ToString()))
+                                {
+                                    if (oDocumento != null)
+                                    {
+                                        oDocumento = new DocumentosPessoal()
+                                        {
+                                            UniqueKey = Guid.Parse(row["rel2"].ToString()),
+                                            DescricaoDocumento = row["DescricaoD"].ToString(),
+                                            NomeDocumento = row["NomeD"].ToString(),
+
+                                        };
+                                    }
+                                }
+
+                                obj.DocumentosPessoal.Add(oDocumento);
+                     }
+
+                        else
                         {
-                            if (oDocumento == null)
+                            lista.Add(obj);
+
+                            obj = new Atividade()
+                            {
+                                UniqueKey = Guid.Parse(row["UK_Ativ"].ToString()),
+                                Descricao = row["nome"].ToString(),
+                                DocumentosPessoal = new List<DocumentosPessoal>()
+                            };
+
+
+                            if (!string.IsNullOrEmpty(row["rel2"].ToString()))
                             {
                                 oDocumento = new DocumentosPessoal()
                                 {
-                                    UniqueKey = Guid.Parse(row["UKDocumentoPessoal"].ToString()),
+                                    UniqueKey = Guid.Parse(row["rel2"].ToString()),
                                     DescricaoDocumento = row["DescricaoD"].ToString(),
                                     NomeDocumento = row["NomeD"].ToString(),
                                 };
+
+                           
+
+                                obj.DocumentosPessoal.Add(oDocumento);
                             }
-
-
                         }
 
-                        obj.DocumentosPessoal.Add(oDocumento);
-                    }
 
-                    
                 }
 
                 if (obj != null)
@@ -255,10 +401,6 @@ namespace GISWeb.Controllers
             return View("_ListaDocumento", lista);
 
         }
-
-
-
-    
 
 
         public ActionResult BuscarDetalhesDeMedidasDeControleAtividadeFuncao(string idTipoRisco, string idAtividade)
@@ -356,10 +498,7 @@ namespace GISWeb.Controllers
             }
 
         }
-
-
-
-
+        
 
         public ActionResult Edicao(string id, string Uk)
         {
@@ -410,8 +549,7 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
-
-
+        
 
         public ActionResult Excluir(string id)
         {
@@ -421,8 +559,84 @@ namespace GISWeb.Controllers
         }
 
 
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult VincularPerigoAtividade(string UKAtiv)
+        {
 
-        
+            ViewBag.UKAtividade = UKAtiv;
+
+            return PartialView("_VincularPerigoAtividade");
+        }
+
+
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult VincularPerigo(string UKAtividade, string UKPerigo)
+        {
+
+            try
+            {
+                //Guid UK_Perigo = Guid.Parse(UKPerigo);
+                Guid UK_Atividade = Guid.Parse(UKAtividade);
+                if (string.IsNullOrEmpty(UKAtividade))
+                    throw new Exception("Não foi possível localizar a Atividade.");
+
+                if (string.IsNullOrEmpty(UKPerigo))
+                    throw new Exception("Nenhum Perigo para vincular.");
+
+
+                if (UKPerigo.Contains(","))
+                {
+                    foreach (string ativ in UKPerigo.Split(','))
+                    {
+                        if (!string.IsNullOrEmpty(ativ.Trim()))
+                        {
+                            Perigo pTemp = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(ativ.Trim()));
+                            if (pTemp != null)
+                            {
+                                if (AtividadePerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKPerigo.Equals(pTemp.UniqueKey) && a.UKAtividade.Equals(UK_Atividade)).Count() == 0)
+                                {
+                                    AtividadePerigoBusiness.Inserir(new REL_AtividadePerigo()
+                                    {
+                                        UKAtividade = UK_Atividade,
+                                        UKPerigo = pTemp.UniqueKey,
+                                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Perigo pTemp = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(UKPerigo));
+
+                    if (pTemp != null)
+                    {
+                        if (AtividadePerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKPerigo.Equals(pTemp.UniqueKey) && a.UKAtividade.Equals(UK_Atividade)).Count() == 0)
+                        {
+                            AtividadePerigoBusiness.Inserir(new REL_AtividadePerigo()
+                            {
+                                UKAtividade = UK_Atividade,
+                                UKPerigo = pTemp.UniqueKey,
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                            });
+                        }
+                    }
+                }
+
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "Perigo vinculado a Atividade com sucesso." } });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
+
+
+        }
+
+
 
         [HttpPost]
         public ActionResult TerminarComRedirect(string ID, string Descricao)
@@ -499,6 +713,42 @@ namespace GISWeb.Controllers
             }
         }
 
+        [RestritoAAjax]
+        public ActionResult BuscarRiscoForAutoComplete(string key)
+        {
+            try
+           {
+                List<string> perigoAsString = new List<string>();
+                List<Perigo> lista = PerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.ToUpper().Contains(key.ToUpper())).ToList();
+
+                foreach (Perigo com in lista)
+                    perigoAsString.Add(com.Descricao);
+
+                return Json(new { Result = perigoAsString });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { erro = ex.Message });
+            }
+        }
+
+        [RestritoAAjax]
+        public ActionResult ConfirmarRiscoForAutoComplete(string key)
+        {
+            try
+            {
+                Perigo item = PerigoBusiness.Consulta.FirstOrDefault(a => a.Descricao.ToUpper().Equals(key.ToUpper()));
+
+                if (item == null)
+                    throw new Exception();
+
+                return Json(new { Result = true });
+            }
+            catch
+            {
+                return Json(new { Result = false });
+            }
+        }
 
 
         [RestritoAAjax]

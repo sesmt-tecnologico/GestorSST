@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -9,6 +10,9 @@ namespace GISModel.Entidades
 
         [Display(Name ="Possível Dano")]
         public string DescricaoDanos { get; set; }
+
+       
+        public virtual Risco Risco { get; set; }
 
     }
 }

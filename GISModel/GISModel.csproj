@@ -133,6 +133,7 @@
     <Compile Include="Entidades\Diretoria.cs" />
     <Compile Include="Entidades\Departamento.cs" />
     <Compile Include="Entidades\DocAtividade.cs" />
+    <Compile Include="Entidades\REL_AtividadePerigo.cs" />
     <Compile Include="Entidades\REL_DocomumentoPessoalAtividade.cs" />
     <Compile Include="Entidades\DocumentosPessoal.cs" />
     <Compile Include="Entidades\Empregado.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="Entidades\REL_DepartamentoContrato.cs" />
     <Compile Include="Entidades\REL_EstabelecimentoDepartamento.cs" />
     <Compile Include="Entidades\REL_PerigoRisco.cs" />
+    <Compile Include="Entidades\REL_RiscoDanosASaude.cs" />
     <Compile Include="Entidades\REL_WorkAreaRisco.cs" />
     <Compile Include="Entidades\Risco.cs" />
     <Compile Include="Entidades\TipoDeRisco.cs" />
