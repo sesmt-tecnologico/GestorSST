@@ -100,5 +100,9 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<REL_FuncaoAtividade> REL_FuncaoAtividade { get; set; }
 
+        public DbSet<REL_AtividadePerigo> REL_AtividadePerigo { get; set; }
+
+        public DbSet<REL_RiscoDanosASaude> REL_RiscoDanosASaude { get; set; }
+
     }
 }

@@ -194,13 +194,25 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-    <Compile Include="Migrations\202001291326234_local.cs" />
-    <Compile Include="Migrations\202001291326234_local.Designer.cs">
-      <DependentUpon>202001291326234_local.cs</DependentUpon>
+    <Compile Include="Migrations\202001302053252_merge.cs" />
+    <Compile Include="Migrations\202001302053252_merge.Designer.cs">
+      <DependentUpon>202001302053252_merge.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202001220136076_r1.cs" />
-    <Compile Include="Migrations\202001220136076_r1.Designer.cs">
-      <DependentUpon>202001220136076_r1.cs</DependentUpon>
+    <Compile Include="Migrations\202002012025088_AividadePerigo.cs" />
+    <Compile Include="Migrations\202002012025088_AividadePerigo.Designer.cs">
+      <DependentUpon>202002012025088_AividadePerigo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002012254366_Retirar_FK.cs" />
+    <Compile Include="Migrations\202002012254366_Retirar_FK.Designer.cs">
+      <DependentUpon>202002012254366_Retirar_FK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002021303118_CriarREL_RiscoDanosSaude.cs" />
+    <Compile Include="Migrations\202002021303118_CriarREL_RiscoDanosSaude.Designer.cs">
+      <DependentUpon>202002021303118_CriarREL_RiscoDanosSaude.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002022134138_idRisco.cs" />
+    <Compile Include="Migrations\202002022134138_idRisco.Designer.cs">
+      <DependentUpon>202002022134138_idRisco.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -349,11 +361,20 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001291326234_local.resx">
-      <DependentUpon>202001291326234_local.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001302053252_merge.resx">
+      <DependentUpon>202001302053252_merge.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001220136076_r1.resx">
-      <DependentUpon>202001220136076_r1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002012025088_AividadePerigo.resx">
+      <DependentUpon>202002012025088_AividadePerigo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002012254366_Retirar_FK.resx">
+      <DependentUpon>202002012254366_Retirar_FK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002021303118_CriarREL_RiscoDanosSaude.resx">
+      <DependentUpon>202002021303118_CriarREL_RiscoDanosSaude.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002022134138_idRisco.resx">
+      <DependentUpon>202002022134138_idRisco.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

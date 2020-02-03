@@ -232,6 +232,7 @@
     <Content Include="Scripts\Custom\AnaliseRisco\Novo.js" />
     <Content Include="Scripts\Custom\Atividade\Edicao.js" />
     <Content Include="Scripts\Custom\Atividade\Excluir.js" />
+    <Content Include="Scripts\Custom\Atividade\ListaAtividadePerigo.js" />
     <Content Include="Scripts\Custom\Atividade\Listagem.js" />
     <Content Include="Scripts\Custom\Atividade\Novo.js" />
     <Content Include="Scripts\Custom\AtividadeAlocada\Edicao.js" />
@@ -625,6 +626,11 @@
     <Content Include="Views\Perigo\_ListaPerigo.cshtml" />
     <Content Include="Views\Risco\_VincularRisco.cshtml" />
     <Content Include="Views\Departamento\_BuscarDepartamentosPorContratoParaSelect.cshtml" />
+    <Content Include="Views\Atividade\AtividadePerigo.cshtml" />
+    <Content Include="Views\Atividade\_ListaPerigoPorAtividade.cshtml" />
+    <Content Include="Views\Atividade\_VincularPerigoAtividade.cshtml" />
+    <Content Include="Views\PossiveisDanos\_ListaRiscos.cshtml" />
+    <Content Include="Views\PossiveisDanos\_VincularPossiveisDanos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
