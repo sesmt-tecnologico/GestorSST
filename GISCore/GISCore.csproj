@@ -194,25 +194,21 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-    <Compile Include="Migrations\202001302053252_merge.cs" />
-    <Compile Include="Migrations\202001302053252_merge.Designer.cs">
-      <DependentUpon>202001302053252_merge.cs</DependentUpon>
+    <Compile Include="Migrations\202002041811508_controleRisco.cs" />
+    <Compile Include="Migrations\202002041811508_controleRisco.Designer.cs">
+      <DependentUpon>202002041811508_controleRisco.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202002012025088_AividadePerigo.cs" />
-    <Compile Include="Migrations\202002012025088_AividadePerigo.Designer.cs">
-      <DependentUpon>202002012025088_AividadePerigo.cs</DependentUpon>
+    <Compile Include="Migrations\202002041830023_atualizacontroleDeRisco.cs" />
+    <Compile Include="Migrations\202002041830023_atualizacontroleDeRisco.Designer.cs">
+      <DependentUpon>202002041830023_atualizacontroleDeRisco.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202002012254366_Retirar_FK.cs" />
-    <Compile Include="Migrations\202002012254366_Retirar_FK.Designer.cs">
-      <DependentUpon>202002012254366_Retirar_FK.cs</DependentUpon>
+    <Compile Include="Migrations\202002042205167_Rel_RiscoControle.cs" />
+    <Compile Include="Migrations\202002042205167_Rel_RiscoControle.Designer.cs">
+      <DependentUpon>202002042205167_Rel_RiscoControle.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202002021303118_CriarREL_RiscoDanosSaude.cs" />
-    <Compile Include="Migrations\202002021303118_CriarREL_RiscoDanosSaude.Designer.cs">
-      <DependentUpon>202002021303118_CriarREL_RiscoDanosSaude.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002022134138_idRisco.cs" />
-    <Compile Include="Migrations\202002022134138_idRisco.Designer.cs">
-      <DependentUpon>202002022134138_idRisco.cs</DependentUpon>
+    <Compile Include="Migrations\202002042214140_Rel_RiscoControleAtualiza.cs" />
+    <Compile Include="Migrations\202002042214140_Rel_RiscoControleAtualiza.Designer.cs">
+      <DependentUpon>202002042214140_Rel_RiscoControleAtualiza.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -361,20 +357,17 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001302053252_merge.resx">
-      <DependentUpon>202001302053252_merge.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002041811508_controleRisco.resx">
+      <DependentUpon>202002041811508_controleRisco.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002012025088_AividadePerigo.resx">
-      <DependentUpon>202002012025088_AividadePerigo.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002041830023_atualizacontroleDeRisco.resx">
+      <DependentUpon>202002041830023_atualizacontroleDeRisco.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002012254366_Retirar_FK.resx">
-      <DependentUpon>202002012254366_Retirar_FK.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002042205167_Rel_RiscoControle.resx">
+      <DependentUpon>202002042205167_Rel_RiscoControle.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002021303118_CriarREL_RiscoDanosSaude.resx">
-      <DependentUpon>202002021303118_CriarREL_RiscoDanosSaude.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002022134138_idRisco.resx">
-      <DependentUpon>202002022134138_idRisco.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002042214140_Rel_RiscoControleAtualiza.resx">
+      <DependentUpon>202002042214140_Rel_RiscoControleAtualiza.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

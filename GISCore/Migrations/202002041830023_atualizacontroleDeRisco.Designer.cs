@@ -7,13 +7,13 @@ namespace GISCore.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class CriarREL_RiscoDanosSaude : IMigrationMetadata
+    public sealed partial class atualizacontroleDeRisco : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CriarREL_RiscoDanosSaude));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(atualizacontroleDeRisco));
         
         string IMigrationMetadata.Id
         {
-            get { return "202002021303118_CriarREL_RiscoDanosSaude"; }
+            get { return "202002041830023_atualizacontroleDeRisco"; }
         }
         
         string IMigrationMetadata.Source
