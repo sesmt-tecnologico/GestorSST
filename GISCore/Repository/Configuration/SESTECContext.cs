@@ -12,7 +12,9 @@ namespace GISCore.Repository.Configuration
         }
 
 
-        
+
+        public DbSet<ControleDeRiscos> ControleDeRiscos { get; set; }
+
         public DbSet<WorkArea> WorkArea { get; set; }
 
         public DbSet<Risco> Risco { get; set; }
@@ -85,6 +87,8 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<Arquivo> Arquivo { get; set; }
 
+        public DbSet<ReconhecimentoDoRisco> ReconhecimentoDoRisco { get; set; }
+
 
 
 
@@ -103,6 +107,8 @@ namespace GISCore.Repository.Configuration
         public DbSet<REL_AtividadePerigo> REL_AtividadePerigo { get; set; }
 
         public DbSet<REL_RiscoDanosASaude> REL_RiscoDanosASaude { get; set; }
+
+        public DbSet<REL_RiscoControle> REL_RiscoControle { get; set; }
 
     }
 }
