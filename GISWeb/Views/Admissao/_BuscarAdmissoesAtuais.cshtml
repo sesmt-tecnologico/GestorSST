@@ -28,18 +28,15 @@ else
 
                 <div style="float: right; border: 0px;">
 
-                    @if (adm.Alocacoes != null && adm.Alocacoes.Count == 0)
-                    {
-                        <a href="#" class="btn btn-mini btn-info btnNovaAlocacao" style="padding-left: 7px; padding-right: 7px; width: 110px;" data-target="#modalAlocacao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                            <i class="ace-icon fa fa-plus-circle bigger-120"></i>
-                            <span class="bigger-110">Alocar</span>
-                        </a>
+                    <a href="#" class="btn btn-mini btn-info btnNovaAlocacao" style="padding-left: 7px; padding-right: 7px; width: 110px;" data-target="#modalAlocacao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                        <i class="ace-icon fa fa-plus-circle bigger-120"></i>
+                        <span class="bigger-110">Alocar</span>
+                    </a>
 
-                        <a href="#" class="btn btn-mini btn-danger btnDemitir" style="padding-left: 7px; padding-right: 7px; width: 110px;" data-target="#modalAdmissao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                            <i class="ace-icon fa fa-minus bigger-120"></i>
-                            <span class="bigger-110">Demitir</span>
-                        </a>
-                    }
+                    <a href="#" class="btn btn-mini btn-danger btnDemitir" style="padding-left: 7px; padding-right: 7px; width: 110px;" data-target="#modalAdmissao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                        <i class="ace-icon fa fa-minus bigger-120"></i>
+                        <span class="bigger-110">Demitir</span>
+                    </a>
 
                 </div>
             </div>
@@ -47,7 +44,7 @@ else
             <div class="widget-body">
                 <div class="widget-main">
                     <p>Data de Admissão: @adm.DataAdmissao</p>
-                    <p>Alocado por: @adm.UsuarioInclusao</p>
+                    <p>Admitido por: @adm.UsuarioInclusao</p>
 
                     @if (adm.Alocacoes != null && adm.Alocacoes.Count == 0)
                     {
@@ -63,13 +60,136 @@ else
                     }
                     else
                     {
-                        <p>Em construção...</p>
+
+                        foreach (Alocacao al in adm.Alocacoes)
+                        {
+                            <div class="widget-box transparent collapsed" id="widget-box-1" data-ukalocacao="@al.UniqueKey.ToString()">
+                                <div class="widget-header blue" style="border-bottom: 1px solid #ddd">
+                                    <h5 class="widget-title">
+                                        <a href="#" data-action="collapse" class="blue">
+                                            <b>ALOCADO: @al.Cargo.NomeDoCargo | @al.Funcao.NomeDaFuncao</b>
+                                        </a>
+                                    </h5>
+
+                                    <div style="float: right; border: 0px;">
+
+                                        <a href="#" class="btn btn-mini btn-danger btnDesalocar" style="padding-left: 7px; padding-right: 7px; width: 110px;" data-target="#modalDesalocar" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                            <i class="ace-icon fa fa-minus bigger-120"></i>
+                                            <span class="bigger-110">Desalocar</span>
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-xs-12">
+
+                                                <div class="profile-user-info profile-user-info-striped">
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Data alocação </div>
+
+                                                        <div class="profile-info-value">
+                                                            <span class="">@al.DataInclusao.ToString("dd/MM/yyyy")</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Contrato </div>
+
+                                                        <div class="profile-info-value">
+                                                            <span class="">@al.Contrato.Numero</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Estabelecimento </div>
+
+                                                        <div class="profile-info-value">
+                                                            <span class="" data-ukestabelecimento="@al.Estabelecimento.UniqueKey.ToString()">@al.Estabelecimento.Descricao</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-6 col-xs-12">
+                                                <div class="profile-user-info profile-user-info-striped">
+
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Alocado por </div>
+
+                                                        <div class="profile-info-value">
+                                                            <span class="">@al.UsuarioInclusao</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="profile-info-row">
+                                                        <div class="profile-info-name"> Orgão </div>
+
+                                                        <div class="profile-info-value">
+                                                            <span class="">@al.Departamento.Sigla</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="space-10"></div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p>WorkArea em construção...</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="space-10"></div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p>Atividades...</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     }
 
                 </div>
             </div>
         </div>
 
+        <br />
     }
 
 }

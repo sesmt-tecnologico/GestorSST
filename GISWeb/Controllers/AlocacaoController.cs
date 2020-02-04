@@ -39,6 +39,9 @@ namespace GISWeb.Controllers
         public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<REL_ContratoFornecedor> ContratoFornecedorBusiness { get; set; }
+
+        [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
         #endregion
@@ -53,12 +56,15 @@ namespace GISWeb.Controllers
                 Alocacao obj = new Alocacao();
                 obj.UKAdmissao = oAdmissao.UniqueKey;
 
-                ViewBag.Contratos = ContratoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+                ViewBag.Contratos = (from contForn in ContratoFornecedorBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKFornecedor.Equals(oAdmissao.UKEmpresa)).ToList()
+                                     join cont in ContratoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on contForn.UKContrato equals cont.UniqueKey
+                                     select cont).ToList();
+
                 ViewBag.Cargos = CargoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
                 ViewBag.Estabelecimentos = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
-                ViewBag.Equipes = EquipeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+                ViewBag.Equipes = EquipeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpresa.Equals(oAdmissao.UKEmpresa)).ToList();
 
-                return PartialView("_Novo");
+                return PartialView("_Novo", obj);
             }
             catch (Exception ex)
             {

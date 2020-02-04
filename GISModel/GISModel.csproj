@@ -153,7 +153,7 @@
     <Compile Include="Entidades\MedidasDeControleExistentes.cs" />
     <Compile Include="Entidades\PlanoDeAcao.cs" />
     <Compile Include="Entidades\PossiveisDanos.cs" />
-    <Compile Include="Entidades\Rel_AtividadeDocumentos.cs" />
+    <Compile Include="Entidades\REL_AtividadeDocumentos.cs" />
     <Compile Include="Entidades\REL_FuncaoAtividade.cs" />
     <Compile Include="Entidades\REL_ContratoFornecedor.cs" />
     <Compile Include="Entidades\REL_DepartamentoContrato.cs" />

@@ -90,6 +90,8 @@
 
 });
 
+
+
 function CarregarAdmissao() {
 
     $.ajax({
@@ -175,6 +177,7 @@ function OnSuccessCadastrarAdmissao(content) {
     }
 
 }
+
 
 
 function OnClickNovaAlocacao(origemElemento) {
@@ -269,11 +272,64 @@ function OnClickNovaAlocacao(origemElemento) {
                             }
                         });
 
+                    }
+                });
 
+                $("#ddlCargo").off("change").on("change", function () {
 
+                    if ($(this).val() == "") {
+                        $('#ddlFuncao').empty();
+
+                        $('#ddlFuncao').append($('<option>', {
+                            value: "",
+                            text: "Selecione uma função..."
+                        }));
+
+                        $("#ddlFuncao").trigger("chosen:updated");
+                    }
+                    else {
+                        $('#modalAlocacaoLoading').show();
+
+                        $.ajax({
+                            method: "POST",
+                            url: "/Funcao/BuscarFuncoesPorCargoParaSelect",
+                            data: { id: $(this).val() },
+                            error: function (erro) {
+                                $('#modalAlocacaoLoading').hide();
+                                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                            },
+                            success: function (content) {
+                                $('#modalAlocacaoLoading').hide();
+
+                                if (content.erro != null && content.erro != undefined && content.erro != "") {
+                                    ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                                }
+                                else {
+                                    $('#ddlFuncao').empty();
+
+                                    $('#ddlFuncao').append($('<option>', {
+                                        value: "",
+                                        text: "Selecione uma função..."
+                                    }));
+
+                                    $("#ddlFuncao").attr("placeholder", "Selecione uma função...");
+
+                                    for (var i = 0; i < content.data.length; i++) {
+                                        $('#ddlFuncao').append($('<option>', {
+                                            value: content.data[i].UniqueKey,
+                                            text: content.data[i].NomeDaFuncao
+                                        }));
+                                    }
+
+                                    $("#ddlFuncao").trigger("chosen:updated");
+
+                                }
+                            }
+                        });
 
                     }
                 });
+
 
 
 
@@ -305,4 +361,36 @@ function OnClickNovaAlocacao(origemElemento) {
 
         }
     });
+}
+
+
+function OnBeginCadastrarAlocacao() {
+    $('#modalAlocacaoX').hide();
+    $('#modalAlocacaoFechar').addClass('disabled');
+    $('#modalAlocacaoFechar').attr('disabled', 'disabled');
+    $('#modalAlocacaoProsseguir').addClass('disabled');
+    $('#modalAlocacaoProsseguir').attr('disabled', 'disabled');
+    $('#modalAlocacaoLoading').show();
+}
+
+function OnSuccessCadastrarAlocacao(content) {
+
+    if (content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+        ExibirMensagemDeErro(content.resultado.Erro);
+
+        $('#modalAlocacaoX').show();
+        $('#modalAlocacaoFechar').removeClass('disabled');
+        $('#modalAlocacaoFechar').attr('disabled', false);
+        $('#modalAlocacaoProsseguir').removeClass('disabled');
+        $('#modalAlocacaoProsseguir').attr('disabled', false);
+        $('#modalAlocacaoLoading').hide();
+
+    }
+    else if (content.resultado.Alerta != null && content.resultado.Alerta != undefined && content.resultado.Alerta != "") {
+        ExibirMensagemDeAlerta(content.resultado.Alerta);
+    }
+    else if (content.resultado.URL != null && content.resultado.URL != undefined && content.resultado.URL != "") {
+        window.location.href = content.resultado.URL;
+    }
+
 }

@@ -1,5 +1,6 @@
 ﻿using GISModel.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -53,7 +54,9 @@ namespace GISModel.Entidades
         public virtual Equipe Equipe { get; set; }
 
 
-       
+        public virtual Cargo Cargo { get; set; }
+
+        public virtual Funcao Funcao { get; set; }
 
 
     }

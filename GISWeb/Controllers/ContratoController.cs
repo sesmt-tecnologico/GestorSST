@@ -489,16 +489,18 @@ namespace GISWeb.Controllers
                 }
 
                 string sql = @"select top 100 o.UniqueKey, o.Numero, o.DataInicio, o.DataFim,
-	                                   (select STRING_AGG(d.Sigla, ',') WITHIN GROUP (ORDER BY d.Sigla) 
-		                                from REL_DepartamentoContrato r1, tbDepartamento d 
-		                                where r1.DataExclusao = '9999-12-31 23:59:59.997' and d.DataExclusao = '9999-12-31 23:59:59.997' and 
-			                                  r1.UKContrato = o.UniqueKey and r1.UKDepartamento = d.UniqueKey) as Departamentos, 
-		                                f.NomeFantasia,
-		                                (select STRING_AGG(f.NomeFantasia, ',') WITHIN GROUP (ORDER BY f.NomeFantasia)   
-		                                 from REL_ContratoFornecedor r2, tbFornecedor f
-		                                 WHERE r2.UKContrato = o.UniqueKey and r2.DataExclusao = '9999-12-31 23:59:59.997' and
-			                                   r2.UKFornecedor = f.UniqueKey and f.DataExclusao = '9999-12-31 23:59:59.997' and
-			                                   r2.TipoContratoFornecedor = 1) as SubContratadas
+	                                  (     select STRING_AGG(d.Sigla, ',') WITHIN GROUP (ORDER BY d.Sigla) 
+		                                    from REL_DepartamentoContrato r1, tbDepartamento d 
+		                                    where r1.DataExclusao = '9999-12-31 23:59:59.997' and d.DataExclusao = '9999-12-31 23:59:59.997' and 
+			                                      r1.UKContrato = o.UniqueKey and r1.UKDepartamento = d.UniqueKey
+                                      ) as Departamentos, 
+		                              f.NomeFantasia,
+		                              (     select STRING_AGG(f.NomeFantasia, ',') WITHIN GROUP (ORDER BY f.NomeFantasia)   
+		                                    from REL_ContratoFornecedor r2, tbFornecedor f
+		                                    WHERE r2.UKContrato = o.UniqueKey and r2.DataExclusao = '9999-12-31 23:59:59.997' and
+			                                      r2.UKFornecedor = f.UniqueKey and f.DataExclusao = '9999-12-31 23:59:59.997' and
+			                                      r2.TipoContratoFornecedor = 1
+                                      ) as SubContratadas
                                from tbcontrato o, REL_ContratoFornecedor r1, tbEmpresa f " + sFrom + @"
                                where o.DataExclusao = '9999-12-31 23:59:59.997' and r1.DataExclusao = '9999-12-31 23:59:59.997' and
 	                                 o.UniqueKey = r1.UKContrato and r1.TipoContratoFornecedor = 0 and

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace GISModel.Entidades
 {
     [Table("REL_AtividadeDocumento")]
-    public class Rel_AtividadeDocumentos
+    public class REL_AtividadeDocumentos
     {
         [Display(Name ="Fim da validade")]
         public DateTime ValidadeFinal { get; set; }
