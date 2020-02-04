@@ -630,6 +630,7 @@
     <Content Include="Views\DocumentosPessoal\_VincularDocs.cshtml" />
     <Content Include="Views\Perigo\_ListaPerigo.cshtml" />
     <Content Include="Views\Risco\_VincularRisco.cshtml" />
+    <Content Include="Views\Departamento\_BuscarDepartamentosPorContratoParaSelect.cshtml" />
     <Content Include="Views\Atividade\AtividadePerigo.cshtml" />
     <Content Include="Views\Atividade\_ListaPerigoPorAtividade.cshtml" />
     <Content Include="Views\Atividade\_VincularPerigoAtividade.cshtml" />

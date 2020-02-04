@@ -73,7 +73,9 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Contrato, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
                     <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownListFor(d => d.Empresa, new SelectList(ViewBag.Contratos, "UniqueKey", "Numero"), "Todas ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+
+                        @Html.DropDownListFor(d => d.Contrato, new SelectList(ViewBag.Contratos, "UniqueKey", "Numero"), "Todas ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+
                     </div>
                 </div>
             </div>
@@ -110,7 +112,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Atividade, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
                     <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownListFor(d => d.Funcao, new SelectList(new List<EntidadeBase>(), "UniqueKey", "NomeFantasia"), new { @class = "chosen-select form-control tag-input-style", @data_placeholder = "Selecione antes uma função", @autocomplete = "on" })
+                        @Html.DropDownListFor(d => d.Atividade, new SelectList(new List<EntidadeBase>(), "UniqueKey", "NomeFantasia"), new { @class = "chosen-select form-control tag-input-style", @data_placeholder = "Selecione antes uma função", @autocomplete = "on" })
                     </div>
                 </div>
             </div>

@@ -20,18 +20,9 @@ namespace GISWeb.Controllers
     {
 
         #region
-             
-        [Inject]
-        public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
-
-        [Inject]
-        public IAtividadeBusiness AtividadeBusiness { get; set; }
-
+        
         [Inject]
         public IEquipeBusiness EquipeBusiness { get; set; }
-
-        [Inject]
-        public IFuncaoBusiness FuncaoBusiness { get; set; }
 
         [Inject]
         public ICargoBusiness CargoBusiness { get; set; }
@@ -45,68 +36,35 @@ namespace GISWeb.Controllers
         public IAdmissaoBusiness AdmissaoBusiness { get; set; }
 
         [Inject]
-        public IDepartamentoBusiness DepartamentoBusiness { get; set; }
-
-        [Inject]
-        public IEmpresaBusiness EmpresaBusiness { get; set; }
-
-        [Inject]
-        public IEmpregadoBusiness EmpregadoBusiness { get; set; }
-
-        [Inject]
         public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
 
         [Inject]
-        public IAtividadesDoEstabelecimentoBusiness AtividadesDoEstabelecimentoBusiness { get; set; }
-
-        [Inject]
-        public IMedidasDeControleBusiness MedidasDeControleBusiness { get; set; }
-
-        [Inject]
-        public IEstabelecimentoAmbienteBusiness EstabelecimentoAmbienteBusiness { get; set; }
+        public IBaseBusiness<REL_ContratoFornecedor> ContratoFornecedorBusiness { get; set; }
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
         #endregion
 
-
-
-        // GET: Alocacao
-        public ActionResult Index()
+        public ActionResult Novo(string id)
         {
-            return View();
-        }
-        
-        public ActionResult Novo(string IDAdmissao,string IDEmpregado,string IDEmpresa)
-        {
-
-            var Id_Adm = Guid.Parse(IDAdmissao);
-            var Id_emp = Guid.Parse(IDEmpregado);
-            var Id_Empresa = Guid.Parse(IDEmpregado);
-
-            ViewBag.Equipe = new SelectList(EquipeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeDaEquipe");
-            ViewBag.pAdmissao = IDAdmissao;
-            ViewBag.pEmpregado = IDEmpregado;
-            ViewBag.Admissao = AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)&& p.ID.Equals(Id_Adm) ).ToList();
-            ViewBag.Contrato = new SelectList(ContratoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "Numero");
-            ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "ID", "Sigla");
-            ViewBag.Cargo = new SelectList(CargoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeDoCargo");
-            ViewBag.Funcao = new SelectList(FuncaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeDaFuncao");
-            ViewBag.Estabelecimento = new SelectList(EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeCompleto");
-
-
             try
             {
-                Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => p.UKEmpregado.Equals(Id_Adm));
-                if (ViewBag.Admissao == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Alerta = "Imagens não encontrada." } });
-                }
-                else
-                {
-                    return Json(new { data = RenderRazorViewToString("_Novo", oAdmissao) });
-                }
+                Guid UKAdmissao = Guid.Parse(id);
+                Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKAdmissao));
+
+                Alocacao obj = new Alocacao();
+                obj.UKAdmissao = oAdmissao.UniqueKey;
+
+                ViewBag.Contratos = (from contForn in ContratoFornecedorBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKFornecedor.Equals(oAdmissao.UKEmpresa)).ToList()
+                                     join cont in ContratoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on contForn.UKContrato equals cont.UniqueKey
+                                     select cont).ToList();
+
+                ViewBag.Cargos = CargoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+                ViewBag.Estabelecimentos = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+                ViewBag.Equipes = EquipeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpresa.Equals(oAdmissao.UKEmpresa)).ToList();
+
+                return PartialView("_Novo", obj);
             }
             catch (Exception ex)
             {
@@ -119,33 +77,26 @@ namespace GISWeb.Controllers
                     return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
                 }
             }
-
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(Alocacao oAlocacao, string IDAdmissao, string IDEmpregado)
+        public ActionResult Cadastrar(Alocacao entidade)
         {
-
-            //id da Admissão recebido por parametro
-            oAlocacao.UKAdmissao = Guid.Parse(IDAdmissao);
-           
             if (ModelState.IsValid)
             {
                 try
                 {
+                    Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(entidade.UKAdmissao));
+                    if (oAdmissao == null)
+                        throw new Exception("Não foi possível encontrar a admissão na base de dados.");
 
-                    AlocacaoBusiness.Inserir(oAlocacao);
+                    entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    AlocacaoBusiness.Inserir(entidade);
 
-                    Extensions.GravaCookie("MensagemSucesso", "O empregado foi Alocado com sucesso.", 10);
+                    Extensions.GravaCookie("MensagemSucesso", "O empregado foi alocado com sucesso.", 10);
 
-
-                    
-                    
-                    //precisa passa o id do Empregado
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("PerfilEmpregado", "Admissao", new { id = IDEmpregado }) } });
-
-
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Perfil", "Empregado", new { id = oAdmissao.UKEmpregado.ToString() }) } });
                 }
                 catch (Exception ex)
                 {
@@ -158,51 +109,11 @@ namespace GISWeb.Controllers
                         return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
                     }
                 }
-
             }
             else
             {
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
-        }
-
-        [HttpPost]
-        public ActionResult TerminarComRedirect(string idAlocacao,string idEmpregado)
-        {
-
-            try
-            {
-                Alocacao oAlocacao = AlocacaoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(idAlocacao));
-                if (oAlocacao == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível Desalocar este empregado!" } });
-                }
-                else
-                {
-                    oAlocacao.DataExclusao = DateTime.Now;
-                    oAlocacao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    oAlocacao.Status = GISModel.Enums.Situacao.Ativo;
-                    AlocacaoBusiness.Alterar(oAlocacao);
-
-                    Extensions.GravaCookie("MensagemSucesso", "O Empregado '" + oAlocacao.Admissao.Empregado.Nome + "' foi desalocado com sucesso.", 10);
-                    
-                   
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("PerfilEmpregado", "Admissao", new { id = idEmpregado }) } });
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetBaseException() == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-                }
-                else
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
-                }
-            }
-
-
         }
 
     }
