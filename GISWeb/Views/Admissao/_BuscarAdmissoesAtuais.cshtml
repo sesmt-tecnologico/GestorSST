@@ -107,7 +107,7 @@ else
                                                         <div class="profile-info-name"> Estabelecimento </div>
 
                                                         <div class="profile-info-value">
-                                                            <span class="" data-ukestabelecimento="@al.Estabelecimento.UniqueKey.ToString()">@al.Estabelecimento.Descricao</span>
+                                                            <span class="txtEstabelecimento" data-ukestabelecimento="@al.Estabelecimento.UniqueKey.ToString()">@al.Estabelecimento.Descricao</span>
                                                         </div>
                                                     </div>
 
@@ -141,16 +141,47 @@ else
                                         <div class="space-10"></div>
 
                                         <div class="row">
-                                            <div class="col-sm-12">
-                                                <p>WorkArea em construção...</p>
+                                            <div class="col-sm-12 col-xs-12">
+                                                <h3 class="header smaller lighter green" style="margin-left: 13px;">WorkArea / Perigos / Riscos</h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12 conteundoWorkArea" style="padding-left: 25px; padding-right: 25px;">
                                             </div>
                                         </div>
 
                                         <div class="space-10"></div>
 
                                         <div class="row">
+                                            <div class="col-sm-12 col-xs-12">
+                                                <h3 class="header smaller lighter green" style="margin-left: 13px">Atividades</h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
                                             <div class="col-sm-12">
-                                                <p>Atividades...</p>
+                                                @if (al.Funcao.Atividades == null || al.Funcao.Atividades.Count == 0)
+                                                {
+                                                    <div class="alert alert-warning">
+                                                        <strong>
+                                                            <i class="ace-icon fa fa-meh-o"></i>
+                                                            Oops!
+                                                        </strong>
+
+                                                        Nenhuma atividade vinculada com a função acima.
+                                                        <br>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <ul>
+                                                        @foreach (Atividade atv in al.Funcao.Atividades)
+                                                        {
+                                                            <li>@atv.Descricao</li>
+                                                        }
+                                                    </ul>
+                                                }
                                             </div>
                                         </div>
 

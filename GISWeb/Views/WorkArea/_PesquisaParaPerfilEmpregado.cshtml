@@ -1,0 +1,77 @@
+﻿@using GISModel.Entidades
+@using System.Configuration
+@model List<WorkArea>
+
+<div class="space-6"></div>
+
+@if (Model != null && Model.Count > 0)
+{
+
+    <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+        <ol class="dd-list">
+
+            @foreach (WorkArea wa in Model)
+            {
+
+                string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+                <li class="dd-item collapseOne" data-id="@wa.UniqueKey">
+                    <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
+
+                        @wa.Nome <span> - </span> @wa.Descricao
+
+                        <div class="pull-right action-buttons">
+                            
+                        </div>
+                    </div>
+
+                    @if (wa.Perigos.Count() > 0)
+                    {
+                        <ol class="dd-list">
+                            @foreach (Perigo per in wa.Perigos)
+                            {
+                                <li class="dd-item" data-id="@per.UniqueKey.ToString()">
+                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+
+                                        <span><i style="color: orangered">Evento perigoso - </i></span>@per.Descricao
+                                        
+                                    </div>
+
+                                    @if (per.Riscos.Count() > 0)
+                                    {
+                                        <ol class="dd-list">
+                                            @foreach (Risco risk in per.Riscos)
+                                            {
+                                                <li class="dd-item" data-id="@risk.UniqueKey.ToString()">
+                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                                        <span><i style="color: yellowgreen">Risco existente - </i> </span>@risk.Nome
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ol>
+                                    }
+
+                                </li>
+                            }
+                        </ol>
+                    }
+                </li>
+            }
+        </ol>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        Nenhum workarea encontrado para o estabelecimento selecionado.
+        <br>
+    </div>
+}
+
+

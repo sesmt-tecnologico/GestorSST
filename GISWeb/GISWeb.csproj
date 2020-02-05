@@ -639,6 +639,7 @@
     <Content Include="Views\ReconhecimentoDoRisco\_CadastrarControleDeRisco.cshtml" />
     <Content Include="Views\ControleDeRiscos\Index.cshtml" />
     <Content Include="Views\ControleDeRiscos\Novo.cshtml" />
+    <Content Include="Views\WorkArea\_PesquisaParaPerfilEmpregado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
