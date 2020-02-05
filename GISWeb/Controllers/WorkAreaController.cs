@@ -72,11 +72,11 @@ namespace GISWeb.Controllers
 	                                  r1.Uniquekey as relwap, p.UniqueKey as ukperigo, p.Descricao as perigo, 
 	                                  r2.UniqueKey as relpr, r.UniqueKey as ukrisco, r.Nome as risco 
                                from tbWorkArea wa 
-	                                left join REL_WorkAreaPerigo r1 on r1.UKWorkArea = wa.UniqueKey  and r1.DataExclusao = '9999-12-31 23:59:59.997'
-	                                left join tbPerigo p on r1.UKPerigo = p.UniqueKey and p.DataExclusao = '9999-12-31 23:59:59.997'  
-	                                left join REL_PerigoRisco r2 on r2.UKPerigo = p.UniqueKey and r2.DataExclusao = '9999-12-31 23:59:59.997'  
+	                                left join REL_WorkAreaPerigo r1 on r1.UKWorkArea = wa.UniqueKey  and r1.DataExclusao = '9999-12-31 23:59:59.997' 
+	                                left join tbPerigo p on r1.UKPerigo = p.UniqueKey and p.DataExclusao = '9999-12-31 23:59:59.997' 
+	                                left join REL_PerigoRisco r2 on r2.UKPerigo = p.UniqueKey and r2.DataExclusao ='9999-12-31 23:59:59.997' 
 	                                left join tbRisco r on r2.UKRisco = r.UniqueKey  and r.DataExclusao = '9999-12-31 23:59:59.997' 
-                               where wa.DataExclusao = '9999-12-31 23:59:59.997' and wa.UKEstabelecimento = '" + entidade.UKEstabelecimento + @"' 
+                               where wa.DataExclusao ='9999-12-31 23:59:59.997'  and wa.UKEstabelecimento = '" + entidade.UKEstabelecimento + @"' 
                                order by wa.UniqueKey ";
 
                 DataTable result = WorkAreaBusiness.GetDataTable(sql);

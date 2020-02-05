@@ -256,6 +256,8 @@
     <Content Include="Scripts\Custom\Contrato\Excluir.js" />
     <Content Include="Scripts\Custom\Contrato\Lista.js" />
     <Content Include="Scripts\Custom\Contrato\Novo.js" />
+    <Content Include="Scripts\Custom\ControleDoRisco\Lista.js" />
+    <Content Include="Scripts\Custom\ControleDoRisco\Novo.js" />
     <Content Include="Scripts\Custom\custom-functions.js" />
     <Content Include="Scripts\Custom\custom-master.js" />
     <Content Include="Scripts\Custom\custom-profile.js" />
@@ -366,6 +368,7 @@
     <Content Include="Scripts\ListaEstabelecimento\Excluir.js" />
     <Content Include="Scripts\ListaEstabelecimento\Lista.js" />
     <Content Include="Scripts\ListaEstabelecimento\Novo.js" />
+    <Content Include="Scripts\ReconhecimentoDoRisco\Listagem.js" />
     <Content Include="Views\AnaliseRisco\ListaRiscos.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -387,6 +390,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CargoController.cs" />
     <Compile Include="Controllers\ContratoController.cs" />
+    <Compile Include="Controllers\ControleDeRiscosController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Controllers\DocumentoPessoalAtividadeController.cs" />
     <Compile Include="Controllers\DocumentosPessoalController.cs" />
@@ -407,6 +411,7 @@
     <Compile Include="Controllers\PermissoesController.cs" />
     <Compile Include="Controllers\PlanoDeAcaoController.cs" />
     <Compile Include="Controllers\PossiveisDanosController.cs" />
+    <Compile Include="Controllers\ReconhecimentoDoRiscoController.cs" />
     <Compile Include="Controllers\RiscoController.cs" />
     <Compile Include="Controllers\TipoDeRiscoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -631,6 +636,9 @@
     <Content Include="Views\Atividade\_VincularPerigoAtividade.cshtml" />
     <Content Include="Views\PossiveisDanos\_ListaRiscos.cshtml" />
     <Content Include="Views\PossiveisDanos\_VincularPossiveisDanos.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\_CadastrarControleDeRisco.cshtml" />
+    <Content Include="Views\ControleDeRiscos\Index.cshtml" />
+    <Content Include="Views\ControleDeRiscos\Novo.cshtml" />
     <Content Include="Views\WorkArea\_PesquisaParaPerfilEmpregado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

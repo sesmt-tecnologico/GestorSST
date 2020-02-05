@@ -194,6 +194,25 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
+
+
+    <Compile Include="Migrations\202002041811508_controleRisco.cs" />
+    <Compile Include="Migrations\202002041811508_controleRisco.Designer.cs">
+      <DependentUpon>202002041811508_controleRisco.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002041830023_atualizacontroleDeRisco.cs" />
+    <Compile Include="Migrations\202002041830023_atualizacontroleDeRisco.Designer.cs">
+      <DependentUpon>202002041830023_atualizacontroleDeRisco.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002042205167_Rel_RiscoControle.cs" />
+    <Compile Include="Migrations\202002042205167_Rel_RiscoControle.Designer.cs">
+      <DependentUpon>202002042205167_Rel_RiscoControle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002042214140_Rel_RiscoControleAtualiza.cs" />
+    <Compile Include="Migrations\202002042214140_Rel_RiscoControleAtualiza.Designer.cs">
+      <DependentUpon>202002042214140_Rel_RiscoControleAtualiza.cs</DependentUpon>
+    </Compile>
+
     <Compile Include="Migrations\202002050036482_r1.cs" />
     <Compile Include="Migrations\202002050036482_r1.Designer.cs">
       <DependentUpon>202002050036482_r1.cs</DependentUpon>
@@ -343,11 +362,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002050036482_r1.resx">
-      <DependentUpon>202002050036482_r1.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.111.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net45\System.Data.SQLite.Core.targets')" />

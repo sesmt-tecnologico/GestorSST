@@ -39,9 +39,9 @@
 
                         @foreach (MedidasDeControleExistentes iImagens in ViewBag.Imagens)
                         {
-                            <tr id="linha-@iImagens.IDMedidasDeControle">
+                            <tr id="linha-@iImagens.ID">
                                 <td>
-                                    <img src="/Images/EstabelecimentoImagens/@iImagens.IDMedidasDeControle/@iImagens.Imagem" alt="Estabelecimento" width="90px" />
+                                    <img src="/Images/EstabelecimentoImagens/@iImagens.ID/@iImagens.Imagem" alt="Estabelecimento" width="90px" />
                                 </td>
                                 <td>@iImagens.EClassificacaoDaMedida</td>
                                 <td>@iImagens.NomeDaImagem</td>

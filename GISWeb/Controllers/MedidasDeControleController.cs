@@ -77,13 +77,15 @@ namespace GISWeb.Controllers
 
         }
 
-        public ActionResult NovoControleRiscoFuncao(string id, string idAtivRisco)
+        public ActionResult NovoControleRiscoFuncao(string id)
         {
-            ViewBag.EstabID = id;
-            ViewBag.AtivRisco = idAtivRisco;
-            ViewBag.Imagens = MedidasDeControleBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.IDTipoDeRisco.Equals(id))).ToList();
-            ViewBag.TipoDeRisco = TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(id))).ToList();
-            ViewBag.RegistroID = new SelectList(MedidasDeControleBusiness.Consulta, "RegistroID", "Diretoria");
+            Guid ID_Risco = Guid.Parse(id);
+
+           // ViewBag.EstabID = id;
+            //ViewBag.AtivRisco = idAtivRisco;
+           // ViewBag.Imagens = MedidasDeControleBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID(id))).ToList();
+            ViewBag.TipoDeRisco = TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(ID_Risco))).ToList();
+            //ViewBag.RegistroID = new SelectList(MedidasDeControleBusiness.Consulta, "RegistroID", "Diretoria");
 
             return View();
         }
