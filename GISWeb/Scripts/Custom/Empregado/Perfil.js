@@ -113,6 +113,37 @@ function CarregarAdmissao() {
                     e.preventDefault();
                     OnClickNovaAlocacao($(this));
                 });
+
+                //BuscarWorkAreaParaPerfilEmpregado(string UKEstabelecimento)
+                //conteundoWorkArea
+
+                if ($(".txtEstabelecimento").length > 0) {
+                    
+                    $.ajax({
+                        method: "POST",
+                        url: "/WorkArea/BuscarWorkAreaParaPerfilEmpregado",
+                        data: { UKEstabelecimento: $(".txtEstabelecimento").data("ukestabelecimento") },
+                        error: function (erro) {
+                            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                        },
+                        success: function (content) {
+                            if (content.erro != null && content.erro != undefined && content.erro != "") {
+                                ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                            }
+                            else {
+                                $(".conteundoWorkArea").html(content);
+
+                                $('.dd').nestable();
+                                $('.dd').nestable('collapseAll');
+                                $($(".collapseOne button")[1]).click();
+                                $('.dd-handle a').on('mousedown', function (e) {
+                                    e.stopPropagation();
+                                });
+                            }
+                        }
+                    });
+
+                }
             }
 
         }
