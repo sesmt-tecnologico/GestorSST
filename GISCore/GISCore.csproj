@@ -194,29 +194,6 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-
-
-    <Compile Include="Migrations\202002041811508_controleRisco.cs" />
-    <Compile Include="Migrations\202002041811508_controleRisco.Designer.cs">
-      <DependentUpon>202002041811508_controleRisco.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002041830023_atualizacontroleDeRisco.cs" />
-    <Compile Include="Migrations\202002041830023_atualizacontroleDeRisco.Designer.cs">
-      <DependentUpon>202002041830023_atualizacontroleDeRisco.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002042205167_Rel_RiscoControle.cs" />
-    <Compile Include="Migrations\202002042205167_Rel_RiscoControle.Designer.cs">
-      <DependentUpon>202002042205167_Rel_RiscoControle.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002042214140_Rel_RiscoControleAtualiza.cs" />
-    <Compile Include="Migrations\202002042214140_Rel_RiscoControleAtualiza.Designer.cs">
-      <DependentUpon>202002042214140_Rel_RiscoControleAtualiza.cs</DependentUpon>
-    </Compile>
-
-    <Compile Include="Migrations\202002050036482_r1.cs" />
-    <Compile Include="Migrations\202002050036482_r1.Designer.cs">
-      <DependentUpon>202002050036482_r1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
