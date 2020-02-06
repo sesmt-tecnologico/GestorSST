@@ -12,14 +12,14 @@ using GISModel.DTO.Shared;
 
 namespace GISWeb.Controllers
 {
-    
-    public class ControleDeRiscosController : BaseController
+
+    public class TipoDeControleController : BaseController
     {
 
         #region inject
 
         [Inject]
-        public IControleDeRiscoBusiness ControleBusiness { get; set; }
+        public IBaseBusiness<TipoDeControle> TipoDeControleBusiness { get; set; }
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
@@ -32,9 +32,9 @@ namespace GISWeb.Controllers
         public ActionResult Index()
         {
 
-            ViewBag.Controles = ControleBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+            ViewBag.TipoControles = TipoDeControleBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 
-            ViewBag.TotalControles = ControleBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).Count();
+            ViewBag.TotalControles = TipoDeControleBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).Count();
 
             return View();
         }
@@ -42,23 +42,23 @@ namespace GISWeb.Controllers
         public ActionResult Novo()
         {
 
-            ViewBag.Controle = ControleBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+            ViewBag.TipoControle = TipoDeControleBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 
             return View();
         }
 
-        public ActionResult Cadastrar(ControleDeRiscos entidade)
+        public ActionResult Cadastrar(TipoDeControle entidade)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    ControleBusiness.Inserir(entidade);
+                    TipoDeControleBusiness.Inserir(entidade);
 
-                    Extensions.GravaCookie("MensagemSucesso", "Controle '" + entidade.Descricao + "' foi cadastrado com sucesso!", 10);
+                    Extensions.GravaCookie("MensagemSucesso", "Tipo de Controle '" + entidade.Descricao + "' foi cadastrado com sucesso!", 10);
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "ControleDeRiscos") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "TipoDeControle") } });
                 }
                 catch (Exception ex)
                 {

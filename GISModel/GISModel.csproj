@@ -134,6 +134,7 @@
     <Compile Include="Entidades\Diretoria.cs" />
     <Compile Include="Entidades\Departamento.cs" />
     <Compile Include="Entidades\DocAtividade.cs" />
+    <Compile Include="Entidades\FonteGeradoraDeRisco.cs" />
     <Compile Include="Entidades\PerigoPotencial.cs" />
     <Compile Include="Entidades\ReconhecimentoDoRisco.cs" />
     <Compile Include="Entidades\REL_AtividadePerigo.cs" />
@@ -166,10 +167,12 @@
     <Compile Include="Entidades\REL_WorkAreaRisco.cs" />
     <Compile Include="Entidades\Risco.cs" />
     <Compile Include="Entidades\tableAttribute.cs" />
+    <Compile Include="Entidades\TipoDeControle.cs" />
     <Compile Include="Entidades\TipoDeRisco.cs" />
     <Compile Include="Entidades\Usuario.cs" />
     <Compile Include="Entidades\UsuarioPerfil.cs" />
     <Compile Include="Entidades\WorkArea.cs" />
+    <Compile Include="Enums\ETrajetoria .cs" />
     <Compile Include="Enums\EStatusAdmissao.cs" />
     <Compile Include="Enums\ETipoContratoFornecedor.cs" />
     <Compile Include="Enums\ETipoPlanoAcao.cs" />

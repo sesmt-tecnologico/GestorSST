@@ -1,0 +1,125 @@
+﻿@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Listagem de Fonte geradora de riscos";
+}
+
+
+
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="header smaller lighter blue">
+                Fonte Geradoras
+                <a href="@Url.Action("Novo", "FonteGeradoraDeRisco")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                    <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                    Nova
+                </a>
+            </h3>
+        </div>
+    </div>
+
+    @if (ViewBag.ContaFonte > 0 )
+    {
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                @*@{
+                        Html.RenderPartial("_MensagensDeRetorno");
+                    }*@
+
+                @if (ViewBag.Fonte != null)
+                {
+                    <div>
+                        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Fonte Geradora</th>
+                                    <th width="80px"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (FonteGeradoraDeRisco iFonte in ViewBag.Fonte)
+                                {
+                                    string backcolor = string.Empty;
+                                    if (iFonte != null)
+                                    {
+                                        backcolor = "background-color: lightyellow";
+                                    }
+
+                                    <tr id="linha-@iFonte.ID" style="@backcolor">
+
+                                        <td class="hidden-480">@iFonte.FonteGeradora</td>
+                                        <td>
+                                            <div class="hidden-sm hidden-xs action-buttons">
+                                                <a href='@Url.Action("Edicao", "FonteGeradoraDeRisco", new { id = iFonte.ID })' class="green">
+                                                    <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
+                                                </a>
+
+                                                <a class="red" href="#" onclick="DeletarFonte('@iFonte.ID', '@iFonte.FonteGeradora');">
+                                                    <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
+                                                </a>
+                                            </div>
+
+                                            <div class="hidden-md hidden-lg">
+                                                <div class="inline pos-rel">
+                                                    <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                        <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                                    </button>
+
+                                                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                        <li>
+                                                            <a href='@Url.Action("Edicao", "FonteGeradoraDeRisco", new { id = iFonte.ID })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                                <span class="green">
+                                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                                </span>
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a href="#" class="tooltip-error" onclick="DeletarFonte('@iFonte.ID', '@iFonte.FonteGeradora');" data-rel="tooltip" title="Delete">
+                                                                <span class="red">
+                                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+            </div>
+        </div>
+    }
+    else
+    {
+
+        <div class="alert alert-warning">
+            <strong>
+                <i class="ace-icon fa fa-meh-o"></i>
+                Oops!
+            </strong>
+
+            No momento, nenhuma fonte geradora de risco foi encontrada.
+            <br>
+        </div>
+
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jQ_dataTable")
+
+        <script src="~/Scripts/Custom/FonteGeradora/Lista.js"></script>
+    }

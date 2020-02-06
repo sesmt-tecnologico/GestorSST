@@ -34,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EClassificacaoDaMedia, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
             <div class="col-xs-12 col-sm-12">
-                @Html.EnumDropDownListFor(model => model.EClassificacaoDaMedia, "Tipo de Entrada ...", htmlAttributes: new { @class = "chosen-select form-control" })
+                @Html.EditorFor(d=>d.EClassificacaoDaMedia, "Tipo de Entrada ...", new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
                 @Html.ValidationMessageFor(model => model.EClassificacaoDaMedia, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EControle, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
             <div class="col-xs-12 col-sm-12">
-                @Html.EnumDropDownListFor(model => model.EControle, "Selecione um centro ...", htmlAttributes: new { @class = "chosen-select form-control" })
+                @Html.EditorFor(d=>d.EControle, "Selecione um centro ...",  new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
                 @Html.ValidationMessageFor(model => model.EControle, "", new { @class = "text-danger" })
             </div>
         </div>

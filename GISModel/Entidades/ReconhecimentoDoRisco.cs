@@ -12,9 +12,7 @@ namespace GISModel.Entidades
     [Table("tbReconhecimentoDoRisco")]
     public class ReconhecimentoDoRisco: EntidadeBase
     {
-
-        [Display(Name ="Alocação")]
-        public Guid UKAlocacao { get; set; }
+               
 
         [Display(Name = "Workarea")]
         public Guid UKWorkarea { get; set; }
@@ -26,7 +24,7 @@ namespace GISModel.Entidades
         public Guid UKRisco { get; set; }
 
         [Display(Name = "Classifique o Risco")]
-        public EClasseDoRisco EClasseDoRisco { get; set; }
+        public string EClasseDoRisco { get; set; }
 
         [Display(Name = "Fonte Geradora")]
         public string FonteGeradora { get; set; }

@@ -300,6 +300,8 @@
     <Content Include="Scripts\Custom\Exposicao\Edicao.js" />
     <Content Include="Scripts\Custom\Exposicao\Listagem.js" />
     <Content Include="Scripts\Custom\Exposicao\Novo.js" />
+    <Content Include="Scripts\Custom\FonteGeradora\Lista.js" />
+    <Content Include="Scripts\Custom\FonteGeradora\Novo.js" />
     <Content Include="Scripts\Custom\Fornecedor\Edicao.js" />
     <Content Include="Scripts\Custom\Fornecedor\Excluir.js" />
     <Content Include="Scripts\Custom\Fornecedor\Lista.js" />
@@ -340,6 +342,8 @@
     <Content Include="Scripts\Custom\Risco\Excluir.js" />
     <Content Include="Scripts\Custom\Risco\Listagem.js" />
     <Content Include="Scripts\Custom\Risco\Novo.js" />
+    <Content Include="Scripts\Custom\TipoDeControle\Lista.js" />
+    <Content Include="Scripts\Custom\TipoDeControle\Novo.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Edicao.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Excluir.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Listagem.js" />
@@ -401,6 +405,7 @@
     <Compile Include="Controllers\EstabelecimentoController.cs" />
     <Compile Include="Controllers\EventoPerigosoController.cs" />
     <Compile Include="Controllers\ExposicaoController.cs" />
+    <Compile Include="Controllers\FonteGeradoraDeRiscoController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\FuncaoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -413,6 +418,7 @@
     <Compile Include="Controllers\PossiveisDanosController.cs" />
     <Compile Include="Controllers\ReconhecimentoDoRiscoController.cs" />
     <Compile Include="Controllers\RiscoController.cs" />
+    <Compile Include="Controllers\TipoDeControleController.cs" />
     <Compile Include="Controllers\TipoDeRiscoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\WorkAreaController.cs" />
@@ -640,6 +646,10 @@
     <Content Include="Views\ControleDeRiscos\Index.cshtml" />
     <Content Include="Views\ControleDeRiscos\Novo.cshtml" />
     <Content Include="Views\WorkArea\_PesquisaParaPerfilEmpregado.cshtml" />
+    <Content Include="Views\FonteGeradoraDeRisco\Novo.cshtml" />
+    <Content Include="Views\FonteGeradoraDeRisco\Index.cshtml" />
+    <Content Include="Views\TipoDeControle\Index.cshtml" />
+    <Content Include="Views\TipoDeControle\Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

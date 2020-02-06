@@ -68,7 +68,7 @@ namespace GISWeb.Controllers
             {
                 List<WorkArea> lista = new List<WorkArea>();
 
-                string sql = @"select wa.UniqueKey, wa.Nome, wa.Descricao, 
+                string sql = @"select wa.UniqueKey,wa.UKEstabelecimento, wa.Nome, wa.Descricao, 
 	                                  r1.Uniquekey as relwap, p.UniqueKey as ukperigo, p.Descricao as perigo, 
 	                                  r2.UniqueKey as relpr, r.UniqueKey as ukrisco, r.Nome as risco 
                                from tbWorkArea wa 
@@ -92,6 +92,7 @@ namespace GISWeb.Controllers
                             obj = new WorkArea()
                             {
                                 UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                                UKEstabelecimento = Guid.Parse(row["UKEstabelecimento"].ToString()),
                                 Nome = row["Nome"].ToString(),
                                 Descricao = row["Descricao"].ToString(),
                                 Perigos = new List<Perigo>()

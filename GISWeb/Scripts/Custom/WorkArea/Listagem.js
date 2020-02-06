@@ -17,7 +17,13 @@
         }
     });
 
+   
+
+   
 });
+
+
+
 
 function OnBeginPesquisarWorkArea() {
     $(".LoadingLayout").show();
@@ -426,9 +432,7 @@ function OnClickControleDoRisco( pUKWorkArea, pRisco) {
             $("#modalAddControleProsseguir").off("click").on("click", function () {
                 var ukControle = $.trim($(".txtNovoControle").val());
                 var ukWA = $.trim($(".txtUKWorkArea").val());
-                var ukRisc = $.trim($(".txtUKRisco").val());
-                var ukNomeWA = $.trim($(".txtNomeWa").val());
-                var ukNomeRisc = $.trim($(".txtNomeRisc").val());
+                var ukRisc = $.trim($(".txtUKRisco").val());                
 
 
                 if (ukControle == "") {
@@ -441,45 +445,48 @@ function OnClickControleDoRisco( pUKWorkArea, pRisco) {
                 else if (ukRisc == "") {
                     ExibirMensagemDeAlerta("Não foi possível identificar Risco.");
                 }
-                else {
-                    $("#modalAddControleLoading").show();
-                    
-                    $.ajax({
-                        method: "POST",
-                        url: "/ReconhecimentoDoRisco/CadastrarControleDeRisco",
-                        data: { UKControle: ukControle, UKWorkArea: ukWA, UKRisco: ukRisc, ukNomeWA: ukNomeWA, ukNomeRisc: ukNomeRisc   },
-                        error: function (erro) {
-                            $("#modalAddControleLoading").hide();
-                            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
-                        },
-                        success: function (content) {
-                            $("#modalAddControleLoading").hide();
+                //else {
+                //            $("#modalAddControleLoading").show();
 
-                            TratarResultadoJSON(content.resultado);
+                //                    $.ajax({
+                //                        method: "POST",
+                //                        url: "/ReconhecimentoDoRisco/CadastrarControleDeRisco",
+                //                        data: { UKPerigo: ukPerigo, Riscos: riscos },
+                //                        error: function (erro) {
+                //                            $("#modalAddRiscoLoading").hide();
+                //                            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                //                        },
+                //                        success: function (content) {
+                //                            $("#modalAddRiscoLoading").hide();
 
-                            if (content.resultado.Sucesso != "") {
-                                $(".resultadoWorkArea").html("");
+                //                            TratarResultadoJSON(content.resultado);
 
-                                if ($("#UKEstabelecimento").val() != "") {
-                                    $("#formPesquisarWorkArea").submit();
-                                }
+                //                            if (content.resultado.Sucesso != "") {
+                //                                $(".resultadoWorkArea").html("");
 
-                                $('#modalAddControle').modal('hide');
-                            }
+                //                                if ($("#UKEstabelecimento").val() != "") {
+                //                                    $("#formPesquisarWorkArea").submit();
+                //                                }
 
-
+                //                                $('#modalAddRisco').modal('hide');
+                //                            }
 
 
-                        }
-                    }
-                    );
-                }
+                //                        }
+                //                     });
+                //    }
+
+
                 
+
 
             });
         }
     });
 }
+
+
+
 
 function AutoCompleteAdicionarControle() {
     var tag_input = $('.txtNovoControle');
@@ -506,8 +513,7 @@ function AutoCompleteAdicionarControle() {
                 }
             }
         });
-
-        
+                
 
         $('.tags').css('width', '100%');
 
