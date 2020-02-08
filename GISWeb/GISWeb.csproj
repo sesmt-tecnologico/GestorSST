@@ -398,6 +398,7 @@
     <Compile Include="Controllers\ExposicaoController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\FuncaoController.cs" />
+    <Compile Include="Controllers\GedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MedidasDeControleController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
@@ -616,17 +617,15 @@
     <Content Include="Views\Empregado\Pesquisa.cshtml" />
     <Content Include="Views\Empregado\_PesquisaAvancada.cshtml" />
     <Content Include="Views\Empregado\Perfil.cshtml" />
-
     <Content Include="Views\Admissao\_Novo.cshtml" />
     <Content Include="Views\Home\Sobre.cshtml" />
     <Content Include="Views\Admissao\_BuscarAdmissoesAtuais.cshtml" />
-
     <Content Include="Views\Atividade\_ListaDocumento1.cshtml" />
     <Content Include="Views\Atividade\_ListaDocumento.cshtml" />
     <Content Include="Views\DocumentosPessoal\_VincularDocs.cshtml" />
     <Content Include="Views\Perigo\_ListaPerigo.cshtml" />
     <Content Include="Views\Risco\_VincularRisco.cshtml" />
-
+    <Content Include="Views\Ged\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -109,7 +109,6 @@ function CarregarAdmissao() {
             else {
                 $("#ConteudoAdmissao").html(content);
             }
-
         }
     });
 
