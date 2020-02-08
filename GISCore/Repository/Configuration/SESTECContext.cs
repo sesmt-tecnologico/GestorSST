@@ -94,7 +94,7 @@ namespace GISCore.Repository.Configuration
 
 
 
-
+        public DbSet<REL_FontePerigo> REL_WorkFontePerigo { get; set; }
         public DbSet<REL_ContratoFornecedor> REL_ContratoFornecedor { get; set; }
 
         public DbSet<REL_DepartamentoContrato> REL_DepartamentoContrato { get; set; }

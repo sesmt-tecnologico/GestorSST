@@ -148,6 +148,7 @@ namespace GISWeb.Controllers
 
                                     obj.Perigos.Add(oPerigo);
                                 }
+
                                 else if (oPerigo.Descricao.Equals(row["perigo"].ToString()))
                                 {
                                     if (!string.IsNullOrEmpty(row["relpr"].ToString()))

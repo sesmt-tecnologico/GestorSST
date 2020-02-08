@@ -54,7 +54,7 @@ function GetDepartments() {
             else {
                 $("#contentDepartment").html(content);
 
-                AplicaTooltip();
+               AplicaTooltip();
 
                 $('.dd').nestable();
                 $('.dd').nestable('collapseAll');

@@ -9,10 +9,10 @@
     <div class="col-xs-12">
         <h3 class="header smaller lighter blue">
             WorkArea
-            <button id="btnLocalizarEstabelecimento" class="btn btn-primary btnPesquisar" style="float: right; border: 0px; border-bottom: 2px; margin-top: -2px; height: 34px;">
+            @*<button id="btnLocalizarEstabelecimento" class="btn btn-primary btnPesquisar" style="float: right; border: 0px; border-bottom: 2px; margin-top: -2px; height: 34px;">
                 <i class="ace-icon fa fa-search"></i>
                 Pesquisar
-            </button>
+            </button>*@
 
             <a href="@Url.Action("Novo", "WorkArea")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px; margin-right: 20px;">
                 <i class="ace-icon fa fa-plus bigger-120 blue"></i>
@@ -46,7 +46,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jQ_dataTable")
-
+   <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
     <script src="~/Scripts/Ace/jQ/typeahead.jquery.js"></script>
     <script src="~/Scripts/Ace/elements.typeahead.js"></script>
 
