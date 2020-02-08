@@ -111,6 +111,7 @@
     <Compile Include="DTO\Departamento\CadastroViewModel.cs" />
     <Compile Include="DTO\Estabelecimento\EstabelecimentoViewModel.cs" />
     <Compile Include="DTO\Estabelecimento\PesquisaEstabelecimentoViewModel.cs" />
+    <Compile Include="DTO\FonteGeradoraDeRisco\FonteGeradoraViewModel.cs" />
     <Compile Include="DTO\Funcao\ListaFuncaoViewModel.cs" />
     <Compile Include="DTO\Ged\GedViewModel.cs" />
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Entidades\REL_RiscoControle.cs" />
     <Compile Include="Entidades\REL_RiscoDanosASaude.cs" />
     <Compile Include="Entidades\REL_WorkAreaRisco.cs" />
+    <Compile Include="Entidades\REL_FontePerigo.cs" />
     <Compile Include="Entidades\Risco.cs" />
     <Compile Include="Entidades\tableAttribute.cs" />
     <Compile Include="Entidades\TipoDeControle.cs" />

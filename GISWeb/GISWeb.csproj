@@ -647,13 +647,14 @@
     <Content Include="Views\PossiveisDanos\_ListaRiscos.cshtml" />
     <Content Include="Views\PossiveisDanos\_VincularPossiveisDanos.cshtml" />
     <Content Include="Views\ReconhecimentoDoRisco\_CadastrarControleDeRisco.cshtml" />
-    <Content Include="Views\ControleDeRiscos\Index.cshtml" />
-    <Content Include="Views\ControleDeRiscos\Novo.cshtml" />
     <Content Include="Views\WorkArea\_PesquisaParaPerfilEmpregado.cshtml" />
     <Content Include="Views\FonteGeradoraDeRisco\Novo.cshtml" />
     <Content Include="Views\FonteGeradoraDeRisco\Index.cshtml" />
     <Content Include="Views\TipoDeControle\Index.cshtml" />
     <Content Include="Views\TipoDeControle\Novo.cshtml" />
+
+    <Content Include="Views\FonteGeradoraDeRisco\_Pesquisa.cshtml" />
+    <Content Include="Views\FonteGeradoraDeRisco\_VincularPerigo.cshtml" />
 
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

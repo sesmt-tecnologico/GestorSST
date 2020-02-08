@@ -111,6 +111,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Abstract\IREL_FontePerigoBusiness.cs" />
     <Compile Include="Business\Abstract\IControleDeRiscoBusiness  .cs" />
     <Compile Include="Business\Abstract\IReconhecimentoBusiness .cs" />
     <Compile Include="Business\Abstract\IAnaliseRiscoBusiness.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Business\Abstract\IUsuarioBusiness.cs" />
     <Compile Include="Business\Abstract\IUsuarioPerfilBusiness.cs" />
     <Compile Include="Business\Abstract\IWorkAreaBusiness.cs" />
+    <Compile Include="Business\Concrete\REL_FontePerigoBusiness .cs" />
     <Compile Include="Business\Concrete\ControleDeRiscoBusiness.cs" />
     <Compile Include="Business\Concrete\ReconhecimentoBusiness.cs" />
     <Compile Include="Business\Concrete\AnaliseRiscoBusiness.cs" />
@@ -220,6 +222,42 @@
     <Compile Include="Migrations\202002061902357_controleFonteGeradora.Designer.cs">
       <DependentUpon>202002061902357_controleFonteGeradora.cs</DependentUpon>
 
+    </Compile>
+    <Compile Include="Migrations\202002070234211_controleF.cs" />
+    <Compile Include="Migrations\202002070234211_controleF.Designer.cs">
+      <DependentUpon>202002070234211_controleF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071200061_corrigirEnum.cs" />
+    <Compile Include="Migrations\202002071200061_corrigirEnum.Designer.cs">
+      <DependentUpon>202002071200061_corrigirEnum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071311327_fonteGeradora.cs" />
+    <Compile Include="Migrations\202002071311327_fonteGeradora.Designer.cs">
+      <DependentUpon>202002071311327_fonteGeradora.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071326257_fonteGeradoraCorrecao.cs" />
+    <Compile Include="Migrations\202002071326257_fonteGeradoraCorrecao.Designer.cs">
+      <DependentUpon>202002071326257_fonteGeradoraCorrecao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071345286_fonteGeradoraCorrecao2.cs" />
+    <Compile Include="Migrations\202002071345286_fonteGeradoraCorrecao2.Designer.cs">
+      <DependentUpon>202002071345286_fonteGeradoraCorrecao2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071432048_fonteGeradoraCorrecao3.cs" />
+    <Compile Include="Migrations\202002071432048_fonteGeradoraCorrecao3.Designer.cs">
+      <DependentUpon>202002071432048_fonteGeradoraCorrecao3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071915553_REL_WFP.cs" />
+    <Compile Include="Migrations\202002071915553_REL_WFP.Designer.cs">
+      <DependentUpon>202002071915553_REL_WFP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071931060_REL_WFP02.cs" />
+    <Compile Include="Migrations\202002071931060_REL_WFP02.Designer.cs">
+      <DependentUpon>202002071931060_REL_WFP02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002072047584_REL_WFP03.cs" />
+    <Compile Include="Migrations\202002072047584_REL_WFP03.Designer.cs">
+      <DependentUpon>202002072047584_REL_WFP03.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -385,6 +423,33 @@
     <EmbeddedResource Include="Migrations\202002061902357_controleFonteGeradora.resx">
       <DependentUpon>202002061902357_controleFonteGeradora.cs</DependentUpon>
 
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002070234211_controleF.resx">
+      <DependentUpon>202002070234211_controleF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071200061_corrigirEnum.resx">
+      <DependentUpon>202002071200061_corrigirEnum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071311327_fonteGeradora.resx">
+      <DependentUpon>202002071311327_fonteGeradora.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071326257_fonteGeradoraCorrecao.resx">
+      <DependentUpon>202002071326257_fonteGeradoraCorrecao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071345286_fonteGeradoraCorrecao2.resx">
+      <DependentUpon>202002071345286_fonteGeradoraCorrecao2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071432048_fonteGeradoraCorrecao3.resx">
+      <DependentUpon>202002071432048_fonteGeradoraCorrecao3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071915553_REL_WFP.resx">
+      <DependentUpon>202002071915553_REL_WFP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071931060_REL_WFP02.resx">
+      <DependentUpon>202002071931060_REL_WFP02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002072047584_REL_WFP03.resx">
+      <DependentUpon>202002072047584_REL_WFP03.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
