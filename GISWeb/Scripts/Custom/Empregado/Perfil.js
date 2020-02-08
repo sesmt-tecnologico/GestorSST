@@ -90,9 +90,9 @@
 
 });
 
-function CarregarAdmissao() {
 
-    //BuscarAdmissoesAtuais
+
+function CarregarAdmissao() {
 
     $.ajax({
         method: "POST",
@@ -108,6 +108,42 @@ function CarregarAdmissao() {
             }
             else {
                 $("#ConteudoAdmissao").html(content);
+
+                $(".btnNovaAlocacao").off("click").on("click", function (e) {
+                    e.preventDefault();
+                    OnClickNovaAlocacao($(this));
+                });
+
+                //BuscarWorkAreaParaPerfilEmpregado(string UKEstabelecimento)
+                //conteundoWorkArea
+
+                if ($(".txtEstabelecimento").length > 0) {
+                    
+                    $.ajax({
+                        method: "POST",
+                        url: "/WorkArea/BuscarWorkAreaParaPerfilEmpregado",
+                        data: { UKEstabelecimento: $(".txtEstabelecimento").data("ukestabelecimento") },
+                        error: function (erro) {
+                            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                        },
+                        success: function (content) {
+                            if (content.erro != null && content.erro != undefined && content.erro != "") {
+                                ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                            }
+                            else {
+                                $(".conteundoWorkArea").html(content);
+
+                                $('.dd').nestable();
+                                $('.dd').nestable('collapseAll');
+                                $($(".collapseOne button")[1]).click();
+                                $('.dd-handle a').on('mousedown', function (e) {
+                                    e.stopPropagation();
+                                });
+                            }
+                        }
+                    });
+
+                }
             }
         }
     });
@@ -165,6 +201,223 @@ function OnSuccessCadastrarAdmissao(content) {
         $('#modalAdmissaoProsseguir').attr('disabled', false);
         $('#modalAdmissaoLoading').hide();
 
+    }
+    else if (content.resultado.URL != null && content.resultado.URL != undefined && content.resultado.URL != "") {
+        window.location.href = content.resultado.URL;
+    }
+
+}
+
+
+
+function OnClickNovaAlocacao(origemElemento) {
+    $('#modalAlocacaoX').show();
+    $('#modalAlocacaoFechar').removeClass('disabled');
+    $('#modalAlocacaoFechar').removeAttr('disabled', 'disabled');
+    $('#modalAlocacaoProsseguir').removeClass('disabled');
+    $('#modalAlocacaoProsseguir').removeAttr('disabled', 'disabled');
+    $('#modalAlocacaoProsseguir').hide();
+    $('#modalAlocacaoCorpo').html('');
+    $('#modalAlocacaoCorpoLoading').show();
+    $('#modalAlocacaoLoading').hide();
+
+    var ukAdmissao = origemElemento.closest('[data-ukadmissao]').attr('data-ukadmissao');
+
+    $.ajax({
+        method: 'POST',
+        url: '/Alocacao/Novo',
+        data: { id: ukAdmissao },
+        error: function (erro) {
+            $('#modalAlocacao').modal('hide');
+            ExibirMensagemGritter('Oops!', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+
+            $('#modalAlocacaoCorpoLoading').hide();
+
+            if (content.erro != undefined && content.erro != null && content.erro != "") {
+                
+                ExibirMensagemGritter('Oops!', content.erro, 'gritter-warning');
+                $('#modalAlocacaoCorpo').html('<div class="alert alert-warning"><strong><i class="ace-icon fa fa-meh-o"></i> Oops!</strong> ' + content.erro + '<br /></div>');
+            }
+            else {
+                $('#modalAlocacaoCorpoLoading').hide();
+                $('#modalAlocacaoCorpo').html(content);
+
+                Chosen();
+
+                AplicaTooltip();
+
+                $('#modalAlocacaoProsseguir').show();
+
+                $("#ddlContrato").off("change").on("change", function () {
+                    if ($(this).val() == "") {
+                        $('#ddlDepartamento').empty();
+
+                        $('#ddlDepartamento').append($('<option>', {
+                            value: "",
+                            text: "Selecione um departamento..."
+                        }));
+
+                        $("#ddlDepartamento").trigger("chosen:updated");
+                    }
+                    else {
+                        $('#modalAlocacaoLoading').show();
+
+
+                        $.ajax({
+                            method: "POST",
+                            url: "/Departamento/BuscarDepartamentosPorContratoParaSelect",
+                            data: { id: $(this).val() },
+                            error: function (erro) {
+                                $('#modalAlocacaoLoading').hide();
+                                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                            },
+                            success: function (content) {
+                                $('#modalAlocacaoLoading').hide();
+
+                                if (content.erro != null && content.erro != undefined && content.erro != "") {
+                                    ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                                }
+                                else {
+                                    $('#ddlDepartamento').empty();
+
+                                    $('#ddlDepartamento').append($('<option>', {
+                                        value: "",
+                                        text: "Selecione um departamento..."
+                                    }));
+
+                                    $("#ddlDepartamento").attr("placeholder", "Selecione um departamento...");
+
+                                    for (var i = 0; i < content.data.length; i++) {
+                                        $('#ddlDepartamento').append($('<option>', {
+                                            value: content.data[i].UniqueKey,
+                                            text: content.data[i].Sigla
+                                        }));
+                                    }
+
+                                    $("#ddlDepartamento").trigger("chosen:updated");
+
+                                }
+                            }
+                        });
+
+                    }
+                });
+
+                $("#ddlCargo").off("change").on("change", function () {
+
+                    if ($(this).val() == "") {
+                        $('#ddlFuncao').empty();
+
+                        $('#ddlFuncao').append($('<option>', {
+                            value: "",
+                            text: "Selecione uma função..."
+                        }));
+
+                        $("#ddlFuncao").trigger("chosen:updated");
+                    }
+                    else {
+                        $('#modalAlocacaoLoading').show();
+
+                        $.ajax({
+                            method: "POST",
+                            url: "/Funcao/BuscarFuncoesPorCargoParaSelect",
+                            data: { id: $(this).val() },
+                            error: function (erro) {
+                                $('#modalAlocacaoLoading').hide();
+                                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                            },
+                            success: function (content) {
+                                $('#modalAlocacaoLoading').hide();
+
+                                if (content.erro != null && content.erro != undefined && content.erro != "") {
+                                    ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                                }
+                                else {
+                                    $('#ddlFuncao').empty();
+
+                                    $('#ddlFuncao').append($('<option>', {
+                                        value: "",
+                                        text: "Selecione uma função..."
+                                    }));
+
+                                    $("#ddlFuncao").attr("placeholder", "Selecione uma função...");
+
+                                    for (var i = 0; i < content.data.length; i++) {
+                                        $('#ddlFuncao').append($('<option>', {
+                                            value: content.data[i].UniqueKey,
+                                            text: content.data[i].NomeDaFuncao
+                                        }));
+                                    }
+
+                                    $("#ddlFuncao").trigger("chosen:updated");
+
+                                }
+                            }
+                        });
+
+                    }
+                });
+
+
+
+
+                var funcSubmit = function (e) {
+
+                    $('#modalAlocacaoX').hide();
+                    $('#modalAlocacaoFechar').addClass('disabled');
+                    $('#modalAlocacaoFechar').attr('disabled', 'disabled');
+                    $('#modalAlocacaoProsseguir').addClass('disabled');
+                    $('#modalAlocacaoProsseguir').attr('disabled', 'disabled');
+
+                    $('#formCadastroAlocacao').submit();
+                };
+
+                
+                $('#modalAlocacaoProsseguir').off('click').on('click', function (event) {
+                    funcSubmit(event);
+                });
+
+                $('#modalAlocacaoFechar').off('click').on('click', function () {
+                    $('#modalAlocacaoCorpo').html('');
+                });
+
+                $('#modalAlocacao').on('hide', function () {
+                    $('#modalAlocacaoProsseguir').off('click', funcSubmit);
+                });
+
+            }
+
+        }
+    });
+}
+
+
+function OnBeginCadastrarAlocacao() {
+    $('#modalAlocacaoX').hide();
+    $('#modalAlocacaoFechar').addClass('disabled');
+    $('#modalAlocacaoFechar').attr('disabled', 'disabled');
+    $('#modalAlocacaoProsseguir').addClass('disabled');
+    $('#modalAlocacaoProsseguir').attr('disabled', 'disabled');
+    $('#modalAlocacaoLoading').show();
+}
+
+function OnSuccessCadastrarAlocacao(content) {
+
+    if (content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+        ExibirMensagemDeErro(content.resultado.Erro);
+
+        $('#modalAlocacaoX').show();
+        $('#modalAlocacaoFechar').removeClass('disabled');
+        $('#modalAlocacaoFechar').attr('disabled', false);
+        $('#modalAlocacaoProsseguir').removeClass('disabled');
+        $('#modalAlocacaoProsseguir').attr('disabled', false);
+        $('#modalAlocacaoLoading').hide();
+
+    }
+    else if (content.resultado.Alerta != null && content.resultado.Alerta != undefined && content.resultado.Alerta != "") {
+        ExibirMensagemDeAlerta(content.resultado.Alerta);
     }
     else if (content.resultado.URL != null && content.resultado.URL != undefined && content.resultado.URL != "") {
         window.location.href = content.resultado.URL;

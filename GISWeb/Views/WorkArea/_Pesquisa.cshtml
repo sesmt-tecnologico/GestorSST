@@ -68,12 +68,18 @@
                                                 <li class="dd-item" data-id="@risk.UniqueKey.ToString()">
                                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
                                                         <span><i style="color: yellowgreen">Risco existente - </i> </span>@risk.Nome
-
                                                         <div class="pull-right action-buttons">
                                                             <a href="#" class="blue CustomTooltip" title="Desvincular Risco" onclick="OnClickRemoverRisco('@risk.UniqueKey', '@per.UniqueKey', '@risk.Nome')">
                                                                 <i class="ace-icon fa fa-trash red bigger-125"></i>
                                                             </a>
                                                         </div>
+                                                       
+                                                        <div class="pull-right action-buttons">
+                                                            <a href="#" class="blue CustomTooltip" title="Cadastrar controle Risco" onclick="OnClickControleDoRisco('@wa.UniqueKey', '@risk.UniqueKey');"data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                            </a>
+                                                        </div>
+                                                       
 
                                                     </div>
                                                 </li>

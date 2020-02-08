@@ -35,7 +35,7 @@
                         </div>
                     </div>
 
-                    
+
                 </div>
             </div>
 
@@ -228,6 +228,8 @@
     @*@Scripts.Render("~/bundles/js_common_end")*@
     @Scripts.Render("~/bundles/custom/profile")
 
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+
     <script src="~/Scripts/Custom/Empregado/Perfil.js"></script>
 }
 
@@ -340,6 +342,46 @@
                             <button id="modalAtualizarFotoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
                                 <i class="ace-icon fa fa-check"></i>
                                 Atualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAlocacao" class="modal fade" style="overflow: auto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalAlocacaoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Alocação</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalAlocacaoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                            <div id="modalAlocacaoCorpo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span id="modalAlocacaoLoading" style="display: block; float: left; padding-top: 6px">
+                                <img src="~/Images/slack_loading.gif" width="28px" />
+                            </span>
+
+                            <button id="modalAlocacaoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                <i class="ace-icon fa fa-times"></i>
+                                Fechar
+                            </button>
+
+                            <button id="modalAlocacaoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                <i class="ace-icon fa fa-check"></i>
+                                Confirmar
                             </button>
                         </div>
                     </div>

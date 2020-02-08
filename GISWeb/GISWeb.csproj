@@ -232,6 +232,7 @@
     <Content Include="Scripts\Custom\AnaliseRisco\Novo.js" />
     <Content Include="Scripts\Custom\Atividade\Edicao.js" />
     <Content Include="Scripts\Custom\Atividade\Excluir.js" />
+    <Content Include="Scripts\Custom\Atividade\ListaAtividadePerigo.js" />
     <Content Include="Scripts\Custom\Atividade\Listagem.js" />
     <Content Include="Scripts\Custom\Atividade\Novo.js" />
     <Content Include="Scripts\Custom\AtividadeAlocada\Edicao.js" />
@@ -255,6 +256,8 @@
     <Content Include="Scripts\Custom\Contrato\Excluir.js" />
     <Content Include="Scripts\Custom\Contrato\Lista.js" />
     <Content Include="Scripts\Custom\Contrato\Novo.js" />
+    <Content Include="Scripts\Custom\ControleDoRisco\Lista.js" />
+    <Content Include="Scripts\Custom\ControleDoRisco\Novo.js" />
     <Content Include="Scripts\Custom\custom-functions.js" />
     <Content Include="Scripts\Custom\custom-master.js" />
     <Content Include="Scripts\Custom\custom-profile.js" />
@@ -297,6 +300,8 @@
     <Content Include="Scripts\Custom\Exposicao\Edicao.js" />
     <Content Include="Scripts\Custom\Exposicao\Listagem.js" />
     <Content Include="Scripts\Custom\Exposicao\Novo.js" />
+    <Content Include="Scripts\Custom\FonteGeradora\Lista.js" />
+    <Content Include="Scripts\Custom\FonteGeradora\Novo.js" />
     <Content Include="Scripts\Custom\Fornecedor\Edicao.js" />
     <Content Include="Scripts\Custom\Fornecedor\Excluir.js" />
     <Content Include="Scripts\Custom\Fornecedor\Lista.js" />
@@ -337,6 +342,8 @@
     <Content Include="Scripts\Custom\Risco\Excluir.js" />
     <Content Include="Scripts\Custom\Risco\Listagem.js" />
     <Content Include="Scripts\Custom\Risco\Novo.js" />
+    <Content Include="Scripts\Custom\TipoDeControle\Lista.js" />
+    <Content Include="Scripts\Custom\TipoDeControle\Novo.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Edicao.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Excluir.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Listagem.js" />
@@ -365,6 +372,7 @@
     <Content Include="Scripts\ListaEstabelecimento\Excluir.js" />
     <Content Include="Scripts\ListaEstabelecimento\Lista.js" />
     <Content Include="Scripts\ListaEstabelecimento\Novo.js" />
+    <Content Include="Scripts\ReconhecimentoDoRisco\Listagem.js" />
     <Content Include="Views\AnaliseRisco\ListaRiscos.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -386,6 +394,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CargoController.cs" />
     <Compile Include="Controllers\ContratoController.cs" />
+    <Compile Include="Controllers\ControleDeRiscosController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
     <Compile Include="Controllers\DocumentoPessoalAtividadeController.cs" />
     <Compile Include="Controllers\DocumentosPessoalController.cs" />
@@ -396,6 +405,7 @@
     <Compile Include="Controllers\EstabelecimentoController.cs" />
     <Compile Include="Controllers\EventoPerigosoController.cs" />
     <Compile Include="Controllers\ExposicaoController.cs" />
+    <Compile Include="Controllers\FonteGeradoraDeRiscoController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\FuncaoController.cs" />
     <Compile Include="Controllers\GedController.cs" />
@@ -407,7 +417,9 @@
     <Compile Include="Controllers\PermissoesController.cs" />
     <Compile Include="Controllers\PlanoDeAcaoController.cs" />
     <Compile Include="Controllers\PossiveisDanosController.cs" />
+    <Compile Include="Controllers\ReconhecimentoDoRiscoController.cs" />
     <Compile Include="Controllers\RiscoController.cs" />
+    <Compile Include="Controllers\TipoDeControleController.cs" />
     <Compile Include="Controllers\TipoDeRiscoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\WorkAreaController.cs" />
@@ -625,7 +637,24 @@
     <Content Include="Views\DocumentosPessoal\_VincularDocs.cshtml" />
     <Content Include="Views\Perigo\_ListaPerigo.cshtml" />
     <Content Include="Views\Risco\_VincularRisco.cshtml" />
+
     <Content Include="Views\Ged\Index.cshtml" />
+
+    <Content Include="Views\Departamento\_BuscarDepartamentosPorContratoParaSelect.cshtml" />
+    <Content Include="Views\Atividade\AtividadePerigo.cshtml" />
+    <Content Include="Views\Atividade\_ListaPerigoPorAtividade.cshtml" />
+    <Content Include="Views\Atividade\_VincularPerigoAtividade.cshtml" />
+    <Content Include="Views\PossiveisDanos\_ListaRiscos.cshtml" />
+    <Content Include="Views\PossiveisDanos\_VincularPossiveisDanos.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\_CadastrarControleDeRisco.cshtml" />
+    <Content Include="Views\ControleDeRiscos\Index.cshtml" />
+    <Content Include="Views\ControleDeRiscos\Novo.cshtml" />
+    <Content Include="Views\WorkArea\_PesquisaParaPerfilEmpregado.cshtml" />
+    <Content Include="Views\FonteGeradoraDeRisco\Novo.cshtml" />
+    <Content Include="Views\FonteGeradoraDeRisco\Index.cshtml" />
+    <Content Include="Views\TipoDeControle\Index.cshtml" />
+    <Content Include="Views\TipoDeControle\Novo.cshtml" />
+
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

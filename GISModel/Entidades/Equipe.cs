@@ -14,7 +14,8 @@ namespace GISModel.Entidades
         [Display(Name = "Resumo da Atividade")]
         public string ResumoAtividade { get; set; }
 
-        public Guid EmpresaID { get; set; }
+
+        public Guid UKEmpresa { get; set; }
 
         public virtual Empresa Empresa { get; set; }
 

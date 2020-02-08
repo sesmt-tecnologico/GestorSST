@@ -1,4 +1,5 @@
 ﻿using GISCore.Business.Abstract;
+using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
@@ -6,14 +7,10 @@ using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Data;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
-using GISCore.Infrastructure.Utils;
-using GISModel.DTO.Admissao;
-using System.Data;
 
 namespace GISWeb.Controllers
 {
@@ -37,54 +34,6 @@ namespace GISWeb.Controllers
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
-
-        //[Inject]
-        //public IAtividadesDoEstabelecimentoBusiness AtividadesDoEstabelecimentoBusiness { get; set; }
-
-        //[Inject]
-        //public IDepartamentoBusiness DepartamentoBusiness { get; set; }
-
-        //[Inject]
-        //public IEstabelecimentoAmbienteBusiness EstabelecimentoImagensBusiness { get; set; }
-
-        //[Inject]
-        //public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadesDoEstabelecimentoBusiness RiscosDoEstabelecimentoBusiness { get; set; }
-
-        //[Inject]
-        //public IAlocacaoBusiness AlocacaoBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadeAlocadaBusiness AtividadeAlocadaBusiness { get; set; }
-
-        //[Inject]
-        //public IExposicaoBusiness ExposicaoBusiness { get; set; }
-
-        //[Inject]
-        //public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
-
-        //[Inject]
-        //public IEventoPerigosoBusiness EventoPerigosoBusiness { get; set; }
-
-
-        //[Inject]
-        //public IPossiveisDanosBusiness PossiveisDanosBusiness { get; set; }
-
-        //[Inject]
-        //public IPerigoPotencialBusiness PerigoPotencialBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadeFuncaoLiberadaBusiness AtividadeFuncaoLiberadaBusiness { get; set; }
-
-        //[Inject]
-        //public IAtividadeBusiness AtividadeBusiness { get; set; }
-
-        //[Inject]
-        //public IFuncaoBusiness FuncaoBusiness { get; set; }
-
-
 
         #endregion
 
@@ -195,7 +144,7 @@ namespace GISWeb.Controllers
                 {
                     foreach (DataRow row in result.Rows)
                     {
-                        lista.Add(new Admissao()
+                        Admissao adm = new Admissao()
                         {
                             UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
                             DataAdmissao = row["DataAdmissao"].ToString(),
@@ -206,8 +155,10 @@ namespace GISWeb.Controllers
                                 NomeFantasia = row["Empresa"].ToString()
                             },
                             UsuarioInclusao = row["NomeUsuario"].ToString(),
-                            Alocacoes = new List<Alocacao>()
-                        });
+                            Alocacoes = BuscarAlocacoes(row["UniqueKey"].ToString())
+                        };
+
+                        lista.Add(adm);
                     }
                 }
 
@@ -219,6 +170,142 @@ namespace GISWeb.Controllers
             }
         }
 
+        private List<Alocacao> BuscarAlocacoes(string UKAdmissao)
+        {
+
+            List<Alocacao> lista = new List<Alocacao>();
+
+            string query = @"select al.UniqueKey, c.Numero as Contrato, cargo.NomeDoCargo, func.NomeDaFuncao, est.Descricao as Estabelecimento, eq.NomeDaEquipe, dep.Sigla, 
+                                    atv.Descricao as Atividade, al.DataInclusao, al.UsuarioInclusao, est.UniqueKey as UKEstab
+                             from tbAlocacao al 
+		                             inner join tbContrato c on al.UKContrato = c.UniqueKey and c.UsuarioExclusao is null
+		                             inner join tbCargo cargo on al.UKCargo = cargo.UniqueKey and cargo.UsuarioExclusao is null
+		                             inner join tbFuncao func on al.UKFuncao = func.UniqueKey and func.UsuarioExclusao is null
+		                             inner join tbEstabelecimento est on al.UKEstabelecimento = est.UniqueKey and est.UsuarioExclusao is null
+		                             inner join tbEquipe eq on al.UKEquipe = eq.UniqueKey and eq.UsuarioExclusao is null
+		                             inner join tbDepartamento dep on al.UKDepartamento = dep.UniqueKey and dep.UsuarioExclusao is null
+		                             left outer join REL_FuncaoAtividade fa on func.UniqueKey = fa.UKFuncao and fa.UsuarioExclusao is null
+		                             left outer join tbAtividade atv on fa.UKAtividade = atv.UniqueKey and atv.UsuarioExclusao is null
+                             where al.UsuarioExclusao is null and al.UKAdmissao = '" + UKAdmissao + "' ";
+
+            DataTable result = AdmissaoBusiness.GetDataTable(query);
+            if (result.Rows.Count > 0)
+            {
+                Alocacao al = null;
+
+                foreach (DataRow row in result.Rows)
+                {
+                    
+                    if (al == null )
+                    {
+                        al = new Alocacao()
+                        {
+                            UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                            DataInclusao = DateTime.Parse(row["DataInclusao"].ToString()),
+                            UsuarioInclusao = row["UsuarioInclusao"].ToString(),
+                            Contrato = new Contrato()
+                            {
+                                Numero = row["Contrato"].ToString()
+                            },
+                            Cargo = new Cargo()
+                            {
+                                NomeDoCargo = row["NomeDoCargo"].ToString()
+                            },
+                            Funcao = new Funcao()
+                            {
+                                NomeDaFuncao = row["NomeDaFuncao"].ToString(),
+                                Atividades = new List<Atividade>()
+                            },
+                            Estabelecimento = new Estabelecimento() { 
+                                UniqueKey = Guid.Parse(row["UKEstab"].ToString()),
+                                Descricao = row["Estabelecimento"].ToString()
+                            },
+                            Equipe = new Equipe()
+                            {
+                                NomeDaEquipe = row["NomeDaEquipe"].ToString()
+                            },
+                            Departamento = new Departamento()
+                            {
+                                Sigla = row["Sigla"].ToString()
+                            },
+                            
+                        };
+
+                        if (!string.IsNullOrEmpty(row["Atividade"].ToString()))
+                        {
+                            al.Funcao.Atividades.Add(new Atividade()
+                            {
+                                Descricao = row["Atividade"].ToString()
+                            });
+                        }
+
+                    }
+                    else if (al.UniqueKey.ToString().Equals(row["UniqueKey"].ToString()))
+                    {
+                        if (!string.IsNullOrEmpty(row["Atividade"].ToString()))
+                        {
+                            al.Funcao.Atividades.Add(new Atividade()
+                            {
+                                Descricao = row["Atividade"].ToString()
+                            });
+                        }
+                    }
+                    else
+                    {
+                        lista.Add(al);
+
+                        al = new Alocacao()
+                        {
+                            UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                            DataInclusao = DateTime.Parse(row["DataInclusao"].ToString()),
+                            UsuarioInclusao = row["UsuarioInclusao"].ToString(),
+                            Contrato = new Contrato()
+                            {
+                                Numero = row["Contrato"].ToString()
+                            },
+                            Cargo = new Cargo()
+                            {
+                                NomeDoCargo = row["NomeDoCargo"].ToString()
+                            },
+                            Funcao = new Funcao()
+                            {
+                                NomeDaFuncao = row["NomeDaFuncao"].ToString(),
+                                Atividades = new List<Atividade>()
+                            },
+                            Estabelecimento = new Estabelecimento()
+                            {
+                                UniqueKey = Guid.Parse(row["UKEstab"].ToString()),
+                                Descricao = row["Estabelecimento"].ToString()
+                            },
+                            Equipe = new Equipe()
+                            {
+                                NomeDaEquipe = row["NomeDaEquipe"].ToString()
+                            },
+                            Departamento = new Departamento()
+                            {
+                                Sigla = row["Sigla"].ToString()
+                            }
+                        };
+
+                        if (!string.IsNullOrEmpty(row["Atividade"].ToString()))
+                        {
+                            al.Funcao.Atividades.Add(new Atividade()
+                            {
+                                Descricao = row["Atividade"].ToString()
+                            });
+                        }
+
+                    }
+                } // Fim foreach
+
+                if (al != null)
+                {
+                    lista.Add(al);
+                }
+            }
+
+            return lista;
+        }
 
         // public ActionResult Empresas()
         // {

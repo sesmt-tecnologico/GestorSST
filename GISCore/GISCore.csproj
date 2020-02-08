@@ -111,6 +111,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Abstract\IControleDeRiscoBusiness  .cs" />
+    <Compile Include="Business\Abstract\IReconhecimentoBusiness .cs" />
     <Compile Include="Business\Abstract\IAnaliseRiscoBusiness.cs" />
     <Compile Include="Business\Abstract\IArquivoBusiness.cs" />
     <Compile Include="Business\Abstract\IAtividadeFuncaoLiberadaBusiness.cs" />
@@ -146,6 +148,8 @@
     <Compile Include="Business\Abstract\IUsuarioBusiness.cs" />
     <Compile Include="Business\Abstract\IUsuarioPerfilBusiness.cs" />
     <Compile Include="Business\Abstract\IWorkAreaBusiness.cs" />
+    <Compile Include="Business\Concrete\ControleDeRiscoBusiness.cs" />
+    <Compile Include="Business\Concrete\ReconhecimentoBusiness.cs" />
     <Compile Include="Business\Concrete\AnaliseRiscoBusiness.cs" />
     <Compile Include="Business\Concrete\ArquivoBusiness.cs" />
     <Compile Include="Business\Concrete\AtividadeFuncaoLiberadaBusiness.cs" />
@@ -195,9 +199,27 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-    <Compile Include="Migrations\202001311346509_Primeiro.cs" />
-    <Compile Include="Migrations\202001311346509_Primeiro.designer.cs">
-      <DependentUpon>202001311346509_Primeiro.cs</DependentUpon>
+
+    <Compile Include="Migrations\202002061058171_ControleRisco.cs" />
+    <Compile Include="Migrations\202002061058171_ControleRisco.Designer.cs">
+      <DependentUpon>202002061058171_ControleRisco.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002061318233_ControleRiscoUKReconhecimento.cs" />
+    <Compile Include="Migrations\202002061318233_ControleRiscoUKReconhecimento.Designer.cs">
+      <DependentUpon>202002061318233_ControleRiscoUKReconhecimento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002061338185_TipoDeControle.cs" />
+    <Compile Include="Migrations\202002061338185_TipoDeControle.Designer.cs">
+      <DependentUpon>202002061338185_TipoDeControle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002061543246_TipoDeControleUkWorkArea.cs" />
+    <Compile Include="Migrations\202002061543246_TipoDeControleUkWorkArea.Designer.cs">
+      <DependentUpon>202002061543246_TipoDeControleUkWorkArea.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002061902357_controleFonteGeradora.cs" />
+    <Compile Include="Migrations\202002061902357_controleFonteGeradora.Designer.cs">
+      <DependentUpon>202002061902357_controleFonteGeradora.cs</DependentUpon>
+
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -347,8 +369,22 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001311346509_Primeiro.resx">
-      <DependentUpon>202001311346509_Primeiro.cs</DependentUpon>
+
+    <EmbeddedResource Include="Migrations\202002061058171_ControleRisco.resx">
+      <DependentUpon>202002061058171_ControleRisco.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002061318233_ControleRiscoUKReconhecimento.resx">
+      <DependentUpon>202002061318233_ControleRiscoUKReconhecimento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002061338185_TipoDeControle.resx">
+      <DependentUpon>202002061338185_TipoDeControle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002061543246_TipoDeControleUkWorkArea.resx">
+      <DependentUpon>202002061543246_TipoDeControleUkWorkArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002061902357_controleFonteGeradora.resx">
+      <DependentUpon>202002061902357_controleFonteGeradora.cs</DependentUpon>
+
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

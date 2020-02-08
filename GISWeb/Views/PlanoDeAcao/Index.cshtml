@@ -49,7 +49,7 @@
                         {
                             
 
-                        <tr id="linha-@iPlanoDeAcao.IDPlanoDeAcao">
+                        <tr id="linha-@iPlanoDeAcao.ID">
                             <td class="center">
                                 <label class="pos-rel">
                                     <input type="checkbox" class="ace" />
@@ -63,7 +63,7 @@
                             @foreach(AtividadesDoEstabelecimento iAtiviEstabe in ViewBag.AtivEstab)
                             {
                                 
-                                    if(iAtiviEstabe.IDAtividadesDoEstabelecimento == iPlanoDeAcao.Identificador)
+                                    if(iAtiviEstabe.ID == iPlanoDeAcao.Identificador)
                                     {
 
                                         <td>@iAtiviEstabe.DescricaoDestaAtividade</td>
@@ -109,13 +109,13 @@
 
                             <td>
                                 <div class="hidden-sm hidden-xs action-buttons">
-                                    <a href="#" class="tooltip-error" onclick="Detalhes('@iPlanoDeAcao.IDPlanoDeAcao');" data-rel="tooltip" title="Detalhes">
+                                    <a href="#" class="tooltip-error" onclick="Detalhes('@iPlanoDeAcao.ID');" data-rel="tooltip" title="Detalhes">
                                         <span class="red">
                                             <i class="ace-icon fa fa-search bigger-130"></i>
                                         </span>
                                     </a>
 
-                                    <a href="#" class="tooltip-error" onclick="EncerrarPlano('@iPlanoDeAcao.IDPlanoDeAcao','@iPlanoDeAcao.Identificador');" data-rel="tooltip" title="Encerrar">
+                                    <a href="#" class="tooltip-error" onclick="EncerrarPlano('@iPlanoDeAcao.ID','@iPlanoDeAcao.Identificador');" data-rel="tooltip" title="Encerrar">
                                         <span class="red">
                                             <i class="ace-icon fa fa-minus-square bigger-130"></i>
                                         </span>

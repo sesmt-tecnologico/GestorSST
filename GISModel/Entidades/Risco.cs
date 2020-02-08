@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -10,6 +11,8 @@ namespace GISModel.Entidades
 
         [Required(ErrorMessage = "Informe o nome do risco")]
         public string Nome { get; set; }
+
+        public List<PossiveisDanos> Danos { get; set; }
 
     }
 }

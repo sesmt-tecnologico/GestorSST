@@ -52,8 +52,22 @@ namespace GISWeb.Controllers
         }
 
 
+        public ActionResult BuscarFuncoesPorCargoParaSelect(string id)
+        {
+            try
+            {
+                Guid UKCargo = Guid.Parse(id);
 
-        
+                List<Funcao> funcoes = FuncaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKCargo.Equals(UKCargo)).ToList();
+
+                return Json(new { data = funcoes });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
+        }
+
         public ActionResult ListaFuncao(string Uk)
         {
             var Uk_Cargo = Guid.Parse(Uk);

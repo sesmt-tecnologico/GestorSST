@@ -17,7 +17,13 @@
         }
     });
 
+   
+
+   
 });
+
+
+
 
 function OnBeginPesquisarWorkArea() {
     $(".LoadingLayout").show();
@@ -406,5 +412,132 @@ function OnClickRemoverRisco(pUKRisco, pUKPerigo, pNomeRisco) {
     };
 
     ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja desvincular o risco '" + pNomeRisco + "' do perigo?", "Remoção de vínculo", callback, "btn-danger");
+}
+
+function OnClickControleDoRisco( pUKWorkArea, pRisco) {
+    $.ajax({
+        method: "POST",
+        url: "/ReconhecimentoDorisco/CriarControle",
+        data: {  UKWorkArea: pUKWorkArea, UKRisco: pRisco  },
+        error: function (erro) {
+            $("#modalAddControleLoading").hide();
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+        },
+        success: function (content) {
+            $("#modalAddControleLoading").hide();
+            $("#modalAddControleCorpo").html(content);           
+
+            AutoCompleteAdicionarControle();
+
+            $("#modalAddControleProsseguir").off("click").on("click", function () {
+                var ukControle = $.trim($(".txtNovoControle").val());
+                var ukWA = $.trim($(".txtUKWorkArea").val());
+                var ukRisc = $.trim($(".txtUKRisco").val());                
+
+
+                if (ukControle == "") {
+                    ExibirMensagemDeAlerta("Não foi possível localizar a o Controle.");
+                }
+
+                if (ukWA == "") {
+                    ExibirMensagemDeAlerta("Não foi possível localizar a identificação da workarea.");
+                }
+                else if (ukRisc == "") {
+                    ExibirMensagemDeAlerta("Não foi possível identificar Risco.");
+                }
+                //else {
+                //            $("#modalAddControleLoading").show();
+
+                //                    $.ajax({
+                //                        method: "POST",
+                //                        url: "/ReconhecimentoDoRisco/CadastrarControleDeRisco",
+                //                        data: { UKPerigo: ukPerigo, Riscos: riscos },
+                //                        error: function (erro) {
+                //                            $("#modalAddRiscoLoading").hide();
+                //                            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                //                        },
+                //                        success: function (content) {
+                //                            $("#modalAddRiscoLoading").hide();
+
+                //                            TratarResultadoJSON(content.resultado);
+
+                //                            if (content.resultado.Sucesso != "") {
+                //                                $(".resultadoWorkArea").html("");
+
+                //                                if ($("#UKEstabelecimento").val() != "") {
+                //                                    $("#formPesquisarWorkArea").submit();
+                //                                }
+
+                //                                $('#modalAddRisco').modal('hide');
+                //                            }
+
+
+                //                        }
+                //                     });
+                //    }
+
+
+                
+
+
+            });
+        }
+    });
+}
+
+
+
+
+function AutoCompleteAdicionarControle() {
+    var tag_input = $('.txtNovoControle');
+    
+    try {
+        tag_input.tag({
+            placeholder: 'Campo auto-complete...',
+            source: function (query, process) {
+                if (query.length >= 3) {
+
+                    $.post('/ReconhecimentodoRisco/BuscarControlesForAutoComplete?key=' + encodeURIComponent(query), function (partial) {
+                        var arr = [];
+
+                        var len = partial.Result.length;
+                        if (partial.Result.length > 20) {
+                            len = 20;
+                        }
+
+                        for (var x = 0; x < len; x++) {
+                            arr.push(partial.Result[x]);
+                        }
+                        process(arr);
+                    });
+                }
+            }
+        });
+                
+
+        $('.tags').css('width', '100%');
+
+        $('.txtNovoControle').on('added', function (e, value) {
+            $('#modalAddControleLoading').show();
+
+            $.post('/ReconhecimentoDorisco/ConfirmarControleForAutoComplete', { key: value }, function (content) {
+                $('#modalAddControleLoading').hide();
+
+                if (!content.Result) {
+                    var $tag_obj = $('.txtNovoControle').data('tag');
+
+                    if ($tag_obj.values.length > 0)
+                        $.each($tag_obj.values, function (i, v) {
+                            if (value == v)
+                                $tag_obj.remove(i);
+                        });
+                }
+            });
+        })
+    }
+    catch (e) {
+        alert(e);
+        tag_input.after('<textarea id="' + tag_input.attr('id') + '" name="' + tag_input.attr('name') + '" rows="3">' + tag_input.val() + '</textarea>').remove();
+    }
 }
 

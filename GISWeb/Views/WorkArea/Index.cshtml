@@ -55,6 +55,7 @@
     <script src="~/Scripts/Custom/Estabelecimento/Listagem.js"></script>
     <script src="~/Scripts/Custom/WorkArea/Listagem.js"></script>
     <script src="~/Scripts/Custom/WorkArea/Editar.js"></script>
+    <script src="~/Scripts/Custom/ControleDoRisco/Novo.js"></script>
 }
 
 
@@ -135,6 +136,30 @@
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modalAddControle" class="modal fade" style="overflow: auto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalAddControleX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Cadastrar Controle do Risco</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalAddControleCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                            <div id="modalAddControleCorpo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                   
+                </div>
                 </div>
             </div>
         </div>
