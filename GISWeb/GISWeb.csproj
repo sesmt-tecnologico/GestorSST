@@ -408,6 +408,7 @@
     <Compile Include="Controllers\FonteGeradoraDeRiscoController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\FuncaoController.cs" />
+    <Compile Include="Controllers\GedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MedidasDeControleController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
@@ -636,6 +637,9 @@
     <Content Include="Views\DocumentosPessoal\_VincularDocs.cshtml" />
     <Content Include="Views\Perigo\_ListaPerigo.cshtml" />
     <Content Include="Views\Risco\_VincularRisco.cshtml" />
+
+    <Content Include="Views\Ged\Index.cshtml" />
+
     <Content Include="Views\Departamento\_BuscarDepartamentosPorContratoParaSelect.cshtml" />
     <Content Include="Views\Atividade\AtividadePerigo.cshtml" />
     <Content Include="Views\Atividade\_ListaPerigoPorAtividade.cshtml" />
@@ -648,8 +652,10 @@
     <Content Include="Views\FonteGeradoraDeRisco\Index.cshtml" />
     <Content Include="Views\TipoDeControle\Index.cshtml" />
     <Content Include="Views\TipoDeControle\Novo.cshtml" />
+
     <Content Include="Views\FonteGeradoraDeRisco\_Pesquisa.cshtml" />
     <Content Include="Views\FonteGeradoraDeRisco\_VincularPerigo.cshtml" />
+
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
