@@ -327,8 +327,6 @@ namespace GISCore.Business.Concrete
 
         }
 
-
-
         public byte[] RecuperarAvatar(string login)
         {
             try

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -45,10 +46,10 @@
       <HintPath>..\packages\Castle.Core.4.2.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
@@ -110,6 +111,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Abstract\IREL_FontePerigoBusiness.cs" />
     <Compile Include="Business\Abstract\IControleDeRiscoBusiness  .cs" />
     <Compile Include="Business\Abstract\IReconhecimentoBusiness .cs" />
     <Compile Include="Business\Abstract\IAnaliseRiscoBusiness.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="Business\Abstract\IUsuarioBusiness.cs" />
     <Compile Include="Business\Abstract\IUsuarioPerfilBusiness.cs" />
     <Compile Include="Business\Abstract\IWorkAreaBusiness.cs" />
+    <Compile Include="Business\Concrete\REL_FontePerigoBusiness .cs" />
     <Compile Include="Business\Concrete\ControleDeRiscoBusiness.cs" />
     <Compile Include="Business\Concrete\ReconhecimentoBusiness.cs" />
     <Compile Include="Business\Concrete\AnaliseRiscoBusiness.cs" />
@@ -198,6 +201,7 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
+
     <Compile Include="Migrations\202002061058171_ControleRisco.cs" />
     <Compile Include="Migrations\202002061058171_ControleRisco.Designer.cs">
       <DependentUpon>202002061058171_ControleRisco.cs</DependentUpon>
@@ -217,6 +221,43 @@
     <Compile Include="Migrations\202002061902357_controleFonteGeradora.cs" />
     <Compile Include="Migrations\202002061902357_controleFonteGeradora.Designer.cs">
       <DependentUpon>202002061902357_controleFonteGeradora.cs</DependentUpon>
+
+    </Compile>
+    <Compile Include="Migrations\202002070234211_controleF.cs" />
+    <Compile Include="Migrations\202002070234211_controleF.Designer.cs">
+      <DependentUpon>202002070234211_controleF.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071200061_corrigirEnum.cs" />
+    <Compile Include="Migrations\202002071200061_corrigirEnum.Designer.cs">
+      <DependentUpon>202002071200061_corrigirEnum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071311327_fonteGeradora.cs" />
+    <Compile Include="Migrations\202002071311327_fonteGeradora.Designer.cs">
+      <DependentUpon>202002071311327_fonteGeradora.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071326257_fonteGeradoraCorrecao.cs" />
+    <Compile Include="Migrations\202002071326257_fonteGeradoraCorrecao.Designer.cs">
+      <DependentUpon>202002071326257_fonteGeradoraCorrecao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071345286_fonteGeradoraCorrecao2.cs" />
+    <Compile Include="Migrations\202002071345286_fonteGeradoraCorrecao2.Designer.cs">
+      <DependentUpon>202002071345286_fonteGeradoraCorrecao2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071432048_fonteGeradoraCorrecao3.cs" />
+    <Compile Include="Migrations\202002071432048_fonteGeradoraCorrecao3.Designer.cs">
+      <DependentUpon>202002071432048_fonteGeradoraCorrecao3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071915553_REL_WFP.cs" />
+    <Compile Include="Migrations\202002071915553_REL_WFP.Designer.cs">
+      <DependentUpon>202002071915553_REL_WFP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071931060_REL_WFP02.cs" />
+    <Compile Include="Migrations\202002071931060_REL_WFP02.Designer.cs">
+      <DependentUpon>202002071931060_REL_WFP02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002072047584_REL_WFP03.cs" />
+    <Compile Include="Migrations\202002072047584_REL_WFP03.Designer.cs">
+      <DependentUpon>202002072047584_REL_WFP03.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -246,6 +287,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="Connected Services\CEMIGInfoService\GISCore.CEMIGInfoService.Aplicacao.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -365,6 +407,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
   <ItemGroup>
+
     <EmbeddedResource Include="Migrations\202002061058171_ControleRisco.resx">
       <DependentUpon>202002061058171_ControleRisco.cs</DependentUpon>
     </EmbeddedResource>
@@ -379,6 +422,34 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002061902357_controleFonteGeradora.resx">
       <DependentUpon>202002061902357_controleFonteGeradora.cs</DependentUpon>
+
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002070234211_controleF.resx">
+      <DependentUpon>202002070234211_controleF.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071200061_corrigirEnum.resx">
+      <DependentUpon>202002071200061_corrigirEnum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071311327_fonteGeradora.resx">
+      <DependentUpon>202002071311327_fonteGeradora.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071326257_fonteGeradoraCorrecao.resx">
+      <DependentUpon>202002071326257_fonteGeradoraCorrecao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071345286_fonteGeradoraCorrecao2.resx">
+      <DependentUpon>202002071345286_fonteGeradoraCorrecao2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071432048_fonteGeradoraCorrecao3.resx">
+      <DependentUpon>202002071432048_fonteGeradoraCorrecao3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071915553_REL_WFP.resx">
+      <DependentUpon>202002071915553_REL_WFP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071931060_REL_WFP02.resx">
+      <DependentUpon>202002071931060_REL_WFP02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002072047584_REL_WFP03.resx">
+      <DependentUpon>202002072047584_REL_WFP03.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -388,7 +459,10 @@
       <ErrorText>Este projeto faz referência a pacotes do NuGet que não estão presentes neste computador. Use a Restauração de Pacotes do NuGet para baixá-los.  Para obter mais informações, consulte http://go.microsoft.com/fwlink/?LinkID=322105. O arquivo ausente é {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net45\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.111.0\build\net45\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

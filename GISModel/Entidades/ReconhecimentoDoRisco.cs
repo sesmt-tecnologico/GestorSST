@@ -15,22 +15,19 @@ namespace GISModel.Entidades
                
 
         [Display(Name = "Workarea")]
-        public Guid UKWorkarea { get; set; }
-
-        [Display(Name = "Perigo")]
-        public Guid Perigo { get; set; }
+        public Guid UKWorkarea { get; set; }       
 
         [Display(Name ="Risco")]
         public Guid UKRisco { get; set; }
 
         [Display(Name = "Classifique o Risco")]
-        public string EClasseDoRisco { get; set; }
+        public EClasseDoRisco EClasseDoRisco { get; set; }
 
         [Display(Name = "Fonte Geradora")]
         public string FonteGeradora { get; set; }
 
         [Display(Name = "Tragetória")]
-        public string Tragetoria { get; set; }
+        public ETrajetoria Tragetoria { get; set; }
 
 
     }

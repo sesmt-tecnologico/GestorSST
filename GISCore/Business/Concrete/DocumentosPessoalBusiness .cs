@@ -28,10 +28,7 @@ namespace GISCore.Business.Concrete
             tempDocumentosPessoal.UsuarioExclusao = pDocumentosPessoal.UsuarioExclusao;
             tempDocumentosPessoal.DataExclusao = DateTime.Now;
             base.Alterar(tempDocumentosPessoal);
-
             
-           
-           
             pDocumentosPessoal.ApartirDe = DateTime.Now.ToString("dd/MM/yyyy");
             pDocumentosPessoal.FimDE = string.Empty;
             pDocumentosPessoal.UsuarioInclusao = tempDocumentosPessoal.UsuarioExclusao;
