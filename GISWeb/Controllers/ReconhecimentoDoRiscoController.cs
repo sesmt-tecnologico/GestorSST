@@ -126,55 +126,55 @@ namespace GISWeb.Controllers
 
             if (result.Rows.Count > 0)
             {
-                WorkArea obj = null;
-                Perigo oPerigo = null;
+                //WorkArea obj = null;
+                //Perigo oPerigo = null;
 
-                foreach (DataRow row in result.Rows)
-                {
-                    if (obj == null)
-                    {
-                        obj = new WorkArea()
-                        {
-                            UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
-                            Nome = row["Nome"].ToString(),
-                            Descricao = row["Descricao"].ToString(),
-                            Perigos = new List<Perigo>()
-                        };
+                //foreach (DataRow row in result.Rows)
+                //{
+                //    if (obj == null)
+                //    {
+                //        obj = new WorkArea()
+                //        {
+                //            UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                //            Nome = row["Nome"].ToString(),
+                //            Descricao = row["Descricao"].ToString(),
+                //            Perigos = new List<Perigo>()
+                //        };
 
 
-                        if (!string.IsNullOrEmpty(row["relwap"].ToString()))
-                        {
-                            oPerigo = new Perigo()
-                            {
-                                ID = Guid.Parse(row["relwap"].ToString()),
-                                UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
-                                Descricao = row["perigo"].ToString(),
-                                Riscos = new List<Risco>()
-                            };
+                //        if (!string.IsNullOrEmpty(row["relwap"].ToString()))
+                //        {
+                //            oPerigo = new Perigo()
+                //            {
+                //                ID = Guid.Parse(row["relwap"].ToString()),
+                //                UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
+                //                Descricao = row["perigo"].ToString(),
+                //                Riscos = new List<Risco>()
+                //            };
 
-                            if (!string.IsNullOrEmpty(row["relpr"].ToString()))
-                            {
-                                oPerigo.Riscos.Add(new Risco()
-                                {
-                                    ID = Guid.Parse(row["relpr"].ToString()),
-                                    UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                                    Nome = row["risco"].ToString()
-                                });
-                            }
+                //            if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                //            {
+                //                oPerigo.Riscos.Add(new Risco()
+                //                {
+                //                    ID = Guid.Parse(row["relpr"].ToString()),
+                //                    UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                //                    Nome = row["risco"].ToString()
+                //                });
+                //            }
 
-                            obj.Perigos.Add(oPerigo);
-                        }
+                //            obj.Perigos.Add(oPerigo);
+                //        }
 
-                    }
-                }
-                if (obj != null)
-                    lista.Add(obj);
+                //    }
+                //}
+                //if (obj != null)
+                //    lista.Add(obj);
             }
 
 
 
 
-                return PartialView("_CadastrarControleDeRisco", lista);
+            return PartialView("_CadastrarControleDeRisco", lista);
 
            
         }
