@@ -91,12 +91,21 @@ namespace GISWeb.Controllers
                     if (oAdmissao == null)
                         throw new Exception("Não foi possível encontrar a admissão na base de dados.");
 
-                    entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    AlocacaoBusiness.Inserir(entidade);
+                    if (AlocacaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && 
+                                                             a.UKAdmissao.Equals(entidade.UKAdmissao) && 
+                                                             a.UKCargo.Equals(entidade.UKCargo) &&
+                                                             a.UKFuncao.Equals(entidade.UKFuncao)).Count() > 0) {
+                        throw new Exception("Já existe uma alocação deste empregado neste cargo e função selecionado.");
+                    }
+                    else
+                    {
+                        entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                        AlocacaoBusiness.Inserir(entidade);
 
-                    Extensions.GravaCookie("MensagemSucesso", "O empregado foi alocado com sucesso.", 10);
+                        Extensions.GravaCookie("MensagemSucesso", "O empregado foi alocado com sucesso.", 10);
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Perfil", "Empregado", new { id = oAdmissao.UKEmpregado.ToString() }) } });
+                        return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Perfil", "Empregado", new { id = oAdmissao.UKEmpregado.ToString() }) } });
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -115,6 +124,45 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
+
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult Desalocar(string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                    throw new Exception("Não foi possível localizar a identificação da alocação para prosseguir com a operação.");
+
+                Guid UKAlocacao = Guid.Parse(id);
+                Alocacao al = AlocacaoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKAlocacao));
+                if (al == null)
+                    throw new Exception("Não foi possível encontrar a alocação na base de dados.");
+
+                Admissao ad = AdmissaoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(al.UKAdmissao));
+                if (ad == null)
+                    throw new Exception("Não foi possível encontrar a admissão onde o empregado está alocado na base de dados.");
+
+                al.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                AlocacaoBusiness.Terminar(al);
+
+                Extensions.GravaCookie("MensagemSucesso", "O empregado foi desalocado com sucesso.", 10);
+
+                return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Perfil", "Empregado", new { id = ad.UKEmpregado.ToString() }) } });
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+        }
+
 
     }
 }
