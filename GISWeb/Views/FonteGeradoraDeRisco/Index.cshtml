@@ -62,7 +62,7 @@
 
     <script src="~/Scripts/Custom/FonteGeradora/Lista.js"></script>
     <script src="~/Scripts/Custom/ControleDoRisco/Novo.js"></script>
-
+    
 }
 
 
@@ -152,7 +152,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button id="modalAddControleX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Cadastrar Controle do Risco</h3>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Controle do Risco</h3>
                 </div>
 
                 <div class="modal-body">
@@ -170,5 +170,27 @@
             </div>
         </div>
     </div>
+    <div id="modalAddListaReconhecimento" class="modal fade" style="overflow: auto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalAddListaReconhecimentoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Reconhecimento do Risco</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalAddListaReconhecimentoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                            <div id="modalAddListaReconhecimentoCorpo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
     </div>
 }

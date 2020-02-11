@@ -53,21 +53,22 @@ namespace GISWeb.Controllers
             return View();
         }
 
-       
 
-        public ActionResult CriarControle( string UKWorkarea, string UKRisco)
+
+        public ActionResult CriarControle(string UKWorkarea, string UKRisco, string UKFonte)
         {
-           
+
             ViewBag.UKWorkArea = UKWorkarea;
             ViewBag.UKRisco = UKRisco;
+            ViewBag.Fonte = UKFonte;
 
             var UKRisc = Guid.Parse(UKRisco);
             var UKWork = Guid.Parse(UKWorkarea);
-           
 
-            var Nome = RiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(UKRisc))).ToList();         
-            
-           var WArea = WorkAreaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(UKWork))).ToList();
+
+            var Nome = RiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(UKRisc))).ToList();
+
+            var WArea = WorkAreaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(UKWork))).ToList();
 
             var enumData = from EClasseDoRisco e in Enum.GetValues(typeof(EClasseDoRisco))
                            select new
@@ -79,11 +80,11 @@ namespace GISWeb.Controllers
 
 
             var enumData01 = from ETrajetoria e in Enum.GetValues(typeof(ETrajetoria))
-                           select new
-                           {
-                               ID = (int)e,
-                               Name = e.ToString()
-                           };
+                             select new
+                             {
+                                 ID = (int)e,
+                                 Name = e.ToString()
+                             };
             ViewBag.ETrajetoria = new SelectList(enumData01, "ID", "Name");
 
 
@@ -106,7 +107,7 @@ namespace GISWeb.Controllers
 
 
 
-            ViewBag.FonteGeradora = new SelectList(FonteGeradoraDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "FonteGeradora");
+            ViewBag.FonteGeradora = new SelectList(FonteGeradoraDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "UniqueKey", "FonteGeradora");
 
             List<WorkArea> lista = new List<WorkArea>();
 
@@ -174,13 +175,13 @@ namespace GISWeb.Controllers
 
 
 
-                return PartialView("_CadastrarControleDeRisco", lista);
+            return PartialView("_CadastrarControleDeRisco", lista);
 
-           
+
         }
 
 
-        public ActionResult CadastrarControleDeRisco(ReconhecimentoDoRisco entidade,ControleDeRiscos oControle,string UKControle, string UKWorkarea, string UKRisco)
+        public ActionResult CadastrarControleDeRisco(ReconhecimentoDoRisco entidade, ControleDeRiscos oControle, string UKControle, string UKWorkarea, string UKRisco)
         {
             try
             {
@@ -200,19 +201,19 @@ namespace GISWeb.Controllers
 
                 ReconhecimentoDoRisco oReconhecimento = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKRisco.Equals(UK_Risco) && p.UKWorkarea.Equals(UK_Workarea));
 
-               
-                    ReconhecimentoDoRisco pReconhecimento = new ReconhecimentoDoRisco()
-                    {
-                        UKWorkarea = UK_Workarea,
-                        UKRisco = UK_Risco,
-                        FonteGeradora = entidade.FonteGeradora,
-                        Tragetoria = entidade.Tragetoria,
-                        EClasseDoRisco=entidade.EClasseDoRisco,
-                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
 
-                    };
+                ReconhecimentoDoRisco pReconhecimento = new ReconhecimentoDoRisco()
+                {
+                    UKWorkarea = UK_Workarea,
+                    UKRisco = UK_Risco,
+                    FonteGeradora = entidade.FonteGeradora,
+                    Tragetoria = entidade.Tragetoria,
+                    EClasseDoRisco = entidade.EClasseDoRisco,
+                    //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
 
-                    ReconhecimentoBusiness.Inserir(pReconhecimento);
+                };
+
+                ReconhecimentoBusiness.Inserir(pReconhecimento);
 
                 ReconhecimentoDoRisco pRec = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKRisco.Equals(UK_Risco));
 
@@ -220,57 +221,57 @@ namespace GISWeb.Controllers
 
                 if (UKControle.Contains(","))
                 {
-                   
+
 
                     foreach (string ativ in UKControle.Split(','))
                     {
-                        
+
 
                         if (!string.IsNullOrEmpty(ativ.Trim()))
                         {
                             var pesControRisco = from A in ReconhecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                                  join B in ControleDeRiscosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                 on A.UniqueKey equals B.UKReconhecimentoDoRisco                                                 
-                                                 select new 
+                                                 on A.UniqueKey equals B.UKReconhecimentoDoRisco
+                                                 select new
                                                  {
                                                      UniqueReconhecimento = A.UniqueKey,
-                                                     UKWorkarea = A.UKWorkarea,
+                                                     UKWorka = A.UKWorkarea,
                                                      Risco = A.UKRisco,
                                                      FonteGer = A.FonteGeradora,
-                                                     UniqueControle = B.UKReconhecimentoDoRisco,                                                     
-                                                     Controle = B.Controle
+                                                     UniqueControle = B.UKReconhecimentoDoRisco,
+                                                     Control = B.Controle
 
                                                  };
-                                                                                  
+
 
                             if (pesControRisco != null)
                             {
-                                foreach(var item in pesControRisco)
+                                foreach (var item in pesControRisco)
                                 {
-                                    if(item.Controle.Equals(ativ.Trim()) && item.FonteGer.Equals(pRec.FonteGeradora))
+                                    if (item.Control.Equals(ativ.Trim()) && item.FonteGer.Equals(pRec.FonteGeradora))
                                     {
                                         filtro.Add(item.UniqueReconhecimento);
                                     }
-                                   
+
                                 }
 
                             }
 
 
                             //ControleDeRiscos pTemp = ControleDeRiscosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.EControle.Equals(ativ.Trim()) && a.UKFonteGeradora.Equals(pRec.FonteGeradora));
-                           
+
                             if (filtro.Count == 0)
                             {
-                               
-                                    ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
-                                    {
-                                        UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,                                        
-                                        EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
-                                        Controle = ativ.Trim(),
-                                        EControle = oControle.EControle,
-                                        Descricao = oControle.Descricao,                                        
-                                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-                                    });
+
+                                ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
+                                {
+                                    UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,
+                                    EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
+                                    Controle = ativ.Trim(),
+                                    EControle = oControle.EControle,
+                                    Descricao = oControle.Descricao,
+                                    //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                });
 
                             }
                             else
@@ -283,7 +284,7 @@ namespace GISWeb.Controllers
 
                                 throw new Exception("Este controle já existe para este Risco e para esta fonte Geradora.");
 
-                               // return Json(new { resultado = new RetornoJSON() { Erro = "Este controle já existe para este Risco e para esta fonte Geradora." } });
+                                // return Json(new { resultado = new RetornoJSON() { Erro = "Este controle já existe para este Risco e para esta fonte Geradora." } });
 
                             }
 
@@ -293,7 +294,7 @@ namespace GISWeb.Controllers
                 }
                 else
                 {
-                    
+
                     //ControleDeRiscos pTemp = ControleDeRiscosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.EControle.Equals(UKControle.Trim()) && a.UKFonteGeradora.Equals(pRec.FonteGeradora));
 
 
@@ -301,19 +302,19 @@ namespace GISWeb.Controllers
 
                     if (filtro.Count == 0)
                     {
-                                               
 
-                            ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
-                            {
-                                UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,
-                                EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
-                                Controle = UKControle.Trim(),
-                                EControle = oControle.EControle,
-                                Descricao = oControle.Descricao,
-                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-                            });
 
-                            ReconhecimentoBusiness.Inserir(pReconhecimento);
+                        ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
+                        {
+                            UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,
+                            EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
+                            Controle = UKControle.Trim(),
+                            EControle = oControle.EControle,
+                            Descricao = oControle.Descricao,
+                            //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                        });
+
+                        ReconhecimentoBusiness.Inserir(pReconhecimento);
 
                     }
                     else
@@ -328,7 +329,7 @@ namespace GISWeb.Controllers
 
                     }
                 }
-                
+
 
                 return Json(new { resultado = new RetornoJSON() { Sucesso = "Controles dos riscos vinculados com sucesso." } });
             }
@@ -339,6 +340,108 @@ namespace GISWeb.Controllers
 
 
         }
+
+        public ActionResult ListaReconhecimento(string ukWorkArea, string ukFonte, string ukRisco)
+        {
+
+            try
+            {
+
+                List<ReconhecimentoDoRisco> lista = new List<ReconhecimentoDoRisco>();
+
+                string sql = @"select c.UniqueKey as ukcontrole,c.UKReconhecimentoDoRisco, c.EControle, c.Descricao, c.Controle, r.UniqueKey as ukreconhecimento, r.UKWorkArea,
+                            r.UKRisco, r.EClasseDoRisco, r.FonteGeradora as UKFonte, r.Tragetoria,risc.UniqueKey as UniqRisco, risc.Nome as riscNome, f.UniqueKey, f.FonteGeradora, f.Descricao,
+                            w.UniqueKey as UniqWa , w.Nome, w.UKWorkArea as refw, w.UKEstabelecimento, e.UniqueKey, e.NomeCompleto
+                            from [dbGestor].[dbo].[tbReconhecimentoDoRisco] r
+                            left join [dbGestor].[dbo].[tbControleDoRisco]  c on c.UKReconhecimentoDoRisco = r.UniqueKey and r.DataExclusao ='9999-12-31 23:59:59.997' 
+                            left join [dbGestor].[dbo].[tbRisco]  risc on risc.UniqueKey = r.UKRisco and risc.DataExclusao ='9999-12-31 23:59:59.997' 
+                            left join [dbGestor].[dbo].[tbFonteGeradoraDeRisco] f on f.UniqueKey = r.FonteGeradora and f.DataExclusao ='9999-12-31 23:59:59.997' 
+                            left join [dbGestor].[dbo].[tbWorkArea]  w on w.UniqueKey = f.UKWorkArea and w.DataExclusao ='9999-12-31 23:59:59.997' 
+                            left join [dbGestor].[dbo].[tbEstabelecimento]  e on e.UniqueKey = w.UKEstabelecimento and e.DataExclusao ='9999-12-31 23:59:59.997' 
+                             where c.DataExclusao ='9999-12-31 23:59:59.997'  and r.UKWorkArea = '" + ukWorkArea + @"' and 
+                             f.UniqueKey ='" + ukFonte + @"' and f.DataExclusao ='9999-12-31 23:59:59.997'
+                             and risc.UniqueKey = '" + ukRisco + @"' and risc.DataExclusao ='9999-12-31 23:59:59.997'
+                             order by c.UniqueKey";
+
+
+                DataTable result = ReconhecimentoBusiness.GetDataTable(sql);
+
+                if (result.Rows.Count > 0)
+                {
+                    ReconhecimentoDoRisco obj = null;
+                    WorkArea oWork = null;
+                
+
+                    foreach (DataRow row in result.Rows)
+                    {
+                        if (obj == null)
+                        {
+                            obj = new ReconhecimentoDoRisco()
+                            {
+                                UniqueKey = Guid.Parse(row["ukreconhecimento"].ToString()),                                
+                                WorkAreas = new List<WorkArea>(),
+                            };
+
+
+
+                            if (!string.IsNullOrEmpty(row["UniqWa"].ToString()))
+                            {
+                                oWork = new WorkArea()
+                                {
+                                    UniqueKey = Guid.Parse(row["UniqWa"].ToString()),
+                                    Nome = row["Nome"].ToString(),
+                                    FonteGeradoraDeRisco = new List<FonteGeradoraDeRisco>()
+                                };
+
+                                oWork.FonteGeradoraDeRisco.Add(new FonteGeradoraDeRisco()
+                                {
+                                    UniqueKey = Guid.Parse(row["UKFonte"].ToString()),
+                                    FonteGeradora = row["FonteGeradora"].ToString(),
+                                    Descricao = row["Descricao"].ToString(),                               
+                                    Riscos = new List<Risco>()
+
+
+                                });
+                            
+                                if (!string.IsNullOrEmpty(row["UniqRisco"].ToString()))
+                                {
+                                    oWork.Riscos.Add(new Risco()                                    {
+                                    
+                                        UniqueKey = Guid.Parse(row["UniqRisco"].ToString()),
+                                        Nome = row["risco"].ToString(),
+
+                                    });
+                                }
+
+
+                                obj.WorkAreas.Add(oWork);
+                            }
+
+                        }
+
+
+                    }
+
+                    if (obj != null)
+                         lista.Add(obj);
+                }
+
+                     return PartialView("_PesquisaRiscos", lista);
+            }
+
+
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message }});
+            }
+
+
+
+        }
+
+
+
+
 
 
         [RestritoAAjax]

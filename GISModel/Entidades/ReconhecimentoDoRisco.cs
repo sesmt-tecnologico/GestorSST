@@ -29,6 +29,10 @@ namespace GISModel.Entidades
         [Display(Name = "Tragetória")]
         public ETrajetoria Tragetoria { get; set; }
 
+        //public List<FonteGeradoraDeRisco> FonteGeradoraDeRiscos { get; set; }
+
+        public List<WorkArea> WorkAreas { get; set; }
+
 
     }
 }

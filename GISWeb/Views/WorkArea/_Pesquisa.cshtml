@@ -30,7 +30,7 @@
                                 <i class="ace-icon fa fa-pencil bigger-130"></i>
                             </a>
 
-                            @if (wa.Perigos.Count() == 0)
+                            @if (wa.Perigos.Count == 0)
                             {
                                 <a class="red CustomTooltip" href="#" title="Excluir departamento" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
@@ -39,7 +39,7 @@
                         </div>
                     </div>
 
-                    @if (wa.Perigos.Count() > 0)
+                    @if (wa.Perigos.Count > 0)
                     {
                         <ol class="dd-list">
                             @foreach (Perigo per in wa.Perigos)
@@ -60,7 +60,7 @@
                                         </div>
                                     </div>
 
-                                    @if (per.Riscos.Count() > 0)
+                                    @if (per.Riscos.Count > 0)
                                     {
                                         <ol class="dd-list">
                                             @foreach (Risco risk in per.Riscos)

@@ -25,9 +25,8 @@
                     <input type="hidden" class="hidden txtUKWorkArea" name="UKWorkArea" id="UKWorkArea" value=@wa.UniqueKey />
                     <input type="hidden" class="hidden txtUKRisco" name="UKRisco" id="UKRisco" value="@ViewBag.UKRisco" />
 
-                    <span><i style="color: orangered">WorkÁrea - </i></span>@wa.Nome
-
-
+                    <span><i style="color: orangered">WorkÁrea - </i></span>@wa.Nome 
+                    <span><i style="color: orangered">- Fonte Geradora - </i>@ViewBag.Fonte</span>
 
                     if (wa.Perigos.Count > 0)
                     {
@@ -37,8 +36,11 @@
                             {
                                 foreach (Risco risk in item.Riscos)
                                 {
+                                   
+                                        <span><i style = "color: yellowgreen"> - Risco Existente - </i></span> @risk.Nome
+                                  
 
-                                    <span><i style="color: yellowgreen"> - Risco Existente - </i></span>@risk.Nome
+
                                 }
                             }
                         }
@@ -46,101 +48,101 @@
                     }
 
 
-    <div class="container-fluid">
-        <br />
-        <div class="row">
-            <div class="col-xs-4 col-sm-6">
-                <div class="form-group">
-                    @Html.Label("Classe do risco", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownList("EClasseDoRisco", ViewBag.Eclasse as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-6">
-                <div class="form-group">
-                    @Html.Label("Fonte Geradora", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownList("FonteGeradora", ViewBag.FonteGeradora as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
-                        @Html.ValidationMessage("FonteGeradora", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4 col-sm-12">
-                <div class="form-group">
-                    @Html.Label("Trajetoria", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownList("Tragetoria", ViewBag.ETrajetoria as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
-                        @Html.ValidationMessage("Tragetoria", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
+                    <div class="container-fluid">
+                        <br />
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-6">
+                                <div class="form-group">
+                                    @Html.Label("Classe do risco", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                    <div class="col-xs-12 col-sm-12">
+                                        @Html.DropDownList("EClasseDoRisco", ViewBag.Eclasse as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-6">
+                                <div class="form-group">
+                                    @Html.Label("Fonte Geradora", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                    <div class="col-xs-12 col-sm-12">
+                                        @Html.DropDownList("FonteGeradora", ViewBag.FonteGeradora as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                                        @Html.ValidationMessage("FonteGeradora", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-12">
+                                <div class="form-group">
+                                    @Html.Label("Trajetoria", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                    <div class="col-xs-12 col-sm-12">
+                                        @Html.DropDownList("Tragetoria", ViewBag.ETrajetoria as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                                        @Html.ValidationMessage("Tragetoria", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
 
-                <div class="form-group">
-                    @Html.Label("Controles para este Risco - Selecione de acordo com a Medida", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        <input type="text" class="txtNovoControle col-xs-12 col-sm-12" name="UKControle" />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-6">
-                <div class="form-group">
-                    @Html.Label("Classificacao da Medida", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownList("EClassificacaoDaMedia", ViewBag.EClassificacaoDaMedia as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
-                        @Html.ValidationMessage("EClassificacaoDaMedia", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-                <div class="form-group">
-                    @Html.Label("Status do Controle", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownList("EControle", ViewBag.EControle as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
-                        @Html.ValidationMessage("EControle", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12">
-                <div class="form-group">
-                    @Html.Label("Descrição", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.Editor("Descricao", new { htmlAttributes = new { @class = "form-control date-picker" } })
-                        @Html.ValidationMessage("Descricao", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                    </div>
-                </div>
-            </div>
-        </div>
+                                <div class="form-group">
+                                    @Html.Label("Controles para este Risco - Selecione de acordo com a Medida", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                    <div class="col-xs-12 col-sm-12">
+                                        <input type="text" class="txtNovoControle col-xs-12 col-sm-12" name="UKControle" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <div class="form-group">
+                                    @Html.Label("Classificacao da Medida", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                    <div class="col-xs-12 col-sm-12">
+                                        @Html.DropDownList("EClassificacaoDaMedia", ViewBag.EClassificacaoDaMedia as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                                        @Html.ValidationMessage("EClassificacaoDaMedia", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <div class="form-group">
+                                    @Html.Label("Status do Controle", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                    <div class="col-xs-12 col-sm-12">
+                                        @Html.DropDownList("EControle", ViewBag.EControle as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                                        @Html.ValidationMessage("EControle", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="form-group">
+                                    @Html.Label("Descrição", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                    <div class="col-xs-12 col-sm-12">
+                                        @Html.Editor("Descricao", new { htmlAttributes = new { @class = "form-control date-picker" } })
+                                        @Html.ValidationMessage("Descricao", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
 
-       
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-sm-offset-4 align-left">
-                    <button class="btn btn-info" id="btnSalvar" type="submit">
-                        <i class="ace-icon fa fa-check bigger-110"></i>
-                        Salvar
-                    </button>
-                    &nbsp;
-                    <button class="btn btn-warning" id="reset" type="reset">
-                        <i class="ace-icon fa fa-undo bigger-110"></i>
-                        Limpar
-                    </button>
-                   
-                </div>
-            </div>
-        
 
-    </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-sm-offset-4 align-left">
+                                <button class="btn btn-info" id="btnSalvar" type="submit">
+                                    <i class="ace-icon fa fa-check bigger-110"></i>
+                                    Salvar
+                                </button>
+                                &nbsp;
+                                <button class="btn btn-warning" id="reset" type="reset">
+                                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                                    Limpar
+                                </button>
+
+                            </div>
+                        </div>
+
+
+                    </div>
 
 
                 }
