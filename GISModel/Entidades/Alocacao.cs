@@ -19,26 +19,31 @@ namespace GISModel.Entidades
         public Guid UKAdmissao { get; set; }
 
 
+        [Required(ErrorMessage = "Selecione um contrato")]
         [Display(Name ="Numero do Contrato")]
         public Guid UKContrato { get; set; }
 
 
+        [Required(ErrorMessage = "Selecione um departamento")]
         [Display(Name = "Departamento")]
         public Guid UKDepartamento { get; set; }
 
 
+        [Required(ErrorMessage = "Selecione um cargo")]
         [Display(Name = "Cargo")]
         public Guid UKCargo { get; set; }
 
-
+        [Required(ErrorMessage = "Selecione uma função")]
         [Display(Name = "Função")]
         public Guid UKFuncao { get; set; }
 
 
+        [Required(ErrorMessage = "Selecione um estabelecimento")]
         [Display(Name = "Estabelecimento")]
         public Guid UKEstabelecimento { get; set; }
 
 
+        [Required(ErrorMessage = "Selecione uma equipe")]
         [Display(Name = "Equipe")]
         public Guid UKEquipe { get; set; }
 
