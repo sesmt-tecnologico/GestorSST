@@ -94,6 +94,8 @@
 
 function CarregarAdmissao() {
 
+    $("#modalPerfilLoading").show();
+
     $.ajax({
         method: "POST",
         url: "/Admissao/BuscarAdmissoesAtuais",
@@ -102,6 +104,8 @@ function CarregarAdmissao() {
             ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
         },
         success: function (content) {
+
+            $("#modalPerfilLoading").hide();
 
             if (content.erro != null && content.erro != undefined && content.erro != "") {
                 ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
@@ -114,8 +118,15 @@ function CarregarAdmissao() {
                     OnClickNovaAlocacao($(this));
                 });
 
-                //BuscarWorkAreaParaPerfilEmpregado(string UKEstabelecimento)
-                //conteundoWorkArea
+                $(".btnDesalocar").off("click").on("click", function (e) {
+                    e.preventDefault();
+                    OnClickDesalocar($(this));
+                });
+
+                $(".btnDemitir").off("click").on("click", function (e) {
+                    e.preventDefault();
+                    OnClickDemitir($(this));
+                });
 
                 if ($(".txtEstabelecimento").length > 0) {
                     
@@ -228,12 +239,14 @@ function OnClickNovaAlocacao(origemElemento) {
         url: '/Alocacao/Novo',
         data: { id: ukAdmissao },
         error: function (erro) {
+            $('#modalAlocacaoLoading').hide();
             $('#modalAlocacao').modal('hide');
             ExibirMensagemGritter('Oops!', erro.responseText, 'gritter-error');
         },
         success: function (content) {
 
             $('#modalAlocacaoCorpoLoading').hide();
+            $('#modalAlocacaoLoading').hide();
 
             if (content.erro != undefined && content.erro != null && content.erro != "") {
                 
@@ -393,7 +406,6 @@ function OnClickNovaAlocacao(origemElemento) {
     });
 }
 
-
 function OnBeginCadastrarAlocacao() {
     $('#modalAlocacaoX').hide();
     $('#modalAlocacaoFechar').addClass('disabled');
@@ -404,6 +416,8 @@ function OnBeginCadastrarAlocacao() {
 }
 
 function OnSuccessCadastrarAlocacao(content) {
+
+    $('#modalAlocacaoLoading').hide();
 
     if (content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
         ExibirMensagemDeErro(content.resultado.Erro);
@@ -418,9 +432,82 @@ function OnSuccessCadastrarAlocacao(content) {
     }
     else if (content.resultado.Alerta != null && content.resultado.Alerta != undefined && content.resultado.Alerta != "") {
         ExibirMensagemDeAlerta(content.resultado.Alerta);
+
+        $('#modalAlocacaoX').show();
+        $('#modalAlocacaoFechar').removeClass('disabled');
+        $('#modalAlocacaoFechar').attr('disabled', false);
+        $('#modalAlocacaoProsseguir').removeClass('disabled');
+        $('#modalAlocacaoProsseguir').attr('disabled', false);
+        $('#modalAlocacaoLoading').hide();
     }
     else if (content.resultado.URL != null && content.resultado.URL != undefined && content.resultado.URL != "") {
         window.location.href = content.resultado.URL;
     }
+
+}
+
+
+
+function OnClickDesalocar(origemElemento) {
+
+    var cargofuncao = $(origemElemento).data("cargafuncao");
+    var ukAlocacao = $(origemElemento).data("ukalocacao");
+
+    var callback = function () {
+        $('.page-content-area').ace_ajax('startLoading');
+
+        $.ajax({
+            method: "POST",
+            url: "/Alocacao/Desalocar",
+            data: { id: ukAlocacao },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                TratarResultadoJSON(content.resultado);
+
+                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
+                    $("#linha-" + IDAdmissao).remove();
+                }
+            }
+        });
+    };
+
+
+
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja desalocar o empregado do cargo/função '" + cargofuncao + "'?", "Desalocar", callback, "btn-danger");
+
+}
+
+function OnClickDemitir(origemElemento) {
+
+    var empresa = $(origemElemento).data("empresa");
+    var ukAdmissao = $(origemElemento).data("ukadmissao");
+
+    var callback = function () {
+        $('.page-content-area').ace_ajax('startLoading');
+
+        $.ajax({
+            method: "POST",
+            url: "/Admissao/Demitir",
+            data: { id: ukAdmissao },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                TratarResultadoJSON(content.resultado);
+            }
+        });
+    };
+
+
+
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja demitir o empregado da empresa '" + empresa + "'?", "Confirmação de Demissão", callback, "btn-danger");
 
 }

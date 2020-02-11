@@ -27,6 +27,9 @@ namespace GISWeb.Controllers
         public IAdmissaoBusiness AdmissaoBusiness { get; set; }
 
         [Inject]
+        public IAlocacaoBusiness AlocacaoBusiness { get; set; }
+
+        [Inject]
         public IEmpresaBusiness EmpresaBusiness { get; set; }
 
         [Inject]
@@ -305,6 +308,51 @@ namespace GISWeb.Controllers
             }
 
             return lista;
+        }
+
+
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult Demitir(string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                    throw new Exception("Não foi possível localizar a identificação da alocação para prosseguir com a operação.");
+
+                Guid UKAdmissao = Guid.Parse(id);
+                Admissao adm = AdmissaoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKAdmissao));
+                if (adm == null)
+                    throw new Exception("Não foi possível encontrar a admissão na base de dados.");
+
+                List<Alocacao> als = AlocacaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKAdmissao.Equals(UKAdmissao)).ToList();
+                if (als.Count > 0)
+                {
+                    foreach (Alocacao al in als)
+                    {
+                        al.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                        AlocacaoBusiness.Terminar(al);
+                    }
+                }
+
+                adm.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                AdmissaoBusiness.Terminar(adm);
+
+                Extensions.GravaCookie("MensagemSucesso", "O empregado foi demitido com sucesso.", 10);
+
+                return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Perfil", "Empregado", new { id = adm.UKEmpregado.ToString() }) } });
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
         }
 
         // public ActionResult Empresas()
