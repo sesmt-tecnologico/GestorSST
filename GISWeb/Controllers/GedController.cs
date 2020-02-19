@@ -1,7 +1,9 @@
 ﻿using GISCore.Business.Abstract;
 using GISCore.Business.Concrete;
 using GISModel.DTO.Ged;
+using GISModel.DTO.Shared;
 using GISModel.Entidades;
+using GISWeb.Infraestrutura.Filters;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
@@ -10,10 +12,13 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.SessionState;
 
 namespace GISWeb.Controllers
 {
-    public class GedController : Controller
+    [Autorizador]
+    [SessionState(SessionStateBehavior.ReadOnly)]
+    public class GedController : BaseController
     {
         [Inject]
         public IEmpregadoBusiness EmpregadoBusiness { get; set; }
@@ -43,60 +48,82 @@ namespace GISWeb.Controllers
         }
 
         [HttpPost]
-        public string SaveUpload(IEnumerable<HttpPostedFileBase> file)
+        public ActionResult SaveUpload()
         {
             try
             {
                 string nomeArquivo = string.Empty;
                 string arquivoEnviados = string.Empty;
 
+                HttpPostedFileBase arquivoPostado = null;
                 foreach (string arquivo in Request.Files)
                 {
-                    HttpPostedFileBase files = Request.Files[arquivo];
-                    string extension = System.IO.Path.GetExtension(Request.Files[arquivo].FileName);
-                    var webImage = new System.Web.Helpers.WebImage(Request.Files[0].InputStream);
-                    byte[] imgByteArray = webImage.GetBytes();
+                    //string extension = System.IO.Path.GetExtension(Request.Files[arquivo].FileName);
+                    //var webImage = new System.Web.Helpers.WebImage(Request.Files[arquivo].InputStream);
+                    //byte[] imgByteArray = webImage.GetBytes();
 
-                    var _arquivo = new Arquivo()
+                    arquivoPostado = Request.Files[arquivo];
+                    if (arquivoPostado != null && arquivoPostado.ContentLength > 0)
                     {
-                        ID = Guid.NewGuid(),
-                        UniqueKey = Guid.NewGuid(),
-                        UKObjeto = Guid.Parse(Session["UKEmpregado"].ToString()),
-                        Conteudo = imgByteArray.ToArray(),
-                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
-                        DataInclusao = DateTime.Now,
-                        DataExclusao = new DateTime(9999,12,31,23,59,59,997),
-                        Extensao = Path.GetExtension(Request.Files[arquivo].FileName),
-                        NomeLocal = Request.Files[arquivo].FileName
-                    };
+                        var target = new MemoryStream();
+                        arquivoPostado.InputStream.CopyTo(target);
 
-                    this.ArquivosBusiness.Inserir(_arquivo);
+                        nomeArquivo = Request.Files[arquivo].FileName;
+
+                        var _arquivo = new Arquivo()
+                        {
+                            ID = Guid.NewGuid(),
+                            UniqueKey = Guid.NewGuid(),
+                            UKObjeto = Guid.Parse(Session["UKEmpregado"].ToString()),
+                            Conteudo = target.ToArray(),
+                            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                            DataInclusao = DateTime.Now,
+                            DataExclusao = new DateTime(9999, 12, 31, 23, 59, 59, 997),
+                            Extensao = Path.GetExtension(nomeArquivo),
+                            NomeLocal = nomeArquivo
+                        };
+
+                        this.ArquivosBusiness.Inserir(_arquivo);
+                    }
                 };
 
-                   // var wcf = new GISCore.WCF_Suporte.SuporteClient();
-                    
-                   // wcf.SalvarArquivoNoVault()
+                if (Request.Files.Count == 1)
+                    return Json(new { sucesso = "O arquivo '" + arquivoPostado.FileName + "' foi anexado com êxito." });
+                else
+                    return Json(new { sucesso = "Os arquivos foram anexados com êxito." });
 
-                    //nomeArquivo = Path.GetFileName(files.FileName);
-                    //if (arquivo.ContentLength > 0)
-                    //{
-                    //    nomeArquivo = Path.GetFileName(arquivo.FileName);
-                    //    var caminho = Path.Combine(Server.MapPath("~/Imagens"), nomeArquivo);
-                    //    arquivo.SaveAs(caminho);
-                    //}
+                // var wcf = new GISCore.WCF_Suporte.SuporteClient();
 
-                    //arquivoEnviados = arquivoEnviados + " , " + nomeArquivo;
-                    //arquivoEnviados = nomeArquivo;
-                
-               // ViewBag.Mensagem = "Arquivos enviados  : " + arquivoEnviados + " , com sucesso.";
+                // wcf.SalvarArquivoNoVault()
+
+                //nomeArquivo = Path.GetFileName(files.FileName);
+                //if (arquivo.ContentLength > 0)
+                //{
+                //    nomeArquivo = Path.GetFileName(arquivo.FileName);
+                //    var caminho = Path.Combine(Server.MapPath("~/Imagens"), nomeArquivo);
+                //    arquivo.SaveAs(caminho);
+                //}
+
+                //arquivoEnviados = arquivoEnviados + " , " + nomeArquivo;
+                //arquivoEnviados = nomeArquivo;
+
+                // ViewBag.Mensagem = "Arquivos enviados  : " + arquivoEnviados + " , com sucesso.";
             }
             catch (Exception ex)
             {
-                ViewBag.Mensagem = "Erro : " + ex.Message;
-                return "Erro : " + ex.Message;
-            }
+                Response.StatusCode = 500;
+                if (ex.GetBaseException() == null)
+                {
+                    //return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
 
-            return "Arquivo(s) enviados com sucesso.";
+                    return Content(ex.Message, "text/html");
+                }
+                else
+                {
+                    //return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                    return Content(ex.GetBaseException().Message, "text/html");
+                }
+            }
         }
     }
 }

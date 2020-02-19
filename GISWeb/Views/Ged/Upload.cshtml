@@ -3,6 +3,7 @@
 }
 
 <h2>Uploads Documentos</h2>
+<h3>@ViewBag.Mensagem</h3>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +50,6 @@
 
 <body class="">
     @*<div id="preview-template"></div>*@
-
     <div class="" id="main-container">
         <script type="text/javascript">
             try { ace.settings.loadState('main-container') } catch (e) { }
@@ -157,11 +157,19 @@
 
                         //addRemoveLinks : true,
                         //dictRemoveFile: 'Remove',
-
+                        
                         dictDefaultMessage:
                             '<span class="bigger-150 bolder"><i class="ace-icon fa fa-caret-right red"></i> Solte arquivos aqui</span> para upload \
                             <span class="smaller-80 grey">(ou clique)</span> <br /> \
                             <i class="upload-icon ace-icon fa fa-cloud-upload blue fa-3x"></i>',
+                        success: function (data) {
+                            //var res = JSON.parse(data.xhr.responseText);
+                            //console.log(res);
+                            console.log(data);
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
 
                         //thumbnail: function (file, dataUrl) {
                         //    if (file.previewElement) {
