@@ -30,6 +30,9 @@ namespace GISWeb.Controllers
         [Inject]
         public IArquivoBusiness ArquivosBusiness { get; set; }
 
+        [Inject]
+        public IAdmissaoBusiness AdmissaoBusiness { get; set; }
+
         // GET: Ged
 
         public ActionResult Index(string id)
@@ -45,6 +48,10 @@ namespace GISWeb.Controllers
         public ActionResult Upload(string id)
         {
             ViewBag.UKEmpregado = id;
+            var ukAdmissao = AdmissaoBusiness.GetAdmissao(Guid.Parse(id)).UniqueKey;
+
+            ViewBag.ListaAdmissao = AdmissaoBusiness.BuscarAlocacoes(ukAdmissao.ToString());
+
             return View();
         }
 
@@ -91,6 +98,10 @@ namespace GISWeb.Controllers
                             };
 
                             this.ArquivosBusiness.Inserir(_arquivo);
+
+                            //Implementar REL_ArquivoEmpregado
+                            //Atraves do UKEmpregado - Locacao, Funcao
+                            //Selecionar a locacao onde a uniquekey do empregado e igual UKEmpregado
                         }
                     }
                 };

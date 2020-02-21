@@ -201,7 +201,6 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-
     <Compile Include="Migrations\202002061058171_ControleRisco.cs" />
     <Compile Include="Migrations\202002061058171_ControleRisco.Designer.cs">
       <DependentUpon>202002061058171_ControleRisco.cs</DependentUpon>
@@ -221,7 +220,6 @@
     <Compile Include="Migrations\202002061902357_controleFonteGeradora.cs" />
     <Compile Include="Migrations\202002061902357_controleFonteGeradora.Designer.cs">
       <DependentUpon>202002061902357_controleFonteGeradora.cs</DependentUpon>
-
     </Compile>
     <Compile Include="Migrations\202002070234211_controleF.cs" />
     <Compile Include="Migrations\202002070234211_controleF.Designer.cs">
@@ -258,6 +256,10 @@
     <Compile Include="Migrations\202002072047584_REL_WFP03.cs" />
     <Compile Include="Migrations\202002072047584_REL_WFP03.Designer.cs">
       <DependentUpon>202002072047584_REL_WFP03.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002211917056_ArquivoEmpregado.cs" />
+    <Compile Include="Migrations\202002211917056_ArquivoEmpregado.designer.cs">
+      <DependentUpon>202002211917056_ArquivoEmpregado.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -407,7 +409,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
   <ItemGroup>
-
     <EmbeddedResource Include="Migrations\202002061058171_ControleRisco.resx">
       <DependentUpon>202002061058171_ControleRisco.cs</DependentUpon>
     </EmbeddedResource>
@@ -422,7 +423,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002061902357_controleFonteGeradora.resx">
       <DependentUpon>202002061902357_controleFonteGeradora.cs</DependentUpon>
-
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002070234211_controleF.resx">
       <DependentUpon>202002070234211_controleF.cs</DependentUpon>
@@ -450,6 +450,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002072047584_REL_WFP03.resx">
       <DependentUpon>202002072047584_REL_WFP03.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002211917056_ArquivoEmpregado.resx">
+      <DependentUpon>202002211917056_ArquivoEmpregado.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

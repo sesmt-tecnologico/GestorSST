@@ -98,6 +98,7 @@
     <Compile Include="CustomAttributes\CustomValidationCNPJAttribute.cs" />
     <Compile Include="CustomAttributes\CustomValidationCPFAttribute.cs" />
     <Compile Include="DTO\Admissao\AdmissaoViewModel.cs" />
+    <Compile Include="DTO\Admissao\AlocacaoAdmissaoViewModel.cs" />
     <Compile Include="DTO\Admissao\PerfilEmpregadoViewModel.cs" />
     <Compile Include="DTO\Admissao\PesquisaEmpregadoViewModel.cs" />
     <Compile Include="DTO\AnaliseRisco\AnaliseRiscosViewModel.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Entidades\FonteGeradoraDeRisco.cs" />
     <Compile Include="Entidades\PerigoPotencial.cs" />
     <Compile Include="Entidades\ReconhecimentoDoRisco.cs" />
+    <Compile Include="Entidades\REL_ArquivoEmpregado.cs" />
     <Compile Include="Entidades\REL_AtividadePerigo.cs" />
     <Compile Include="Entidades\REL_DocomumentoPessoalAtividade.cs" />
     <Compile Include="Entidades\DocumentosPessoal.cs" />
