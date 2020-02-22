@@ -33,6 +33,9 @@ namespace GISWeb.Controllers
         [Inject]
         public IAdmissaoBusiness AdmissaoBusiness { get; set; }
 
+        [Inject]
+        public IREL_ArquivoEmpregadoBusiness REL_ArquivoEmpregadoBusiness { get; set; }
+
         // GET: Ged
 
         public ActionResult Index(string id)

@@ -76,12 +76,11 @@ namespace GISCore.Business.Concrete
 		                             left outer join tbAtividade atv on fa.UKAtividade = atv.UniqueKey and atv.UsuarioExclusao is null
                              where al.UsuarioExclusao is null and al.UKAdmissao = '" + UKAdmissao + "' ";
 
-            //DataTable result = AdmissaoBusiness.GetDataTable(query);
-            var ctx = new GISCore.Repository.Configuration.SESTECContext();
+            DataTable result = GetDataTable(query);
+            //var ctx = new GISCore.Repository.Configuration.SESTECContext();
+            //var result_list = ctx.Database.SqlQuery<AlocacaoAdmissaoViewModel>(query).ToList();
 
-            var result_list = ctx.Database.SqlQuery<AlocacaoAdmissaoViewModel>(query).ToList();
-
-            DataTable result = ToDataTable<AlocacaoAdmissaoViewModel>(result_list.ToList());
+            //DataTable result = ToDataTable<AlocacaoAdmissaoViewModel>(result_list.ToList());
 
             if (result.Rows.Count > 0)
             {

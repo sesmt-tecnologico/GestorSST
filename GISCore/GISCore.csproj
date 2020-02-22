@@ -111,6 +111,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Abstract\IArquivoEmpregadoBusiness.cs" />
     <Compile Include="Business\Abstract\IREL_FontePerigoBusiness.cs" />
     <Compile Include="Business\Abstract\IControleDeRiscoBusiness  .cs" />
     <Compile Include="Business\Abstract\IReconhecimentoBusiness .cs" />
@@ -149,6 +150,8 @@
     <Compile Include="Business\Abstract\IUsuarioBusiness.cs" />
     <Compile Include="Business\Abstract\IUsuarioPerfilBusiness.cs" />
     <Compile Include="Business\Abstract\IWorkAreaBusiness.cs" />
+    <Compile Include="Business\Concrete\ArquivoEmpregadoBusiness.cs" />
+    <Compile Include="Business\Concrete\REL_ArquivoEmpregado.cs" />
     <Compile Include="Business\Concrete\REL_FontePerigoBusiness .cs" />
     <Compile Include="Business\Concrete\ControleDeRiscoBusiness.cs" />
     <Compile Include="Business\Concrete\ReconhecimentoBusiness.cs" />
