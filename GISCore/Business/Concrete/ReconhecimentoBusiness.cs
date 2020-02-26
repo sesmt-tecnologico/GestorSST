@@ -23,7 +23,7 @@ namespace GISCore.Business.Concrete
             }
             else
             {
-                tempReconhecimento.FonteGeradora = pReconhecimentoDoRisco.FonteGeradora;
+                //tempReconhecimento.FonteGeradora = pReconhecimentoDoRisco.FonteGeradora;
                 tempReconhecimento.EClasseDoRisco = pReconhecimentoDoRisco.EClasseDoRisco;
                 tempReconhecimento.Tragetoria = pReconhecimentoDoRisco.Tragetoria;
                 

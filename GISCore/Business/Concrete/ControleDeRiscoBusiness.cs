@@ -27,7 +27,7 @@ namespace GISCore.Business.Concrete
             }
             else
             {
-                tempControle.Descricao = pControle.Descricao;
+                //tempControle.Descricao = pControle.Descricao;
                 base.Alterar(tempControle);
             }
         }

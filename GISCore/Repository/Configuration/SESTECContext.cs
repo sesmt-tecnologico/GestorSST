@@ -93,23 +93,32 @@ namespace GISCore.Repository.Configuration
         public DbSet<ReconhecimentoDoRisco> ReconhecimentoDoRisco { get; set; }
 
 
+        public DbSet<Link> Link { get; set; }
 
-        public DbSet<REL_FontePerigo> REL_WorkFontePerigo { get; set; }
+
+
         public DbSet<REL_ContratoFornecedor> REL_ContratoFornecedor { get; set; }
 
         public DbSet<REL_DepartamentoContrato> REL_DepartamentoContrato { get; set; }
 
         public DbSet<REL_EstabelecimentoDepartamento> REL_EstabelecimentoDepartamento { get; set; }
 
-        public DbSet<REL_PerigoRisco> REL_PerigoRisco { get; set; }
-
-        public DbSet<REL_WorkAreaPerigo> REL_WorkAreaPerigo { get; set; }
+        
 
         public DbSet<REL_FuncaoAtividade> REL_FuncaoAtividade { get; set; }
 
         public DbSet<REL_AtividadePerigo> REL_AtividadePerigo { get; set; }
 
         public DbSet<REL_RiscoDanosASaude> REL_RiscoDanosASaude { get; set; }
+
+        
+
+
+
+
+        public DbSet<REL_FontePerigo> REL_WorkFontePerigo { get; set; }
+
+        public DbSet<REL_PerigoRisco> REL_PerigoRisco { get; set; }
 
         public DbSet<REL_RiscoControle> REL_RiscoControle { get; set; }
 

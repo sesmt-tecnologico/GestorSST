@@ -618,7 +618,7 @@
     <Content Include="Views\Empregado\ListaEmpregadoAdmitidoPorEmpresa.cshtml" />
     <Content Include="Views\Empregado\_ListaEmpregadoPorEmpresa.cshtml" />
     <Content Include="Views\Empregado\_ResultadoPesquisaRow.cshtml" />
-    <Content Include="Views\Shared\_SlidersIncidente.cshtml" />
+    <Content Include="Views\Shared\_SlidersMaster.cshtml" />
     <Content Include="Views\Admissao\AdmitirEmMaisEmpresas.cshtml" />
     <Content Include="Views\Cargo\_ListaCargo.cshtml" />
     <Content Include="Views\Atividade\Edicao.cshtml" />
@@ -653,6 +653,8 @@
     <Content Include="Views\FonteGeradoraDeRisco\_Pesquisa.cshtml" />
     <Content Include="Views\FonteGeradoraDeRisco\_VincularPerigo.cshtml" />
     <Content Include="Views\ReconhecimentoDoRisco\_ListaReconhecimento.cshtml" />
+    <Content Include="Views\FonteGeradoraDeRisco\_Arquivos.cshtml" />
+    <Content Include="Views\Arquivo\_Upload.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -669,7 +671,6 @@
     <Folder Include="Images\EstabelecimentoImagens\" />
     <Folder Include="Images\MedidasDeControle\" />
     <Folder Include="Images\Relatorios\" />
-    <Folder Include="Views\Arquivo\" />
     <Folder Include="Views\AtividadeFuncaoLiberada\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>

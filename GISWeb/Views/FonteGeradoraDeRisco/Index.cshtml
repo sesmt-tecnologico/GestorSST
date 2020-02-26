@@ -17,7 +17,7 @@
 
             <a href="@Url.Action("Novo", "WorkArea")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px; margin-right: 20px;">
                 <i class="ace-icon fa fa-plus bigger-120 blue"></i>
-                Novo
+                Nova WorkArea
             </a>
         </h3>
     </div>
@@ -48,21 +48,26 @@
 <div class="resultadoWorkArea"></div>
 
 
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+}
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jQ_dataTable")
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
 
     <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
     <script src="~/Scripts/Ace/jQ/typeahead.jquery.js"></script>
     <script src="~/Scripts/Ace/elements.typeahead.js"></script>
-
     <script src="~/Scripts/Ace/bootstrap-tag.js"></script>
 
 
-    <script src="~/Scripts/Custom/Estabelecimento/Listagem.js"></script>
 
+    <script src="~/Scripts/Custom/Estabelecimento/Listagem.js"></script>
     <script src="~/Scripts/Custom/FonteGeradora/Lista.js"></script>
     <script src="~/Scripts/Custom/ControleDoRisco/Novo.js"></script>
-    
+
 }
 
 
@@ -147,12 +152,13 @@
             </div>
         </div>
     </div>
+
     <div id="modalAddControle" class="modal fade" style="overflow: auto">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button id="modalAddControleX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Controle do Risco</h3>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Reconhecimento / Controle do Risco</h3>
                 </div>
 
                 <div class="modal-body">
@@ -170,6 +176,7 @@
             </div>
         </div>
     </div>
+
     <div id="modalAddListaReconhecimento" class="modal fade" style="overflow: auto">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -193,4 +200,5 @@
             </div>
         </div>
     </div>
+
 }
