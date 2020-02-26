@@ -342,6 +342,7 @@
     <Content Include="Scripts\Custom\Risco\Excluir.js" />
     <Content Include="Scripts\Custom\Risco\Listagem.js" />
     <Content Include="Scripts\Custom\Risco\Novo.js" />
+    <Content Include="Scripts\Custom\tempGrafico\Grafico.js" />
     <Content Include="Scripts\Custom\TipoDeControle\Lista.js" />
     <Content Include="Scripts\Custom\TipoDeControle\Novo.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Edicao.js" />
@@ -410,6 +411,7 @@
     <Compile Include="Controllers\FuncaoController.cs" />
     <Compile Include="Controllers\GedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IndicadoresController.cs" />
     <Compile Include="Controllers\MedidasDeControleController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -653,6 +655,7 @@
     <Content Include="Views\FonteGeradoraDeRisco\_Pesquisa.cshtml" />
     <Content Include="Views\FonteGeradoraDeRisco\_VincularPerigo.cshtml" />
     <Content Include="Views\ReconhecimentoDoRisco\_ListaReconhecimento.cshtml" />
+    <Content Include="Views\Indicadores\Indicadores.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -24,9 +24,9 @@
 
                     <input type="hidden" class="hidden txtUKWorkArea" name="UKWorkArea" id="UKWorkArea" value=@wa.UniqueKey />
                     <input type="hidden" class="hidden txtUKRisco" name="UKRisco" id="UKRisco" value="@ViewBag.UKRisco" />
-
-                    <span><i style="color: orangered">WorkÁrea - </i></span>@wa.Nome 
-                    <span><i style="color: orangered">- Fonte Geradora - </i>@ViewBag.Fonte</span>
+                    <input type="hidden" class="hidden txtUKFonte" name="UKFonte" id="UKFonte" value="@ViewBag.UKFonte" />
+                    <span><i style="color: orangered">WorkÁrea - </i></span>@wa.Nome
+                    <span><i style="color: orangered">- Fonte Geradora - </i>@ViewBag.NomeDaFonte</span>
 
                     if (wa.Perigos.Count > 0)
                     {
@@ -36,9 +36,9 @@
                             {
                                 foreach (Risco risk in item.Riscos)
                                 {
-                                   
-                                        <span><i style = "color: yellowgreen"> - Risco Existente - </i></span> @risk.Nome
-                                  
+
+                                    <span><i style="color: yellowgreen"> - Risco Existente - </i></span> @risk.Nome
+
 
 
                                 }
@@ -59,7 +59,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-4 col-sm-6">
+                            @*<div class="col-xs-4 col-sm-6">
                                 <div class="form-group">
                                     @Html.Label("Fonte Geradora", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
                                     <div class="col-xs-12 col-sm-12">
@@ -67,10 +67,9 @@
                                         @Html.ValidationMessage("FonteGeradora", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4 col-sm-12">
+                            </div>*@
+
+                            <div class="col-xs-4 col-sm-6">
                                 <div class="form-group">
                                     @Html.Label("Trajetoria", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
                                     <div class="col-xs-12 col-sm-12">

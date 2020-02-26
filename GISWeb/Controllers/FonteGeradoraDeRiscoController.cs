@@ -188,165 +188,165 @@ namespace GISWeb.Controllers
 
         }
 
-        public ActionResult CadastrarControleDeRisco(ReconhecimentoDoRisco entidade, ControleDeRiscos oControle, string UKControle, string UKWorkarea, string UKRisco)
-        {
-            try
-            {
-                Guid UK_Workarea = Guid.Parse(UKWorkarea);
-                Guid UK_Risco = Guid.Parse(UKRisco);
+        //public ActionResult CadastrarControleDeRisco(ReconhecimentoDoRisco entidade, ControleDeRiscos oControle, string UKControle, string UKWorkarea, string UKRisco,string UKFonte)
+        //{
+        //    try
+        //    {
+        //        Guid UK_Workarea = Guid.Parse(UKWorkarea);
+        //        Guid UK_Risco = Guid.Parse(UKRisco);
 
 
 
-                if (string.IsNullOrEmpty(UKControle))
-                    throw new Exception("Não foi possível localizar o Controle.");
+        //        if (string.IsNullOrEmpty(UKControle))
+        //            throw new Exception("Não foi possível localizar o Controle.");
 
-                if (string.IsNullOrEmpty(UKRisco))
-                    throw new Exception("Não foi possivel localizar o risco.");
+        //        if (string.IsNullOrEmpty(UKRisco))
+        //            throw new Exception("Não foi possivel localizar o risco.");
 
-                if (string.IsNullOrEmpty(UKWorkarea))
-                    throw new Exception("Não foi possivel localizar a workArea.");
+        //        if (string.IsNullOrEmpty(UKWorkarea))
+        //            throw new Exception("Não foi possivel localizar a workArea.");
 
-                ReconhecimentoDoRisco oReconhecimento = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKRisco.Equals(UK_Risco) && p.UKWorkarea.Equals(UK_Workarea));
-
-
-                ReconhecimentoDoRisco pReconhecimento = new ReconhecimentoDoRisco()
-                {
-                    UKWorkarea = UK_Workarea,
-                    UKRisco = UK_Risco,
-                    FonteGeradora = entidade.FonteGeradora,
-                    Tragetoria = entidade.Tragetoria,
-                    EClasseDoRisco = entidade.EClasseDoRisco,
-                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-
-                };
-
-                ReconhecimentoBusiness.Inserir(pReconhecimento);
-
-                ReconhecimentoDoRisco pRec = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKRisco.Equals(UK_Risco));
-
-                List<Guid> filtro = new List<Guid>();
-
-                if (UKControle.Contains(","))
-                {
+        //        ReconhecimentoDoRisco oReconhecimento = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKRisco.Equals(UK_Risco) && p.UKWorkarea.Equals(UK_Workarea));
 
 
-                    foreach (string ativ in UKControle.Split(','))
-                    {
+        //        ReconhecimentoDoRisco pReconhecimento = new ReconhecimentoDoRisco()
+        //        {
+        //            UKWorkarea = UK_Workarea,
+        //            UKRisco = UK_Risco,
+        //            FonteGeradora = entidade.FonteGeradora,
+        //            Tragetoria = entidade.Tragetoria,
+        //            EClasseDoRisco = entidade.EClasseDoRisco,
+        //            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+
+        //        };
+
+        //        ReconhecimentoBusiness.Inserir(pReconhecimento);
+
+        //        ReconhecimentoDoRisco pRec = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKRisco.Equals(UK_Risco));
+
+        //        List<Guid> filtro = new List<Guid>();
+
+        //        if (UKControle.Contains(","))
+        //        {
 
 
-                        if (!string.IsNullOrEmpty(ativ.Trim()))
-                        {
-                            var pesControRisco = from A in ReconhecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                 join B in ControleDeRiscosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                 on A.UniqueKey equals B.UKReconhecimentoDoRisco
-                                                 select new
-                                                 {
-                                                     UniqueReconhecimento = A.UniqueKey,
-                                                     UKWorkarea = A.UKWorkarea,
-                                                     Risco = A.UKRisco,
-                                                     FonteGer = A.FonteGeradora,
-                                                     UniqueControle = B.UKReconhecimentoDoRisco,
-                                                     Controle = B.Controle
-
-                                                 };
+        //            foreach (string ativ in UKControle.Split(','))
+        //            {
 
 
-                            if (pesControRisco != null)
-                            {
-                                foreach (var item in pesControRisco)
-                                {
-                                    if (item.Controle.Equals(ativ.Trim()) && item.FonteGer.Equals(pRec.FonteGeradora))
-                                    {
-                                        filtro.Add(item.UniqueReconhecimento);
-                                    }
+        //                if (!string.IsNullOrEmpty(ativ.Trim()))
+        //                {
+        //                    var pesControRisco = from A in ReconhecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+        //                                         join B in ControleDeRiscosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+        //                                         on A.UniqueKey equals B.UKReconhecimentoDoRisco
+        //                                         select new
+        //                                         {
+        //                                             UniqueReconhecimento = A.UniqueKey,
+        //                                             UKWorkarea = A.UKWorkarea,
+        //                                             Risco = A.UKRisco,
+        //                                             FonteGer = A.FonteGeradora,
+        //                                             UniqueControle = B.UKReconhecimentoDoRisco,
+        //                                             Controle = B.Controle
 
-                                }
-
-                            }
-
-
-                            //ControleDeRiscos pTemp = ControleDeRiscosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.EControle.Equals(ativ.Trim()) && a.UKFonteGeradora.Equals(pRec.FonteGeradora));
-
-                            if (filtro.Count == 0)
-                            {
-
-                                ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
-                                {
-                                    UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,
-                                    EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
-                                    Controle = ativ.Trim(),
-                                    EControle = oControle.EControle,
-                                    Descricao = oControle.Descricao,
-                                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-                                });
-
-                            }
-                            else
-                            {
-                                ReconhecimentoDoRisco qReconhecimento = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKRisco.Equals(UK_Risco) && p.UKWorkarea.Equals(UK_Workarea));
+        //                                         };
 
 
-                                qReconhecimento.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                                ReconhecimentoBusiness.Terminar(qReconhecimento);
+        //                    if (pesControRisco != null)
+        //                    {
+        //                        foreach (var item in pesControRisco)
+        //                        {
+        //                            if (item.Controle.Equals(ativ.Trim()) && item.FonteGer.Equals(pRec.FonteGeradora))
+        //                            {
+        //                                filtro.Add(item.UniqueReconhecimento);
+        //                            }
 
-                                throw new Exception("Este controle já existe para este Risco e para esta fonte Geradora.");
+        //                        }
 
-                                // return Json(new { resultado = new RetornoJSON() { Erro = "Este controle já existe para este Risco e para esta fonte Geradora." } });
-
-                            }
-
-
-                        }
-                    }
-                }
-                else
-                {
-
-                    //ControleDeRiscos pTemp = ControleDeRiscosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.EControle.Equals(UKControle.Trim()) && a.UKFonteGeradora.Equals(pRec.FonteGeradora));
+        //                    }
 
 
+        //                    //ControleDeRiscos pTemp = ControleDeRiscosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.EControle.Equals(ativ.Trim()) && a.UKFonteGeradora.Equals(pRec.FonteGeradora));
+
+        //                    if (filtro.Count == 0)
+        //                    {
+
+        //                        ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
+        //                        {
+        //                            UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,
+        //                            EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
+        //                            Controle = ativ.Trim(),
+        //                            EControle = oControle.EControle,
+        //                            Descricao = oControle.Descricao,
+        //                            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+        //                        });
+
+        //                    }
+        //                    else
+        //                    {
+        //                        ReconhecimentoDoRisco qReconhecimento = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKRisco.Equals(UK_Risco) && p.UKWorkarea.Equals(UK_Workarea));
 
 
-                    if (filtro.Count == 0)
-                    {
+        //                        qReconhecimento.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+        //                        ReconhecimentoBusiness.Terminar(qReconhecimento);
+
+        //                        throw new Exception("Este controle já existe para este Risco e para esta fonte Geradora.");
+
+        //                        // return Json(new { resultado = new RetornoJSON() { Erro = "Este controle já existe para este Risco e para esta fonte Geradora." } });
+
+        //                    }
 
 
-                        ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
-                        {
-                            UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,
-                            EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
-                            Controle = UKControle.Trim(),
-                            EControle = oControle.EControle,
-                            Descricao = oControle.Descricao,
-                            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-                        });
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
 
-                        ReconhecimentoBusiness.Inserir(pReconhecimento);
-
-                    }
-                    else
-                    {
-
-                        pReconhecimento.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                        ReconhecimentoBusiness.Terminar(pReconhecimento);
-
-                        throw new Exception("Este controle já existe para este Risco e para esta fonte Geradora.");
-
-                        // return Json(new { resultado = new RetornoJSON() { Erro = "Este controle já existe para este Risco e para esta fonte Geradora." } });
-
-                    }
-                }
+        //            //ControleDeRiscos pTemp = ControleDeRiscosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.EControle.Equals(UKControle.Trim()) && a.UKFonteGeradora.Equals(pRec.FonteGeradora));
 
 
-                return Json(new { resultado = new RetornoJSON() { Sucesso = "Controles dos riscos vinculados com sucesso." } });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-            }
 
 
-        }
+        //            if (filtro.Count == 0)
+        //            {
+
+
+        //                ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
+        //                {
+        //                    UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,
+        //                    EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
+        //                    Controle = UKControle.Trim(),
+        //                    EControle = oControle.EControle,
+        //                    Descricao = oControle.Descricao,
+        //                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+        //                });
+
+        //                ReconhecimentoBusiness.Inserir(pReconhecimento);
+
+        //            }
+        //            else
+        //            {
+
+        //                pReconhecimento.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+        //                ReconhecimentoBusiness.Terminar(pReconhecimento);
+
+        //                throw new Exception("Este controle já existe para este Risco e para esta fonte Geradora.");
+
+        //                // return Json(new { resultado = new RetornoJSON() { Erro = "Este controle já existe para este Risco e para esta fonte Geradora." } });
+
+        //            }
+        //        }
+
+
+        //        return Json(new { resultado = new RetornoJSON() { Sucesso = "Controles dos riscos vinculados com sucesso." } });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+        //    }
+
+
+        //}
 
         [RestritoAAjax]
         public ActionResult BuscarControlesForAutoComplete(string key)

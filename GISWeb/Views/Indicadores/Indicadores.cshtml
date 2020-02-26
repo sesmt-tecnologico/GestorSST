@@ -1,0 +1,170 @@
+﻿@*<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <div id="chart_div"></div>
+
+    @section Scripts {
+
+        <script src="~/Scripts/Custom/tempGrafico/Grafico.js"></script>
+    }*@
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        // Load Charts and the corechart package.
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        // Draw the pie chart for Sarah's pizza when Charts is loaded.
+        google.charts.setOnLoadCallback(drawSarahChart);
+
+        // Draw the pie chart for the Anthony's pizza when Charts is loaded.
+        google.charts.setOnLoadCallback(drawAnthonyChart);
+
+        // Callback that draws the pie chart for Sarah's pizza.
+        function drawSarahChart() {
+
+            // Create the data table for Sarah's pizza.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            data.addRows([
+                ['Queda', 1],
+                ['Eletricidade', 1],
+                ['Veículo', 2],
+                ['Contusões', 2],
+                //['Maio', 1]
+            ]);
+
+            // Set options for Sarah's pie chart.
+            var options = {
+                title: 'Acidentes por Tipo - 2019',
+                width: 400,
+                height: 300
+            };
+
+            // Instantiate and draw the chart for Sarah's pizza.
+            var chart = new google.visualization.PieChart(document.getElementById('Sarah_chart_div'));
+            chart.draw(data, options);
+        }
+
+        // Callback that draws the pie chart for Anthony's pizza.
+        function drawAnthonyChart() {
+
+            // Create the data table for Anthony's pizza.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            data.addRows([
+               ['Caeté', 2],
+                ['São Paulo', 1],
+                ['Betim', 1],
+                ['Sabará', 2],
+                ['Ouro Preto', 1]
+            ]);
+
+            // Set options for Anthony's pie chart.
+            var options = {
+                title: 'Acidentes por Cidade - 2019',
+                width: 400,
+                height: 300
+            };
+
+            // Instantiate and draw the chart for Anthony's pizza.
+            var chart = new google.visualization.PieChart(document.getElementById('Anthony_chart_div'));
+            chart.draw(data, options);
+        }
+    </script>
+
+</head>
+<body>
+    <!--Table and divs that hold the pie charts-->
+    <table class="columns">
+        <tr>
+            <td><div id="Sarah_chart_div" style="border: 1px solid #ccc"></div></td>
+            <td><div id="Anthony_chart_div" style="border: 1px solid #ccc"></div></td>
+        </tr>
+    </table>
+</body>
+
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+        // Load Charts and the corechart and barchart packages.
+        google.charts.load('current', { 'packages': ['corechart'] });
+
+        // Draw the pie chart and bar chart when Charts is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            data.addRows([
+                ['Mãos', 3],
+                ['Braços', 1],
+                ['Pernas', 1],
+                ['Pé', 1],
+                ['Cabeça', 4]
+            ]);
+
+            var piechart_options = {
+                title: 'Natureza das Lesões',
+                width: 400,
+                height: 300
+            };
+            var piechart = new google.visualization.PieChart(document.getElementById('piechart_div'));
+            piechart.draw(data, piechart_options);
+
+            var barchart_options = {
+                title: 'Natureza das Lesões',
+                width: 400,
+                height: 300,
+                legend: 'none'
+            };
+            var barchart = new google.visualization.BarChart(document.getElementById('barchart_div'));
+            barchart.draw(data, barchart_options);
+        }
+    </script>
+    <body>
+        <!--Table and divs that hold the pie charts-->
+        <table class="columns">
+            <tr>
+                <td><div id="piechart_div" style="border: 1px solid #ccc"></div></td>
+                <td><div id="barchart_div" style="border: 1px solid #ccc"></div></td>
+            </tr>
+        </table>
+    </body>
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Year', 'Pessoal Próprio', 'Terceiros'],
+                ['2004', 3.7, 1.8],
+                ['2005', 3.2, 2.6],
+                ['2006', 2.8, 2.6],
+                ['2007', 1.8, 1.3]
+            ]);
+
+            var options = {
+                title: 'Taxas de Frequência',
+                curveType: 'function',
+                legend: { position: 'bottom' }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+    <div id="curve_chart" style="width: 900px; height: 500px"></div>
+</body>
+</html>

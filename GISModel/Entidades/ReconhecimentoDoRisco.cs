@@ -24,14 +24,14 @@ namespace GISModel.Entidades
         public EClasseDoRisco EClasseDoRisco { get; set; }
 
         [Display(Name = "Fonte Geradora")]
-        public string FonteGeradora { get; set; }
+        public Guid UKFonteGeradora { get; set; }
 
         [Display(Name = "Tragetória")]
         public ETrajetoria Tragetoria { get; set; }
 
-        //public List<FonteGeradoraDeRisco> FonteGeradoraDeRiscos { get; set; }
+        public List<FonteGeradoraDeRisco> FonteGeradoraDeRiscos { get; set; }
 
-        public List<WorkArea> WorkAreas { get; set; }
+        public List<ControleDeRiscos> Controles { get; set; }
 
 
     }
