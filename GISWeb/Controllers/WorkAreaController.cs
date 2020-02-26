@@ -37,9 +37,6 @@ namespace GISWeb.Controllers
         public IRiscoBusiness RiscoBusiness { get; set; }
 
         [Inject]
-        public IBaseBusiness<REL_WorkAreaPerigo> REL_WorkAreaPerigoBusiness { get; set; }
-
-        [Inject]
         public IBaseBusiness<REL_PerigoRisco> REL_PerigoRiscoBusiness { get; set; }
 
         [Inject]
@@ -596,98 +593,98 @@ namespace GISWeb.Controllers
             return PartialView("_VincularPegigo");
         }
 
-        [HttpPost]
-        [RestritoAAjax]
-        public ActionResult VincularPerigoAWorkArea(string UKWorkArea, string Perigos)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(UKWorkArea))
-                    throw new Exception("Não foi possível localizar a identificação da work área.");
+        //[HttpPost]
+        //[RestritoAAjax]
+        //public ActionResult VincularPerigoAWorkArea(string UKWorkArea, string Perigos)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(UKWorkArea))
+        //            throw new Exception("Não foi possível localizar a identificação da work área.");
 
-                if (string.IsNullOrEmpty(Perigos))
-                    throw new Exception("Nenhum perigo recebido como parâmetro para vincular a work área.");
+        //        if (string.IsNullOrEmpty(Perigos))
+        //            throw new Exception("Nenhum perigo recebido como parâmetro para vincular a work área.");
 
-                Guid guidWA = Guid.Parse(UKWorkArea);
+        //        Guid guidWA = Guid.Parse(UKWorkArea);
 
-                if (Perigos.Contains(","))
-                {
-                    foreach (string perigo in Perigos.Split(','))
-                    {
-                        if (!string.IsNullOrEmpty(perigo.Trim()))
-                        {
-                            Perigo pTemp = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(perigo.Trim()));
-                            if (pTemp != null)
-                            {
-                                if (REL_WorkAreaPerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKWorkArea.Equals(guidWA) && a.UKPerigo.Equals(pTemp.UniqueKey)).Count() == 0)
-                                {
-                                    REL_WorkAreaPerigoBusiness.Inserir(new REL_WorkAreaPerigo()
-                                    {
-                                        UKWorkArea = guidWA,
-                                        UKPerigo = pTemp.UniqueKey,
-                                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    Perigo pTemp = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(Perigos.Trim()));
-                    if (pTemp != null)
-                    {
-                        if (REL_WorkAreaPerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKWorkArea.Equals(guidWA) && a.UKPerigo.Equals(pTemp.UniqueKey)).Count() == 0)
-                        {
-                            REL_WorkAreaPerigoBusiness.Inserir(new REL_WorkAreaPerigo()
-                            {
-                                UKWorkArea = guidWA,
-                                UKPerigo = pTemp.UniqueKey,
-                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-                            });
-                        }
-                    }
-                }
+        //        if (Perigos.Contains(","))
+        //        {
+        //            foreach (string perigo in Perigos.Split(','))
+        //            {
+        //                if (!string.IsNullOrEmpty(perigo.Trim()))
+        //                {
+        //                    Perigo pTemp = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(perigo.Trim()));
+        //                    if (pTemp != null)
+        //                    {
+        //                        if (REL_WorkAreaPerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKWorkArea.Equals(guidWA) && a.UKPerigo.Equals(pTemp.UniqueKey)).Count() == 0)
+        //                        {
+        //                            REL_WorkAreaPerigoBusiness.Inserir(new REL_WorkAreaPerigo()
+        //                            {
+        //                                UKWorkArea = guidWA,
+        //                                UKPerigo = pTemp.UniqueKey,
+        //                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+        //                            });
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Perigo pTemp = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(Perigos.Trim()));
+        //            if (pTemp != null)
+        //            {
+        //                if (REL_WorkAreaPerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKWorkArea.Equals(guidWA) && a.UKPerigo.Equals(pTemp.UniqueKey)).Count() == 0)
+        //                {
+        //                    REL_WorkAreaPerigoBusiness.Inserir(new REL_WorkAreaPerigo()
+        //                    {
+        //                        UKWorkArea = guidWA,
+        //                        UKPerigo = pTemp.UniqueKey,
+        //                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+        //                    });
+        //                }
+        //            }
+        //        }
 
-                return Json(new { resultado = new RetornoJSON() { Sucesso = "Perigo relacionado a work area com sucesso." } });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-            }
-        }
+        //        return Json(new { resultado = new RetornoJSON() { Sucesso = "Perigo relacionado a work area com sucesso." } });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+        //    }
+        //}
 
-        [HttpPost]
-        [RestritoAAjax]
-        public ActionResult TerminarRelComWorkArea(string UKWorkArea, string UKPerigo)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(UKWorkArea))
-                    throw new Exception("Não foi possível localizar a identificação da work área.");
+        //[HttpPost]
+        //[RestritoAAjax]
+        //public ActionResult TerminarRelComWorkArea(string UKWorkArea, string UKPerigo)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(UKWorkArea))
+        //            throw new Exception("Não foi possível localizar a identificação da work área.");
 
-                if (string.IsNullOrEmpty(UKPerigo))
-                    throw new Exception("Não foi possível localizar a identificação do perigo.");
+        //        if (string.IsNullOrEmpty(UKPerigo))
+        //            throw new Exception("Não foi possível localizar a identificação do perigo.");
 
-                Guid guidWA = Guid.Parse(UKWorkArea);
-                Guid guidPerigo = Guid.Parse(UKPerigo);
+        //        Guid guidWA = Guid.Parse(UKWorkArea);
+        //        Guid guidPerigo = Guid.Parse(UKPerigo);
 
-                REL_WorkAreaPerigo rel = REL_WorkAreaPerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKWorkArea.Equals(guidWA) && a.UKPerigo.Equals(guidPerigo));
-                if (rel == null)
-                {
-                    throw new Exception("Não foi possível localizar o relacionamento entre Work Área e Perigo na base de dados.");
-                }
+        //        REL_WorkAreaPerigo rel = REL_WorkAreaPerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKWorkArea.Equals(guidWA) && a.UKPerigo.Equals(guidPerigo));
+        //        if (rel == null)
+        //        {
+        //            throw new Exception("Não foi possível localizar o relacionamento entre Work Área e Perigo na base de dados.");
+        //        }
 
-                rel.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                REL_WorkAreaPerigoBusiness.Terminar(rel);
+        //        rel.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+        //        REL_WorkAreaPerigoBusiness.Terminar(rel);
 
-                return Json(new { resultado = new RetornoJSON() { Sucesso = "Perigo desvinculado com sucesso." } });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-            }
-        }
+        //        return Json(new { resultado = new RetornoJSON() { Sucesso = "Perigo desvinculado com sucesso." } });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+        //    }
+        //}
 
 
 

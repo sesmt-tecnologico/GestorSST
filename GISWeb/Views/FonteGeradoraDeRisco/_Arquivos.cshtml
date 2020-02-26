@@ -1,0 +1,75 @@
+﻿@using GISModel.Entidades
+@model List<Arquivo>
+
+
+@{
+    var path = string.Empty;
+    if (Request.ApplicationPath.Length > 1)
+    {
+        path = Request.ApplicationPath;
+    }
+}
+
+
+
+@if (Model == null || Model.Count == 0)
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        Nenhum arquivo anexado até o momento.
+
+        <div class="pull-right">
+            <a href="#"
+               class="CustomTooltip lnkUploadArquivo"
+               title="Anexar Novo Arquivo"
+               data-target="#modalNovoArquivo"
+               data-toggle="modal"
+               data-backdrop="static"
+               data-keyboard="false"
+               data-uniquekey="@ViewBag.UKObjeto.ToString()">
+                <i class="ace-icon fa fa-cloud-upload bigger-170"></i>
+            </a>
+        </div>
+
+        <br>
+    </div>
+}
+else
+{
+    <table id="tableArquivos" class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Nome do Arquivo</th>
+                <th>Anexado em</th>
+                <th>Anexado por</th>
+                <th width="40px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Arquivo iArq in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="@path/Arquivo/Visualizar/@iArq.UniqueKey.ToString()" target="_blank" class="CustomTooltip blue" title="Visualizar">
+                            @iArq.NomeLocal
+                        </a>
+                    </td>
+                    <td>@iArq.DataInclusao.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@iArq.UsuarioInclusao</td>
+                    <td class="center">
+                        <div class="action-buttons">
+                            <a class="red CustomTooltip btnExcluirArquivo" href="#" title="Excluir arquivo" data-ukarquivo="@iArq.UniqueKey.ToString()">
+                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}

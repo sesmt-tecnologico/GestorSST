@@ -20,8 +20,12 @@ namespace GISWeb.Controllers
     {
 
         #region
+
         [Inject]
         public IBaseBusiness<FonteGeradoraDeRisco> FonteGeradoraDeRiscoBusiness { get; set; }
+
+        [Inject]
+        public IArquivoBusiness ArquivoBusiness { get; set; }
 
         [Inject]
         public IWorkAreaBusiness WorkAreaBusiness { get; set; }
@@ -54,7 +58,9 @@ namespace GISWeb.Controllers
 
         #endregion
 
-        // GET: FonteGeradoraDeRisco
+        
+
+
         public ActionResult Index()
         {
             
@@ -142,37 +148,37 @@ namespace GISWeb.Controllers
                 {
                     if (obj == null)
                     {
-                        obj = new WorkArea()
-                        {
-                            UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
-                            Nome = row["Nome"].ToString(),
-                            Descricao = row["Descricao"].ToString(),
-                            Perigos = new List<Perigo>()
-                        };
+                        //obj = new WorkArea()
+                        //{
+                        //    UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                        //    Nome = row["Nome"].ToString(),
+                        //    Descricao = row["Descricao"].ToString(),
+                        //    Perigos = new List<Perigo>()
+                        //};
 
 
-                        if (!string.IsNullOrEmpty(row["relwap"].ToString()))
-                        {
-                            oPerigo = new Perigo()
-                            {
-                                ID = Guid.Parse(row["relwap"].ToString()),
-                                UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
-                                Descricao = row["perigo"].ToString(),
-                                Riscos = new List<Risco>()
-                            };
+                        //if (!string.IsNullOrEmpty(row["relwap"].ToString()))
+                        //{
+                        //    oPerigo = new Perigo()
+                        //    {
+                        //        ID = Guid.Parse(row["relwap"].ToString()),
+                        //        UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
+                        //        Descricao = row["perigo"].ToString(),
+                        //        Riscos = new List<Risco>()
+                        //    };
 
-                            if (!string.IsNullOrEmpty(row["relpr"].ToString()))
-                            {
-                                oPerigo.Riscos.Add(new Risco()
-                                {
-                                    ID = Guid.Parse(row["relpr"].ToString()),
-                                    UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                                    Nome = row["risco"].ToString()
-                                });
-                            }
+                        //    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                        //    {
+                        //        oPerigo.Riscos.Add(new Risco()
+                        //        {
+                        //            ID = Guid.Parse(row["relpr"].ToString()),
+                        //            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                        //            Nome = row["risco"].ToString()
+                        //        });
+                        //    }
 
-                            obj.Perigos.Add(oPerigo);
-                        }
+                        //    obj.Perigos.Add(oPerigo);
+                        //}
 
                     }
                 }
@@ -209,6 +215,16 @@ namespace GISWeb.Controllers
         //        ReconhecimentoDoRisco oReconhecimento = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKRisco.Equals(UK_Risco) && p.UKWorkarea.Equals(UK_Workarea));
 
 
+
+                ReconhecimentoDoRisco pReconhecimento = new ReconhecimentoDoRisco()
+                {
+                    UKWorkarea = UK_Workarea,
+                    UKRisco = UK_Risco,
+                    //FonteGeradora = entidade.FonteGeradora,
+                    Tragetoria = entidade.Tragetoria,
+                    EClasseDoRisco = entidade.EClasseDoRisco,
+                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+
         //        ReconhecimentoDoRisco pReconhecimento = new ReconhecimentoDoRisco()
         //        {
         //            UKWorkarea = UK_Workarea,
@@ -217,6 +233,7 @@ namespace GISWeb.Controllers
         //            Tragetoria = entidade.Tragetoria,
         //            EClasseDoRisco = entidade.EClasseDoRisco,
         //            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+
 
         //        };
 
@@ -234,6 +251,33 @@ namespace GISWeb.Controllers
         //            {
 
 
+
+                        if (!string.IsNullOrEmpty(ativ.Trim()))
+                        {
+                            var pesControRisco = from A in ReconhecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                                 join B in ControleDeRiscosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                                 on A.UniqueKey equals B.UKReconhecimentoDoRisco
+                                                 select new
+                                                 {
+                                                     UniqueReconhecimento = A.UniqueKey,
+                                                     UKWorkarea = A.UKWorkarea,
+                                                     Risco = A.UKRisco,
+                                                     //FonteGer = A.FonteGeradora,
+                                                     UniqueControle = B.UKReconhecimentoDoRisco,
+                                                     //Controle = B.Controle
+
+                                                 };
+
+
+                            if (pesControRisco != null)
+                            {
+                                foreach (var item in pesControRisco)
+                                {
+                                    //if (item.Controle.Equals(ativ.Trim()) && item.FonteGer.Equals(pRec.FonteGeradora))
+                                    //{
+                                    //    filtro.Add(item.UniqueReconhecimento);
+                                    //}
+
         //                if (!string.IsNullOrEmpty(ativ.Trim()))
         //                {
         //                    var pesControRisco = from A in ReconhecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
@@ -247,6 +291,7 @@ namespace GISWeb.Controllers
         //                                             FonteGer = A.FonteGeradora,
         //                                             UniqueControle = B.UKReconhecimentoDoRisco,
         //                                             Controle = B.Controle
+
 
         //                                         };
 
@@ -263,6 +308,18 @@ namespace GISWeb.Controllers
         //                        }
 
         //                    }
+
+
+                                ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
+                                {
+                                    UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,
+                                    EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
+                                    //Controle = ativ.Trim(),
+                                    EControle = oControle.EControle,
+                                    //Descricao = oControle.Descricao,
+                                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                });
+
 
 
         //                    //ControleDeRiscos pTemp = ControleDeRiscosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.EControle.Equals(ativ.Trim()) && a.UKFonteGeradora.Equals(pRec.FonteGeradora));
@@ -305,6 +362,17 @@ namespace GISWeb.Controllers
         //            //ControleDeRiscos pTemp = ControleDeRiscosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.EControle.Equals(UKControle.Trim()) && a.UKFonteGeradora.Equals(pRec.FonteGeradora));
 
 
+
+
+                        ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
+                        {
+                            UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,
+                            EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
+                            //Controle = UKControle.Trim(),
+                            EControle = oControle.EControle,
+                            //Descricao = oControle.Descricao,
+                            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                        });
 
 
         //            if (filtro.Count == 0)
@@ -389,7 +457,7 @@ namespace GISWeb.Controllers
     
 
 
-    [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PesquisarWorkArea(FonteGeradoraViewModel entidade)
         {
@@ -421,7 +489,6 @@ namespace GISWeb.Controllers
                 {
                     WorkArea obj = null;
                     FonteGeradoraDeRisco oFonte = null;
-                    Perigo oPerigo = null;
 
                     foreach (DataRow row in result.Rows)
                     {
@@ -476,7 +543,6 @@ namespace GISWeb.Controllers
                             }
 
                         }
-                        //
                         else if (obj.UniqueKey.Equals(Guid.Parse(row["UniqWa"].ToString())))
                         {
                             if (!string.IsNullOrEmpty(row["relfp"].ToString()))
@@ -517,8 +583,6 @@ namespace GISWeb.Controllers
 
                                     obj.FonteGeradoraDeRisco.Add(oFonte);
                                 }
-
-                                //
                                 else if (oFonte.FonteGeradora.Equals(row["FonteGeradora"].ToString()))
                                 {
                                     if (oFonte.Perigos.Equals(row["perigo"].ToString()))
@@ -703,86 +767,86 @@ namespace GISWeb.Controllers
         }
     
 
-    [HttpPost]
-    [RestritoAAjax]
-    public ActionResult VincularPerigo(string UKFonteGeradora)
-    {
-
-        ViewBag.UKFonteGeradora = UKFonteGeradora;
-
-        return PartialView("_VincularPerigo");
-    }
-
-    [HttpPost]
-    [RestritoAAjax]
-    public ActionResult VincularPerigoAFonte(string UKPerigo, string UKFonte)
-    {
-        try
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult VincularPerigo(string UKFonteGeradora)
         {
-            if (string.IsNullOrEmpty(UKPerigo))
-                throw new Exception("Não foi possível localizar a identificação do perigo.");
 
-            if (string.IsNullOrEmpty(UKFonte))
-                throw new Exception("Nenhuma fonte recebida como parâmetro para vincular ao perigo.");
+            ViewBag.UKFonteGeradora = UKFonteGeradora;
 
-            Guid guidFonte = Guid.Parse(UKFonte);
+            return PartialView("_VincularPerigo");
+        }
+
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult VincularPerigoAFonte(string UKPerigo, string UKFonte)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(UKPerigo))
+                    throw new Exception("Não foi possível localizar a identificação do perigo.");
+
+                if (string.IsNullOrEmpty(UKFonte))
+                    throw new Exception("Nenhuma fonte recebida como parâmetro para vincular ao perigo.");
+
+                Guid guidFonte = Guid.Parse(UKFonte);
                 
 
-                if (UKPerigo.Contains(","))
-            {
-                foreach (string risk in UKPerigo.Split(','))
+                    if (UKPerigo.Contains(","))
                 {
-                    if (!string.IsNullOrEmpty(risk.Trim()))
+                    foreach (string risk in UKPerigo.Split(','))
                     {
+                        if (!string.IsNullOrEmpty(risk.Trim()))
+                        {
                             
         
-                        Perigo rTemp = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(risk.Trim()));
+                            Perigo rTemp = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(risk.Trim()));
 
-                        if (rTemp != null)
-                        {
-                                if (REL_FontePerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKFonteGeradora.Equals(guidFonte) && a.UKPerigo.Equals(rTemp.UniqueKey)).Count() == 0)
-                                {
-                                   REL_FontePerigo FontePerigo = new REL_FontePerigo()
-                                    {
-                                        UKFonteGeradora = guidFonte,
-                                        UKPerigo = rTemp.UniqueKey ,                                     
-                                        
-                                        //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-                                    };
-
-                                    REL_FontePerigoBusiness.Inserir(FontePerigo);
-                                }
-                            }
-                    }
-                }
-            }
-            else
-            {
-                    Perigo rTemp = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(UKPerigo));
-                    if (rTemp != null)
-                    {
-                        if (REL_FontePerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKFonteGeradora.Equals(guidFonte) && a.UKPerigo.Equals(rTemp.UniqueKey)).Count() == 0)
-                        {
-                            REL_FontePerigo FontePerigo = new REL_FontePerigo()
+                            if (rTemp != null)
                             {
-                                UKFonteGeradora = guidFonte,
-                                UKPerigo = rTemp.UniqueKey,
+                                    if (REL_FontePerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKFonteGeradora.Equals(guidFonte) && a.UKPerigo.Equals(rTemp.UniqueKey)).Count() == 0)
+                                    {
+                                       REL_FontePerigo FontePerigo = new REL_FontePerigo()
+                                        {
+                                            UKFonteGeradora = guidFonte,
+                                            UKPerigo = rTemp.UniqueKey ,                                     
+                                        
+                                            //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                        };
 
-                                //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-                            };
-
-                            REL_FontePerigoBusiness.Inserir(FontePerigo);
+                                        REL_FontePerigoBusiness.Inserir(FontePerigo);
+                                    }
+                                }
                         }
                     }
                 }
+                else
+                {
+                        Perigo rTemp = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(UKPerigo));
+                        if (rTemp != null)
+                        {
+                            if (REL_FontePerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKFonteGeradora.Equals(guidFonte) && a.UKPerigo.Equals(rTemp.UniqueKey)).Count() == 0)
+                            {
+                                REL_FontePerigo FontePerigo = new REL_FontePerigo()
+                                {
+                                    UKFonteGeradora = guidFonte,
+                                    UKPerigo = rTemp.UniqueKey,
 
-            return Json(new { resultado = new RetornoJSON() { Sucesso = "Perigo relacionado a Fonte Geradora de Risco com sucesso." } });
+                                    //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                };
+
+                                REL_FontePerigoBusiness.Inserir(FontePerigo);
+                            }
+                        }
+                    }
+
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "Perigo relacionado a Fonte Geradora de Risco com sucesso." } });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
         }
-        catch (Exception ex)
-        {
-            return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-        }
-    }
 
 
 
@@ -825,7 +889,20 @@ namespace GISWeb.Controllers
 
 
 
+
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult ListarArquivosAnexados(string UKObjeto)
+        {
+            Guid uk = Guid.Parse(UKObjeto);
+            ViewBag.UKObjeto = UKObjeto;
+
+            List<Arquivo> arquivos = ArquivoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKObjeto.Equals(uk)).ToList();
+
+            return PartialView("_Arquivos", arquivos);
+        }
+
+
+
     }
-
-
 }

@@ -1,11 +1,7 @@
 ﻿using GISModel.Enums;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GISModel.Entidades
 {
@@ -15,24 +11,35 @@ namespace GISModel.Entidades
                
 
         [Display(Name = "Workarea")]
-        public Guid UKWorkarea { get; set; }       
-
-        [Display(Name ="Risco")]
-        public Guid UKRisco { get; set; }
-
-        [Display(Name = "Classifique o Risco")]
-        public EClasseDoRisco EClasseDoRisco { get; set; }
+        public Guid UKWorkarea { get; set; }
 
         [Display(Name = "Fonte Geradora")]
         public Guid UKFonteGeradora { get; set; }
 
-        [Display(Name = "Tragetória")]
-        public ETrajetoria Tragetoria { get; set; }
+        [Display(Name = "Perigo")]
+        public Guid UKPerigo { get; set; }
+
+        [Display(Name ="Risco")]
+        public Guid UKRisco { get; set; }
+
+
+        [Display(Name = "Fonte Geradora")]
+        public Guid UKFonteGeradora { get; set; }
+
+
 
         public List<FonteGeradoraDeRisco> FonteGeradoraDeRiscos { get; set; }
 
         public List<ControleDeRiscos> Controles { get; set; }
 
+
+
+
+        [Display(Name = "Tragetória")]
+        public ETrajetoria Tragetoria { get; set; }
+
+        [Display(Name = "Classifique o Risco")]
+        public EClasseDoRisco EClasseDoRisco { get; set; }
 
     }
 }

@@ -7,7 +7,11 @@ function OnSuccessCadastrarControle(data) {
     $(".LoadingLayout").hide();
     $('#btnSalvar').show();   
     TratarResultadoJSON(data.resultado);
-    $('#modalAddControle').modal('hide');
+
+    if (!(data.resultado.Alerta != null && data.resultado.Alerta != undefined && data.resultado.Alerta != "")) {
+        $('#modalAddControle').modal('hide');
+    }
+    
 }
 
 function OnBeginCadastrarControle() {
