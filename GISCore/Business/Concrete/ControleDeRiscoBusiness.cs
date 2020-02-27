@@ -11,8 +11,8 @@ namespace GISCore.Business.Concrete
         public override void Inserir(ControleDeRiscos entidade)
         {
 
-           
-            
+
+
             base.Inserir(entidade);
         }
 
@@ -27,7 +27,7 @@ namespace GISCore.Business.Concrete
             }
             else
             {
-                tempControle.Descricao = pControle.Descricao;
+                //tempControle.Descricao = pControle.Descricao;
                 base.Alterar(tempControle);
             }
         }
@@ -35,5 +35,3 @@ namespace GISCore.Business.Concrete
     }
 
 }
-        
-

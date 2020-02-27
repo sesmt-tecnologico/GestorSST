@@ -1,0 +1,131 @@
+﻿@using GISModel.Entidades
+@using System.Configuration
+@model List<WorkArea>
+
+<div class="space-6"></div>
+
+@if (Model != null && Model.Count > 0)
+{
+
+    <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+        <ol class="dd-list">
+
+            @foreach (WorkArea wa in Model)
+            {
+
+                string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+                <li class="dd-item collapseOne" data-id="@wa.UniqueKey">
+                    <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
+
+                        @wa.Nome <span> - </span> @wa.Descricao
+
+                        <div class="pull-right action-buttons">
+
+                            <a class="blue CustomTooltip" href="#" title="Adicionar evento perigoso" onclick="OnClickVincularPerigo('@wa.UniqueKey');" data-target="#modalAddPerigo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                            </a>
+
+                            <a class="orange CustomTooltip" href="@Url.Action("Edicao", "WorkArea", new {id = @wa.UniqueKey })" title="Editar WorkArea">
+                                <i class="ace-icon fa fa-pencil bigger-130"></i>
+                            </a>
+
+                            <a class="red CustomTooltip" href="#" title="Excluir departamento" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
+                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+                    @if (wa.ReconhecimentoDoRisco.Count > 0)
+                    {
+                <ol class="dd-list">
+                    @foreach (ReconhecimentoDoRisco rec in wa.ReconhecimentoDoRisco)
+                    {
+                        if (rec.FonteGeradoraDeRiscos.Count > 0)
+                        {
+                            foreach (FonteGeradoraDeRisco font in rec.FonteGeradoraDeRiscos)
+                            {
+                                
+                                    <li>
+
+                                        <ol class="dd-list">
+
+                                            <li class="dd-item" data-id="@font.UniqueKey.ToString()">
+                                                <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+                                                    <span><i style="color: yellowgreen">Fonte Geradora - </i> </span>@font.Descricao
+
+                                                </div>
+                                                                                             
+
+
+                                                @if (font.Perigos.Count > 0)
+                                                {
+                                            <ol class="dd-list">
+                                                        @foreach (Perigo per in font.Perigos)
+                                                        {
+                                                            <li class="dd-item" data-id="@per.UniqueKey.ToString()">
+                                                                <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                                                    <span><i style="color: yellowgreen">Perigo - </i> </span>@per.Descricao
+
+
+                                                                </div>
+                                                            </li>
+                                                            <ol class="dd-list">
+                                                                    @foreach (Risco risk in per.Riscos)
+                                                                    {
+                                                                        <li class="dd-item" data-id="@risk.UniqueKey.ToString()">
+                                                                            <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                                                                <span><i style="color: yellowgreen">Risco - </i> </span>@risk.Nome
+
+
+                                                                            </div>
+                                                                        </li>
+                                                                    }
+                                                            </ol>
+                                                         }
+                                            </ol>
+                                                   
+                                                }
+
+                                            </li>
+
+                                        </ol>
+                                    </li>
+                                
+
+
+
+
+
+
+                            }
+
+                        }
+
+
+
+
+
+
+                    }
+                </ol>
+                    }
+                </li>
+            }
+        </ol>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        Nenhum workarea encontrado para o estabelecimento selecionado.
+        <br>
+    </div>
+}

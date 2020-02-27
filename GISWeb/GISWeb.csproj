@@ -473,6 +473,7 @@
     <Content Include="Scripts\Custom\Risco\Excluir.js" />
     <Content Include="Scripts\Custom\Risco\Listagem.js" />
     <Content Include="Scripts\Custom\Risco\Novo.js" />
+    <Content Include="Scripts\Custom\tempGrafico\Grafico.js" />
     <Content Include="Scripts\Custom\TipoDeControle\Lista.js" />
     <Content Include="Scripts\Custom\TipoDeControle\Novo.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Edicao.js" />
@@ -549,6 +550,7 @@
     <Compile Include="Controllers\FuncaoController.cs" />
     <Compile Include="Controllers\GedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IndicadoresController.cs" />
     <Compile Include="Controllers\MedidasDeControleController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -757,7 +759,7 @@
     <Content Include="Views\Empregado\ListaEmpregadoAdmitidoPorEmpresa.cshtml" />
     <Content Include="Views\Empregado\_ListaEmpregadoPorEmpresa.cshtml" />
     <Content Include="Views\Empregado\_ResultadoPesquisaRow.cshtml" />
-    <Content Include="Views\Shared\_SlidersIncidente.cshtml" />
+    <Content Include="Views\Shared\_SlidersMaster.cshtml" />
     <Content Include="Views\Admissao\AdmitirEmMaisEmpresas.cshtml" />
     <Content Include="Views\Cargo\_ListaCargo.cshtml" />
     <Content Include="Views\Atividade\Edicao.cshtml" />
@@ -793,6 +795,10 @@
     <Content Include="Views\FonteGeradoraDeRisco\_VincularPerigo.cshtml" />
     <Content Include="Views\Ged\_UploadDocumentos.cshtml" />
     <Content Include="Views\Ged\Upload.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\_ListaReconhecimento.cshtml" />
+    <Content Include="Views\FonteGeradoraDeRisco\_Arquivos.cshtml" />
+    <Content Include="Views\Arquivo\_Upload.cshtml" />
+    <Content Include="Views\Indicadores\Indicadores.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -809,7 +815,6 @@
     <Folder Include="Images\EstabelecimentoImagens\" />
     <Folder Include="Images\MedidasDeControle\" />
     <Folder Include="Images\Relatorios\" />
-    <Folder Include="Views\Arquivo\" />
     <Folder Include="Views\AtividadeFuncaoLiberada\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>

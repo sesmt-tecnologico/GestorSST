@@ -1,0 +1,53 @@
+﻿<div id="modalArquivos" class="modal fade" style="overflow: hide;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modalArquivosX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="smaller lighter grey no-margin">
+                    <span class="hidden-800">Listagem de Arquivos </span>
+                    <b><span id="modalArquivosTituloName"></span></b>
+                    <span id="modalArquivosCorpoLoading" style="float: right; font-size: 10px; padding-right: 5px; padding-top: 4px; vertical-align: middle">
+                        <span id="modalArquivosCorpoLoadingTexto" style="padding-right: 5px"></span>
+                        <img src="~/Images/slack_loading.gif" width="25px" />
+                    </span>
+                </h3>
+                <h6 id="modalArquivosTitulo" style="color: #777; font-size: 11px; padding-left: 2px; margin: 5px 0px -5px 0px"></h6>
+            </div>
+
+            <div class="modal-body" style="overflow-y: auto;">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="modalArquivosCorpo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalNovoArquivo" class="modal fade" style="overflow: hide;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modalNovoArquivoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="smaller lighter grey no-margin">
+                    <span class="hidden-800">Upload de Arquivo </span>
+                    <b><span id="modalNovoArquivoTituloName"></span></b>
+                    <span id="modalNovoArquivoCorpoLoading" style="float: right; font-size: 10px; padding-right: 5px; padding-top: 4px; vertical-align: middle">
+                        <span id="modalNovoArquivoCorpoLoadingTexto" style="padding-right: 5px"></span>
+                        <img src="~/Images/slack_loading.gif" width="25px" />
+                    </span>
+                </h3>
+                <h6 id="modalNovoArquivoTitulo" style="color: #777; font-size: 11px; padding-left: 2px; margin: 5px 0px -5px 0px"></h6>
+            </div>
+
+            <div class="modal-body" style="overflow-y: auto;">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="modalNovoArquivoCorpo"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

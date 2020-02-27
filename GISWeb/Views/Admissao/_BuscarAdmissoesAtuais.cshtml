@@ -33,7 +33,7 @@ else
                         <span class="bigger-110">Alocar</span>
                     </a>
 
-                    <a href="#" class="btn btn-mini btn-danger btnDemitir" style="padding-left: 7px; padding-right: 7px; width: 110px;" data-target="#modalAdmissao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                    <a href="#" class="btn btn-mini btn-danger btnDemitir" data-ukadmissao="@adm.UniqueKey.ToString()" data-empresa="@adm.Empresa.NomeFantasia" style="padding-left: 7px; padding-right: 7px; width: 110px;">
                         <i class="ace-icon fa fa-minus bigger-120"></i>
                         <span class="bigger-110">Demitir</span>
                     </a>
@@ -60,9 +60,11 @@ else
                     }
                     else
                     {
-
+                        int iAl = adm.Alocacoes.Count;
                         foreach (Alocacao al in adm.Alocacoes)
                         {
+                            iAl -= 1;
+
                             <div class="widget-box transparent collapsed" id="widget-box-1" data-ukalocacao="@al.UniqueKey.ToString()">
                                 <div class="widget-header blue" style="border-bottom: 1px solid #ddd">
                                     <h5 class="widget-title">
@@ -73,7 +75,7 @@ else
 
                                     <div style="float: right; border: 0px;">
 
-                                        <a href="#" class="btn btn-mini btn-danger btnDesalocar" style="padding-left: 7px; padding-right: 7px; width: 110px;" data-target="#modalDesalocar" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                        <a href="#" class="btn btn-mini btn-danger btnDesalocar" data-ukalocacao="@al.UniqueKey.ToString()" data-cargafuncao="@al.Cargo.NomeDoCargo|@al.Funcao.NomeDaFuncao" style="padding-left: 7px; padding-right: 7px; width: 110px;">
                                             <i class="ace-icon fa fa-minus bigger-120"></i>
                                             <span class="bigger-110">Desalocar</span>
                                         </a>
@@ -188,6 +190,11 @@ else
                                     </div>
                                 </div>
                             </div>
+
+                            if (iAl > 0)
+                            {
+                                <div class="space-14"></div>
+                            }
                         }
 
 

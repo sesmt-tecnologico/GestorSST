@@ -42,7 +42,7 @@ namespace GISWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cadastrar(Arquivo pArquivo)
         {
-            
+
             if (ModelState.IsValid)
             {
                 try
@@ -140,11 +140,13 @@ namespace GISWeb.Controllers
         {
             try
             {
-                if (id != null)
+                if (!string.IsNullOrEmpty(id))
                 {
                     try
                     {
-                        Arquivo arq = ArquivoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(id));
+                        Guid uk = Guid.Parse(id);
+
+                        Arquivo arq = ArquivoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(uk));
                         if (arq == null)
                         {
                             throw new Exception("Arquivo não encontrado através da identificação recebida como parâmetro.");
@@ -197,8 +199,12 @@ namespace GISWeb.Controllers
             try
             {
                 //Apenas exclusão lógica
+                if (string.IsNullOrEmpty(ukArquivo))
+                    throw new Exception("A identificação do arquivo não foi localizada. Por favor, acione o administrador.");
 
-                Arquivo arquivoPersistido = ArquivoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(ukArquivo));
+                Guid uk = Guid.Parse(ukArquivo);
+
+                Arquivo arquivoPersistido = ArquivoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(uk));
                 if (arquivoPersistido == null)
                     throw new Exception("As informações para exclusão do arquivo não são válidas.");
 

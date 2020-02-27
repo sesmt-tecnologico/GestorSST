@@ -117,6 +117,7 @@
     <Compile Include="DTO\Funcao\ListaFuncaoViewModel.cs" />
     <Compile Include="DTO\Ged\GedViewModel.cs" />
     <Compile Include="DTO\Ged\Remessa.cs" />
+    <Compile Include="DTO\GerenciamentoDoRisco\VMNovoReconhecimentoControle.cs" />
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Entidades\Departamento.cs" />
     <Compile Include="Entidades\DocAtividade.cs" />
     <Compile Include="Entidades\FonteGeradoraDeRisco.cs" />
+    <Compile Include="Entidades\Link.cs" />
     <Compile Include="Entidades\PerigoPotencial.cs" />
     <Compile Include="Entidades\ReconhecimentoDoRisco.cs" />
     <Compile Include="Entidades\REL_ArquivoEmpregado.cs" />
@@ -170,7 +172,6 @@
     <Compile Include="Entidades\REL_PerigoRisco.cs" />
     <Compile Include="Entidades\REL_RiscoControle.cs" />
     <Compile Include="Entidades\REL_RiscoDanosASaude.cs" />
-    <Compile Include="Entidades\REL_WorkAreaRisco.cs" />
     <Compile Include="Entidades\REL_FontePerigo.cs" />
     <Compile Include="Entidades\Risco.cs" />
     <Compile Include="Entidades\tableAttribute.cs" />

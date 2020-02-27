@@ -12,7 +12,7 @@ using GISModel.DTO.Shared;
 
 namespace GISWeb.Controllers
 {
-    
+
     public class ControleDeRiscosController : BaseController
     {
 
@@ -56,7 +56,7 @@ namespace GISWeb.Controllers
                     entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     ControleBusiness.Inserir(entidade);
 
-                    Extensions.GravaCookie("MensagemSucesso", "Controle '" + entidade.Descricao + "' foi cadastrado com sucesso!", 10);
+                    Extensions.GravaCookie("MensagemSucesso", "Controle cadastrado com sucesso!", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "ControleDeRiscos") } });
                 }

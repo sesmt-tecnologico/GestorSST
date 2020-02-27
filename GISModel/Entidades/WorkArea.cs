@@ -21,8 +21,13 @@ namespace GISModel.Entidades
         [Display(Name ="Descrição")]
         public string Descricao { get; set; }
 
-        public List<Perigo> Perigos { get; set; }
+        public List<Perigo> Perigos  { get; set; }
+
+        public List<Risco> Riscos { get; set; }
 
         public List<FonteGeradoraDeRisco> FonteGeradoraDeRisco { get; set; }
+
+        public List<ReconhecimentoDoRisco> ReconhecimentoDoRisco { get; set; }
     }
 }
+

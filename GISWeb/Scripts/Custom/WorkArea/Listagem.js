@@ -414,25 +414,25 @@ function OnClickRemoverRisco(pUKRisco, pUKPerigo, pNomeRisco) {
     ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja desvincular o risco '" + pNomeRisco + "' do perigo?", "Remoção de vínculo", callback, "btn-danger");
 }
 
-function OnClickControleDoRisco( pUKWorkArea, pRisco) {
+function OnClickControleDoRisco(pUKWorkArea, pRisco) {
     $.ajax({
         method: "POST",
         url: "/ReconhecimentoDorisco/CriarControle",
-        data: {  UKWorkArea: pUKWorkArea, UKRisco: pRisco  },
+        data: { UKWorkArea: pUKWorkArea, UKRisco: pRisco },
         error: function (erro) {
             $("#modalAddControleLoading").hide();
             ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
         },
         success: function (content) {
             $("#modalAddControleLoading").hide();
-            $("#modalAddControleCorpo").html(content);           
+            $("#modalAddControleCorpo").html(content);
 
             AutoCompleteAdicionarControle();
 
             $("#modalAddControleProsseguir").off("click").on("click", function () {
                 var ukControle = $.trim($(".txtNovoControle").val());
                 var ukWA = $.trim($(".txtUKWorkArea").val());
-                var ukRisc = $.trim($(".txtUKRisco").val());                
+                var ukRisc = $.trim($(".txtUKRisco").val());
 
 
                 if (ukControle == "") {
@@ -477,7 +477,7 @@ function OnClickControleDoRisco( pUKWorkArea, pRisco) {
                 //    }
 
 
-                
+
 
 
             });

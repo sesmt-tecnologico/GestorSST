@@ -23,6 +23,9 @@ namespace GISModel.Entidades
 
         public List<Perigo> Perigos { get; set; }
 
+        public List<Risco> Riscos {get; set; }
+
+
 
 
     }
