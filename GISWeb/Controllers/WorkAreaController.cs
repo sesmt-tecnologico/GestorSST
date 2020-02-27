@@ -46,10 +46,10 @@ namespace GISWeb.Controllers
 
 
 
-        
+
         public ActionResult Index()
         {
-            ViewBag.Estab = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();  
+            ViewBag.Estab = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 
             return View();
         }
@@ -63,13 +63,13 @@ namespace GISWeb.Controllers
                 List<WorkArea> lista = new List<WorkArea>();
 
                 //string sql = @"select wa.UniqueKey,wa.UKEstabelecimento, wa.Nome, wa.Descricao, 
-	               //                   r1.Uniquekey as relwap, p.UniqueKey as ukperigo, p.Descricao as perigo, 
-	               //                   r2.UniqueKey as relpr, r.UniqueKey as ukrisco, r.Nome as risco 
+                //                   r1.Uniquekey as relwap, p.UniqueKey as ukperigo, p.Descricao as perigo, 
+                //                   r2.UniqueKey as relpr, r.UniqueKey as ukrisco, r.Nome as risco 
                 //               from tbWorkArea wa 
-	               //                 left join REL_WorkAreaPerigo r1 on r1.UKWorkArea = wa.UniqueKey  and r1.DataExclusao = '9999-12-31 23:59:59.997' 
-	               //                 left join tbPerigo p on r1.UKPerigo = p.UniqueKey and p.DataExclusao = '9999-12-31 23:59:59.997' 
-	               //                 left join REL_PerigoRisco r2 on r2.UKPerigo = p.UniqueKey and r2.DataExclusao ='9999-12-31 23:59:59.997' 
-	               //                 left join tbRisco r on r2.UKRisco = r.UniqueKey  and r.DataExclusao = '9999-12-31 23:59:59.997' 
+                //                 left join REL_WorkAreaPerigo r1 on r1.UKWorkArea = wa.UniqueKey  and r1.DataExclusao = '9999-12-31 23:59:59.997' 
+                //                 left join tbPerigo p on r1.UKPerigo = p.UniqueKey and p.DataExclusao = '9999-12-31 23:59:59.997' 
+                //                 left join REL_PerigoRisco r2 on r2.UKPerigo = p.UniqueKey and r2.DataExclusao ='9999-12-31 23:59:59.997' 
+                //                 left join tbRisco r on r2.UKRisco = r.UniqueKey  and r.DataExclusao = '9999-12-31 23:59:59.997' 
                 //               where wa.DataExclusao ='9999-12-31 23:59:59.997'  and wa.UKEstabelecimento = '" + entidade.UKEstabelecimento + @"' 
                 //               order by wa.UniqueKey ";
 
@@ -178,7 +178,7 @@ namespace GISWeb.Controllers
                 //                    obj.Perigos.Add(oPerigo);
                 //                }
 
-                                
+
                 //            }
                 //        }
                 //        else
@@ -538,7 +538,7 @@ namespace GISWeb.Controllers
             Guid ID = Guid.Parse(id);
             ViewBag.Workarea = new SelectList(WorkAreaBusiness.Consulta.ToList(), "ID", "Nome");
 
-            var lista = WorkAreaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(ID)));                       
+            var lista = WorkAreaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(ID)));
 
 
             return View(lista);
@@ -586,7 +586,8 @@ namespace GISWeb.Controllers
 
         [HttpPost]
         [RestritoAAjax]
-        public ActionResult VincularPerigo(string UKWorkArea) {
+        public ActionResult VincularPerigo(string UKWorkArea)
+        {
 
             ViewBag.UKWorkArea = UKWorkArea;
 

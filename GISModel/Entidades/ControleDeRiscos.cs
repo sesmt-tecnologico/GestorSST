@@ -8,10 +8,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace GISModel.Entidades
 {
     [Table("tbControleDoRisco")]
-    public class ControleDeRiscos: EntidadeBase
+    public class ControleDeRiscos : EntidadeBase
     {
 
-        [Display(Name ="Reconhecimento do risco")]
+        [Display(Name = "Reconhecimento do risco")]
         public Guid UKReconhecimentoDoRisco { get; set; }
 
         [Display(Name = "Controle")]

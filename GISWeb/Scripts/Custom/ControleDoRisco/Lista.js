@@ -40,4 +40,3 @@ function DeletarFuncao(IDFuncao, Nome) {
     //ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir esta admissao '" + Nome + "'?", "Exclusão de Empresa", callback, "btn-danger");
 
 }
-
