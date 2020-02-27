@@ -23,8 +23,14 @@ namespace GISModel.Entidades
         public Guid UKRisco { get; set; }
 
 
+        [Display(Name = "Fonte Geradora")]
+        public Guid UKFonteGeradora { get; set; }
 
 
+
+        public List<FonteGeradoraDeRisco> FonteGeradoraDeRiscos { get; set; }
+
+        public List<ControleDeRiscos> Controles { get; set; }
 
 
 
