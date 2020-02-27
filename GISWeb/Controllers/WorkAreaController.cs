@@ -62,167 +62,188 @@ namespace GISWeb.Controllers
             {
                 List<WorkArea> lista = new List<WorkArea>();
 
-                //string sql = @"select wa.UniqueKey,wa.UKEstabelecimento, wa.Nome, wa.Descricao, 
-                //                   r1.Uniquekey as relwap, p.UniqueKey as ukperigo, p.Descricao as perigo, 
-                //                   r2.UniqueKey as relpr, r.UniqueKey as ukrisco, r.Nome as risco 
-                //               from tbWorkArea wa 
-                //                 left join REL_WorkAreaPerigo r1 on r1.UKWorkArea = wa.UniqueKey  and r1.DataExclusao = '9999-12-31 23:59:59.997' 
-                //                 left join tbPerigo p on r1.UKPerigo = p.UniqueKey and p.DataExclusao = '9999-12-31 23:59:59.997' 
-                //                 left join REL_PerigoRisco r2 on r2.UKPerigo = p.UniqueKey and r2.DataExclusao ='9999-12-31 23:59:59.997' 
-                //                 left join tbRisco r on r2.UKRisco = r.UniqueKey  and r.DataExclusao = '9999-12-31 23:59:59.997' 
-                //               where wa.DataExclusao ='9999-12-31 23:59:59.997'  and wa.UKEstabelecimento = '" + entidade.UKEstabelecimento + @"' 
-                //               order by wa.UniqueKey ";
+                string sql = @"select wa.UniqueKey,wa.UKEstabelecimento, wa.Nome, wa.Descricao, f.UniqueKey as UniqFon, f.FonteGeradora
+                               from tbWorkArea wa
+                               left join tbFonteGeradoraDeRisco f on f.UKWorkarea = wa.UniqueKey and f.DataExclusao ='9999-12-31 23:59:59.997'
+                               where wa.DataExclusao ='9999-12-31 23:59:59.997'  and wa.UKEstabelecimento = '" + entidade.UKEstabelecimento + @"' 
+                               order by wa.UniqueKey";
 
-                //DataTable result = WorkAreaBusiness.GetDataTable(sql);
-                //if (result.Rows.Count > 0)
-                //{
-                //    WorkArea obj = null;
-                //    Perigo oPerigo = null;
+                DataTable result = WorkAreaBusiness.GetDataTable(sql);
+                if (result.Rows.Count > 0)
+                {
+                    WorkArea obj = null;
+                    FonteGeradoraDeRisco oFonte = null;
 
-                //    foreach (DataRow row in result.Rows)
-                //    {
-                //        if (obj == null)
-                //        {
-                //            obj = new WorkArea()
-                //            {
-                //                UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
-                //                UKEstabelecimento = Guid.Parse(row["UKEstabelecimento"].ToString()),
-                //                Nome = row["Nome"].ToString(),
-                //                Descricao = row["Descricao"].ToString(),
-                //                Perigos = new List<Perigo>()
-                //            };
-
-
-                //            if (!string.IsNullOrEmpty(row["relwap"].ToString()))
-                //            {
-                //                oPerigo = new Perigo()
-                //                {
-                //                    ID = Guid.Parse(row["relwap"].ToString()),
-                //                    UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
-                //                    Descricao = row["perigo"].ToString(),
-                //                    Riscos = new List<Risco>()
-                //                };
-
-                //                if (!string.IsNullOrEmpty(row["relpr"].ToString())) {
-                //                    oPerigo.Riscos.Add(new Risco()
-                //                    {
-                //                        ID = Guid.Parse(row["relpr"].ToString()),
-                //                        UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                //                        Nome = row["risco"].ToString()
-                //                    });
-                //                }
-
-                //                obj.Perigos.Add(oPerigo);
-                //            }
-
-                //        }
-                //        else if (obj.UniqueKey.Equals(Guid.Parse(row["UniqueKey"].ToString())))
-                //        {
-                //            if (!string.IsNullOrEmpty(row["relwap"].ToString()))
-                //            {
-                //                if (oPerigo == null)
-                //                {
-                //                    oPerigo = new Perigo()
-                //                    {
-                //                        ID = Guid.Parse(row["relwap"].ToString()),
-                //                        UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
-                //                        Descricao = row["perigo"].ToString(),
-                //                        Riscos = new List<Risco>()
-                //                    };
-
-                //                    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
-                //                    {
-                //                        oPerigo.Riscos.Add(new Risco()
-                //                        {
-                //                            ID = Guid.Parse(row["relpr"].ToString()),
-                //                            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                //                            Nome = row["risco"].ToString()
-                //                        });
-                //                    }
-
-                //                    obj.Perigos.Add(oPerigo);
-                //                }
-
-                //                else if (oPerigo.Descricao.Equals(row["perigo"].ToString()))
-                //                {
-                //                    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
-                //                    {
-                //                        oPerigo.Riscos.Add(new Risco()
-                //                        {
-                //                            ID = Guid.Parse(row["relpr"].ToString()),
-                //                            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                //                            Nome = row["risco"].ToString()
-                //                        });
-                //                    }
-                //                }
-                //                else
-                //                {
-                //                    oPerigo = new Perigo()
-                //                    {
-                //                        ID = Guid.Parse(row["relwap"].ToString()),
-                //                        UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
-                //                        Descricao = row["perigo"].ToString(),
-                //                        Riscos = new List<Risco>()
-                //                    };
-
-                //                    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
-                //                    {
-                //                        oPerigo.Riscos.Add(new Risco()
-                //                        {
-                //                            ID = Guid.Parse(row["relpr"].ToString()),
-                //                            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                //                            Nome = row["risco"].ToString()
-                //                        });
-                //                    }
-
-                //                    obj.Perigos.Add(oPerigo);
-                //                }
+                    foreach (DataRow row in result.Rows)
+                    {
+                        if (obj == null)
+                        {
+                            obj = new WorkArea()
+                            {
+                                UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                                UKEstabelecimento = Guid.Parse(row["UKEstabelecimento"].ToString()),
+                                Nome = row["Nome"].ToString(),
+                                Descricao = row["Descricao"].ToString(),
+                                FonteGeradoraDeRisco = new List<FonteGeradoraDeRisco>()
+                                //Perigos = new List<Perigo>()
+                            };
+                            if (!string.IsNullOrEmpty(row["UniqFon"].ToString()))
+                            {
+                                oFonte = new FonteGeradoraDeRisco()
+                                {
+                                    UniqueKey = Guid.Parse(row["UniqFon"].ToString()),
+                                    FonteGeradora = row["FonteGeradora"].ToString(),
+                                    Descricao = row["Descricao"].ToString(),
+                                    
 
 
-                //            }
-                //        }
-                //        else
-                //        {
-                //            lista.Add(obj);
+                                };
+                            }
+                            //if (!string.IsNullOrEmpty(row["relwap"].ToString()))
+                            //{
+                            //    oPerigo = new Perigo()
+                            //    {
+                            //        ID = Guid.Parse(row["relwap"].ToString()),
+                            //        UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
+                            //        Descricao = row["perigo"].ToString(),
+                            //        Riscos = new List<Risco>()
+                            //    };
 
-                //            obj = new WorkArea()
-                //            {
-                //                UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
-                //                Nome = row["Nome"].ToString(),
-                //                Descricao = row["Descricao"].ToString(),
-                //                Perigos = new List<Perigo>()
-                //            };
+                            //    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                            //    {
+                            //        oPerigo.Riscos.Add(new Risco()
+                            //        {
+                            //            ID = Guid.Parse(row["relpr"].ToString()),
+                            //            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                            //            Nome = row["risco"].ToString()
+                            //        });
+                            //    }
+
+                            // obj.Perigos.Add(oPerigo);
+                            obj.FonteGeradoraDeRisco.Add(oFonte);
+                        }
+
+                        //}
+                        //else if (obj.UniqueKey.Equals(Guid.Parse(row["UniqueKey"].ToString())))
+                        //{
+                        //    if (!string.IsNullOrEmpty(row["relwap"].ToString()))
+                        //    {
+                        //        if (oPerigo == null)
+                        //        {
+                        //            oPerigo = new Perigo()
+                        //            {
+                        //                ID = Guid.Parse(row["relwap"].ToString()),
+                        //                UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
+                        //                Descricao = row["perigo"].ToString(),
+                        //                Riscos = new List<Risco>()
+                        //            };
+
+                        //            if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                        //            {
+                        //                oPerigo.Riscos.Add(new Risco()
+                        //                {
+                        //                    ID = Guid.Parse(row["relpr"].ToString()),
+                        //                    UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                        //                    Nome = row["risco"].ToString()
+                        //                });
+                        //            }
+
+                        //            obj.Perigos.Add(oPerigo);
+                        //        }
+
+                        //        else if (oPerigo.Descricao.Equals(row["perigo"].ToString()))
+                        //        {
+                        //            if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                        //            {
+                        //                oPerigo.Riscos.Add(new Risco()
+                        //                {
+                        //                    ID = Guid.Parse(row["relpr"].ToString()),
+                        //                    UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                        //                    Nome = row["risco"].ToString()
+                        //                });
+                        //            }
+                        //        }
+                        //        else
+                        //        {
+                        //            oPerigo = new Perigo()
+                        //            {
+                        //                ID = Guid.Parse(row["relwap"].ToString()),
+                        //                UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
+                        //                Descricao = row["perigo"].ToString(),
+                        //                Riscos = new List<Risco>()
+                        //            };
+
+                        //            if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                        //            {
+                        //                oPerigo.Riscos.Add(new Risco()
+                        //                {
+                        //                    ID = Guid.Parse(row["relpr"].ToString()),
+                        //                    UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                        //                    Nome = row["risco"].ToString()
+                        //                });
+                        //            }
+
+                        //            obj.Perigos.Add(oPerigo);
+                        //        }
 
 
-                //            if (!string.IsNullOrEmpty(row["relwap"].ToString()))
-                //            {
-                //                oPerigo = new Perigo()
-                //                {
-                //                    ID = Guid.Parse(row["relwap"].ToString()),
-                //                    UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
-                //                    Descricao = row["perigo"].ToString(),
-                //                    Riscos = new List<Risco>()
-                //                };
+                        //    }
+                        //}
+                        else
+                        {
+                            lista.Add(obj);
 
-                //                if (!string.IsNullOrEmpty(row["relpr"].ToString()))
-                //                {
-                //                    oPerigo.Riscos.Add(new Risco()
-                //                    {
-                //                        ID = Guid.Parse(row["relpr"].ToString()),
-                //                        UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                //                        Nome = row["risco"].ToString()
-                //                    });
-                //                }
+                            obj = new WorkArea()
+                            {
+                                UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                                Nome = row["Nome"].ToString(),
+                                Descricao = row["Descricao"].ToString(),
+                                FonteGeradoraDeRisco = new List<FonteGeradoraDeRisco>()
+                            };
+                            if (!string.IsNullOrEmpty(row["UniqFon"].ToString()))
+                            {
+                                oFonte = new FonteGeradoraDeRisco()
+                                {
+                                    UniqueKey = Guid.Parse(row["UniqFon"].ToString()),
+                                    FonteGeradora = row["FonteGeradora"].ToString(),
+                                    Descricao = row["Descricao"].ToString(),
+                                   
 
-                //                obj.Perigos.Add(oPerigo);
-                //            }
-                //        }
-                //    }
 
-                //    if (obj != null)
-                //        lista.Add(obj);
+                                };
 
-                //}
+                                obj.FonteGeradoraDeRisco.Add(oFonte);
+                            }
+
+                            //if (!string.IsNullOrEmpty(row["relwap"].ToString()))
+                            //{
+                            //    oPerigo = new Perigo()
+                            //    {
+                            //        ID = Guid.Parse(row["relwap"].ToString()),
+                            //        UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
+                            //        Descricao = row["perigo"].ToString(),
+                            //        Riscos = new List<Risco>()
+                            //    };
+
+                            //    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                            //    {
+                            //        oPerigo.Riscos.Add(new Risco()
+                            //        {
+                            //            ID = Guid.Parse(row["relpr"].ToString()),
+                            //            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                            //            Nome = row["risco"].ToString()
+                            //        });
+                            //    }
+
+                            //    obj.Perigos.Add(oPerigo);
+                            //}
+                        }
+                    }
+
+                    if (obj != null)
+                        lista.Add(obj);
+
+                }
 
                 return PartialView("_Pesquisa", lista);
             }
@@ -584,15 +605,15 @@ namespace GISWeb.Controllers
 
 
 
-        [HttpPost]
-        [RestritoAAjax]
-        public ActionResult VincularPerigo(string UKWorkArea)
-        {
+        //[HttpPost]
+        //[RestritoAAjax]
+        //public ActionResult VincularPerigo(string UKWorkArea)
+        //{
 
-            ViewBag.UKWorkArea = UKWorkArea;
+        //    ViewBag.UKWorkArea = UKWorkArea;
 
-            return PartialView("_VincularPegigo");
-        }
+        //    return PartialView("_VincularPegigo");
+        //}
 
         //[HttpPost]
         //[RestritoAAjax]
@@ -694,12 +715,12 @@ namespace GISWeb.Controllers
 
         [HttpPost]
         [RestritoAAjax]
-        public ActionResult VincularRisco(string UKPerigo)
+        public ActionResult VincularPerigo(string UKPerigo)
         {
 
             ViewBag.UKPerigo = UKPerigo;
 
-            return PartialView("_VincularRisco");
+            return PartialView("_VincularPerigo");
         }
 
         [HttpPost]
