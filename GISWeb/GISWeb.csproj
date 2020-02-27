@@ -754,7 +754,7 @@
     <Content Include="Views\Perigo\Excluir.cshtml" />
     <Content Include="Views\Perigo\Index.cshtml" />
     <Content Include="Views\Perigo\Novo.cshtml" />
-    <Content Include="Views\WorkArea\_VincularPegigo.cshtml" />
+    <Content Include="Views\WorkArea\_VincularPerigo.cshtml" />
     <Content Include="Views\WorkArea\_VincularRisco.cshtml" />
     <Content Include="Views\Empregado\ListaEmpregadoAdmitidoPorEmpresa.cshtml" />
     <Content Include="Views\Empregado\_ListaEmpregadoPorEmpresa.cshtml" />

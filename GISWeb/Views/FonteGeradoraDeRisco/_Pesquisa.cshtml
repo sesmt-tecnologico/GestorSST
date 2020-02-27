@@ -26,9 +26,9 @@
                             <i class="ace-icon fa fa-cloud blue bigger-125"></i>
                         </a>
 
-                        <a class="blue CustomTooltip" href="#" title="Fonte Geradora de Riscos" onclick="OnClickNovaFonte('@wa.UniqueKey');" data-target="#modalAddPerigo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                        @*<a class="blue CustomTooltip" href="@Url.Action("Novo", "FonteGeradoraDeRisco", new {UKWorarea = @wa.UniqueKey })" title="Adicionar Fonte Geradora de Riscos">
                             <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
-                        </a>
+                        </a>*@
 
                         <a class="orange CustomTooltip" href="@Url.Action("Edicao", "WorkArea", new {id = @wa.UniqueKey })" title="Editar WorkArea">
                             <i class="ace-icon fa fa-pencil bigger-130"></i>
@@ -56,7 +56,7 @@
                                             <i class="ace-icon fa fa-cloud blue bigger-125"></i>
                                         </a>
 
-                                        <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickNovoRisco('@per.UniqueKey');" data-target="#modalAddRisco" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                        <a class="blue CustomTooltip" href="#" title="Vincular Perigo" onclick="OnClickVincularPerigo('@per.UniqueKey');" data-target="#modalAddPerigo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                             <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                                         </a>
 

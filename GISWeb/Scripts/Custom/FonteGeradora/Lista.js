@@ -305,6 +305,8 @@ function OnClickListaReconhecimento(pUKWorkArea, pFonte, pRisco ) {
 }
 
 
+
+
 function OnClickBuscarArquivos(pUKObjeto) {
 
     $.ajax({

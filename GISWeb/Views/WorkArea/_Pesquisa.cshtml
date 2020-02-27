@@ -18,11 +18,11 @@
                 <li class="dd-item collapseOne" data-id="@wa.UniqueKey">
                     <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
 
-                        @wa.Nome <span> - </span> @wa.Descricao
+                        <span><i style="color: orangered">WorkÁrea - </i></span>@wa.Nome <span> - </span><i style="color:darkgreen">Descrição: </i> @wa.Descricao
 
                         <div class="pull-right action-buttons">
 
-                            <a class="blue CustomTooltip" href="#" title="Adicionar evento perigoso" onclick="OnClickVincularPerigo('@wa.UniqueKey');" data-target="#modalAddPerigo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                            <a class="blue CustomTooltip" href="@Url.Action("Novo", "FonteGeradoraDeRisco", new {UKWorarea = @wa.UniqueKey })" title="Adicionar Fonte Geradora de Riscos">
                                 <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                             </a>
 
@@ -30,7 +30,7 @@
                                 <i class="ace-icon fa fa-pencil bigger-130"></i>
                             </a>
 
-                            @if (wa.Perigos.Count == 0)
+                            @if (wa.FonteGeradoraDeRisco.Count == 0)
                             {
                                 <a class="red CustomTooltip" href="#" title="Excluir departamento" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
@@ -39,28 +39,28 @@
                         </div>
                     </div>
 
-                    @if (wa.Perigos.Count > 0)
+                    @if (wa.FonteGeradoraDeRisco.Count > 0)
                     {
                         <ol class="dd-list">
-                            @foreach (Perigo per in wa.Perigos)
+                            @foreach (FonteGeradoraDeRisco fgr in wa.FonteGeradoraDeRisco)
                             {
-                                <li class="dd-item" data-id="@per.UniqueKey.ToString()">
+                                <li class="dd-item" data-id="@fgr.UniqueKey.ToString()">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
 
-                                        <span><i style="color: orangered">Evento perigoso - </i></span>@per.Descricao
+                                        <span><i style="color: yellowgreen">Fonte Geradora de Risco - </i></span>@fgr.FonteGeradora
 
                                         <div class="pull-right action-buttons">
-                                            <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickNovoRisco('@per.UniqueKey');" data-target="#modalAddRisco" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                            <a class="blue CustomTooltip" href="#" title="Vincular Perigo" onclick="OnClickNovoRisco('@fgr.UniqueKey');" data-target="#modalAddRisco" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                                 <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                                             </a>
 
-                                            <a href="#" class="blue CustomTooltip" title="Desvincular Perigo" onclick="OnClickRemoverPerigo('@per.UniqueKey', '@wa.UniqueKey', '@per.Descricao')">
+                                            <a href="#" class="blue CustomTooltip" title="Desvincular Perigo" onclick="OnClickRemoverPerigo('@fgr.UniqueKey', '@wa.UniqueKey', '@fgr.Descricao')">
                                                 <i class="ace-icon fa fa-trash red bigger-125"></i>
                                             </a>
                                         </div>
                                     </div>
 
-                                    @if (per.Riscos.Count > 0)
+                                    @*@if (per.Riscos.Count > 0)
                                     {
                                         <ol class="dd-list">
                                             @foreach (Risco risk in per.Riscos)
@@ -85,7 +85,7 @@
                                                 </li>
                                             }
                                         </ol>
-                                    }
+                                    }*@
 
                                 </li>
                             }

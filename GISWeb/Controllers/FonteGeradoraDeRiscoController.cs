@@ -427,6 +427,7 @@ namespace GISWeb.Controllers
                 {
                     WorkArea obj = null;
                     FonteGeradoraDeRisco oFonte = null;
+                    Perigo oPerigo = null;
 
                     foreach (DataRow row in result.Rows)
                     {
@@ -481,6 +482,7 @@ namespace GISWeb.Controllers
                             }
 
                         }
+                        //
                         else if (obj.UniqueKey.Equals(Guid.Parse(row["UniqWa"].ToString())))
                         {
                             if (!string.IsNullOrEmpty(row["relfp"].ToString()))
@@ -521,6 +523,8 @@ namespace GISWeb.Controllers
 
                                     obj.FonteGeradoraDeRisco.Add(oFonte);
                                 }
+
+                                //
                                 else if (oFonte.FonteGeradora.Equals(row["FonteGeradora"].ToString()))
                                 {
                                     if (oFonte.Perigos.Equals(row["perigo"].ToString()))
@@ -533,12 +537,12 @@ namespace GISWeb.Controllers
                                             Riscos = new List<Risco>()
                                         });
                                     }
-                                    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                                    if (string.IsNullOrEmpty(row["relpr"].ToString()))
                                     {
                                         oFonte.Riscos.Add(new Risco()
                                         {
-                                            ID = Guid.Parse(row["relpr"].ToString()),
-                                            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                                            //ID = Guid.Parse(row["relpr"].ToString()),
+                                            //UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
                                             Nome = row["risco"].ToString(),
 
                                         });
@@ -648,6 +652,8 @@ namespace GISWeb.Controllers
             {
                 return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
             }
+
+
 
 
         }
