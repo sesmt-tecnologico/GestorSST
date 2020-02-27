@@ -26,7 +26,7 @@
                             <i class="ace-icon fa fa-cloud blue bigger-125"></i>
                         </a>
 
-                        <a class="blue CustomTooltip" href="#" title="Adicionar evento perigoso" onclick="OnClickVincularPerigo('@wa.UniqueKey');" data-target="#modalAddPerigo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                        <a class="blue CustomTooltip" href="/FonteGeradoraDeRisco/Novo/@wa.UniqueKey.ToString()" title="Adicionar Fonte Geradora de Risco">
                             <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                         </a>
 
@@ -44,75 +44,84 @@
                     @if (wa.FonteGeradoraDeRisco.Count > 0)
                     {
                         <ol class="dd-list">
-                            @foreach (FonteGeradoraDeRisco per in wa.FonteGeradoraDeRisco)
+                            @foreach (FonteGeradoraDeRisco font in wa.FonteGeradoraDeRisco)
                             {
-                                <li class="dd-item" data-id="@per.UniqueKey.ToString()">
+                                <li class="dd-item" data-id="@font.UniqueKey.ToString()">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
 
-                                        <span><i style="color: orangered">Fonte Gerador de Risco - </i></span>@per.FonteGeradora
+                                        <span><i style="color: orangered">Fonte Gerador de Risco - </i></span>@font.FonteGeradora
 
                                     <div class="pull-right action-buttons">
-                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@per.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@font.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                             <i class="ace-icon fa fa-cloud blue bigger-125"></i>
                                         </a>
 
-                                        <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickNovoRisco('@per.UniqueKey');" data-target="#modalAddRisco" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                        <a class="blue CustomTooltip" href="#" title="Vincular Perigo" onclick="OnClickNovoPerigo('@font.UniqueKey');" data-target="#modalAddPerigo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                             <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                                         </a>
 
-                                        <a href="#" class="blue CustomTooltip" title="Desvincular Perigo" onclick="OnClickRemoverPerigo('@per.UniqueKey', '@wa.UniqueKey', '@per.Descricao')">
+                                        <a href="#" class="blue CustomTooltip" title="Desvincular Fonte Geradora" onclick="OnClickRemoverFonte('@font.UniqueKey', '@wa.UniqueKey', '@font.Descricao')">
                                             <i class="ace-icon fa fa-trash red bigger-125"></i>
                                         </a>
                                     </div>
                                     </div>
 
-                                    @if (per.Perigos.Count > 0)
+                                    @if (font.Perigos.Count > 0)
                                     {
                                         <ol class="dd-list">
-                                            @foreach (Perigo risk in per.Perigos)
+                                            @foreach (Perigo per in font.Perigos)
                                             {
-                                            <li class="dd-item" data-id="@risk.UniqueKey.ToString()">
-                                                <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
-                                                    <span><i style="color: yellowgreen">Perigo - </i> </span>@risk.Descricao
-                                                    <div class="pull-right action-buttons">
-                                                        <a href="#" class="blue CustomTooltip" title="Desvincular Risco" onclick="OnClickRemoverRisco('@risk.UniqueKey', '@per.UniqueKey', '@risk.Descricao')">
-                                                            <i class="ace-icon fa fa-trash red bigger-125"></i>
-                                                        </a>
+                                                <li class="dd-item" data-id="@per.UniqueKey.ToString()">
+                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                                        <span><i style="color: yellowgreen">Perigo - </i> </span>@per.Descricao
+                                                        
+                                                        <div class="pull-right action-buttons">
+                                                            <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickNovoRisco('@per.UniqueKey');" data-target="#modalAddRisco" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                            </a>
+
+                                                            <a href="#" class="blue CustomTooltip" title="Desvincular Perigo" onclick="OnClickRemoverPerigo('@per.UniqueKey', '@font.UniqueKey', '@per.Descricao')">
+                                                                <i class="ace-icon fa fa-trash red bigger-125"></i>
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                </div>
                                                 
-                                                @if (per.Riscos.Count > 0)
-                                                {
-                                                    <ol class="dd-list">
-                                                        @foreach (Risco pRisc in per.Riscos)
-                                                        {
-                                                            <li class="dd-item" data-id="@pRisc.UniqueKey.ToString()">
-                                                                <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
-                                                                    <span><i style="color: yellowgreen">Risco - </i> </span>@pRisc.Nome
-                                                                    <div class="pull-right action-buttons">
-                                                                        <a href="#" class="blue CustomTooltip" title="Listar Reconhecimento" onclick="OnClickListaReconhecimento('@wa.UniqueKey', '@per.UniqueKey', '@pRisc.UniqueKey');" data-target="#modalAddListaReconhecimento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                            <i class="ace-icon fa fa-search red bigger-125"></i>
-                                                                        </a>
+                                                    @if (per.Riscos.Count > 0)
+                                                    {
+                                                        <ol class="dd-list">
+                                                            @foreach (Risco pRisc in per.Riscos)
+                                                            {
+                                                                <li class="dd-item" data-id="@pRisc.UniqueKey.ToString()">
+                                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                                                        <span><i style="color: yellowgreen">Risco - </i> </span>@pRisc.Nome
+                                                                        <div class="pull-right action-buttons">
+                                                                            <a href="#" class="blue CustomTooltip" title="Listar Reconhecimento" onclick="OnClickListaReconhecimento('@wa.UniqueKey', '@per.UniqueKey', '@pRisc.UniqueKey');" data-target="#modalAddListaReconhecimento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                <i class="ace-icon fa fa-search red bigger-125"></i>
+                                                                            </a>
+                                                                        </div>
+
+                                                                        <div class="pull-right action-buttons">
+                                                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@pRisc.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+                                                                            </a>
+
+                                                                            <a href="#" class="blue CustomTooltip" title="Desvincular Risco" onclick="OnClickRemoverRisco('@pRisc.UniqueKey', '@per.UniqueKey', '@pRisc.Nome')">
+                                                                                <i class="ace-icon fa fa-trash red bigger-125"></i>
+                                                                            </a>
+
+                                                                            <a href="#" class="blue CustomTooltip" title="Cadastrar controle Risco" onclick="OnClickControleDoRisco('@wa.UniqueKey.ToString()','@font.UniqueKey.ToString()', '@per.UniqueKey.ToString()', '@pRisc.UniqueKey.ToString()');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                                            </a>
+                                                                        </div>
+
+
                                                                     </div>
+                                                                </li>
+                                                            }
+                                                        </ol>
+                                                    }
 
-                                                                    <div class="pull-right action-buttons">
-                                                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@pRisc.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                            <i class="ace-icon fa fa-cloud blue bigger-125"></i>
-                                                                        </a>
-
-                                                                        <a href="#" class="blue CustomTooltip" title="Cadastrar controle Risco" onclick="OnClickControleDoRisco('@wa.UniqueKey.ToString()','@per.UniqueKey.ToString()', '@risk.UniqueKey.ToString()', '@pRisc.UniqueKey.ToString()');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                            <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
-                                                                        </a>
-                                                                    </div>
-
-
-                                                                </div>
-                                                            </li>
-                                                        }
-                                                    </ol>
-                                                }
-
-                                            </li>
+                                                </li>
                                             }
                                         </ol>
                                     }

@@ -417,16 +417,13 @@ namespace GISWeb.Controllers
                                where wa.DataExclusao ='9999-12-31 23:59:59.997' 
 							   and wa.UKEstabelecimento = '" + entidade.UKEstabelecimento + @"'
                                order by wa.UniqueKey";
-                
               
-
-
-
                 DataTable result = WorkAreaBusiness.GetDataTable(sql);
                 if (result.Rows.Count > 0)
                 {
                     WorkArea obj = null;
                     FonteGeradoraDeRisco oFonte = null;
+                    Perigo oPerigo = null;
 
                     foreach (DataRow row in result.Rows)
                     {
@@ -442,7 +439,7 @@ namespace GISWeb.Controllers
                             };
 
 
-                            if (!string.IsNullOrEmpty(row["relfp"].ToString()))
+                            if (!string.IsNullOrEmpty(row["UniqFon"].ToString()))
                             {
                                 oFonte = new FonteGeradoraDeRisco()
                                 {                                    
@@ -450,40 +447,38 @@ namespace GISWeb.Controllers
                                     FonteGeradora = row["FonteGeradora"].ToString(),
                                     Descricao = row["Descricao"].ToString(),
                                     Perigos = new List<Perigo>(),
-                                    Riscos = new List<Risco>()
-
-
                                 };
 
                                 if (!string.IsNullOrEmpty(row["relfp"].ToString()))
                                 {
-                                    oFonte.Perigos.Add(new Perigo()
+                                    oPerigo = new Perigo()
                                     {
                                         ID = Guid.Parse(row["relpr"].ToString()),
                                         UniqueKey = Guid.Parse(row["UKPerigo"].ToString()),
                                         Descricao = row["perigo"].ToString(),
                                         Riscos = new List<Risco>()
-                                    });
-                                }
-                                if (!string.IsNullOrEmpty(row["relpr"].ToString()))
-                                {
-                                    oFonte.Riscos.Add(new Risco()
+                                    };
+
+                                    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
                                     {
-                                        ID = Guid.Parse(row["relpr"].ToString()),
-                                        UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                                        Nome = row["risco"].ToString(),
-                                        
-                                    });
+                                        oPerigo.Riscos.Add(new Risco()
+                                        {
+                                            ID = Guid.Parse(row["relpr"].ToString()),
+                                            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                                            Nome = row["risco"].ToString(),
+
+                                        });
+                                    }
+
+                                    oFonte.Perigos.Add(oPerigo);
                                 }
                                 
-
                                 obj.FonteGeradoraDeRisco.Add(oFonte);
                             }
-
                         }
                         else if (obj.UniqueKey.Equals(Guid.Parse(row["UniqWa"].ToString())))
                         {
-                            if (!string.IsNullOrEmpty(row["relfp"].ToString()))
+                            if (!string.IsNullOrEmpty(row["UniqFon"].ToString()))
                             {
                                 if (oFonte == null)
                                 {
@@ -492,56 +487,71 @@ namespace GISWeb.Controllers
                                         UniqueKey = Guid.Parse(row["UniqFon"].ToString()),
                                         FonteGeradora = row["FonteGeradora"].ToString(),
                                         Descricao = row["Descricao"].ToString(),
-                                        Perigos = new List<Perigo>(),
-                                        Riscos = new List<Risco>()
-
-
+                                        Perigos = new List<Perigo>()
                                     };
 
-                                    if (oFonte.Perigos.Equals(row["perigo"].ToString()))
+                                    if (oFonte.Perigos.Equals(row["relfp"].ToString()))
                                     {
-                                        oFonte.Perigos.Add(new Perigo()
+                                        oPerigo = new Perigo()
                                         {
                                             ID = Guid.Parse(row["relpr"].ToString()),
                                             UniqueKey = Guid.Parse(row["UKPerigo"].ToString()),
                                             Descricao = row["perigo"].ToString(),
                                             Riscos = new List<Risco>()
-                                        });
-                                    }
-                                    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
-                                    {
-                                        oFonte.Riscos.Add(new Risco()
-                                        {
-                                            ID = Guid.Parse(row["relpr"].ToString()),
-                                            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                                            Nome = row["risco"].ToString(),
+                                        };
 
-                                        });
+                                        if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                                        {
+                                            oPerigo.Riscos.Add(new Risco()
+                                            {
+                                                ID = Guid.Parse(row["relpr"].ToString()),
+                                                UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                                                Nome = row["risco"].ToString()
+                                            });
+                                        }
+
+                                        oFonte.Perigos.Add(oPerigo);
                                     }
 
                                     obj.FonteGeradoraDeRisco.Add(oFonte);
                                 }
-                                else if (oFonte.FonteGeradora.Equals(row["FonteGeradora"].ToString()))
+                                else if (oFonte.UniqueKey.ToString().Equals(row["UniqFon"].ToString()))
                                 {
-                                    if (oFonte.Perigos.Equals(row["perigo"].ToString()))
+                                    Perigo pTemp = oFonte.Perigos.FirstOrDefault(a => a.Descricao.Equals(row["perigo"].ToString()));
+                                    if (pTemp == null)
                                     {
-                                        oFonte.Perigos.Add(new Perigo()
+                                        oPerigo = new Perigo()
                                         {
-                                            ID = Guid.Parse(row["relpr"].ToString()),
-                                            UniqueKey = Guid.Parse(row["UKPerigo"].ToString()),
+                                            ID = Guid.Parse(row["relfp"].ToString()),
+                                            UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
                                             Descricao = row["perigo"].ToString(),
                                             Riscos = new List<Risco>()
-                                        });
-                                    }
-                                    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
-                                    {
-                                        oFonte.Riscos.Add(new Risco()
-                                        {
-                                            ID = Guid.Parse(row["relpr"].ToString()),
-                                            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                                            Nome = row["risco"].ToString(),
+                                        };
 
-                                        });
+                                        if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                                        {
+                                            oPerigo.Riscos.Add(new Risco()
+                                            {
+                                                ID = Guid.Parse(row["relpr"].ToString()),
+                                                UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                                                Nome = row["risco"].ToString()
+                                            });
+                                        }
+
+                                        oFonte.Perigos.Add(oPerigo);
+                                    }
+                                    else
+                                    {
+                                        Risco riskTemp = pTemp.Riscos.FirstOrDefault(a => a.Nome.Equals(row["risco"].ToString()));
+                                        if (riskTemp == null)
+                                        {
+                                            pTemp.Riscos.Add(new Risco()
+                                            {
+                                                ID = Guid.Parse(row["relpr"].ToString()),
+                                                UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                                                Nome = row["risco"].ToString()
+                                            });
+                                        }
                                     }
                                 }
                                 else
@@ -551,31 +561,30 @@ namespace GISWeb.Controllers
                                         UniqueKey = Guid.Parse(row["UniqFon"].ToString()),
                                         FonteGeradora = row["FonteGeradora"].ToString(),
                                         Descricao = row["Descricao"].ToString(),
-                                        Perigos = new List<Perigo>(),
-                                        Riscos = new List<Risco>()
-
-
+                                        Perigos = new List<Perigo>()
                                     };
 
-                                    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                                    if (!string.IsNullOrEmpty(row["relfp"].ToString()))
                                     {
-                                        oFonte.Perigos.Add(new Perigo()
+                                        oPerigo = new Perigo()
                                         {
-                                            ID = Guid.Parse(row["relpr"].ToString()),
-                                            UniqueKey = Guid.Parse(row["UKPerigo"].ToString()),
+                                            ID = Guid.Parse(row["relfp"].ToString()),
+                                            UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
                                             Descricao = row["perigo"].ToString(),
                                             Riscos = new List<Risco>()
-                                        });
-                                    }
-                                    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
-                                    {
-                                        oFonte.Riscos.Add(new Risco()
-                                        {
-                                            ID = Guid.Parse(row["relpr"].ToString()),
-                                            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                                            Nome = row["risco"].ToString(),
+                                        };
 
-                                        });
+                                        if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                                        {
+                                            oPerigo.Riscos.Add(new Risco()
+                                            {
+                                                ID = Guid.Parse(row["relpr"].ToString()),
+                                                UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                                                Nome = row["risco"].ToString()
+                                            });
+                                        }
+
+                                        oFonte.Perigos.Add(oPerigo);
                                     }
 
                                     obj.FonteGeradoraDeRisco.Add(oFonte);
@@ -591,45 +600,42 @@ namespace GISWeb.Controllers
                             obj = new WorkArea()
                             {
                                 UniqueKey = Guid.Parse(row["UniqWa"].ToString()),
-                                UKEstabelecimento = Guid.Parse(row["UKEstabelecimento"].ToString()),
                                 Nome = row["Nome"].ToString(),
                                 Descricao = row["Descricao"].ToString(),
                                 FonteGeradoraDeRisco = new List<FonteGeradoraDeRisco>()
                             };
 
-
-                            if (!string.IsNullOrEmpty(row["relfp"].ToString()))
+                            if (!string.IsNullOrEmpty(row["UniqFon"].ToString()))
                             {
                                 oFonte = new FonteGeradoraDeRisco()
                                 {
                                     UniqueKey = Guid.Parse(row["UniqFon"].ToString()),
                                     FonteGeradora = row["FonteGeradora"].ToString(),
                                     Descricao = row["Descricao"].ToString(),
-                                    Perigos = new List<Perigo>(),
-                                    Riscos = new List<Risco>()
-
-
+                                    Perigos = new List<Perigo>()
                                 };
 
-                                if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                                if (!string.IsNullOrEmpty(row["relfp"].ToString()))
                                 {
-                                    oFonte.Perigos.Add(new Perigo()
+                                    oPerigo = new Perigo()
                                     {
-                                        ID = Guid.Parse(row["relpr"].ToString()),
-                                        UniqueKey = Guid.Parse(row["UKPerigo"].ToString()),
+                                        ID = Guid.Parse(row["relfp"].ToString()),
+                                        UniqueKey = Guid.Parse(row["ukperigo"].ToString()),
                                         Descricao = row["perigo"].ToString(),
                                         Riscos = new List<Risco>()
-                                    });
-                                }
-                                if (!string.IsNullOrEmpty(row["relpr"].ToString()))
-                                {
-                                    oFonte.Riscos.Add(new Risco()
-                                    {
-                                        ID = Guid.Parse(row["relpr"].ToString()),
-                                        UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
-                                        Nome = row["risco"].ToString(),
+                                    };
 
-                                    });
+                                    if (!string.IsNullOrEmpty(row["relpr"].ToString()))
+                                    {
+                                        oPerigo.Riscos.Add(new Risco()
+                                        {
+                                            ID = Guid.Parse(row["relpr"].ToString()),
+                                            UniqueKey = Guid.Parse(row["ukrisco"].ToString()),
+                                            Nome = row["risco"].ToString()
+                                        });
+                                    }
+
+                                    oFonte.Perigos.Add(oPerigo);
                                 }
 
                                 obj.FonteGeradoraDeRisco.Add(oFonte);
@@ -655,10 +661,10 @@ namespace GISWeb.Controllers
 
 
 
-        public ActionResult Novo(string UKWorarea)
+        public ActionResult Novo(string id)
         {
 
-            ViewBag.workarea = UKWorarea;
+            ViewBag.workarea = id;
 
                         
             return View();
@@ -675,6 +681,7 @@ namespace GISWeb.Controllers
                 try
                 {
                     oFonteGeradoraDeRisco.UKWorkArea = UK_WorkArea;
+                    oFonteGeradoraDeRisco.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     FonteGeradoraDeRiscoBusiness.Inserir(oFonteGeradoraDeRisco);
 
                     Extensions.GravaCookie("MensagemSucesso", "a Fonte Geradora de riscos '" + oFonteGeradoraDeRisco.FonteGeradora + "' foi cadastrado com sucesso!", 10);
@@ -838,6 +845,41 @@ namespace GISWeb.Controllers
             List<Arquivo> arquivos = ArquivoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKObjeto.Equals(uk)).ToList();
 
             return PartialView("_Arquivos", arquivos);
+        }
+
+
+
+
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult TerminarRelComPerigo(string UKFonte, string UKPerigo)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(UKFonte))
+                    throw new Exception("Não foi possível localizar a identificação da fonte geradora.");
+
+                if (string.IsNullOrEmpty(UKPerigo))
+                    throw new Exception("Não foi possível localizar a identificação do perigo.");
+
+                Guid guidFonte = Guid.Parse(UKFonte);
+                Guid guidPerigo = Guid.Parse(UKPerigo);
+
+                REL_FontePerigo rel = REL_FontePerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKFonteGeradora.Equals(guidFonte) && a.UKPerigo.Equals(guidPerigo));
+                if (rel == null)
+                {
+                    throw new Exception("Não foi possível localizar o relacionamento entre Fonte Geradora do Risco com Perigo na base de dados.");
+                }
+
+                rel.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                REL_FontePerigoBusiness.Terminar(rel);
+
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "Perigo desvinculado com sucesso." } });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
         }
 
 

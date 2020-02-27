@@ -315,8 +315,7 @@ namespace GISWeb.Controllers
                                 {
                                     UniqueKey = Guid.Parse(row["UKFonte"].ToString()),
                                     FonteGeradora = row["FonteGeradora"].ToString(),
-                                    Descricao = row["Descricao"].ToString(),                               
-                                    Riscos = new List<Risco>()
+                                    Descricao = row["Descricao"].ToString()
                                 });
                             }
 
@@ -389,8 +388,7 @@ namespace GISWeb.Controllers
                                 {
                                     UniqueKey = Guid.Parse(row["UKFonte"].ToString()),
                                     FonteGeradora = row["FonteGeradora"].ToString(),
-                                    Descricao = row["Descricao"].ToString(),
-                                    Riscos = new List<Risco>()
+                                    Descricao = row["Descricao"].ToString()
                                 });
                             }
 

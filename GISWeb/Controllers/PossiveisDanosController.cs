@@ -192,11 +192,11 @@ namespace GISWeb.Controllers
         {
 
             string sql = @"select r.UniqueKey as UK_Risco, r.Nome as Nome_risco, d.UniqueKey as UK_Danos, d.DescricaoDanos, rd.UKRiscos as rel01,
-                            rd.UKDanosSaude as rel02 
-                            from [dbGestorSST].[dbo].[tbRisco] r
-                            left join [dbGestorSST].[dbo].[REL_RiscoDanosASaude]  rd on rd.UKRiscos = r.UniqueKey and r.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
-                            left join [dbGestorSST].[dbo].[tbPossiveisDanos]  d on d.UniqueKey = rd.UKDanosSaude and d.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
-                            order by r.Nome";
+                                  rd.UKDanosSaude as rel02 
+                           from [dbo].[tbRisco] r
+                                left join [REL_RiscoDanosASaude]  rd on rd.UKRiscos = r.UniqueKey and r.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
+                                left join [tbPossiveisDanos]  d on d.UniqueKey = rd.UKDanosSaude and d.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
+                           order by r.Nome";
 
 
             DataTable result = RiscoBusiness.GetDataTable(sql);
