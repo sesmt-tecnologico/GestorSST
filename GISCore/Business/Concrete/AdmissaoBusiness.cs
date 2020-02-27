@@ -57,7 +57,7 @@ namespace GISCore.Business.Concrete
         {
             var admissao = Consulta.FirstOrDefault(x => x.UKEmpregado == ukEmpregado);
             if (admissao == null)
-                throw new Exception("Não foi possível encontrar um registro de Admissao para esse empregado.");
+                throw new Exception("Não foi possível encontrar um registro de admissao para esse empregado.");
 
             return admissao;
         }

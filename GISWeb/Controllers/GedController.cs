@@ -40,8 +40,13 @@ namespace GISWeb.Controllers
 
         public ActionResult Index(string id)
         {
-            Guid UK = Guid.Parse(id);
-            Empregado oEmp = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UK));
+
+            Guid ukEmpregado = Guid.Parse(id);
+            Guid ukAdmissao = this.AdmissaoBusiness.GetAdmissao(ukEmpregado).UniqueKey;
+
+            
+
+            Empregado oEmp = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(ukEmpregado));
             var ged = new GedViewModel();
             ged.Empregado = oEmp;
 
