@@ -55,8 +55,11 @@ namespace GISCore.Business.Concrete
 
         Admissao IAdmissaoBusiness.GetAdmissao(Guid ukEmpregado)
         {
-            var ctx = new GISCore.Repository.Configuration.SESTECContext();
-            return ctx.Admissao.FirstOrDefault(x => x.UKEmpregado == ukEmpregado);
+            var admissao = Consulta.FirstOrDefault(x => x.UKEmpregado == ukEmpregado);
+            if (admissao == null)
+                throw new Exception("Não foi possível encontrar um registro de Admissao para esse empregado.");
+
+            return admissao;
         }
 
         List<Alocacao> IAdmissaoBusiness.BuscarAlocacoes(string UKAdmissao)
