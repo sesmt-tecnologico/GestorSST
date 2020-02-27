@@ -40,11 +40,8 @@ namespace GISWeb.Controllers
 
         public ActionResult Index(string id)
         {
-
             Guid ukEmpregado = Guid.Parse(id);
             Guid ukAdmissao = this.AdmissaoBusiness.GetAdmissao(ukEmpregado).UniqueKey;
-
-            
 
             Empregado oEmp = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(ukEmpregado));
             var ged = new GedViewModel();
@@ -53,18 +50,22 @@ namespace GISWeb.Controllers
             return View(ged);
         }
 
-        public ActionResult Upload(string id)
+        public ActionResult Upload(string ukemp, string ukalocado, string ukfuncao)
         {
-            ViewBag.UKEmpregado = id;
-            var ukAdmissao = AdmissaoBusiness.GetAdmissao(Guid.Parse(id)).UniqueKey;
+            //ViewBag.UKEmpregado = ukemp;
+            var ukAdmissao = AdmissaoBusiness.GetAdmissao(Guid.Parse(ukemp)).UniqueKey;
 
             ViewBag.ListaAdmissao = AdmissaoBusiness.BuscarAlocacoes(ukAdmissao.ToString());
+
+            ViewBag.UKEmpregado = ukemp;
+            ViewBag.UKAlocado = ukalocado;
+            ViewBag.UKFuncao = ukfuncao;
 
             return View();
         }
 
         [HttpPost]
-        public ActionResult SaveUpload(string ukEmpregado)
+        public ActionResult SaveUpload(string ukEmpregado, string ukAlocado, string ukFuncao)
         {
             try
             {
@@ -75,10 +76,6 @@ namespace GISWeb.Controllers
                 HttpPostedFileBase arquivoPostado = null;
                 foreach (string arquivo in Request.Files)
                 {
-                    //string extension = System.IO.Path.GetExtension(Request.Files[arquivo].FileName);
-                    //var webImage = new System.Web.Helpers.WebImage(Request.Files[arquivo].InputStream);
-                    //byte[] imgByteArray = webImage.GetBytes();
-
                     arquivoPostado = Request.Files[arquivo];
                     if (arquivoPostado != null && arquivoPostado.ContentLength > 0)
                     {
@@ -107,19 +104,25 @@ namespace GISWeb.Controllers
 
                             this.ArquivosBusiness.Inserir(_arquivo);
 
-                            //Implementar REL_ArquivoEmpregado
-                            //Atraves do UKEmpregado - Locacao, Funcao
-                            //Selecionar a locacao onde a uniquekey do empregado e igual UKEmpregado
+                            var _RELarquivoEmpregado = new REL_ArquivoEmpregado()
+                            {
+                                UKEmpregado = UKEmpregado, 
+                                UKObjetoArquivo = _arquivo.UKObjeto,
+                                UKLocacao = Guid.Parse(ukAlocado),
+                                UKFuncao = Guid.Parse(ukFuncao)
+                            };
+
+                            this.REL_ArquivoEmpregadoBusiness.Inserir(_RELarquivoEmpregado);
                         }
                     }
                 };
-
+                
                 if (Request.Files.Count == 1)
-                    Extensions.GravaCookie("MensagemSucesso", "O arquivo '" + arquivoPostado.FileName + "' foi anexado com êxito.", 10);
+                    Extensions.GravaCookie("MensagemSucesso", "O arquivo '" + arquivoPostado.FileName + "' foi anexado com êxito.", 1);
                 else
-                    Extensions.GravaCookie("MensagemSucesso", "Os arquivos foram anexados com êxito.", 10);
-
-                return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Upload", "Ged", new { id = UKEmpregado.ToString() }) } });
+                    Extensions.GravaCookie("MensagemSucesso", "Os arquivos foram anexados com êxito.", 1);
+                Response.StatusCode = 200;
+                return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Ged", new { id = UKEmpregado.ToString() }) } });
 
                 //return RedirectToAction(nameof(Upload), new { id = UKEmpregado.ToString() });
                 //if (Request.Files.Count == 1)

@@ -1,6 +1,7 @@
 ﻿@model GISModel.DTO.Ged.GedViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Ged";
+    ViewBag.Pagina = "Ged";
 }
 
 
@@ -209,7 +210,7 @@
 
                 </div>
 
-                @Html.ActionLink("Uploads Documentos", "Upload", "Ged", new { id = Model.Empregado.UniqueKey.ToString() }, new { @class = "btn btn-mini btn-block btn-info" })
+                @*@Html.ActionLink("Uploads Documentos", "Upload", "Ged", new { id = Model.Empregado.UniqueKey.ToString() }, new { @class = "btn btn-mini btn-block btn-info" })*@
 
             </div>
         </div>
