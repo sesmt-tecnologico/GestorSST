@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace GISModel.Entidades
 {
-    [Table("REL_AtividadeDocumento")]
-    public class REL_AtividadeDocumentos
+    [Table("REL_AtividadeDocumento")] 
+    public class REL_AtividadeDocumentos : EntidadeBase
     {
         [Display(Name ="Fim da validade")]
         public DateTime ValidadeFinal { get; set; }

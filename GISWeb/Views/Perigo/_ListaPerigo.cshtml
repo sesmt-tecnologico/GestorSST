@@ -47,28 +47,31 @@
 
                         @if (Model.Count > 0)
                         {
-                            <ol class="dd-list">
-                                @foreach (Risco func in dep.Riscos)
-                                {
-                                <li class="dd-item" data-id="@func.UniqueKey.ToString()">
+                    <ol class="dd-list">
+
+                        @foreach (Risco risk in dep.Riscos)
+                        {
+                            if (risk != null)
+                            {
+                                <li class="dd-item" data-id="@risk.UniqueKey.ToString()">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
 
-                                        <span><i style="color: orangered">Risco - </i> </span>@func.Nome
+                                        <span><i style="color: orangered">Risco - </i> </span>@risk.Nome
 
 
                                     </div>
 
-                                    @if (func.Danos.Count() > 0)
+                                    @if (risk.Danos.Count > 0)
                                     {
                                         <ol class="dd-list">
-                                            @foreach (PossiveisDanos risk in func.Danos)
+                                            @foreach (PossiveisDanos pd in risk.Danos)
                                             {
-                                                <li class="dd-item" data-id="@risk.UniqueKey.ToString()">
+                                                <li class="dd-item" data-id="@pd.UniqueKey.ToString()">
                                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
-                                                        <span><i style="color: yellowgreen">Possíveis Danos - </i> </span>@risk.DescricaoDanos
+                                                        <span><i style="color: yellowgreen">Possíveis Danos - </i> </span>@pd.DescricaoDanos
 
                                                         <div class="pull-right action-buttons">
-                                                            <a href="#" class="blue CustomTooltip" title="Desvincular Danos" onclick="OnClickRemoverDano('@risk.UniqueKey', '@func.UniqueKey', '@risk.DescricaoDanos')">
+                                                            <a href="#" class="blue CustomTooltip" title="Desvincular Danos" onclick="OnClickRemoverDano('@pd.UniqueKey', '@risk.UniqueKey', '@pd.DescricaoDanos')">
                                                                 <i class="ace-icon fa fa-trash red bigger-125"></i>
                                                             </a>
                                                         </div>
@@ -80,13 +83,13 @@
                                     }
 
 
-
-
-
                                 </li>
-                                    @*}*@
-                                }
-                            </ol>
+
+                            }
+
+                        }
+                        
+                    </ol>
                         }
 
                     </li>

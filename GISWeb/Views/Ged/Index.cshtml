@@ -1,6 +1,7 @@
 ﻿@model GISModel.DTO.Ged.GedViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Ged";
+    ViewBag.Pagina = "Ged";
 }
 
 
@@ -9,9 +10,9 @@
         <h3 class="header smaller lighter blue">
             Upload Documentos
             @*<a href="@Url.Action("Novo", "Empresa")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
-                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
-                Nova Empresa
-            </a>*@
+                    <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                    Nova Empresa
+                </a>*@
         </h3>
     </div>
 </div>
@@ -209,7 +210,7 @@
 
                 </div>
 
-                @Html.ActionLink("Uploads Documentos", "Index", "Ged", null, new { @class = "btn btn-mini btn-block btn-info" })
+                @*@Html.ActionLink("Uploads Documentos", "Upload", "Ged", new { id = Model.Empregado.UniqueKey.ToString() }, new { @class = "btn btn-mini btn-block btn-info" })*@
 
             </div>
         </div>
@@ -217,3 +218,36 @@
     </div>
 </div>
 
+
+<div class="space-20"></div>
+
+<div id="ConteudoAdmissao">
+
+</div>
+
+@*<div class="row">
+        <div class="col-xs-12" id="ZonaUpload">
+           @Html.Partial("~/Views/Ged/_UploadDocumentos.cshtml")
+        </div>
+    </div>*@
+
+
+@section Stylesheets {
+
+    @Styles.Render("~/bundles/croppie_css")
+
+}
+
+@section Scripts {
+    <script src="~/Scripts/Ace/ace.widget-box.js"></script>
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    @Scripts.Render("~/bundles/croppie_js")
+    <script src="~/Scripts/Ace/jQ/jquery.maskedinput.js"></script>
+
+    @Scripts.Render("~/bundles/custom/profile")
+
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+
+    <script src="~/Scripts/Custom/Empregado/PerfilGed.js"></script>
+
+}

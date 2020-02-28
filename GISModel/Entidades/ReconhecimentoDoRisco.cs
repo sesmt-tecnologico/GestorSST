@@ -7,9 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace GISModel.Entidades
 {
     [Table("tbReconhecimentoDoRisco")]
-    public class ReconhecimentoDoRisco: EntidadeBase
+    public class ReconhecimentoDoRisco : EntidadeBase
     {
-               
+
 
         [Display(Name = "Workarea")]
         public Guid UKWorkarea { get; set; }
@@ -20,18 +20,12 @@ namespace GISModel.Entidades
         [Display(Name = "Perigo")]
         public Guid UKPerigo { get; set; }
 
-        [Display(Name ="Risco")]
+        [Display(Name = "Risco")]
         public Guid UKRisco { get; set; }
 
 
-        [Display(Name = "Fonte Geradora")]
-        public Guid UKFonteGeradora { get; set; }
 
 
-
-        public List<FonteGeradoraDeRisco> FonteGeradoraDeRiscos { get; set; }
-
-        public List<ControleDeRiscos> Controles { get; set; }
 
 
 
