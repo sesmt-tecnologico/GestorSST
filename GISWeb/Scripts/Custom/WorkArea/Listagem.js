@@ -36,6 +36,14 @@ function OnSuccessPesquisarWorkarea(data) {
     $(".LoadingLayout").hide();
     $('#btnSalvar').show();
     $(".resultadoWorkArea").html(data);
+    AplicaTooltip();
+
+    $('.dd').nestable();
+    $('.dd').nestable('collapseAll');
+    $($(".collapseOne button")[1]).click();
+    $('.dd-handle a').on('mousedown', function (e) {
+        e.stopPropagation();
+    });
 }
 
 function PesquisarEstabelecimento(ID) {

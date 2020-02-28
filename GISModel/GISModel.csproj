@@ -69,6 +69,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
@@ -97,6 +98,7 @@
     <Compile Include="CustomAttributes\CustomValidationCNPJAttribute.cs" />
     <Compile Include="CustomAttributes\CustomValidationCPFAttribute.cs" />
     <Compile Include="DTO\Admissao\AdmissaoViewModel.cs" />
+    <Compile Include="DTO\Admissao\AlocacaoAdmissaoViewModel.cs" />
     <Compile Include="DTO\Admissao\PerfilEmpregadoViewModel.cs" />
     <Compile Include="DTO\Admissao\PesquisaEmpregadoViewModel.cs" />
     <Compile Include="DTO\AnaliseRisco\AnaliseRiscosViewModel.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="DTO\FonteGeradoraDeRisco\FonteGeradoraViewModel.cs" />
     <Compile Include="DTO\Funcao\ListaFuncaoViewModel.cs" />
     <Compile Include="DTO\Ged\GedViewModel.cs" />
+    <Compile Include="DTO\Ged\Remessa.cs" />
     <Compile Include="DTO\GerenciamentoDoRisco\VMNovoReconhecimentoControle.cs" />
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
@@ -141,6 +144,7 @@
     <Compile Include="Entidades\Link.cs" />
     <Compile Include="Entidades\PerigoPotencial.cs" />
     <Compile Include="Entidades\ReconhecimentoDoRisco.cs" />
+    <Compile Include="Entidades\REL_ArquivoEmpregado.cs" />
     <Compile Include="Entidades\REL_AtividadePerigo.cs" />
     <Compile Include="Entidades\REL_DocomumentoPessoalAtividade.cs" />
     <Compile Include="Entidades\DocumentosPessoal.cs" />

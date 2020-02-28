@@ -9,5 +9,6 @@ namespace GISCore.Business.Abstract
 {
     public interface IAlocacaoBusiness: IBaseBusiness<Alocacao>
     {
+        
     }
 }
