@@ -10,7 +10,6 @@ namespace GISCore.Business.Concrete
 {
     public class ArquivoBusiness : BaseBusiness<Arquivo>, IArquivoBusiness
     {
-
         public override void Inserir(Arquivo pArquivo)
         {
             string vault = ConfigurationManager.AppSettings["Vault"];
@@ -25,9 +24,8 @@ namespace GISCore.Business.Concrete
             {
                 throw new Exception(ex.Detail.Detalhes);
             }
-
+            
             base.Inserir(pArquivo);
-
         }
 
         public byte[] Download(string remoteFileName)

@@ -110,6 +110,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\Abstract\IREL_ArquivoEmpregadoBusiness.cs" />
     <Compile Include="Business\Abstract\IREL_FontePerigoBusiness.cs" />
     <Compile Include="Business\Abstract\IControleDeRiscoBusiness  .cs" />
     <Compile Include="Business\Abstract\IReconhecimentoBusiness .cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Business\Abstract\IUsuarioBusiness.cs" />
     <Compile Include="Business\Abstract\IUsuarioPerfilBusiness.cs" />
     <Compile Include="Business\Abstract\IWorkAreaBusiness.cs" />
+    <Compile Include="Business\Concrete\REL_ArquivoEmpregadoBusiness.cs" />
     <Compile Include="Business\Concrete\REL_FontePerigoBusiness .cs" />
     <Compile Include="Business\Concrete\ControleDeRiscoBusiness.cs" />
     <Compile Include="Business\Concrete\ReconhecimentoBusiness.cs" />
@@ -200,9 +202,13 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
-    <Compile Include="Migrations\202002270013288_wa.cs" />
-    <Compile Include="Migrations\202002270013288_wa.Designer.cs">
-      <DependentUpon>202002270013288_wa.cs</DependentUpon>
+    <Compile Include="Migrations\202002211917056_ArquivoEmpregado.cs" />
+    <Compile Include="Migrations\202002211917056_ArquivoEmpregado.designer.cs">
+      <DependentUpon>202002211917056_ArquivoEmpregado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002271731043_v01.cs" />
+    <Compile Include="Migrations\202002271731043_v01.Designer.cs">
+      <DependentUpon>202002271731043_v01.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -350,8 +356,11 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002270013288_wa.resx">
-      <DependentUpon>202002270013288_wa.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202002211917056_ArquivoEmpregado.resx">
+      <DependentUpon>202002211917056_ArquivoEmpregado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002271731043_v01.resx">
+      <DependentUpon>202002271731043_v01.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

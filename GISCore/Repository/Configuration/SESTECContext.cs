@@ -58,8 +58,6 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<Admissao> Admissao { get; set; }       
 
-
-
         public DbSet<Cargo> Cargo { get; set; }      
 
         public DbSet<Funcao> Funcao { get; set; }
@@ -121,6 +119,8 @@ namespace GISCore.Repository.Configuration
         public DbSet<REL_PerigoRisco> REL_PerigoRisco { get; set; }
 
         public DbSet<REL_RiscoControle> REL_RiscoControle { get; set; }
+
+        public DbSet<REL_ArquivoEmpregado> REL_ArquivoEmpregado { get; set; }
 
     }
 }

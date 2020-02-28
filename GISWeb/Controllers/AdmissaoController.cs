@@ -150,6 +150,7 @@ namespace GISWeb.Controllers
                         Admissao adm = new Admissao()
                         {
                             UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                            UKEmpregado = Guid.Parse(UKEmpregado.ToString()),
                             DataAdmissao = row["DataAdmissao"].ToString(),
                             DataDemissao = row["DataDemissao"].ToString(),
                             Justificativa = row["Justificativa"].ToString(),
@@ -179,7 +180,7 @@ namespace GISWeb.Controllers
             List<Alocacao> lista = new List<Alocacao>();
 
             string query = @"select al.UniqueKey, c.Numero as Contrato, cargo.NomeDoCargo, func.NomeDaFuncao, est.Descricao as Estabelecimento, eq.NomeDaEquipe, dep.Sigla, 
-                                    atv.Descricao as Atividade, al.DataInclusao, al.UsuarioInclusao, est.UniqueKey as UKEstab
+                                    atv.Descricao as Atividade, al.DataInclusao, al.UsuarioInclusao, est.UniqueKey as UKEstab, func.UniqueKey as UKFuncao
                              from tbAlocacao al 
 		                             inner join tbContrato c on al.UKContrato = c.UniqueKey and c.UsuarioExclusao is null
 		                             inner join tbCargo cargo on al.UKCargo = cargo.UniqueKey and cargo.UsuarioExclusao is null
@@ -213,9 +214,10 @@ namespace GISWeb.Controllers
                             Cargo = new Cargo()
                             {
                                 NomeDoCargo = row["NomeDoCargo"].ToString()
-                            },
+                            },  
                             Funcao = new Funcao()
                             {
+                                UniqueKey = Guid.Parse(row["UKFuncao"].ToString()),
                                 NomeDaFuncao = row["NomeDaFuncao"].ToString(),
                                 Atividades = new List<Atividade>()
                             },
@@ -272,6 +274,7 @@ namespace GISWeb.Controllers
                             },
                             Funcao = new Funcao()
                             {
+                                UniqueKey = Guid.Parse(row["UKFuncao"].ToString()),
                                 NomeDaFuncao = row["NomeDaFuncao"].ToString(),
                                 Atividades = new List<Atividade>()
                             },

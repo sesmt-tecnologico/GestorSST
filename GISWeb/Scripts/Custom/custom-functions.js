@@ -1,7 +1,7 @@
 ﻿
 function ExibirMensagemGritter(titulo, corpo, gritterClasse) {
     var t = titulo;
-    if (t == "") t = 'Alerta!';
+    if (t === "") t = 'Alerta!';
 
     $.gritter.add({
         title: t,
@@ -31,25 +31,25 @@ function ExibirMensagemDeSucesso(msg) {
 
 function TratarResultadoJSON(resultado) {
 
-    if (resultado.Erro != null && resultado.Erro != undefined && resultado.Erro != "") {
+    if (resultado.Erro !== null && resultado.Erro !== undefined && resultado.Erro !== "") {
         ExibirMensagemDeErro(resultado.Erro);
     }
-    else if (resultado.Alerta != null && resultado.Alerta != undefined && resultado.Alerta != "") {
+    else if (resultado.Alerta !== null && resultado.Alerta !== undefined && resultado.Alerta !== "") {
         ExibirMensagemDeAlerta(resultado.Alerta);
     }
-    else if (resultado.Sucesso != null && resultado.Sucesso != undefined && resultado.Sucesso != "") {
+    else if (resultado.Sucesso !== null && resultado.Sucesso !== undefined && resultado.Sucesso !== "") {
         ExibirMensagemDeSucesso(resultado.Sucesso);
     }
-    else if (resultado.URL != null && resultado.URL != undefined && resultado.URL != "") {
+    else if (resultado.URL !== null && resultado.URL !== undefined && resultado.URL !== "") {
         window.location.href = resultado.URL;
     }
-    else if (resultado.Reload != null && resultado.Reload != undefined && resultado.Reload) {
+    else if (resultado.Reload !== null && resultado.Reload !== undefined && resultado.Reload) {
         window.location.reload();
     }
 }
 
 function ExibirMensagemDeConfirmacaoSimples(mensagem, titulo, callback, classeBotao) {
-    if (!classeBotao || classeBotao == '') {
+    if (!classeBotao || classeBotao === '') {
         classeBotao = "btn-success";
     }
 
@@ -229,13 +229,13 @@ function AplicajQtableTools(nomeControle, dataTable) {
             try {
                 $(row).find('input[type=checkbox]').get(0).checked = true
             }
-            catch (e) { }
+            catch (e) { console.log(e); }
         },
         "fnRowDeselected": function (row) {
             var blnAchou = false;
 
             $('#' + nomeControle + ' > tbody > tr > td input[type=checkbox]').each(function () {
-                if (this.checked && this.id != $(row).find('input[type=checkbox]').get(0).id) {
+                if (this.checked && this.id !== $(row).find('input[type=checkbox]').get(0).id) {
                     blnAchou = true;
                 }
             });
@@ -247,7 +247,7 @@ function AplicajQtableTools(nomeControle, dataTable) {
             try {
                 $(row).find('input[type=checkbox]').get(0).checked = false
             }
-            catch (e) { }
+            catch (e) { console.log(e); }
         },
 
         "sSelectedClass": "success"
@@ -315,25 +315,25 @@ function AplicaValidacaoCPF() {
         //CustomValidationCPF
         $.validator.addMethod('customvalidationcpf', function (value, element, params) {
             var cpf = value.replace(/[^0-9]/gi, ''); //Remove tudo que não for número
-            if (value.length == 0)
+            if (value.length === 0)
                 return true; //vazio
-            if (cpf.length != 11 || cpf == "00000000000" || cpf == "11111111111" || cpf == "22222222222" || cpf == "33333333333" || cpf == "44444444444" || cpf == "55555555555" || cpf == "66666666666" || cpf == "77777777777" || cpf == "88888888888" || cpf == "99999999999")
+            if (cpf.length !== 11 || cpf === "00000000000" || cpf === "11111111111" || cpf === "22222222222" || cpf === "33333333333" || cpf === "44444444444" || cpf === "55555555555" || cpf === "66666666666" || cpf === "77777777777" || cpf === "88888888888" || cpf === "99999999999")
                 return false;
             add = 0;
             for (i = 0; i < 9; i++)
                 add += parseInt(cpf.charAt(i)) * (10 - i);
             rev = 11 - (add % 11);
-            if (rev == 10 || rev == 11)
+            if (rev === 10 || rev === 11)
                 rev = 0;
-            if (rev != parseInt(cpf.charAt(9)))
+            if (rev !== parseInt(cpf.charAt(9)))
                 return false;
             add = 0;
             for (i = 0; i < 10; i++)
                 add += parseInt(cpf.charAt(i)) * (11 - i);
             rev = 11 - (add % 11);
-            if (rev == 10 || rev == 11)
+            if (rev === 10 || rev === 11)
                 rev = 0;
-            if (rev != parseInt(cpf.charAt(10)))
+            if (rev !== parseInt(cpf.charAt(10)))
                 return false;
             return true; //cpf válido
         }, '');
@@ -362,7 +362,7 @@ function Chosen() {
             }).trigger('resize.chosen');
         //resize chosen on sidebar collapse/expand
         $(document).on('settings.ace.chosen', function (e, event_name, event_val) {
-            if (event_name != 'sidebar_collapsed') return;
+            if (event_name !== 'sidebar_collapsed') return;
             $('.chosen-select').each(function () {
                 var $this = $(this);
                 $this.next().css({ 'width': $this.parent().width() });
@@ -373,7 +373,7 @@ function Chosen() {
         $('#chosen-multiple-style .btn').on('click', function (e) {
             var target = $(this).find('input[type=radio]');
             var which = parseInt(target.val());
-            if (which == 2) $('#form-field-select-4').addClass('tag-input-style');
+            if (which === 2) $('#form-field-select-4').addClass('tag-input-style');
             else $('#form-field-select-4').removeClass('tag-input-style');
         });
     }
