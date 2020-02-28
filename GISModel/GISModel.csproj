@@ -99,6 +99,7 @@
     <Compile Include="CustomAttributes\CustomValidationCPFAttribute.cs" />
     <Compile Include="DTO\Admissao\AdmissaoViewModel.cs" />
     <Compile Include="DTO\Admissao\AlocacaoAdmissaoViewModel.cs" />
+    <Compile Include="DTO\Admissao\ArquivoEmpregadoViewModel.cs" />
     <Compile Include="DTO\Admissao\PerfilEmpregadoViewModel.cs" />
     <Compile Include="DTO\Admissao\PesquisaEmpregadoViewModel.cs" />
     <Compile Include="DTO\AnaliseRisco\AnaliseRiscosViewModel.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="DTO\Funcao\ListaFuncaoViewModel.cs" />
     <Compile Include="DTO\Ged\GedViewModel.cs" />
     <Compile Include="DTO\Ged\Remessa.cs" />
+    <Compile Include="DTO\Ged\VMArquivoEmpregado.cs" />
     <Compile Include="DTO\GerenciamentoDoRisco\VMNovoReconhecimentoControle.cs" />
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
