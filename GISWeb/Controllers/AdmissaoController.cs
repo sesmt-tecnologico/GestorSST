@@ -1,5 +1,6 @@
 ﻿using GISCore.Business.Abstract;
 using GISCore.Infrastructure.Utils;
+using GISModel.DTO.Admissao;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
@@ -37,6 +38,13 @@ namespace GISWeb.Controllers
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
+        [Inject]
+        public IArquivoBusiness ArquivoBusiness { get; set; }
+
+        [Inject]
+        public IREL_ArquivoEmpregadoBusiness REL_ArquivoEmpregadoBusiness { get; set; }
+
 
         #endregion
 
@@ -159,7 +167,7 @@ namespace GISWeb.Controllers
                                 NomeFantasia = row["Empresa"].ToString()
                             },
                             UsuarioInclusao = row["NomeUsuario"].ToString(),
-                            Alocacoes = BuscarAlocacoes(row["UniqueKey"].ToString())
+                            Alocacoes = BuscarAlocacoes(row["UniqueKey"].ToString(), Guid.Parse(UKEmpregado.ToString()))
                         };
 
                         lista.Add(adm);
@@ -174,7 +182,7 @@ namespace GISWeb.Controllers
             }
         }
 
-        private List<Alocacao> BuscarAlocacoes(string UKAdmissao)
+        private List<Alocacao> BuscarAlocacoes(string UKAdmissao, Guid UKEmpregado)
         {
 
             List<Alocacao> lista = new List<Alocacao>();
@@ -233,8 +241,10 @@ namespace GISWeb.Controllers
                             {
                                 Sigla = row["Sigla"].ToString()
                             },
-                            
+                            ArquivoEmpregado = new List<ArquivoEmpregadoViewModel>()
                         };
+
+                        al.ArquivoEmpregado = RetonarListaArquivoEmpregado(al.UniqueKey, UKEmpregado, al.Funcao.UniqueKey);
 
                         if (!string.IsNullOrEmpty(row["Atividade"].ToString()))
                         {
@@ -290,8 +300,11 @@ namespace GISWeb.Controllers
                             Departamento = new Departamento()
                             {
                                 Sigla = row["Sigla"].ToString()
-                            }
+                            },
+                            ArquivoEmpregado = new List<ArquivoEmpregadoViewModel>()
                         };
+
+                        al.ArquivoEmpregado = RetonarListaArquivoEmpregado(al.UniqueKey, UKEmpregado, al.Funcao.UniqueKey);
 
                         if (!string.IsNullOrEmpty(row["Atividade"].ToString()))
                         {
@@ -307,6 +320,37 @@ namespace GISWeb.Controllers
                 if (al != null)
                 {
                     lista.Add(al);
+                }
+            }
+
+            return lista;
+        }
+
+        public List<ArquivoEmpregadoViewModel> RetonarListaArquivoEmpregado(Guid ukLocado,Guid ukEmpregado, Guid ukFuncao)
+        {
+            var lista = new List<ArquivoEmpregadoViewModel>();
+
+            var listaArquivoEmpregado = this.REL_ArquivoEmpregadoBusiness.Consulta
+                           .Where(x => x.UKLocacao == ukLocado
+                           && x.UKEmpregado == ukEmpregado
+                           && x.UKFuncao == ukFuncao && x.UsuarioExclusao == null).ToList();
+            if (listaArquivoEmpregado != null)
+            {
+                foreach (var arqemp in listaArquivoEmpregado)
+                {
+                    var arquivo = this.ArquivoBusiness.Consulta.SingleOrDefault(s => s.UniqueKey == arqemp.UKObjetoArquivo && arqemp.UsuarioExclusao == null);
+                    if (arquivo != null)
+                    {
+                        lista.Add(new ArquivoEmpregadoViewModel()
+                        {
+                            NomeLocal = arquivo.NomeLocal,
+                            NomeRemoto = arquivo.NomeRemoto,
+                            UniqueKey = arqemp.UniqueKey,
+                            UKLocacao = arqemp.UKLocacao,
+                            UKEmpregado = arqemp.UKEmpregado,
+                            UKFuncao = arqemp.UKFuncao
+                        });
+                    }
                 }
             }
 

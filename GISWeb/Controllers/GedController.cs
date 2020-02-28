@@ -92,8 +92,7 @@ namespace GISWeb.Controllers
                         {
                             var _arquivo = new Arquivo()
                             {
-                                UniqueKey = UKEmpregado,
-                                UKObjeto = Guid.NewGuid(),
+                                UKObjeto = UKEmpregado,
                                 Conteudo = target.ToArray(),
                                 UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
                                 DataInclusao = DateTime.Now,
@@ -107,12 +106,15 @@ namespace GISWeb.Controllers
                             var _RELarquivoEmpregado = new REL_ArquivoEmpregado()
                             {
                                 UKEmpregado = UKEmpregado, 
-                                UKObjetoArquivo = _arquivo.UKObjeto,
+                                UKObjetoArquivo = _arquivo.UniqueKey,
                                 UKLocacao = Guid.Parse(ukAlocado),
-                                UKFuncao = Guid.Parse(ukFuncao)
+                                UKFuncao = Guid.Parse(ukFuncao),
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
                             };
 
                             this.REL_ArquivoEmpregadoBusiness.Inserir(_RELarquivoEmpregado);
+
+
                         }
                     }
                 };
