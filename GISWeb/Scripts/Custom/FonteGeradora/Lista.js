@@ -82,7 +82,7 @@ function PesquisarEstabelecimento(ID) {
 
 }
 
-function OnClickVincularPerigo(pUKFonteGeradora) {
+function OnClickNovoPerigo(pUKFonteGeradora) {
     $.ajax({
         method: "POST",
         url: "/FonteGeradoraDeRisco/VincularPerigo",
