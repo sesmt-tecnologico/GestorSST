@@ -1,4 +1,5 @@
-﻿using GISModel.Enums;
+﻿using GISModel.DTO.Admissao;
+using GISModel.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -63,6 +64,7 @@ namespace GISModel.Entidades
 
         public virtual Funcao Funcao { get; set; }
 
-
+        [NotMapped]
+        public List<ArquivoEmpregadoViewModel> ArquivoEmpregado { get; set; }
     }
 }
