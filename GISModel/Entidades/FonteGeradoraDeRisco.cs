@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GISModel.Entidades
 {
@@ -22,11 +19,6 @@ namespace GISModel.Entidades
         public string  Descricao { get; set; }
 
         public List<Perigo> Perigos { get; set; }
-
-        public List<Risco> Riscos {get; set; }
-
-
-
 
     }
 }
