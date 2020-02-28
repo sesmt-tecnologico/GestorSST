@@ -106,12 +106,13 @@ namespace GISWeb.Controllers
 
         public ActionResult ListaPerigoPorAtividade()
         {
-            string sql = @"select a.UniqueKey as UK_Atividade, a.Descricao as nome, p.UniqueKey as UK_Perigo, p.Descricao as NomePerigo, ap.UniqueKey as relap,
-                             ap.UKAtividade as rel01, ap.UKPerigo as rel02
-                             from tbAtividade a
-                             left join REL_AtividadePerigo ap on ap.UKAtividade = a.UniqueKey and a.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
-                             left join tbPerigo p on p.UniqueKey = ap.UKPerigo and a.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
-                             order by a.Descricao";
+            string sql = @"select a.UniqueKey as UK_Atividade, a.Descricao as nome,
+					 p.UniqueKey as UK_Perigo, p.Descricao as NomePerigo, 
+					 ap.UniqueKey as relap, ap.UKAtividade as rel01, ap.UKPerigo as rel02
+from tbAtividade  a
+					left join REL_AtividadePerigo ap on a.UniqueKey = ap.UKAtividade and a.DataExclusao = '9999-12-31 23:59:59.997'
+					left join tbPerigo p on p.UniqueKey = ap.UKPerigo and a.DataExclusao = '9999-12-31 23:59:59.997'
+					order by a.Descricao";
 
 
             DataTable result = AtividadeBusiness.GetDataTable(sql);
@@ -143,66 +144,107 @@ namespace GISWeb.Controllers
                             {
                                 UniqueKey = Guid.Parse(row["rel02"].ToString()),
                                 Descricao = row["NomePerigo"].ToString(),
-                                
-
                             };
 
                             obj.Perigos.Add(oPerigo);
 
+
+                        }
+                    }
+                    //
+                    else if (obj.UniqueKey.Equals(Guid.Parse(row["UK_Atividade"].ToString())))
+                    {
+                        if (!string.IsNullOrEmpty(row["relap"].ToString()))
+                        {
+                            if (oPerigo == null)
+                            {
+                                oPerigo = new Perigo()
+                                {
+                                    UniqueKey = Guid.Parse(row["UK_Perigo"].ToString()),
+                                    Descricao = row["NomePerigo"].ToString(),
+                                };
+
+                                obj.Perigos.Add(oPerigo);
+                            }
+
+
+
+
+                            else if (oPerigo.UniqueKey.ToString().Equals(row["UK_Perigo"].ToString()))
+
+                            {
+                                Perigo pTemp = obj.Perigos.FirstOrDefault(a => a.Descricao.Equals(row["Descricao"].ToString()));
+
+                                if (pTemp == null)
+                                {
+                                    oPerigo = new Perigo()
+                                    {
+                                        UniqueKey = Guid.Parse(row["UK_Perigo"].ToString()),
+                                        Descricao = row["NomePerigo"].ToString(),
+                                    };
+
+
+                                    obj.Perigos.Add(oPerigo);
+                                }
+
+
+                            }
+                            else
+                            {
+                                oPerigo = new Perigo()
+                                {
+                                    UniqueKey = Guid.Parse(row["UK_Perigo"].ToString()),
+                                    Descricao = row["NomePerigo"].ToString(),
+                                };
+
+                                if (!string.IsNullOrEmpty(row["relap"].ToString()))
+                                {
+                                    oPerigo = new Perigo()
+                                    {
+                                        UniqueKey = Guid.Parse(row["UK_Perigo"].ToString()),
+                                        Descricao = row["NomePerigo"].ToString(),
+                                    };
+
+
+
+
+                                }
+
+                                obj.Perigos.Add(oPerigo);
+                            }
                         }
 
                     }
-                    //se a atividade for a mesma, carregar outro documento
-                    else if (obj.UniqueKey.Equals(Guid.Parse(row["UK_Atividade"].ToString())))
-                    {
-                        if (!string.IsNullOrEmpty(row["rel02"].ToString()))
+                        
+                        else
                         {
-                            if (oPerigo != null)
+                            lista.Add(obj);
+
+                            obj = new Atividade()
                             {
+                                UniqueKey = Guid.Parse(row["UK_Atividade"].ToString()),
+                                Descricao = row["nome"].ToString(),
+                                Perigos = new List<Perigo>()
+                            };
+
+                             if (!string.IsNullOrEmpty(row["relap"].ToString()))
+                             {
+
                                 oPerigo = new Perigo()
                                 {
                                     UniqueKey = Guid.Parse(row["rel02"].ToString()),
                                     Descricao = row["NomePerigo"].ToString(),
-                                   
-
                                 };
-                            }
+
+                                     obj.Perigos.Add(oPerigo);
+
+
+                             }
                         }
-
-                        obj.Perigos.Add(oPerigo);
-                    }
-
-                    else
-                    {
-                        lista.Add(obj);
-
-                        obj = new Atividade()
-                        {
-                            UniqueKey = Guid.Parse(row["UK_Atividade"].ToString()),
-                            Descricao = row["nome"].ToString(),
-                            Perigos = new List<Perigo>()
-                        };
-
-
-                        if (!string.IsNullOrEmpty(row["rel02"].ToString()))
-                        {
-                            oPerigo = new Perigo()
-                            {
-                                UniqueKey = Guid.Parse(row["rel02"].ToString()),
-                                Descricao = row["NomePerigo"].ToString()
-                            };
-
-
-
-                            obj.Perigos.Add(oPerigo);
-                        }
-                    }
-
-
                 }
 
-                if (obj != null)
-                    lista.Add(obj);
+                    if (obj != null)
+                        lista.Add(obj);
 
 
             }
@@ -299,8 +341,8 @@ namespace GISWeb.Controllers
             string sql = @"select a.UniqueKey as UK_Ativ, a.Descricao as nome, d.UniqueKey, d.NomeDocumento as NomeD, d.DescricaoDocumento as DescricaoD,
                             da.UKAtividade as rel1, da.UKDocumentoPessoal as rel2
                             from tbAtividade a 
-                            left join REL_DocumentoPessoalAtividade da on da.UKAtividade = a.uniqueKey and a.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2) 
-                            left join tbDocumentosPessoal d on d.UniqueKey = da.UKDocumentoPessoal  and d.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
+                            left join REL_DocumentoPessoalAtividade da on da.UKAtividade = a.uniqueKey and a.DataExclusao = '9999-12-31 23:59:59.997'
+                            left join tbDocumentosPessoal d on d.UniqueKey = da.UKDocumentoPessoal  and d.DataExclusao ='9999-12-31 23:59:59.997'
                             order by nome";
 
 
@@ -344,58 +386,103 @@ namespace GISWeb.Controllers
                     }
                     //se a atividade for a mesma, carregar outro documento
                     else if (obj.UniqueKey.Equals(Guid.Parse(row["UK_Ativ"].ToString())))
-                            {
-                                if (!string.IsNullOrEmpty(row["rel2"].ToString()))
-                                {
-                                    if (oDocumento != null)
-                                    {
-                                        oDocumento = new DocumentosPessoal()
-                                        {
-                                            UniqueKey = Guid.Parse(row["rel2"].ToString()),
-                                            DescricaoDocumento = row["DescricaoD"].ToString(),
-                                            NomeDocumento = row["NomeD"].ToString(),
-
-                                        };
-                                    }
-                                }
-
-                                obj.DocumentosPessoal.Add(oDocumento);
-                     }
-
-                        else
+                    {
+                        if (!string.IsNullOrEmpty(row["rel2"].ToString()))
                         {
-                            lista.Add(obj);
-
-                            obj = new Atividade()
-                            {
-                                UniqueKey = Guid.Parse(row["UK_Ativ"].ToString()),
-                                Descricao = row["nome"].ToString(),
-                                DocumentosPessoal = new List<DocumentosPessoal>()
-                            };
-
-
-                            if (!string.IsNullOrEmpty(row["rel2"].ToString()))
+                            if (oDocumento == null)
                             {
                                 oDocumento = new DocumentosPessoal()
                                 {
                                     UniqueKey = Guid.Parse(row["rel2"].ToString()),
                                     DescricaoDocumento = row["DescricaoD"].ToString(),
                                     NomeDocumento = row["NomeD"].ToString(),
+
                                 };
 
-                           
+                                obj.DocumentosPessoal.Add(oDocumento);
+                            }
+                            
+                            else if (oDocumento.UniqueKey.ToString().Equals(row["rel2"].ToString()))
+
+                            {
+                                DocumentosPessoal pTemp = obj.DocumentosPessoal.FirstOrDefault(a => a.NomeDocumento.Equals(row["NomeD"].ToString()));
+
+                                if (pTemp == null)
+                                {
+                                    oDocumento = new DocumentosPessoal()
+                                    {
+                                        UniqueKey = Guid.Parse(row["rel2"].ToString()),
+                                        DescricaoDocumento = row["DescricaoD"].ToString(),
+                                        NomeDocumento = row["NomeD"].ToString(),
+
+                                    };
+
+                                    obj.DocumentosPessoal.Add(oDocumento);
+                                }
+
+
+                            }
+                            else
+                            {
+                                oDocumento = new DocumentosPessoal()
+                                {
+                                    UniqueKey = Guid.Parse(row["rel2"].ToString()),
+                                    DescricaoDocumento = row["DescricaoD"].ToString(),
+                                    NomeDocumento = row["NomeD"].ToString(),
+
+                                };
+
+                                if (!string.IsNullOrEmpty(row["rel2"].ToString()))
+                                {
+                                    oDocumento = new DocumentosPessoal()
+                                    {
+                                        UniqueKey = Guid.Parse(row["rel2"].ToString()),
+                                        DescricaoDocumento = row["DescricaoD"].ToString(),
+                                        NomeDocumento = row["NomeD"].ToString(),
+
+                                    };
+
+                                }
 
                                 obj.DocumentosPessoal.Add(oDocumento);
                             }
                         }
 
+                    }
 
+                    else
+                    {
+                        lista.Add(obj);
+
+                        obj = new Atividade()
+                        {
+                            UniqueKey = Guid.Parse(row["UK_Ativ"].ToString()),
+                            Descricao = row["nome"].ToString(),
+                            DocumentosPessoal = new List<DocumentosPessoal>()
+                        };
+
+                        if (!string.IsNullOrEmpty(row["rel2"].ToString()))
+                        {
+
+                            oDocumento = new DocumentosPessoal()
+                            {
+                                UniqueKey = Guid.Parse(row["rel2"].ToString()),
+                                DescricaoDocumento = row["DescricaoD"].ToString(),
+                                NomeDocumento = row["NomeD"].ToString(),
+
+                            };
+
+                            obj.DocumentosPessoal.Add(oDocumento);
+
+
+                        }
+                    }
                 }
 
                 if (obj != null)
                     lista.Add(obj);
 
-               
+
             }
 
             return View("_ListaDocumento", lista);
