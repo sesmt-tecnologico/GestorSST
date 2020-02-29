@@ -267,7 +267,7 @@ namespace GISWeb.Controllers
 
 
 
-        public ActionResult ListaReconhecimentoPorWorkArea(string ukWorkArea)
+        public ActionResult ListaReconhecimentoPorWorkArea(string id)
         {
 
             try
@@ -283,7 +283,7 @@ namespace GISWeb.Controllers
 		                                left join [dbGestor].[dbo].[tbRisco]  risc on risc.UniqueKey = r.UKRisco and risc.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbControleDoRisco]  c on c.UKReconhecimentoDoRisco = r.UniqueKey and r.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbTipoDeControle]  tc on tc.UniqueKey = c.UKTipoDeControle and tc.DataExclusao ='9999-12-31 23:59:59.997' 
-                               where r.UKWorkArea = '" + ukWorkArea + @"' 
+                               where r.UKWorkArea = '" + id + @"' 
                                order by c.UniqueKey";
 
 

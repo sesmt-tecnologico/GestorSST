@@ -65,14 +65,13 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+                    oPerigo.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    oPerigo.Template = true;
                     PerigoBusiness.Inserir(oPerigo);
 
                     Extensions.GravaCookie("MensagemSucesso", "O evento '" + oPerigo.Descricao + "' foi cadastrado com sucesso!", 10);
 
-
-
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Perigo") } });
-
                 }
                 catch (Exception ex)
                 {
@@ -85,7 +84,6 @@ namespace GISWeb.Controllers
                         return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
                     }
                 }
-
             }
             else
             {

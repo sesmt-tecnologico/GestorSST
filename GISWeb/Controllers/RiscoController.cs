@@ -69,11 +69,11 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+                    oRisco.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    oRisco.Template = true;
                     RiscoBusiness.Inserir(oRisco);
 
-                    Extensions.GravaCookie("MensagemSucesso", "O evento '" + oRisco.Nome + "' foi cadastrado com sucesso!", 10);
-
-
+                    Extensions.GravaCookie("MensagemSucesso", "O risco '" + oRisco.Nome + "' foi cadastrado com sucesso!", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Risco") } });
 

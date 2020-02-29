@@ -150,7 +150,7 @@ function OnClickNovoPerigo(pUKFonteGeradora) {
 function OnClickNovoRisco(pUKPerigo) {
     $.ajax({
         method: "POST",
-        url: "/WorkArea/VincularRisco",
+        url: "/Risco/VincularRiscoPerigo",
         data: { UKPerigo: pUKPerigo },
         error: function (erro) {
             $("#modalAddRiscoLoading").hide();
@@ -262,78 +262,6 @@ function AutoCompleteAdicionarRisco() {
         alert(e);
         tag_input.after('<textarea id="' + tag_input.attr('id') + '" name="' + tag_input.attr('name') + '" rows="3">' + tag_input.val() + '</textarea>').remove();
     }
-}
-
-
-function OnClickRemoverPerigo(pUKPerigo, pUKFonte, pDescPerigo) {
-
-    var callback = function () {
-        $('.LoadingLayout').show();
-        $('#dynamic-table').css({ opacity: "0.5" });
-
-        $.ajax({
-            method: "POST",
-            url: "/FonteGeradoraDeRisco/TerminarRelComPerigo",
-            data: { UKFonte: pUKFonte, UKPerigo: pUKPerigo },
-            error: function (erro) {
-                $(".LoadingLayout").hide();
-                $("#dynamic-table").css({ opacity: '' });
-                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-            },
-            success: function (content) {
-                $('.LoadingLayout').hide();
-                $("#dynamic-table").css({ opacity: '' });
-
-                TratarResultadoJSON(content.resultado);
-
-                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
-                    $(".resultadoWorkArea").html("");
-
-                    if ($("#UKEstabelecimento").val() != "") {
-                        $("#formPesquisarWorkArea").submit();
-                    }
-                }
-            }
-        });
-    };
-
-    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja desvincular o perigo '" + pDescPerigo + "' da fonte geradora?", "Remoção de vínculo", callback, "btn-danger");
-}
-
-
-function OnClickRemoverRisco(pUKRisco, pUKPerigo, pNomeRisco) {
-
-    var callback = function () {
-        $('.LoadingLayout').show();
-        $('#dynamic-table').css({ opacity: "0.5" });
-
-        $.ajax({
-            method: "POST",
-            url: "/WorkArea/TerminarRelComPerigo",
-            data: { UKRisco: pUKRisco, UKPerigo: pUKPerigo },
-            error: function (erro) {
-                $(".LoadingLayout").hide();
-                $("#dynamic-table").css({ opacity: '' });
-                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-            },
-            success: function (content) {
-                $('.LoadingLayout').hide();
-                $("#dynamic-table").css({ opacity: '' });
-
-                TratarResultadoJSON(content.resultado);
-
-                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
-                    $(".resultadoWorkArea").html("");
-
-                    if ($("#UKEstabelecimento").val() != "") {
-                        $("#formPesquisarWorkArea").submit();
-                    }
-                }
-            }
-        });
-    };
-
-    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja desvincular o risco '" + pNomeRisco + "' do perigo?", "Remoção de vínculo", callback, "btn-danger");
 }
 
 
@@ -491,6 +419,113 @@ function OnClickListaReconhecimento(pUKWorkArea, pFonte, pRisco ) {
             });
         }
     });
+}
+
+
+
+function OnClickRemoverFonteGeradora(pUKFonte, pDescFonte) {
+
+    var callback = function() {
+        $('.LoadingLayout').show();
+        $('#dynamic-table').css({ opacity: "0.5" });
+
+        $.ajax({
+            method: "POST",
+            url: "/FonteGeradoraDeRisco/Terminar",
+            data: { UKFonte: pUKFonte },
+            error: function(erro) {
+                $(".LoadingLayout").hide();
+                $("#dynamic-table").css({ opacity: '' });
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            },
+            success: function(content) {
+                $('.LoadingLayout').hide();
+                $("#dynamic-table").css({ opacity: '' });
+
+                TratarResultadoJSON(content.resultado);
+
+                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
+                    $(".resultadoWorkArea").html("");
+
+                    if ($("#UKEstabelecimento").val() != "") {
+                        $("#formPesquisarWorkArea").submit();
+                    }
+                }
+            }
+        });
+    };
+
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a fonte geradora '" + pDescFonte + "'?", "Exclusão de Fonte Geradora", callback, "btn-danger");
+}
+
+function OnClickRemoverPerigo(pUKPerigo, pUKFonte, pDescPerigo) {
+
+    var callback = function() {
+        $('.LoadingLayout').show();
+        $('#dynamic-table').css({ opacity: "0.5" });
+
+        $.ajax({
+            method: "POST",
+            url: "/FonteGeradoraDeRisco/TerminarRelComPerigo",
+            data: { UKFonte: pUKFonte, UKPerigo: pUKPerigo },
+            error: function(erro) {
+                $(".LoadingLayout").hide();
+                $("#dynamic-table").css({ opacity: '' });
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            },
+            success: function(content) {
+                $('.LoadingLayout').hide();
+                $("#dynamic-table").css({ opacity: '' });
+
+                TratarResultadoJSON(content.resultado);
+
+                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
+                    $(".resultadoWorkArea").html("");
+
+                    if ($("#UKEstabelecimento").val() != "") {
+                        $("#formPesquisarWorkArea").submit();
+                    }
+                }
+            }
+        });
+    };
+
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja desvincular o perigo '" + pDescPerigo + "' da fonte geradora?", "Remoção de vínculo", callback, "btn-danger");
+}
+
+function OnClickRemoverRisco(pUKRisco, pUKPerigo, pNomeRisco) {
+
+    var callback = function() {
+        $('.LoadingLayout').show();
+        $('#dynamic-table').css({ opacity: "0.5" });
+
+        $.ajax({
+            method: "POST",
+            url: "/WorkArea/TerminarRelComPerigo",
+            data: { UKRisco: pUKRisco, UKPerigo: pUKPerigo },
+            error: function(erro) {
+                $(".LoadingLayout").hide();
+                $("#dynamic-table").css({ opacity: '' });
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            },
+            success: function(content) {
+                $('.LoadingLayout').hide();
+                $("#dynamic-table").css({ opacity: '' });
+
+                TratarResultadoJSON(content.resultado);
+
+                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
+                    $(".resultadoWorkArea").html("");
+
+                    if ($("#UKEstabelecimento").val() != "") {
+                        $("#formPesquisarWorkArea").submit();
+                    }
+                }
+            }
+        });
+    };
+
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja desvincular o risco '" + pNomeRisco + "' do perigo?", "Remoção de vínculo", callback, "btn-danger");
 }
 
 

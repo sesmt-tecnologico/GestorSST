@@ -12,6 +12,9 @@ namespace GISModel.Entidades
         [Required(ErrorMessage = "Informe o nome do risco")]
         public string Nome { get; set; }
 
+        public bool Template { get; set; }
+
+
         public List<PossiveisDanos> Danos { get; set; }
 
         public List<ControleDeRiscos> Controles { get; set; }
