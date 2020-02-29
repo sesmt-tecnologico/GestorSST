@@ -1,4 +1,5 @@
 ﻿using GISCore.Business.Abstract;
+using GISHelpers.Utils;
 using GISModel.DTO.GerenciamentoDoRisco;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
@@ -110,7 +111,7 @@ namespace GISWeb.Controllers
                            select new
                            {
                                ID = (int)e,
-                               Name = e.ToString()
+                               Name = e.GetDisplayName()
                            };
             ViewBag.Eclasse = new SelectList(enumData, "ID", "Name");
 
@@ -119,26 +120,12 @@ namespace GISWeb.Controllers
                              select new
                              {
                                  ID = (int)e,
-                                 Name = e.ToString()
+                                 Name = e.GetDisplayName()
                              };
             ViewBag.ETrajetoria = new SelectList(enumData01, "ID", "Name");
 
 
-            var enumData02 = from EClassificacaoDaMedia e in Enum.GetValues(typeof(EClassificacaoDaMedia))
-                             select new
-                             {
-                                 ID = (int)e,
-                                 Name = e.ToString()
-                             };
-            ViewBag.EClassificacaoDaMedia = new SelectList(enumData02, "ID", "Name");
-
-            var enumData03 = from EControle e in Enum.GetValues(typeof(EControle))
-                             select new
-                             {
-                                 ID = (int)e,
-                                 Name = e.ToString()
-                             };
-            ViewBag.EControle = new SelectList(enumData03, "ID", "Name");
+            
 
             return PartialView("_CadastrarControleDeRisco");
 
@@ -153,27 +140,17 @@ namespace GISWeb.Controllers
 
                     List<TipoDeControle> tiposDeControle = new List<TipoDeControle>();
 
-                    if (entidade.TiposDeControle.Contains(","))
-                    {
-                        foreach (string ativ in entidade.TiposDeControle.Split(','))
-                        {
-                            if (!string.IsNullOrEmpty(ativ.Trim()))
-                            {
-                                TipoDeControle tipoControl = TipoDeControleBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Trim().ToUpper().Equals(ativ.Trim().ToUpper()));
+                    if (entidade?.Controles?.Count == 0)
+                        throw new Exception("Nenhum tipo de controle foi identificado.");
 
-                                if (tipoControl == null)
-                                    throw new Exception("Não foi possível encontrar o tipo de controle '" + ativ.Trim() + "' na base de dados.");
-
-                                tiposDeControle.Add(tipoControl);
-                            }
-                        }
-                    }
-                    else
+                    foreach (string[] item in entidade.Controles)
                     {
-                        TipoDeControle tipoControl = TipoDeControleBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Trim().ToUpper().Equals(entidade.TiposDeControle.Trim().ToUpper()));
+                        Guid UKTipo = Guid.Parse(item[0]);
+
+                        TipoDeControle tipoControl = TipoDeControleBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKTipo));
 
                         if (tipoControl == null)
-                            throw new Exception("Não foi possível encontrar o tipo de controle '" + entidade.TiposDeControle.Trim() + "' na base de dados.");
+                            throw new Exception("Não foi possível encontrar um do(s) tipo(s) de controle na base de dados.");
 
                         tiposDeControle.Add(tipoControl);
                     }
@@ -213,39 +190,17 @@ namespace GISWeb.Controllers
 
                     List<Guid> filtro = new List<Guid>();
 
-                    if (entidade.TiposDeControle.Contains(","))
+                    foreach (string[] item in entidade.Controles)
                     {
-                        foreach (string ativ in entidade.TiposDeControle.Split(','))
-                        {
-                            if (!string.IsNullOrEmpty(ativ.Trim()))
-                            {
-                                TipoDeControle tipoControl = tiposDeControle.FirstOrDefault(a => a.Descricao.Trim().ToUpper().Equals(ativ.Trim().ToUpper()));
-
-                                ControleDeRiscos obj = new ControleDeRiscos()
-                                {
-                                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
-                                    UKReconhecimentoDoRisco = oReconhecimento.UniqueKey,
-                                    UKTipoDeControle = tipoControl.UniqueKey,
-                                    EClassificacaoDaMedia = entidade.EClassificacaoDaMedia,
-                                    EControle = entidade.EControle
-                                };
-
-                                ControleDeRiscosBusiness.Inserir(obj);
-
-                            }
-                        }
-                    }
-                    else
-                    {
-                        TipoDeControle tipoControl = tiposDeControle.FirstOrDefault(a => a.Descricao.Trim().ToUpper().Equals(entidade.TiposDeControle.Trim().ToUpper()));
+                        Guid UKTipo = Guid.Parse(item[0]);
 
                         ControleDeRiscos obj = new ControleDeRiscos()
                         {
                             UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
                             UKReconhecimentoDoRisco = oReconhecimento.UniqueKey,
-                            UKTipoDeControle = tipoControl.UniqueKey,
-                            EClassificacaoDaMedia = entidade.EClassificacaoDaMedia,
-                            EControle = entidade.EControle
+                            UKTipoDeControle = UKTipo,
+                            EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), item[1], true),
+                            EControle = (EControle)Enum.Parse(typeof(EControle), item[2], true)
                         };
 
                         ControleDeRiscosBusiness.Inserir(obj);
@@ -275,7 +230,7 @@ namespace GISWeb.Controllers
 
                 List<ReconhecimentoDoRisco> lista = new List<ReconhecimentoDoRisco>();
 
-                string sql = @"select w.Nome, f.FonteGeradora, per.Descricao, risc.Nome, r.Tragetoria, r.EClasseDoRisco, tc.Descricao, c.EClassificacaoDaMedia, c.EControle
+                string sql = @"select w.Nome as workarea, f.FonteGeradora, per.Descricao as Perigo, risc.Nome as Risco, r.Tragetoria, r.EClasseDoRisco, tc.Descricao as TipoControle, c.EClassificacaoDaMedia, c.EControle
                                from [dbGestor].[dbo].[tbReconhecimentoDoRisco] r
 		                                left join [dbGestor].[dbo].[tbWorkArea]  w on w.UniqueKey = r.UKWorkArea and w.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbFonteGeradoraDeRisco] f on f.UniqueKey = r.UKFonteGeradora and f.DataExclusao ='9999-12-31 23:59:59.997' 
@@ -284,7 +239,7 @@ namespace GISWeb.Controllers
 		                                left join [dbGestor].[dbo].[tbControleDoRisco]  c on c.UKReconhecimentoDoRisco = r.UniqueKey and r.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbTipoDeControle]  tc on tc.UniqueKey = c.UKTipoDeControle and tc.DataExclusao ='9999-12-31 23:59:59.997' 
                                where r.UKWorkArea = '" + id + @"' 
-                               order by c.UniqueKey";
+                               order by f.FonteGeradora, per.Descricao, risc.Nome";
 
 
                 DataTable result = ReconhecimentoBusiness.GetDataTable(sql);
@@ -339,8 +294,6 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
             }
 
-
-
         }
 
         public ActionResult ListaReconhecimentoPorWorkAreaRisco(string ukWorkArea, string ukFonte, string ukPerigo, string ukRisco)
@@ -350,7 +303,7 @@ namespace GISWeb.Controllers
             {
                 List<ReconhecimentoDoRisco> lista = new List<ReconhecimentoDoRisco>();
 
-                string sql = @"select w.Nome, f.FonteGeradora, per.Descricao, risc.Nome, r.Tragetoria, r.EClasseDoRisco, tc.Descricao, c.EClassificacaoDaMedia, c.EControle
+                string sql = @"select w.Nome as workarea, f.FonteGeradora, per.Descricao as Perigo, risc.Nome as Risco, r.Tragetoria, r.EClasseDoRisco, tc.Descricao as TipoControle, c.EClassificacaoDaMedia, c.EControle
                                from [dbGestor].[dbo].[tbReconhecimentoDoRisco] r
 		                                left join [dbGestor].[dbo].[tbWorkArea]  w on w.UniqueKey = r.UKWorkArea and w.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbFonteGeradoraDeRisco] f on f.UniqueKey = r.UKFonteGeradora and f.DataExclusao ='9999-12-31 23:59:59.997' 
@@ -359,8 +312,7 @@ namespace GISWeb.Controllers
 		                                left join [dbGestor].[dbo].[tbControleDoRisco]  c on c.UKReconhecimentoDoRisco = r.UniqueKey and r.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbTipoDeControle]  tc on tc.UniqueKey = c.UKTipoDeControle and tc.DataExclusao ='9999-12-31 23:59:59.997' 
                                where r.UKWorkArea = '" + ukWorkArea + @"' 
-                               order by c.UniqueKey";
-
+                               order by f.FonteGeradora, per.Descricao, risc.Nome";
 
                 DataTable result = ReconhecimentoBusiness.GetDataTable(sql);
                 if (result.Rows.Count > 0)

@@ -211,7 +211,6 @@ function OnClickNovoRisco(pUKPerigo) {
     });
 }
 
-
 function AutoCompleteAdicionarRisco() {
     var tag_input = $('.txtNovoRisco');
 
@@ -263,7 +262,6 @@ function AutoCompleteAdicionarRisco() {
         tag_input.after('<textarea id="' + tag_input.attr('id') + '" name="' + tag_input.attr('name') + '" rows="3">' + tag_input.val() + '</textarea>').remove();
     }
 }
-
 
 function AutoCompleteAdicionarPerigo() {
     var tag_input = $('.txtNovoPerigo');
@@ -334,7 +332,7 @@ function OnClickControleDoRisco(pUKWorkArea, pFonte, pPerigo, pRisco) {
             $("#modalAddControleCorpoLoading").hide();
             $("#modalAddControleCorpo").html(content);
 
-            AutoCompleteAdicionarControle();
+            AplicaTooltip();
         }
     });
 }
@@ -421,6 +419,114 @@ function OnClickListaReconhecimento(pUKWorkArea, pFonte, pRisco ) {
     });
 }
 
+function OnClickNovoTipoControle() {
+    $("#modalAddTipoControleCorpoLoading").show();
+    $("#modalAddTipoControleCorpo").html("");
+
+    $.ajax({
+        method: "POST",
+        url: "/TipoDeControle/AdicionarTipoDeControle",
+        data: {  },
+        error: function (erro) {
+            $("#modalAddTipoControleCorpoLoading").hide();
+            $("#modalAddTipoControleLoading").hide();
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+        },
+        success: function (content) {
+            $("#modalAddTipoControleCorpoLoading").hide();
+            $("#modalAddTipoControleLoading").hide();
+            $("#modalAddTipoControleCorpo").html(content);
+
+            $("#modalAddTipoControleProsseguir").off("click").on("click", function () {
+
+                var ddlTipoControle = $("#ddlTipoControle").val();
+                var ddlClassificacao = $("#EClassificacaoDaMedia").val();
+                var ddlEficacia = $("#EControle").val();
+
+                var ddlTipoControleTxt = $("#ddlTipoControle option:selected").text();
+                var ddlClassificacaoTxt = $("#EClassificacaoDaMedia option:selected").text();
+                var ddlEficaciaTxt = $("#EControle option:selected").text();
+
+                if ($("#TableTiposDeControle tr:contains('" + ddlTipoControleTxt + "')").length > 0) {
+                    ExibirMensagemDeAlerta("Este tipo de controle já foi adicionado.");
+                    return false;
+                }
+
+                if (ddlTipoControle == "" || ddlClassificacao == "" || ddlEficacia == "") {
+                    ExibirMensagemDeAlerta("Selecione todos os campos antes de prosseguir");
+                }
+                else {
+                    $("#modalAddTipoControle").modal("hide");
+
+                    if ($("#TableTiposDeControle").length == 0) {
+
+                        var sHTML = '<table id="TableTiposDeControle" class="table table-striped table-bordered table-hover">';
+                        sHTML += '<thead>';
+                        sHTML += '<tr>';
+                        sHTML += '<th>Tipo de Controle</th>';
+                        sHTML += '<th>Classificação da Medida</th>';
+                        sHTML += '<th>Eficácia</th>';
+                        sHTML += '<th style="width: 30px;"></hd>';
+                        sHTML += '</tr>';
+                        sHTML += '</thead>';
+
+                        sHTML += '<tbody>';
+                        sHTML += '<tr>';
+                        sHTML += '<td data-uk="' + ddlTipoControle + '">' + ddlTipoControleTxt + '</td>';
+                        sHTML += '<td data-uk="' + ddlClassificacao + '">' + ddlClassificacaoTxt + '</td>';
+                        sHTML += '<td data-uk="' + ddlEficacia + '">' + ddlEficaciaTxt + '</td>';
+                        sHTML += '<td>';
+                        sHTML += '<a href="#" class="CustomTooltip red" title="Excluir Tipo de Controle" onclick="RemoverLinhaTipoDeControle(this);">';
+                        sHTML += '<i class="ace-icon fa fa-trash-o bigger-120"></i>';
+                        sHTML += '</a>';
+                        sHTML += '</td > ';
+                        sHTML += '</tr>';
+                        sHTML += '</tbody>';
+                        sHTML += '</table>';
+
+                        $(".divAlerta").hide();
+
+                        $(".conteudoTipoDeControle").html(sHTML);
+
+                        AplicajQdataTable("TableTiposDeControle", [null, null, null, { "bSortable": false }], false, 20);
+                    }
+                    else {
+
+                        var sHTML2 = '<tr>';
+                        sHTML2 += '<td data-uk="' + ddlTipoControle + '">' + ddlTipoControleTxt + '</td>';
+                        sHTML2 += '<td data-uk="' + ddlClassificacao + '">' + ddlClassificacaoTxt + '</td>';
+                        sHTML2 += '<td data-uk="' + ddlEficacia + '">' + ddlEficaciaTxt + '</td>';
+                        sHTML2 += '<td>';
+                        sHTML2 += '<a href="#" class="CustomTooltip red" title="Excluir Tipo de Controle" onclick="RemoverLinhaTipoDeControle(this);">';
+                        sHTML2 += '<i class="ace-icon fa fa-trash-o bigger-120"></i>';
+                        sHTML2 += '</a>';
+                        sHTML2 += '</td > ';
+                        sHTML2 += '</tr>';
+
+                        $("#TableTiposDeControle tbody").append(sHTML2);
+                    }
+
+                    AplicaTooltip();
+
+                }
+
+            });
+
+
+        }
+    });
+}
+
+function RemoverLinhaTipoDeControle(obj) {
+
+    if ($("#TableTiposDeControle tbody>tr").length == 1) {
+        $(".conteudoTipoDeControle").html("");
+        $(".divAlerta").show();
+    }
+    else {
+        $(obj).parent().parent().remove();
+    }
+}
 
 
 function OnClickRemoverFonteGeradora(pUKFonte, pDescFonte) {
