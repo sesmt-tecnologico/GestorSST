@@ -65,14 +65,13 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+                    oPerigo.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    oPerigo.Template = true;
                     PerigoBusiness.Inserir(oPerigo);
 
                     Extensions.GravaCookie("MensagemSucesso", "O evento '" + oPerigo.Descricao + "' foi cadastrado com sucesso!", 10);
 
-
-
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Perigo") } });
-
                 }
                 catch (Exception ex)
                 {
@@ -85,7 +84,6 @@ namespace GISWeb.Controllers
                         return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
                     }
                 }
-
             }
             else
             {
@@ -190,23 +188,23 @@ namespace GISWeb.Controllers
                                 Danos = new List<PossiveisDanos>()
 
                             };
-                           
+
                         }
 
                         if (!string.IsNullOrEmpty(row["rel02"].ToString()))
-                            {
+                        {
                             oRisco.Danos.Add(new PossiveisDanos()
-                                {
+                            {
                                 UniqueKey = Guid.Parse(row["rel02"].ToString()),
                                 DescricaoDanos = row["DescricaoDanos"].ToString(),
 
                             });
-                            }
+                        }
 
-                            obj.Riscos.Add(oRisco);
-                     }
+                        obj.Riscos.Add(oRisco);
+                    }
 
-                    
+
                     else if (obj.UniqueKey.Equals(Guid.Parse(row["UK_P"].ToString())))
                     {
                         if (!string.IsNullOrEmpty(row["relR"].ToString()))
@@ -287,7 +285,7 @@ namespace GISWeb.Controllers
                                 Danos = new List<PossiveisDanos>()
 
                             };
-                            
+
 
                             if (!string.IsNullOrEmpty(row["rel02"].ToString()))
                             {

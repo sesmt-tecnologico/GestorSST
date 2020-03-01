@@ -453,7 +453,7 @@ namespace GISWeb.Controllers
                                 {
                                     oPerigo = new Perigo()
                                     {
-                                        ID = Guid.Parse(row["relpr"].ToString()),
+                                        ID = Guid.Parse(row["relfp"].ToString()),
                                         UniqueKey = Guid.Parse(row["UKPerigo"].ToString()),
                                         Descricao = row["perigo"].ToString(),
                                         Riscos = new List<Risco>()
@@ -473,7 +473,7 @@ namespace GISWeb.Controllers
 
                                     oFonte.Perigos.Add(oPerigo);
                                 }
-                                
+
 
                                 obj.FonteGeradoraDeRisco.Add(oFonte);
                             }
@@ -497,7 +497,7 @@ namespace GISWeb.Controllers
                                     {
                                         oPerigo = new Perigo()
                                         {
-                                            ID = Guid.Parse(row["relpr"].ToString()),
+                                            ID = Guid.Parse(row["relfp"].ToString()),
                                             UniqueKey = Guid.Parse(row["UKPerigo"].ToString()),
                                             Descricao = row["perigo"].ToString(),
                                             Riscos = new List<Risco>()
@@ -754,24 +754,37 @@ namespace GISWeb.Controllers
                     {
                         if (!string.IsNullOrEmpty(risk.Trim()))
                         {
-
-
                             Perigo rTemp = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(risk.Trim()));
-
                             if (rTemp != null)
                             {
                                 if (REL_FontePerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKFonteGeradora.Equals(guidFonte) && a.UKPerigo.Equals(rTemp.UniqueKey)).Count() == 0)
                                 {
+                                    Perigo p = new Perigo()
+                                    {
+                                        UniqueKey = Guid.NewGuid(),
+                                        Descricao = rTemp.Descricao,
+                                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                    };
+                                    PerigoBusiness.Inserir(p);
+
                                     REL_FontePerigo FontePerigo = new REL_FontePerigo()
                                     {
                                         UKFonteGeradora = guidFonte,
-                                        UKPerigo = rTemp.UniqueKey,
-
-                                        //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                        UKPerigo = p.UniqueKey,
+                                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                                     };
 
                                     REL_FontePerigoBusiness.Inserir(FontePerigo);
                                 }
+                                else
+                                {
+                                    throw new Exception("O perigo '" + rTemp.Descricao + "' já está vinculado a esta fonte geradora.");
+                                }
+
+                            }
+                            else
+                            {
+                                throw new Exception("Não foi possível encontrar o perigo a ser vinculado a fonte geradora na base de dados.");
                             }
                         }
                     }
@@ -783,16 +796,31 @@ namespace GISWeb.Controllers
                     {
                         if (REL_FontePerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKFonteGeradora.Equals(guidFonte) && a.UKPerigo.Equals(rTemp.UniqueKey)).Count() == 0)
                         {
+                            Perigo p = new Perigo()
+                            {
+                                UniqueKey = Guid.NewGuid(),
+                                Descricao = rTemp.Descricao,
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                            };
+                            PerigoBusiness.Inserir(p);
+
                             REL_FontePerigo FontePerigo = new REL_FontePerigo()
                             {
                                 UKFonteGeradora = guidFonte,
-                                UKPerigo = rTemp.UniqueKey,
-
-                                //UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                UKPerigo = p.UniqueKey,
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                             };
 
                             REL_FontePerigoBusiness.Inserir(FontePerigo);
                         }
+                        else
+                        {
+                            throw new Exception("O perigo '" + rTemp.Descricao + "' já está vinculado a esta fonte geradora.");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Não foi possível encontrar o perigo a ser vinculado a fonte geradora na base de dados.");
                     }
                 }
 
@@ -812,7 +840,7 @@ namespace GISWeb.Controllers
             try
             {
                 List<string> riscosAsString = new List<string>();
-                List<Perigo> lista = PerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.ToUpper().Contains(key.ToUpper())).ToList();
+                List<Perigo> lista = PerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Template && a.Descricao.ToUpper().Contains(key.ToUpper())).ToList();
 
                 foreach (Perigo com in lista)
                     riscosAsString.Add(com.Descricao);
@@ -830,7 +858,7 @@ namespace GISWeb.Controllers
         {
             try
             {
-                Perigo item = PerigoBusiness.Consulta.FirstOrDefault(a => a.Descricao.ToUpper().Equals(key.ToUpper()));
+                Perigo item = PerigoBusiness.Consulta.FirstOrDefault(a => a.Descricao.ToUpper().Equals(key.ToUpper()) && a.Template);
 
                 if (item == null)
                     throw new Exception();
@@ -886,6 +914,35 @@ namespace GISWeb.Controllers
                 REL_FontePerigoBusiness.Terminar(rel);
 
                 return Json(new { resultado = new RetornoJSON() { Sucesso = "Perigo desvinculado com sucesso." } });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
+        }
+
+
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult Terminar(string UKFonte)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(UKFonte))
+                    throw new Exception("Não foi possível localizar a identificação da fonte geradora.");
+
+                Guid guidFonte = Guid.Parse(UKFonte);
+
+                FonteGeradoraDeRisco font = FonteGeradoraDeRiscoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(guidFonte));
+                if (font == null)
+                {
+                    throw new Exception("Não foi possível localizar o relacionamento entre Fonte Geradora do Risco com Perigo na base de dados.");
+                }
+
+                font.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                FonteGeradoraDeRiscoBusiness.Terminar(font);
+
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "Fonte geradora excluída com sucesso." } });
             }
             catch (Exception ex)
             {

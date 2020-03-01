@@ -20,29 +20,29 @@
 
                         @wa.Nome <span> - </span> @wa.Descricao
 
-                    <div class="pull-right action-buttons">
+                        <div class="pull-right action-buttons">
 
-                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@wa.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                            <i class="ace-icon fa fa-cloud blue bigger-125"></i>
-                        </a>
+                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@wa.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+                            </a>
 
+                            <a class="blue CustomTooltip" href="@Url.Action("Novo", "FonteGeradoraDeRisco", new {id = @wa.UniqueKey })" title="Adicionar Fonte Geradora de Risco">
+                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                            </a>
 
-                        <a class="blue CustomTooltip" href="/FonteGeradoraDeRisco/Novo/@wa.UniqueKey.ToString()" title="Adicionar Fonte Geradora de Risco">
+                            <a class="orange CustomTooltip" href="@Url.Action("Edicao", "WorkArea", new {id = @wa.UniqueKey })" title="Editar WorkArea">
+                                <i class="ace-icon fa fa-pencil bigger-130"></i>
+                            </a>
 
-                        @*<a class="blue CustomTooltip" href="@Url.Action("Novo", "FonteGeradoraDeRisco", new {UKWorarea = @wa.UniqueKey })" title="Adicionar Fonte Geradora de Riscos">
+                            <a class="red CustomTooltip" href="#" title="Excluir Workarea" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
+                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                            </a>
 
-                            <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
-                        </a>*@
+                            <a href="@Url.Action("ListaReconhecimentoPorWorkArea", "ReconhecimentoDoRisco", new {id = @wa.UniqueKey })" class="blue CustomTooltip" title="Listar Reconhecimento">
+                                <i class="ace-icon fa fa-search red bigger-125"></i>
+                            </a>
 
-                        <a class="orange CustomTooltip" href="@Url.Action("Edicao", "WorkArea", new {id = @wa.UniqueKey })" title="Editar WorkArea">
-                            <i class="ace-icon fa fa-pencil bigger-130"></i>
-                        </a>
-
-                        <a class="red CustomTooltip" href="#" title="Excluir Workarea" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
-                            <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                        </a>
-
-                    </div>
+                        </div>
                     </div>
 
                     @if (wa.FonteGeradoraDeRisco.Count > 0)
@@ -55,19 +55,19 @@
 
                                         <span><i style="color: orangered">Fonte Gerador de Risco - </i></span>@font.FonteGeradora
 
-                                    <div class="pull-right action-buttons">
-                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@font.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                            <i class="ace-icon fa fa-cloud blue bigger-125"></i>
-                                        </a>
+                                        <div class="pull-right action-buttons">
+                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@font.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+                                            </a>
 
-                                        <a class="blue CustomTooltip" href="#" title="Vincular Perigo" onclick="OnClickNovoPerigo('@font.UniqueKey');" data-target="#modalAddPerigo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                           <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
-                                        </a>
+                                            <a class="blue CustomTooltip" href="#" title="Vincular Perigo" onclick="OnClickNovoPerigo('@font.UniqueKey');" data-target="#modalAddPerigo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                            </a>
 
-                                        <a href="#" class="blue CustomTooltip" title="Desvincular Fonte Geradora" onclick="OnClickRemoverFonte('@font.UniqueKey', '@wa.UniqueKey', '@font.Descricao')">
-                                            <i class="ace-icon fa fa-trash red bigger-125"></i>
-                                        </a>
-                                    </div>
+                                            <a href="#" class="blue CustomTooltip" title="Excluir Fonte Geradora" onclick="OnClickRemoverFonteGeradora('@font.UniqueKey', '@font.FonteGeradora')">
+                                                <i class="ace-icon fa fa-trash red bigger-125"></i>
+                                            </a>
+                                        </div>
                                     </div>
 
                                     @if (font.Perigos.Count > 0)
@@ -78,7 +78,7 @@
                                                 <li class="dd-item" data-id="@per.UniqueKey.ToString()">
                                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
                                                         <span><i style="color: yellowgreen">Perigo - </i> </span>@per.Descricao
-                                                        
+
                                                         <div class="pull-right action-buttons">
                                                             <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickNovoRisco('@per.UniqueKey');" data-target="#modalAddRisco" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                                                 <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
@@ -89,7 +89,7 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                
+
                                                     @if (per.Riscos.Count > 0)
                                                     {
                                                         <ol class="dd-list">
@@ -98,13 +98,12 @@
                                                                 <li class="dd-item" data-id="@pRisc.UniqueKey.ToString()">
                                                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
                                                                         <span><i style="color: yellowgreen">Risco - </i> </span>@pRisc.Nome
-                                                                        <div class="pull-right action-buttons">
-                                                                            <a href="#" class="blue CustomTooltip" title="Listar Reconhecimento" onclick="OnClickListaReconhecimento('@wa.UniqueKey', '@per.UniqueKey', '@pRisc.UniqueKey');" data-target="#modalAddListaReconhecimento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                <i class="ace-icon fa fa-search red bigger-125"></i>
-                                                                            </a>
-                                                                        </div>
 
                                                                         <div class="pull-right action-buttons">
+                                                                            <a href="@Url.Action("ListaReconhecimentoPorWorkAreaRisco", "Reconhecimento", new {id = @wa.UniqueKey })" class="blue CustomTooltip" title="Listar Reconhecimento">
+                                                                                <i class="ace-icon fa fa-search red bigger-125"></i>
+                                                                            </a>
+
                                                                             <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@pRisc.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                                                                 <i class="ace-icon fa fa-cloud blue bigger-125"></i>
                                                                             </a>
