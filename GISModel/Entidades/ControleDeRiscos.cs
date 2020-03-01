@@ -27,6 +27,9 @@ namespace GISModel.Entidades
         public EControle EControle { get; set; }
 
 
+        [NotMapped]
+        public string TipoDeControle { get; set; }
+
 
         public List<Link> LinksClassificacaoDaMedida { get; set; }
 

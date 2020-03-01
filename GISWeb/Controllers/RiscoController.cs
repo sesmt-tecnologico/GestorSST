@@ -69,11 +69,17 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+
+                    Risco risk = RiscoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.Trim().ToUpper().Equals(oRisco.Nome.Trim().ToUpper()) && a.Template);
+                    if (risk != null)
+                        throw new Exception("Já existe um risco com este nome cadastrado no sistema.");
+
+
+                    oRisco.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    oRisco.Template = true;
                     RiscoBusiness.Inserir(oRisco);
 
-                    Extensions.GravaCookie("MensagemSucesso", "O evento '" + oRisco.Nome + "' foi cadastrado com sucesso!", 10);
-
-
+                    Extensions.GravaCookie("MensagemSucesso", "O risco '" + oRisco.Nome + "' foi cadastrado com sucesso!", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Risco") } });
 
@@ -275,7 +281,7 @@ namespace GISWeb.Controllers
             try
             {
                 List<string> riscosAsString = new List<string>();
-                List<Risco> lista = RiscoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.ToUpper().Contains(key.ToUpper())).ToList();
+                List<Risco> lista = RiscoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.ToUpper().Contains(key.ToUpper()) && a.Template).ToList();
 
                 foreach (Risco com in lista)
                     riscosAsString.Add(com.Nome);
@@ -293,7 +299,7 @@ namespace GISWeb.Controllers
         {
             try
             {
-                Risco item = RiscoBusiness.Consulta.FirstOrDefault(a => a.Nome.ToUpper().Equals(key.ToUpper()));
+                Risco item = RiscoBusiness.Consulta.FirstOrDefault(a => a.Nome.ToUpper().Equals(key.ToUpper()) && a.Template);
 
                 if (item == null)
                     throw new Exception();

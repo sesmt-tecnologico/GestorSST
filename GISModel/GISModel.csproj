@@ -120,6 +120,7 @@
     <Compile Include="DTO\Ged\Remessa.cs" />
     <Compile Include="DTO\Ged\VMArquivoEmpregado.cs" />
     <Compile Include="DTO\GerenciamentoDoRisco\VMNovoReconhecimentoControle.cs" />
+    <Compile Include="DTO\GerenciamentoDoRisco\VMReconhecimento.cs" />
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />
