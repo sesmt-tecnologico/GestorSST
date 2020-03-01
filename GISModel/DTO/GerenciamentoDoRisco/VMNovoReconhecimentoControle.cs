@@ -1,5 +1,7 @@
-﻿using GISModel.Enums;
+﻿using GISModel.Entidades;
+using GISModel.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace GISModel.DTO.GerenciamentoDoRisco
@@ -38,18 +40,7 @@ namespace GISModel.DTO.GerenciamentoDoRisco
 
         [Display(Name = "Controle")]
         [Required(ErrorMessage = "Informe pelo menos um tipo de controle")]
-        public string TiposDeControle { get; set; }
-
-        [Display(Name = "Classificação da Medida")]
-        [Required(ErrorMessage = "Selecione uma classificação da medida antes de prosseguir.")]
-        public EClassificacaoDaMedia EClassificacaoDaMedia { get; set; }
-
-        
-        [Display(Name = "Eficácia")]
-        [Required(ErrorMessage = "Selecione uma eficácia antes de prosseguir.")]
-        public EControle EControle { get; set; }
-
-
+        public List<string[]> Controles { get; set; }
 
     }
 }

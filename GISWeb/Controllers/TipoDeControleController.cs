@@ -1,7 +1,9 @@
 ﻿using GISCore.Business.Abstract;
 using GISCore.Infrastructure.Utils;
+using GISHelpers.Utils;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
+using GISModel.Enums;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
@@ -77,7 +79,28 @@ namespace GISWeb.Controllers
         }
 
 
+        public ActionResult AdicionarTipoDeControle()
+        {
+            ViewBag.TiposDeControles = TipoDeControleBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao));
+            
+            var enumData02 = from EClassificacaoDaMedia e in Enum.GetValues(typeof(EClassificacaoDaMedia))
+                             select new
+                             {
+                                 ID = (int)e,
+                                 Name = e.GetDisplayName()
+                             };
+            ViewBag.EClassificacaoDaMedia = new SelectList(enumData02, "ID", "Name");
 
+            var enumData03 = from EControle e in Enum.GetValues(typeof(EControle))
+                             select new
+                             {
+                                 ID = (int)e,
+                                 Name = e.GetDisplayName()
+                             };
+            ViewBag.EControle = new SelectList(enumData03, "ID", "Name");
+
+            return PartialView("_AdicionarTipoDeControle");
+        }
 
     }
 }

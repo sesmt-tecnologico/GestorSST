@@ -19,6 +19,8 @@ namespace GISModel.Entidades
 
         public List<ControleDeRiscos> Controles { get; set; }
 
-        //public virtual FonteGeradoraDeRisco FonteGeradoraDeRisco { get; set; }
+        [NotMapped]
+        public ReconhecimentoDoRisco Reconhecimento { get; set; }
+        
     }
 }

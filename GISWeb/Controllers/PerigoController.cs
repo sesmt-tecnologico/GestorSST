@@ -65,6 +65,12 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+
+                    Perigo obj = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Trim().ToUpper().Equals(oPerigo.Descricao.Trim().ToUpper()) && a.Template);
+                    if (obj != null)
+                        throw new Exception("Já existe um perigo com este nome cadastrado no sistema.");
+
+
                     oPerigo.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     oPerigo.Template = true;
                     PerigoBusiness.Inserir(oPerigo);
@@ -369,7 +375,7 @@ namespace GISWeb.Controllers
             try
             {
                 List<string> perigoAsString = new List<string>();
-                List<Perigo> lista = PerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.ToUpper().Contains(key.ToUpper())).ToList();
+                List<Perigo> lista = PerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.ToUpper().Contains(key.ToUpper()) && a.Template).ToList();
 
                 foreach (Perigo com in lista)
                     perigoAsString.Add(com.Descricao);
@@ -387,7 +393,7 @@ namespace GISWeb.Controllers
         {
             try
             {
-                Perigo item = PerigoBusiness.Consulta.FirstOrDefault(a => a.Descricao.ToUpper().Equals(key.ToUpper()));
+                Perigo item = PerigoBusiness.Consulta.FirstOrDefault(a => a.Descricao.ToUpper().Equals(key.ToUpper()) && a.Template);
 
                 if (item == null)
                     throw new Exception();
