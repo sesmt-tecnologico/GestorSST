@@ -1,9 +1,4 @@
-﻿using GISModel.Entidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GISModel.DTO.GerenciamentoDoRisco
 {
@@ -12,11 +7,7 @@ namespace GISModel.DTO.GerenciamentoDoRisco
 
         public string WorkArea { get; set; }
 
-        public string FonteGeradora { get; set; }
-
-        public List<Perigo> Perigos { get; set; }
-
-
+        public List<Entidades.FonteGeradoraDeRisco> FontesGeradoras { get; set; }
 
     }
 }

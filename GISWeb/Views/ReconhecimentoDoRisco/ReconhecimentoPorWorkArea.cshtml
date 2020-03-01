@@ -1,0 +1,106 @@
+﻿@using GISModel.DTO.GerenciamentoDoRisco
+@using GISModel.Entidades
+@using GISHelpers.Utils
+
+@model VMReconhecimento
+
+@{
+    ViewBag.Title = "Reconhecimento Por WorkArea";
+}
+
+@if (Model == null)
+{
+
+}
+else
+{
+
+    foreach (FonteGeradoraDeRisco font in Model.FontesGeradoras)
+    {
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <span class="center bolder" style="width: 100%">
+                    Reconhecimento de Risco por Fonte Geradora
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                WorkArea: @Model.WorkArea - Fonte Geradora: @font.Descricao
+            </div>
+        </div>
+        <div class="space-10"></div>
+
+        foreach (Perigo per in font.Perigos)
+        {
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    Perigo: @per.Descricao
+                </div>
+            </div>
+
+            foreach (Risco risk in per.Riscos)
+            {
+                <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+                        <span>Risco</span>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <span>Tragetória</span>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <span>Classe do Risco</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+                        <span>@risk.Nome</span>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <span>@risk.Reconhecimento.Tragetoria</span>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <span>@risk.Reconhecimento.EClasseDoRisco</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        Controles
+                    </div>
+                </div>
+
+                foreach (ControleDeRiscos control in risk.Controles)
+                {
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-12">
+                            <span>Tipo de Controle</span>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <span>Classificação da Medida</span>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <span>Eficácia</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-12">
+                            <span>@control.TipoDeControle</span>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <span>@control.EClassificacaoDaMedia.GetDisplayName()</span>
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <span>@control.EControle.GetDisplayName()</span>
+                        </div>
+                    </div>
+                }
+
+            }
+
+        }
+
+    }
+
+}
+

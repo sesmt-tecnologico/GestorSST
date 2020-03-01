@@ -14,11 +14,12 @@ namespace GISModel.Entidades
 
         public bool Template { get; set; }
 
-
         public List<PossiveisDanos> Danos { get; set; }
 
         public List<ControleDeRiscos> Controles { get; set; }
 
-        //public virtual FonteGeradoraDeRisco FonteGeradoraDeRisco { get; set; }
+        [NotMapped]
+        public ReconhecimentoDoRisco Reconhecimento { get; set; }
+        
     }
 }

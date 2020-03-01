@@ -228,7 +228,7 @@ namespace GISWeb.Controllers
             try
             {
 
-                List<ReconhecimentoDoRisco> lista = new List<ReconhecimentoDoRisco>();
+                
 
                 string sql = @"select w.Nome as workarea, f.FonteGeradora, per.Descricao as Perigo, risc.Nome as Risco, r.Tragetoria, r.EClasseDoRisco, tc.Descricao as TipoControle, c.EClassificacaoDaMedia, c.EControle
                                from [dbGestor].[dbo].[tbReconhecimentoDoRisco] r
@@ -245,47 +245,208 @@ namespace GISWeb.Controllers
                 DataTable result = ReconhecimentoBusiness.GetDataTable(sql);
                 if (result.Rows.Count > 0)
                 {
-                    ReconhecimentoDoRisco obj = null;
-                    WorkArea oWork = null;
+                    VMReconhecimento obj = null;
+                    FonteGeradoraDeRisco fonte = null;
+                    Perigo per = null;
+                    Risco risk = null;
 
                     foreach (DataRow row in result.Rows)
                     {
                         if (obj == null)
                         {
-                            obj = new ReconhecimentoDoRisco()
+                            obj = new VMReconhecimento()
                             {
-                                UniqueKey = Guid.Parse(row["ukreconhecimento"].ToString())//,                                
+                                WorkArea = row["workarea"].ToString(),
+                                FontesGeradoras = new List<FonteGeradoraDeRisco>()
                             };
 
-                            if (!string.IsNullOrEmpty(row["UniqWa"].ToString()))
+                            if (!string.IsNullOrEmpty(row["FonteGeradora"]?.ToString()))
                             {
-                                oWork = new WorkArea()
+                                fonte = new FonteGeradoraDeRisco()
                                 {
-                                    UniqueKey = Guid.Parse(row["UniqWa"].ToString()),
-                                    Nome = row["Nome"].ToString(),
-                                    FonteGeradoraDeRisco = new List<FonteGeradoraDeRisco>()
+                                    Descricao = row["FonteGeradora"].ToString(),
+                                    Perigos = new List<Perigo>()
                                 };
 
-                                oWork.FonteGeradoraDeRisco.Add(new FonteGeradoraDeRisco()
+                                if (!string.IsNullOrEmpty(row["Perigo"]?.ToString()))
                                 {
-                                    UniqueKey = Guid.Parse(row["UKFonte"].ToString()),
-                                    FonteGeradora = row["FonteGeradora"].ToString(),
+                                    per = new Perigo()
+                                    {
+                                        Descricao = row["Perigo"].ToString(),
+                                        Riscos = new List<Risco>()
+                                    };
 
-                                    Descricao = row["Descricao"].ToString()
+                                    if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                    {
+                                        risk = new Risco()
+                                        {
+                                            Nome = row["Risco"].ToString(),
+                                            Reconhecimento = new ReconhecimentoDoRisco()
+                                            {
+                                                Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
+                                                EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true) ,
+                                            },
+                                            Controles = new List<ControleDeRiscos>()
+                                        };
 
-                                });
+                                        if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                        {
+                                            risk.Controles.Add(new ControleDeRiscos()
+                                            {
+                                                TipoDeControle = row["TipoControle"].ToString(),
+                                                EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
+                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
+                                            });
+                                        }
+
+
+                                        per.Riscos.Add(risk);
+                                    }
+
+                                    fonte.Perigos.Add(per);
+                                }
+
+                                obj.FontesGeradoras.Add(fonte);
                             }
-
                         }
+                        else
+                        {
+                            if (fonte.Descricao.Equals(row["FonteGeradora"].ToString()))
+                            {
+                                if (per.Descricao.Equals(row["Perigo"].ToString()))
+                                {
+                                    if (risk.Nome.Equals(row["Risco"].ToString()))
+                                    {
+                                        risk.Controles.Add(new ControleDeRiscos()
+                                        {
+                                            TipoDeControle = row["TipoControle"].ToString(),
+                                            EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
+                                            EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
+                                        });
+                                    }
+                                    else
+                                    {
+                                        risk = new Risco()
+                                        {
+                                            Nome = row["Risco"].ToString(),
+                                            Reconhecimento = new ReconhecimentoDoRisco()
+                                            {
+                                                Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
+                                                EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true),
+                                            },
+                                            Controles = new List<ControleDeRiscos>()
+                                        };
+
+                                        if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                        {
+                                            risk.Controles.Add(new ControleDeRiscos()
+                                            {
+                                                TipoDeControle = row["TipoControle"].ToString(),
+                                                EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
+                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
+                                            });
+                                        }
 
 
+                                        per.Riscos.Add(risk);
+                                    }
+
+                                }
+                                else
+                                {
+
+                                    per = new Perigo()
+                                    {
+                                        Descricao = row["Perigo"].ToString(),
+                                        Riscos = new List<Risco>()
+                                    };
+
+                                    if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                    {
+                                        risk = new Risco()
+                                        {
+                                            Nome = row["Risco"].ToString(),
+                                            Reconhecimento = new ReconhecimentoDoRisco()
+                                            {
+                                                Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
+                                                EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true),
+                                            },
+                                            Controles = new List<ControleDeRiscos>()
+                                        };
+
+                                        if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                        {
+                                            risk.Controles.Add(new ControleDeRiscos()
+                                            {
+                                                TipoDeControle = row["TipoControle"].ToString(),
+                                                EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
+                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
+                                            });
+                                        }
+
+
+                                        per.Riscos.Add(risk);
+                                    }
+
+                                    fonte.Perigos.Add(per);
+
+                                }
+                            }
+                            else
+                            {
+                                fonte = new FonteGeradoraDeRisco()
+                                {
+                                    Descricao = row["FonteGeradora"].ToString(),
+                                    Perigos = new List<Perigo>()
+                                };
+
+                                if (!string.IsNullOrEmpty(row["Perigo"]?.ToString()))
+                                {
+                                    per = new Perigo()
+                                    {
+                                        Descricao = row["Perigo"].ToString(),
+                                        Riscos = new List<Risco>()
+                                    };
+
+                                    if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                    {
+                                        risk = new Risco()
+                                        {
+                                            Nome = row["Risco"].ToString(),
+                                            Reconhecimento = new ReconhecimentoDoRisco()
+                                            {
+                                                Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
+                                                EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true),
+                                            },
+                                            Controles = new List<ControleDeRiscos>()
+                                        };
+
+                                        if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                        {
+                                            risk.Controles.Add(new ControleDeRiscos()
+                                            {
+                                                TipoDeControle = row["TipoControle"].ToString(),
+                                                EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
+                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
+                                            });
+                                        }
+
+
+                                        per.Riscos.Add(risk);
+                                    }
+
+                                    fonte.Perigos.Add(per);
+                                }
+
+                                obj.FontesGeradoras.Add(fonte);
+                            }
+                        }
                     }
 
-                    if (obj != null)
-                        lista.Add(obj);
+                    return View("ReconhecimentoPorWorkArea", obj);
                 }
 
-                return PartialView("_PesquisaRiscos", lista);
+                return View("ReconhecimentoPorWorkArea");
             }
 
 
