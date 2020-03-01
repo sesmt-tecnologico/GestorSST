@@ -14,6 +14,7 @@ namespace GISModel.Entidades
 
         public bool Template { get; set; }
 
+
         public List<PossiveisDanos> Danos { get; set; }
 
         public List<ControleDeRiscos> Controles { get; set; }

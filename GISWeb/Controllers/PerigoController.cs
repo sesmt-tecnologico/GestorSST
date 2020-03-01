@@ -65,9 +65,11 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+
                     Perigo obj = PerigoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Trim().ToUpper().Equals(oPerigo.Descricao.Trim().ToUpper()) && a.Template);
                     if (obj != null)
                         throw new Exception("Já existe um perigo com este nome cadastrado no sistema.");
+
 
                     oPerigo.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     oPerigo.Template = true;
@@ -192,23 +194,23 @@ namespace GISWeb.Controllers
                                 Danos = new List<PossiveisDanos>()
 
                             };
-                           
+
                         }
 
                         if (!string.IsNullOrEmpty(row["rel02"].ToString()))
-                            {
+                        {
                             oRisco.Danos.Add(new PossiveisDanos()
-                                {
+                            {
                                 UniqueKey = Guid.Parse(row["rel02"].ToString()),
                                 DescricaoDanos = row["DescricaoDanos"].ToString(),
 
                             });
-                            }
+                        }
 
-                            obj.Riscos.Add(oRisco);
-                     }
+                        obj.Riscos.Add(oRisco);
+                    }
 
-                    
+
                     else if (obj.UniqueKey.Equals(Guid.Parse(row["UK_P"].ToString())))
                     {
                         if (!string.IsNullOrEmpty(row["relR"].ToString()))
@@ -289,7 +291,7 @@ namespace GISWeb.Controllers
                                 Danos = new List<PossiveisDanos>()
 
                             };
-                            
+
 
                             if (!string.IsNullOrEmpty(row["rel02"].ToString()))
                             {
