@@ -421,7 +421,8 @@ namespace GISCore.Business.Concrete
                             UniqueKey = arqemp.UniqueKey,
                             UKLocacao = arqemp.UKLocacao,
                             UKEmpregado = arqemp.UKEmpregado,
-                            UKFuncao = arqemp.UKFuncao
+                            UKFuncao = arqemp.UKFuncao,
+                            UKObjectArquivo = arqemp.UKObjetoArquivo
                         });
                     }
                 }
