@@ -1,4 +1,4 @@
-﻿ @using GISModel.Entidades
+﻿@using GISModel.Entidades
 @model List<Admissao>
 
 @if (Model == null || Model.Count == 0)
@@ -26,19 +26,20 @@ else
                     </a>
                 </h5>
 
-                    <div style="float: right; border: 0px;">
+                @*<div style="float: right; border: 0px;">
 
-                        <a href="#" class="btn btn-mini btn-info btnNovaAlocacao" style="padding-left: 7px; padding-right: 7px; width: 110px;" data-target="#modalAlocacao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                            <i class="ace-icon fa fa-plus-circle bigger-120"></i>
-                            <span class="bigger-110">Alocar</span>
-                        </a>
+                    <a href="#" class="btn btn-mini btn-info btnNovaAlocacao" style="padding-left: 7px; padding-right: 7px; width: 110px;" data-target="#modalAlocacao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                        <i class="ace-icon fa fa-plus-circle bigger-120"></i>
+                        <span class="bigger-110">Alocar</span>
+                    </a>
 
-                        <a href="#" class="btn btn-mini btn-danger btnDemitir" data-ukadmissao="@adm.UniqueKey.ToString()" data-empresa="@adm.Empresa.NomeFantasia" style="padding-left: 7px; padding-right: 7px; width: 110px;">
-                            <i class="ace-icon fa fa-minus bigger-120"></i>
-                            <span class="bigger-110">Demitir</span>
-                        </a>
+                    <a href="#" class="btn btn-mini btn-danger btnDemitir" data-ukadmissao="@adm.UniqueKey.ToString()" data-empresa="@adm.Empresa.NomeFantasia" style="padding-left: 7px; padding-right: 7px; width: 110px;">
+                        <i class="ace-icon fa fa-minus bigger-120"></i>
+                        <span class="bigger-110">Demitir</span>
+                    </a>
 
-                    </div>
+                </div>*@
+
             </div>
 
             <div class="widget-body">
@@ -74,10 +75,24 @@ else
                                     </h5>
 
                                     <div style="float: right; border: 0px;">
-                                        <a href="#" class="btn btn-mini btn-danger btnDesalocar" data-ukalocacao="@al.UniqueKey.ToString()" data-cargafuncao="@al.Cargo.NomeDoCargo|@al.Funcao.NomeDaFuncao" style="padding-left: 7px; padding-right: 7px; width: 110px;">
-                                          <i class="ace-icon fa fa-minus bigger-120"></i>
-                                           <span class="bigger-110">Desalocar</span>
-                                        </a>
+                                        @if (ViewBag.Pagina != null && ViewBag.Pagina != "Ged")
+                                        {
+                                            <a href="#" class="btn btn-mini btn-danger btnDesalocar" data-ukalocacao="@al.UniqueKey.ToString()" data-cargafuncao="@al.Cargo.NomeDoCargo|@al.Funcao.NomeDaFuncao" style="padding-left: 7px; padding-right: 7px; width: 110px;">
+                                                <i class="ace-icon fa fa-minus bigger-120"></i>
+                                                <span class="bigger-110">Desalocar</span>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            @Html.ActionLink("Uploads Documentos", "Upload", "Ged",
+                                                     new
+                                                          {
+                                                              ukemp = adm.UKEmpregado.ToString(),
+                                                           ukalocado = al.UniqueKey.ToString(),
+                                                           ukfuncao = adm.Alocacoes.SingleOrDefault(x => x.UniqueKey == al.UniqueKey).Funcao.UniqueKey
+                                                          },
+                                                     new { @class = "btn btn-mini btn-block btn-info" })
+                                        }
                                     </div>
                                 </div>
 

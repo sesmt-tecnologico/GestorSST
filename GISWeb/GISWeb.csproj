@@ -799,6 +799,7 @@
     <Content Include="Views\FonteGeradoraDeRisco\_Arquivos.cshtml" />
     <Content Include="Views\Arquivo\_Upload.cshtml" />
     <Content Include="Views\Indicadores\Indicadores.cshtml" />
+    <Content Include="Views\Ged\_BuscarAdmissoesAtuaisGed.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
