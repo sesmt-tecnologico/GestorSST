@@ -6,17 +6,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace GISModel.Entidades
 {
     [Table("tbFonteGeradoraDeRisco")]
-    public class FonteGeradoraDeRisco: EntidadeBase
+    public class FonteGeradoraDeRisco : EntidadeBase
     {
 
-        [Display(Name ="WorkArea")]
+        [Display(Name = "WorkArea")]
         public Guid UKWorkArea { get; set; }
 
-        [Display(Name ="Fonte Geradora")]
+        [Display(Name = "Fonte Geradora")]
         public string FonteGeradora { get; set; }
 
         [Display(Name = "Descrição")]
-        public string  Descricao { get; set; }
+        public string Descricao { get; set; }
 
         public List<Perigo> Perigos { get; set; }
 

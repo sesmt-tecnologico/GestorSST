@@ -100,7 +100,7 @@ namespace GISWeb.Controllers
                                     UniqueKey = Guid.Parse(row["UniqFon"].ToString()),
                                     FonteGeradora = row["FonteGeradora"].ToString(),
                                     Descricao = row["Descricao"].ToString(),
-                                    
+
 
 
                                 };
@@ -213,7 +213,7 @@ namespace GISWeb.Controllers
                                     UniqueKey = Guid.Parse(row["UniqFon"].ToString()),
                                     FonteGeradora = row["FonteGeradora"].ToString(),
                                     Descricao = row["Descricao"].ToString(),
-                                   
+
 
 
                                 };
@@ -735,7 +735,7 @@ namespace GISWeb.Controllers
                 REL_PerigoRisco rel = REL_PerigoRiscoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKRisco.Equals(guidRisco) && a.UKPerigo.Equals(guidPerigo));
                 if (rel == null)
                     throw new Exception("Não foi possível localizar o relacionamento entre Risco e Perigo na base de dados.");
-                
+
                 Risco rBanco = RiscoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(guidRisco));
                 if (rBanco == null)
                     throw new Exception("Não foi possível localizar o risco na base de dados.");

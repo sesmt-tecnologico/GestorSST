@@ -69,9 +69,11 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+
                     Risco risk = RiscoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.Trim().ToUpper().Equals(oRisco.Nome.Trim().ToUpper()) && a.Template);
                     if (risk != null)
                         throw new Exception("Já existe um risco com este nome cadastrado no sistema.");
+
 
                     oRisco.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     oRisco.Template = true;

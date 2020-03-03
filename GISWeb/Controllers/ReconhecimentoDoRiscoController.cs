@@ -245,7 +245,9 @@ namespace GISWeb.Controllers
 		                                left join [dbGestor].[dbo].[tbControleDoRisco]  c on c.UKReconhecimentoDoRisco = r.UniqueKey and r.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbTipoDeControle]  tc on tc.UniqueKey = c.UKTipoDeControle and tc.DataExclusao ='9999-12-31 23:59:59.997' 
                                where r.UKWorkArea = '" + id + @"' 
+
                                order by f.FonteGeradora, per.Descricao, risc.Nome";
+
 
 
                 DataTable result = ReconhecimentoBusiness.GetDataTable(sql);
