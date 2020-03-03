@@ -230,7 +230,13 @@ namespace GISWeb.Controllers
 
                 
 
-                string sql = @"select w.Nome as workarea, f.FonteGeradora, per.Descricao as Perigo, risc.Nome as Risco, r.Tragetoria, r.EClasseDoRisco, tc.Descricao as TipoControle, c.EClassificacaoDaMedia, c.EControle
+                string sql = @"select w.UniqueKey as UKWorkArea, w.Nome as workarea, 
+                                      f.UniqueKey as UKFonte, f.FonteGeradora, 
+                                      per.Descricao as Perigo, 
+                                      risc.UniqueKey as UKRisco, risc.Nome as Risco, 
+                                      r.Tragetoria, r.EClasseDoRisco, 
+                                      tc.UniqueKey as UKTipoControle, tc.Descricao as TipoControle, 
+                                      c.EClassificacaoDaMedia, c.EControle
                                from [dbGestor].[dbo].[tbReconhecimentoDoRisco] r
 		                                left join [dbGestor].[dbo].[tbWorkArea]  w on w.UniqueKey = r.UKWorkArea and w.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbFonteGeradoraDeRisco] f on f.UniqueKey = r.UKFonteGeradora and f.DataExclusao ='9999-12-31 23:59:59.997' 
@@ -258,6 +264,7 @@ namespace GISWeb.Controllers
                         {
                             obj = new VMReconhecimento()
                             {
+                                UKWorkArea = row["UKWorkArea"].ToString(),
                                 WorkArea = row["workarea"].ToString(),
                                 FontesGeradoras = new List<FonteGeradoraDeRisco>()
                             };
@@ -266,6 +273,7 @@ namespace GISWeb.Controllers
                             {
                                 fonte = new FonteGeradoraDeRisco()
                                 {
+                                    UniqueKey = Guid.Parse(row["UKFonte"].ToString()),
                                     Descricao = row["FonteGeradora"].ToString(),
                                     Perigos = new List<Perigo>()
                                 };
@@ -282,6 +290,7 @@ namespace GISWeb.Controllers
                                     {
                                         risk = new Risco()
                                         {
+                                            UniqueKey = Guid.Parse(row["UKRisco"].ToString()),
                                             Nome = row["Risco"].ToString(),
                                             Reconhecimento = new ReconhecimentoDoRisco()
                                             {
@@ -295,6 +304,7 @@ namespace GISWeb.Controllers
                                         {
                                             risk.Controles.Add(new ControleDeRiscos()
                                             {
+                                                UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
                                                 EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
                                                 EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
@@ -321,6 +331,7 @@ namespace GISWeb.Controllers
                                     {
                                         risk.Controles.Add(new ControleDeRiscos()
                                         {
+                                            UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                             TipoDeControle = row["TipoControle"].ToString(),
                                             EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
                                             EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
@@ -343,6 +354,7 @@ namespace GISWeb.Controllers
                                         {
                                             risk.Controles.Add(new ControleDeRiscos()
                                             {
+                                                UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
                                                 EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
                                                 EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
@@ -367,6 +379,7 @@ namespace GISWeb.Controllers
                                     {
                                         risk = new Risco()
                                         {
+                                            UniqueKey = Guid.Parse(row["UKRisco"].ToString()),
                                             Nome = row["Risco"].ToString(),
                                             Reconhecimento = new ReconhecimentoDoRisco()
                                             {
@@ -380,6 +393,7 @@ namespace GISWeb.Controllers
                                         {
                                             risk.Controles.Add(new ControleDeRiscos()
                                             {
+                                                UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
                                                 EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
                                                 EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
@@ -398,6 +412,7 @@ namespace GISWeb.Controllers
                             {
                                 fonte = new FonteGeradoraDeRisco()
                                 {
+                                    UniqueKey = Guid.Parse(row["UKFonte"].ToString()),
                                     Descricao = row["FonteGeradora"].ToString(),
                                     Perigos = new List<Perigo>()
                                 };
@@ -414,6 +429,7 @@ namespace GISWeb.Controllers
                                     {
                                         risk = new Risco()
                                         {
+                                            UniqueKey = Guid.Parse(row["UKRisco"].ToString()),
                                             Nome = row["Risco"].ToString(),
                                             Reconhecimento = new ReconhecimentoDoRisco()
                                             {
@@ -427,6 +443,7 @@ namespace GISWeb.Controllers
                                         {
                                             risk.Controles.Add(new ControleDeRiscos()
                                             {
+                                                UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
                                                 EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
                                                 EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
