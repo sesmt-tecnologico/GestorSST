@@ -6,6 +6,7 @@ using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -136,7 +137,7 @@ namespace GISWeb.Controllers
         }
 
 
-        public ActionResult Visualizar(string id)
+        public ActionResult Visualizar_Antigo(string id)
         {
             try
             {
@@ -221,8 +222,68 @@ namespace GISWeb.Controllers
             }
         }
 
+        public byte[] Download(string remoteFileName)
+        {
+            string vault = ConfigurationManager.AppSettings["Vault"];
 
-        public ActionResult Download(string id)
+            GISCore.WCF_Suporte.SuporteClient WCFSuporte = new GISCore.WCF_Suporte.SuporteClient();
+            return WCFSuporte.BuscarArquivoDoVault(vault, remoteFileName);
+        }
+
+        public ActionResult Visualizar(string id)
+        {
+            try
+            {
+                if (id != null)
+                {
+                    try
+                    {
+                        Guid ukarquivo = Guid.Parse(id);
+                        Arquivo arq = ArquivoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey == ukarquivo);
+                        if (arq == null)
+                        {
+                            throw new Exception("Arquivo não encontrado através da identificação recebida como parâmetro.");
+                        }
+                        else
+                        {
+                            byte[] conteudo = ArquivoBusiness.Download(arq.NomeRemoto);
+
+                            var mimeType = string.Empty;
+                            try
+                            {
+                                mimeType = MimeMapping.GetMimeMapping(arq.NomeLocal);
+                            }
+                            catch { }
+
+                            if (string.IsNullOrWhiteSpace(mimeType))
+                                mimeType = System.Net.Mime.MediaTypeNames.Application.Octet;
+
+                            Response.AddHeader("Content-Disposition", string.Format("inline; filename=\"{0}\"", arq.NomeLocal));
+
+                            return File(conteudo, mimeType);
+                        }
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Response.StatusCode = 500;
+                        return Content(ex.Message, "text/html");
+                    }
+                }
+                else
+                {
+                    Response.StatusCode = 500;
+                    return Content("Parâmetros para visualização de arquivo inválido.", "text/html");
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Content(ex.Message, "text/html");
+            }
+        }
+        public ActionResult Download_Antigo(string id)
         {
             try
             {

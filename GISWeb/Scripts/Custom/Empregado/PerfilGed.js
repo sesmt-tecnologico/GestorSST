@@ -96,7 +96,7 @@ function CarregarAdmissao() {
 
     $.ajax({
         method: "POST",
-        url: "/Admissao/BuscarAdmissoesAtuais",
+        url: "/Ged/BuscarAdmissoesAtuaisGed",
         data: { UKEmpregado: $("#UKEmp").val() },
         error: function (erro) {
             ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');

@@ -64,6 +64,13 @@ namespace GISWeb.Controllers
             return View();
         }
 
+        public ActionResult BuscarAdmissoesAtuaisGed(string UKEmpregado)
+        {
+            var lista = this.AdmissaoBusiness.BuscarAdmissoesAtuais(UKEmpregado);
+
+            return PartialView("_BuscarAdmissoesAtuaisGed", lista);
+        }
+
         [HttpPost]
         public ActionResult SaveUpload(string ukEmpregado, string ukAlocado, string ukFuncao)
         {
@@ -147,5 +154,7 @@ namespace GISWeb.Controllers
                 }
             }
         }
+
+
     }
 }
