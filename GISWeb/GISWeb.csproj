@@ -552,6 +552,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndicadoresController.cs" />
     <Compile Include="Controllers\MedidasDeControleController.cs" />
+    <Compile Include="Controllers\MidiaController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\PerigoController.cs" />
@@ -801,6 +802,7 @@
     <Content Include="Views\Indicadores\Indicadores.cshtml" />
     <Content Include="Views\TipoDeControle\_AdicionarTipoDeControle.cshtml" />
     <Content Include="Views\ReconhecimentoDoRisco\ReconhecimentoPorWorkArea.cshtml" />
+    <Content Include="Views\Midia\_Midia.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

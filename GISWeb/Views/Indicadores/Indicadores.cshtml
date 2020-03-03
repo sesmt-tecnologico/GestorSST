@@ -5,85 +5,97 @@
 
         <script src="~/Scripts/Custom/tempGrafico/Grafico.js"></script>
     }*@
-<html>
-<head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+    <html>
+    <head>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
 
-        // Load Charts and the corechart package.
-        google.charts.load('current', { 'packages': ['corechart'] });
+            // Load Charts and the corechart package.
+            google.charts.load('current', { 'packages': ['corechart'] });
 
-        // Draw the pie chart for Sarah's pizza when Charts is loaded.
-        google.charts.setOnLoadCallback(drawSarahChart);
+            // Draw the pie chart for Sarah's pizza when Charts is loaded.
+            google.charts.setOnLoadCallback(drawSarahChart);
 
-        // Draw the pie chart for the Anthony's pizza when Charts is loaded.
-        google.charts.setOnLoadCallback(drawAnthonyChart);
+            // Draw the pie chart for the Anthony's pizza when Charts is loaded.
+            google.charts.setOnLoadCallback(drawAnthonyChart);
 
-        // Callback that draws the pie chart for Sarah's pizza.
-        function drawSarahChart() {
+            // Callback that draws the pie chart for Sarah's pizza.
+            function drawSarahChart() {
 
-            // Create the data table for Sarah's pizza.
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Topping');
-            data.addColumn('number', 'Slices');
-            data.addRows([
-                ['Queda', 1],
-                ['Eletricidade', 1],
-                ['Veículo', 2],
-                ['Contusões', 2],
-                //['Maio', 1]
-            ]);
+                // Create the data table for Sarah's pizza.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Topping');
+                data.addColumn('number', 'Slices');
+                data.addRows([
+                    ['Queda', 1],
+                    ['Eletricidade', 1],
+                    ['Veículo', 2],
+                    ['Contusões', 2],
+                    //['Maio', 1]
+                ]);
 
-            // Set options for Sarah's pie chart.
-            var options = {
-                title: 'Acidentes por Tipo - 2019',
-                width: 400,
-                height: 300
-            };
+                // Set options for Sarah's pie chart.
+                var options = {
+                    title: 'Acidentes por Tipo - 2019',
+                    width: 400,
+                    height: 300
+                };
 
-            // Instantiate and draw the chart for Sarah's pizza.
-            var chart = new google.visualization.PieChart(document.getElementById('Sarah_chart_div'));
-            chart.draw(data, options);
-        }
+                // Instantiate and draw the chart for Sarah's pizza.
+                var chart = new google.visualization.PieChart(document.getElementById('Sarah_chart_div'));
+                chart.draw(data, options);
+            }
 
-        // Callback that draws the pie chart for Anthony's pizza.
-        function drawAnthonyChart() {
+            // Callback that draws the pie chart for Anthony's pizza.
+            function drawAnthonyChart() {
 
-            // Create the data table for Anthony's pizza.
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Topping');
-            data.addColumn('number', 'Slices');
-            data.addRows([
-               ['Caeté', 2],
-                ['São Paulo', 1],
-                ['Betim', 1],
-                ['Sabará', 2],
-                ['Ouro Preto', 1]
-            ]);
+                // Create the data table for Anthony's pizza.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Topping');
+                data.addColumn('number', 'Slices');
+                data.addRows([
+                    ['Caeté', 2],
+                    ['São Paulo', 1],
+                    ['Betim', 1],
+                    ['Sabará', 2],
+                    ['Ouro Preto', 1]
+                ]);
 
-            // Set options for Anthony's pie chart.
-            var options = {
-                title: 'Acidentes por Cidade - 2019',
-                width: 400,
-                height: 300
-            };
+                // Set options for Anthony's pie chart.
+                var options = {
+                    title: 'Acidentes por Cidade - 2019',
+                    width: 400,
+                    height: 300
+                };
 
-            // Instantiate and draw the chart for Anthony's pizza.
-            var chart = new google.visualization.PieChart(document.getElementById('Anthony_chart_div'));
-            chart.draw(data, options);
-        }
-    </script>
+                // Instantiate and draw the chart for Anthony's pizza.
+                var chart = new google.visualization.PieChart(document.getElementById('Anthony_chart_div'));
+                chart.draw(data, options);
+            }
+        </script>
 
-</head>
-<body>
-    <!--Table and divs that hold the pie charts-->
-    <table class="columns">
-        <tr>
-            <td><div id="Sarah_chart_div" style="border: 1px solid #ccc"></div></td>
-            <td><div id="Anthony_chart_div" style="border: 1px solid #ccc"></div></td>
-        </tr>
-    </table>
-</body>
+    </head>
+    <body>
+
+        <div>
+            <div class="pull-right action-buttons">
+
+                <a class="blue CustomTooltip" href="#" title="Abrir Vídeo" onclick="window.open('@ViewBag.midia');return false;" )>
+                    <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+                </a>
+            </div>
+        </div>
+
+
+
+        <!--Table and divs that hold the pie charts-->
+        <table class="columns">
+            <tr>
+                <td><div id="Sarah_chart_div" style="border: 1px solid #ccc"></div></td>
+                <td><div id="Anthony_chart_div" style="border: 1px solid #ccc"></div></td>
+            </tr>
+        </table>
+    </body>
 
 
 
@@ -163,8 +175,32 @@
             chart.draw(data, options);
         }
     </script>
-</head>
-<body>
-    <div id="curve_chart" style="width: 900px; height: 500px"></div>
-</body>
+    </head>
+    <body>
+        <div id="curve_chart" style="width: 900px; height: 500px"></div>
+    </body>
+
+    @*<iframe src="https://player.vimeo.com/video/394755088" width="640" height="361" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    <p><a href="https://vimeo.com/394755088">S&oacute; em Deus - Maria do Ros&aacute;rio - teste01</a> from <a href="https://vimeo.com/user109166517">Muntec Softwares</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/1aYLX0ElGhg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>*@
+   
+    <body>
+        @{
+            string link = "https://player.vimeo.com/video/394755088";
+        }
+
+
+        <div>
+            <div class="pull-right action-buttons">
+
+                <a class="blue CustomTooltip" href="#" title="Abrir Vídeo" onclick="window.open(@ViewBag.midia);return false;" )>
+                    <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+                </a>
+            </div>
+        </div>
+        
+    </body>
+
+
 </html>

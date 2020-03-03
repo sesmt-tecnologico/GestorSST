@@ -6,13 +6,15 @@ using System.Web.Mvc;
 
 namespace GISWeb.Controllers
 {
-    public class IndicadoresController : Controller
+    public class MidiaController : Controller
     {
-        // GET: Indicadores
-        public ActionResult Indicadores()
+        // GET: Midia
+        public ActionResult Index(string midia)
         {
 
-            ViewBag.midia = "https://player.vimeo.com/video/394755088";
+
+           
+
             return View();
         }
     }
