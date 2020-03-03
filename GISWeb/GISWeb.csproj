@@ -467,6 +467,7 @@
     <Content Include="Scripts\Custom\PossiveisDanos\Excluir.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Listagem.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Novo.js" />
+    <Content Include="Scripts\Custom\Reconhecimento\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Novo.js" />
     <Content Include="Scripts\Custom\Risco\Edicao.js" />

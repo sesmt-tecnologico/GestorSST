@@ -1,13 +1,11 @@
-﻿jQuery(function ($) {
-
-    AplicajQdataTable("dynamic-table", [{ "bSortable": false }, null,  { "bSortable": false }], false, 20);
+﻿
+jQuery(function ($) {
 
     AplicaTooltip();
 
     InitDropZoneSingle();
 
 });
-
 
 function OnClickBuscarArquivos(pUKObjeto) {
 
@@ -121,6 +119,7 @@ function OnClickBuscarArquivos(pUKObjeto) {
 
 
 }
+
 
 function InitDropZoneSingle() {
     try {
