@@ -260,7 +260,7 @@ namespace GISCore.Business.Concrete
             List<Alocacao> lista = new List<Alocacao>();
 
             string query = @"select al.UniqueKey, c.Numero as Contrato, cargo.NomeDoCargo, func.NomeDaFuncao, est.Descricao as Estabelecimento, eq.NomeDaEquipe, dep.Sigla, 
-                                    atv.Descricao as Atividade, al.DataInclusao, al.UsuarioInclusao, est.UniqueKey as UKEstab, func.UniqueKey as UKFuncao
+                                    atv.Descricao as Atividade, al.DataInclusao, al.UsuarioInclusao, est.UniqueKey as UKEstab, func.UniqueKey as UKFuncao, fa.UKAtividade as UKAtividade
                              from tbAlocacao al 
 		                             inner join tbContrato c on al.UKContrato = c.UniqueKey and c.UsuarioExclusao is null
 		                             inner join tbCargo cargo on al.UKCargo = cargo.UniqueKey and cargo.UsuarioExclusao is null
@@ -323,8 +323,14 @@ namespace GISCore.Business.Concrete
                         {
                             al.Funcao.Atividades.Add(new Atividade()
                             {
+                                UniqueKey = Guid.Parse(row["UKAtividade"].ToString()),
                                 Descricao = row["Atividade"].ToString()
                             });
+                        }
+
+                        foreach (var itm in al.Funcao.Atividades)
+                        {
+                            itm.DocumentosPessoal = ListaDocumentosPessoal(itm.UniqueKey.ToString());
                         }
 
                     }
@@ -333,9 +339,15 @@ namespace GISCore.Business.Concrete
                         if (!string.IsNullOrEmpty(row["Atividade"].ToString()))
                         {
                             al.Funcao.Atividades.Add(new Atividade()
-                            {
+                            { 
+                                UniqueKey = Guid.Parse(row["UKAtividade"].ToString()),
                                 Descricao = row["Atividade"].ToString()
                             });
+                        }
+
+                        foreach (var itm in al.Funcao.Atividades)
+                        {
+                            itm.DocumentosPessoal = ListaDocumentosPessoal(itm.UniqueKey.ToString());
                         }
                     }
                     else
@@ -383,8 +395,14 @@ namespace GISCore.Business.Concrete
                         {
                             al.Funcao.Atividades.Add(new Atividade()
                             {
+                                UniqueKey = Guid.Parse(row["UKAtividade"].ToString()),
                                 Descricao = row["Atividade"].ToString()
                             });
+                        }
+
+                        foreach (var itm in al.Funcao.Atividades)
+                        {
+                            itm.DocumentosPessoal = ListaDocumentosPessoal(itm.UniqueKey.ToString());
                         }
 
                     }
@@ -425,6 +443,28 @@ namespace GISCore.Business.Concrete
                             UKObjectArquivo = arqemp.UKObjetoArquivo
                         });
                     }
+                }
+            }
+
+            return lista;
+        }
+
+        public List<DocumentosPessoal> ListaDocumentosPessoal(string ukAtividade)
+        {
+
+            var lista = new List<DocumentosPessoal>();
+
+            string query = $@"select d.NomeDocumento from rel_DocumentoPessoalAtividade r 
+	        join tbAtividade a on a.UniqueKey = r.UKAtividade and a.UsuarioExclusao is null
+	        join tbDocumentosPessoal d on d.UniqueKey = r.UKDocumentoPessoal and d.UsuarioExclusao is null
+	        where r.UKAtividade = '{ukAtividade}' and r.UsuarioExclusao is null";
+
+            DataTable result = GetDataTable(query);
+            if (result.Rows.Count > 0)
+            {
+                foreach (DataRow item in result.Rows)
+                {
+                    lista.Add(new DocumentosPessoal() { NomeDocumento = item["NomeDocumento"].ToString() });
                 }
             }
 

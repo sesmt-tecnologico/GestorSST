@@ -19,5 +19,7 @@ namespace GISCore.Business.Abstract
         List<Alocacao> BuscarAlocacoes(string UKAdmissao, Guid UKEmpregado);
 
         List<ArquivoEmpregadoViewModel> RetonarListaArquivoEmpregado(Guid ukLocado, Guid ukEmpregado, Guid ukFuncao);
+
+        List<DocumentosPessoal> ListaDocumentosPessoal(string ukAtividade);
     }
 }

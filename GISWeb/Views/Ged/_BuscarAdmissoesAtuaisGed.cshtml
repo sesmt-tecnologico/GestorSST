@@ -192,7 +192,28 @@ else
                                                     <ul>
                                                         @foreach (Atividade atv in al.Funcao.Atividades)
                                                         {
-                                                            <li>@atv.Descricao</li>
+                                                            <li><strong>@atv.Descricao</strong></li>
+                                                            if (atv.DocumentosPessoal == null || atv.DocumentosPessoal.Count == 0)
+                                                            {
+                                                                <div class="alert alert-warning">
+                                                                    <strong>
+                                                                        <i class="ace-icon fa fa-meh-o"></i>
+                                                                        Oops!
+                                                                    </strong>
+
+                                                                    Nenhum documento para atividade acima.
+                                                                    <br>
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <ul>
+                                                                    @foreach (var item in atv.DocumentosPessoal)
+                                                                    {
+                                                                        <li>&nbsp;@item.NomeDocumento</li>
+                                                                    }
+                                                                </ul>
+                                                            }
                                                         }
                                                     </ul>
                                                 }
