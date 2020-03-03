@@ -184,7 +184,6 @@ namespace GISWeb.Controllers
 
         private List<Alocacao> BuscarAlocacoes(string UKAdmissao, Guid UKEmpregado)
         {
-
             List<Alocacao> lista = new List<Alocacao>();
 
             string query = @"select al.UniqueKey, c.Numero as Contrato, cargo.NomeDoCargo, func.NomeDaFuncao, est.Descricao as Estabelecimento, eq.NomeDaEquipe, dep.Sigla, 
@@ -244,7 +243,7 @@ namespace GISWeb.Controllers
                             ArquivoEmpregado = new List<ArquivoEmpregadoViewModel>()
                         };
 
-                        al.ArquivoEmpregado = RetonarListaArquivoEmpregado(al.UniqueKey, UKEmpregado, al.Funcao.UniqueKey);
+                        al.ArquivoEmpregado = this.AdmissaoBusiness.RetonarListaArquivoEmpregado(al.UniqueKey, UKEmpregado, al.Funcao.UniqueKey);
 
                         if (!string.IsNullOrEmpty(row["Atividade"].ToString()))
                         {
@@ -304,7 +303,7 @@ namespace GISWeb.Controllers
                             ArquivoEmpregado = new List<ArquivoEmpregadoViewModel>()
                         };
 
-                        al.ArquivoEmpregado = RetonarListaArquivoEmpregado(al.UniqueKey, UKEmpregado, al.Funcao.UniqueKey);
+                        al.ArquivoEmpregado = this.AdmissaoBusiness.RetonarListaArquivoEmpregado(al.UniqueKey, UKEmpregado, al.Funcao.UniqueKey);
 
                         if (!string.IsNullOrEmpty(row["Atividade"].ToString()))
                         {
@@ -320,37 +319,6 @@ namespace GISWeb.Controllers
                 if (al != null)
                 {
                     lista.Add(al);
-                }
-            }
-
-            return lista;
-        }
-
-        public List<ArquivoEmpregadoViewModel> RetonarListaArquivoEmpregado(Guid ukLocado,Guid ukEmpregado, Guid ukFuncao)
-        {
-            var lista = new List<ArquivoEmpregadoViewModel>();
-
-            var listaArquivoEmpregado = this.REL_ArquivoEmpregadoBusiness.Consulta
-                           .Where(x => x.UKLocacao == ukLocado
-                           && x.UKEmpregado == ukEmpregado
-                           && x.UKFuncao == ukFuncao && x.UsuarioExclusao == null).ToList();
-            if (listaArquivoEmpregado != null)
-            {
-                foreach (var arqemp in listaArquivoEmpregado)
-                {
-                    var arquivo = this.ArquivoBusiness.Consulta.SingleOrDefault(s => s.UniqueKey == arqemp.UKObjetoArquivo && arqemp.UsuarioExclusao == null);
-                    if (arquivo != null)
-                    {
-                        lista.Add(new ArquivoEmpregadoViewModel()
-                        {
-                            NomeLocal = arquivo.NomeLocal,
-                            NomeRemoto = arquivo.NomeRemoto,
-                            UniqueKey = arqemp.UniqueKey,
-                            UKLocacao = arqemp.UKLocacao,
-                            UKEmpregado = arqemp.UKEmpregado,
-                            UKFuncao = arqemp.UKFuncao
-                        });
-                    }
                 }
             }
 

@@ -14,5 +14,6 @@ namespace GISModel.DTO.Admissao
         public Guid UKLocacao { get; set; }
         public Guid UKEmpregado { get; set; }
         public Guid UKFuncao { get; set; }
+        public Guid UKObjectArquivo { get; set; }
     }
 }
