@@ -206,8 +206,8 @@ namespace GISWeb.Controllers
 
                 foreach (DataRow row in result.Rows)
                 {
-                    
-                    if (al == null )
+
+                    if (al == null)
                     {
                         al = new Alocacao()
                         {
@@ -221,14 +221,15 @@ namespace GISWeb.Controllers
                             Cargo = new Cargo()
                             {
                                 NomeDoCargo = row["NomeDoCargo"].ToString()
-                            },  
+                            },
                             Funcao = new Funcao()
                             {
                                 UniqueKey = Guid.Parse(row["UKFuncao"].ToString()),
                                 NomeDaFuncao = row["NomeDaFuncao"].ToString(),
                                 Atividades = new List<Atividade>()
                             },
-                            Estabelecimento = new Estabelecimento() { 
+                            Estabelecimento = new Estabelecimento()
+                            {
                                 UniqueKey = Guid.Parse(row["UKEstab"].ToString()),
                                 Descricao = row["Estabelecimento"].ToString()
                             },

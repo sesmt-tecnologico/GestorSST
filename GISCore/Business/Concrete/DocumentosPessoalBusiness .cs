@@ -10,9 +10,6 @@ namespace GISCore.Business.Concrete
 
         public override void Inserir(DocumentosPessoal pDocumento)
         {
-
-           
-
             base.Inserir(pDocumento);
         }
 
