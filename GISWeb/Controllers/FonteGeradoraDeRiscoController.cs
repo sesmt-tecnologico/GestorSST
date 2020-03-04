@@ -279,7 +279,7 @@ namespace GISWeb.Controllers
                                 ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
                                 {
                                     UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,
-                                    EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
+                                    UKClassificacaoDaMedia = oControle.UKClassificacaoDaMedia,
                                     //Controle = ativ.Trim(),
                                     EControle = oControle.EControle,
                                     //Descricao = oControle.Descricao,
@@ -320,7 +320,7 @@ namespace GISWeb.Controllers
                         ControleDeRiscosBusiness.Inserir(new ControleDeRiscos()
                         {
                             UKReconhecimentoDoRisco = pReconhecimento.UniqueKey,
-                            EClassificacaoDaMedia = oControle.EClassificacaoDaMedia,
+                            UKClassificacaoDaMedia = oControle.UKClassificacaoDaMedia,
                             //Controle = UKControle.Trim(),
                             EControle = oControle.EControle,
                             //Descricao = oControle.Descricao,

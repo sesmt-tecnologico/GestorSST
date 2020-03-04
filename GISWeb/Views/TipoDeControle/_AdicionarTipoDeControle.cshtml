@@ -17,9 +17,8 @@
                 <div class="form-group">
                     @Html.Label("Classificação da Medida", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
                     <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownList("EClassificacaoDaMedia", ViewBag.EClassificacaoDaMedia as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                        @Html.DropDownList("ddlClassificacao", new SelectList(ViewBag.EClassificacaoDaMedia, "UniqueKey", "Nome"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
                     </div>
-                </div>
             </div>
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group">

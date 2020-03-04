@@ -21,6 +21,8 @@ namespace GISModel.Entidades
 
         [NotMapped]
         public ReconhecimentoDoRisco Reconhecimento { get; set; }
+
         
+
     }
 }

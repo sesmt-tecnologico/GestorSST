@@ -20,15 +20,22 @@ namespace GISModel.Entidades
 
 
 
-        [Display(Name = "Eficácia")]
-        public EClassificacaoDaMedia EClassificacaoDaMedia { get; set; }
+        [Display(Name = "Classificação da Medida")]
+        public Guid UKClassificacaoDaMedia { get; set; }
+
 
         [Display(Name = "Eficácia")]
         public EControle EControle { get; set; }
 
 
+        [Display(Name = "Link")]
+        public string Link { get; set; }
+
+
         [NotMapped]
         public string TipoDeControle { get; set; }
+
+        public List<ClassificacaoMedida> ClassificacaoMedidas { get; set; }
 
 
         public List<Link> LinksClassificacaoDaMedida { get; set; }

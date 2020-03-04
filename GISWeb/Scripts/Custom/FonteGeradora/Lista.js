@@ -444,11 +444,11 @@ function OnClickNovoTipoControle() {
             $("#modalAddTipoControleProsseguir").off("click").on("click", function () {
 
                 var ddlTipoControle = $("#ddlTipoControle").val();
-                var ddlClassificacao = $("#EClassificacaoDaMedia").val();
+                var ddlClassificacao = $("#ddlClassificacao").val();
                 var ddlEficacia = $("#EControle").val();
 
                 var ddlTipoControleTxt = $("#ddlTipoControle option:selected").text();
-                var ddlClassificacaoTxt = $("#EClassificacaoDaMedia option:selected").text();
+                var ddlClassificacaoTxt = $("#ddlClassificacao option:selected").text();
                 var ddlEficaciaTxt = $("#EControle option:selected").text();
 
                 if ($("#TableTiposDeControle tr:contains('" + ddlTipoControleTxt + "')").length > 0) {

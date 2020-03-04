@@ -1,14 +1,14 @@
 ﻿@using GISModel.Entidades
 
 @{
-    ViewBag.Title = "Listagem de Controles";
+    ViewBag.Title = "Classificação da Medida";
 }
 
 <div class="row">
     <div class="col-xs-12">
         <h3 class="header smaller lighter blue">
             Tipos de Controles
-            <a href="@Url.Action("Novo", "TipoDeControle")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+            <a href="@Url.Action("Novo", "ClassificacaoMedida")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
                 <i class="ace-icon fa fa-plus bigger-120 blue"></i>
                 Novo
             </a>
@@ -16,7 +16,7 @@
     </div>
 </div>
 
-@if (ViewBag.TipoControles != null && ViewBag.TotalControles > 0)
+@if (ViewBag.Classificacao != null && ViewBag.TotalClassificacao > 0)
 {
 
 
@@ -24,7 +24,7 @@
         <div class="col-xs-12">
 
 
-            @if (ViewBag.TipoControles != null)
+            @if (ViewBag.Classificacao != null)
             {
                 <div>
                     <table id="dynamic-table" class="table table-striped table-bordered table-hover">
@@ -38,7 +38,7 @@
 
                         <tbody>
 
-                            @foreach (TipoDeControle iItem in ViewBag.TipoControles)
+                            @foreach (ClassificacaoMedida iItem in ViewBag.Classificacao)
                             {
                                 <tr id="linha-@iItem.ID">
                                     <td class="center">
@@ -47,19 +47,19 @@
                                             <span class="lbl"></span>
                                         </label>
                                     </td>
-                                    <td>@iItem.Descricao</td>
+                                    <td>@iItem.Nome</td>
 
                                     <td class="center">
                                         <div class="action-buttons">
 
-                                            <a class="red" href="#" onclick="DeletarControle('@iItem.ID');">
+                                            <a class="red" href="#" onclick="DeletarClassificacao('@iItem.ID');">
                                                 <i class="ace-icon fa fa-trash-o bigger-125" title="Deletar"></i>
                                             </a>
-                                            
 
-                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iItem.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+
+                                            @*<a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iItem.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                                 <i class="ace-icon fa fa-cloud blue bigger-125"></i>
-                                            </a>
+                                            </a>*@
 
                                         </div>
 
@@ -99,6 +99,7 @@ else
     @Scripts.Render("~/bundles/jQ_dataTable")
     @Scripts.Render("~/bundles/ace_js_fileUpload")
 
-    <script src="~/Scripts/Custom/TipoDeControle/Lista.js"></script>
+
+    <script src="~/Scripts/Custom/ClassificacaoMedida/Lista.js"></script>
 
 }

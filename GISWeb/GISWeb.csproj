@@ -383,6 +383,8 @@
     <Content Include="Scripts\Custom\Cargo\Excluir.js" />
     <Content Include="Scripts\Custom\Cargo\Lista.js" />
     <Content Include="Scripts\Custom\Cargo\Novo.js" />
+    <Content Include="Scripts\Custom\ClassificacaoMedida\Lista.js" />
+    <Content Include="Scripts\Custom\ClassificacaoMedida\Novo.js" />
     <Content Include="Scripts\Custom\Contrato\Edicao.js" />
     <Content Include="Scripts\Custom\Contrato\Excluir.js" />
     <Content Include="Scripts\Custom\Contrato\Lista.js" />
@@ -538,6 +540,7 @@
     <Compile Include="Controllers\AtividadesDoEstabelecimentoController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CargoController.cs" />
+    <Compile Include="Controllers\ClassificacaoMedidaController.cs" />
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\ControleDeRiscosController.cs" />
     <Compile Include="Controllers\DepartamentoController.cs" />
@@ -816,6 +819,8 @@
     <Content Include="Views\Link\_ListarLinks.cshtml" />
     <Content Include="Views\ReconhecimentoDoRisco\_Arquivos.cshtml" />
     <Content Include="Views\ListaEnumerada\ClassificacaoDaMedida.cshtml" />
+    <Content Include="Views\ClassificacaoMedida\Index.cshtml" />
+    <Content Include="Views\ClassificacaoMedida\Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

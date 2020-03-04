@@ -224,7 +224,7 @@ function BuscarDetalhesDeMedidasDeControleEstabelecimento(id) {
 
 
 function DeletarEmpresa(IDAdmissao, Nome) {
-    
+
     var callback = function () {
         $('.LoadingLayout').show();
         $('#dynamic-table').css({ opacity: "0.5" });

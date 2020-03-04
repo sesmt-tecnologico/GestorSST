@@ -162,12 +162,22 @@ else
                             </a>
                         </div>
                         <div class="col-sm-4 col-xs-12">
-                            <span>@control.EClassificacaoDaMedia.GetDisplayName()</span>
+                            <div class="pull-right action-buttons">
+
+                                <a class="blue CustomTooltip position-relative" href="#" title="Abrir Vídeo"  onclick="window.open('@control.Link');return false;" )>
+                                    <span class="center bolder blue" style="float: left; width: 100%;">@control.UKClassificacaoDaMedia</span>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-sm-4 col-xs-12">
-                            <span>@control.EControle.GetDisplayName()</span>
+
+                            @*<div class="col-sm-4 col-xs-12">
+                                <span>@control.UKClassificacaoDaMedia</span>
+                            </div>*@
+
+                            <div class="col-sm-4 col-xs-12">
+                                <span>@control.EControle.GetDisplayName()</span>
+                            </div>
                         </div>
-                    </div>
                 }
 
             }

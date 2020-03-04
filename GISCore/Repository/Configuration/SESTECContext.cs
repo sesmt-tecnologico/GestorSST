@@ -11,7 +11,8 @@ namespace GISCore.Repository.Configuration
             Database.SetInitializer<SESTECContext>(null);
         }
 
-        
+        public DbSet<ClassificacaoMedida> ClassificacaoMedida { get; set; }
+
         public DbSet<TipoDeControle> TipoDeControle { get; set; }
 
         public DbSet<FonteGeradoraDeRisco> FonteGeradoraDeRisco { get; set; }

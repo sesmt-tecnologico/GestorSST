@@ -42,6 +42,10 @@ namespace GISWeb.Controllers
         public IBaseBusiness<TipoDeControle> TipoDeControleBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<ClassificacaoMedida> ClassificacaoMedidaBusiness { get; set; }
+
+
+        [Inject]
         public IBaseBusiness<FonteGeradoraDeRisco> FonteGeradoraDeRiscoBusiness { get; set; }
 
         [Inject]
@@ -196,13 +200,15 @@ namespace GISWeb.Controllers
                     foreach (string[] item in entidade.Controles)
                     {
                         Guid UKTipo = Guid.Parse(item[0]);
+                        Guid UKClassificacaoMedida = Guid.Parse(item[1]);
 
                         ControleDeRiscos obj = new ControleDeRiscos()
                         {
                             UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
                             UKReconhecimentoDoRisco = oReconhecimento.UniqueKey,
                             UKTipoDeControle = UKTipo,
-                            EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), item[1], true),
+                            UKClassificacaoDaMedia = UKClassificacaoMedida,
+
                             EControle = (EControle)Enum.Parse(typeof(EControle), item[2], true)
                         };
 
@@ -239,7 +245,7 @@ namespace GISWeb.Controllers
                                       risc.UniqueKey as UKRisco, risc.Nome as Risco, 
                                       r.Tragetoria, r.EClasseDoRisco, 
                                       tc.UniqueKey as UKTipoControle, tc.Descricao as TipoControle, 
-                                      c.EClassificacaoDaMedia, c.EControle
+                                      c.UKClassificacaoDaMedia, c.Link, c.EControle, cm.UniqueKey as UKcm, cm.Nome as NomeClass
                                from [dbGestor].[dbo].[tbReconhecimentoDoRisco] r
 		                                left join [dbGestor].[dbo].[tbWorkArea]  w on w.UniqueKey = r.UKWorkArea and w.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbFonteGeradoraDeRisco] f on f.UniqueKey = r.UKFonteGeradora and f.DataExclusao ='9999-12-31 23:59:59.997' 
@@ -247,7 +253,8 @@ namespace GISWeb.Controllers
 		                                left join [dbGestor].[dbo].[tbRisco]  risc on risc.UniqueKey = r.UKRisco and risc.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbControleDoRisco]  c on c.UKReconhecimentoDoRisco = r.UniqueKey and r.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbTipoDeControle]  tc on tc.UniqueKey = c.UKTipoDeControle and tc.DataExclusao ='9999-12-31 23:59:59.997' 
-                               where r.UKWorkArea = '" + id + @"' 
+										left join ClassificacaoMedidas cm on cm.UniqueKey = c.UKClassificacaoDaMedia and cm.DataExclusao ='9999-12-31 23:59:59.997'
+                              where r.UKWorkArea = '" + id + @"' 
 
                                order by f.FonteGeradora, per.Descricao, risc.Nome";
 
@@ -260,6 +267,8 @@ namespace GISWeb.Controllers
                     FonteGeradoraDeRisco fonte = null;
                     Perigo per = null;
                     Risco risk = null;
+                    
+                   
 
                     foreach (DataRow row in result.Rows)
                     {
@@ -305,14 +314,21 @@ namespace GISWeb.Controllers
 
                                         if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
                                         {
+                                            
                                             risk.Controles.Add(new ControleDeRiscos()
                                             {
                                                 UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
-                                                EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
-                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
+                                                Link = row["Link"].ToString(),
+                                                UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
+                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
+                                                ClassificacaoMedidas = new List<ClassificacaoMedida>()
+
                                             });
+
+                                            
                                         }
+                                       
 
 
                                         per.Riscos.Add(risk);
@@ -336,8 +352,10 @@ namespace GISWeb.Controllers
                                         {
                                             UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                             TipoDeControle = row["TipoControle"].ToString(),
-                                            EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
-                                            EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
+                                            Link = row["Link"].ToString(),
+                                            UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
+                                            EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
+                                            ClassificacaoMedidas = new List<ClassificacaoMedida>()
                                         });
                                     }
                                     else
@@ -359,8 +377,10 @@ namespace GISWeb.Controllers
                                             {
                                                 UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
-                                                EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
-                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
+                                                Link = row["Link"].ToString(),
+                                                UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
+                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
+                                                ClassificacaoMedidas = new List<ClassificacaoMedida>()
                                             });
                                         }
 
@@ -398,8 +418,10 @@ namespace GISWeb.Controllers
                                             {
                                                 UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
-                                                EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
-                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
+                                                Link = row["Link"].ToString(),
+                                                UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
+                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
+                                                ClassificacaoMedidas = new List<ClassificacaoMedida>()
                                             });
                                         }
 
@@ -448,8 +470,10 @@ namespace GISWeb.Controllers
                                             {
                                                 UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
-                                                EClassificacaoDaMedia = (EClassificacaoDaMedia)Enum.Parse(typeof(EClassificacaoDaMedia), row["EClassificacaoDaMedia"].ToString(), true),
-                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true)
+                                                Link = row["Link"].ToString(),
+                                                UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
+                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
+                                                ClassificacaoMedidas = new List<ClassificacaoMedida>()
                                             });
                                         }
 

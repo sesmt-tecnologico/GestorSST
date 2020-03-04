@@ -138,6 +138,7 @@
     <Compile Include="Entidades\AtividadeFuncaoLiberada.cs" />
     <Compile Include="Entidades\AtividadesDoEstabelecimento.cs" />
     <Compile Include="Entidades\Cargo.cs" />
+    <Compile Include="Entidades\ClassificacaoMedida.cs" />
     <Compile Include="Entidades\CNAE.cs" />
     <Compile Include="Entidades\Contrato.cs" />
     <Compile Include="Entidades\ControleDeRiscos.cs" />
