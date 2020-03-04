@@ -442,10 +442,13 @@
     <Content Include="Scripts\Custom\Funcao\Excluir.js" />
     <Content Include="Scripts\Custom\Funcao\Lista.js" />
     <Content Include="Scripts\Custom\Funcao\Novo.js" />
+    <Content Include="Scripts\Custom\Link\Listagem.js" />
+    <Content Include="Scripts\Custom\Link\Novo.js" />
     <Content Include="Scripts\Custom\ListaDepartamento\Edicao.js" />
     <Content Include="Scripts\Custom\ListaDepartamento\Excluir.js" />
     <Content Include="Scripts\Custom\ListaDepartamento\Lista.js" />
     <Content Include="Scripts\Custom\ListaDepartamento\Novo.js" />
+    <Content Include="Scripts\Custom\ListaEnumerada\Listagem.js" />
     <Content Include="Scripts\Custom\MedidaControleRiscoFuncao\Edicao.js" />
     <Content Include="Scripts\Custom\MedidaControleRiscoFuncao\Listagem.js" />
     <Content Include="Scripts\Custom\MedidaControleRiscoFuncao\Novo.js" />
@@ -553,6 +556,8 @@
     <Compile Include="Controllers\GedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndicadoresController.cs" />
+    <Compile Include="Controllers\LinkController.cs" />
+    <Compile Include="Controllers\ListaEnumeradaController.cs" />
     <Compile Include="Controllers\MedidasDeControleController.cs" />
     <Compile Include="Controllers\MidiaController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
@@ -806,6 +811,11 @@
     <Content Include="Views\TipoDeControle\_AdicionarTipoDeControle.cshtml" />
     <Content Include="Views\ReconhecimentoDoRisco\ReconhecimentoPorWorkArea.cshtml" />
     <Content Include="Views\Midia\_Midia.cshtml" />
+    <Content Include="Views\Link\Index.cshtml" />
+    <Content Include="Views\Link\Novo.cshtml" />
+    <Content Include="Views\Link\_ListarLinks.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\_Arquivos.cshtml" />
+    <Content Include="Views\ListaEnumerada\ClassificacaoDaMedida.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

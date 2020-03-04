@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades
@@ -10,8 +11,11 @@ namespace GISModel.Entidades
 
         public Guid UKObjeto { get; set; }
 
+
+        [Required(ErrorMessage = "Informe o nome do link")]
         public string Nome { get; set; }
 
+        [Required(ErrorMessage = "Informe a URL do link")]
         public string URL { get; set; }
 
     }

@@ -1,0 +1,60 @@
+﻿@using GISModel.Entidades
+@model List<Link>
+
+@if (Model == null || Model.Count == 0)
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        Nenhum link encontrado na base de dados.
+        <br>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+
+            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>URL</th>
+                        <th width="80px"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (Link item in Model)
+                    {
+                        <tr>
+                            <td>@item.Nome</td>
+                            <td>
+                                <a href="@item.URL" target="_blank" class="CustomTooltip" title="Clique para abrir o link">
+                                    @item.URL
+                                </a>
+                            </td>
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons">
+                                    <a href='@Url.Action("Edicao", "Link", new { id = item.UniqueKey })' class="green">
+                                        <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
+                                    </a>
+
+                                    <a class="red" href="#" onclick="DeletarLink('@item.UniqueKey', '@item.Nome');">
+                                        <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+}

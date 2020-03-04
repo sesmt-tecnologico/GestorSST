@@ -1,0 +1,52 @@
+﻿
+@using GISModel.Entidades
+@model List<Arquivo>
+
+
+@{
+    var path = string.Empty;
+    if (Request.ApplicationPath.Length > 1)
+    {
+        path = Request.ApplicationPath;
+    }
+}
+
+
+@if (Model == null || Model.Count == 0)
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        Nenhum arquivo anexado até o momento.
+        <br>
+    </div>
+}
+else
+{
+    <table id="tableArquivos" class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Nome do Arquivo</th>
+                <th>Anexado em</th>
+                <th>Anexado por</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Arquivo iArq in Model)
+            {
+                <tr>
+                    <td>
+                        <a href="@path/Arquivo/Visualizar/@iArq.UniqueKey.ToString()" target="_blank" class="CustomTooltip blue" title="Visualizar">
+                            @iArq.NomeLocal
+                        </a>
+                    </td>
+                    <td>@iArq.DataInclusao.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@iArq.UsuarioInclusao</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
