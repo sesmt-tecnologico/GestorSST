@@ -6,6 +6,9 @@
         if ($("#UKEstabelecimento").val() != "") {
             $("#formPesquisarWorkArea").submit();
         }
+        else {
+            $(".resultadoWorkArea").html("");
+        }
     });
 
     $(".btnPesquisar").click(function () {

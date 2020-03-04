@@ -99,27 +99,39 @@
                                                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
                                                                         <span><i style="color: yellowgreen">Risco - </i> </span>@pRisc.Nome
 
+                                                                    <div class="pull-right action-buttons">
 
-                                                                        <div class="pull-right action-buttons">
-                                                                            <a href="@Url.Action("ListaReconhecimentoPorWorkArea", "ReconhecimentoDoRisco", new {id = @wa.UniqueKey })" class="blue CustomTooltip" title="Listar Reconhecimento">
-                                                                                <i class="ace-icon fa fa-search red bigger-125"></i>
-                                                                            </a>
 
-                                                                        
-
-                                                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@pRisc.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                <i class="ace-icon fa fa-cloud blue bigger-125"></i>
-                                                                            </a>
-
-                                                                            <a href="#" class="blue CustomTooltip" title="Desvincular Risco" onclick="OnClickRemoverRisco('@pRisc.UniqueKey', '@per.UniqueKey', '@pRisc.Nome')">
-                                                                                <i class="ace-icon fa fa-trash red bigger-125"></i>
-                                                                            </a>
-
+                                                                        @if (pRisc.Reconhecimento == null)
+                                                                        {
                                                                             <a href="#" class="blue CustomTooltip" title="Cadastrar controle Risco" onclick="OnClickControleDoRisco('@wa.UniqueKey.ToString()','@font.UniqueKey.ToString()', '@per.UniqueKey.ToString()', '@pRisc.UniqueKey.ToString()');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                                                                 <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
                                                                             </a>
-                                                                        </div>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <a href="@Url.Action("ListaReconhecimentoPorWorkArea", "ReconhecimentoDoRisco", new {id = @wa.UniqueKey })" class="blue CustomTooltip" title="Exibir Reconhecimento / Controles">
+                                                                                <i class="ace-icon fa fa-search red bigger-125"></i>
+                                                                            </a>
 
+                                                                            <a href="#" class="orange CustomTooltip" title="Editar Controle do Risco" onclick="ExibirMensagemDeAlerta('Em construção...');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                <i class="ace-icon fa fa-pencil-square orange bigger-125"></i>
+                                                                            </a>
+
+                                                                            <a href="#" class="red CustomTooltip" title="Excluir Controle do Risco" onclick="alert('Em construção...');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                <i class="ace-icon fa fa-remove red bigger-125"></i>
+                                                                            </a>
+                                                                        }
+
+                                                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@pRisc.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" style="margin-left: 25px;">
+                                                                            <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+                                                                        </a>
+
+                                                                        <a href="#" class="blue CustomTooltip" title="Desvincular Risco" onclick="OnClickRemoverRisco('@pRisc.UniqueKey', '@per.UniqueKey', '@pRisc.Nome')">
+                                                                            <i class="ace-icon fa fa-trash red bigger-125"></i>
+                                                                        </a>
+
+                                                                    </div>
 
                                                                     </div>
                                                                 </li>

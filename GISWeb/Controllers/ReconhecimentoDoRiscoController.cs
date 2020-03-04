@@ -21,6 +21,9 @@ namespace GISWeb.Controllers
         #region inject
 
         [Inject]
+        public IArquivoBusiness ArquivoBusiness { get; set; }
+
+        [Inject]
         public IRiscoBusiness RiscoBusiness { get; set; }
 
         [Inject]
@@ -588,6 +591,20 @@ namespace GISWeb.Controllers
             }
         }
 
+
+
+
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult ListarArquivosAnexados(string UKObjeto)
+        {
+            Guid uk = Guid.Parse(UKObjeto);
+            ViewBag.UKObjeto = UKObjeto;
+
+            List<Arquivo> arquivos = ArquivoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKObjeto.Equals(uk)).ToList();
+
+            return PartialView("_Arquivos", arquivos);
+        }
 
     }
 }

@@ -4,8 +4,6 @@
 
     AplicaTooltip();
 
-    InitDropZoneSingle();
-
 });
 
 

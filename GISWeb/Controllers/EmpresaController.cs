@@ -207,7 +207,7 @@ namespace GISWeb.Controllers
             try
             {
                 Guid id = Guid.Parse(IDEmpresa);
-                Empresa oEmpresa = EmpresaBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id));
+                Empresa oEmpresa = EmpresaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(id));
                 if (oEmpresa == null) {
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir a empresa, pois a mesma não foi localizada." } });
                 }
