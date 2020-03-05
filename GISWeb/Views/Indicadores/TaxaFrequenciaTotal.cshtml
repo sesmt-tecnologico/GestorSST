@@ -1,0 +1,163 @@
+﻿
+@{
+    ViewBag.Title = "TaxaFrequenciaTotal";
+}
+
+<h2>Acidentes 2019</h2>
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+    // Load Charts and the corechart and barchart packages.
+    google.charts.load('current', { 'packages': ['corechart'] });
+
+    // Draw the pie chart and bar chart when Charts is loaded.
+    google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawChart01);
+     google.charts.setOnLoadCallback(drawVisualization);
+
+    function drawChart(num = 1) {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Total');
+        data.addRows([
+            ['Gerencia Oeste', num],
+            ['Gerencia Leste', 1],
+            ['Gerencia Sul', 1],
+            ['Gerencia Norte', 1],
+            ['Gerencia Mantiqueira', 2]
+        ]);
+
+        var piechart_options = {
+            title: 'Percentual de Acidentes por Gerencia',
+            width: 600,
+            height: 400,
+        };
+        var piechart = new google.visualization.PieChart(document.getElementById('piechart_div'));
+        piechart.draw(data, piechart_options);
+
+        var barchart_options = {
+            title: 'Número de Acidntes por Gerencia',
+            width: 600,
+            height: 400,
+            legend: 'none'
+        };
+        var barchart = new google.visualization.BarChart(document.getElementById('barchart_div'));
+        barchart.draw(data, barchart_options);
+    }
+
+    function drawChart01() {
+        var data = google.visualization.arrayToDataTable([
+            ['Director (Year)', '2019', '2018'],
+            ['Janeiro', 8.4, 7.9],
+            ['Fevereiro', 6.9, 6.5],
+            ['Março', 6.5, 6.4],
+            ['Abril', 4.4, 6.2],
+            ['Maio', 7.4, 3.2],
+        ]);
+
+
+
+        var options = {
+            title: 'Taxa de Frequencia de Acidentes 2018 x 2019',
+            vAxis: { title: 'CIS_WEB' },
+            isStacked: true,
+            width: 600,
+            height: 400,
+            //legend: 'none'
+        };
+
+        var chart = new google.visualization.SteppedAreaChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+    }
+
+    function drawVisualization() {
+            // Some raw data (not necessarily accurate)
+            var data = google.visualization.arrayToDataTable([
+                ['Month', 'GE/LE', 'GE/OE', 'GE/NT', 'GE/SL', 'GE/MA', 'limite'],
+                ['JAN', 1.65, 9.38, 5.22, 9.98, 4.50, 2.5],
+                ['FEV', 1.35, 1.120, 5.99, 1.268, 2.88,2.5],
+                ['MARC', 1.57, 11.67, 5.87, 8.07, 3.97, 2.5],
+                ['ABRI', 1.39, 11.10, 6.15, 9.68, 2.15, 2.5],
+                ['MAIO', 1.36, 6.91, 6.29, 10.26, 3.66, 2.5]
+            ]);
+
+            var options = {
+                title: 'TF/Gerência 2019',
+                vAxis: { title: 'CIS_WEB' },
+                hAxis: { title: 'Mês' },
+                seriesType: 'bars',
+                series: { 5: { type: 'line' } }
+            };
+
+            var chart = new google.visualization.ComboChart(document.getElementById('chart_div01'));
+            chart.draw(data, options);
+        }
+
+
+
+
+
+
+
+</script>
+
+
+<div class="jumbotron">
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 ">
+            <div class="form-group ">
+                @Html.Label("Percentual de acidentes / 2019", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                <div class="col-xs-12 col-sm-12 ">
+                    <div id="piechart_div"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 ">
+            <div class="form-group">
+                @Html.Label("Total de Acidentes / 2019", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    <div id="barchart_div"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-6 ">
+            <div class="form-group">
+                @Html.Label("Taxa de Frequencia / 2019", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    <div id="chart_div"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6 ">
+            <div class="form-group">
+                @Html.Label("Taxa de Frequencia por Gerência - 2019", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    <div id="chart_div01" style="width: 600px; height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+
+</div>
+
+
+
+
+
+
+

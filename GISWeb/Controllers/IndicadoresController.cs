@@ -15,5 +15,23 @@ namespace GISWeb.Controllers
             ViewBag.midia = "https://player.vimeo.com/video/394755088";
             return View();
         }
+
+
+        public ActionResult TaxaFrequenciaTotal()
+        {
+                        
+
+            return View();
+        }
+
+        public ActionResult CustoDoAcidente()
+        {
+
+
+            return View();
+        }
+
+
+
     }
 }

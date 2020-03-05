@@ -17,6 +17,14 @@
                     <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
                         @wa.Nome <span> - </span> @wa.Descricao
 
+                        <div class="pull-right action-buttons">                           
+
+                            <a href="@Url.Action("ListaReconhecimentoPorWorkArea", "ReconhecimentoDoRisco", new {id = @wa.UniqueKey })" class="blue CustomTooltip" title="Analise de Risco">
+                                <i class="ace-icon fa fa-clipboard red bigger-125"></i>
+                            </a>
+
+                        </div>
+
                         <div class="pull-right action-buttons">
                         </div>
                     </div>
@@ -30,6 +38,7 @@
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
                                         <span><i style="color: darkslateblue">Fonte geradora - </i> </span>@fonte.Descricao
                                     </div>
+
 
                                     @if (fonte.Perigos.Count() > 0)
                                     {

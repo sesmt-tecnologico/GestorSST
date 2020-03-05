@@ -1,0 +1,95 @@
+﻿
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['gauge']});
+        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawChart01);
+
+      function drawChart() {
+          var v = 1;   
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Acidentes', v],         
+          
+        ]);
+
+        var options = {
+          width: 700, height: 350,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+
+          setInterval(function() {
+          data.setValue(0, 1, v++);
+          chart.draw(data, options);
+        }, 4000);
+         
+        
+        }
+
+        function drawChart01() {
+            var v = 3.5;  
+            var c = 1;
+
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Custo x 1000', v],         
+          
+        ]);
+
+        var options = {
+          width: 700, height: 350,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div01'));
+
+        chart.draw(data, options);
+
+          setInterval(function() {
+          data.setValue(0, 1, c++ * v );
+          chart.draw(data, options);
+        }, 4000);
+         
+        
+      }
+
+
+
+    </script>
+
+<h1>Painel de Custos de Acidentes</h1>
+    
+    <div class="jumbotron">
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 ">
+                <div class="form-group ">
+                    @Html.Label("Total de Acidentes em 2020", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12 ">
+                        <div id="chart_div"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 ">
+                <div class="form-group ">
+                    @Html.Label("Custo Direto de Acidentes em 2020", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12 ">
+                        <div id="chart_div01"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
