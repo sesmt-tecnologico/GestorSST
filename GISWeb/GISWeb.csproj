@@ -810,6 +810,7 @@
     <Content Include="Views\ClassificacaoMedida\Novo.cshtml" />
     <Content Include="Views\Indicadores\TaxaFrequenciaTotal.cshtml" />
     <Content Include="Views\Indicadores\CustoDoAcidente.cshtml" />
+    <Content Include="Views\Indicadores\AvalPsicossocial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
