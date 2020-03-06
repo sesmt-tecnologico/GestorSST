@@ -812,6 +812,7 @@
     <Content Include="Views\Indicadores\CustoDoAcidente.cshtml" />
     <Content Include="Views\Indicadores\AvalPsicossocial.cshtml" />
     <Content Include="Views\Indicadores\DocumenstosDeSaude.cshtml" />
+    <Content Include="Views\Indicadores\Documentos.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

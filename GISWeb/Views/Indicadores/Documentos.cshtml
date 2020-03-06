@@ -1,0 +1,136 @@
+﻿
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['bar'] });
+    google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawChart01);
+    google.charts.setOnLoadCallback(drawChart02);
+    google.charts.setOnLoadCallback(drawChart03);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Mês', 'GE/OE', 'GE/LE', 'CENTRO','GE/NT'],
+            ['Jan', 89, 62, 30,45],
+            ['Fev', 104, 132, 25,23],
+            ['Mar', 63, 85, 2,36],
+            ['Abr', 154, 54, 0,28]
+        ]);
+
+        var options = {
+            chart: {
+                title: 'Total de Documentos Vencidos por Gerencia - 2019',
+                //subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+            }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+    function drawChart01() {
+        var data = google.visualization.arrayToDataTable([
+            ['2019', 'GE/OE', 'GE/LE', 'CENTRO','GE/NT'],
+            ['Hoje', 204, 168, 85, 69],
+            
+        ]);
+
+        var options = {
+            chart: {
+                title: 'Total de Documentos a Vencer por Gerencia - 2019',
+                subtitle: 'Documentos a vencer até a presente Data',
+            }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material01'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+     function drawChart02() {
+        var data = google.visualization.arrayToDataTable([
+            ['2019', 'Eletricista de Alta', 'Pedreiro', 'Soldador','Ajudante Geral'],
+            ['Hoje', 284, 168, 79, 132],
+            
+        ]);
+
+        var options = {
+            chart: {
+                title: 'Total de Documentos a Vencidos por Função - 2019',
+                subtitle: 'Documentos a vencidos até a presete data',
+            }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material02'));
+
+         chart.draw(data, google.charts.Bar.convertOptions(options));
+
+    }
+    function drawChart03() {
+        var data = google.visualization.arrayToDataTable([
+            ['2019', 'Eletricista de Alta', 'Pedreiro', 'Soldador','Ajudante Geral'],
+            ['Hoje', 326, 296, 198, 365],
+            
+        ]);
+
+        var options = {
+            chart: {
+                title: 'Total de Documentos a Vencer por Função - 2019',
+                subtitle: 'Documentos até 90 dias antes do vencimento',
+            }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material03'));
+
+         chart.draw(data, google.charts.Bar.convertOptions(options));
+
+    }
+
+</script>
+
+    <div class="jumbotron">
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 ">
+                <div class="form-group ">
+                    @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12 ">
+                        <div id="columnchart_material" style="width: 650px; height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 ">
+                <div class="form-group ">
+                    @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12 ">
+                        <div id="columnchart_material01" style="width: 650px; height: 400px;"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 ">
+                <div class="form-group ">
+                    @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12 ">
+                        <div id="columnchart_material02" style="width: 650px; height: 400px;"></div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 ">
+                <div class="form-group ">
+                    @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12 ">
+                        <div id="columnchart_material03" style="width: 650px; height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+

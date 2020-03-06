@@ -44,6 +44,13 @@ namespace GISWeb.Controllers
             return View();
         }
 
+        public ActionResult Documentos()
+        {
+
+
+            return View();
+        }
+
 
     }
 }
