@@ -162,22 +162,24 @@ else
                             </a>
                         </div>
                         <div class="col-sm-4 col-xs-12">
-                            <div class="pull-right action-buttons">
 
-                                <a class="blue CustomTooltip position-relative" href="#" title="Abrir Vídeo"  onclick="window.open('@control.Link');return false;" )>
-                                    <span class="center bolder blue" style="float: left; width: 100%;">@control.UKClassificacaoDaMedia</span>
+                            @if (control.Link != null && !control.Link.UniqueKey.Equals(Guid.Empty))
+                            {
+                                <a class="blue CustomTooltip position-relative" href="#" title="Clique para reproduzir o vídeo" onclick="window.open('@control.Link.URL');return false;" )>
+                                    <i class="ace-icon fa fa-video-camera"></i>
+                                    <span style="margin-left: 5px;">@control.ClassificacaoMedida.Nome</span>
+                                    
                                 </a>
-                            </div>
+                            }
+                            else
+                            {
+                                @control.ClassificacaoMedida.Nome
+                            }
                         </div>
-
-                            @*<div class="col-sm-4 col-xs-12">
-                                <span>@control.UKClassificacaoDaMedia</span>
-                            </div>*@
-
-                            <div class="col-sm-4 col-xs-12">
-                                <span>@control.EControle.GetDisplayName()</span>
-                            </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <span>@control.EControle.GetDisplayName()</span>
                         </div>
+                    </div>
                 }
 
             }

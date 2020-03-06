@@ -31,8 +31,9 @@ function OnBeginCadastrarControle()
         var sTipoControl = $($(this).children()[0]).data("uk");
         var sClassificacao = $($(this).children()[1]).data("uk");
         var sEficacia = $($(this).children()[2]).data("uk");
+        var sLink = $($(this).children()[3]).data("uk");
 
-        var arrControl = [sTipoControl, sClassificacao, sEficacia];
+        var arrControl = [sTipoControl, sClassificacao, sEficacia, sLink];
         arrControles.push(arrControl);
 
         idx += 1;
