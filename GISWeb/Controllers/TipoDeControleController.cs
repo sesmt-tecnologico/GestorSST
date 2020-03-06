@@ -25,6 +25,9 @@ namespace GISWeb.Controllers
         public IBaseBusiness<TipoDeControle> TipoDeControleBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<Link> LinkBusiness { get; set; }
+
+        [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
 
@@ -86,14 +89,6 @@ namespace GISWeb.Controllers
         {
             ViewBag.TiposDeControles = TipoDeControleBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao));
             
-            //var enumData02 = from EClassificacaoDaMedia e in Enum.GetValues(typeof(EClassificacaoDaMedia))
-            //                 select new
-            //                 {
-            //                     ID = (int)e,
-            //                     Name = e.GetDisplayName()
-            //                 };
-            //ViewBag.EClassificacaoDaMedia = new SelectList(enumData02, "ID", "Name");
-
             var enumData03 = from EControle e in Enum.GetValues(typeof(EControle))
                              select new
                              {
@@ -102,9 +97,9 @@ namespace GISWeb.Controllers
                              };
             ViewBag.EControle = new SelectList(enumData03, "ID", "Name");
 
-
             ViewBag.EClassificacaoDaMedia = ClassificacaoMedidaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).OrderBy(b=>b.Nome).ToList();
 
+            ViewBag.Links = LinkBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).OrderBy(b => b.Nome).ToList();
 
             return PartialView("_AdicionarTipoDeControle");
         }

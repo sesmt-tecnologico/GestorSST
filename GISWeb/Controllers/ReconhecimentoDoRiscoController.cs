@@ -195,8 +195,6 @@ namespace GISWeb.Controllers
 
 
 
-                    List<Guid> filtro = new List<Guid>();
-
                     foreach (string[] item in entidade.Controles)
                     {
                         Guid UKTipo = Guid.Parse(item[0]);
@@ -208,9 +206,13 @@ namespace GISWeb.Controllers
                             UKReconhecimentoDoRisco = oReconhecimento.UniqueKey,
                             UKTipoDeControle = UKTipo,
                             UKClassificacaoDaMedia = UKClassificacaoMedida,
-
                             EControle = (EControle)Enum.Parse(typeof(EControle), item[2], true)
                         };
+
+                        if (item[3] != null && !string.IsNullOrEmpty(item[3]))
+                        {
+                            obj.UKLink = Guid.Parse(item[3]);
+                        }
 
                         ControleDeRiscosBusiness.Inserir(obj);
                     }
@@ -233,19 +235,17 @@ namespace GISWeb.Controllers
 
         public ActionResult ListaReconhecimentoPorWorkArea(string id)
         {
-
             try
             {
-
-                
-
                 string sql = @"select w.UniqueKey as UKWorkArea, w.Nome as workarea, 
                                       f.UniqueKey as UKFonte, f.FonteGeradora, 
                                       per.Descricao as Perigo, 
                                       risc.UniqueKey as UKRisco, risc.Nome as Risco, 
                                       r.Tragetoria, r.EClasseDoRisco, 
                                       tc.UniqueKey as UKTipoControle, tc.Descricao as TipoControle, 
-                                      c.UKClassificacaoDaMedia, c.Link, c.EControle, cm.UniqueKey as UKcm, cm.Nome as NomeClass
+                                      c.UKClassificacaoDaMedia,  c.EControle, 
+                                      cm.UniqueKey as UKcm, cm.Nome as NomeClass,
+                                      lk.UniqueKey as UKLink, lk.URL as URLLInk
                                from [dbGestor].[dbo].[tbReconhecimentoDoRisco] r
 		                                left join [dbGestor].[dbo].[tbWorkArea]  w on w.UniqueKey = r.UKWorkArea and w.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbFonteGeradoraDeRisco] f on f.UniqueKey = r.UKFonteGeradora and f.DataExclusao ='9999-12-31 23:59:59.997' 
@@ -254,11 +254,9 @@ namespace GISWeb.Controllers
 		                                left join [dbGestor].[dbo].[tbControleDoRisco]  c on c.UKReconhecimentoDoRisco = r.UniqueKey and r.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbTipoDeControle]  tc on tc.UniqueKey = c.UKTipoDeControle and tc.DataExclusao ='9999-12-31 23:59:59.997' 
 										left join ClassificacaoMedidas cm on cm.UniqueKey = c.UKClassificacaoDaMedia and cm.DataExclusao ='9999-12-31 23:59:59.997'
+                                        left join tbLink lk on lk.UniqueKey = c.UKLink and lk.DataExclusao ='9999-12-31 23:59:59.997'
                               where r.UKWorkArea = '" + id + @"' 
-
-                               order by f.FonteGeradora, per.Descricao, risc.Nome";
-
-
+                              order by f.FonteGeradora, per.Descricao, risc.Nome";
 
                 DataTable result = ReconhecimentoBusiness.GetDataTable(sql);
                 if (result.Rows.Count > 0)
@@ -268,8 +266,6 @@ namespace GISWeb.Controllers
                     Perigo per = null;
                     Risco risk = null;
                     
-                   
-
                     foreach (DataRow row in result.Rows)
                     {
                         if (obj == null)
@@ -314,19 +310,27 @@ namespace GISWeb.Controllers
 
                                         if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
                                         {
-                                            
-                                            risk.Controles.Add(new ControleDeRiscos()
+
+                                            ControleDeRiscos control = new ControleDeRiscos()
                                             {
                                                 UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
-                                                Link = row["Link"].ToString(),
+                                                Link = new Link(),
                                                 UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
                                                 EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
-                                                ClassificacaoMedidas = new List<ClassificacaoMedida>()
+                                                ClassificacaoMedida = new ClassificacaoMedida()
+                                                { 
+                                                    Nome = row["NomeClass"].ToString()
+                                                }
+                                            };
 
-                                            });
+                                            if (!string.IsNullOrEmpty(row["UKLink"].ToString()))
+                                            {
+                                                control.Link.UniqueKey = Guid.Parse(row["UKLink"].ToString());
+                                                control.Link.URL = row["URLLInk"].ToString();
+                                            }
 
-                                            
+                                            risk.Controles.Add(control);
                                         } 
                                        
 
@@ -348,15 +352,27 @@ namespace GISWeb.Controllers
                                 {
                                     if (risk.Nome.Equals(row["Risco"].ToString()))
                                     {
-                                        risk.Controles.Add(new ControleDeRiscos()
+                                        var control = new ControleDeRiscos()
                                         {
                                             UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                             TipoDeControle = row["TipoControle"].ToString(),
-                                            Link = row["Link"].ToString(),
+                                            Link = new Link(),
                                             UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
                                             EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
-                                            ClassificacaoMedidas = new List<ClassificacaoMedida>()
-                                        });
+                                            ClassificacaoMedida = new ClassificacaoMedida()
+                                            {
+                                                Nome = row["NomeClass"].ToString()
+                                            }
+                                        };
+
+                                        if (!string.IsNullOrEmpty(row["UKLink"].ToString()))
+                                        {
+                                            control.Link.UniqueKey = Guid.Parse(row["UKLink"].ToString());
+                                            control.Link.URL = row["URLLInk"].ToString();
+                                        }
+
+                                        risk.Controles.Add(control);
+
                                     }
                                     else
                                     {
@@ -373,15 +389,26 @@ namespace GISWeb.Controllers
 
                                         if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
                                         {
-                                            risk.Controles.Add(new ControleDeRiscos()
+                                            var control = new ControleDeRiscos()
                                             {
                                                 UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
-                                                Link = row["Link"].ToString(),
+                                                Link = new Link(),
                                                 UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
                                                 EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
-                                                ClassificacaoMedidas = new List<ClassificacaoMedida>()
-                                            });
+                                                ClassificacaoMedida = new ClassificacaoMedida()
+                                                {
+                                                    Nome = row["NomeClass"].ToString()
+                                                }
+                                            };
+
+                                            if (!string.IsNullOrEmpty(row["UKLink"].ToString()))
+                                            {
+                                                control.Link.UniqueKey = Guid.Parse(row["UKLink"].ToString());
+                                                control.Link.URL = row["URLLInk"].ToString();
+                                            }
+
+                                            risk.Controles.Add(control);
                                         }
 
 
@@ -412,17 +439,28 @@ namespace GISWeb.Controllers
                                             Controles = new List<ControleDeRiscos>()
                                         };
 
-                                        if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                        if (!string.IsNullOrEmpty(row["UKTipoControle"]?.ToString()))
                                         {
-                                            risk.Controles.Add(new ControleDeRiscos()
+                                            var control = new ControleDeRiscos()
                                             {
                                                 UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
-                                                Link = row["Link"].ToString(),
+                                                Link = new Link(),
                                                 UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
                                                 EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
-                                                ClassificacaoMedidas = new List<ClassificacaoMedida>()
-                                            });
+                                                ClassificacaoMedida = new ClassificacaoMedida()
+                                                {
+                                                    Nome = row["NomeClass"].ToString()
+                                                }
+                                            };
+
+                                            if (!string.IsNullOrEmpty(row["UKLink"].ToString()))
+                                            {
+                                                control.Link.UniqueKey = Guid.Parse(row["UKLink"].ToString());
+                                                control.Link.URL = row["URLLInk"].ToString();
+                                            }
+
+                                            risk.Controles.Add(control);
                                         }
 
 
@@ -466,15 +504,26 @@ namespace GISWeb.Controllers
 
                                         if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
                                         {
-                                            risk.Controles.Add(new ControleDeRiscos()
+                                            var control = new ControleDeRiscos()
                                             {
                                                 UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
                                                 TipoDeControle = row["TipoControle"].ToString(),
-                                                Link = row["Link"].ToString(),
+                                                Link = new Link(),
                                                 UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
                                                 EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
-                                                ClassificacaoMedidas = new List<ClassificacaoMedida>()
-                                            });
+                                                ClassificacaoMedida = new ClassificacaoMedida()
+                                                {
+                                                    Nome = row["NomeClass"].ToString()
+                                                }
+                                            };
+
+                                            if (!string.IsNullOrEmpty(row["UKLink"].ToString()))
+                                            {
+                                                control.Link.UniqueKey = Guid.Parse(row["UKLink"].ToString());
+                                                control.Link.URL = row["URLLInk"].ToString();
+                                            }
+
+                                            risk.Controles.Add(control);
                                         }
 
 

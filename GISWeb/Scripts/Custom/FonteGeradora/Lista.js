@@ -425,6 +425,7 @@ function OnClickListaReconhecimento(pUKWorkArea, pFonte, pRisco) {
 
 function OnClickNovoTipoControle() {
     $("#modalAddTipoControleCorpoLoading").show();
+    $("#modalAddTipoControleLoading").hide();
     $("#modalAddTipoControleCorpo").html("");
 
     $.ajax({
@@ -446,10 +447,12 @@ function OnClickNovoTipoControle() {
                 var ddlTipoControle = $("#ddlTipoControle").val();
                 var ddlClassificacao = $("#ddlClassificacao").val();
                 var ddlEficacia = $("#EControle").val();
+                var ddlLink = $("#ddlLink").val();
 
                 var ddlTipoControleTxt = $("#ddlTipoControle option:selected").text();
                 var ddlClassificacaoTxt = $("#ddlClassificacao option:selected").text();
                 var ddlEficaciaTxt = $("#EControle option:selected").text();
+                var ddlLinkTxt = $("#ddlLink option:selected").text();
 
                 if ($("#TableTiposDeControle tr:contains('" + ddlTipoControleTxt + "')").length > 0) {
                     ExibirMensagemDeAlerta("Este tipo de controle já foi adicionado.");
@@ -470,6 +473,7 @@ function OnClickNovoTipoControle() {
                         sHTML += '<th>Tipo de Controle</th>';
                         sHTML += '<th>Classificação da Medida</th>';
                         sHTML += '<th>Eficácia</th>';
+                        sHTML += '<th>Link</th>';
                         sHTML += '<th style="width: 30px;"></hd>';
                         sHTML += '</tr>';
                         sHTML += '</thead>';
@@ -479,6 +483,7 @@ function OnClickNovoTipoControle() {
                         sHTML += '<td data-uk="' + ddlTipoControle + '">' + ddlTipoControleTxt + '</td>';
                         sHTML += '<td data-uk="' + ddlClassificacao + '">' + ddlClassificacaoTxt + '</td>';
                         sHTML += '<td data-uk="' + ddlEficacia + '">' + ddlEficaciaTxt + '</td>';
+                        sHTML += '<td data-uk="' + ddlLink + '"><a href="#" onclick="alert(""Buscar link e abrir como popup."");">' + ddlLinkTxt + '</a></td>';
                         sHTML += '<td>';
                         sHTML += '<a href="#" class="CustomTooltip red" title="Excluir Tipo de Controle" onclick="RemoverLinhaTipoDeControle(this);">';
                         sHTML += '<i class="ace-icon fa fa-trash-o bigger-120"></i>';
@@ -500,6 +505,7 @@ function OnClickNovoTipoControle() {
                         sHTML2 += '<td data-uk="' + ddlTipoControle + '">' + ddlTipoControleTxt + '</td>';
                         sHTML2 += '<td data-uk="' + ddlClassificacao + '">' + ddlClassificacaoTxt + '</td>';
                         sHTML2 += '<td data-uk="' + ddlEficacia + '">' + ddlEficaciaTxt + '</td>';
+                        sHTML2 += '<td data-uk="' + ddlLink + '"><a href="#" onclick="alert(""Buscar link e abrir como popup."");">' + ddlLinkTxt + '</a></td>';
                         sHTML2 += '<td>';
                         sHTML2 += '<a href="#" class="CustomTooltip red" title="Excluir Tipo de Controle" onclick="RemoverLinhaTipoDeControle(this);">';
                         sHTML2 += '<i class="ace-icon fa fa-trash-o bigger-120"></i>';
@@ -530,112 +536,6 @@ function RemoverLinhaTipoDeControle(obj) {
     else {
         $(obj).parent().parent().remove();
     }
-}
-
-
-function OnClickRemoverFonteGeradora(pUKFonte, pDescFonte) {
-
-    var callback = function() {
-        $('.LoadingLayout').show();
-        $('#dynamic-table').css({ opacity: "0.5" });
-
-        $.ajax({
-            method: "POST",
-            url: "/FonteGeradoraDeRisco/Terminar",
-            data: { UKFonte: pUKFonte },
-            error: function(erro) {
-                $(".LoadingLayout").hide();
-                $("#dynamic-table").css({ opacity: '' });
-                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-            },
-            success: function(content) {
-                $('.LoadingLayout').hide();
-                $("#dynamic-table").css({ opacity: '' });
-
-                TratarResultadoJSON(content.resultado);
-
-                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
-                    $(".resultadoWorkArea").html("");
-
-                    if ($("#UKEstabelecimento").val() != "") {
-                        $("#formPesquisarWorkArea").submit();
-                    }
-                }
-            }
-        });
-    };
-
-    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a fonte geradora '" + pDescFonte + "'?", "Exclusão de Fonte Geradora", callback, "btn-danger");
-}
-
-function OnClickRemoverPerigo(pUKPerigo, pUKFonte, pDescPerigo) {
-
-    var callback = function() {
-        $('.LoadingLayout').show();
-        $('#dynamic-table').css({ opacity: "0.5" });
-
-        $.ajax({
-            method: "POST",
-            url: "/FonteGeradoraDeRisco/TerminarRelComPerigo",
-            data: { UKFonte: pUKFonte, UKPerigo: pUKPerigo },
-            error: function(erro) {
-                $(".LoadingLayout").hide();
-                $("#dynamic-table").css({ opacity: '' });
-                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-            },
-            success: function(content) {
-                $('.LoadingLayout').hide();
-                $("#dynamic-table").css({ opacity: '' });
-
-                TratarResultadoJSON(content.resultado);
-
-                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
-                    $(".resultadoWorkArea").html("");
-
-                    if ($("#UKEstabelecimento").val() != "") {
-                        $("#formPesquisarWorkArea").submit();
-                    }
-                }
-            }
-        });
-    };
-
-    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja desvincular o perigo '" + pDescPerigo + "' da fonte geradora?", "Remoção de vínculo", callback, "btn-danger");
-}
-
-function OnClickRemoverRisco(pUKRisco, pUKPerigo, pNomeRisco) {
-
-    var callback = function() {
-        $('.LoadingLayout').show();
-        $('#dynamic-table').css({ opacity: "0.5" });
-
-        $.ajax({
-            method: "POST",
-            url: "/WorkArea/TerminarRelComPerigo",
-            data: { UKRisco: pUKRisco, UKPerigo: pUKPerigo },
-            error: function(erro) {
-                $(".LoadingLayout").hide();
-                $("#dynamic-table").css({ opacity: '' });
-                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-            },
-            success: function(content) {
-                $('.LoadingLayout').hide();
-                $("#dynamic-table").css({ opacity: '' });
-
-                TratarResultadoJSON(content.resultado);
-
-                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
-                    $(".resultadoWorkArea").html("");
-
-                    if ($("#UKEstabelecimento").val() != "") {
-                        $("#formPesquisarWorkArea").submit();
-                    }
-                }
-            }
-        });
-    };
-
-    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja desvincular o risco '" + pNomeRisco + "' do perigo?", "Remoção de vínculo", callback, "btn-danger");
 }
 
 
