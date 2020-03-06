@@ -811,6 +811,7 @@
     <Content Include="Views\Indicadores\TaxaFrequenciaTotal.cshtml" />
     <Content Include="Views\Indicadores\CustoDoAcidente.cshtml" />
     <Content Include="Views\Indicadores\AvalPsicossocial.cshtml" />
+    <Content Include="Views\Indicadores\DocumenstosDeSaude.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

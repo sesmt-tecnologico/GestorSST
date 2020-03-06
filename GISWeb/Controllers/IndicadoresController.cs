@@ -37,6 +37,12 @@ namespace GISWeb.Controllers
 
             return View();
         }
+        public ActionResult DocumenstosDeSaude()
+        {
+
+
+            return View();
+        }
 
 
     }
