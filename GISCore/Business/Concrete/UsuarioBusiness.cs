@@ -4,6 +4,8 @@ using GISModel.DTO.Permissoes;
 using GISModel.Entidades;
 using GISModel.Enums;
 using Ninject;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -332,10 +334,12 @@ namespace GISCore.Business.Concrete
             try
             {
                 WCF_Suporte.SuporteClient WCFSuporte = new WCF_Suporte.SuporteClient();
+
                 return WCFSuporte.BuscarFotoPerfil(new WCF_Suporte.DadosUsuario()
                 {
                     Login = login
                 });
+
             }
             catch (FaultException<WCF_Suporte.FaultSTARSServices> ex)
             {
@@ -364,7 +368,26 @@ namespace GISCore.Business.Concrete
             if (Consulta.Any(u => u.Login.Equals(usuario.Login)))
                 throw new InvalidOperationException("Não é possível inserir usuário com o mesmo login.");
 
+            string senha = usuario.Senha;
+
+            usuario.Senha = CreateHashFromPassword(usuario.Senha);
+
             base.Inserir(usuario);
+
+            //Enviar Email
+            var client = new SendGridClient(ConfigurationManager.AppSettings["SendGridAPIKey"]);
+            var from = new EmailAddress("antonio.hpereira@icloud.com");
+            var subject = "Novo acesso ao sistema GESTOR";
+
+            var to = new EmailAddress(usuario.Email);
+            var body = "Olá " + usuario.Nome + "<br />";
+            body += "Segue a sua senha de acesso ao GESTOR: " + senha;
+
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, body, "");
+
+            var response = client.SendEmailAsync(msg).Result;
+
+
         }
 
         public override void Alterar(Usuario entidade)
@@ -649,7 +672,7 @@ namespace GISCore.Business.Concrete
         #region Senhas
 
         [ComVisible(false)]
-        private string CreateHashFromPassword(string pstrOriginalPassword)
+        public string CreateHashFromPassword(string pstrOriginalPassword)
         {
             if (string.IsNullOrEmpty(pstrOriginalPassword))
                 return string.Empty;

@@ -32,8 +32,22 @@ namespace GISWeb.Controllers
 
         [Inject]
         public IAlocacaoBusiness AlocacaoBusiness { get; set; }
+
         [Inject]
         public IAdmissaoBusiness AdmissaoBusiness { get; set; }
+
+        [Inject]
+        public IEmpregadoBusiness EmpregadoBusiness { get; set; }
+
+        [Inject]
+        public IUsuarioBusiness UsuarioBusiness { get; set; }
+
+        [Inject]
+        public IPerfilBusiness PerfilBusiness { get; set; }
+
+        [Inject]
+        public IUsuarioPerfilBusiness UsuarioPerfilBusiness { get; set; }
+
 
         [Inject]
         public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
@@ -91,6 +105,10 @@ namespace GISWeb.Controllers
                     if (oAdmissao == null)
                         throw new Exception("Não foi possível encontrar a admissão na base de dados.");
 
+                    Empregado emp = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(oAdmissao.UKEmpregado));
+                    if (emp == null)
+                        throw new Exception("Não foi possível encontrar o empregado na base de dados.");
+
                     if (AlocacaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && 
                                                              a.UKAdmissao.Equals(entidade.UKAdmissao) && 
                                                              a.UKCargo.Equals(entidade.UKCargo) &&
@@ -101,6 +119,41 @@ namespace GISWeb.Controllers
                     {
                         entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                         AlocacaoBusiness.Inserir(entidade);
+
+                        Usuario usr = UsuarioBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Login.Equals(emp.CPF.Replace(".", "").Replace("-", "")));
+                        if (usr == null)
+                        {
+                            string Senha = GeneratePassword();
+
+                            usr = new Usuario()
+                            {
+                                UniqueKey = Guid.NewGuid(),
+                                CPF = emp.CPF,
+                                Nome = emp.Nome,
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                                Email = emp.Email,
+                                Login = emp.CPF.Replace(".", "").Replace("-", ""),
+                                Senha = Senha,
+                                TipoDeAcesso = GISModel.Enums.TipoDeAcesso.Sistema,
+                                UKEmpresa = oAdmissao.UKEmpresa,
+                                UKDepartamento = entidade.UKDepartamento
+                            };
+
+                            UsuarioBusiness.Inserir(usr);
+
+                            Perfil per = PerfilBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.Equals("Empregado"));
+                            if (per != null)
+                            {
+                                UsuarioPerfilBusiness.Inserir(new UsuarioPerfil()
+                                {
+                                    UKPerfil = per.UniqueKey,
+                                    UKUsuario = usr.UniqueKey,
+                                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                                    UKConfig = entidade.UKDepartamento
+                                });
+                            }
+                        }
+
 
                         Extensions.GravaCookie("MensagemSucesso", "O empregado foi alocado com sucesso.", 10);
 
@@ -123,6 +176,22 @@ namespace GISWeb.Controllers
             {
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
+        }
+
+        private string GeneratePassword() {
+
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var stringChars = new char[8];
+            var random = new Random();
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            var finalString = new String(stringChars);
+
+            return finalString.ToString();
         }
 
         [HttpPost]
