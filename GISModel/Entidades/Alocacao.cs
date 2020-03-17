@@ -59,10 +59,11 @@ namespace GISModel.Entidades
 
         public virtual Equipe Equipe { get; set; }
 
-
         public virtual Cargo Cargo { get; set; }
 
         public virtual Funcao Funcao { get; set; }
+
+        public List<DocumentosPessoal> DocumentosPessoal { get; set; }
 
         [NotMapped]
         public List<ArquivoEmpregadoViewModel> ArquivoEmpregado { get; set; }

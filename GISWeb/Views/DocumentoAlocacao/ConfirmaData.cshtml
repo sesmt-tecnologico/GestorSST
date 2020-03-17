@@ -1,0 +1,122 @@
+﻿@using GISModel.Entidades
+
+@model List<DocumentosAlocacaoViewModel>
+
+
+@using GISModel.DTO.DocumentosAlocacao
+
+
+@{
+    ViewBag.Title = "ConfirmaData";
+}
+
+
+
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+        <div class="page-header">
+            <h1>
+                Confirmar Datas
+            </h1>
+        </div>
+    </div>
+</div>
+
+@if (Model != null)
+{
+
+    int numero = 1;
+
+    foreach (DocumentosAlocacaoViewModel item in Model)
+    {
+
+
+        if (item != null)
+        {
+
+           
+
+                <div id="form" value ="@item.UKDocumento">
+
+
+                    @using (Ajax.BeginForm("CadastrarData", "DocumentoAlocacao", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarDat", OnSuccess = "OnSuccessCadastrarDat", }, new { @id = "numero", @class = "form-horizontal" }))
+
+                    {
+                        @Html.AntiForgeryToken()
+
+                        var id = string.Empty;
+                        var dt = string.Empty;
+
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-2">
+                            <div class="form-group">
+                                @Html.Label("Nome do Documento", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right " })
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="input-group">
+                                        @Html.Label(item.Nomedocumento, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right", @id = "txtCampoNome" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-2">
+                            <div class="form-group">
+                                @Html.Label("Data do Documento", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar bigger-110"></i>
+                                        </span>
+                                        @*@html.editor("null", new { htmlattributes = new { @class = "col-xs-12 col-sm-4" } })*@
+
+                                        <input type="datetime" class="txtUKdate" name="UKdate" id="UKdate" />
+
+                                        <input type="text" class="txtUKDocumento" name="UKDoc" id="UKDoc" value="@item.UKDocumento" hidden />
+                                        <input type="text" class="txtUKDocumento" name="Unique" id="Unique" value="@item.UniqueKeyREL" hidden />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+
+
+
+                    </div><br />
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-2 col-sm-offset-1 align-center">
+                                @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                <div class="col-xs-12 col-sm-12">
+                                    <button class="btn btn-info" id="btnSalvar" type="submit">
+                                        <i class="ace-icon fa fa-check bigger-100"></i>
+                                        Confirmar
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div><br /><br />
+
+                    }
+
+                </div>
+            
+
+        }
+
+
+
+    }
+
+
+    
+
+
+}
+@section Scripts {
+
+    <script src="~/Scripts/Custom/DocumentoAlocacao/Editar.js"></script>
+
+}

@@ -454,7 +454,7 @@ namespace GISCore.Business.Concrete
 
             var lista = new List<DocumentosPessoal>();
 
-            string query = $@"select d.NomeDocumento from rel_DocumentoPessoalAtividade r 
+            string query = $@"select d.NomeDocumento, d.UniqueKey as UKDoc from rel_DocumentoPessoalAtividade r 
 	        join tbAtividade a on a.UniqueKey = r.UKAtividade and a.UsuarioExclusao is null
 	        join tbDocumentosPessoal d on d.UniqueKey = r.UKDocumentoPessoal and d.UsuarioExclusao is null
 	        where r.UKAtividade = '{ukAtividade}' and r.UsuarioExclusao is null";
@@ -464,7 +464,7 @@ namespace GISCore.Business.Concrete
             {
                 foreach (DataRow item in result.Rows)
                 {
-                    lista.Add(new DocumentosPessoal() { NomeDocumento = item["NomeDocumento"].ToString() });
+                    lista.Add(new DocumentosPessoal() { NomeDocumento = item["NomeDocumento"].ToString(), UniqueKey = Guid.Parse(item["UKDoc"].ToString()) });
                 }
             }
 

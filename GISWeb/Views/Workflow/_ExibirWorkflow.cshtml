@@ -1,0 +1,141 @@
+﻿
+@{
+    Layout = "";
+}
+
+@using GISModel.Entidades
+
+
+@model List<Workflow>
+
+@{
+    ViewBag.Title = "Workflow";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            @if (ViewBag.Lista != null)
+            {
+                foreach (var emp in ViewBag.Lista)
+                {
+                    <font size="3"><i style="color:blue"> Empresa:&nbsp;<b>@emp.Empresa.NomeFantasia</b></i></font><br />
+                    <font size="3"><i style="color:blue">Nome:&nbsp;@emp.Empregado.Nome</i></font><br />
+                    <font size="3"><i style="color:blue">Admitido em:&nbsp;@emp.DataAdmissao</i></font>
+                    
+                }
+            }
+
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">        
+
+        @if (Model != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="80px">Usuario</th>
+                            <th width="90px">Data</th>
+                            <th width="40px">Status</th>
+                            <th>Comentário</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (Workflow iwork in Model)
+                        {
+                            string backcolor = string.Empty;
+                            var status = 1;
+                            var status2 = 2;
+                            var status3 = 3;
+
+                            if (status == iwork.Status)
+                            {
+                                //backcolor = "background-color: #0066ff; opacity:0.5";
+
+
+                        <tr id="linha-@iwork.ID">
+
+                            <td>
+                                <i style="color:blue"><b>@iwork.UsuarioInclusao</b></i>
+                            </td>
+                            <td>
+                                <i style="color:blue"><b>@iwork.DataInclusao</b></i>
+                            </td>
+                            <td>
+                                <i class="fa fa-share blue bigger-150" aria-hidden="true"></i>
+                            </td>
+                            <td>
+                                <i style="color:blue"><b>@iwork.Comentarios</b></i>
+                            </td>
+
+                        </tr>
+                            }
+                            else if (status2 == iwork.Status)
+                            {
+                                //backcolor = "background-color: #006600; opacity:0.5";
+                                <tr id="linha-@iwork.ID" >
+
+                                    <td>
+                                        <i style="color:green"><b>@iwork.UsuarioInclusao</b></i>
+                                    </td>
+                                    <td>
+                                        <i style="color:green"><b>@iwork.DataInclusao</b></i>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-thumbs-up green bigger-150" aria-hidden="true"></i>
+                                    </td>
+                                    
+                                    <td>
+                                        <i style="color:green"><b>@iwork.Comentarios</b></i>
+                                    </td>
+
+                                </tr>
+
+                            }
+                            else if (status3 == iwork.Status)
+                            {
+                                //backcolor = "background-color: #ff3333; opacity:0.5 ";
+
+                                <tr id="linha-@iwork.ID" >
+
+                                    <td>
+                                        <i style="color:red"><b>@iwork.UsuarioInclusao</b></i>
+                                    </td>
+                                    <td>
+                                        <i style="color:red"><b>@iwork.DataInclusao</b></i>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-thumbs-down red bigger-150" aria-hidden="true"></i>
+                                    </td>
+                                   
+                                    <td>
+                                        <i style="color:red"><b>@iwork.Comentarios</b></i>
+
+                                    </td>
+
+                                </tr>
+
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Custom/Empresa/Listagem.js"></script>
+}
+

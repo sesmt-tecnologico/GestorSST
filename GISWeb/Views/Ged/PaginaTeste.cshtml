@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "PaginaTeste";
+}
+
+<h2>PaginaTeste</h2>
+
+
+<a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('c3c30dcf-07fe-4c18-b139-ef8cf42eb66b');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+    <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+</a>
+
+
+
+
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
+
+<script src="~/Scripts/Custom/GED/AdicionaArquivos.js"></script>
+    
+    }

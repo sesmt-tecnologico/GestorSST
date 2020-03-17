@@ -9,6 +9,9 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using System.Data;
+using GISModel.DTO.DocumentosAlocacao;
+using System.Collections.Generic;
 
 namespace GISWeb.Controllers
 {
@@ -40,6 +43,9 @@ namespace GISWeb.Controllers
 
         [Inject]
         public IBaseBusiness<REL_ContratoFornecedor> ContratoFornecedorBusiness { get; set; }
+
+        
+
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
@@ -87,9 +93,14 @@ namespace GISWeb.Controllers
             {
                 try
                 {
-                    Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(entidade.UKAdmissao));
+
+
+
+                        Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(entidade.UKAdmissao));
                     if (oAdmissao == null)
                         throw new Exception("Não foi possível encontrar a admissão na base de dados.");
+
+
 
                     if (AlocacaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && 
                                                              a.UKAdmissao.Equals(entidade.UKAdmissao) && 
@@ -101,6 +112,7 @@ namespace GISWeb.Controllers
                     {
                         entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                         AlocacaoBusiness.Inserir(entidade);
+
 
                         Extensions.GravaCookie("MensagemSucesso", "O empregado foi alocado com sucesso.", 10);
 

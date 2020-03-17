@@ -74,6 +74,17 @@ else
                                     </h5>
 
                                     <div style="float: right; border: 0px;">
+                                        @Html.ActionLink("Cadastrar Documentos", "Novo", "DocumentoAlocacao",
+                                                 new
+                                                      {
+                                                       UKAlocacao = "BCBB0C43-782A-4DC1-9D3A-6A0E9FD15D24"
+
+                                                       },
+                                                 new { @class = "btn btn-mini btn-block btn-info" })
+                                    </div>
+
+
+                                    <div style="float: right; border: 0px;">
 
                                         <a href="#" class="btn btn-mini btn-danger btnDesalocar" data-ukalocacao="@al.UniqueKey.ToString()" data-cargafuncao="@al.Cargo.NomeDoCargo|@al.Funcao.NomeDaFuncao" style="padding-left: 7px; padding-right: 7px; width: 110px;">
                                             <i class="ace-icon fa fa-minus bigger-120"></i>

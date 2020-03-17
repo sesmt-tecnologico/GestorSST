@@ -141,13 +141,13 @@ function OnClickVincularPerigo(pUKWorkArea) {
                     ExibirMensagemDeAlerta("Não foi possível identificar nenhum perigo selecionado.");
                 }
                 else {
-                    $("#modalAddPerigoLoading").show();
+                        $("#modalAddPerigoLoading").show();
                     
-                    $.ajax({
-                        method: "POST",
-                        url: "/WorkArea/VincularPerigoAWorkArea",
-                        data: { UKWorkArea: ukWA, Perigos: perigos },
-                        error: function (erro) {
+                        $.ajax({
+                            method: "POST",
+                            url: "/WorkArea/VincularPerigoAWorkArea",
+                            data: { UKWorkArea: ukWA, Perigos: perigos },
+                            error: function (erro) {
                             $("#modalAddPerigoLoading").hide();
                             ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
                         },

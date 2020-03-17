@@ -11,6 +11,11 @@ namespace GISCore.Repository.Configuration
             Database.SetInitializer<SESTECContext>(null);
         }
 
+        public DbSet<Workflow> Workflow { get; set; }
+
+        public DbSet<REL_DocumentosAlocados> REL_DocumentosAlocados { get; set; }
+
+
         public DbSet<ClassificacaoMedida> ClassificacaoMedida { get; set; }
 
         public DbSet<TipoDeControle> TipoDeControle { get; set; }
