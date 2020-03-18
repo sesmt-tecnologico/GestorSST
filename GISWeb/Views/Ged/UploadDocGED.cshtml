@@ -1,0 +1,34 @@
+﻿@using GISModel.Entidades
+@model Arquivo
+
+
+@using (Html.BeginForm("SaveUpload", "GED", FormMethod.Post, new
+{
+    ukEmpregado = ViewBag.UKEmpregado,
+    ukAlocado = ViewBag.UKAlocado,
+    ukFuncao = ViewBag.UKFuncao
+
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(i => i.UKObjeto, new { @Value = ViewBag.UKObjeto })
+
+    <div class="fallback" style="border: 1px solid red;">
+        <input name="file" style="border: 1px solid red;" type="file" multiple="" />
+    </div>
+
+    if (ViewBag.DocAlocacao != null)
+    {
+        foreach (var item in ViewBag.DocAlocacao)
+        {
+            @item.UKDocumento;
+            @item.UKATividade
+
+        }
+
+    }
+
+
+}
+
+

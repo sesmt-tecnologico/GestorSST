@@ -1,0 +1,156 @@
+﻿
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['bar'] });
+    google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawChart01);
+    google.charts.setOnLoadCallback(drawChart02);
+    google.charts.setOnLoadCallback(drawChart03);
+    
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Mês', 'Regular', 'Vencido', 'A vencer'],
+            ['Jan', 600, 21, 200],
+            ['Fev', 700, 38, 70],
+            ['Mar', 548, 12, 80],
+            ['Abr', 650, 37, 28]
+        ]);
+
+        var options = {
+            vAxis: { scale: 50 },
+            chart: {
+                title: 'ASOs - 2019',
+                //subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+            },
+            bars: 'horizontal' // Required for Material Bar Charts.
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+
+
+     function drawChart01() {
+            var data = google.visualization.arrayToDataTable([
+                ['Ano', 'GE/OE', 'GE/LE', 'GE/SUL'],
+                ['2015', 640, 280, 638],
+                ['2016', 580, 300, 230],
+                ['2017', 280, 236, 450],
+                ['2019', 321, 254, 375]
+            ]);
+
+            var options = {
+                chart: {
+                    title: 'Dias de Absenteísmo por Gerência ',
+                   // subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+                }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        
+    }
+    function drawChart02() {
+            var data = google.visualization.arrayToDataTable([
+                ['Ano', 'GE/OE', 'GE/LE', 'GE/SUL'],
+                ['2015', 38, 12, 25],
+                ['2016', 35, 11, 22],
+                ['2017', 30, 9, 15],
+                ['2019', 15, 5, 9]
+            ]);
+
+            var options = {
+                chart: {
+                    title: 'Fumantes por Gerência',
+                   // subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+                }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material01'));
+
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        
+    }
+
+    function drawChart03() {
+            var data = google.visualization.arrayToDataTable([
+                ['Ano', 'GE/OE', 'GE/LE', 'GE/SUL'],
+                ['2015', 278, 193, 150],
+                ['2016', 304, 250, 210],
+                ['2017', 350, 289, 260],
+                ['2019', 320, 278, 289]
+            ]);
+
+            var options = {
+                chart: {
+                    title: 'Pratica Esportes por Gerência',
+                   // subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+                }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material02'));
+
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        
+    }
+
+
+
+</script>
+
+<h1>Saúde e Medicina do Trabalho</h1>
+
+
+
+<div>
+    <div class="jumbotron">
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 ">
+                <div class="form-group ">
+                    @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12 ">
+                        <div id="barchart_material" style="width: 650px; height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6 ">
+                <div class="form-group ">
+                    @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12 ">
+                        <div id="columnchart_material" style="width: 650px; height: 400px;"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div><br/>
+              <div class="row">
+                  <div class="col-xs-12 col-sm-6 ">
+                      <div class="form-group ">
+                          @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                          <div class="col-xs-12 col-sm-12 ">
+                              <div id="columnchart_material01" style="width: 650px; height: 400px;"></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 ">
+                      <div class="form-group ">
+                          @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                          <div class="col-xs-12 col-sm-12 ">
+                              <div id="columnchart_material02" style="width: 650px; height: 400px;"></div>
+                          </div>
+                      </div>
+                  </div>
+
+
+              </div>
+
+    </div>
+</div>
+
+
+

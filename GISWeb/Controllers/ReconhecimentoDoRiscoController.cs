@@ -164,11 +164,6 @@ namespace GISWeb.Controllers
 
 
 
-
-
-
-
-
                     ReconhecimentoDoRisco oReconhecimento = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) &&
                                 p.UKWorkarea.Equals(entidade.UKWorkarea) &&
                                 p.UKFonteGeradora.Equals(entidade.UKFonteGeradora) &&

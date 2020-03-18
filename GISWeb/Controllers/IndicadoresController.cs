@@ -31,6 +31,25 @@ namespace GISWeb.Controllers
             return View();
         }
 
+        public ActionResult AvalPsicossocial()
+        {
+
+
+            return View();
+        }
+        public ActionResult DocumenstosDeSaude()
+        {
+
+
+            return View();
+        }
+
+        public ActionResult Documentos()
+        {
+
+
+            return View();
+        }
 
 
     }

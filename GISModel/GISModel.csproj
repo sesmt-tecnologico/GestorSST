@@ -112,6 +112,7 @@
     <Compile Include="DTO\Contrato\NovoContratoViewModel.cs" />
     <Compile Include="DTO\Contrato\VMPesquisaContrato.cs" />
     <Compile Include="DTO\Departamento\CadastroViewModel.cs" />
+    <Compile Include="DTO\DocumentosAlocacao\DocumentosAlocacaoViewModel.cs" />
     <Compile Include="DTO\EntidadeBase.cs" />
     <Compile Include="DTO\Estabelecimento\EstabelecimentoViewModel.cs" />
     <Compile Include="DTO\Estabelecimento\PesquisaEstabelecimentoViewModel.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Entidades\Diretoria.cs" />
     <Compile Include="Entidades\Departamento.cs" />
     <Compile Include="Entidades\DocAtividade.cs" />
+    <Compile Include="Entidades\REL_DocumentosAlocados.cs" />
     <Compile Include="Entidades\FonteGeradoraDeRisco.cs" />
     <Compile Include="Entidades\Link.cs" />
     <Compile Include="Entidades\PerigoPotencial.cs" />
@@ -185,6 +187,7 @@
     <Compile Include="Entidades\Usuario.cs" />
     <Compile Include="Entidades\UsuarioPerfil.cs" />
     <Compile Include="Entidades\WorkArea.cs" />
+    <Compile Include="Entidades\Workflow.cs" />
     <Compile Include="Enums\ETrajetoria .cs" />
     <Compile Include="Enums\EStatusAdmissao.cs" />
     <Compile Include="Enums\ETipoContratoFornecedor.cs" />

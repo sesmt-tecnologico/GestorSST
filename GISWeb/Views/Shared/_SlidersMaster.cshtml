@@ -21,6 +21,8 @@
                     </div>
                 </div>
             </div>
+                        
+
         </div>
     </div>
 </div>
@@ -45,6 +47,26 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div id="modalNovoArquivoCorpo"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="modalArquivoLoading" style="display: none; float: left; padding-top: 6px">
+                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </span>
+
+                        <button id="modalArquivoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                            <i class="ace-icon fa fa-times"></i>
+                            Fechar
+                        </button>
+
+                        <button id="modalArquivoProsseguir" class="btn btn-sm btn-info" style="right: 5px; left: auto">
+                            <i class="ace-icon fa fa-check"></i>
+                            Prosseguir
+                        </button>
                     </div>
                 </div>
             </div>

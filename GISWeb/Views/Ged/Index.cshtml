@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Ged";
     ViewBag.Pagina = "Ged";
-   
+
 }
 
 
@@ -226,6 +226,138 @@
 
 </div>
 
+<div id="modalArquivo" class="modal fade" style="z-index: 10001">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modalArquivoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="smaller lighter blue no-margin"><i class="ace-icon fa fa-folder-open orange2"></i> Arquivo referente ao Estabelecimento</h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="modalArquivoCorpoLoading" style="float: right; display: none">
+                            ...Carregando
+                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </div>
+                        <div id="modalArquivoCorpo"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="modalArquivoLoading" style="display: none; float: left; padding-top: 6px">
+                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </span>
+
+                        <button id="modalArquivoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                            <i class="ace-icon fa fa-times"></i>
+                            Fechar
+                        </button>
+
+                        <button id="modalArquivoProsseguir" class="btn btn-sm btn-info" style="right: 5px; left: auto">
+                            <i class="ace-icon fa fa-check"></i>
+                            Prosseguir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalAddAnalise" class="modal fade" style="overflow: auto">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modalAddAnaliseX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Liberar Documento</h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="modalAddAnaliseCorpoLoading" style="float: right; display: none">
+                            ...Carregando
+                            @*<img src="~/Images/slack_loading.gif" width="28px" />*@
+                        </div>
+                        <div id="modalAddAnaliseCorpo"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="modalAddAnaliseLoading" style="display: block; float: left; padding-top: 6px">
+                            <img src="~/Images/slack_loading.gif" width="28px" />
+                        </span>
+
+                        <button id="modalAddAnaliseFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                            <i class="ace-icon fa fa-times"></i>
+                            Fechar
+                        </button>
+
+                        <button id="modalAddAnaliseProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                            <i class="ace-icon fa fa-check"></i>
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalAddWorkflow" class="modal fade" style="overflow: auto">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modalAddWorkflowX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Workflow</h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="modalAddWorkflowCorpoLoading" style="float: right; display: none">
+                            ...Carregando
+                            @*<img src="~/Images/slack_loading.gif" width="28px" />*@
+                        </div>
+                        <div id="modalAddWorkflowCorpo"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="modalAddWorkflowLoading" style="display: block; float: left; padding-top: 7px">
+                            <img src="~/Images/slack_loading.gif" width="28px" />
+                        </span>
+
+                        <button id="modalAddWorkflowFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                            <i class="ace-icon fa fa-times"></i>
+                            Fechar
+                        </button>
+
+                        @*<button id="modalAddWorkflowProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                            <i class="ace-icon fa fa-check"></i>
+                            Confirmar
+                        </button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 @*<div class="row">
         <div class="col-xs-12" id="ZonaUpload">
            @Html.Partial("~/Views/Ged/_UploadDocumentos.cshtml")
@@ -234,6 +366,7 @@
 
 
 @section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
 
     @Styles.Render("~/bundles/croppie_css")
 
@@ -250,5 +383,9 @@
     <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
 
     <script src="~/Scripts/Custom/Empregado/PerfilGed.js"></script>
+
+    <script src="~/Scripts/Custom/GED/Lista.js"></script>
+
+
 
 }

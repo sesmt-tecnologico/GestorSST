@@ -14,6 +14,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using GISModel.DTO.DocumentosAlocacao;
 
 namespace GISWeb.Controllers
 {
@@ -21,6 +22,8 @@ namespace GISWeb.Controllers
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class GedController : BaseController
     {
+        #region
+
         [Inject]
         public IEmpregadoBusiness EmpregadoBusiness { get; set; }
 
@@ -35,6 +38,37 @@ namespace GISWeb.Controllers
 
         [Inject]
         public IREL_ArquivoEmpregadoBusiness REL_ArquivoEmpregadoBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<REL_DocomumentoPessoalAtividade> REL_DocomumentoPessoalAtividadeBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<REL_DocumentosAlocados> REL_DocumentosAlocadosBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<Workflow> WorkflowBusiness { get; set; }
+
+
+        [Inject]
+        public IBaseBusiness<DocumentosPessoal> DocumentosPessoalBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<Atividade> AtividadeBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<Alocacao> AlocacaoBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<Funcao> FuncaoBusiness { get; set; }      
+
+
+        [Inject]
+        public IBaseBusiness<REL_FuncaoAtividade> REL_FuncaoAtividadeBusiness { get; set; }
+
+        
+
+        #endregion
+
 
         // GET: Ged
 
@@ -52,6 +86,7 @@ namespace GISWeb.Controllers
 
         public ActionResult Upload(string ukemp, string ukalocado, string ukfuncao)
         {
+            Guid UKfunc = Guid.Parse(ukfuncao);          
             //ViewBag.UKEmpregado = ukemp;
             var ukAdmissao = AdmissaoBusiness.GetAdmissao(Guid.Parse(ukemp)).UniqueKey;
 
@@ -60,13 +95,54 @@ namespace GISWeb.Controllers
             ViewBag.UKEmpregado = ukemp;
             ViewBag.UKAlocado = ukalocado;
             ViewBag.UKFuncao = ukfuncao;
+            
+
+            //Criar obj para relacionar documentos com Alocação 
+            //cadastrar este obj na classe REL_DocumentoAlocção
+            var Resultado = from d in DocumentosPessoalBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                            join da in REL_DocomumentoPessoalAtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                            on d.UniqueKey equals da.UKDocumentoPessoal
+                            into doc
+                            from a in doc.DefaultIfEmpty()
+                            join at in AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                            on a.UKAtividade equals at.UniqueKey into t
+                            from at in t.DefaultIfEmpty()
+                            join fa in REL_FuncaoAtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                            on a.UKAtividade equals fa.UKAtividade
+                            where fa.UKFuncao.Equals(UKfunc)
+                            select new DocumentosAlocacaoViewModel()
+                            {
+                                UKDocumento = d.UniqueKey,
+                                UKATividade = at.UniqueKey,
+
+
+                            };
+            List<DocumentosAlocacaoViewModel> DocAlocacao = Resultado.ToList();
+
+            ViewBag.DocAlocacao = DocAlocacao.ToList();
+
+
 
             return View();
         }
 
         public ActionResult BuscarAdmissoesAtuaisGed(string UKEmpregado)
         {
+           
+
             var lista = this.AdmissaoBusiness.BuscarAdmissoesAtuais(UKEmpregado);
+
+            var val = REL_DocumentosAlocadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+
+            ViewBag.RE_DocsAl = val;
+
+            var workflow = WorkflowBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+
+            ViewBag.workflow = workflow;
+
+            var Validade = DocumentosPessoalBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+
+            ViewBag.Validade = Validade;
 
             return PartialView("_BuscarAdmissoesAtuaisGed", lista);
         }
@@ -76,6 +152,8 @@ namespace GISWeb.Controllers
         {
             try
             {
+
+
                 string nomeArquivo = string.Empty;
                 string arquivoEnviados = string.Empty;
                 Guid UKEmpregado = Guid.Parse(ukEmpregado);
@@ -156,5 +234,12 @@ namespace GISWeb.Controllers
         }
 
 
+
+
+        public ActionResult PaginaTeste()
+        {
+
+            return View();
+        }
     }
 }

@@ -9,118 +9,38 @@
 });
 
 
-function OnClickBuscarArquivos(pUKObjeto) {
+function OnClickBuscarArquivos(pEmp, palocado, pfuncao) {
+
+    var btnUploadArquivo = $(this);
+
+    $('#modalArquivoX').show();
+    $('#modalArquivoFechar').removeClass('disabled');
+    $('#modalArquivoFechar').removeAttr('disabled');
+    $('#modalArquivoProsseguir').hide();
+    $('#modalArquivoCorpo').html('');
+    $('#modalArquivoCorpoLoading').show();
 
     $.ajax({
-        method: "POST",
-        url: "/FonteGeradoraDeRisco/ListarArquivosAnexados",
-        data: { UKObjeto: pUKObjeto },
+        method: "GET",
+        url: "/Ged/Upload",
+        data: { ukemp: pEmp, ukalocado: palocado, ukfuncao: pfuncao},
         error: function (erro) {
-            $("#modalArquivosLoading").hide();
-            $("#modalArquivosCorpoLoading").hide();
-
-            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            $('#modalArquivo').modal('hide');
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
         },
         success: function (content) {
-            $("#modalArquivosLoading").hide();
-            $("#modalArquivosCorpoLoading").hide();
 
-            $("#modalArquivosCorpo").html(content);
+            $('#modalArquivoCorpoLoading').hide();
+            $('#modalArquivoCorpo').html(content);
 
-            AplicaTooltip();
-
-            if ($("#tableArquivos").length > 0) {
-                AplicajQdataTable("tableArquivos", [null, null, null, { "bSortable": false }], false, 20);
-
-                var sHTML = '<a href="#" style="float: left; margin-top: 6px;" class="CustomTooltip lnkUploadArquivo" title = "Anexar Novo Arquivo" data-target="#modalNovoArquivo" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-uniquekey="' + pUKObjeto + '">';
-                sHTML += '          <i class="ace-icon fa fa-cloud-upload bigger-170"></i>';
-                sHTML += '</a>';
-
-                $($($("#tableArquivos_wrapper").children()[0]).children()[0]).html(sHTML);
-
-                AplicaTooltip();
-            }
-
-            $('.lnkUploadArquivo').off("click").on('click', function (e) {
-                e.preventDefault();
-
-                var btnUploadArquivo = $(this);
-
-                $('#modalNovoArquivoX').show();
-
-                $('#modalNovoArquivoFechar').removeClass('disabled');
-                $('#modalNovoArquivoFechar').removeAttr('disabled');
-                $('#modalNovoArquivoFechar').on('click', function (e) {
-                    e.preventDefault();
-                    $('#modalNovoArquivo').modal('hide');
-                });
-
-                $('#modalNovoArquivoProsseguir').hide();
-
-                $('#modalNovoArquivoCorpo').html('');
-                $('#modalNovoArquivoCorpoLoading').show();
-
-                $.ajax({
-                    method: "GET",
-                    url: "/Arquivo/Upload",
-                    data: { ukObjeto: btnUploadArquivo.closest("[data-uniquekey]").data("uniquekey") },
-                    error: function (erro) {
-                        $('#modalNovoArquivo').modal('hide');
-                        ExibirMensagemGritter('Oops!', erro.responseText, 'gritter-error');
-                    },
-                    success: function (content) {
-                        $('#modalNovoArquivoCorpoLoading').hide();
-                        $('#modalNovoArquivoCorpo').html(content);
-
-                        InitDropZoneSingle(btnUploadArquivo);
-
-                        Chosen();
-
-                        $.validator.unobtrusive.parse('#formUpload');
-                    }
-                });
-            });
-
-            $(".btnExcluirArquivo").off("click").on("click", function (e) {
-
-                var UKArquivo = $(this).data("ukarquivo");
-                var callback = function () {
-                    $("#modalArquivosCorpoLoading").show();
-
-                    $.ajax({
-                        method: "POST",
-                        url: "/Arquivo/Excluir",
-                        data: { ukArquivo: UKArquivo },
-                        error: function (erro) {
-
-                            $("#modalArquivosCorpoLoading").hide();
-
-                            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
-                        },
-                        success: function (content) {
-                            $("#modalArquivosCorpoLoading").hide();
-
-                            if (content.erro) {
-                                ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
-                            }
-                            else {
-                                ExibirMensagemDeSucesso("Arquivo excluído com sucesso.");
-                                $("#modalArquivos").modal("hide");
-                            }
-
-                        }
-                    });
-                };
-
-                ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir este arquivo?", "Exclusão de Arquivo", callback, "btn-danger");
-
-            });
+            InitDropZoneSingle(btnUploadArquivo);
+            Chosen();
+            $.validator.unobtrusive.parse('#formUpload');
 
         }
     });
-
-
 }
+
 
 function InitDropZoneSingle() {
     try {
