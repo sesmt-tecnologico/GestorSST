@@ -37,7 +37,7 @@ namespace GISCore.Business.Concrete
 
         public AutenticacaoModel ValidarCredenciais(AutenticacaoModel autenticacaoModel)
         {
-            autenticacaoModel.Login = autenticacaoModel.Login.Trim().ToUpper();
+            autenticacaoModel.Login = autenticacaoModel.Login.Trim().ToUpper().Replace(".", "").Replace("-", "").Replace("/", "");
 
             //Buscar usuário sem validar senha, para poder determinar se a validação da senha será com AD ou com a senha interna do GIS
             List<Usuario> lUsuarios = Consulta.Where(u => string.IsNullOrEmpty(u.UsuarioExclusao) &&

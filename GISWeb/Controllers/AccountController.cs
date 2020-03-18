@@ -2,11 +2,13 @@
 using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Conta;
 using GISModel.DTO.Shared;
+using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using System.Web.SessionState;
@@ -26,6 +28,9 @@ namespace GISWeb.Controllers
 
             [Inject]
             public IUsuarioBusiness UsuarioBusiness { get; set; }
+
+            [Inject]
+            public IEmpregadoBusiness EmpregadoBusiness { get; set; }
 
         #endregion
 
@@ -49,6 +54,19 @@ namespace GISWeb.Controllers
                 {
                     string msgErro = string.Empty;
                     AutorizacaoProvider.LogIn(usuario, out msgErro);
+
+                    if (AutorizacaoProvider.UsuarioAutenticado.Permissoes.Where(a => a.Perfil.Equals("Empregado")).Count() > 0)
+                    {
+                        Empregado emp = EmpregadoBusiness.Consulta.FirstOrDefault(a => 
+                                                string.IsNullOrEmpty(a.UsuarioExclusao) && 
+                                                a.CPF.ToUpper().Trim().Replace(".", "").Replace("-", "").Equals(usuario.Login.ToUpper().Trim()));
+
+                        if (emp != null)
+                        {
+                            return Json(new { url = Url.Action("Desktop", "Empregado", new { id = emp.UniqueKey }) });
+                        }
+                    }
+
                     return Json(new { url = Url.Action(ConfigurationManager.AppSettings["Web:DefaultAction"], ConfigurationManager.AppSettings["Web:DefaultController"]) });
                 }
 
@@ -59,35 +77,6 @@ namespace GISWeb.Controllers
                 return Json(new { alerta = ex.Message, titulo = "Oops! Problema ao realizar login..." });
             }
         }
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //[CaptchaValidation("CaptchaCode", "LoginCaptcha", "Código do CAPTCHA incorreto.")]
-        //public ActionResult LoginComCaptcha(AutenticacaoModel usuario)
-        //{
-        //    MvcCaptcha.ResetCaptcha("LoginCaptcha");
-        //    ViewBag.IncluirCaptcha = Convert.ToBoolean(ConfigurationManager.AppSettings["AD:DMZ"]);
-
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            AutorizacaoProvider.Logar(usuario);
-
-        //            if (!string.IsNullOrWhiteSpace(usuario.Nome))
-        //                return Json(new { url = usuario.Nome.Replace("$", "&") });
-        //            else
-        //                return Json(new { url = Url.Action(ConfigurationManager.AppSettings["Web:DefaultAction"], ConfigurationManager.AppSettings["Web:DefaultController"]) });
-        //        }
-
-        //        return View("Login", usuario);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { alerta = ex.Message, titulo = "Oops! Problema ao realizar login..." });
-        //    }
-        //}
 
         public ActionResult Logout()
         {

@@ -47,6 +47,35 @@ namespace GISWeb.Controllers
         #endregion
 
 
+        public ActionResult Desktop(string id) {
+
+            if (string.IsNullOrEmpty(id))
+            {
+                if (CustomAuthorizationProvider.UsuarioAutenticado.Permissoes.Where(a => a.Perfil.Equals("Empregado")).Count() > 0)
+                {
+                    Empregado emp = EmpregadoBusiness.Consulta.FirstOrDefault(a =>
+                                            string.IsNullOrEmpty(a.UsuarioExclusao) &&
+                                            a.CPF.ToUpper().Trim().Replace(".", "").Replace("-", "").Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login.ToUpper().Trim()));
+                    if (emp != null)
+                    {
+                        id = emp.UniqueKey.ToString();
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return View();
+            }
+
+            Guid UK = Guid.Parse(id);
+
+            ViewBag.UKEmp = id;
+
+            Empregado oEmp = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UK));
+
+            return View(oEmp);
+        }
 
 
 

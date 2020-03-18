@@ -42,7 +42,7 @@ function OnSuccessPesquisaEmpregado(content) {
         if ($("#tableResultadoPesquisa").length > 0) {
 
             AplicaTooltip();
-            AplicajQdataTable("tableResultadoPesquisa", [null, null, null, null, null], false, 20);
+            AplicajQdataTable("tableResultadoPesquisa", [{ "bSortable": false }, null, null, null, null, null], false, 20);
 
         }
     }
