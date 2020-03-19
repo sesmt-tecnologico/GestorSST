@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GISWeb</RootNamespace>
     <AssemblyName>GISWeb</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -826,6 +826,8 @@
     <Content Include="Views\Workflow\_VincularAnalise.cshtml" />
     <Content Include="Views\Ged\_ExibirWorkflow.cshtml" />
     <Content Include="Views\Workflow\_ExibirWorkflow.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Empregado\Desktop.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

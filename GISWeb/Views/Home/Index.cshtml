@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Página Inicial";
+
+    var path = string.Empty;
+    if (Request.ApplicationPath.Length > 1)
+    {
+        path = Request.ApplicationPath;
+    }
+}
+
+<div class="well">
+    <div class="row">
+        <div class="col-sm-6">
+            <h4 class="green smaller lighter">Bem vindo(a) @ViewBag.NomeUsuario!</h4>
+        </div>
+    </div>
+</div>
+
+<div class="space-10"></div>
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+    @*<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>*@
+
+    <script type="text/javascript">
+
+        jQuery(function ($) {
+          
+        });
+
+    </script>
+
+}

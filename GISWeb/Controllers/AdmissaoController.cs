@@ -332,13 +332,23 @@ namespace GISWeb.Controllers
         {
             try
             {
+
+                //######################################################################################################
+
                 if (string.IsNullOrEmpty(id))
-                    throw new Exception("Não foi possível localizar a identificação da alocação para prosseguir com a operação.");
+                    throw new Exception("Não foi possível localizar a identificação da admissão para prosseguir com a operação.");
 
                 Guid UKAdmissao = Guid.Parse(id);
                 Admissao adm = AdmissaoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKAdmissao));
                 if (adm == null)
                     throw new Exception("Não foi possível encontrar a admissão na base de dados.");
+
+                Empregado oEmp = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(adm.UKEmpregado));
+                if (oEmp == null)
+                    throw new Exception("Não foi possível encontrar o empregado na base de dados.");
+
+                //######################################################################################################
+
 
                 List<Alocacao> als = AlocacaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKAdmissao.Equals(UKAdmissao)).ToList();
                 if (als.Count > 0)
@@ -352,6 +362,24 @@ namespace GISWeb.Controllers
 
                 adm.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                 AdmissaoBusiness.Terminar(adm);
+
+
+
+                oEmp.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                EmpregadoBusiness.Terminar(oEmp);
+
+                EmpregadoBusiness.Inserir(new Empregado()
+                {
+                    CPF = oEmp.CPF,
+                    Nome = oEmp.Nome,
+                    DataNascimento = oEmp.DataNascimento,
+                    Email = oEmp.Email,
+                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                    UniqueKey = oEmp.UniqueKey,
+                    Status = "Já admitido alguma vez"
+                });
+
+
 
                 Extensions.GravaCookie("MensagemSucesso", "O empregado foi demitido com sucesso.", 10);
 

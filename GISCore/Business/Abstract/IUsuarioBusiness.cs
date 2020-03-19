@@ -16,5 +16,7 @@ namespace GISCore.Business.Abstract
 
         void SalvarAvatar(string login, string imageStringBase64, string extensaoArquivo);
 
+        string CreateHashFromPassword(string pstrOriginalPassword);
+
     }
 }

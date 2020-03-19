@@ -18,7 +18,10 @@ using GISModel.DTO.DocumentosAlocacao;
 
 namespace GISWeb.Controllers
 {
+
+
     [Autorizador]
+    [DadosUsuario]
     [SessionState(SessionStateBehavior.ReadOnly)]
     public class GedController : BaseController
     {
