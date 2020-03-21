@@ -1,6 +1,4 @@
-﻿AplicaValidacaoCPF();
-
-jQuery(function ($) {
+﻿jQuery(function ($) {
 
     $("#txtCPF").inputmask("999.999.999-99");
     
@@ -15,7 +13,7 @@ jQuery(function ($) {
     Chosen();
 
     $.validator.unobtrusive.parse(document);
-
+    
     AplicaValidacaoCPF();
 
     $("#ddlEmpresa").change(function () {
@@ -40,10 +38,8 @@ jQuery(function ($) {
                         $('#ddlDepartamento').empty();
                         $('#ddlDepartamento').append($('<option></option>').val("").html("Selecione um departamento"));
                         for (var i = 0; i < content.resultado.length; i++) {
-                            alert(content.resultado[i].Sigla);
-
                             $('#ddlDepartamento').append(
-                                $('<option></option>').val(content.resultado[i].IDDepartamento).html(content.resultado[i].Sigla)
+                                $('<option></option>').val(content.resultado[i].UniqueKey).html(content.resultado[i].Sigla)
                             );
                         }
                     }
@@ -72,6 +68,13 @@ function OnSuccessCadastrarUsuario(data) {
     TratarResultadoJSON(data.resultado);
 }
 
-function OnBeginCadastrarUsuario() {
+function OnBeginCadastrarUsuario(jqXHR, settings) {
     $('.page-content-area').ace_ajax('startLoading');
+
+    /*$("#ddlDepartamento").val($("#ddlDepartamento option:selected").text());
+    $("#UKDepartamento").val($("#ddlDepartamento option:selected").text());
+
+    var form = $("#formAtualizarAcidente");
+    settings.data = form.serialize();*/
+
 }

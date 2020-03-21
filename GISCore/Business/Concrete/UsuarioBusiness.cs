@@ -41,7 +41,7 @@ namespace GISCore.Business.Concrete
 
             //Buscar usuário sem validar senha, para poder determinar se a validação da senha será com AD ou com a senha interna do GIS
             List<Usuario> lUsuarios = Consulta.Where(u => string.IsNullOrEmpty(u.UsuarioExclusao) &&
-                                                     (u.Login.Equals(autenticacaoModel.Login) || u.Email.Equals(autenticacaoModel.Login))).ToList();
+                                                     (u.Login.Replace(".", "").Replace("-", "").Replace("/", "").Equals(autenticacaoModel.Login) || u.Email.Equals(autenticacaoModel.Login))).ToList();
 
             if (lUsuarios.Count == 0)
             {
@@ -285,10 +285,10 @@ namespace GISCore.Business.Concrete
                                                  where usuarioperfil.UKUsuario.Equals(IDUsuario)
                                                  select new VMPermissao { Perfil = perfil.Nome });
 
-                        listapermissoes.AddRange(from usuarioperfil in UsuarioPerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                 join perfil in PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKPerfil equals perfil.UniqueKey
-                                                 where usuarioperfil.UKUsuario.Equals(IDUsuario)
-                                                 select new VMPermissao { Perfil = perfil.Nome });
+                        //listapermissoes.AddRange(from usuarioperfil in UsuarioPerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                        //                         join perfil in PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKPerfil equals perfil.UniqueKey
+                        //                         where usuarioperfil.UKUsuario.Equals(IDUsuario)
+                        //                         select new VMPermissao { Perfil = perfil.Nome });
 
                         if (listapermissoes.Count == 0)
                         {
@@ -377,13 +377,18 @@ namespace GISCore.Business.Concrete
             //Enviar Email
             var client = new SendGridClient(ConfigurationManager.AppSettings["SendGridAPIKey"]);
             var from = new EmailAddress("antonio.hpereira@icloud.com");
-            var subject = "Novo acesso ao sistema GESTOR";
+            var subject = "Seja bem-vindo ao GESTOR";
 
             var to = new EmailAddress(usuario.Email);
-            var body = "Olá " + usuario.Nome + "<br />";
-            body += "Segue a sua senha de acesso ao GESTOR: " + senha;
+            
+            string sHTML = "<p>Olá " + usuario.Nome + "! Você foi cadastrado no sistema GESTOR.</p>" +
+                           "<p>Segue abaixo os seus dados de acesso.</p> <br />" +
+                           "<p>Login: <strong>" + usuario.Login + "</strong></p>" +
+                           "<p>Senha: <strong>" + senha + "</strong></p> <br />" +
+                           "<p>Atenciosamente,</p>" +
+                           "<p>Equipe GESTOR</p>"; ;
 
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, body, "");
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, string.Empty, sHTML);
 
             var response = client.SendEmailAsync(msg).Result;
 
@@ -414,15 +419,32 @@ namespace GISCore.Business.Concrete
 
         public void DefinirSenha(NovaSenhaViewModel novaSenhaViewModel)
         {
-            Usuario oUsuario = Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(novaSenhaViewModel.IDUsuario));
+            Usuario oUsuario = Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(novaSenhaViewModel.UKUsuario));
             if (oUsuario == null)
             {
-                throw new Exception("Não foi possível localizar o usuário através da identificação. Solicite um novo acesso.");
+                throw new Exception("Não foi possível localizar o usuário através da identificação.");
             }
             else
             {
-                oUsuario.Senha = CreateHashFromPassword(novaSenhaViewModel.NovaSenha);
-                Alterar(oUsuario);
+                oUsuario.UsuarioExclusao = oUsuario.Login;
+                Terminar(oUsuario);
+
+
+                Usuario oUser = new Usuario()
+                {
+                    CPF = oUsuario.CPF,
+                    Email = oUsuario.Email,
+                    Login = oUsuario.Login,
+                    Nome = oUsuario.Nome,
+                    Senha = CreateHashFromPassword(novaSenhaViewModel.ConfirmarNovaSenha),
+                    TipoDeAcesso = oUsuario.TipoDeAcesso,
+                    UKDepartamento = oUsuario.UKDepartamento,
+                    UKEmpresa = oUsuario.UKEmpresa,
+                    UniqueKey = oUsuario.UniqueKey
+                };
+                base.Inserir(oUser);
+
+
                 EnviarEmailParaUsuarioSenhaAlterada(oUsuario);
             }
         }
@@ -503,50 +525,50 @@ namespace GISCore.Business.Concrete
 
         private void EnviarEmailParaUsuarioSenhaAlterada(Usuario usuario)
         {
-            string sRemetente = ConfigurationManager.AppSettings["Web:Remetente"];
-            string sSMTP = ConfigurationManager.AppSettings["Web:SMTP"];
+            //string sRemetente = ConfigurationManager.AppSettings["Web:Remetente"];
+            //string sSMTP = ConfigurationManager.AppSettings["Web:SMTP"];
 
-            MailMessage mail = new MailMessage(sRemetente, usuario.Email);
+            //MailMessage mail = new MailMessage(sRemetente, usuario.Email);
 
-            string PrimeiroNome = GISHelpers.Utils.Severino.PrimeiraMaiusculaTodasPalavras(usuario.Nome);
-            if (PrimeiroNome.Contains(" "))
-                PrimeiroNome = PrimeiroNome.Substring(0, PrimeiroNome.IndexOf(" "));
+            //string PrimeiroNome = GISHelpers.Utils.Severino.PrimeiraMaiusculaTodasPalavras(usuario.Nome);
+            //if (PrimeiroNome.Contains(" "))
+            //    PrimeiroNome = PrimeiroNome.Substring(0, PrimeiroNome.IndexOf(" "));
 
-            mail.Subject = PrimeiroNome + ", sua senha foi redefinida.";
+            //mail.Subject = PrimeiroNome + ", sua senha foi redefinida.";
 
-            mail.Body = "<html style=\"font-family: Verdana; font-size: 11pt;\"><body>Olá, " + PrimeiroNome + ".";
-            mail.Body += "<br /><br />";
-            mail.Body += "<span style=\"color: #222;\">Você redefiniu sua senha do GiS.";
-            mail.Body += "<br /><br />";
-            mail.Body += "Obrigado por utilizar o GiS!<br />";
-            mail.Body += "<strong>Gestão Inteligente da Segurança</strong>";
-            mail.Body += "</span>";
-            mail.Body += "<br /><br />";
-            mail.Body += "<span style=\"color: #aaa; font-size: 10pt; font-style: italic;\">Mensagem enviada automaticamente, favor não responder este email.</span>";
-            mail.Body += "</body></html>";
+            //mail.Body = "<html style=\"font-family: Verdana; font-size: 11pt;\"><body>Olá, " + PrimeiroNome + ".";
+            //mail.Body += "<br /><br />";
+            //mail.Body += "<span style=\"color: #222;\">Você redefiniu sua senha do GiS.";
+            //mail.Body += "<br /><br />";
+            //mail.Body += "Obrigado por utilizar o GiS!<br />";
+            //mail.Body += "<strong>Gestão Inteligente da Segurança</strong>";
+            //mail.Body += "</span>";
+            //mail.Body += "<br /><br />";
+            //mail.Body += "<span style=\"color: #aaa; font-size: 10pt; font-style: italic;\">Mensagem enviada automaticamente, favor não responder este email.</span>";
+            //mail.Body += "</body></html>";
 
-            mail.IsBodyHtml = true;
-            mail.BodyEncoding = Encoding.UTF8;
+            //mail.IsBodyHtml = true;
+            //mail.BodyEncoding = Encoding.UTF8;
 
 
-            SmtpClient smtpClient = new SmtpClient(sSMTP, 587);
+            //SmtpClient smtpClient = new SmtpClient(sSMTP, 587);
 
-            smtpClient.Credentials = new System.Net.NetworkCredential()
-            {
-                UserName = ConfigurationManager.AppSettings["Web:Remetente"],
-                Password = "sesmtajt"
-            };
+            //smtpClient.Credentials = new System.Net.NetworkCredential()
+            //{
+            //    UserName = ConfigurationManager.AppSettings["Web:Remetente"],
+            //    Password = "sesmtajt"
+            //};
 
-            smtpClient.EnableSsl = true;
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object s,
-                    System.Security.Cryptography.X509Certificates.X509Certificate certificate,
-                    System.Security.Cryptography.X509Certificates.X509Chain chain,
-                    System.Net.Security.SslPolicyErrors sslPolicyErrors)
-            {
-                return true;
-            };
+            //smtpClient.EnableSsl = true;
+            //System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate (object s,
+            //        System.Security.Cryptography.X509Certificates.X509Certificate certificate,
+            //        System.Security.Cryptography.X509Certificates.X509Chain chain,
+            //        System.Net.Security.SslPolicyErrors sslPolicyErrors)
+            //{
+            //    return true;
+            //};
 
-            smtpClient.Send(mail);
+            //smtpClient.Send(mail);
 
         }
 

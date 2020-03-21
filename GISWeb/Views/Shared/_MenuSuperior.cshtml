@@ -44,14 +44,20 @@
     @{
 
         bool isAdmin = false;
+        bool isEmpregado = false;
 
         if (ViewBag.Permissoes != null)
         {
             List<VMPermissao> permissoes = (List<VMPermissao>)ViewBag.Permissoes;
 
-            if (permissoes.Where(a => a.Perfil.Equals("Administrador")).Count() > 0)
+            if (permissoes.Where(a => a.Perfil.Equals("Super Administrador")).Count() > 0)
             {
                 isAdmin = true;
+            }
+
+            if (permissoes.Where(a => a.Perfil.Equals("Empregado")).Count() > 0)
+            {
+                isEmpregado = true;
             }
         }
 
@@ -87,13 +93,17 @@
                 </li>
             }
 
-            <li class="hover">
-                <a href="@path/Empregado/Desktop">
-                    <i class="menu-icon fa fa-caret-right"></i>
-                    Área de Trabalho
-                </a>
-                <b class="arrow"></b>
-            </li>
+
+            @if (isEmpregado)
+            {
+                <li class="hover">
+                    <a href="@path/Empregado/Desktop">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Área de Trabalho
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            }
 
         </ul>
 
