@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Gestor.Job.Startup</RootNamespace>
     <AssemblyName>Gestor.Job.Startup</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>

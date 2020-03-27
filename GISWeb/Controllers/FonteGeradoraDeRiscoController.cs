@@ -13,9 +13,14 @@ using System.Data;
 using GISWeb.Infraestrutura.Filters;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using GISModel.Enums;
+using System.Web.SessionState;
 
 namespace GISWeb.Controllers
 {
+
+    [Autorizador]
+    [DadosUsuario]
+    [SessionState(SessionStateBehavior.ReadOnly)]
     public class FonteGeradoraDeRiscoController : BaseController
     {
 

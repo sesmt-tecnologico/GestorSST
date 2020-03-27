@@ -1,11 +1,20 @@
 ﻿@using GISModel.DTO.Permissoes
 
-@{ 
+@{
     var path = string.Empty;
     if (Request.ApplicationPath.Length > 1)
     {
         path = Request.ApplicationPath;
     }
+
+    List<VMPermissao> permissoes = (List<VMPermissao>)ViewBag.Permissoes;
+
+    bool isSuperAdmin = permissoes.Where(a => a.Perfil.Equals("Super Administrador")).Count() > 0;
+    bool isAdmin = permissoes.Where(a => a.Perfil.Equals("Administrador")).Count() > 0;
+    bool isGestorTecnico = permissoes.Where(a => a.Perfil.Equals("Gestor Técnico")).Count() > 0;
+    bool isTecnico = permissoes.Where(a => a.Perfil.Equals("Técnico")).Count() > 0;
+    bool isEmpregado = permissoes.Where(a => a.Perfil.Equals("Empregado")).Count() > 0;
+    bool isMedicina = permissoes.Where(a => a.Perfil.Equals("Medicina")).Count() > 0;
 
 }
 
@@ -41,321 +50,192 @@
 
 <ul class="nav nav-list">
 
-    @{
-
-        bool isAdmin = false;
-        bool isEmpregado = false;
-
-        if (ViewBag.Permissoes != null)
-        {
-            List<VMPermissao> permissoes = (List<VMPermissao>)ViewBag.Permissoes;
-
-            if (permissoes.Where(a => a.Perfil.Equals("Super Administrador")).Count() > 0)
-            {
-                isAdmin = true;
-            }
-
-            if (permissoes.Where(a => a.Perfil.Equals("Empregado")).Count() > 0)
-            {
-                isEmpregado = true;
-            }
-        }
-
-    }
-
-
-    <li class="hover">
-        <a href="#" class="dropdown-toggle">
-            <i class="menu-icon ace-icon fa fa-home"></i>
-            <span class="menu-text"> Empregado </span>
-            <b class="arrow fa fa-angle-down"></b>
-        </a>
-        <b class="arrow"></b>
-
-        <ul class="submenu">
-
-            @if (isAdmin)
-            {
-                <li class="hover">
-                    <a href="@path/Empregado/Novo">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Cadastro
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-
-                <li class="hover">
-                    <a href="@path/Empregado/Pesquisa">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Pesquisa
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-            }
-
-
-            @if (isEmpregado)
-            {
-                <li class="hover">
-                    <a href="@path/Empregado/Desktop">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Área de Trabalho
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-            }
-
-        </ul>
-
-    </li>
-
-
-    @if (isAdmin)
+    @if (isSuperAdmin || isGestorTecnico || isEmpregado)
     {
-
-
         <li class="hover">
             <a href="#" class="dropdown-toggle">
-                <i class="menu-icon ace-icon fa fa-cogs"></i>
-                <span class="menu-text"> Administração </span>
+                <i class="menu-icon ace-icon fa fa-home"></i>
+                <span class="menu-text"> Empregado </span>
                 <b class="arrow fa fa-angle-down"></b>
             </a>
             <b class="arrow"></b>
 
             <ul class="submenu">
 
+                @if (isSuperAdmin || isGestorTecnico)
+                {
+                    <li class="hover">
+                        <a href="@path/Empregado/Novo">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Cadastro
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="hover">
+                        <a href="@path/Empregado/Pesquisa">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Pesquisa
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                }
+
+
+                @if (isEmpregado)
+                {
+                    <li class="hover">
+                        <a href="@path/Empregado/Desktop">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Área de Trabalho
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                }
+
+            </ul>
+        </li>
+    }
+
+    @if (isGestorTecnico || isSuperAdmin)
+    {
+        <li class="hover">
+
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon ace-icon fa fa-sitemap"> </i>
+                <span class="menu-text">Hierarquia Funcional</span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
                 <li class="hover">
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon ace-icon fa fa-search"></i>
-                        <span class="menu-text"> Organizacional </span>
-                        <b class="arrow fa fa-angle-down"></b>
-                    </a>
-
-                    <b class="arrow"></b>
-
-                    <ul class="submenu">
-                        <li class="hover">
-                            <a href="@path/Empresa/">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Empresa
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-
-                        <li class="hover">
-                            <a href="@path/Departamento/">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Departamento
-                            </a>
-
-
-                        </li>
-                        <li class="hover">
-                            <a href="@path/Estabelecimento/">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Estabelecimento
-                            </a>
-
-                        </li>
-
-                        <li class="hover">
-                            <a href="@path/NivelHierarquico/">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Nível Hierárquico
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-
-                        <li class="hover">
-                            <a href="@path/Equipe">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Equipe
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-
-                        <li class="hover">
-                            <a href="@path/PossiveisDanos">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Danos a Saúde
-                            </a>
-
-                            <b class="arrow"></b>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="hover">
-
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon ace-icon fa fa-search"> </i>
-                        <span class="menu-text">Hierarquia Funcional</span>
-                        <b class="arrow fa fa-angle-down"></b>
-
-                    </a>
-
-                    <b class="arrow"></b>
-
-                    <ul class="submenu">
-                        <li class="hover">
-                            <a href="@path/Cargo/Index">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Cargos / Funções
-                            </a>
-                        </li>
-
-                        <li class="hover">
-                            <a href="@path/Atividade/Index">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Atividades/Documentos
-                            </a>
-                        </li>
-                        <li class="hover">
-                            <a href="@path/Atividade/AtividadePerigo">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Atividades/Perigo
-                            </a>
-                        </li>
-                        <li class="hover">
-                            <a href="@path/DocumentosPessoal/Index">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Documentos Pessoal
-                            </a>
-                        </li>
-                    </ul>
-
-                </li>
-
-                <li class="hover">
-
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon ace-icon fa fa-search"> </i>
-                        <span class="menu-text">Listas Enumeradas</span>
-                        <b class="arrow fa fa-angle-down"></b>
-
-                    </a>
-
-                    <b class="arrow"></b>
-
-                    <ul class="submenu">
-                        <li class="hover">
-                            <a href="@path/ListaEnumerada/ClassificacaoDaMedida">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Classificação da Medida
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-                    </ul>
-
-                </li>
-
-                <li class="hover">
-
-                    <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon ace-icon fa fa-search"> </i>
-                        <span class="menu-text">Gerenciar Riscos</span>
-                        <b class="arrow fa fa-angle-down"></b>
-
-                    </a>
-
-                    <b class="arrow"></b>
-
-                    <ul class="submenu">
-                        <li class="hover">
-                            <a href="@path/Perigo/Novo">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Novo Perigo
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-
-                        <li class="hover">
-                            <a href="@path/Risco/Novo">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Novo Risco
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-
-                        <li class="hover">
-                            <a href="@path/FonteGeradoraDeRisco/Index">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Fonte Geradora de Risco
-                            </a>
-                        </li>
-
-                        <li class="hover">
-                            <a href="@path/TipoDeControle/Index">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Tipo de Controle
-                            </a>
-                        </li>
-                        <li class="hover">
-                            <a href="@path/ClassificacaoMedida/Index">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Classificação da Medida
-                            </a>
-                        </li>
-                        <li class="hover">
-                            <a href="@path/Risco">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                Danos por Risco
-                            </a>
-                            <b class="arrow"></b>
-                        </li>
-                    </ul>
-
-                </li>
-
-                <li class="hover">
-
-
-
-                </li>
-
-                <li class="hover">
-                    <a href="@path/Perfil/">
+                    <a href="@path/Equipe">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Perfil
+                        Equipe
                     </a>
                     <b class="arrow"></b>
                 </li>
+                <li class="hover">
+                    <a href="@path/Cargo/Index">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Cargos / Funções
+                    </a>
+                </li>
+                <li class="hover">
+                    <a href="@path/Atividade/Index">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Atividades/Documentos
+                    </a>
+                </li>
+                <li class="hover">
+                    <a href="@path/Atividade/AtividadePerigo">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Atividades/Perigo
+                    </a>
+                </li>
+                <li class="hover">
+                    <a href="@path/DocumentosPessoal/Index">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Documentos Pessoal
+                    </a>
+                </li>
+            </ul>
+        </li>
+    }
+
+    @if (isGestorTecnico || isTecnico || isSuperAdmin)
+    {
+        <li class="hover">
+
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon ace-icon fa fa-ban"> </i>
+                <span class="menu-text">Gerenciar Riscos</span>
+                <b class="arrow fa fa-angle-down"></b>
+
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+
+                @if (isGestorTecnico)
+                {
+                    <li class="hover">
+                        <a href="@path/Perigo/Novo">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Novo Perigo
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="hover">
+                        <a href="@path/Risco/Novo">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Novo Risco
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    <li class="hover">
+                        <a href="@path/TipoDeControle/Index">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Tipo de Controle
+                        </a>
+                    </li>
+                    <li class="hover">
+                        <a href="@path/ClassificacaoMedida/Index">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Classificação da Medida
+                        </a>
+                    </li>
+                    <li class="hover">
+                        <a href="@path/Risco">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Danos por Risco
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                }
 
                 <li class="hover">
-                    <a href="@path/Usuario/">
+                    <a href="@path/FonteGeradoraDeRisco/Index">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Usuário
+                        Fonte Geradora de Risco
                     </a>
-                    <b class="arrow"></b>
                 </li>
 
-                <li class="hover">
-                    <a href="@path/Permissoes/">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Permissões
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-
-                <li class="hover">
-                    <a href="@path/Contrato/">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Contrato
-                    </a>
-                    <b class="arrow"></b>
-                </li>
-
-                <li class="hover">
-                    <a href="@path/Link/">
-                        <i class="menu-icon fa fa-caret-right"></i>
-                        Links
-                    </a>
-                    <b class="arrow"></b>
-                </li>
             </ul>
 
         </li>
 
+    }
+
+    @if (isMedicina || isSuperAdmin)
+    {
+        <li class="hover">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon ace-icon fa fa-heartbeat"> </i>
+                <span class="menu-text">Medicina</span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li class="hover">
+                    <a href="@path/PossiveisDanos">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Danos a Saúde
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+    }
+
+    @if (isGestorTecnico || isTecnico || isSuperAdmin || isMedicina)
+    {
         <li class="hover">
             <a href="#" class="dropdown-toggle">
                 <i class="menu-icon ace-icon fa fa-bar-chart"></i>
@@ -368,12 +248,10 @@
 
                 <li class="hover">
 
-
                     <a href="#" class="dropdown-toggle">
                         <i class="menu-icon ace-icon fa fa-search"> </i>
                         <span class="menu-text">Acidentes</span>
                         <b class="arrow fa fa-angle-down"></b>
-
                     </a>
 
                     <b class="arrow"></b>
@@ -459,15 +337,132 @@
             </ul>
 
         </li>
+    }
 
-        <li>
-            <a href="@path/Ferramentas/">
-                <i class="menu-icon ace-icon fa fa-cubes"></i>
-                <span class="menu-text"> Ferramentas </span>
+    @if (isAdmin || isSuperAdmin)
+    {
+        <li class="hover">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon ace-icon fa fa-cogs"></i>
+                <span class="menu-text"> Administração </span>
+                <b class="arrow fa fa-angle-down"></b>
             </a>
             <b class="arrow"></b>
-        </li>
 
+            <ul class="submenu">
+
+                <li class="hover">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon ace-icon fa fa-caret-right"></i>
+                        <span class="menu-text"> Organizacional </span>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="hover">
+                            <a href="@path/Empresa/">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Empresa
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="hover">
+                            <a href="@path/NivelHierarquico/">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Nível Hierárquico
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="hover">
+                            <a href="@path/Departamento/">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Departamento
+                            </a>
+                        </li>
+                        <li class="hover">
+                            <a href="@path/Estabelecimento/">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Estabelecimento
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+
+                <li class="hover">
+
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon ace-icon fa fa-caret-right"> </i>
+                        <span class="menu-text">Listas Enumeradas</span>
+                        <b class="arrow fa fa-angle-down"></b>
+
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="hover">
+                            <a href="@path/ListaEnumerada/ClassificacaoDaMedida">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Classificação da Medida
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+
+                </li>
+
+                @if (isSuperAdmin)
+                {
+                    <li class="hover">
+                        <a href="@path/Perfil/">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Perfil
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                }
+
+                <li class="hover">
+                    <a href="@path/Usuario/">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Usuário
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="hover">
+                    <a href="@path/Permissoes/">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Permissões
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li class="hover">
+                    <a href="@path/Contrato/">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Contrato
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                @if (isSuperAdmin)
+                {
+                    <li class="hover">
+                        <a href="@path/Link/">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Links
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                }
+            </ul>
+
+        </li>
     }
 
     <li class="hover">

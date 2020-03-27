@@ -11,8 +11,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using GISCore.Infrastructure.Utils;
+using GISWeb.Infraestrutura.Filters;
+using System.Web.SessionState;
+
 namespace GISWeb.Controllers
 {
+
+    [Autorizador]
+    [DadosUsuario]
+    [SessionState(SessionStateBehavior.ReadOnly)]
     public class DocumentoAlocacaoController : BaseController
     {
         #region
