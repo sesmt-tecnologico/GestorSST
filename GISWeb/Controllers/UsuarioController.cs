@@ -10,6 +10,9 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using GISModel.DTO.Usuario;
+using System.Data;
+using System.Globalization;
 
 namespace GISWeb.Controllers
 {
@@ -39,18 +42,8 @@ namespace GISWeb.Controllers
         [MenuAtivo(MenuAtivo = "Administracao/Usuarios")]
         public ActionResult Index()
         {
-            //ViewBag.Usuarios = UsuarioBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).OrderBy(o => o.Nome).ToList();
-            ViewBag.Usuarios = (from usr in UsuarioBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                join emp in EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usr.ID equals emp.ID
-                                join dep in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usr.ID equals dep.ID
-                                select new Usuario()
-                                {
-                                    ID = usr.ID,
-                                    Nome = usr.Nome,
-                                    Login = usr.Login,
-                                    CPF = usr.CPF,
-                                    Email = usr.Email
-                                }).ToList();
+            ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p => p.Sigla);
+            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList().OrderBy(a => a.NomeFantasia);
 
             return View();
         }
@@ -72,9 +65,19 @@ namespace GISWeb.Controllers
                 try
                 {
                     bool bRedirect = false;
-                    if (Usuario.ID != null && Usuario.ID.Equals("redirect"))
+                    if (Usuario.Senha != null && Usuario.Senha.Equals("redirect"))
                         bRedirect = true;
 
+
+
+                    if (Usuario.TipoDeAcesso == GISModel.Enums.TipoDeAcesso.Sistema)
+                    {
+                        string senha = GISHelpers.Utils.Severino.GeneratePassword();
+                        Usuario.Senha = senha;
+                    }
+
+
+                    
                     Usuario.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     UsuarioBusiness.Inserir(Usuario);
 
@@ -83,7 +86,7 @@ namespace GISWeb.Controllers
                         Extensions.GravaCookie("MensagemSucesso", "O usuário '" + Usuario.Nome + "' foi cadastrado com sucesso.", 10);
 
                         
-                        return Json(new { resultado = new RetornoJSON() { URL = "#" + Url.Action("Index", "Usuario").Substring(1) } });
+                        return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Usuario") } });
                     }
                     else
                     {
@@ -221,7 +224,10 @@ namespace GISWeb.Controllers
 
             try
             {
-                Usuario oUsuario = UsuarioBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(IDUsuario));
+
+                Guid uk = Guid.Parse(IDUsuario);
+
+                Usuario oUsuario = UsuarioBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(uk));
                 if (oUsuario == null)
                 {
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o usuário, pois o mesmo não foi localizado." } });
@@ -230,7 +236,7 @@ namespace GISWeb.Controllers
                 {
 
                     oUsuario.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    //UsuarioBusiness.Terminar(oUsuario);
+                    UsuarioBusiness.Terminar(oUsuario);
 
                     return Json(new { resultado = new RetornoJSON() { Sucesso = "O usuário '" + oUsuario.Nome + "' foi excluído com sucesso." } });
                 }
@@ -287,6 +293,88 @@ namespace GISWeb.Controllers
 
 
         }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Pesquisar(VMPesquisaUsuario entidade)
+        {
+            try
+            {
+
+                string sFrom = string.Empty;
+                string sWhere = string.Empty;
+
+                if (string.IsNullOrEmpty(entidade.CPF) &&
+                    string.IsNullOrEmpty(entidade.Nome) &&
+                    string.IsNullOrEmpty(entidade.Email) &&
+                    string.IsNullOrEmpty(entidade.DataCriacao) &&
+                    string.IsNullOrEmpty(entidade.UKDepartamento) &&
+                    string.IsNullOrEmpty(entidade.UKEmpresa))
+                    throw new Exception("Informe pelo menos um filtro para prosseguir na pesquisa.");
+
+                if (!string.IsNullOrEmpty(entidade.CPF))
+                    sWhere += " and o.CPF = '" + entidade.CPF + "'";
+
+                if (!string.IsNullOrEmpty(entidade.Nome))
+                    sWhere += " and Upper(o.Nome) like '" + entidade.Nome.ToUpper().Replace("*", "%") + "'";
+
+                if (!string.IsNullOrEmpty(entidade.Email))
+                    sWhere += " and Upper(o.Email) like '" + entidade.Email.ToUpper().Replace("*", "%") + "'";
+
+                if (!string.IsNullOrEmpty(entidade.UKDepartamento))
+                    sWhere += " AND o.UKDepartamento = '" + entidade.UKDepartamento + "'";
+
+                if (!string.IsNullOrEmpty(entidade.UKEmpresa))
+                    sWhere += " and o.UKEmpresa = '" + entidade.UKEmpresa + "'";
+
+                if (!string.IsNullOrEmpty(entidade.DataCriacao) && entidade.DataCriacao.Contains(" - "))
+                {
+                    string data1 = entidade.DataCriacao.Substring(0, entidade.DataCriacao.IndexOf(" - "));
+                    DateTime dt1 = DateTime.ParseExact(data1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    string data2 = entidade.DataCriacao.Substring(entidade.DataCriacao.IndexOf(" - ") + 3);
+                    DateTime dt2 = DateTime.ParseExact(data2, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                    sWhere += " and o.DataInclusao between '" + dt1.ToString("yyyy-MM-dd") + " 00:00:00.001' and '" + dt2.ToString("yyyy-MM-dd") + " 23:59:59.999'";
+                }
+
+                string sql = @"select top 100 o.UniqueKey, o.CPF, o.Nome, o.Email, e.NomeFantasia, d.Sigla, d.Codigo, o.TipoDeAcesso, o.DataInclusao
+                               from tbusuario o, tbempresa e, tbdepartamento d
+                               where o.DataExclusao = '9999-12-31 23:59:59.997' and 
+                                     o.UKEmpresa = e.Uniquekey and e.DataExclusao = '9999-12-31 23:59:59.997' and 
+                                     o.UKDepartamento = d.UniqueKey and d.DataExclusao = '9999-12-31 23:59:59.997' 
+	                                 " + sWhere + @"
+                               order by o.Nome";
+
+                List<VMPesquisaUsuario> lista = new List<VMPesquisaUsuario>();
+                DataTable result = UsuarioBusiness.GetDataTable(sql);
+                if (result.Rows.Count > 0)
+                {
+                    foreach (DataRow row in result.Rows)
+                    {
+                        lista.Add(new VMPesquisaUsuario()
+                        {
+                            UniqueKey = row["UniqueKey"].ToString(),
+                            CPF = row["CPF"].ToString(),
+                            Nome = row["Nome"].ToString(),
+                            Email = row["Email"].ToString(),
+                            DataCriacao = row["DataInclusao"].ToString(),
+                            UKDepartamento = row["Sigla"].ToString() + " [" + row["Codigo"].ToString() + "]",
+                            UKEmpresa = row["NomeFantasia"].ToString()
+                        });
+                    }
+                }
+
+                return PartialView("_Pesquisar", lista);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
+        }
+
 
     }
 }

@@ -828,6 +828,7 @@
     <Content Include="Views\Workflow\_ExibirWorkflow.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Empregado\Desktop.cshtml" />
+    <Content Include="Views\Usuario\_Pesquisar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

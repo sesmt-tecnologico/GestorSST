@@ -137,7 +137,7 @@ namespace GISWeb.Controllers
                         Usuario usr = UsuarioBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Login.Equals(emp.CPF.Replace(".", "").Replace("-", "")));
                         if (usr == null)
                         {
-                            string Senha = GeneratePassword();
+                            string Senha = GISHelpers.Utils.Severino.GeneratePassword();
 
                             usr = new Usuario()
                             {
@@ -192,21 +192,6 @@ namespace GISWeb.Controllers
             }
         }
 
-        private string GeneratePassword() {
-
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var stringChars = new char[8];
-            var random = new Random();
-
-            for (int i = 0; i < stringChars.Length; i++)
-            {
-                stringChars[i] = chars[random.Next(chars.Length)];
-            }
-
-            var finalString = new String(stringChars);
-
-            return finalString.ToString();
-        }
 
         [HttpPost]
         [RestritoAAjax]

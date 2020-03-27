@@ -310,6 +310,7 @@ function AplicaMultiSelect() {
 }
 
 function AplicaValidacaoCPF() {
+
     var CustomValidation = {};
     CustomValidation.Init = function () {
         //CustomValidationCPF
