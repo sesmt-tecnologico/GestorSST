@@ -8,6 +8,8 @@ namespace GISCore.Business.Abstract
 
         AutenticacaoModel ValidarCredenciais(AutenticacaoModel autenticacaoModel);
 
+        void InserirSemEmailESenha(Usuario usuario);
+
         void DefinirSenha(NovaSenhaViewModel novaSenhaViewModel);
 
         void SolicitarAcesso(string email);

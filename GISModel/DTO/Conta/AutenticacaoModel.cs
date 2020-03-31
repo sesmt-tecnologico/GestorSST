@@ -28,6 +28,14 @@ namespace GISModel.DTO.Conta
 
         public string Email { get; set; }
 
+
+        public string Telefone { get; set; }
+
+        public string Departamento { get; set; }
+
+        public string Empresa { get; set; }
+
+
         public Guid UniqueKey { get; set; }
 
         public List<VMPermissao> Permissoes { get; set; }

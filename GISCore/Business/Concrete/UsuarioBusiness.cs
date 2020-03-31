@@ -282,8 +282,9 @@ namespace GISCore.Business.Concrete
 
                         listapermissoes.AddRange(from usuarioperfil in UsuarioPerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                                  join perfil in PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKPerfil equals perfil.UniqueKey
+                                                 join area in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKConfig equals area.UniqueKey
                                                  where usuarioperfil.UKUsuario.Equals(IDUsuario)
-                                                 select new VMPermissao { Perfil = perfil.Nome });
+                                                 select new VMPermissao { Perfil = perfil.Nome, Config = area.Sigla });
 
                         //listapermissoes.AddRange(from usuarioperfil in UsuarioPerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                         //                         join perfil in PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKPerfil equals perfil.UniqueKey
@@ -392,7 +393,11 @@ namespace GISCore.Business.Concrete
 
             var response = client.SendEmailAsync(msg).Result;
 
+        }
 
+        public void InserirSemEmailESenha(Usuario usuario)
+        {
+            base.Inserir(usuario);
         }
 
         public override void Alterar(Usuario entidade)
