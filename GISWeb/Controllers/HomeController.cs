@@ -8,6 +8,8 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using System.Data;
+using System.Collections.Generic;
 
 namespace GISWeb.Controllers
 {
@@ -40,6 +42,65 @@ namespace GISWeb.Controllers
                     return RedirectToAction("Desktop", "Empregado", new { id = emp.UniqueKey });
                 }
             }
+
+            return View();
+        }
+
+        public ActionResult Suporte() 
+        {
+
+            List<Perfil> perfis = new List<Perfil>();
+
+            string sql = @"select p.Nome as Perfil, u.Nome as Usuario, d.Sigla, d.Codigo, u.Telefone, u.Email
+                           from tbUsuarioPerfil up, tbUsuario u, tbPerfil p, tbDepartamento d
+                           where up.DataExclusao = '9999-12-31 23:59:59.997' and
+	                             up.UKUsuario = u.UniqueKey and u.DataExclusao = '9999-12-31 23:59:59.997' and
+	                             up.UKConfig = d.UniqueKey and d.DataExclusao = '9999-12-31 23:59:59.997' and 
+	                             up.UKPerfil = p.UniqueKey and p.DataExclusao = '9999-12-31 23:59:59.997' and
+	                             p.Nome in ('Administrador', 'Medicina', 'Técnico', 'Gestor Técnico')
+                           order by p.Nome, u.Nome";
+
+            DataTable result = UsuarioBusiness.GetDataTable(sql);
+            if (result.Rows.Count > 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    Perfil temp = perfis.FirstOrDefault(a => a.Nome.Equals(row["Perfil"].ToString()));
+                    if (temp == null)
+                    {
+                        perfis.Add(new Perfil()
+                        {
+                            Nome = row["Perfil"].ToString(),
+                            Usuarios = new List<Usuario>() {
+                               new Usuario() {
+                                    Nome = row["Usuario"].ToString(),
+                                    Email = row["Email"].ToString(),
+                                    Telefone = row["Telefone"].ToString(),
+                                    Departamento = new Departamento()
+                                    {
+                                        Sigla = row["Sigla"].ToString() + " [" + row["Codigo"].ToString() + "]"
+                                    }
+                               }
+                            }
+                        });
+                    }
+                    else 
+                    {
+                        temp.Usuarios.Add(new Usuario()
+                        {
+                            Nome = row["Usuario"].ToString(),
+                            Email = row["Email"].ToString(),
+                            Telefone = row["Telefone"].ToString(),
+                            Departamento = new Departamento()
+                            {
+                                Sigla = row["Sigla"].ToString() + " [" + row["Codigo"].ToString() + "]"
+                            }
+                        });
+                    }
+                }
+            }
+
+            ViewBag.Perfis = perfis;
 
             return View();
         }

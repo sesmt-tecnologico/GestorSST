@@ -829,6 +829,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Empregado\Desktop.cshtml" />
     <Content Include="Views\Usuario\_Pesquisar.cshtml" />
+    <Content Include="Views\Home\Suporte.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
