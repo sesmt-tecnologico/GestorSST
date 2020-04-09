@@ -34,9 +34,13 @@
                                 <i class="ace-icon fa fa-pencil bigger-130"></i>
                             </a>
 
-                            <a class="red CustomTooltip" href="#" title="Excluir Workarea" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
-                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                            </a>
+                            @if (wa.FonteGeradoraDeRisco.Count == 0)
+                            {
+                                <a class="red CustomTooltip" href="#" title="Excluir Workarea" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
+                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                </a>
+                            }
+
 
                             <a href="@Url.Action("ListaReconhecimentoPorWorkArea", "ReconhecimentoDoRisco", new {id = @wa.UniqueKey })" class="blue CustomTooltip" title="Listar Reconhecimento">
                                 <i class="ace-icon fa fa-search red bigger-125"></i>

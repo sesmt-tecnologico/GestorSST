@@ -1,112 +1,86 @@
-﻿
-@using GISModel.Entidades
-@{
-    ViewBag.Title = "listagem de Equipes";
-}
+﻿@using GISModel.Entidades
 
-<h2>Index</h2>
+@{
+    ViewBag.Title = "Gerenciamento de Equipes";
+}
 
 <div class="row">
     <div class="col-xs-12">
         <h3 class="header smaller lighter blue">
-            Equipes
+            Gerenciamento de Equipes
+
             <a href="@Url.Action("Novo","Equipe")" class="btn btn-white btn-info btn-bold" style="float:right; margin-top: -2px;">
-                <i class="ace-icon fa fa-plus bigger-120">
+                <i class="ace-icon fa fa-plus bigger-120 blue">
                     Novo
                 </i>
             </a>
+
         </h3>
     </div>
-
 </div>
 
-<div class="row">
 
-    <div class="col-xs-12">
+@if (ViewBag.Equipe != null && ViewBag.Equipe.Count > 0)
+{
+    <div class="row">
+        <div class="col-xs-12">
 
+            <table id="dynamic-table" class="table table-striped table-bordered" contenteditable-hover">
+                <thead>
+                    <tr>
+                        <th width="200px">Empresa</th>
+                        <th width="200px">Equipe</th>
+                        <th>Resumo das atividades</th>
+                        <th width="80px"></th>
+                    </tr>
+                </thead>
 
-
-        @if (ViewBag.Equipe != null)
-        {
-
-            <div>
-
-                <table id="dynamic-table" class="table table-striped table-bordered" contenteditable-hover">
-                    <thead>
+                <tbody>
+                    @foreach (Equipe oEquipe in ViewBag.Equipe)
+                    {
                         <tr>
-                            <th>Empresa</th>
-                            <th>Equipe</th>
-                            <th>Descrição</th>
-                            <th width="80px"></th>
+                            <td>@oEquipe.Empresa.NomeFantasia</td>
+                            <td>@oEquipe.NomeDaEquipe</td>
+                            <td>@oEquipe.ResumoAtividade</td>
+                            <td class="center">
+
+                                <div class="hidden-sm hidden-xs action-buttons">
+                                    <a href='@Url.Action("Edicao","Equipe", new { id = oEquipe.UniqueKey})' class="green">
+                                        <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
+                                    </a>
+
+                                    <a class="red" href="#" onclick="DeletarEquipe('@oEquipe.UniqueKey', '@oEquipe.NomeDaEquipe'); return false;">
+                                        <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
+                                    </a>
+                                </div>
+
+                            </td>
+
                         </tr>
-                    </thead>
+                    }
+                </tbody>
+            </table>
 
-                    <tbody>
-                        @foreach (Equipe oEquipe in ViewBag.Equipe)
-                        {
-                            <tr id="linha-@oEquipe.ID">
-                                <td>@oEquipe.Empresa.NomeFantasia</td>
-                                <td>@oEquipe.NomeDaEquipe</td>
-                                <td>@oEquipe.ResumoAtividade</td>
-                                <td>
-                                    <div class="hidden-sm hidden-xs action-buttons">
-                                        <a href='@Url.Action("Edicao","Equipe", new { id = oEquipe.ID})' class="green">
-                                            <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
-                                        </a>
-                                        <a class="red" href="#" onclick="DeletarEquipe('@oEquipe.ID', '@oEquipe.NomeDaEquipe');">
-                                            <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
-                                        </a>
-                                    </div>
-                                    <div class="hidden-md hidden-lg">
-                                        <div class="inline pos-rel">
-                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-                                            </button>
-
-                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-                                                <li>
-                                                    <a href='@Url.Action("Edicao", "Equipe", new { id = oEquipe.ID })' class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                        <span class="green">
-                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                        </span>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#" class="tooltip-error" onclick="DeletarEquipe('@oEquipe.ID', '@oEquipe.NomeDaEquipe');" data-rel="tooltip" title="Delete">
-                                                        <span class="red">
-                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-
-                            </tr>
-                        }
-
-
-                    </tbody>
-
-                </table>
-
-
-
-            </div>
-
-
-
-        }
-
-
+        </div>
     </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        Nenhuma equipe encontrada na base de dados.
+        <br>
+    </div>
+}
 
 
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jQ_dataTable")
+
     <script src="~/Scripts/Custom/Equipe/Lista.js"></script>
 }

@@ -447,6 +447,7 @@
     <Content Include="Scripts\Custom\Funcao\Novo.js" />
     <Content Include="Scripts\Custom\GED\AdicionaArquivos.js" />
     <Content Include="Scripts\Custom\GED\Lista.js" />
+    <Content Include="Scripts\Custom\Link\Edicao.js" />
     <Content Include="Scripts\Custom\Link\Listagem.js" />
     <Content Include="Scripts\Custom\Link\Novo.js" />
     <Content Include="Scripts\Custom\ListaDepartamento\Edicao.js" />
@@ -830,6 +831,7 @@
     <Content Include="Views\Empregado\Desktop.cshtml" />
     <Content Include="Views\Usuario\_Pesquisar.cshtml" />
     <Content Include="Views\Home\Suporte.cshtml" />
+    <Content Include="Views\Link\Edicao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -903,3 +903,40 @@ function InitDropZoneSingle(elementoClicado) {
         ExibirMensagemGritter('Alerta', 'Este browser não é compatível com o componente Dropzone.js. Sugerimos a utilização do Google Chrome ou Internet Explorer 10 (ou versão superior).', 'gritter-warning');
     }
 }
+
+
+
+function deleteWorkfArea(UK, Nome) {
+
+
+    var callback = function () {
+        
+        $('.page-content-area').ace_ajax('startLoading');
+
+        $.ajax({
+            method: "POST",
+            url: "/WorkArea/Terminar",
+            data: { id: UK },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                TratarResultadoJSON(content.resultado);
+
+                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
+                    $(".resultadoWorkArea").html("");
+
+                    if ($("#UKEstabelecimento").val() != "") {
+                        $("#formPesquisarWorkArea").submit();
+                    }
+                }
+            }
+        });
+    };
+
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a work área '" + Nome + "'?", "Exclusão de WorkArea", callback, "btn-danger");
+
+}

@@ -42,7 +42,7 @@
     }
     else
     {
-        using (Ajax.BeginForm("Atualizar", "Departamento", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginAtualizarDepartamento", OnSuccess = "OnSuccessCadastrarDepartamento", }, new { @id = "formEdicaoDepartamento", @class = "form-horizontal" }))
+        using (Ajax.BeginForm("Atualizar", "Departamento", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginAtualizarDepartamento", OnSuccess = "OnSuccessCadastrarDepartamento", }, new { @id = "formEdicaoDepartamento", @class = "form-horizontal", @autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
 

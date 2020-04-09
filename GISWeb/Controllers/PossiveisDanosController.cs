@@ -49,11 +49,7 @@ namespace GISWeb.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.PossiveisDanos = PossiveisDanosBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p => p.DescricaoDanos);
-
-            ViewBag.ContarDanos = PossiveisDanosBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).Count();
-
-
+            ViewBag.PossiveisDanos = PossiveisDanosBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).OrderBy(p => p.DescricaoDanos).ToList();
 
             return View();
         }
@@ -68,19 +64,19 @@ namespace GISWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cadastrar(PossiveisDanos oPossiveisDanoso)
         {
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if (PossiveisDanosBusiness.Consulta.Any(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.DescricaoDanos.ToUpper().Trim().Equals(oPossiveisDanoso.DescricaoDanos.ToUpper().Trim())))
+                        throw new Exception("Já existe um possível dano com esta descrição. Favor informar outro nome para o possível dano.");
+
+                    oPossiveisDanoso.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     PossiveisDanosBusiness.Inserir(oPossiveisDanoso);
 
                     Extensions.GravaCookie("MensagemSucesso", "O Possivel dano '" + oPossiveisDanoso.DescricaoDanos + "' foi cadastrado com sucesso!", 10);
 
-
-
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "PossiveisDanos") } });
-
                 }
                 catch (Exception ex)
                 {
@@ -93,7 +89,6 @@ namespace GISWeb.Controllers
                         return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
                     }
                 }
-
             }
             else
             {
@@ -105,21 +100,37 @@ namespace GISWeb.Controllers
         public ActionResult Edicao(string id)
         {
             Guid UK_PossiveisDanos = Guid.Parse(id);
-
-            return View(PossiveisDanosBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(UK_PossiveisDanos)));
+            return View(PossiveisDanosBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UK_PossiveisDanos)));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Atualizar(PossiveisDanos oPossiveisDanos)
+        public ActionResult Atualizar(PossiveisDanos entidade)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    PossiveisDanosBusiness.Alterar(oPossiveisDanos);
+                    PossiveisDanos obj = PossiveisDanosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(entidade.UniqueKey));
+                    if (obj == null)
+                        throw new Exception("Não foi possível encontrar o possível dano a ser editado na base de dados.");
 
-                    Extensions.GravaCookie("MensagemSucesso", "O Possivel Dano '" + oPossiveisDanos.DescricaoDanos + "' foi atualizado com sucesso.", 10);
+
+
+                    if (PossiveisDanosBusiness.Consulta.Any(a => string.IsNullOrEmpty(a.UsuarioExclusao) && 
+                                                                 !a.UniqueKey.Equals(entidade.UniqueKey) &&
+                                                                 a.DescricaoDanos.ToUpper().Trim().Equals(entidade.DescricaoDanos.ToUpper().Trim())))
+                        throw new Exception("Já existe um possível dano com esta descrição. Favor informar outro nome para o possível dano.");
+
+
+
+                    obj.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    PossiveisDanosBusiness.Terminar(obj);
+
+                    entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    PossiveisDanosBusiness.Inserir(entidade);
+
+                    Extensions.GravaCookie("MensagemSucesso", "O Possivel Dano '" + entidade.DescricaoDanos + "' foi atualizado com sucesso.", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "PossiveisDanos") } });
                 }
@@ -142,35 +153,22 @@ namespace GISWeb.Controllers
             }
         }
 
-        public ActionResult Excluir(string id)
-        {
-            ViewBag.PossiveisDanos = new SelectList(PossiveisDanosBusiness.Consulta.ToList(), "IDPossiveisDanos", "DescricaoDanos");
-            return View(PossiveisDanosBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
-
-        }
-
         [HttpPost]
         public ActionResult Terminar(string IDPossiveisDanos)
         {
-
-            Guid ID_Possiveisdanos = Guid.Parse(IDPossiveisDanos);
-
+            Guid uk = Guid.Parse(IDPossiveisDanos);
             try
             {
-                PossiveisDanos oPossiveisDanos = PossiveisDanosBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(ID_Possiveisdanos));
+                PossiveisDanos oPossiveisDanos = PossiveisDanosBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(uk));
                 if (oPossiveisDanos == null)
-                {
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o Possivel Dano, pois o mesmo não foi localizado." } });
-                }
-                else
-                {
 
-                    oPossiveisDanos.DataExclusao = DateTime.Now;
-                    oPossiveisDanos.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    PossiveisDanosBusiness.Alterar(oPossiveisDanos);
+                oPossiveisDanos.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                PossiveisDanosBusiness.Terminar(oPossiveisDanos);
 
-                    return Json(new { resultado = new RetornoJSON() { Sucesso = "O Possivel Dano '" + oPossiveisDanos.DescricaoDanos + "' foi excluído com sucesso." } });
-                }
+                Extensions.GravaCookie("MensagemSucesso", "O Possivel Dano '" + oPossiveisDanos.DescricaoDanos + "' foi excluído com sucesso.", 10);
+
+                return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "PossiveisDanos") } });
             }
             catch (Exception ex)
             {
@@ -183,9 +181,11 @@ namespace GISWeb.Controllers
                     return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
                 }
             }
-
-
         }
+
+
+
+
 
 
         public ActionResult ListaRiscos()

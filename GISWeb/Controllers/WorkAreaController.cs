@@ -538,7 +538,7 @@ namespace GISWeb.Controllers
 
                     Extensions.GravaCookie("MensagemSucesso", "WorkArea '" + entidade.Nome + "' foi cadastrada com sucesso!", 10);
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "WorkArea") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "FonteGeradoraDeRisco") } });
                 }
                 catch (Exception ex)
                 {
@@ -608,8 +608,34 @@ namespace GISWeb.Controllers
 
 
 
+        [HttpPost]
+        public ActionResult Terminar(string id) 
+        {
+            try
+            {
+                Guid guidUK = Guid.Parse(id);
+                WorkArea obj = WorkAreaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(guidUK));
+                if (obj == null)
+                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir a workarea, pois a mesmo não foi localizada na base de dados." } });
 
+                obj.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                WorkAreaBusiness.Terminar(obj);
 
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "A WorkArea '" + obj.Nome + "' foi excluída com sucesso." } });
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+
+        }
 
 
 

@@ -9,7 +9,7 @@
                                     new AjaxOptions { 
                                         HttpMethod = "POST", 
                                         OnBegin = "OnBeginCadastrarAlocacao", 
-                                        OnSuccess = "OnSuccessCadastrarAlocacao", }, new { @id = "formCadastroAlocacao", @class = "form-horizontal" }))
+                                        OnSuccess = "OnSuccessCadastrarAlocacao", }, new { @id = "formCadastroAlocacao", @class = "form-horizontal", @autocomplete = "off" }))
 {
     @Html.AntiForgeryToken()
 

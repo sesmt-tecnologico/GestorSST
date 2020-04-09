@@ -1,42 +1,8 @@
 ﻿jQuery(function ($) {
 
-    AplicajQdataTable("dynamic-table", [{ "bSortable": false },  null, { "bSortable": false }], false, 20);
+    AplicajQdataTable("dynamic-table", [null, null, null, { "bSortable": false }], false, 20);
 
 });
-
-//function BuscarDetalhesEmpresa(IDEmpresa) {
-    
-//    $(".LoadingLayout").show();
-
-//    $.ajax({
-//        method: "POST",
-//        url: "/Empresa/BuscarEmpresaPorID",
-//        data: { idEmpresa: IDEmpresa },
-//        error: function (erro) {
-//            $(".LoadingLayout").hide();
-//            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-//        },
-//        success: function (content) {
-//            $(".LoadingLayout").hide();
-            
-//            if (content.data != null) {
-//                bootbox.dialog({
-//                    message: content.data,
-//                    title: "<span class='bigger-110'>Detalhes da Empresa</span>",
-//                    backdrop: true,
-//                    locale: "br",
-//                    buttons: {},
-//                    onEscape: true
-//                });
-//            }
-//            else {
-//                TratarResultadoJSON(content.resultado);
-//            }
-
-//        }
-//    });
-
-//}
 
 function DeletarPossiveisDanos(IDPossiveisDanos, DescricaoDanos) {
     
@@ -58,10 +24,6 @@ function DeletarPossiveisDanos(IDPossiveisDanos, DescricaoDanos) {
                 $("#dynamic-table").css({ opacity: '' });
 
                 TratarResultadoJSON(content.resultado);
-
-                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
-                    $("#linha-" + IDPossiveisDanos).remove();
-                }
             }
         });
     };
