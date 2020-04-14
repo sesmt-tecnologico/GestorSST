@@ -940,3 +940,38 @@ function deleteWorkfArea(UK, Nome) {
     ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a work área '" + Nome + "'?", "Exclusão de WorkArea", callback, "btn-danger");
 
 }
+
+
+function ExcluirReconhecimentoComControles(UKReconhecimento, Perigo, Risco) {
+
+    var callback = function () {
+
+        $('.page-content-area').ace_ajax('startLoading');
+
+        $.ajax({
+            method: "POST",
+            url: "/ReconhecimentoDoRisco/Terminar",
+            data: { id: UKReconhecimento },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                TratarResultadoJSON(content.resultado);
+
+                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
+                    $(".resultadoWorkArea").html("");
+
+                    if ($("#UKEstabelecimento").val() != "") {
+                        $("#formPesquisarWorkArea").submit();
+                    }
+                }
+            }
+        });
+    };
+
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir o controle de risco realizado para " + Perigo + "/" + Risco + "?", "Exclusão de Controle de Risco", callback, "btn-danger");
+
+}

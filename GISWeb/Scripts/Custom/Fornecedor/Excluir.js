@@ -31,22 +31,3 @@ function DeletarFornecedor(IDFornecedor, NomeFantasia) {
     ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir o Fornecedor '" + NomeFantasia + "'?", "Exclusão do Fornecedor", callback, "btn-danger");
 }
 
-
-
-
-
-
-
-//function OnSuccessExcluirContrato(data) {
-//    $('#formExcluirContrato').removeAttr('style');
-//    $(".LoadingLayout").hide();
-//    $('#blnSalvar').show();
-//    TratarResultadoJSON(data.resultado);
-//    ExibirMsgGritter(data.resultado);
-//}
-
-//function OnBeginExcluirContrato() {
-//    $(".LoadingLayout").show();
-//    $('#blnSalvar').hide();
-//    $("#formExcluirContrato").css({ opacity: "0.5" });
-//}

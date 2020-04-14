@@ -47,7 +47,6 @@ function OnSuccessExcluirDepartamento(data) {
     $(".LoadingLayout").hide();
     $('#blnSalvar').show();
     TratarResultadoJSON(data.resultado);
-    ExibirMsgGritter(data.resultado);
 }
 
 function OnBeginExcluirDepartamento() {

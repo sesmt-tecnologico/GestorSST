@@ -223,7 +223,11 @@ function NovoRisco(idAtividade, Descricao, AtivId, NomeFuncao, Diretoria, NomeDi
 }
 
 
-
+function OnBeginCadastrarAtividade() {
+    $(".LoadingLayout").show();
+    $('#blnSalvar').hide();
+    $("#formCadastroAtividade").css({ opacity: "0.5" });
+}
 
 
 function OnSuccessCadastrarAtividade(data) {
@@ -231,11 +235,4 @@ function OnSuccessCadastrarAtividade(data) {
     $(".LoadingLayout").hide();
     $('#btnSalvar').show();
     TratarResultadoJSON(data.resultado);
-    ExibirMsgGritter(data.resultado);
-}
-
-function OnBeginCadastrarAtividade() {
-    $(".LoadingLayout").show();
-    $('#blnSalvar').hide();
-    $("#formCadastroAtividade").css({ opacity: "0.5" });
 }

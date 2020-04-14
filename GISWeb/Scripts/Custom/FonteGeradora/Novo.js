@@ -8,7 +8,6 @@ function OnSuccessCadastrarFonte(data) {
     $(".LoadingLayout").hide();
     $('#btnSalvar').show();
     TratarResultadoJSON(data.resultado);
-    ExibirMsgGritter(data.resultado);
 }
 
 function OnBeginCadastrarFonte() {

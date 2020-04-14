@@ -13,6 +13,7 @@ using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -677,6 +678,51 @@ namespace GISWeb.Controllers
             List<Arquivo> arquivos = ArquivoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKObjeto.Equals(uk)).ToList();
 
             return PartialView("_Arquivos", arquivos);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult Terminar(string id)
+        {
+            var UK = Guid.Parse(id);
+            try
+            {
+                ReconhecimentoDoRisco reconhecimentoBanco = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UK));
+                if (reconhecimentoBanco == null)
+                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o controle do risco, pois a mesmo não foi localizado na base de dados." } });
+
+
+
+                List<ControleDeRiscos> controles = ControleDeRiscosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKReconhecimentoDoRisco.Equals(UK)).ToList();
+                if (controles?.Count > 0)
+                {
+                    foreach (ControleDeRiscos control in controles)
+                    {
+                        control.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                        ControleDeRiscosBusiness.Terminar(control);
+                    }
+                }
+
+
+                reconhecimentoBanco.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                ReconhecimentoBusiness.Terminar(reconhecimentoBanco);
+
+
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "O controle do risco foi excluído com sucesso." } });
+
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
         }
 
     }

@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-xs-12">
         <h3 class="header smaller lighter blue">
-            Tipos de Controles
+            Gerenciar Classificações de Medidas
             <a href="@Url.Action("Novo", "ClassificacaoMedida")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
                 <i class="ace-icon fa fa-plus bigger-120 blue"></i>
                 Novo
@@ -16,62 +16,51 @@
     </div>
 </div>
 
-@if (ViewBag.Classificacao != null && ViewBag.TotalClassificacao > 0)
+@if (ViewBag.Classificacao != null && ViewBag.Classificacao.Count > 0)
 {
-
 
     <div class="row">
         <div class="col-xs-12">
 
+            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Criado Em</th>
+                        <th>Criado Por</th>
+                        <th width="89px"></th>
+                    </tr>
+                </thead>
 
-            @if (ViewBag.Classificacao != null)
-            {
-                <div>
-                    <table id="dynamic-table" class="table table-striped table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th width="50px"></th>
-                                <th>Descrição</th>
-                                <th width="89px"></th>
-                            </tr>
-                        </thead>
+                <tbody>
 
-                        <tbody>
+                    @foreach (ClassificacaoMedida iItem in ViewBag.Classificacao)
+                    {
+                        <tr id="linha-@iItem.ID">
+                            <td>@iItem.Nome</td>
+                            <td>@iItem.DataInclusao.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@iItem.UsuarioInclusao</td>
+                            <td class="center">
+                                <div class="action-buttons">
 
-                            @foreach (ClassificacaoMedida iItem in ViewBag.Classificacao)
-                            {
-                                <tr id="linha-@iItem.ID">
-                                    <td class="center">
-                                        <label class="pos-rel">
-                                            <input type="checkbox" class="ace" />
-                                            <span class="lbl"></span>
-                                        </label>
-                                    </td>
-                                    <td>@iItem.Nome</td>
-
-                                    <td class="center">
-                                        <div class="action-buttons">
-
-                                            <a class="red" href="#" onclick="DeletarClassificacao('@iItem.ID');">
-                                                <i class="ace-icon fa fa-trash-o bigger-125" title="Deletar"></i>
-                                            </a>
+                                    <a class="red CustomTooltip" href="#" onclick="DeletarClassificacao('@iItem.ID');">
+                                        <i class="ace-icon fa fa-trash-o bigger-125" title="Deletar"></i>
+                                    </a>
 
 
-                                            @*<a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iItem.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                <i class="ace-icon fa fa-cloud blue bigger-125"></i>
-                                            </a>*@
+                                    @*<a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iItem.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                    <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+                                </a>*@
 
-                                        </div>
+                                </div>
 
-                                    </td>
-                                </tr>
+                            </td>
+                        </tr>
 
-                            }
+                    }
 
-                        </tbody>
-                    </table>
-                </div>
-            }
+                </tbody>
+            </table>
 
         </div>
     </div>
@@ -84,7 +73,7 @@ else
             Oops!
         </strong>
 
-        No momento, nenhum controle foi encontrado.
+        No momento, nenhuma classificação de medida foi encontrada.
         <br>
     </div>
 

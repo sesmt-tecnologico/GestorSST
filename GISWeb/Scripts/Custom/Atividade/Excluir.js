@@ -74,20 +74,15 @@ function DeletarAtividade(ID, Nome) {
 
 }
 
-
-
-
+function OnBeginExcluirDepartamento() {
+    $(".LoadingLayout").show();
+    $('#blnSalvar').hide();
+    $("#formExcluirDepartamento").css({ opacity: "0.5" });
+}
 
 function OnSuccessExcluirDepartamento(data) {
     $('#formExcluirDepartamento').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#blnSalvar').show();
     TratarResultadoJSON(data.resultado);
-    ExibirMsgGritter(data.resultado);
-}
-
-function OnBeginExcluirDepartamento() {
-    $(".LoadingLayout").show();
-    $('#blnSalvar').hide();
-    $("#formExcluirDepartamento").css({ opacity: "0.5" });
 }

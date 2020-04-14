@@ -160,19 +160,19 @@
 
             <ul class="submenu">
 
-                @if (isGestorTecnico)
+                @if (isGestorTecnico || isSuperAdmin)
                 {
                     <li class="hover">
-                        <a href="@path/Perigo/Novo">
+                        <a href="@path/Perigo/Index">
                             <i class="menu-icon fa fa-caret-right"></i>
-                            Novo Perigo
+                            Perigo
                         </a>
                         <b class="arrow"></b>
                     </li>
                     <li class="hover">
-                        <a href="@path/Risco/Novo">
+                        <a href="@path/Risco/Index">
                             <i class="menu-icon fa fa-caret-right"></i>
-                            Novo Risco
+                            Risco
                         </a>
                         <b class="arrow"></b>
                     </li>
