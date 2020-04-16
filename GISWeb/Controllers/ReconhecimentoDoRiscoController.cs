@@ -55,6 +55,9 @@ namespace GISWeb.Controllers
         public IBaseBusiness<FonteGeradoraDeRisco> FonteGeradoraDeRiscoBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<Link> LinkBusiness { get; set; }
+
+        [Inject]
         public IReconhecimentoBusiness ReconhecimentoBusiness { get; set; }
 
         [Inject]
@@ -67,6 +70,8 @@ namespace GISWeb.Controllers
         {
             return View();
         }
+
+
 
         public ActionResult CriarControle(string UKWorkarea, string UKFonte, string UKPerigo, string UKRisco)
         {
@@ -231,6 +236,224 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
             }
         }
+
+
+
+
+
+        public ActionResult EditarControle(string UKReconhecimento, string UKWorkarea, string UKFonte, string UKPerigo, string UKRisco)
+        {
+
+            ViewBag.UKWorkArea = UKWorkarea;
+            ViewBag.UKFonte = UKFonte;
+            ViewBag.UKPerigo = UKPerigo;
+            ViewBag.UKRisco = UKRisco;
+            ViewBag.UKReconhecimento = UKReconhecimento;
+
+            var UKWork = Guid.Parse(UKWorkarea);
+            var UKFont = Guid.Parse(UKFonte);
+            var UKPerig = Guid.Parse(UKPerigo);
+            var UKRisc = Guid.Parse(UKRisco);
+            var UKRec = Guid.Parse(UKReconhecimento);
+
+
+            var objReconhecimento = ReconhecimentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKRec));
+            if (objReconhecimento == null)
+                throw new Exception("Não foi possível recuperar o reconhecimento na base de dados. Tente novamente ou acione o administrador do sitema.");
+
+
+            var objWorkArea = WorkAreaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKWork));
+            if (objWorkArea == null)
+                throw new Exception("Não foi possível recuperar a workarea na base de dados. Tente novamente ou acione o administrador do sitema.");
+
+            ViewBag.WorkArea = objWorkArea.Nome;
+
+
+
+            var objFonte = FonteGeradoraDeRiscoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKFont));
+            if (objFonte == null)
+                throw new Exception("Não foi possível recuperar a fonte geradora do risco na base de dados. Tente novamente ou acione o administrador do sitema.");
+
+            ViewBag.FonteGeradora = objFonte.FonteGeradora;
+
+
+
+            var objPerigo = PerigoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKPerig));
+            if (objPerigo == null)
+                throw new Exception("Não foi possível recuperar a workarea na base de dados. Tente novamente ou acione o administrador do sitema.");
+
+            ViewBag.Perigo = objPerigo.Descricao;
+
+
+            Risco objRisco = RiscoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKRisc));
+            if (objRisco == null)
+                throw new Exception("Não foi possível recuperar o risco na base de dados. Tente novamente ou acione o administrador do sitema.");
+
+            ViewBag.Risco = objRisco.Nome;
+
+
+
+
+
+
+
+
+            var enumData = from EClasseDoRisco e in Enum.GetValues(typeof(EClasseDoRisco))
+                           select new
+                           {
+                               ID = (int)e,
+                               Name = e.GetDisplayName()
+                           };
+            ViewBag.Eclasse = new SelectList(enumData, "ID", "Name", objReconhecimento.EClasseDoRisco);
+
+
+            var enumData01 = from ETrajetoria e in Enum.GetValues(typeof(ETrajetoria))
+                             select new
+                             {
+                                 ID = (int)e,
+                                 Name = e.GetDisplayName()
+                             };
+            ViewBag.ETrajetoria = new SelectList(enumData01, "ID", "Name", objReconhecimento.Tragetoria.ToString());
+
+
+            
+            
+            
+            VMNovoReconhecimentoControle obj = new VMNovoReconhecimentoControle();
+            obj.Tragetoria = objReconhecimento.Tragetoria;
+            obj.EClasseDoRisco = objReconhecimento.EClasseDoRisco;
+            obj.Controles = new List<string[]>();
+
+
+            //List<ControleDeRiscos> controles = ControleDeRiscosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKReconhecimentoDoRisco.Equals(objReconhecimento.UniqueKey)).ToList();
+
+            List<ControleDeRiscos> controles = (from controle in ControleDeRiscosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                               join tipocontrole in TipoDeControleBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on controle.UKTipoDeControle equals tipocontrole.UniqueKey
+                                               join classificacao in ClassificacaoMedidaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on controle.UKClassificacaoDaMedia equals classificacao.UniqueKey
+                                               select new ControleDeRiscos { 
+                                                   UKTipoDeControle = tipocontrole.UniqueKey,
+                                                   TipoDeControle = tipocontrole.Descricao,
+                                                   UKClassificacaoDaMedia = tipocontrole.UniqueKey,
+                                                   ClassificacaoMedida = new ClassificacaoMedida()
+                                                   {
+                                                       Nome = classificacao.Nome
+                                                   },
+                                                   UKLink = controle.UKLink,
+                                                   EControle = controle.EControle
+                                               }).ToList();
+
+            if (controles?.Count > 0)
+            {
+                foreach (ControleDeRiscos control in controles)
+                {
+                    Link objLink = LinkBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(control.UKLink));
+
+                    obj.Controles.Add(new string[] 
+                        {
+                            control.UKTipoDeControle.ToString() + "$" + control.TipoDeControle, 
+                            control.UKClassificacaoDaMedia.ToString() + "$" + control.ClassificacaoMedida.Nome, 
+                            control.EControle.ToString(), 
+                            control.UKLink.ToString() + "$" + objLink.Nome
+                        }
+                    );
+                }
+            }
+
+
+            return PartialView("_AtualizarControleDeRisco", obj);
+
+        }
+
+        public ActionResult AtualizarControleDeRisco(VMNovoReconhecimentoControle entidade)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    List<TipoDeControle> tiposDeControle = new List<TipoDeControle>();
+
+                    if (entidade?.Controles?.Count == 0)
+                        throw new Exception("Nenhum tipo de controle foi identificado.");
+
+                    foreach (string[] item in entidade.Controles)
+                    {
+                        Guid UKTipo = Guid.Parse(item[0]);
+
+                        TipoDeControle tipoControl = TipoDeControleBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKTipo));
+
+                        if (tipoControl == null)
+                            throw new Exception("Não foi possível encontrar um do(s) tipo(s) de controle na base de dados.");
+
+                        tiposDeControle.Add(tipoControl);
+                    }
+
+
+
+                    ReconhecimentoDoRisco oReconhecimento = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) &&
+                                p.UKWorkarea.Equals(entidade.UKWorkarea) &&
+                                p.UKFonteGeradora.Equals(entidade.UKFonteGeradora) &&
+                                p.UKPerigo.Equals(entidade.UKPerigo) &&
+                                p.UKRisco.Equals(entidade.UKRisco)
+                    );
+
+                    if (oReconhecimento == null)
+                    {
+                        oReconhecimento = new ReconhecimentoDoRisco()
+                        {
+                            UKWorkarea = entidade.UKWorkarea,
+                            UKFonteGeradora = entidade.UKFonteGeradora,
+                            UKPerigo = entidade.UKPerigo,
+                            UKRisco = entidade.UKRisco,
+                            Tragetoria = entidade.Tragetoria,
+                            EClasseDoRisco = entidade.EClasseDoRisco,
+                            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                        };
+
+                        ReconhecimentoBusiness.Inserir(oReconhecimento);
+                    }
+
+
+
+
+                    foreach (string[] item in entidade.Controles)
+                    {
+                        Guid UKTipo = Guid.Parse(item[0]);
+                        Guid UKClassificacaoMedida = Guid.Parse(item[1]);
+
+                        ControleDeRiscos obj = new ControleDeRiscos()
+                        {
+                            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                            UKReconhecimentoDoRisco = oReconhecimento.UniqueKey,
+                            UKTipoDeControle = UKTipo,
+                            UKClassificacaoDaMedia = UKClassificacaoMedida,
+                            EControle = (EControle)Enum.Parse(typeof(EControle), item[2], true)
+                        };
+
+                        if (item[3] != null && !string.IsNullOrEmpty(item[3]))
+                        {
+                            obj.UKLink = Guid.Parse(item[3]);
+                        }
+
+                        ControleDeRiscosBusiness.Inserir(obj);
+                    }
+
+
+                    return Json(new { resultado = new RetornoJSON() { Sucesso = "Reconhecimento e controles dos riscos cadastrados com sucesso." } });
+                }
+                else
+                {
+                    return Json(new { resultado = TratarRetornoValidacaoToJSON() });
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
+        }
+
+
+
 
 
 

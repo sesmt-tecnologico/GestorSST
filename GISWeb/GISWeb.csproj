@@ -832,6 +832,7 @@
     <Content Include="Views\Usuario\_Pesquisar.cshtml" />
     <Content Include="Views\Home\Suporte.cshtml" />
     <Content Include="Views\Link\Edicao.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\_AtualizarControleDeRisco.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
