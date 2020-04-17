@@ -174,6 +174,31 @@ namespace GISWeb.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult BuscarURLLink(string id) 
+        { 
+            try
+            {
+
+                Guid UK = Guid.Parse(id);
+                Link obj = LinkBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UK));
+                if (obj == null)
+                    throw new Exception("Não foi possível encontrar a URL do link na base de dados.");
+
+                return Json(new { resultado = new RetornoJSON() { URL = obj.URL } });
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+        }
 
     }
 }

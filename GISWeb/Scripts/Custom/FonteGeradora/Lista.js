@@ -520,7 +520,7 @@ function OnClickNovoTipoControle() {
                             sHTML += '<td data-uk="' + ddlLink + '"></td>';
                         }
                         else {
-                            sHTML += '<td data-uk="' + ddlLink + '"><a href="#" onclick="alert(""Buscar link e abrir como popup."");">' + ddlLinkTxt + '</a></td>';
+                            sHTML += '<td data-uk="' + ddlLink + '"><a href="#" onclick="ExibirLink(\'' + ddlLink + '\'); return false;">' + ddlLinkTxt + '</a></td>';
                         }
 
                         
@@ -550,7 +550,7 @@ function OnClickNovoTipoControle() {
                             sHTML2 += '<td data-uk="' + ddlLink + '"></td>';
                         }
                         else {
-                            sHTML2 += '<td data-uk="' + ddlLink + '"><a href="#" onclick="alert(""Buscar link e abrir como popup."");">' + ddlLinkTxt + '</a></td>';
+                            sHTML2 += '<td data-uk="' + ddlLink + '"><a href="#" onclick="ExibirLink(\'' + ddlLink + '\'); return false;">' + ddlLinkTxt + '</a></td>';
                         }
                         
                         sHTML2 += '<td>';
@@ -1110,4 +1110,42 @@ function OnSuccessAtualizarControle() {
     if (!(data.resultado.Alerta != null && data.resultado.Alerta != undefined && data.resultado.Alerta != "")) {
         $('#modalAddControle').modal('hide');
     }
+}
+
+
+function ExibirLink(UKLink) {
+
+    $(".LoadingLayout").show();
+
+    $.ajax({
+        method: "POST",
+        url: "/Link/BuscarURLLink",
+        data: { id: UKLink },
+        error: function(erro) {
+            $(".LoadingLayout").hide();
+
+            ExibirMensagemGritter('Oops!', erro.responseText, 'gritter-error');
+        },
+        success: function(data) {
+
+            $(".LoadingLayout").hide();
+
+            var resultado = data.resultado;
+
+            if (resultado.Erro !== null && resultado.Erro !== undefined && resultado.Erro !== "") {
+                ExibirMensagemDeErro(resultado.Erro);
+            }
+            else if (resultado.Alerta !== null && resultado.Alerta !== undefined && resultado.Alerta !== "") {
+                ExibirMensagemDeAlerta(resultado.Alerta);
+            }
+            else if (resultado.Sucesso !== null && resultado.Sucesso !== undefined && resultado.Sucesso !== "") {
+                ExibirMensagemDeSucesso(resultado.Sucesso);
+            }
+            else if (resultado.URL !== null && resultado.URL !== undefined && resultado.URL !== "") {
+                window.open(resultado.URL, '_blank');
+            }
+            
+        }
+    });
+
 }

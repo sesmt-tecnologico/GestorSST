@@ -128,8 +128,8 @@
                                             <tr>
                                                 <td data-uk="@itens[0].Substring(0, itens[0].IndexOf("$"))">@itens[0].Substring(itens[0].IndexOf("$") + 1)</td>
                                                 <td data-uk="@itens[1].Substring(0, itens[1].IndexOf("$"))">@itens[1].Substring(itens[1].IndexOf("$") + 1)</td>
-                                                <td data-uk="@itens[2]">@itens[2]</td>
-                                                <td data-uk="@itens[3].Substring(0, itens[3].IndexOf("$"))"><a href="#" onclick="alert('Buscar link e abrir como popup.');">@itens[3].Substring(itens[3].IndexOf("$") + 1)</a></td>
+                                                <td data-uk="@itens[2].Substring(0, itens[2].IndexOf("$"))">@itens[2].Substring(itens[2].IndexOf("$") + 1)</td>
+                                                <td data-uk="@itens[3].Substring(0, itens[3].IndexOf("$"))"><a href="#" onclick="ExibirLink('@itens[3].Substring(0, itens[3].IndexOf("$"))');">@itens[3].Substring(itens[3].IndexOf("$") + 1)</a></td>
                                                 <td>
                                                     <a href="#" class="CustomTooltip red" title="Excluir Tipo de Controle" onclick="RemoverLinhaTipoDeControle(this);">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
