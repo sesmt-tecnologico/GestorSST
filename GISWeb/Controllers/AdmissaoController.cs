@@ -146,9 +146,9 @@ namespace GISWeb.Controllers
 
                 string query = @"select a.UniqueKey, a.DataAdmissao, a.DataDemissao, a.Justificativa, e.NomeFantasia as Empresa, u.Nome as NomeUsuario
                              from tbAdmissao a, tbEmpresa e, tbUsuario u
-                             where a.UKEmpregado = '" + UKEmpregado + @"' and a.Status = 1 and a.UsuarioExclusao is null and
-	                               a.UKEmpresa = e.UniqueKey and e.UsuarioExclusao is null and
-	                               a.UsuarioInclusao = u.Login and u.UsuarioExclusao is null";
+                             where a.UKEmpregado = '" + UKEmpregado + @"' and a.Status = 1 and a.DataExclusao = '9999-12-31 23:59:59.997' and
+	                               a.UKEmpresa = e.UniqueKey and e.DataExclusao = '9999-12-31 23:59:59.997' and
+	                               a.UsuarioInclusao = u.Login and u.DataExclusao = '9999-12-31 23:59:59.997'";
 
                 DataTable result = AdmissaoBusiness.GetDataTable(query);
                 if (result.Rows.Count > 0)
@@ -189,15 +189,15 @@ namespace GISWeb.Controllers
             string query = @"select al.UniqueKey, c.Numero as Contrato, cargo.NomeDoCargo, func.NomeDaFuncao, est.Descricao as Estabelecimento, eq.NomeDaEquipe, dep.Sigla, 
                                     atv.Descricao as Atividade, al.DataInclusao, al.UsuarioInclusao, est.UniqueKey as UKEstab, func.UniqueKey as UKFuncao
                              from tbAlocacao al 
-		                             inner join tbContrato c on al.UKContrato = c.UniqueKey and c.UsuarioExclusao is null
-		                             inner join tbCargo cargo on al.UKCargo = cargo.UniqueKey and cargo.UsuarioExclusao is null
-		                             inner join tbFuncao func on al.UKFuncao = func.UniqueKey and func.UsuarioExclusao is null
-		                             inner join tbEstabelecimento est on al.UKEstabelecimento = est.UniqueKey and est.UsuarioExclusao is null
-		                             inner join tbEquipe eq on al.UKEquipe = eq.UniqueKey and eq.UsuarioExclusao is null
-		                             inner join tbDepartamento dep on al.UKDepartamento = dep.UniqueKey and dep.UsuarioExclusao is null
-		                             left outer join REL_FuncaoAtividade fa on func.UniqueKey = fa.UKFuncao and fa.UsuarioExclusao is null
-		                             left outer join tbAtividade atv on fa.UKAtividade = atv.UniqueKey and atv.UsuarioExclusao is null
-                             where al.UsuarioExclusao is null and al.UKAdmissao = '" + UKAdmissao + "' ";
+		                             inner join tbContrato c on al.UKContrato = c.UniqueKey and c.DataExclusao = '9999-12-31 23:59:59.997'
+		                             inner join tbCargo cargo on al.UKCargo = cargo.UniqueKey and cargo.DataExclusao = '9999-12-31 23:59:59.997'
+		                             inner join tbFuncao func on al.UKFuncao = func.UniqueKey and func.DataExclusao = '9999-12-31 23:59:59.997'
+		                             inner join tbEstabelecimento est on al.UKEstabelecimento = est.UniqueKey and est.DataExclusao = '9999-12-31 23:59:59.997'
+		                             inner join tbEquipe eq on al.UKEquipe = eq.UniqueKey and eq.DataExclusao = '9999-12-31 23:59:59.997'
+		                             inner join tbDepartamento dep on al.UKDepartamento = dep.UniqueKey and dep.DataExclusao = '9999-12-31 23:59:59.997'
+		                             left outer join REL_FuncaoAtividade fa on func.UniqueKey = fa.UKFuncao and fa.DataExclusao = '9999-12-31 23:59:59.997'
+		                             left outer join tbAtividade atv on fa.UKAtividade = atv.UniqueKey and atv.DataExclusao = '9999-12-31 23:59:59.997'
+                             where al.DataExclusao = '9999-12-31 23:59:59.997' and al.UKAdmissao = '" + UKAdmissao + "' ";
 
             DataTable result = AdmissaoBusiness.GetDataTable(query);
             if (result.Rows.Count > 0)

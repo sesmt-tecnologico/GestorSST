@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Data;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using GISHelpers.Utils;
+using System.Globalization;
 
 namespace GISWeb.Controllers
 {
@@ -138,42 +139,118 @@ namespace GISWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult PesquisaAvancada(PesquisaEmpregadoViewModel entidade)
         {
-            
-            string sWhere = string.Empty;
-
-            if (!string.IsNullOrEmpty(entidade.Nome))
-                sWhere += " and upper(Nome) like '%" + entidade.Nome.ToUpper() + "%'";
-
-            if (!string.IsNullOrEmpty(entidade.CPF))
-                sWhere += " and CPF = '" + entidade.CPF + "'";
-
-            if (entidade.Status != null)
-                sWhere += " and Status = '" + entidade.Status.GetDisplayName() + "'";
-
-            string sql = @"select top 100 UniqueKey, Nome, CPF, DataNascimento, Email, Status
-                           from tbEmpregado
-                           where UsuarioExclusao is null " + sWhere + @"
-                           order by Nome";
-
-            List<Empregado> lista = new List<Empregado>();
-            DataTable result = ContratoBusiness.GetDataTable(sql);
-            if (result.Rows.Count > 0)
+            try
             {
-                foreach (DataRow row in result.Rows)
+                if (string.IsNullOrEmpty(entidade.Nome) &&
+                    string.IsNullOrEmpty(entidade.CPF) &&
+                    entidade.Status == null &&
+                    string.IsNullOrEmpty(entidade.Empresa) &&
+                    string.IsNullOrEmpty(entidade.Contrato) &&
+                    string.IsNullOrEmpty(entidade.DataAdmissao) &&
+                    string.IsNullOrEmpty(entidade.Cargo) &&
+                    string.IsNullOrEmpty(entidade.Funcao) &&
+                    string.IsNullOrEmpty(entidade.Atividade))
                 {
-                    lista.Add(new Empregado()
-                    {
-                        UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
-                        Nome = row["Nome"].ToString(),
-                        CPF = row["CPF"].ToString(),
-                        DataNascimento = row["DataNascimento"].ToString(),
-                        Email = row["Email"].ToString(),
-                        Status = row["Status"].ToString()
-                    });
+                    throw new Exception("Informe pelo menos um filtro para prosseguir na pesquisa de empregado.");
                 }
-            }
 
-            return PartialView("_PesquisaAvancada", lista);
+
+                string sWhere = string.Empty;
+                string sFrom = string.Empty;
+
+                if (!string.IsNullOrEmpty(entidade.Nome))
+                    sWhere += " and upper(e.Nome) like '%" + entidade.Nome.ToUpper() + "%'";
+
+                if (!string.IsNullOrEmpty(entidade.CPF))
+                    sWhere += " and e.CPF = '" + entidade.CPF + "'";
+
+                if (entidade.Status != null)
+                    sWhere += " and e.Status = '" + entidade.Status.GetDisplayName() + "'";
+
+
+                if (!string.IsNullOrEmpty(entidade.DataAdmissao) ||
+                    !string.IsNullOrEmpty(entidade.Empresa) ||
+                    !string.IsNullOrEmpty(entidade.Contrato) ||
+                    !string.IsNullOrEmpty(entidade.Cargo) ||
+                    !string.IsNullOrEmpty(entidade.Funcao))
+                {
+
+                    sFrom += ", tbAdmissao a ";
+                    sWhere += " and e.UniqueKey = a.UKEmpregado and a.DataExclusao = '9999-12-31 23:59:59.997' ";
+
+                    if (!string.IsNullOrEmpty(entidade.DataAdmissao))
+                    {
+                        string data1 = entidade.DataAdmissao.Substring(0, entidade.DataAdmissao.IndexOf(" - "));
+                        string data2 = entidade.DataAdmissao.Substring(entidade.DataAdmissao.IndexOf(" - ") + 3);
+                        
+                        sWhere += @" and a.DataAdmissao between '" + data1 + "' and '" + data2 + "'";
+                    }
+
+                    if (!string.IsNullOrEmpty(entidade.Empresa))
+                    {
+                        sWhere += " and a.UKEmpresa = '" + entidade.Empresa + "' ";
+                    }
+
+                    if (!string.IsNullOrEmpty(entidade.Contrato) ||
+                        !string.IsNullOrEmpty(entidade.Cargo) ||
+                        !string.IsNullOrEmpty(entidade.Funcao))
+                    {
+
+                        sFrom += ", tbAlocacao al ";
+                        sWhere += " and a.UniqueKey = al.UKAdmissao and al.DataExclusao = '9999-12-31 23:59:59.997' ";
+
+                        if (!string.IsNullOrEmpty(entidade.Contrato))
+                        {
+                            sWhere += @" and al.UKContrato = '" + entidade.Contrato + "'";
+                        }
+
+                        if (!string.IsNullOrEmpty(entidade.Cargo))
+                        {
+                            sWhere += @" and al.UKCargo = '" + entidade.Cargo + "'";
+                        }
+
+                        if (!string.IsNullOrEmpty(entidade.Funcao))
+                        {
+                            sWhere += @" and al.UKFuncao = '" + entidade.Funcao + "'";
+                        }
+
+                    }
+
+
+
+                }
+
+                
+
+                string sql = @"select top 100 e.UniqueKey, e.Nome, e.CPF, e.DataNascimento, e.Email, e.Status
+                           from tbEmpregado e " + sFrom + @"
+                           where e.DataExclusao = '9999-12-31 23:59:59.997' " + sWhere + @"
+                           order by e.Nome";
+
+                List<Empregado> lista = new List<Empregado>();
+                DataTable result = ContratoBusiness.GetDataTable(sql);
+                if (result.Rows.Count > 0)
+                {
+                    foreach (DataRow row in result.Rows)
+                    {
+                        lista.Add(new Empregado()
+                        {
+                            UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                            Nome = row["Nome"].ToString(),
+                            CPF = row["CPF"].ToString(),
+                            DataNascimento = row["DataNascimento"].ToString(),
+                            Email = row["Email"].ToString(),
+                            Status = row["Status"].ToString()
+                        });
+                    }
+                }
+
+                return PartialView("_PesquisaAvancada", lista);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
         }
 
 

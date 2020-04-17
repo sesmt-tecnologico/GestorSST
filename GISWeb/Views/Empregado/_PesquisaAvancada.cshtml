@@ -38,8 +38,8 @@ else
             <table id="tableResultadoPesquisa" class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr style="background-image: linear-gradient(to bottom, #ffffff 0%, #e2e2e2 80%); font-size: 12px; height: 28px; min-height: 10px">
-                        <th width="120px" style="padding: 0px; border-bottom: 0px">
-                            Documentos
+                        
+                        <th width="70px" style="padding: 0px; border-bottom: 0px">
                         </th>
 
                         <th class="center" style="padding: 0px; border-bottom: 0px">
@@ -68,15 +68,17 @@ else
                         foreach (Empregado item in Model)
                         {
                             <tr>
-                                <td>
-                                    <a href='@Url.Action("Index", "Ged", new { id = @item.UniqueKey})' class="btn btn-success btn-sm" title="Exibir Ged">
-                                        Documentos
+                                <td class="center">
+                                    <a href="@Url.Action("Index", "Ged", new { id = @item.UniqueKey})" class="blue CustomTooltip" title="Editar GED">
+                                        <i class="ace-icon fa fa-file-o bigger-130"></i>
+                                    </a>
+                                    &nbsp;
+                                    <a href='@Url.Action("Perfil", "Empregado", new { id = @item.UniqueKey})' class="blue CustomTooltip" title="Exibir perfil do empregado">
+                                        <i class="ace-icon fa fa-user bigger-130"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href='@Url.Action("Perfil", "Empregado", new { id = @item.UniqueKey})' class="green CustomTooltip" title="Exibir perfil do empregado">
-                                        @item.Nome
-                                    </a>
+                                    @item.Nome
                                 </td>
                                 <td class="center">@item.CPF</td>
                                 <td class="center">@item.DataNascimento</td>
