@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GISModel.Entidades.Quest
@@ -13,6 +14,8 @@ namespace GISModel.Entidades.Quest
         public string Nome { get; set; }
 
         public int Ordem { get; set; }
+
+        
 
     }
 }

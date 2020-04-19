@@ -7,11 +7,11 @@ namespace GISModel.Enums
 
         Livre = 1,
 
-        [Display(Name = "Sim/Não")]
-        Sim_Nao = 2,
+        [Display(Name = "Seleção única")]
+        Selecao_Unica = 2,
 
-        [Display(Name = "Múltipla Escolha")]
-        Multipla_Escolha = 3
+        [Display(Name = "Múltipla seleção")]
+        Multipla_Selecao = 3,
 
     }
 }

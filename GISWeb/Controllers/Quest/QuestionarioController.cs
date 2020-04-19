@@ -32,6 +32,9 @@ namespace GISWeb.Controllers.Quest
         public IBaseBusiness<Pergunta> PerguntaBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<Empresa> EmpresaBusiness { get; set; }
+
+        [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
         #endregion
@@ -49,16 +52,16 @@ namespace GISWeb.Controllers.Quest
 
             string sql = @"select e.UniqueKey as UKEmpresa, e.NomeFantasia, 
 	                              q.UniqueKey as UKQuestionario, q.Nome, q.TipoQuestionario, 
-	                              p.UniqueKey as UKPergunta, p.Descricao as Pergunta, p.UKPerguntaVinculada, p.TipoResposta, 
+	                              p.UniqueKey as UKPergunta, p.Descricao as Pergunta, p.TipoResposta, p.Ordem, 
 	                              tr.UniqueKey as UKTipoResposta, tr.Nome as TipoResposta, 
 	                              tri.Uniquekey as UKTipoRespostaItem, tri.nome as TipoRespostaItem
                            from tbQuestionario q
-	                               inner join tbEmpresa e on e.UniqueKey = q.UKEmpresa and q.DataExclusao ='9999-12-31 23:59:59.997' 
+	                               inner join tbEmpresa e on e.UniqueKey = q.UKEmpresa and e.DataExclusao ='9999-12-31 23:59:59.997' 
 		                           left join tbPergunta  p on q.UniqueKey = p.UKQuestionario and p.DataExclusao ='9999-12-31 23:59:59.997' 
 		                           left join tbTipoResposta  tr on tr.UniqueKey = p.UKTipoResposta and tr.DataExclusao ='9999-12-31 23:59:59.997' 
 		                           left join tbTipoRespostaItem tri on tr.UniqueKey = tri.UKTipoResposta and tri.DataExclusao ='9999-12-31 23:59:59.997' 
                            where q.DataExclusao ='9999-12-31 23:59:59.997' 
-                           order by e.NomeFantasia, q.Nome, p.Descricao, tri.Ordem ";
+                           order by e.NomeFantasia, q.Nome, p.Ordem, tri.Ordem ";
 
             DataTable result = QuestionarioBusiness.GetDataTable(sql);
             if (result.Rows.Count > 0)
@@ -70,7 +73,7 @@ namespace GISWeb.Controllers.Quest
                     {
                         oEmpresa = new Empresa()
                         {
-                            UniqueKey = Guid.Parse(row["UKTipoResposta"].ToString()),
+                            UniqueKey = Guid.Parse(row["UKEmpresa"].ToString()),
                             NomeFantasia = row["NomeFantasia"].ToString(),
                             Questionarios = new List<Questionario>()
                         };
@@ -91,13 +94,14 @@ namespace GISWeb.Controllers.Quest
                                 {
                                     UniqueKey = Guid.Parse(row["UKPergunta"].ToString()),
                                     Descricao = row["Pergunta"].ToString(),
+                                    Ordem = int.Parse(row["Ordem"].ToString()),
                                     TipoResposta = (ETipoResposta)Enum.Parse(typeof(ETipoResposta), row["TipoResposta"].ToString(), true)
                                 };
 
-                                if (!string.IsNullOrEmpty(row["UKPerguntaVinculada"].ToString()))
-                                {
-                                    oPergunta.UKPerguntaVinculada = Guid.Parse(row["UKPerguntaVinculada"].ToString());
-                                }
+                                //if (!string.IsNullOrEmpty(row["UKPerguntaVinculada"].ToString()))
+                                //{
+                                //    oPergunta.UKPerguntaVinculada = Guid.Parse(row["UKPerguntaVinculada"].ToString());
+                                //}
 
                                 if (!string.IsNullOrEmpty(row["UKTipoResposta"].ToString()))
                                 {
@@ -152,13 +156,14 @@ namespace GISWeb.Controllers.Quest
                                     {
                                         UniqueKey = Guid.Parse(row["UKPergunta"].ToString()),
                                         Descricao = row["Pergunta"].ToString(),
+                                        Ordem = int.Parse(row["Ordem"].ToString()),
                                         TipoResposta = (ETipoResposta)Enum.Parse(typeof(ETipoResposta), row["TipoResposta"].ToString(), true)
                                     };
 
-                                    if (!string.IsNullOrEmpty(row["UKPerguntaVinculada"].ToString()))
-                                    {
-                                        oPergunta.UKPerguntaVinculada = Guid.Parse(row["UKPerguntaVinculada"].ToString());
-                                    }
+                                    //if (!string.IsNullOrEmpty(row["UKPerguntaVinculada"].ToString()))
+                                    //{
+                                    //    oPergunta.UKPerguntaVinculada = Guid.Parse(row["UKPerguntaVinculada"].ToString());
+                                    //}
 
                                     if (!string.IsNullOrEmpty(row["UKTipoResposta"].ToString()))
                                     {
@@ -199,13 +204,14 @@ namespace GISWeb.Controllers.Quest
                                         {
                                             UniqueKey = Guid.Parse(row["UKPergunta"].ToString()),
                                             Descricao = row["Pergunta"].ToString(),
+                                            Ordem = int.Parse(row["Ordem"].ToString()),
                                             TipoResposta = (ETipoResposta)Enum.Parse(typeof(ETipoResposta), row["TipoResposta"].ToString(), true)
                                         };
 
-                                        if (!string.IsNullOrEmpty(row["UKPerguntaVinculada"].ToString()))
-                                        {
-                                            oPergunta.UKPerguntaVinculada = Guid.Parse(row["UKPerguntaVinculada"].ToString());
-                                        }
+                                        //if (!string.IsNullOrEmpty(row["UKPerguntaVinculada"].ToString()))
+                                        //{
+                                        //    oPergunta.UKPerguntaVinculada = Guid.Parse(row["UKPerguntaVinculada"].ToString());
+                                        //}
 
                                         if (!string.IsNullOrEmpty(row["UKTipoResposta"].ToString()))
                                         {
@@ -232,6 +238,21 @@ namespace GISWeb.Controllers.Quest
 
                                         oQuestionario.Perguntas.Add(oPergunta);
                                     }
+                                    else
+                                    {
+
+                                        if (!string.IsNullOrEmpty(row["UKTipoRespostaItem"].ToString()))
+                                        {
+                                            TipoRespostaItem oTipoRespostaItem = new TipoRespostaItem()
+                                            {
+                                                UniqueKey = Guid.Parse(row["UKTipoRespostaItem"].ToString()),
+                                                Nome = row["TipoRespostaItem"].ToString()
+                                            };
+
+                                            oPergunta._TipoResposta.TiposResposta.Add(oTipoRespostaItem);
+                                        }
+
+                                    }
                                     
                                 }
                             }
@@ -244,9 +265,20 @@ namespace GISWeb.Controllers.Quest
         }
 
 
-        public ActionResult Novo()
+        public ActionResult Novo(string id)
         {
-            return View();
+
+            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).OrderBy(a => a.NomeFantasia).ToList();
+
+            Questionario obj = new Questionario();
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                Guid UK = Guid.Parse(id);
+                obj.UKEmpresa = UK;
+            }
+            
+            return View(obj);
         }
 
         [HttpPost]
@@ -260,12 +292,27 @@ namespace GISWeb.Controllers.Quest
                     if (string.IsNullOrEmpty(entidade.Nome))
                         throw new Exception("Informe o nome do questionário para prosseguir.");
 
+                    if (entidade.UKEmpresa == Guid.Empty)
+                        throw new Exception("Selecione antes uma empresa para prosseguir.");
+
+                    if (entidade.TipoQuestionario == null)
+                        throw new Exception("Selecione o tipo de questionário para prosseguir.");
+
+                    if (entidade.TipoQuestionario == ETipoQuestionario.Analise_de_Risco)
+                    {
+                        if (QuestionarioBusiness.Consulta.Any(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKEmpresa.Equals(entidade.UKEmpresa) && a.TipoQuestionario == entidade.TipoQuestionario))
+                        {
+                            throw new Exception("A empresa selecionada já possui um questionário para Análise de Risco.");
+                        }
+                    }
+                    
+
                     entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     QuestionarioBusiness.Inserir(entidade);
 
                     Extensions.GravaCookie("MensagemSucesso", "O questionário '" + entidade.Nome + "' foi cadastrado com sucesso.", 10);
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "TipoResposta") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Questionario") } });
                 }
                 catch (Exception ex)
                 {
@@ -294,7 +341,7 @@ namespace GISWeb.Controllers.Quest
                 Guid UKDep = Guid.Parse(id);
                 Questionario temp = QuestionarioBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKDep));
                 if (temp == null)
-                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o tipo de resposta, pois a mesmo não foi localizado na base de dados." } });
+                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o questionário, pois a mesmo não foi localizado na base de dados." } });
 
                 temp.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                 QuestionarioBusiness.Terminar(temp);

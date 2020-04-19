@@ -13,7 +13,7 @@ namespace GISModel.Entidades.Quest
 
         public string Nome { get; set; }
 
-        public ETipoQuestionario TipoQuestionario { get; set; }
+        public ETipoQuestionario? TipoQuestionario { get; set; }
 
 
         [NotMapped]

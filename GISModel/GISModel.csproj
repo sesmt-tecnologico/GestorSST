@@ -149,6 +149,7 @@
     <Compile Include="Entidades\DocAtividade.cs" />
     <Compile Include="Entidades\Quest\Pergunta.cs" />
     <Compile Include="Entidades\Quest\Questionario.cs" />
+    <Compile Include="Entidades\Quest\REL_PerguntaTipoRespostaItem.cs" />
     <Compile Include="Entidades\Quest\Resposta.cs" />
     <Compile Include="Entidades\Quest\RespostaItem.cs" />
     <Compile Include="Entidades\Quest\TipoResposta.cs" />

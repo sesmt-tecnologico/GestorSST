@@ -63,9 +63,9 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<Empregado> Empregado { get; set; }
 
-        public DbSet<Admissao> Admissao { get; set; }       
+        public DbSet<Admissao> Admissao { get; set; }
 
-        public DbSet<Cargo> Cargo { get; set; }      
+        public DbSet<Cargo> Cargo { get; set; }
 
         public DbSet<Funcao> Funcao { get; set; }
 
@@ -108,7 +108,7 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<REL_EstabelecimentoDepartamento> REL_EstabelecimentoDepartamento { get; set; }
 
-        
+
 
         public DbSet<REL_FuncaoAtividade> REL_FuncaoAtividade { get; set; }
 
@@ -116,7 +116,7 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<REL_RiscoDanosASaude> REL_RiscoDanosASaude { get; set; }
 
-        
+
 
 
 
@@ -143,6 +143,8 @@ namespace GISCore.Repository.Configuration
         public DbSet<TipoResposta> TipoResposta { get; set; }
 
         public DbSet<TipoRespostaItem> TipoRespostaItem { get; set; }
+
+        public DbSet<REL_PerguntaTipoRespostaItem> REL_PerguntaTipoRespostaItem { get; set; }
 
         public DbSet<Resposta> Resposta { get; set; }
 

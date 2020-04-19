@@ -24,7 +24,7 @@ function GetQuestionarios() {
                 ExibirMensagemDeErro(content.erro);
             }
             else {
-                $("#contentTipoResposta").html(content);
+                $("#contentQuestionario").html(content);
 
                 AplicaTooltip();
 
@@ -43,7 +43,7 @@ function GetQuestionarios() {
 
 }
 
-function deleteQuestionario(UKTipoResposta, Nome) {
+function deleteQuestionario(UKQuestionario, Nome) {
 
     var callback = function () {
         $('.LoadingLayout').show();
@@ -51,13 +51,13 @@ function deleteQuestionario(UKTipoResposta, Nome) {
 
         $.ajax({
             method: "POST",
-            url: "/TipoResposta/Terminar",
-            data: { id: UKTipoResposta },
+            url: "/Questionario/Terminar",
+            data: { id: UKQuestionario },
             error: function (erro) {
                 $(".LoadingLayout").hide();
                 $('.page-content-area').ace_ajax('stopLoading', true);
 
-                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
             },
             success: function (content) {
                 $('.LoadingLayout').hide();
@@ -65,11 +65,40 @@ function deleteQuestionario(UKTipoResposta, Nome) {
 
                 TratarResultadoJSON(content.resultado);
 
-                GetTiposDeResposta();
+                GetQuestionarios();
             }
         });
     };
 
-    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a resposta '" + Nome + "'?", "Exclusão de resposta (múltipla escolha)", callback, "btn-danger");
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir o questionário '" + Nome + "'?", "Exclusão de questionário", callback, "btn-danger");
 
+}
+
+function deletePergunta(UKPergunta, Ordem) {
+    var callback = function () {
+        $('.LoadingLayout').show();
+        $('.page-content-area').ace_ajax('startLoading');
+
+        $.ajax({
+            method: "POST",
+            url: "/Pergunta/Terminar",
+            data: { id: UKPergunta },
+            error: function (erro) {
+                $(".LoadingLayout").hide();
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+            },
+            success: function (content) {
+                $('.LoadingLayout').hide();
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                TratarResultadoJSON(content.resultado);
+
+                GetQuestionarios();
+            }
+        });
+    };
+
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a pergunta '" + Ordem + "'?", "Exclusão de pergunta", callback, "btn-danger");
 }

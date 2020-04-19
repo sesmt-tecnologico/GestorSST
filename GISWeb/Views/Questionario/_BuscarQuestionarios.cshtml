@@ -17,12 +17,10 @@
                 <li class="dd-item collapseOne">
                     <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
 
-                        @emp.NomeFantasia
+                        Empresa: @emp.NomeFantasia
 
                         <div class="pull-right action-buttons">
-                            <a class="blue CustomTooltip" href="@Url.Action("Novo", "Questionario")?id=@emp.UniqueKey" title="Novo item da resposta">
-                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
-                            </a>
+                            
                         </div>
                     </div>
 
@@ -33,14 +31,18 @@
                             {
                                 <li class="dd-item">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
-                                        <span style="margin-right: 15px;">@quest.Nome -</span>
-                                        <span>@quest.TipoQuestionario.GetDisplayName() -</span>
+                                        <span style="margin-right: 60px;">Questionário: @quest.Nome</span>
+                                        <span>Tipo: @quest.TipoQuestionario.GetDisplayName()</span>
 
                                         <div class="pull-right action-buttons">
 
+                                            <a class="blue CustomTooltip" href="@Url.Action("Novo", "Pergunta")?id=@quest.UniqueKey" title="Nova pergunta">
+                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                            </a>
+
                                             @if (quest.Perguntas.Count == 0)
                                             {
-                                                <a class="red CustomTooltip" href="#" title="Excluir pergunta" onclick="deleteItemResposta('@quest.UniqueKey.ToString()', '@quest.Nome'); return false;">
+                                                <a class="red CustomTooltip" href="#" title="Excluir questionário" onclick="deleteQuestionario('@quest.UniqueKey.ToString()', '@quest.Nome'); return false;">
                                                     <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                                 </a>
                                             }
@@ -55,17 +57,27 @@
                                             {
                                                 <li class="dd-item">
                                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
-                                                        <span style="margin-right: 15px;">@perg.Descricao -</span>
-                                                        <span>@perg.TipoResposta.GetDisplayName() -</span>
 
-                                                        @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count == 0)
+                                                        @if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Multipla_Selecao)
                                                         {
-                                                            <div class="pull-right action-buttons">
-                                                                <a class="red CustomTooltip" href="#" title="Excluir item da resposta" onclick="deleteItemResposta('@perg.UniqueKey.ToString()'); return false;">
-                                                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                                                </a>
-                                                            </div>
+                                                            <span style="width: 434px; float: left;">Pergunta @perg.Ordem.ToString(): @perg.Descricao</span>
+                                                            <span style="float: left;">Tipo de resposta: @perg.TipoResposta.GetDisplayName()</span>
                                                         }
+                                                        else
+                                                        {
+                                                            <span style="width: 450px; float: left;">Pergunta @perg.Ordem.ToString(): @perg.Descricao</span>
+                                                            <span style="float: left;">Tipo de resposta: @perg.TipoResposta.GetDisplayName()</span>
+                                                        }
+
+                                                        <div class="pull-right action-buttons">
+                                                            <a class="blue CustomTooltip" href="@Url.Action("NovaPerguntaVinculada", "Pergunta")?UKQuestionario=@quest.UniqueKey&UKPergunta=@perg.UniqueKey" title="Nova pergunta vinculada">
+                                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                            </a>
+
+                                                            <a class="red CustomTooltip" href="#" title="Excluir pergunta" onclick="deletePergunta('@perg.UniqueKey.ToString()', '@perg.Ordem.ToString()'); return false;">
+                                                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                                            </a>
+                                                        </div>
                                                     </div>
 
                                                     @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count > 0)

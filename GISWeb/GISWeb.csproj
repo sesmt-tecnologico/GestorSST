@@ -467,6 +467,7 @@
     <Content Include="Scripts\Custom\Perfil\Edicao.js" />
     <Content Include="Scripts\Custom\Perfil\Listagem.js" />
     <Content Include="Scripts\Custom\Perfil\Novo.js" />
+    <Content Include="Scripts\Custom\Pergunta\Novo.js" />
     <Content Include="Scripts\Custom\Perigo\Edicao.js" />
     <Content Include="Scripts\Custom\Perigo\Excluir.js" />
     <Content Include="Scripts\Custom\Perigo\Listagem.js" />
@@ -849,6 +850,7 @@
     <Content Include="Views\TipoRespostaItem\Novo.cshtml" />
     <Content Include="Views\Questionario\_BuscarQuestionarios.cshtml" />
     <Content Include="Views\Questionario\Novo.cshtml" />
+    <Content Include="Views\Pergunta\Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -867,7 +869,6 @@
     <Folder Include="Images\Relatorios\" />
     <Folder Include="Views\AtividadeFuncaoLiberada\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Pergunta\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GISCore\GISCore.csproj">
