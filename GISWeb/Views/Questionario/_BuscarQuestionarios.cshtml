@@ -1,0 +1,111 @@
+﻿@using GISModel.Entidades
+@using GISModel.Entidades.Quest
+@using System.Configuration
+@using GISHelpers.Utils
+@model List<Empresa>
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+        <ol class="dd-list">
+
+            @foreach (Empresa emp in Model)
+            {
+
+                string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+                <li class="dd-item collapseOne">
+                    <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
+
+                        @emp.NomeFantasia
+
+                        <div class="pull-right action-buttons">
+                            <a class="blue CustomTooltip" href="@Url.Action("Novo", "Questionario")?id=@emp.UniqueKey" title="Novo item da resposta">
+                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    @if (emp.Questionarios.Count() > 0)
+                    {
+                        <ol class="dd-list">
+                            @foreach (Questionario quest in emp.Questionarios)
+                            {
+                                <li class="dd-item">
+                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+                                        <span style="margin-right: 15px;">@quest.Nome -</span>
+                                        <span>@quest.TipoQuestionario.GetDisplayName() -</span>
+
+                                        <div class="pull-right action-buttons">
+
+                                            @if (quest.Perguntas.Count == 0)
+                                            {
+                                                <a class="red CustomTooltip" href="#" title="Excluir pergunta" onclick="deleteItemResposta('@quest.UniqueKey.ToString()', '@quest.Nome'); return false;">
+                                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    @if (quest.Perguntas.Count > 0)
+                                    {
+                                        <ol class="dd-list">
+
+                                            @foreach (Pergunta perg in quest.Perguntas)
+                                            {
+                                                <li class="dd-item">
+                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                                        <span style="margin-right: 15px;">@perg.Descricao -</span>
+                                                        <span>@perg.TipoResposta.GetDisplayName() -</span>
+
+                                                        @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count == 0)
+                                                        {
+                                                            <div class="pull-right action-buttons">
+                                                                <a class="red CustomTooltip" href="#" title="Excluir item da resposta" onclick="deleteItemResposta('@perg.UniqueKey.ToString()'); return false;">
+                                                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                                                </a>
+                                                            </div>
+                                                        }
+                                                    </div>
+
+                                                    @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count > 0)
+                                                    {
+                                                        <ol class="dd-list">
+                                                            @foreach (TipoRespostaItem item in perg._TipoResposta.TiposResposta)
+                                                            {
+                                                                <li class="dd-item">
+                                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+                                                                        @item.Nome
+                                                                    </div>
+                                                                </li>
+                                                            }
+                                                        </ol>
+                                                    }
+                                                </li>
+                                            }
+                                        </ol>
+                                    }
+                                </li>
+                            }
+                        </ol>
+                    }
+                </li>
+            }
+        </ol>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        No momento, nenhum questionário cadastrado na base de dados.
+        <br>
+    </div>
+}
+
+

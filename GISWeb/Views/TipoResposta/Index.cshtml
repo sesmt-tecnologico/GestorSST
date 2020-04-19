@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Respostas múltipla escolha";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Respostas de Múltipla Escolha
+
+            <a href="@Url.Action("Novo", "TipoResposta")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                Novo Tipo de Resposta
+            </a>
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <div id="contentTipoResposta" style="padding-left: 12px;">
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+
+    <script src="~/Scripts/Custom/TipoResposta/Listagem.js"></script>
+}

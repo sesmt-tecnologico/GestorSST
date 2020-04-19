@@ -147,6 +147,12 @@
     <Compile Include="Entidades\Diretoria.cs" />
     <Compile Include="Entidades\Departamento.cs" />
     <Compile Include="Entidades\DocAtividade.cs" />
+    <Compile Include="Entidades\Quest\Pergunta.cs" />
+    <Compile Include="Entidades\Quest\Questionario.cs" />
+    <Compile Include="Entidades\Quest\Resposta.cs" />
+    <Compile Include="Entidades\Quest\RespostaItem.cs" />
+    <Compile Include="Entidades\Quest\TipoResposta.cs" />
+    <Compile Include="Entidades\Quest\TipoRespostaItem.cs" />
     <Compile Include="Entidades\REL_DocumentosAlocados.cs" />
     <Compile Include="Entidades\FonteGeradoraDeRisco.cs" />
     <Compile Include="Entidades\Link.cs" />
@@ -189,6 +195,8 @@
     <Compile Include="Entidades\UsuarioPerfil.cs" />
     <Compile Include="Entidades\WorkArea.cs" />
     <Compile Include="Entidades\Workflow.cs" />
+    <Compile Include="Enums\ETipoQuestionario.cs" />
+    <Compile Include="Enums\ETipoResposta.cs" />
     <Compile Include="Enums\ETrajetoria .cs" />
     <Compile Include="Enums\EStatusAdmissao.cs" />
     <Compile Include="Enums\ETipoContratoFornecedor.cs" />

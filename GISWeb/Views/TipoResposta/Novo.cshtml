@@ -1,18 +1,22 @@
-﻿@using GISModel.Entidades
-@model NivelHierarquico
+﻿@using GISModel.Entidades.Quest
+@model TipoResposta
 
-<div id="formCadNivel">
+<div id="formCadTipoResposta">
     <div class="row">
         <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
             <div class="page-header">
                 <h1>
-                    Cadastro de Nível Hierárquico
+                    Cadastro de resposta de Múltipla Escolha
                 </h1>
             </div>
         </div>
     </div>
 
-    @using (Ajax.BeginForm("Cadastrar", "NivelHierarquico", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarNivel", OnSuccess = "OnSuccessCadastrarNivel", }, new { @id = "formCadastroNivel", @class = "form-horizontal", @autocomplete = "off" }))
+    @using (Ajax.BeginForm("Cadastrar", "TipoResposta", null, new AjaxOptions { 
+                                HttpMethod = "POST", 
+                                OnBegin = "OnBeginCadastrarTipoResposta", 
+                                OnSuccess = "OnSuccessCadastrarTipoResposta", 
+                        }, new { @id = "formCadastroTipoResposta", @class = "form-horizontal", @autocomplete = "off" }))
     {
         @Html.AntiForgeryToken()
 
@@ -52,5 +56,5 @@
 
 
 @section Scripts {
-    <script src="~/Scripts/Custom/NivelHierarquico/Novo.js"></script>
+    <script src="~/Scripts/Custom/TipoResposta/Novo.js"></script>
 }

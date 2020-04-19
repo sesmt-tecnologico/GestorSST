@@ -1,4 +1,5 @@
 ﻿using GISModel.Entidades;
+using GISModel.Entidades.Quest;
 using System.Data.Entity;
 
 namespace GISCore.Repository.Configuration
@@ -127,6 +128,25 @@ namespace GISCore.Repository.Configuration
         public DbSet<REL_RiscoControle> REL_RiscoControle { get; set; }
 
         public DbSet<REL_ArquivoEmpregado> REL_ArquivoEmpregado { get; set; }
+
+
+
+
+        //##############################################################################
+        //########                             QUEST                          ##########
+        //##############################################################################
+
+        public DbSet<Questionario> Questionario { get; set; }
+
+        public DbSet<Pergunta> Pergunta { get; set; }
+
+        public DbSet<TipoResposta> TipoResposta { get; set; }
+
+        public DbSet<TipoRespostaItem> TipoRespostaItem { get; set; }
+
+        public DbSet<Resposta> Resposta { get; set; }
+
+        public DbSet<RespostaItem> RespostaItem { get; set; }
 
     }
 }

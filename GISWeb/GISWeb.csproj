@@ -477,6 +477,8 @@
     <Content Include="Scripts\Custom\PossiveisDanos\Excluir.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Listagem.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Novo.js" />
+    <Content Include="Scripts\Custom\Questionario\Listagem.js" />
+    <Content Include="Scripts\Custom\Questionario\Novo.js" />
     <Content Include="Scripts\Custom\Reconhecimento\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Novo.js" />
@@ -491,6 +493,9 @@
     <Content Include="Scripts\Custom\TipoDeRisco\Excluir.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Listagem.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Novo.js" />
+    <Content Include="Scripts\Custom\TipoRespostaItem\Novo.js" />
+    <Content Include="Scripts\Custom\TipoResposta\Listagem.js" />
+    <Content Include="Scripts\Custom\TipoResposta\Novo.js" />
     <Content Include="Scripts\Custom\UsuarioPerfil\Admin.js" />
     <Content Include="Scripts\Custom\Usuario\Edicao.js" />
     <Content Include="Scripts\Custom\Usuario\Listagem.js" />
@@ -572,6 +577,10 @@
     <Compile Include="Controllers\PermissoesController.cs" />
     <Compile Include="Controllers\PlanoDeAcaoController.cs" />
     <Compile Include="Controllers\PossiveisDanosController.cs" />
+    <Compile Include="Controllers\Quest\PerguntaController.cs" />
+    <Compile Include="Controllers\Quest\QuestionarioController.cs" />
+    <Compile Include="Controllers\Quest\TipoRespostaController.cs" />
+    <Compile Include="Controllers\Quest\TipoRespostaItemController.cs" />
     <Compile Include="Controllers\ReconhecimentoDoRiscoController.cs" />
     <Compile Include="Controllers\RiscoController.cs" />
     <Compile Include="Controllers\TipoDeControleController.cs" />
@@ -833,6 +842,13 @@
     <Content Include="Views\Home\Suporte.cshtml" />
     <Content Include="Views\Link\Edicao.cshtml" />
     <Content Include="Views\ReconhecimentoDoRisco\_AtualizarControleDeRisco.cshtml" />
+    <Content Include="Views\Questionario\Index.cshtml" />
+    <Content Include="Views\TipoResposta\Index.cshtml" />
+    <Content Include="Views\TipoResposta\_BuscarTiposDeResposta.cshtml" />
+    <Content Include="Views\TipoResposta\Novo.cshtml" />
+    <Content Include="Views\TipoRespostaItem\Novo.cshtml" />
+    <Content Include="Views\Questionario\_BuscarQuestionarios.cshtml" />
+    <Content Include="Views\Questionario\Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -851,6 +867,7 @@
     <Folder Include="Images\Relatorios\" />
     <Folder Include="Views\AtividadeFuncaoLiberada\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Pergunta\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GISCore\GISCore.csproj">
