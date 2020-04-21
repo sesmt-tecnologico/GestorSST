@@ -1,5 +1,6 @@
 ﻿using GISCore.Business.Abstract;
 using GISCore.Infrastructure.Utils;
+using GISModel.DTO.Pergunta;
 using GISModel.DTO.Shared;
 using GISModel.Entidades.Quest;
 using GISWeb.Infraestrutura.Filters;
@@ -32,6 +33,12 @@ namespace GISWeb.Controllers.Quest
         public IBaseBusiness<TipoResposta> TipoRespostaBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<TipoRespostaItem> TipoRespostaItemBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<REL_PerguntaTipoRespostaItem> REL_PerguntaTipoRespostaItemBusiness { get; set; }
+
+        [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
         #endregion
@@ -60,30 +67,24 @@ namespace GISWeb.Controllers.Quest
 
             ViewBag.TiposDeRespostas = TipoRespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).OrderBy(a => a.Nome).ToList();
 
-            ViewBag.HiddenPerguntaVinculada = true;
-
             return View(obj);
         }
 
-        public ActionResult NovaPerguntaVinculada(string UKQuestionario, string UKPergunta)
+        public ActionResult NovaPerguntaVinculada(string UKT, string UKP)
         {
-            Guid UKQuest = Guid.Parse(UKQuestionario);
-            Guid UKPerg = Guid.Parse(UKPergunta);
+            Guid UKTipoRespostaItem = Guid.Parse(UKT);
+            Guid UKPerg = Guid.Parse(UKP);
 
-            Pergunta obj = new Pergunta()
+            TipoRespostaItem oTipoRespItem = TipoRespostaItemBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKTipoRespostaItem));
+            Pergunta oPergunta = PerguntaBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKPerg));
+            
+            VMNovaPerguntaVinculada obj = new VMNovaPerguntaVinculada()
             {
-                UKQuestionario = UKQuest
-                //, UKPerguntaVinculada = UKPerg
+                PerguntaVinculada = oPergunta,
+                TipoRespostaItemVinculada = oTipoRespItem,
             };
 
-            Questionario quest = QuestionarioBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKQuestionario));
-            List<Questionario> questionarios = new List<Questionario>();
-            questionarios.Add(quest);
-            ViewBag.Questionarios = questionarios;
-
             ViewBag.TiposDeRespostas = TipoRespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).OrderBy(a => a.Nome).ToList();
-
-            ViewBag.HiddenPerguntaVinculada = false;
 
             return View(obj);
         }
@@ -135,19 +136,108 @@ namespace GISWeb.Controllers.Quest
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CadastrarVinculada(VMNovaPerguntaVinculada entidade) 
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    
+                    if (entidade.PerguntaVinculada == null || entidade.PerguntaVinculada.UniqueKey == null || entidade.PerguntaVinculada.UniqueKey == Guid.Empty)
+                        throw new Exception("Não foi possível localizar a pergunta vinculada a pergunta a ser cadastrada.");
+
+                    if (entidade.TipoRespostaItemVinculada == null || entidade.TipoRespostaItemVinculada.UniqueKey == null || entidade.TipoRespostaItemVinculada.UniqueKey == Guid.Empty)
+                        throw new Exception("Não foi possível localizar a resposta vinculada a pergunta a ser cadastrada.");
+
+                    if (string.IsNullOrEmpty(entidade.Descricao))
+                        throw new Exception("Informe a pergunta antes de prosseguir com a criação.");
+
+                    if (entidade.TipoResposta == GISModel.Enums.ETipoResposta.Multipla_Selecao || entidade.TipoResposta == GISModel.Enums.ETipoResposta.Selecao_Unica)
+                    {
+                        if (entidade.UKTipoResposta == null || entidade.UKTipoResposta == Guid.Empty)
+                        {
+                            throw new Exception("Não foi possível localizar as possíveis respostas para a pergunta de múltipla escolha a ser cadastrada.");
+                        }
+                    }
+
+
+                    Pergunta oPergunta = new Pergunta()
+                    {
+                        UniqueKey = Guid.NewGuid(),
+                        Descricao = entidade.Descricao,
+                        TipoResposta = entidade.TipoResposta,
+                        UKTipoResposta = entidade.UKTipoResposta,
+                        Ordem = entidade.Ordem,
+                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                    };
+                    PerguntaBusiness.Inserir(oPergunta);
+
+
+
+
+                    REL_PerguntaTipoRespostaItem oRel = new REL_PerguntaTipoRespostaItem()
+                    {
+                        UKPerguntaVinculada = entidade.PerguntaVinculada.UniqueKey,
+                        UKTipoRespostaItem = entidade.TipoRespostaItemVinculada.UniqueKey,
+                        UKNovaPergunta = oPergunta.UniqueKey,
+                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                    };
+
+                    REL_PerguntaTipoRespostaItemBusiness.Inserir(oRel);
+
+
+
+
+                    Extensions.GravaCookie("MensagemSucesso", "A pergunta vinculada foi cadastrada com sucesso.", 10);
+
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Questionario") } });
+                }
+                catch (Exception ex)
+                {
+                    if (ex.GetBaseException() == null)
+                    {
+                        return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                    }
+                    else
+                    {
+                        return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                    }
+                }
+            }
+            else
+            {
+                return Json(new { resultado = TratarRetornoValidacaoToJSON() });
+            }
+        }
+
+
+
 
         [HttpPost]
         public ActionResult Terminar(string id)
         {
             try
             {
-                Guid UKDep = Guid.Parse(id);
-                Pergunta temp = PerguntaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKDep));
+                Guid UKPergunta = Guid.Parse(id);
+                Pergunta temp = PerguntaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKPergunta));
                 if (temp == null)
                     return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir a pergunta, pois a mesma não foi localizada na base de dados." } });
 
                 temp.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                 PerguntaBusiness.Terminar(temp);
+
+                List<REL_PerguntaTipoRespostaItem> rels = REL_PerguntaTipoRespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKNovaPergunta.Equals(UKPergunta)).ToList();
+
+                if (rels?.Count > 0)
+                {
+                    foreach (REL_PerguntaTipoRespostaItem rel in rels)
+                    {
+                        rel.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                        REL_PerguntaTipoRespostaItemBusiness.Terminar(rel);
+                    }
+                }
 
                 return Json(new { resultado = new RetornoJSON() { Sucesso = "A pergunta foi excluída com sucesso." } });
 

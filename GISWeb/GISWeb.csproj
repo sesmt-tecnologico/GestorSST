@@ -483,6 +483,7 @@
     <Content Include="Scripts\Custom\Reconhecimento\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Novo.js" />
+    <Content Include="Scripts\Custom\Resposta\Listagem.js" />
     <Content Include="Scripts\Custom\Risco\Edicao.js" />
     <Content Include="Scripts\Custom\Risco\Excluir.js" />
     <Content Include="Scripts\Custom\Risco\Listagem.js" />
@@ -580,6 +581,7 @@
     <Compile Include="Controllers\PossiveisDanosController.cs" />
     <Compile Include="Controllers\Quest\PerguntaController.cs" />
     <Compile Include="Controllers\Quest\QuestionarioController.cs" />
+    <Compile Include="Controllers\Quest\RespostaController.cs" />
     <Compile Include="Controllers\Quest\TipoRespostaController.cs" />
     <Compile Include="Controllers\Quest\TipoRespostaItemController.cs" />
     <Compile Include="Controllers\ReconhecimentoDoRiscoController.cs" />
@@ -601,6 +603,7 @@
     <Compile Include="Infraestrutura\Helpers\CaptchaHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\CargoRecursivoHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\DepartamentoRecursivoHelper.cs" />
+    <Compile Include="Infraestrutura\Helpers\QuestionarioRecursivoHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\reCaptchaHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\SSTHelperRazorFactory.cs" />
     <Compile Include="Infraestrutura\Provider\Abstract\ICustomAuthorizationProvider.cs" />
@@ -851,6 +854,10 @@
     <Content Include="Views\Questionario\_BuscarQuestionarios.cshtml" />
     <Content Include="Views\Questionario\Novo.cshtml" />
     <Content Include="Views\Pergunta\Novo.cshtml" />
+    <Content Include="Views\Pergunta\NovaPerguntaVinculada.cshtml" />
+    <Content Include="Views\Resposta\Index.cshtml" />
+    <Content Include="Views\Questionario\_ListarQuestionariosPorEmpresa.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\ReconhecimentoPorFonteGeradora.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

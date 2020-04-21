@@ -17,5 +17,10 @@ namespace GISWeb.Infraestrutura.Helpers
         }
 
 
+        public static QuestionarioRecursivoHelper QuestionarioRecursivoHelperRazor(this HtmlHelper helper)
+        {
+            return new QuestionarioRecursivoHelper(helper);
+        }
+
     }
 }

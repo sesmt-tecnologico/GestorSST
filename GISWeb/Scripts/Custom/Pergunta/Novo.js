@@ -3,7 +3,7 @@
     $.validator.unobtrusive.parse(document);
 
     $("#TipoResposta").off("change").on("change", function () {
-        if ($("#TipoResposta").val() == 3) {
+        if ($("#TipoResposta").val() == 2 || $("#TipoResposta").val() == 3) {
             $("#UKTipoResposta").attr("disabled", false);
         }
         else {

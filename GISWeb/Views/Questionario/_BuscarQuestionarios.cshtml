@@ -2,6 +2,7 @@
 @using GISModel.Entidades.Quest
 @using System.Configuration
 @using GISHelpers.Utils
+@using GISWeb.Infraestrutura.Helpers
 @model List<Empresa>
 
 @if (Model != null && Model.Count > 0)
@@ -20,7 +21,7 @@
                         Empresa: @emp.NomeFantasia
 
                         <div class="pull-right action-buttons">
-                            
+
                         </div>
                     </div>
 
@@ -58,7 +59,7 @@
                                                 <li class="dd-item">
                                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
 
-                                                        @if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Multipla_Selecao)
+                                                        @if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Multipla_Selecao || perg.TipoResposta == GISModel.Enums.ETipoResposta.Selecao_Unica)
                                                         {
                                                             <span style="width: 434px; float: left;">Pergunta @perg.Ordem.ToString(): @perg.Descricao</span>
                                                             <span style="float: left;">Tipo de resposta: @perg.TipoResposta.GetDisplayName()</span>
@@ -70,10 +71,6 @@
                                                         }
 
                                                         <div class="pull-right action-buttons">
-                                                            <a class="blue CustomTooltip" href="@Url.Action("NovaPerguntaVinculada", "Pergunta")?UKQuestionario=@quest.UniqueKey&UKPergunta=@perg.UniqueKey" title="Nova pergunta vinculada">
-                                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
-                                                            </a>
-
                                                             <a class="red CustomTooltip" href="#" title="Excluir pergunta" onclick="deletePergunta('@perg.UniqueKey.ToString()', '@perg.Ordem.ToString()'); return false;">
                                                                 <i class="ace-icon fa fa-trash-o bigger-130"></i>
                                                             </a>
@@ -85,11 +82,23 @@
                                                         <ol class="dd-list">
                                                             @foreach (TipoRespostaItem item in perg._TipoResposta.TiposResposta)
                                                             {
-                                                                <li class="dd-item">
-                                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
-                                                                        @item.Nome
+                                                            <li class="dd-item">
+                                                                <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+                                                                    @item.Nome
+
+                                                                    <div class="pull-right action-buttons">
+                                                                        <a class="blue CustomTooltip" href="@Url.Action("NovaPerguntaVinculada", "Pergunta")?UKT=@item.UniqueKey&UKP=@perg.UniqueKey" title="Nova pergunta vinculada">
+                                                                            <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                                        </a>
                                                                     </div>
-                                                                </li>
+                                                                </div>
+
+                                                                @if (item.Perguntas != null && item.Perguntas.Count() > 0)
+                                                                {
+                                                                    @Html.QuestionarioRecursivoHelperRazor().MontarListaPerguntas(item.Perguntas)
+                                                                }
+
+                                                            </li>
                                                             }
                                                         </ol>
                                                     }

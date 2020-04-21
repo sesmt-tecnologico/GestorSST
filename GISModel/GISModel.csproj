@@ -124,6 +124,7 @@
     <Compile Include="DTO\GerenciamentoDoRisco\VMNovoReconhecimentoControle.cs" />
     <Compile Include="DTO\GerenciamentoDoRisco\VMReconhecimento.cs" />
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
+    <Compile Include="DTO\Pergunta\VMNovaPerguntaVinculada.cs" />
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />
     <Compile Include="DTO\Shared\RetornoJSON.cs" />

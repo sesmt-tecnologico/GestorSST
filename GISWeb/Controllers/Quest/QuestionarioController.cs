@@ -98,11 +98,6 @@ namespace GISWeb.Controllers.Quest
                                     TipoResposta = (ETipoResposta)Enum.Parse(typeof(ETipoResposta), row["TipoResposta"].ToString(), true)
                                 };
 
-                                //if (!string.IsNullOrEmpty(row["UKPerguntaVinculada"].ToString()))
-                                //{
-                                //    oPergunta.UKPerguntaVinculada = Guid.Parse(row["UKPerguntaVinculada"].ToString());
-                                //}
-
                                 if (!string.IsNullOrEmpty(row["UKTipoResposta"].ToString()))
                                 {
                                     TipoResposta oTipoResposta = new TipoResposta()
@@ -117,7 +112,8 @@ namespace GISWeb.Controllers.Quest
                                         TipoRespostaItem oTipoRespostaItem = new TipoRespostaItem()
                                         {
                                             UniqueKey = Guid.Parse(row["UKTipoRespostaItem"].ToString()),
-                                            Nome = row["TipoRespostaItem"].ToString()
+                                            Nome = row["TipoRespostaItem"].ToString(),
+                                            Perguntas = BuscarPerguntasVinculadas(oPergunta.UniqueKey.ToString(), row["UKTipoRespostaItem"].ToString())
                                         };
 
                                         oTipoResposta.TiposResposta.Add(oTipoRespostaItem);
@@ -160,11 +156,6 @@ namespace GISWeb.Controllers.Quest
                                         TipoResposta = (ETipoResposta)Enum.Parse(typeof(ETipoResposta), row["TipoResposta"].ToString(), true)
                                     };
 
-                                    //if (!string.IsNullOrEmpty(row["UKPerguntaVinculada"].ToString()))
-                                    //{
-                                    //    oPergunta.UKPerguntaVinculada = Guid.Parse(row["UKPerguntaVinculada"].ToString());
-                                    //}
-
                                     if (!string.IsNullOrEmpty(row["UKTipoResposta"].ToString()))
                                     {
                                         TipoResposta oTipoResposta = new TipoResposta()
@@ -179,7 +170,8 @@ namespace GISWeb.Controllers.Quest
                                             TipoRespostaItem oTipoRespostaItem = new TipoRespostaItem()
                                             {
                                                 UniqueKey = Guid.Parse(row["UKTipoRespostaItem"].ToString()),
-                                                Nome = row["TipoRespostaItem"].ToString()
+                                                Nome = row["TipoRespostaItem"].ToString(),
+                                                Perguntas = BuscarPerguntasVinculadas(oPergunta.UniqueKey.ToString(), row["UKTipoRespostaItem"].ToString())
                                             };
 
                                             oTipoResposta.TiposResposta.Add(oTipoRespostaItem);
@@ -208,11 +200,6 @@ namespace GISWeb.Controllers.Quest
                                             TipoResposta = (ETipoResposta)Enum.Parse(typeof(ETipoResposta), row["TipoResposta"].ToString(), true)
                                         };
 
-                                        //if (!string.IsNullOrEmpty(row["UKPerguntaVinculada"].ToString()))
-                                        //{
-                                        //    oPergunta.UKPerguntaVinculada = Guid.Parse(row["UKPerguntaVinculada"].ToString());
-                                        //}
-
                                         if (!string.IsNullOrEmpty(row["UKTipoResposta"].ToString()))
                                         {
                                             TipoResposta oTipoResposta = new TipoResposta()
@@ -227,7 +214,8 @@ namespace GISWeb.Controllers.Quest
                                                 TipoRespostaItem oTipoRespostaItem = new TipoRespostaItem()
                                                 {
                                                     UniqueKey = Guid.Parse(row["UKTipoRespostaItem"].ToString()),
-                                                    Nome = row["TipoRespostaItem"].ToString()
+                                                    Nome = row["TipoRespostaItem"].ToString(),
+                                                    Perguntas = BuscarPerguntasVinculadas(oPergunta.UniqueKey.ToString(), row["UKTipoRespostaItem"].ToString())
                                                 };
 
                                                 oTipoResposta.TiposResposta.Add(oTipoRespostaItem);
@@ -246,14 +234,13 @@ namespace GISWeb.Controllers.Quest
                                             TipoRespostaItem oTipoRespostaItem = new TipoRespostaItem()
                                             {
                                                 UniqueKey = Guid.Parse(row["UKTipoRespostaItem"].ToString()),
-                                                Nome = row["TipoRespostaItem"].ToString()
+                                                Nome = row["TipoRespostaItem"].ToString(),
+                                                Perguntas = BuscarPerguntasVinculadas(oPergunta.UniqueKey.ToString(), row["UKTipoRespostaItem"].ToString())
                                             };
 
                                             oPergunta._TipoResposta.TiposResposta.Add(oTipoRespostaItem);
                                         }
-
                                     }
-                                    
                                 }
                             }
                         }
@@ -262,6 +249,82 @@ namespace GISWeb.Controllers.Quest
             }
 
             return PartialView("_BuscarQuestionarios", lista);
+        }
+
+        private List<Pergunta> BuscarPerguntasVinculadas(string UKPergunta, string UKTipoRespostaItem) 
+        {
+            List<Pergunta> lista = new List<Pergunta>();
+
+            string sql = @"select p.UniqueKey as UKPergunta, p.Descricao as Pergunta, p.TipoResposta, p.Ordem, 
+	                              tr.UniqueKey as UKTipoResposta, tr.Nome as TipoResposta, 
+	                              tri.Uniquekey as UKTipoRespostaItem, tri.nome as TipoRespostaItem
+                           from REL_PerguntaTipoRespostaItem r
+		                           inner join tbPergunta  p on p.UniqueKey = r.UKNovaPergunta and p.DataExclusao ='9999-12-31 23:59:59.997' 
+		                           left join tbTipoResposta  tr on tr.UniqueKey = p.UKTipoResposta and tr.DataExclusao ='9999-12-31 23:59:59.997' 
+		                           left join tbTipoRespostaItem tri on tr.UniqueKey = tri.UKTipoResposta and tri.DataExclusao ='9999-12-31 23:59:59.997' 
+                           where r.DataExclusao ='9999-12-31 23:59:59.997' and r.UKPerguntaVinculada = '" + UKPergunta + @"' and r.UKTipoRespostaItem = '" + UKTipoRespostaItem + @"'
+                           order by p.Ordem, tri.Ordem";
+
+            DataTable result = QuestionarioBusiness.GetDataTable(sql);
+            if (result.Rows.Count > 0)
+            {
+                foreach (DataRow row in result.Rows)
+                {
+                    Pergunta oPergunta = lista.FirstOrDefault(a => a.UniqueKey.ToString().Equals(row["UKPergunta"].ToString()));
+                    if (oPergunta == null)
+                    {
+                        oPergunta = new Pergunta()
+                        {
+                            UniqueKey = Guid.Parse(row["UKPergunta"].ToString()),
+                            Descricao = row["Pergunta"].ToString(),
+                            Ordem = int.Parse(row["Ordem"].ToString()),
+                            TipoResposta = (ETipoResposta)Enum.Parse(typeof(ETipoResposta), row["TipoResposta"].ToString(), true)
+                        };
+
+                        if (!string.IsNullOrEmpty(row["UKTipoResposta"].ToString()))
+                        {
+                            TipoResposta oTipoResposta = new TipoResposta()
+                            {
+                                UniqueKey = Guid.Parse(row["UKTipoResposta"].ToString()),
+                                Nome = row["TipoResposta"].ToString(),
+                                TiposResposta = new List<TipoRespostaItem>()
+                            };
+
+                            if (!string.IsNullOrEmpty(row["UKTipoRespostaItem"].ToString()))
+                            {
+                                TipoRespostaItem oTipoRespostaItem = new TipoRespostaItem()
+                                {
+                                    UniqueKey = Guid.Parse(row["UKTipoRespostaItem"].ToString()),
+                                    Nome = row["TipoRespostaItem"].ToString(),
+                                    Perguntas = BuscarPerguntasVinculadas(oPergunta.UniqueKey.ToString(), row["UKTipoRespostaItem"].ToString())
+                                };
+
+                                oTipoResposta.TiposResposta.Add(oTipoRespostaItem);
+                            }
+
+                            oPergunta._TipoResposta = oTipoResposta;
+                        }
+
+                        lista.Add(oPergunta);
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(row["UKTipoRespostaItem"].ToString()))
+                        {
+                            TipoRespostaItem oTipoRespostaItem = new TipoRespostaItem()
+                            {
+                                UniqueKey = Guid.Parse(row["UKTipoRespostaItem"].ToString()),
+                                Nome = row["TipoRespostaItem"].ToString(),
+                                Perguntas = BuscarPerguntasVinculadas(oPergunta.UniqueKey.ToString(), row["UKTipoRespostaItem"].ToString())
+                            };
+
+                            oPergunta._TipoResposta.TiposResposta.Add(oTipoRespostaItem);
+                        }
+                    }
+                }
+            }
+
+            return lista;
         }
 
 
@@ -361,6 +424,30 @@ namespace GISWeb.Controllers.Quest
                 }
             }
         }
+
+
+        [HttpPost]
+        public ActionResult ListarQuestionariosPorEmpresa(string UKEmpresa) 
+        { 
+            try
+            {
+                List<Questionario> quests = QuestionarioBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKEmpresa.ToString().Equals(UKEmpresa)).OrderBy(a => a.Nome).ToList();
+
+                return PartialView("_ListarQuestionariosPorEmpresa", quests);
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+        }
+
 
     }
 }
