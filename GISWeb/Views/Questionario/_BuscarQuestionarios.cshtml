@@ -33,9 +33,34 @@
                                 <li class="dd-item">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
                                         <span style="margin-right: 60px;">Questionário: @quest.Nome</span>
-                                        <span>Tipo: @quest.TipoQuestionario.GetDisplayName()</span>
+                                        <span style="margin-right: 60px;">Tipo: @quest.TipoQuestionario.GetDisplayName()</span>
+
+                                        <span style="margin-right: 60px;">Frequência: @quest.Tempo.ToString() @quest.Periodo.GetDisplayName()</span>
+
+
+                                        @if (quest.Status == GISModel.Enums.Situacao.Ativo)
+                                        {
+                                            <span>Status: <strong style="color: green;">Ativo</strong></span>
+                                        }
+                                        else
+                                        {
+                                            <span>Status: <strong style="color: red;">Inativo</strong></span>
+                                        }
 
                                         <div class="pull-right action-buttons">
+
+                                            @if (quest.Status == GISModel.Enums.Situacao.Ativo)
+                                            {
+                                                <a class="red CustomTooltip" href="#" title="Desativar" onclick="DesativarQuestionario('@quest.UniqueKey.ToString()'); return false;">
+                                                    <i class="ace-icon fa fa-remove bigger-130"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="green CustomTooltip" href="#" title="Ativar" onclick="AtivarQuestionario('@quest.UniqueKey.ToString()'); return false;">
+                                                    <i class="ace-icon fa fa-check bigger-130"></i>
+                                                </a>
+                                            }
 
                                             <a class="blue CustomTooltip" href="@Url.Action("Novo", "Pergunta")?id=@quest.UniqueKey" title="Nova pergunta">
                                                 <i class="ace-icon fa fa-plus-circle green bigger-125"></i>

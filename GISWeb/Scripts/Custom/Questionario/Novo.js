@@ -2,6 +2,8 @@
 
     $.validator.unobtrusive.parse(document);
 
+    AplicaTooltip();
+
 });
 
 function OnBeginCadastrarQuestionario() {

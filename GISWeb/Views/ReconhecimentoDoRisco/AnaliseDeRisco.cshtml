@@ -5,7 +5,7 @@
 @model VMReconhecimento
 
 @{
-    ViewBag.Title = "Reconhecimento Por WorkArea";
+    ViewBag.Title = "Reconhecimento / Questionário Por Empregado";
 }
 
 @if (Model == null)
@@ -18,19 +18,29 @@ else
     <div class="row">
         <div class="col-sm-12 col-xs-12">
             <span class="center bolder" style="float: left; width: 100%; font-size: 20px;">
-                Listagem de reconhecimento dos Riscos da WorkArea: <span class="green">
+                Análise de Risco por Empregado
+            </span>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-12 col-xs-12 center bolder red">
 
-                    <a href="#" class="CustomTooltip" title="Clique para exibir os arquivos" onclick="OnClickBuscarArquivos('@Model.UKWorkArea'); return false;" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                        @Model.WorkArea
-                    </a>
+            WorkArea:
 
-                </span>
+            <span class="green">
+                <a href="#" class="CustomTooltip" title="Clique para exibir os arquivos" onclick="OnClickBuscarArquivos('@Model.UKWorkArea'); return false;" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                    @Model.WorkArea
+                </a>
             </span>
         </div>
     </div>
 
+    <input type="hidden" id="txtUKEmpregado" value="@ViewBag.UKEmpregado" />
+    <input type="hidden" id="txtUKFonteGeradora" value="@ViewBag.UKFonteGeradora" />
+    
 
-    bool firstFonte = false;
+bool firstFonte = false;
     foreach (FonteGeradoraDeRisco font in Model.FontesGeradoras)
     {
         if (!firstFonte)
@@ -42,7 +52,6 @@ else
         {
             <div class="space-22"></div>
         }
-
 
         <div class="row">
             <div class="col-sm-12 col-xs-12">
@@ -188,6 +197,11 @@ else
 
     }
 
+
+    <div class="conteudoQuestionario">
+
+    </div>
+
 }
 
 @section Stylesheets {
@@ -197,5 +211,7 @@ else
 @section Scripts {
     @Scripts.Render("~/bundles/jQ_dataTable")
     @Scripts.Render("~/bundles/ace_js_fileUpload")
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+
     <script src="~/Scripts/Custom/Reconhecimento/Listagem.js"></script>
 }

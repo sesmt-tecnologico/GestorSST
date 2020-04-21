@@ -11,6 +11,8 @@ namespace GISModel.Entidades.Quest
 
         public Guid UKPergunta { get; set; }
 
+        public Guid? UKTipoRespostaItem { get; set; }
+
         public string Resposta { get; set; }
 
     }

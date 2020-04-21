@@ -20,6 +20,9 @@ namespace GISModel.Entidades.Quest
         [Display(Name = "Empregado")]
         public Guid UKEmpregado { get; set; }
 
+        [Display(Name = "Objeto")]
+        public Guid? UKObjeto { get; set; }
+
 
 
         [NotMapped]

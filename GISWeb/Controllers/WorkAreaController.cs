@@ -263,10 +263,13 @@ namespace GISWeb.Controllers
 
 
         [HttpPost]
-        public ActionResult BuscarWorkAreaParaPerfilEmpregado(string UKEstabelecimento)
+        public ActionResult BuscarWorkAreaParaPerfilEmpregado(string UKEstabelecimento, string UKEmpregado)
         {
             try
             {
+
+                ViewBag.UKEmpregado = UKEmpregado;
+
                 List<WorkArea> lista = new List<WorkArea>();
 
                 string sql = @"select wa.UniqueKey, wa.Nome, wa.Descricao, 

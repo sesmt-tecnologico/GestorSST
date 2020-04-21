@@ -1252,10 +1252,13 @@ namespace GISWeb.Controllers
 
         }
 
-        public ActionResult ListaReconhecimentoPorFonteGeradora(string id)
+        public ActionResult AnaliseDeRisco(string id, string UKE)
         {
             try
             {
+                ViewBag.UKEmpregado = UKE;
+                ViewBag.UKFonteGeradora = id;
+
                 string sql = @"select w.UniqueKey as UKWorkArea, w.Nome as workarea, 
                                       f.UniqueKey as UKFonte, f.FonteGeradora, 
                                       per.Descricao as Perigo, 
@@ -1560,10 +1563,10 @@ namespace GISWeb.Controllers
                         }
                     }
 
-                    return View("ReconhecimentoPorFonteGeradora", obj);
+                    return View("AnaliseDeRisco", obj);
                 }
 
-                return View("ReconhecimentoPorWorkArea");
+                return View("AnaliseDeRisco");
             }
 
 

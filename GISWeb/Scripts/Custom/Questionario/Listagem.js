@@ -102,3 +102,57 @@ function deletePergunta(UKPergunta, Ordem) {
 
     ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a pergunta '" + Ordem + "'?", "Exclusão de pergunta", callback, "btn-danger");
 }
+
+function AtivarQuestionario(UKQuestionario) {
+    
+    $('.LoadingLayout').show();
+    $('.page-content-area').ace_ajax('startLoading');
+
+    $.ajax({
+        method: "POST",
+        url: "/Questionario/Ativar",
+        data: { id: UKQuestionario },
+        error: function (erro) {
+            $(".LoadingLayout").hide();
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+            $('.LoadingLayout').hide();
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            TratarResultadoJSON(content.resultado);
+
+            GetQuestionarios();
+        }
+    });
+
+}
+
+function DesativarQuestionario(UKQuestionario) {
+
+    $('.LoadingLayout').show();
+    $('.page-content-area').ace_ajax('startLoading');
+
+    $.ajax({
+        method: "POST",
+        url: "/Questionario/Desativar",
+        data: { id: UKQuestionario },
+        error: function (erro) {
+            $(".LoadingLayout").hide();
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+            $('.LoadingLayout').hide();
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            TratarResultadoJSON(content.resultado);
+
+            GetQuestionarios();
+        }
+    });
+
+}

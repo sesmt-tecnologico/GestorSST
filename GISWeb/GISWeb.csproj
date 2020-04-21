@@ -857,7 +857,9 @@
     <Content Include="Views\Pergunta\NovaPerguntaVinculada.cshtml" />
     <Content Include="Views\Resposta\Index.cshtml" />
     <Content Include="Views\Questionario\_ListarQuestionariosPorEmpresa.cshtml" />
-    <Content Include="Views\ReconhecimentoDoRisco\ReconhecimentoPorFonteGeradora.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\AnaliseDeRisco.cshtml" />
+    <Content Include="Views\Questionario\_BuscarQuestionarioPorEmpregado.cshtml" />
+    <Content Include="Views\Questionario\_BuscarPerguntasVinculadasView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

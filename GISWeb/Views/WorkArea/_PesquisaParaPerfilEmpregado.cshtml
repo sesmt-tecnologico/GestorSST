@@ -16,9 +16,6 @@
                 <li class="dd-item" data-id="@wa.UniqueKey">
                     <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
                         @wa.Nome <span> - </span> @wa.Descricao
-
-                        
-
                     </div>
 
                     @if (wa.FonteGeradoraDeRisco.Count > 0)
@@ -32,7 +29,7 @@
 
                                         <div class="pull-right action-buttons">
 
-                                            <a href="@Url.Action("ListaReconhecimentoPorFonteGeradora", "ReconhecimentoDoRisco", new {id = @fonte.UniqueKey })" class="blue CustomTooltip" title="Análise de Risco">
+                                            <a href="@Url.Action("AnaliseDeRisco", "ReconhecimentoDoRisco", new {id = @fonte.UniqueKey, UKE = ViewBag.UKEmpregado })" class="blue CustomTooltip" title="Análise de Risco">
                                                 <i class="ace-icon fa fa-clipboard red bigger-125"></i>
                                             </a>
 

@@ -127,6 +127,7 @@
     <Compile Include="DTO\Pergunta\VMNovaPerguntaVinculada.cs" />
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />
+    <Compile Include="DTO\Questionario\VMQuestionarioRespondido.cs" />
     <Compile Include="DTO\Shared\RetornoJSON.cs" />
     <Compile Include="DTO\Usuario\VMPesquisaUsuario.cs" />
     <Compile Include="DTO\WorkArea\PesquisaWorkAreaViewModel.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Entidades\UsuarioPerfil.cs" />
     <Compile Include="Entidades\WorkArea.cs" />
     <Compile Include="Entidades\Workflow.cs" />
+    <Compile Include="Enums\EPeriodo.cs" />
     <Compile Include="Enums\ETipoQuestionario.cs" />
     <Compile Include="Enums\ETipoResposta.cs" />
     <Compile Include="Enums\ETrajetoria .cs" />

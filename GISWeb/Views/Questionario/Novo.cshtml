@@ -55,6 +55,36 @@
         </div>
 
         <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Tempo, new { @class = "form-field-select-3 no-padding-right", @style = "padding-left: 12px" })
+
+                    <span class="action-buttons">
+                        &nbsp;
+                        <a>
+                            <i class="ace-icon fa fa-info-circle bigger-110 blue CustomTooltip" title="Qual a frequência que deseja que os empregados desta empresa respondam este questionário?"></i>
+                        </a>
+                    </span>
+
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EditorFor(d => d.Tempo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCNPJ" } })
+                        @Html.ValidationMessageFor(x => x.Tempo, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(d => d.Periodo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.EnumDropDownListFor(x => x.Periodo, "Selecione ...", new { @class = "chosen-select form-control" })
+                        @Html.ValidationMessageFor(x => x.Periodo, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
                 <button class="btn btn-info" id="btnSalvar" type="submit">
                     <i class="ace-icon fa fa-check bigger-110"></i>
