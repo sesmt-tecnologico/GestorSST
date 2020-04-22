@@ -128,6 +128,10 @@
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />
     <Compile Include="DTO\Questionario\VMQuestionarioRespondido.cs" />
+    <Compile Include="DTO\Resposta\VMPesquisaEmpregado.cs" />
+    <Compile Include="DTO\Resposta\VMPesquisaPergunta.cs" />
+    <Compile Include="DTO\Resposta\VMPesquisaQuestionario.cs" />
+    <Compile Include="DTO\Resposta\VMPesquisaResposta.cs" />
     <Compile Include="DTO\Shared\RetornoJSON.cs" />
     <Compile Include="DTO\Usuario\VMPesquisaUsuario.cs" />
     <Compile Include="DTO\WorkArea\PesquisaWorkAreaViewModel.cs" />

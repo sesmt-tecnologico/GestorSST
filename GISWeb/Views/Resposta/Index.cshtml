@@ -1,5 +1,7 @@
 ﻿@using GISModel.Entidades
-@model GISModel.Entidades.Quest.Resposta
+@using GISModel.DTO.Resposta
+@model VMPesquisaResposta
+
 
 
 @{
@@ -19,16 +21,17 @@
     </div>
 </div>
 
-@using (Ajax.BeginForm("Pesquisar", "Resposta", null, new AjaxOptions { 
-                HttpMethod = "POST", 
-                OnBegin = "OnBeginPesquisarContrato", 
-                OnSuccess = "OnSuccessPesquisarContrato" 
-            }, new { @id = "formPesquisaResposta", @class = "form-horizontal", @autocomplete = "off" }))
+@using (Ajax.BeginForm("Pesquisar", "Resposta", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnBegin = "OnBeginPesquisarResposta",
+    OnSuccess = "OnSuccessPesquisarResposta"
+}, new { @id = "formPesquisaResposta", @class = "form-horizontal", @autocomplete = "off" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="row">
-        <div class="col-xs-12 col-sm-4">
+        <div class="col-xs-12 col-sm-6">
             <div class="form-group">
                 @Html.LabelFor(d => d.UKEmpresa, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                 <div class="col-xs-12 col-sm-12">
@@ -36,7 +39,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-4">
+
+        <div class="col-xs-12 col-sm-6">
             <div class="form-group">
                 @Html.LabelFor(d => d.UKQuestionario, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                 <div class="col-xs-12 col-sm-12">
@@ -44,7 +48,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-4">
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.Periodo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(d => d.Periodo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12 date-range-picker" } })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
             <div class="form-group">
                 @Html.LabelFor(d => d.UKEmpregado, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                 <div class="col-xs-12 col-sm-12">
@@ -52,14 +70,23 @@
                 </div>
             </div>
         </div>
+
     </div>
 
 }
 
 <div class="resultadoRespostas"></div>
 
+@section Stylesheets {
+    <link href="~/Content/Ace/css/daterangepicker.css" rel="stylesheet" />
+}
+
 @section Scripts {
     @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Ace/moment.js"></script>
+    <script src="~/Scripts/Ace/daterangepicker.js"></script>
+
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
 
     <script src="~/Scripts/Custom/Resposta/Listagem.js"></script>
 }

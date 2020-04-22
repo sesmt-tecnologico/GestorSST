@@ -860,6 +860,7 @@
     <Content Include="Views\ReconhecimentoDoRisco\AnaliseDeRisco.cshtml" />
     <Content Include="Views\Questionario\_BuscarQuestionarioPorEmpregado.cshtml" />
     <Content Include="Views\Questionario\_BuscarPerguntasVinculadasView.cshtml" />
+    <Content Include="Views\Resposta\_Pesquisar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

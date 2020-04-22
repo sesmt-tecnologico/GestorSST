@@ -10,15 +10,15 @@ namespace GISModel.Entidades.Quest
     {
 
         [Display(Name = "Questionário")]
-        public Guid UKQuestionario { get; set; }
+        public Guid? UKQuestionario { get; set; }
 
 
         [Display(Name = "Empresa")]
-        public Guid UKEmpresa { get; set; }
+        public Guid? UKEmpresa { get; set; }
 
 
         [Display(Name = "Empregado")]
-        public Guid UKEmpregado { get; set; }
+        public Guid? UKEmpregado { get; set; }
 
         [Display(Name = "Objeto")]
         public Guid? UKObjeto { get; set; }
