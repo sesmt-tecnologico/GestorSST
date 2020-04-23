@@ -855,7 +855,9 @@ namespace GISWeb.Controllers.Quest
             {
                 List<Questionario> quests = QuestionarioBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKEmpresa.ToString().Equals(UKEmpresa)).OrderBy(a => a.Nome).ToList();
 
-                return PartialView("_ListarQuestionariosPorEmpresa", quests);
+                return Json(new { data = quests });
+
+                //return PartialView("_ListarQuestionariosPorEmpresa", quests);
             }
             catch (Exception ex)
             {
