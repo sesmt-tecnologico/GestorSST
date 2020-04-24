@@ -40,9 +40,50 @@ namespace GISWeb.Controllers.Quest
         public ActionResult Index()
         {
 
-            ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).OrderBy(a => a.NomeFantasia).ToList();
 
-            return View();
+            bool isSuperAdmin = CustomAuthorizationProvider.UsuarioAutenticado.Permissoes.Where(a => a.Perfil.Equals("Super Administrador")).Count() > 0;
+            if (isSuperAdmin)
+            {
+                ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).OrderBy(a => a.NomeFantasia).ToList();
+                return View();
+            }
+            else
+            {
+                bool isAdmin = CustomAuthorizationProvider.UsuarioAutenticado.Permissoes.Where(a => a.Perfil.Equals("Administrador")).Count() > 0;
+                if (isAdmin)
+                {
+                    VMPesquisaResposta obj = new VMPesquisaResposta();
+
+                    string sql = @"select e.UniqueKey, e.NomeFantasia
+                                   from tbPerfil p, tbUsuarioPerfil up, tbUsuario u, tbEmpresa e
+                                   where p.Nome = 'Administrador' and p.DataExclusao = '9999-12-31 23:59:59.997' and
+	                                     p.UniqueKey = up.UKPerfil and up.DataExclusao = '9999-12-31 23:59:59.997' and up.UKUsuario = '" + CustomAuthorizationProvider.UsuarioAutenticado.UniqueKey.ToString() + @"' and
+	                                     up.UKUsuario = u.UniqueKey and u.DataExclusao = '9999-12-31 23:59:59.997' and
+	                                     u.UKEmpresa = e.UniqueKey and e.DataExclusao = '9999-12-31 23:59:59.997'";
+
+                    List<Empresa> lista = new List<Empresa>();
+                    DataTable result = RespostaBusiness.GetDataTable(sql);
+                    if (result.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in result.Rows)
+                        {
+                            lista.Add(new Empresa()
+                            {
+                                UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                                NomeFantasia = row["NomeFantasia"].ToString()
+                            });
+
+                            obj.UKEmpresa = Guid.Parse(row["UniqueKey"].ToString());
+                        }
+                    }
+
+                    ViewBag.Empresas = lista;
+
+                    return View(obj);
+                }
+
+                throw new Exception("O usuário autenticado no sistema não possui permissão para acessar esta tela.");
+            }
         }
 
         [HttpPost]
@@ -55,11 +96,20 @@ namespace GISWeb.Controllers.Quest
                 string sFrom = string.Empty;
                 string sWhere = string.Empty;
 
+                if (entidade.UKEmpresa == null)
+                    throw new Exception("Selecione uma empresa para prosseguir na pesquisa.");
+
+                if (entidade.UKQuestionario == null && entidade.UKEmpregado == null)
+                    throw new Exception("Selecione um questionário ou um empregado para prosseguir na pesquisa.");
+
+
                 if ((entidade.UKEmpresa == null || entidade.UKEmpresa == Guid.Empty) &&
                     (entidade.UKEmpregado == null || entidade.UKEmpregado == Guid.Empty) &&
                     (entidade.UKQuestionario == null || entidade.UKQuestionario == Guid.Empty) &&
                     string.IsNullOrEmpty(entidade.Periodo))
                     throw new Exception("Informe pelo menos um filtro para prosseguir na pesquisa.");
+
+               
 
                 if (entidade.UKEmpresa != null && entidade.UKEmpresa != Guid.Empty)
                     sWhere += " and r.UKEmpresa = '" + entidade.UKEmpresa.ToString() + "'";
@@ -72,8 +122,8 @@ namespace GISWeb.Controllers.Quest
 
                 if (!string.IsNullOrEmpty(entidade.Periodo))
                 {
-                    string dt1 = entidade.Periodo.Substring(entidade.Periodo.IndexOf(" - "));
-                    string dt2 = entidade.Periodo.Substring(0, entidade.Periodo.IndexOf(" - "));
+                    string dt1 = entidade.Periodo.Substring(0, entidade.Periodo.IndexOf(" - "));
+                    string dt2 = entidade.Periodo.Substring(entidade.Periodo.IndexOf(" - ") + 3);
 
                     DateTime date1 = DateTime.ParseExact(dt1, "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     DateTime date2 = DateTime.ParseExact(dt2, "dd/MM/yyyy", CultureInfo.InvariantCulture);

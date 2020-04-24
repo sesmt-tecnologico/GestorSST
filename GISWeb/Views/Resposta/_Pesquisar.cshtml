@@ -26,9 +26,9 @@
                             {
                                 <li class="dd-item">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
-                                        <span style="width: 400px; float: left;">@quest.Nome</span>
-                                        <span style="width: 400px; float: left;">@quest.DataEnvio.ToString("dd/MM/yyyy")</span>
-                                        <span>@quest.Objeto</span>
+                                        <span class="CustomTooltip" title="Questionário" style="width: 400px; float: left;">@quest.Nome</span>
+                                        <span class="CustomTooltip" title="Data de Envio" style="width: 400px; float: left;">@quest.DataEnvio.ToString("dd/MM/yyyy")</span>
+                                        <span class="CustomTooltip" title="Fonte Geradora de Risco">@quest.Objeto</span>
                                     </div>
 
                                     @if (quest.Perguntas != null && quest.Perguntas.Count > 0)
