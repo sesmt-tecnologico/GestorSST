@@ -32,7 +32,7 @@ namespace GISCore.Business.Concrete
         public override void Alterar(Departamento departamento)
         {
 
-            Departamento tempDepartamento = Consulta.FirstOrDefault(p => p.ID.Equals(departamento.ID));
+            Departamento tempDepartamento = Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(departamento.UniqueKey));
             if (tempDepartamento == null)
             {
                 throw new Exception("Não foi possível encontrar o departamento através do ID.");
@@ -46,7 +46,7 @@ namespace GISCore.Business.Concrete
                 departamento.ID = Guid.NewGuid();
                 departamento.UniqueKey = tempDepartamento.UniqueKey;
                 departamento.UsuarioExclusao = string.Empty;
-                departamento.UKEmpresa = tempDepartamento.UKEmpresa;
+                departamento.UKEmpresa = tempDepartamento.UKEmpresa;                
                 base.Inserir(departamento);
             }
 

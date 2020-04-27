@@ -1,0 +1,164 @@
+﻿@using GISModel.DTO.GerenciamentoDoRisco
+@model VMNovoReconhecimentoControle
+
+    <div id="formEdicaoControle">
+        @using (Ajax.BeginForm("AtualizarControleDeRisco", "ReconhecimentoDoRisco", null, new AjaxOptions
+        {
+            HttpMethod = "POST",
+            OnBegin = "OnBeginAtualizarControle",
+            OnSuccess = "OnSuccessAtualizarControle",
+        }, new { @id = "formEditarControle", @class = "form-horizontal", @autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" class="hidden" name="UKWorkarea" id="UKWorkarea" value="@ViewBag.UKWorkArea" />
+            <input type="hidden" class="hidden" name="UKFonteGeradora" id="UKFonteGeradora" value="@ViewBag.UKFonte" />
+            <input type="hidden" class="hidden" name="UKPerigo" id="UKPerigo" value="@ViewBag.UKPerigo" />
+            <input type="hidden" class="hidden" name="UKRisco" id="UKRisco" value="@ViewBag.UKRisco" />
+            <input type="hidden" class="hidden" name="UKRisco" id="UKReconhecimento" value="@ViewBag.UKReconhecimento" />
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <span><i style="color: orangered">WorkÁrea: </i> @ViewBag.WorkArea</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <span><i style="color: orangered">Fonte Geradora: </i> @ViewBag.FonteGeradora</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <span><i style="color: orangered">Perigo: </i> @ViewBag.Perigo</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <span><i style="color: yellowgreen">Risco Existente: </i> @ViewBag.Risco</span>
+                    </div>
+                </div>
+
+                <div class="space-12"></div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12" style="width: 100%; color: white; background-color: darkseagreen; padding-top: 6px; padding-bottom: 6px;">
+                        <span>RECONHECIMENTO DO RISCO</span>
+                    </div>
+                </div>
+
+                <div class="space-6"></div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            @Html.Label("Classe do risco", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.DropDownListFor(d => d.EClasseDoRisco, ViewBag.Eclasse as SelectList, "Selecione...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                                @Html.ValidationMessageFor(d => d.EClasseDoRisco, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            @Html.Label("Trajetoria", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.DropDownListFor(d => d.Tragetoria, ViewBag.ETrajetoria as SelectList, "Selecione", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                                @Html.ValidationMessageFor(d => d.Tragetoria, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-14"></div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12" style="width: 100%; color: white; background-color: darkseagreen;">
+                        <span style="float: left; margin-top: 7px;">CONTROLE DO RISCO</span>
+
+                        <div class="pull-right">
+                            <button class="btn btn-white btn-info btn-bold CustomTooltip"
+                                    title="Adicionar tipo de controle"
+                                    style="margin-top: 3px; margin-bottom: 3px; padding: 3px 4px 0px 8px;"
+                                    onclick="OnClickNovoTipoControle(); return false;"
+                                    data-target="#modalAddTipoControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="space-6"></div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12" style="padding: 0; margin-bottom: 10px;">
+
+                        @{
+                            string displayAlerta = string.Empty;
+                            if (Model.Controles.Count > 0)
+                            {
+                                displayAlerta = "display: none; ";
+                            }
+
+                        }
+
+                        <div class="alert alert-warning divAlerta" style="@displayAlerta">
+                            Nenhum tipo de controle adicionado até o momento.
+                            <br>
+                        </div>
+
+                        <div class="conteudoTipoDeControle">
+
+                            @if (Model.Controles.Count > 0)
+                            {
+                                <table id="TableTiposDeControle" class="table table-striped table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo de Controle</th>
+                                            <th>Classificação da Medida</th>
+                                            <th>Eficácia</th>
+                                            <th>Link</th>
+                                            <th style="width: 30px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (string[] itens in Model.Controles)
+                                        {
+                                            <tr>
+                                                <td data-uk="@itens[0].Substring(0, itens[0].IndexOf("$"))">@itens[0].Substring(itens[0].IndexOf("$") + 1)</td>
+                                                <td data-uk="@itens[1].Substring(0, itens[1].IndexOf("$"))">@itens[1].Substring(itens[1].IndexOf("$") + 1)</td>
+                                                <td data-uk="@itens[2].Substring(0, itens[2].IndexOf("$"))">@itens[2].Substring(itens[2].IndexOf("$") + 1)</td>
+                                                <td data-uk="@itens[3].Substring(0, itens[3].IndexOf("$"))"><a href="#" onclick="ExibirLink('@itens[3].Substring(0, itens[3].IndexOf("$"))');">@itens[3].Substring(itens[3].IndexOf("$") + 1)</a></td>
+                                                <td>
+                                                    <a href="#" class="CustomTooltip red" title="Excluir Tipo de Controle" onclick="RemoverLinhaTipoDeControle(this);">
+                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-sm-offset-4 align-left">
+                        <button class="btn btn-info" id="btnSalvar" type="submit">
+                            <i class="ace-icon fa fa-check bigger-110"></i>
+                            Salvar
+                        </button>
+                        &nbsp;
+                        <button class="btn btn-warning" id="reset" type="reset">
+                            <i class="ace-icon fa fa-undo bigger-110"></i>
+                            Limpar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>

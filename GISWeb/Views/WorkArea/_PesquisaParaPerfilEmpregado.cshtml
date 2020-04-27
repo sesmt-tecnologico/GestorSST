@@ -16,17 +16,6 @@
                 <li class="dd-item" data-id="@wa.UniqueKey">
                     <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
                         @wa.Nome <span> - </span> @wa.Descricao
-
-                        <div class="pull-right action-buttons">                           
-
-                            <a href="@Url.Action("ListaReconhecimentoPorWorkArea", "ReconhecimentoDoRisco", new {id = @wa.UniqueKey })" class="blue CustomTooltip" title="Analise de Risco">
-                                <i class="ace-icon fa fa-clipboard red bigger-125"></i>
-                            </a>
-
-                        </div>
-
-                        <div class="pull-right action-buttons">
-                        </div>
                     </div>
 
                     @if (wa.FonteGeradoraDeRisco.Count > 0)
@@ -37,6 +26,14 @@
                                 <li class="dd-item" data-id="@fonte.UniqueKey.ToString()">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
                                         <span><i style="color: darkslateblue">Fonte geradora - </i> </span>@fonte.Descricao
+
+                                        <div class="pull-right action-buttons">
+
+                                            <a href="@Url.Action("AnaliseDeRisco", "ReconhecimentoDoRisco", new {id = @fonte.UniqueKey, UKE = ViewBag.UKEmpregado })" class="blue CustomTooltip" title="Análise de Risco">
+                                                <i class="ace-icon fa fa-clipboard red bigger-125"></i>
+                                            </a>
+
+                                        </div>
                                     </div>
 
 

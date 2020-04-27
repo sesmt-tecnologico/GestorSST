@@ -49,8 +49,6 @@ namespace GISWeb.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Risco = RiscoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList().OrderBy(p => p.Nome);
-
             return View();
         }
 

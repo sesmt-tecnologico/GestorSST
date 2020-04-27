@@ -447,6 +447,7 @@
     <Content Include="Scripts\Custom\Funcao\Novo.js" />
     <Content Include="Scripts\Custom\GED\AdicionaArquivos.js" />
     <Content Include="Scripts\Custom\GED\Lista.js" />
+    <Content Include="Scripts\Custom\Link\Edicao.js" />
     <Content Include="Scripts\Custom\Link\Listagem.js" />
     <Content Include="Scripts\Custom\Link\Novo.js" />
     <Content Include="Scripts\Custom\ListaDepartamento\Edicao.js" />
@@ -466,6 +467,7 @@
     <Content Include="Scripts\Custom\Perfil\Edicao.js" />
     <Content Include="Scripts\Custom\Perfil\Listagem.js" />
     <Content Include="Scripts\Custom\Perfil\Novo.js" />
+    <Content Include="Scripts\Custom\Pergunta\Novo.js" />
     <Content Include="Scripts\Custom\Perigo\Edicao.js" />
     <Content Include="Scripts\Custom\Perigo\Excluir.js" />
     <Content Include="Scripts\Custom\Perigo\Listagem.js" />
@@ -476,9 +478,12 @@
     <Content Include="Scripts\Custom\PossiveisDanos\Excluir.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Listagem.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Novo.js" />
+    <Content Include="Scripts\Custom\Questionario\Listagem.js" />
+    <Content Include="Scripts\Custom\Questionario\Novo.js" />
     <Content Include="Scripts\Custom\Reconhecimento\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Novo.js" />
+    <Content Include="Scripts\Custom\Resposta\Listagem.js" />
     <Content Include="Scripts\Custom\Risco\Edicao.js" />
     <Content Include="Scripts\Custom\Risco\Excluir.js" />
     <Content Include="Scripts\Custom\Risco\Listagem.js" />
@@ -490,6 +495,9 @@
     <Content Include="Scripts\Custom\TipoDeRisco\Excluir.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Listagem.js" />
     <Content Include="Scripts\Custom\TipoDeRisco\Novo.js" />
+    <Content Include="Scripts\Custom\TipoRespostaItem\Novo.js" />
+    <Content Include="Scripts\Custom\TipoResposta\Listagem.js" />
+    <Content Include="Scripts\Custom\TipoResposta\Novo.js" />
     <Content Include="Scripts\Custom\UsuarioPerfil\Admin.js" />
     <Content Include="Scripts\Custom\Usuario\Edicao.js" />
     <Content Include="Scripts\Custom\Usuario\Listagem.js" />
@@ -571,6 +579,11 @@
     <Compile Include="Controllers\PermissoesController.cs" />
     <Compile Include="Controllers\PlanoDeAcaoController.cs" />
     <Compile Include="Controllers\PossiveisDanosController.cs" />
+    <Compile Include="Controllers\Quest\PerguntaController.cs" />
+    <Compile Include="Controllers\Quest\QuestionarioController.cs" />
+    <Compile Include="Controllers\Quest\RespostaController.cs" />
+    <Compile Include="Controllers\Quest\TipoRespostaController.cs" />
+    <Compile Include="Controllers\Quest\TipoRespostaItemController.cs" />
     <Compile Include="Controllers\ReconhecimentoDoRiscoController.cs" />
     <Compile Include="Controllers\RiscoController.cs" />
     <Compile Include="Controllers\TipoDeControleController.cs" />
@@ -590,6 +603,7 @@
     <Compile Include="Infraestrutura\Helpers\CaptchaHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\CargoRecursivoHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\DepartamentoRecursivoHelper.cs" />
+    <Compile Include="Infraestrutura\Helpers\QuestionarioRecursivoHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\reCaptchaHelper.cs" />
     <Compile Include="Infraestrutura\Helpers\SSTHelperRazorFactory.cs" />
     <Compile Include="Infraestrutura\Provider\Abstract\ICustomAuthorizationProvider.cs" />
@@ -829,6 +843,23 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Empregado\Desktop.cshtml" />
     <Content Include="Views\Usuario\_Pesquisar.cshtml" />
+    <Content Include="Views\Home\Suporte.cshtml" />
+    <Content Include="Views\Link\Edicao.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\_AtualizarControleDeRisco.cshtml" />
+    <Content Include="Views\Questionario\Index.cshtml" />
+    <Content Include="Views\TipoResposta\Index.cshtml" />
+    <Content Include="Views\TipoResposta\_BuscarTiposDeResposta.cshtml" />
+    <Content Include="Views\TipoResposta\Novo.cshtml" />
+    <Content Include="Views\TipoRespostaItem\Novo.cshtml" />
+    <Content Include="Views\Questionario\_BuscarQuestionarios.cshtml" />
+    <Content Include="Views\Questionario\Novo.cshtml" />
+    <Content Include="Views\Pergunta\Novo.cshtml" />
+    <Content Include="Views\Pergunta\NovaPerguntaVinculada.cshtml" />
+    <Content Include="Views\Resposta\Index.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\AnaliseDeRisco.cshtml" />
+    <Content Include="Views\Questionario\_BuscarQuestionarioPorEmpregado.cshtml" />
+    <Content Include="Views\Questionario\_BuscarPerguntasVinculadasView.cshtml" />
+    <Content Include="Views\Resposta\_Pesquisar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

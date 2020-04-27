@@ -1,4 +1,6 @@
 ﻿using GISModel.CustomAttributes;
+using GISModel.Entidades.Quest;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -33,6 +35,10 @@ namespace GISModel.Entidades
         public string URL_AD { get; set; }
 
         public bool Fornecedor { get; set; }
+
+
+        [NotMapped]
+        public List<Questionario> Questionarios { get; set; }
 
     }
 }

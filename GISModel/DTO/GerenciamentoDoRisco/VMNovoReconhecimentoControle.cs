@@ -12,6 +12,11 @@ namespace GISModel.DTO.GerenciamentoDoRisco
 
         //Reconhecimento ###############################################################
 
+        [Display(Name = "Reconhecimento")]
+        public Guid UKReconhecimento { get; set; }
+
+
+
         [Display(Name = "Workarea")]
         public Guid UKWorkarea { get; set; }
 

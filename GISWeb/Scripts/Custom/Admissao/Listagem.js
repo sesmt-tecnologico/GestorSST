@@ -642,7 +642,7 @@ function Ambiente(idEstabelecimento) {
         $(".LoadingLayout").hide();
         $('#btnSalvar').show();
         TratarResultadoJSON(data.resultado);
-        //ExibirMsgGritter(data.resultado);
+        
         $('#dtExpo').disableSelection();
         $('#dtExpo01').disableSelection();
     }

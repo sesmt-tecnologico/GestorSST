@@ -166,7 +166,6 @@
                         var res = JSON.parse(data.xhr.responseText);
                         console.log(res);
                         TratarResultadoJSON(res.resultado);
-                        ExibirMsgGritter(data.resultado);
                     },
                     error: function (data) {
                         console.log(data);
@@ -174,8 +173,6 @@
                         console.log(res);
                         console.log(res.resultado.Erro);
                         TratarResultadoJSON(res.resultado);
-                        //ExibirMensagemGritter('Oops! Erro:', res.resultado.Erro, 'gritter-error');
-                        ExibirMsgGritter(res.resultado.Erro);
                     }
                     //thumbnail: function (file, dataUrl) {
                     //    if (file.previewElement) {

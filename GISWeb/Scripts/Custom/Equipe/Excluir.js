@@ -42,16 +42,15 @@
 
 });
 
-function OnSuccessExcluirDepartamento(data) {
-    $('#formExcluirDepartamento').removeAttr('style');
-    $(".LoadingLayout").hide();
-    $('#blnSalvar').show();
-    TratarResultadoJSON(data.resultado);
-    ExibirMsgGritter(data.resultado);
-}
 
 function OnBeginExcluirDepartamento() {
     $(".LoadingLayout").show();
-    $('#blnSalvar').hide();
-    $("#formExcluirDepartamento").css({ opacity: "0.5" });
+    $('.page-content-area').ace_ajax('startLoading');
+}
+
+function OnSuccessExcluirDepartamento(data) {
+    $(".LoadingLayout").hide();
+    $('.page-content-area').ace_ajax('stopLoading', true);
+    
+    TratarResultadoJSON(data.resultado);
 }

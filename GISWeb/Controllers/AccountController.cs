@@ -32,6 +32,12 @@ namespace GISWeb.Controllers
             [Inject]
             public IEmpregadoBusiness EmpregadoBusiness { get; set; }
 
+            [Inject]
+            public IDepartamentoBusiness DepartamentoBusiness { get; set; }
+
+            [Inject]
+            public IEmpresaBusiness EmpresaBusiness { get; set; }
+
         #endregion
 
         public ActionResult Login(string path)
@@ -96,7 +102,27 @@ namespace GISWeb.Controllers
         [DadosUsuario]
         public ActionResult Perfil()
         {
-            return View(AutorizacaoProvider.UsuarioAutenticado);
+
+            Usuario usr = UsuarioBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(AutorizacaoProvider.UsuarioAutenticado.UniqueKey));
+
+            AutenticacaoModel aut = AutorizacaoProvider.UsuarioAutenticado;
+            aut.Telefone = usr.Telefone;
+
+            try
+            {
+                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(usr.UKDepartamento));
+                aut.Departamento = dep.Sigla + " [" + dep.Codigo + "]";
+            }
+            catch { }
+
+            try
+            {
+                Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(usr.UKEmpresa));
+                aut.Empresa = emp.NomeFantasia;
+            }
+            catch { }
+
+            return View(aut);
         }
 
         [HttpPost]

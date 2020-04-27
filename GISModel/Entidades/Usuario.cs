@@ -26,6 +26,8 @@ namespace GISModel.Entidades
         [DataType(DataType.EmailAddress, ErrorMessage = "Informe um e-mail válido")]
         public string Email { get; set; }
 
+        public string Telefone { get; set; }
+
 
 
         [Display(Name = "Empresa")]

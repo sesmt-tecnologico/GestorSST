@@ -20,7 +20,7 @@
         HttpMethod = "POST",
         OnBegin = "OnBeginCadastrarDocumento",
         OnSuccess = "OnSuccessCadastrarDocumento",
-    }, new { @id = "formCadastroDocumento", @class = "form-horizontal" }))
+    }, new { @id = "formCadastroDocumento", @class = "form-horizontal", @autocomplete = "off" }))
     {
         @Html.AntiForgeryToken()
 

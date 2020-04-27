@@ -40,7 +40,7 @@
         }
         else
         {
-            using (Ajax.BeginForm("Atualizar", "Empresa", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginAtualizarEmpresa", OnSuccess = "OnSuccessAtualizarEmpresa", }, new { @id = "formEdicaoEmpresa", @class = "form-horizontal" }))
+            using (Ajax.BeginForm("Atualizar", "Empresa", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginAtualizarEmpresa", OnSuccess = "OnSuccessAtualizarEmpresa", }, new { @id = "formEdicaoEmpresa", @class = "form-horizontal", @autocomplete = "off" }))
             {
                 @Html.AntiForgeryToken()
 
@@ -52,6 +52,7 @@
                                 @Html.EditorFor(d => d.CNPJ, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCNPJ" } })
                                 @Html.ValidationMessageFor(d => d.CNPJ, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
                                 @Html.HiddenFor(d => d.ID)
+                                @Html.HiddenFor(d => d.UniqueKey)
                             </div>
                         </div>
                     </div>

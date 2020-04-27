@@ -43,7 +43,7 @@
     }
     else
     {
-        using (Ajax.BeginForm("Atualizar", "Contrato", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginAtualizarContrato", OnSuccess = "OnSuccessAtualizarContrato", }, new { @id = "formEdicaoContrato", @class = "form-horizontal" }))
+        using (Ajax.BeginForm("Atualizar", "Contrato", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginAtualizarContrato", OnSuccess = "OnSuccessAtualizarContrato", }, new { @id = "formEdicaoContrato", @class = "form-horizontal", @autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
 

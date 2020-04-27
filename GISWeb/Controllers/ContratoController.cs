@@ -479,13 +479,13 @@ namespace GISWeb.Controllers
                 if (!string.IsNullOrEmpty(entidade.UKDepartamento))
                 {
                     sFrom = ", REL_DepartamentoContrato r2 ";
-                    sWhere += " and o.UniqueKey = r2.UKContrato and r2.UsuarioExclusao is null and r2.UKDepartamento = '" + entidade.UKDepartamento + "'";
+                    sWhere += " and o.UniqueKey = r2.UKContrato and r2.DataExclusao = '9999-12-31 23:59:59.997' and r2.UKDepartamento = '" + entidade.UKDepartamento + "'";
                 }
 
                 if (!string.IsNullOrEmpty(entidade.UKSubContratada))
                 {
                     sFrom += ", REL_ContratoFornecedor r3 ";
-                    sWhere += " and o.UniqueKey = r3.UKContrato and r3.TipoContratoFornecedor = 1 and r3.UsuarioExclusao is null and r3.UKFornecedor = '" + entidade.UKSubContratada + "'";
+                    sWhere += " and o.UniqueKey = r3.UKContrato and r3.TipoContratoFornecedor = 1 and r3.DataExclusao = '9999-12-31 23:59:59.997' and r3.UKFornecedor = '" + entidade.UKSubContratada + "'";
                 }
 
                 string sql = @"select top 100 o.UniqueKey, o.Numero, o.DataInicio, o.DataFim,
@@ -504,7 +504,7 @@ namespace GISWeb.Controllers
                                from tbcontrato o, REL_ContratoFornecedor r1, tbEmpresa f " + sFrom + @"
                                where o.DataExclusao = '9999-12-31 23:59:59.997' and r1.DataExclusao = '9999-12-31 23:59:59.997' and
 	                                 o.UniqueKey = r1.UKContrato and r1.TipoContratoFornecedor = 0 and
-	                                 r1.UKFornecedor = f.UniqueKey and f.UsuarioExclusao is null " + sWhere + @"
+	                                 r1.UKFornecedor = f.UniqueKey and f.DataExclusao = '9999-12-31 23:59:59.997' " + sWhere + @"
                                order by o.Numero";
 
                 List<VMPesquisaContrato> lista = new List<VMPesquisaContrato>();

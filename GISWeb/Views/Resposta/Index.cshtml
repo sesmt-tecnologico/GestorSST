@@ -1,0 +1,92 @@
+﻿@using GISModel.Entidades
+@using GISModel.DTO.Resposta
+@model VMPesquisaResposta
+
+
+
+@{
+    ViewBag.Title = "Pesquisa de Contratos";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Pesquisa de Respostas
+
+            <button id="btnLocalizarRespostas" class="btn btn-primary btnPesquisar" style="float: right; border: 0px; border-bottom: 2px; margin-top: -2px; height: 34px;">
+                <i class="ace-icon fa fa-search"></i>
+                Pesquisar
+            </button>
+        </h3>
+    </div>
+</div>
+
+@using (Ajax.BeginForm("Pesquisar", "Resposta", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnBegin = "OnBeginPesquisarResposta",
+    OnSuccess = "OnSuccessPesquisarResposta"
+}, new { @id = "formPesquisaResposta", @class = "form-horizontal", @autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.UKEmpresa, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.UKEmpresa, new SelectList(ViewBag.Empresas, "UniqueKey", "NomeFantasia"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.UKQuestionario, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.UKQuestionario, new SelectList(new List<EntidadeBase>(), "UniqueKey", "Nome"), new { @class = "chosen-select form-control tag-input-style", @data_placeholder = "Selecione antes uma empresa", @autocomplete = "on" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.Periodo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(d => d.Periodo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12 date-range-picker" } })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.UKEmpregado, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.UKEmpregado, new SelectList(new List<EntidadeBase>(), "UniqueKey", "Nome"), new { @class = "chosen-select form-control tag-input-style", @data_placeholder = "Selecione antes uma empresa", @autocomplete = "on" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+<div class="resultadoRespostas"></div>
+
+@section Stylesheets {
+    <link href="~/Content/Ace/css/daterangepicker.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Ace/moment.js"></script>
+    <script src="~/Scripts/Ace/daterangepicker.js"></script>
+
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+
+    <script src="~/Scripts/Custom/Resposta/Listagem.js"></script>
+}

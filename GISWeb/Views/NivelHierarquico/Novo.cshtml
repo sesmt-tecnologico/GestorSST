@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    @using (Ajax.BeginForm("Cadastrar", "NivelHierarquico", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarNivel", OnSuccess = "OnSuccessCadastrarNivel", }, new { @id = "formCadastroNivel", @class = "form-horizontal" }))
+    @using (Ajax.BeginForm("Cadastrar", "NivelHierarquico", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarNivel", OnSuccess = "OnSuccessCadastrarNivel", }, new { @id = "formCadastroNivel", @class = "form-horizontal", @autocomplete = "off" }))
     {
         @Html.AntiForgeryToken()
 

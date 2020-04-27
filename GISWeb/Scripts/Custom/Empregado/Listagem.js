@@ -4,12 +4,69 @@
 
     Chosen();
 
+    DatePTBR();
+
+    AplicaDateRangePicker();
+
     $(".btnPesquisar").off("click").on("click", function () {
         $("#formPesquisaEmpregado").submit();
     });
 
+    $("#Cargo").off("change").on("change", function () {
+        
+        if ($(this).val() == "") {
+            $('#Funcao').empty();
 
+            $('#Funcao').append($('<option>', {
+                value: "",
+                text: "Selecione antes um cargo..."
+            }));
 
+            $("#Funcao").trigger("chosen:updated");
+        }
+        else {
+            $('.page-content-area').ace_ajax('startLoading');
+
+            $.ajax({
+                method: "POST",
+                url: "/Funcao/BuscarFuncoesPorCargoParaSelect",
+                data: { id: $(this).val() },
+                error: function (erro) {
+                    $('.page-content-area').ace_ajax('stopLoading', true);
+                    ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                },
+                success: function (content) {
+                    $('.page-content-area').ace_ajax('stopLoading', true);
+
+                    if (content.erro != null && content.erro != undefined && content.erro != "") {
+                        ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                    }
+                    else {
+                        $('#Funcao').empty();
+
+                        $('#Funcao').append($('<option>', {
+                            value: "",
+                            text: "Selecione uma função..."
+                        }));
+
+                        $("#Funcao").attr("placeholder", "Selecione uma função...");
+
+                        for (var i = 0; i < content.data.length; i++) {
+                            $('#Funcao').append($('<option>', {
+                                value: content.data[i].UniqueKey,
+                                text: content.data[i].NomeDaFuncao
+                            }));
+                        }
+
+                        $("#Funcao").trigger("chosen:updated");
+
+                    }
+                }
+            });
+
+        }
+
+    });
 
 });
 
@@ -25,8 +82,8 @@ function OnFailurePesquisaEmpregado() {
 function OnSuccessPesquisaEmpregado(content) {
     $('.page-content-area').ace_ajax('stopLoading', true);
 
-    if (content.resultado != null && content.resultado.erro != null && content.resultado.erro != undefined && content.resultado.erro != "") {
-        ExibirMensagemDeErro(content.resultado.erro);
+    if (content.resultado != null && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+        ExibirMensagemDeErro(content.resultado.Erro);
     }
     else {
         $("#PesquisaEmpregado").hide();
@@ -47,316 +104,3 @@ function OnSuccessPesquisaEmpregado(content) {
         }
     }
 }
-
-
-//function BuscarDetalhesEstabelecimentoImagens(IDEstabelecimentoImagens) {
-
-//    $(".LoadingLayout").show();
-
-//    $.ajax({
-//        method: "POST",
-//        url: "/EstabelecimentoImagens/BuscarDetalhesEstabelecimentoImagens",
-//        data: { idEstabelecimento: IDEstabelecimentoImagens },
-//        error: function (erro) {
-//            $(".LoadingLayout").hide();
-//            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-//        },
-//        success: function (content) {
-//            $(".LoadingLayout").hide();
-
-//            if (content.data != null) {
-//                bootbox.dialog({
-//                    message: content.data,
-//                    title: "<span class='bigger-110'>Detalhes do Estabelecimento</span>",
-//                    backdrop: true,
-//                    locale: "br",
-//                    buttons: {},
-//                    onEscape: true
-//                });
-//            }
-//            else {
-//                TratarResultadoJSON(content.resultado);
-//            }
-
-//        }
-//    });
-
-//}
-
-//function BuscarDetalhesDosRiscos(IDEstabelecimentoImagens) {
-
-//    $(".LoadingLayout").show();
-
-//    $.ajax({
-//        method: "POST",
-//        url: "/AtividadesDoEstabelecimento/BuscarDetalhesDosRiscos",
-//        data: { idEstabelecimento: IDEstabelecimentoImagens },
-//        error: function (erro) {
-//            $(".LoadingLayout").hide();
-//            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-//        },
-//        success: function (content) {
-//            $(".LoadingLayout").hide();
-
-//            if (content.data != null) {
-//                bootbox.dialog({
-//                    message: content.data,
-//                    title: "<span class='bigger-110'>Detalhes do Ambiente</span>",
-//                    backdrop: true,
-//                    locale: "br",
-//                    buttons: {},
-//                    onEscape: true
-//                });
-//            }
-//            else {
-//                TratarResultadoJSON(content.resultado);
-//            }
-
-//        }
-//    });
-
-//}
-
-//function BuscarDetalhesDaAtividadeRisco(IDAtividadeaRiscos) {
-
-//    $(".LoadingLayout").show();
-
-//    $.ajax({
-//        method: "POST",
-//        url: "/TipoDeRisco/BuscarDetalhesDaAtividadeRisco",
-//        data: { idTipoDeRisco: IDAtividadeaRiscos },
-//        error: function (erro) {
-//            $(".LoadingLayout").hide();
-//            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-//        },
-//        success: function (content) {
-//            $(".LoadingLayout").hide();
-
-//            if (content.data != null) {
-//                bootbox.dialog({
-//                    message: content.data,
-//                    title: "<span class='bigger-110'>Riscos da Função</span>",
-//                    backdrop: true,
-//                    locale: "br",
-//                    buttons: {},
-//                    onEscape: true
-//                });
-//            }
-//            else {
-//                TratarResultadoJSON(content.resultado);
-//            }
-
-//        }
-//    });
-
-//}
-
-//function BuscarDetalhesDeMedidasDeControleEstabelecimento(IDAtividadesDoEstabelecimento) {
-
-//    $(".LoadingLayout").show();
-
-//    $.ajax({
-//        method: "POST",
-//        url: "/MedidasDeControle/BuscarDetalhesDeMedidasDeControleEstabelecimento",
-//        data: { IDAtividadesDoEstabelecimento: IDAtividadesDoEstabelecimento },
-//        error: function (erro) {
-//            $(".LoadingLayout").hide();
-//            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-//        },
-//        success: function (content) {
-//            $(".LoadingLayout").hide();
-
-//            if (content.data != null) {
-//                bootbox.dialog({
-//                    message: content.data,
-//                    title: "<span class='bigger-110'>Controles</span>",
-//                    backdrop: true,
-//                    locale: "br",
-//                    buttons: {},
-//                    onEscape: true
-//                });
-//            }
-//            else {
-//                TratarResultadoJSON(content.resultado);
-//            }
-
-//        }
-//    });
-
-//}
-
-
-
-
-
-//function BuscarDetalhesDeMedidasDeControle(IDEstabelecimentoImagens) {
-
-//    $(".LoadingLayout").show();
-
-//    $.ajax({
-//        method: "POST",
-//        url: "/MedidasDeControle/BuscarDetalhesDeMedidasDeControle",
-//        data: { idEstabelecimento: IDEstabelecimentoImagens },
-//        error: function (erro) {
-//            $(".LoadingLayout").hide();
-//            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-//        },
-//        success: function (content) {
-//            $(".LoadingLayout").hide();
-
-//            if (content.data != null) {
-//                bootbox.dialog({
-//                    message: content.data,
-//                    title: "<span class='bigger-110'>Detalhes do Ambiente</span>",
-//                    backdrop: true,
-//                    locale: "br",
-//                    buttons: {},
-//                    onEscape: true
-//                });
-//            }
-//            else {
-//                TratarResultadoJSON(content.resultado);
-//            }
-
-//        }
-//    });
-
-//}
-
-//function BuscarDetalhesEmpregado(idEmpregado) {
-
-//    $(".LoadingLayout").show();
-
-//    $.ajax({
-//        method: "POST",
-//        url: "/Empregado/BuscarDetalhesEmpregado",
-//        data: { idEmpregado: idEmpregado },
-//        error: function (erro) {
-//            $(".LoadingLayout").hide();
-//            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-//        },
-//        success: function (content) {
-//            $(".LoadingLayout").hide();
-
-//            if (content.data != null) {
-//                bootbox.dialog({
-//                    message: content.data,
-//                    title: "<span class='bigger-110'>Detalhes do Empregado</span>",
-//                    backdrop: true,
-//                    locale: "br",
-//                    buttons: {},
-//                    onEscape: true
-//                });
-//            }
-//            else {
-//                TratarResultadoJSON(content.resultado);
-//            }
-
-//        }
-//    });
-//}
-
-    
-
-
-//    function BuscarDetalhesDeMedidasDeControle(IDMedidasDeControleRiscoFuncao) {
-
-//        $(".LoadingLayout").show();
-
-//        $.ajax({
-//            method: "POST",
-//            url: "/Empregado/BuscarDetalhesDeMedidasDeControle",
-//            data: { IDMedidasDeControleRiscoFuncao: IDMedidasDeControleRiscoFuncao },
-//            error: function (erro) {
-//                $(".LoadingLayout").hide();
-//                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-//            },
-//            success: function (content) {
-//                $(".LoadingLayout").hide();
-
-//                if (content.data != null) {
-//                    bootbox.dialog({
-//                        message: content.data,
-//                        title: "<span class='bigger-110'>Medidas de Controle dos Riscos da Função</span>",
-//                        backdrop: true,
-//                        locale: "br",
-//                        buttons: {},
-//                        onEscape: true
-//                    });
-//                }
-//                else {
-//                    TratarResultadoJSON(content.resultado);
-//                }
-
-//            }
-//        });
-
-
-//    }
-
-
-//function BuscarDetalhesEmpresa(IDEmpresa) {
-    
-//    $(".LoadingLayout").show();
-
-//    $.ajax({
-//        method: "POST",
-//        url: "/Estabelecimento/BuscarEstabelecimentoPorID",
-//        data: { idEstabelecimento: IDEstabelecimento },
-//        error: function (erro) {
-//            $(".LoadingLayout").hide();
-//            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-//        },
-//        success: function (content) {
-//            $(".LoadingLayout").hide();
-            
-//            if (content.data != null) {
-//                bootbox.dialog({
-//                    message: content.data,
-//                    title: "<span class='bigger-110'>Detalhes da Empresa</span>",
-//                    backdrop: true,
-//                    locale: "br",
-//                    buttons: {},
-//                    onEscape: true
-//                });
-//            }
-//            else {
-//                TratarResultadoJSON(content.resultado);
-//            }
-
-//        }
-//    });
-
-//}
-
-//function DeletarEmpresa(IDEmpresa, Nome) {
-    
-//    var callback = function () {
-//        $('.LoadingLayout').show();
-//        $('#dynamic-table').css({ opacity: "0.5" });
-
-//        $.ajax({
-//            method: "POST",
-//            url: "/Empresa/Terminar",
-//            data: { IDEmpresa: IDEmpresa },
-//            error: function (erro) {
-//                $(".LoadingLayout").hide();
-//                $("#dynamic-table").css({ opacity: '' });
-//                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
-//            },
-//            success: function (content) {
-//                $('.LoadingLayout').hide();
-//                $("#dynamic-table").css({ opacity: '' });
-
-//                TratarResultadoJSON(content.resultado);
-
-//                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
-//                    $("#linha-" + IDEmpresa).remove();
-//                }
-//            }
-//        });
-//    };
-
-//    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a empresa '" + Nome + "'?", "Exclusão de Empresa", callback, "btn-danger");
-
-//}

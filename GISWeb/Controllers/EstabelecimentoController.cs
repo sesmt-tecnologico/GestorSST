@@ -13,6 +13,8 @@ using GISWeb.Infraestrutura.Provider.Concrete;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using GISModel.DTO.Estabelecimento;
 using System.Collections.Generic;
+using System.Data;
+using GISModel.Enums;
 
 namespace GISWeb.Controllers
 {
@@ -47,19 +49,12 @@ namespace GISWeb.Controllers
         public ActionResult Index()
         {
 
-
-            ViewBag.Estabelecimento = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
-            ViewBag.Departamento = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+            ViewBag.Departamentos = DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 
             return View();
         }
 
-        public ActionResult Lista()
-        {
-            ViewBag.Estabelecimento = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 
-            return View();
-        }
 
         public ActionResult Novo()
         {
@@ -68,13 +63,6 @@ namespace GISWeb.Controllers
 
 
             return View();
-        }
-
-        public ActionResult ListarEstabelecimentoPorDepartamento(string idDepartamento)
-        {
-
-            return Json(new { resultado = EstabelecimentoBusiness.Consulta.Where(p => p.ID.Equals(idDepartamento)).ToList().OrderBy(p => p.ID) });
-
         }
 
         [HttpPost]
@@ -147,6 +135,9 @@ namespace GISWeb.Controllers
             }
         }
 
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult PesquisarEstabelecimento(PesquisaEstabelecimentoViewModel entidade)
@@ -154,29 +145,56 @@ namespace GISWeb.Controllers
             try
             {
 
+                string sWhere = string.Empty;
 
-                var dep = from r in REL_EstabelecimentoDepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                          join e in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                          on r.UKEstabelecimento equals e.UniqueKey
-                          join d in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                          on r.UKDepartamento equals d.UniqueKey
+                if (entidade.TipoDeEstabelecimento == null &&
+                    string.IsNullOrEmpty(entidade.Codigo) &&
+                    string.IsNullOrEmpty(entidade.NomeCompleto) &&
+                    string.IsNullOrEmpty(entidade.Descricao) &&
+                    entidade.UKDepartamento == Guid.Empty)
+                    throw new Exception("Informe pelo menos um filtro para prosseguir na pesquisa.");
 
-                          where e.ID.Equals(entidade.IDEstabelecimento)
+                if (entidade.TipoDeEstabelecimento != null)
+                    sWhere += " and e.TipoDeEstabelecimento = " + ((int)entidade.TipoDeEstabelecimento).ToString() + "";
 
-                          select new PesquisaEstabelecimentoViewModel()
-                          {
-                              UniqueKey = e.UniqueKey,
-                              UKDepartamento = d.UniqueKey,
-                              Codigo = d.Codigo,
-                              NomeEstabelecimento = e.NomeCompleto,
-                              TipoDeEstabelecimento = e.TipoDeEstabelecimento,
-                              IDEstabelecimento = e.ID,
-                              Sigla = d.Sigla
-                             
+                if (!string.IsNullOrEmpty(entidade.Codigo))
+                    sWhere += " and e.Codigo = '" + entidade.Codigo + "'";
 
-                          };
+                if (!string.IsNullOrEmpty(entidade.NomeCompleto))
+                    sWhere += " and e.NomeCompleto like '" + entidade.NomeCompleto.Replace("*", "%") + "'";
 
-                List<PesquisaEstabelecimentoViewModel> lista = dep.ToList();
+                if (!string.IsNullOrEmpty(entidade.Descricao))
+                    sWhere += " AND e.Descricao = '" + entidade.Descricao + "'";
+
+                if (entidade.UKDepartamento != Guid.Empty)
+                {
+                    sWhere += " and d.UniqueKey = '" + entidade.UKDepartamento + "'";
+                }
+
+                string sql = @"select top 100 e.UniqueKey, e.Codigo, e.NomeCompleto, d.UniqueKey as ukDep, d.Sigla as SiglaDep, d.Codigo as CodDep, e.TipoDeEstabelecimento
+                               from tbestabelecimento e, REL_EstabelecimentoDepartamento rel, tbDepartamento d
+                               where e.UniqueKey = rel.UKEstabelecimento and e.DataExclusao = '9999-12-31 23:59:59.997' and
+	                                 rel.UKDepartamento = d.UniqueKey and rel.DataExclusao = '9999-12-31 23:59:59.997' and
+	                                 d.DataExclusao = '9999-12-31 23:59:59.997' "  + sWhere + @"
+                               order by e.NomeCompleto";
+
+                List<PesquisaEstabelecimentoViewModel> lista = new List<PesquisaEstabelecimentoViewModel>();
+                DataTable result = EstabelecimentoBusiness.GetDataTable(sql);
+                if (result.Rows.Count > 0)
+                {
+                    foreach (DataRow row in result.Rows)
+                    {
+                        lista.Add(new PesquisaEstabelecimentoViewModel()
+                        {
+                            UniqueKey = Guid.Parse(row["UniqueKey"].ToString()),
+                            Codigo = row["Codigo"].ToString(),
+                            NomeCompleto = row["NomeCompleto"].ToString(),
+                            TipoDeEstabelecimento = (TipoEstabelecimento)Enum.Parse(typeof(TipoEstabelecimento), row["TipoDeEstabelecimento"].ToString(), true),
+                            UKDepartamento = Guid.Parse(row["ukDep"].ToString()),
+                            Departamento = row["SiglaDep"].ToString() + " [" + row["CodDep"].ToString() + "]"
+                        });
+                    }
+                }
 
                 return PartialView("_Pesquisa", lista);
             }
@@ -186,6 +204,8 @@ namespace GISWeb.Controllers
             }
         }
 
+
+
         public ActionResult Edicao(Guid Uk)
         {
 
@@ -194,36 +214,6 @@ namespace GISWeb.Controllers
             ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
 
             return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.UniqueKey.Equals(Uk)));
-
-            //Guid Guid = Guid.Parse(id);
-
-            //EdicaoEstabelecimentoViewModel obj = null;
-
-            //Estabelecimento oEstabelecimento = EstabelecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(Guid));
-            //if (oEstabelecimento != null)
-            //{
-            //    ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "IDDepartamento", "Sigla");
-            //    ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
-
-            //    obj = new EdicaoEstabelecimentoViewModel()
-            //    {
-
-            //        IDEstabelecimento = oEstabelecimento.ID,
-            //        NomeEstabelecimento = oEstabelecimento.NomeCompleto,
-            //        TipoDeEstabelecimento = oEstabelecimento.TipoDeEstabelecimento,
-
-            //    };
-
-            //    //REL_EstabelecimentoDepartamento rel_1 = REL_EstabelecimentoDepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEstabelecimento.Equals(obj.UniqueKey));
-
-            //    //obj.UKDepartamento = rel_1.UniqueKey;
-
-
-
-            //}
-
-            //return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(Guid)));
-
         }
 
         [HttpPost]
@@ -287,54 +277,7 @@ namespace GISWeb.Controllers
             }
         } 
 
-        public ActionResult Excluir(string id)
-        {
-            ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.ToList(), "IDEmpresa", "NomeFantasia");
-            return View(EstabelecimentoBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(id)));
-
-        }
-
-        [HttpPost]
-        public ActionResult Excluir(Estabelecimento oEstabelecimento)
-        {
-
-            try
-            {
-
-                if (oEstabelecimento == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o Estabelecimento, pois o mesmo não foi localizado." } });
-                }
-                else
-                {
-
-                    //oEstabelecimento.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login;
-                    //oEstabelecimento.UKUsuarioDemissao = CustomAuthorizationProvider.UsuarioAutenticado.Usuario.Login;
-
-                    oEstabelecimento.UsuarioExclusao = "Antonio Henriques";
-                    oEstabelecimento.DataExclusao = DateTime.Now;
-                    EstabelecimentoBusiness.Excluir(oEstabelecimento);
-
-                    Extensions.GravaCookie("MensagemSucesso", "O Estabelecimento '" + oEstabelecimento.NomeCompleto + "' foi excluido com sucesso.", 10);
-
-                   
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Departamento") } });
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetBaseException() == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-                }
-                else
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
-                }
-            }
-
-
-        }
+        
 
         [HttpPost]
         public ActionResult Terminar(string id)
@@ -344,12 +287,12 @@ namespace GISWeb.Controllers
             {
                 Estabelecimento dep = EstabelecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(ID));
                 if (dep == null)
-                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o departamento, pois a mesmo não foi localizado." } });
+                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir o estabelecimento, pois o mesmo não foi localizado." } });
 
                 dep.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                 EstabelecimentoBusiness.Terminar(dep);
 
-                return Json(new { resultado = new RetornoJSON() { Sucesso = "O departamento '" + dep.NomeCompleto + "' foi excluído com sucesso." } });
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "O estabelecimento '" + dep.NomeCompleto + "' foi excluído com sucesso." } });
 
             }
             catch (Exception ex)
@@ -366,6 +309,34 @@ namespace GISWeb.Controllers
 
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public ActionResult Lista()
+        {
+            ViewBag.Estabelecimento = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+
+            return View();
+        }
+
+        public ActionResult ListarEstabelecimentoPorDepartamento(string idDepartamento)
+        {
+
+            return Json(new { resultado = EstabelecimentoBusiness.Consulta.Where(p => p.ID.Equals(idDepartamento)).ToList().OrderBy(p => p.ID) });
+
+        }
+
 
     }
 }

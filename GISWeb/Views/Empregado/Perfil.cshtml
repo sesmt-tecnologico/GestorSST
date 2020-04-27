@@ -205,7 +205,7 @@
                     {
                         List<VMPermissao> permissoes = (List<VMPermissao>)ViewBag.Permissoes;
 
-                        if (permissoes.Where(a => a.Perfil.Equals("Administrador")).Count() > 0)
+                        if (permissoes.Where(a => a.Perfil.Equals("Administrador") || a.Perfil.Equals("Super Administrador")).Count() > 0)
                         {
                             podeEditar = true;
                         }

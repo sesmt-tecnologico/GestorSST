@@ -16,7 +16,7 @@
 
 
 
-@using (Ajax.BeginForm("Cadastrar", "AtividadeAlocada", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarAtividadeAlocada", OnSuccess = "OnSuccessCadastrarAtividadeAlocada", }, new { @id = "formCadastroAtividadeAlocada", @class = "form-horizontal" }))
+@using (Ajax.BeginForm("Cadastrar", "AtividadeAlocada", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarAtividadeAlocada", OnSuccess = "OnSuccessCadastrarAtividadeAlocada", }, new { @id = "formCadastroAtividadeAlocada", @class = "form-horizontal", @autocomplete = "off" }))
 {
     @Html.AntiForgeryToken()
 

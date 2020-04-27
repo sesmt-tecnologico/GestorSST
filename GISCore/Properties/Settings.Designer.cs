@@ -22,15 +22,5 @@ namespace GISCore.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://web.cemig.com.br/gedoc/spf.custom.ws.gedocapp/cartaocorporativo.asmx")]
-        public string GISCore_WSAutenticacao_CartaoCorporativo {
-            get {
-                return ((string)(this["GISCore_WSAutenticacao_CartaoCorporativo"]));
-            }
-        }
     }
 }

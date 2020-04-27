@@ -45,160 +45,7 @@ namespace GISCore.Business.Concrete
 
             if (lUsuarios.Count == 0)
             {
-                //throw new Exception("Não foi possível identificar o seu cadastro.");
-
-
-                //Este código é específico para a CEMIG, logo, se eu encontrar o login na rede da cemig, eu assumo que é integração com AD e não pelo sistema
-
-                CEMIGInfoService.InfoServiceClient wfInfo = new CEMIGInfoService.InfoServiceClient();
-                CEMIGInfoService.Empregado emp = wfInfo.RecuperarDadosEmpregado(new CEMIGInfoService.DadosEmpregado()
-                {
-                    ChaveAcesso = autenticacaoModel.Login,
-                    IgnorarDesligamento = true
-                });
-
-                if (emp == null)
-                {
-                    throw new Exception("Não foi possível identificar o cadastro '" + autenticacaoModel.Login + "'.");
-                }
-                else
-                {
-                    Empresa empresa = EmpresaBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.NomeFantasia.Equals(emp.Empresa.Nome));
-                    if (empresa == null)
-                    {
-                        throw new Exception("A empresa vinculada a chave '" + autenticacaoModel.Login + "' não está cadastrada. Acione o Administrador do sistema para a regularização.");
-                    }
-
-                    Empresa empBase = EmpresaBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.NomeFantasia.Equals("CEMIG"));
-                    if (empBase == null)
-                    {
-                        empBase = empresa;
-                    }
-
-                    Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Sigla.Equals(emp.Orgao.Sigla));
-                    if (dep == null)
-                    {
-                        //Criar órgão
-
-                        //Buscar Hierarquia dos órgãos
-                        List<CEMIGInfoService.Orgao> estrutura = DefinirHierarquiaOrganizacional(emp.Orgao.UA, wfInfo);
-                        if (estrutura?.Count == 0)
-                        {
-                            throw new Exception("Não foi localizado o órgão da chave '" + autenticacaoModel.Login + "'. Acione o Administrador do sistema para a regularização.");
-                        }
-                        else
-                        {
-                            Departamento depAnterior = null;
-                            int i = 0;
-                            List<NivelHierarquico> niveis = DepartamentoBusiness.BuscarNiveis();
-                            for (i = estrutura.Count - 1; i >= 0; i--)
-                            {
-
-                                string siglaFind = estrutura[i].Sigla;
-
-                                Guid UKNivel = Guid.NewGuid();
-
-                                if (estrutura[i].NivelHierarquico.ToUpper().Equals("DIR"))
-                                {
-                                    NivelHierarquico nivel = niveis.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.Equals("Diretoria"));
-                                    UKNivel = nivel.UniqueKey;
-                                }
-                                else if (estrutura[i].NivelHierarquico.ToUpper().Equals("SUP"))
-                                {
-                                    NivelHierarquico nivel = niveis.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.Equals("Superintendência"));
-                                    UKNivel = nivel.UniqueKey;
-                                }
-                                else if (estrutura[i].NivelHierarquico.ToUpper().Equals("GER"))
-                                {
-                                    NivelHierarquico nivel = niveis.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.Equals("Gerência"));
-                                    UKNivel = nivel.UniqueKey;
-                                }
-
-                                Departamento depFind = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Sigla.Equals(siglaFind));
-                                if (depFind == null)
-                                {
-
-                                    Guid? UKDepVinculado = null;
-                                    if (depAnterior != null)
-                                        UKDepVinculado = depAnterior.UniqueKey;
-
-                                    depFind = new Departamento()
-                                    {
-                                        Sigla = estrutura[i].Sigla,
-                                        Codigo = estrutura[i].UA,
-                                        Descricao = estrutura[i].NomeCompleto,
-                                        UniqueKey = Guid.NewGuid(),
-                                        UKDepartamentoVinculado = UKDepVinculado,
-                                        UKEmpresa = empBase.UniqueKey,
-                                        UKNivelHierarquico = UKNivel,
-                                        UsuarioInclusao = autenticacaoModel.Login
-                                    };
-
-                                    DepartamentoBusiness.Inserir(depFind);
-                                    depAnterior = depFind;
-
-                                }
-                                else
-                                {
-                                    depAnterior = depFind;
-                                }
-
-                                if (estrutura[i].Sigla.Equals(emp.Orgao.Sigla))
-                                {
-                                    dep = depFind;
-                                }
-                            }
-
-                        }
-                    }
-
-                    Usuario objU = new Usuario()
-                    {
-                        Login = emp.Matricula,
-                        Nome = emp.Nome,
-                        Email = emp.Email,
-                        TipoDeAcesso = TipoDeAcesso.AD,
-                        UKDepartamento = dep.UniqueKey,
-                        UKEmpresa = empresa.UniqueKey,
-                        UsuarioInclusao = autenticacaoModel.Login
-                    };
-
-                    Inserir(objU);
-
-                    List<VMPermissao> vmPer = new List<VMPermissao>();
-
-                    Perfil perfil = PerfilBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.Equals("Básico"));
-                    if (perfil != null)
-                    {
-                        UsuarioPerfilBusiness.Inserir(new UsuarioPerfil()
-                        {
-                            UKConfig = dep.UniqueKey,
-                            UKPerfil = perfil.UniqueKey,
-                            UKUsuario = objU.UniqueKey,
-                            UsuarioInclusao = autenticacaoModel.Login
-                        });
-
-                        vmPer.Add(new VMPermissao()
-                        {
-                            UKPerfil = perfil.UniqueKey,
-                            Perfil = perfil.Nome,
-                            UKConfig = dep.UniqueKey,
-                            Config = dep.Sigla
-                        });
-                    }
-
-                    return new AutenticacaoModel()
-                    {
-                        UniqueKey = objU.UniqueKey,
-                        Login = objU.Login,
-                        Nome = objU.Nome,
-                        Email = objU.Email,
-                        TipoDeAcesso = objU.TipoDeAcesso,
-                        Permissoes = vmPer
-                    };
-
-                }
-
+                throw new Exception("Não foi possível identificar o seu cadastro.");
             }
             else if (lUsuarios.Count > 1)
             {
@@ -208,65 +55,67 @@ namespace GISCore.Business.Concrete
             {
                 if (lUsuarios[0].TipoDeAcesso == TipoDeAcesso.AD)
                 {
+                    throw new Exception("Autenticação via AD não habilitada. Favor acionar a empresa de suporte.");
+
                     //Login, validando a senha no AD
-                    Guid UKEmpresa = lUsuarios[0].UKEmpresa;
-                    Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKEmpresa));
-                    if (emp == null)
-                    {
-                        throw new Exception("Nâo foi possível encontrar a empresa vinculada ao perfil do usuário.");
-                    }
-                    else
-                    {
-                        if (Convert.ToBoolean(ConfigurationManager.AppSettings["AD:DMZ"]))
-                        {
-                            //Chamar web service para validar a senha no AD
-                            WSAutenticacao.CartaoCorporativo ws = new WSAutenticacao.CartaoCorporativo();
-                            //ws.Url = emp.URL_WS;
+                    //Guid UKEmpresa = lUsuarios[0].UKEmpresa;
+                    //Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKEmpresa));
+                    //if (emp == null)
+                    //{
+                    //    throw new Exception("Nâo foi possível encontrar a empresa vinculada ao perfil do usuário.");
+                    //}
+                    //else
+                    //{
+                    //    if (Convert.ToBoolean(ConfigurationManager.AppSettings["AD:DMZ"]))
+                    //    {
+                    //        //Chamar web service para validar a senha no AD
+                    
+                    //        //ws.Url = emp.URL_WS;
 
-                            string rs = ws.LoginAD(autenticacaoModel.Login, autenticacaoModel.Senha);
-                            if (rs.Equals("\"-1\""))
-                            {
-                                throw new Exception("Login ou senha incorreto.");
-                            }
-                            else
-                            {
-                                Guid IDUsuario = lUsuarios[0].UniqueKey;
+                    //        string rs = ws.LoginAD(autenticacaoModel.Login, autenticacaoModel.Senha);
+                    //        if (rs.Equals("\"-1\""))
+                    //        {
+                    //            throw new Exception("Login ou senha incorreto.");
+                    //        }
+                    //        else
+                    //        {
+                    //            Guid IDUsuario = lUsuarios[0].UniqueKey;
 
-                                List<VMPermissao> listapermissoes = new List<VMPermissao>();
+                    //            List<VMPermissao> listapermissoes = new List<VMPermissao>();
 
-                                listapermissoes.AddRange(from usuarioperfil in UsuarioPerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                         join perfil in PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKPerfil equals perfil.UniqueKey
-                                                         join empresa in EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList() on usuarioperfil.UKConfig equals empresa.UniqueKey
-                                                         where usuarioperfil.UKUsuario.Equals(IDUsuario)
-                                                         select new VMPermissao { UKPerfil = perfil.UniqueKey, Perfil = perfil.Nome, UKConfig = empresa.UniqueKey, Config = empresa.NomeFantasia });
+                    //            listapermissoes.AddRange(from usuarioperfil in UsuarioPerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                    //                                     join perfil in PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKPerfil equals perfil.UniqueKey
+                    //                                     join empresa in EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList() on usuarioperfil.UKConfig equals empresa.UniqueKey
+                    //                                     where usuarioperfil.UKUsuario.Equals(IDUsuario)
+                    //                                     select new VMPermissao { UKPerfil = perfil.UniqueKey, Perfil = perfil.Nome, UKConfig = empresa.UniqueKey, Config = empresa.NomeFantasia });
 
-                                listapermissoes.AddRange(from usuarioperfil in UsuarioPerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                         join perfil in PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKPerfil equals perfil.UniqueKey
-                                                         join dep in DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList() on usuarioperfil.UKConfig equals dep.UniqueKey
-                                                         where usuarioperfil.UKUsuario.Equals(IDUsuario)
-                                                         select new VMPermissao { UKPerfil = perfil.UniqueKey, Perfil = perfil.Nome, UKConfig = dep.UniqueKey, Config = dep.Sigla });
+                    //            listapermissoes.AddRange(from usuarioperfil in UsuarioPerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                    //                                     join perfil in PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKPerfil equals perfil.UniqueKey
+                    //                                     join dep in DepartamentoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList() on usuarioperfil.UKConfig equals dep.UniqueKey
+                    //                                     where usuarioperfil.UKUsuario.Equals(IDUsuario)
+                    //                                     select new VMPermissao { UKPerfil = perfil.UniqueKey, Perfil = perfil.Nome, UKConfig = dep.UniqueKey, Config = dep.Sigla });
 
-                                if (listapermissoes.Count == 0)
-                                {
-                                    throw new Exception("O usuário não possui permissão para acessar o sistema. Entre em contato com o Administrador.");
-                                }
+                    //            if (listapermissoes.Count == 0)
+                    //            {
+                    //                throw new Exception("O usuário não possui permissão para acessar o sistema. Entre em contato com o Administrador.");
+                    //            }
 
-                                return new AutenticacaoModel() { UniqueKey = lUsuarios[0].UniqueKey, Login = lUsuarios[0].Login, Nome = lUsuarios[0].Nome, Email = lUsuarios[0].Email, TipoDeAcesso = lUsuarios[0].TipoDeAcesso, Permissoes = listapermissoes };
-                            }
+                    //            return new AutenticacaoModel() { UniqueKey = lUsuarios[0].UniqueKey, Login = lUsuarios[0].Login, Nome = lUsuarios[0].Nome, Email = lUsuarios[0].Email, TipoDeAcesso = lUsuarios[0].TipoDeAcesso, Permissoes = listapermissoes };
+                    //        }
 
-                        }
-                        else
-                        {
+                    //    }
+                    //    else
+                    //    {
 
-                            using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, emp.URL_AD))
-                            {
-                                if (pc.ValidateCredentials(autenticacaoModel.Login, autenticacaoModel.Senha))
-                                    return null;
-                                else
-                                    throw new Exception("Login ou senha incorretos.");
-                            }
-                        }
-                    }
+                    //        using (PrincipalContext pc = new PrincipalContext(ContextType.Domain, emp.URL_AD))
+                    //        {
+                    //            if (pc.ValidateCredentials(autenticacaoModel.Login, autenticacaoModel.Senha))
+                    //                return null;
+                    //            else
+                    //                throw new Exception("Login ou senha incorretos.");
+                    //        }
+                    //    }
+                    //}
                 }
                 else
                 {
@@ -282,8 +131,9 @@ namespace GISCore.Business.Concrete
 
                         listapermissoes.AddRange(from usuarioperfil in UsuarioPerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                                  join perfil in PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKPerfil equals perfil.UniqueKey
+                                                 join area in DepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKConfig equals area.UniqueKey
                                                  where usuarioperfil.UKUsuario.Equals(IDUsuario)
-                                                 select new VMPermissao { Perfil = perfil.Nome });
+                                                 select new VMPermissao { Perfil = perfil.Nome, Config = area.Sigla });
 
                         //listapermissoes.AddRange(from usuarioperfil in UsuarioPerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                         //                         join perfil in PerfilBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on usuarioperfil.UKPerfil equals perfil.UniqueKey
@@ -306,28 +156,6 @@ namespace GISCore.Business.Concrete
 
         }
 
-
-        private List<CEMIGInfoService.Orgao> DefinirHierarquiaOrganizacional(string Orgao, CEMIGInfoService.InfoServiceClient wfInfo)
-        {
-
-            List<CEMIGInfoService.Orgao> estrutura = new List<CEMIGInfoService.Orgao>();
-
-            CEMIGInfoService.Orgao orgaoAnalisado = null;
-
-            string uaParaAnalisar = Orgao;
-
-            while (uaParaAnalisar != "0000")
-            {
-                orgaoAnalisado = wfInfo.RecuperarDadosOrgao(new CEMIGInfoService.DadosOrgao() { UA = uaParaAnalisar });
-
-                estrutura.Add(orgaoAnalisado);
-
-                uaParaAnalisar = orgaoAnalisado.UASuperior;
-            }
-
-            return estrutura;
-
-        }
 
         public byte[] RecuperarAvatar(string login)
         {
@@ -392,7 +220,11 @@ namespace GISCore.Business.Concrete
 
             var response = client.SendEmailAsync(msg).Result;
 
+        }
 
+        public void InserirSemEmailESenha(Usuario usuario)
+        {
+            base.Inserir(usuario);
         }
 
         public override void Alterar(Usuario entidade)

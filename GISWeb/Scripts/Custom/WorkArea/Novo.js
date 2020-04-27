@@ -6,17 +6,13 @@
 
 });
 
-
-function OnSuccessCadastrarWorkArea(data) {
-    $('#formCadastroWorkArea').removeAttr('style');
-    $(".LoadingLayout").hide();
-    $('#btnSalvar').show();
-    TratarResultadoJSON(data.resultado);
-    ExibirMsgGritter(data.resultado);
-}
-
 function OnBeginCadastrarWorkArea() {
     $(".LoadingLayout").show();
-    $('#blnSalvar').hide();
-    $("#formCadastroWorkArea").css({ opacity: "0.5" });
+    $('.page-content-area').ace_ajax('startLoading');
+}
+
+function OnSuccessCadastrarWorkArea(data) {
+    $(".LoadingLayout").hide();
+    $('.page-content-area').ace_ajax('stopLoading', true);
+    TratarResultadoJSON(data.resultado);
 }

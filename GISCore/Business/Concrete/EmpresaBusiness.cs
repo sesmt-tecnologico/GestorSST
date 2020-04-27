@@ -21,10 +21,10 @@ namespace GISCore.Business.Concrete
 
         public override void Alterar(Empresa pEmpresa)
         {
-            if (Consulta.Any(u => u.CNPJ.Equals(pEmpresa.CNPJ.Trim()) && !u.ID.Equals(pEmpresa.ID)))
+            if (Consulta.Any(u => u.CNPJ.Equals(pEmpresa.CNPJ.Trim()) && !u.UniqueKey.Equals(pEmpresa.UniqueKey)))
                 throw new InvalidOperationException("Não é possível atualizar esta empresa, pois o CNPJ já está sendo usado por outra empresa.");
 
-            if (Consulta.Any(u => u.NomeFantasia.ToUpper().Equals(pEmpresa.NomeFantasia.Trim().ToUpper()) && !u.ID.Equals(pEmpresa.ID)))
+            if (Consulta.Any(u => u.NomeFantasia.ToUpper().Equals(pEmpresa.NomeFantasia.Trim().ToUpper()) && !u.UniqueKey.Equals(pEmpresa.UniqueKey)))
                 throw new InvalidOperationException("Não é possível atualizar esta empresa, pois o Nome Fatasia está sendo usado por outra empresa.");
 
             Empresa tempEmpresa = Consulta.FirstOrDefault(p => p.ID.Equals(pEmpresa.ID));

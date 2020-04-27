@@ -37,9 +37,7 @@ namespace GISWeb.Controllers
         public ActionResult Index()
         {
 
-            ViewBag.Classificacao = ClassificacaoMedidaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
-
-            ViewBag.TotalClassificacao = ClassificacaoMedidaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).Count();
+            ViewBag.Classificacao = ClassificacaoMedidaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).OrderBy(a => a.Nome).ToList();
 
             return View();
         }

@@ -319,6 +319,34 @@ function AutoCompleteAdicionarPerigo() {
     }
 }
 
+function OnClickEditarControleDoRisco(pUKReconhecimento, pUKWorkArea, pFonte, pPerigo, pRisco) {
+
+    $("#modalAddControleCorpoLoading").show();
+    $("#modalAddControleCorpo").html("");
+
+    $.ajax({
+        method: "POST",
+        url: "/ReconhecimentoDoRisco/EditarControle",
+        data: { UKReconhecimento: pUKReconhecimento, UKWorkArea: pUKWorkArea, UKFonte: pFonte, UKPerigo: pPerigo, UKRisco: pRisco },
+        error: function (erro) {
+            $("#modalAddControleCorpoLoading").hide();
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+            $("#modalAddControleCorpoLoading").hide();
+            $("#modalAddControleCorpo").html(content);
+
+            AplicaTooltip();
+
+            if ($("#TableTiposDeControle").length > 0) {
+                AplicajQdataTable("TableTiposDeControle", [null, null, null, null, { "bSortable": false }], false, 20);
+            }
+
+        }
+    });
+
+}
+
 function OnClickControleDoRisco(pUKWorkArea, pFonte, pPerigo, pRisco) {
 
     $("#modalAddControleCorpoLoading").show();
@@ -465,6 +493,10 @@ function OnClickNovoTipoControle() {
                 else {
                     $("#modalAddTipoControle").modal("hide");
 
+                    if (ddlLink == "") {
+                        ddlLinkTxt = "";
+                    }
+
                     if ($("#TableTiposDeControle").length == 0) {
 
                         var sHTML = '<table id="TableTiposDeControle" class="table table-striped table-bordered table-hover">';
@@ -474,7 +506,7 @@ function OnClickNovoTipoControle() {
                         sHTML += '<th>Classificação da Medida</th>';
                         sHTML += '<th>Eficácia</th>';
                         sHTML += '<th>Link</th>';
-                        sHTML += '<th style="width: 30px;"></hd>';
+                        sHTML += '<th style="width: 30px;"></th>';
                         sHTML += '</tr>';
                         sHTML += '</thead>';
 
@@ -483,7 +515,15 @@ function OnClickNovoTipoControle() {
                         sHTML += '<td data-uk="' + ddlTipoControle + '">' + ddlTipoControleTxt + '</td>';
                         sHTML += '<td data-uk="' + ddlClassificacao + '">' + ddlClassificacaoTxt + '</td>';
                         sHTML += '<td data-uk="' + ddlEficacia + '">' + ddlEficaciaTxt + '</td>';
-                        sHTML += '<td data-uk="' + ddlLink + '"><a href="#" onclick="alert(""Buscar link e abrir como popup."");">' + ddlLinkTxt + '</a></td>';
+
+                        if (ddlLinkTxt == "") {
+                            sHTML += '<td data-uk="' + ddlLink + '"></td>';
+                        }
+                        else {
+                            sHTML += '<td data-uk="' + ddlLink + '"><a href="#" onclick="ExibirLink(\'' + ddlLink + '\'); return false;">' + ddlLinkTxt + '</a></td>';
+                        }
+
+                        
                         sHTML += '<td>';
                         sHTML += '<a href="#" class="CustomTooltip red" title="Excluir Tipo de Controle" onclick="RemoverLinhaTipoDeControle(this);">';
                         sHTML += '<i class="ace-icon fa fa-trash-o bigger-120"></i>';
@@ -497,7 +537,7 @@ function OnClickNovoTipoControle() {
 
                         $(".conteudoTipoDeControle").html(sHTML);
 
-                        AplicajQdataTable("TableTiposDeControle", [null, null, null, { "bSortable": false }], false, 20);
+                        AplicajQdataTable("TableTiposDeControle", [null, null, null, null, { "bSortable": false }], false, 20);
                     }
                     else {
 
@@ -505,7 +545,14 @@ function OnClickNovoTipoControle() {
                         sHTML2 += '<td data-uk="' + ddlTipoControle + '">' + ddlTipoControleTxt + '</td>';
                         sHTML2 += '<td data-uk="' + ddlClassificacao + '">' + ddlClassificacaoTxt + '</td>';
                         sHTML2 += '<td data-uk="' + ddlEficacia + '">' + ddlEficaciaTxt + '</td>';
-                        sHTML2 += '<td data-uk="' + ddlLink + '"><a href="#" onclick="alert(""Buscar link e abrir como popup."");">' + ddlLinkTxt + '</a></td>';
+
+                        if (ddlLinkTxt == "") {
+                            sHTML2 += '<td data-uk="' + ddlLink + '"></td>';
+                        }
+                        else {
+                            sHTML2 += '<td data-uk="' + ddlLink + '"><a href="#" onclick="ExibirLink(\'' + ddlLink + '\'); return false;">' + ddlLinkTxt + '</a></td>';
+                        }
+                        
                         sHTML2 += '<td>';
                         sHTML2 += '<a href="#" class="CustomTooltip red" title="Excluir Tipo de Controle" onclick="RemoverLinhaTipoDeControle(this);">';
                         sHTML2 += '<i class="ace-icon fa fa-trash-o bigger-120"></i>';
@@ -902,4 +949,203 @@ function InitDropZoneSingle(elementoClicado) {
     } catch (e) {
         ExibirMensagemGritter('Alerta', 'Este browser não é compatível com o componente Dropzone.js. Sugerimos a utilização do Google Chrome ou Internet Explorer 10 (ou versão superior).', 'gritter-warning');
     }
+}
+
+
+
+function deleteWorkfArea(UK, Nome) {
+
+
+    var callback = function () {
+        
+        $('.page-content-area').ace_ajax('startLoading');
+
+        $.ajax({
+            method: "POST",
+            url: "/WorkArea/Terminar",
+            data: { id: UK },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                TratarResultadoJSON(content.resultado);
+
+                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
+                    $(".resultadoWorkArea").html("");
+
+                    if ($("#UKEstabelecimento").val() != "") {
+                        $("#formPesquisarWorkArea").submit();
+                    }
+                }
+            }
+        });
+    };
+
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir a work área '" + Nome + "'?", "Exclusão de WorkArea", callback, "btn-danger");
+
+}
+
+
+function ExcluirReconhecimentoComControles(UKReconhecimento, Perigo, Risco) {
+
+    var callback = function () {
+
+        $('.page-content-area').ace_ajax('startLoading');
+
+        $.ajax({
+            method: "POST",
+            url: "/ReconhecimentoDoRisco/Terminar",
+            data: { id: UKReconhecimento },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                TratarResultadoJSON(content.resultado);
+
+                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
+                    $(".resultadoWorkArea").html("");
+
+                    if ($("#UKEstabelecimento").val() != "") {
+                        $("#formPesquisarWorkArea").submit();
+                    }
+                }
+            }
+        });
+    };
+
+    ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir o controle de risco realizado para " + Perigo + "/" + Risco + "?", "Exclusão de Controle de Risco", callback, "btn-danger");
+
+}
+
+
+function OnBeginAtualizarControle() {
+    if ($("#TableTiposDeControle").length == 0) {
+        ExibirMensagemDeAlerta("Informe pelo menos um tipo de controle para prosseguir com o cadastro.");
+        return false;
+    }
+
+    $(".LoadingLayout").show();
+    $('#btnSalvar').hide();
+    $("#formEdicaoControle").css({ opacity: "0.5" });
+
+    var idx = 0;
+    var arrControles = [];
+    $("#TableTiposDeControle tbody>tr").each(function () {
+
+        var sTipoControl = $($(this).children()[0]).data("uk");
+        var sClassificacao = $($(this).children()[1]).data("uk");
+        var sEficacia = $($(this).children()[2]).data("uk");
+        var sLink = $($(this).children()[3]).data("uk");
+
+        var arrControl = [sTipoControl, sClassificacao, sEficacia, sLink];
+        arrControles.push(arrControl);
+
+        idx += 1;
+    });
+
+    //###########################################################################################################################################
+
+    var doc = {
+        UKReconhecimento: $("#UKReconhecimento").val(),
+        UKWorkarea: $("#UKWorkarea").val(),
+        UKFonteGeradora: $("#UKFonteGeradora").val(),
+        UKPerigo: $("#UKPerigo").val(),
+        UKRisco: $("#UKRisco").val(),
+        Tragetoria: $("#Tragetoria").val(),
+        EClasseDoRisco: $("#EClasseDoRisco").val(),
+        Controles: arrControles
+    };
+
+    var form = $('#formEditarControle');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+    $.ajax({
+        method: "POST",
+        url: "/ReconhecimentoDoRisco/AtualizarControleDeRisco",
+        data: { __RequestVerificationToken: token, entidade: doc },
+        error: function (erro) {
+            $('#formEdicaoControle').removeAttr('style');
+            $(".LoadingLayout").hide();
+            $('#btnSalvar').show();
+
+            ExibirMensagemGritter('Oops!', erro.responseText, 'gritter-error');
+        },
+        success: function (data) {
+
+            $('#formEdicaoControle').removeAttr('style');
+            $(".LoadingLayout").hide();
+            $('#btnSalvar').show();
+
+            TratarResultadoJSON(data.resultado);
+
+            if (data.resultado.Sucesso != "") {
+                $(".resultadoWorkArea").html("");
+
+                if ($("#UKEstabelecimento").val() != "") {
+                    $("#formPesquisarWorkArea").submit();
+                }
+
+                $('#modalAddControle').modal('hide');
+            }
+
+        }
+    });
+    //###########################################################################################################################################
+
+    return false;
+}
+
+function OnSuccessAtualizarControle() {
+    $('#formEdicaoControle').removeAttr('style');
+    $(".LoadingLayout").hide();
+    $('#btnSalvar').show();
+    TratarResultadoJSON(data.resultado);
+
+    if (!(data.resultado.Alerta != null && data.resultado.Alerta != undefined && data.resultado.Alerta != "")) {
+        $('#modalAddControle').modal('hide');
+    }
+}
+
+
+function ExibirLink(UKLink) {
+
+    $(".LoadingLayout").show();
+
+    $.ajax({
+        method: "POST",
+        url: "/Link/BuscarURLLink",
+        data: { id: UKLink },
+        error: function(erro) {
+            $(".LoadingLayout").hide();
+
+            ExibirMensagemGritter('Oops!', erro.responseText, 'gritter-error');
+        },
+        success: function(data) {
+
+            $(".LoadingLayout").hide();
+
+            var resultado = data.resultado;
+
+            if (resultado.Erro !== null && resultado.Erro !== undefined && resultado.Erro !== "") {
+                ExibirMensagemDeErro(resultado.Erro);
+            }
+            else if (resultado.Alerta !== null && resultado.Alerta !== undefined && resultado.Alerta !== "") {
+                ExibirMensagemDeAlerta(resultado.Alerta);
+            }
+            else if (resultado.Sucesso !== null && resultado.Sucesso !== undefined && resultado.Sucesso !== "") {
+                ExibirMensagemDeSucesso(resultado.Sucesso);
+            }
+            else if (resultado.URL !== null && resultado.URL !== undefined && resultado.URL !== "") {
+                window.open(resultado.URL, '_blank');
+            }
+            
+        }
+    });
+
 }

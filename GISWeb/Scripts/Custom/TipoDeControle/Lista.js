@@ -1,10 +1,10 @@
 ﻿jQuery(function ($) {
 
-    AplicajQdataTable("dynamic-table", [{ "bSortable": false }, null, { "bSortable": false }], false, 20);
+    AplicajQdataTable("dynamic-table", [null, null, null, { "bSortable": false }], false, 20);
 
     AplicaTooltip();
 
-    InitDropZoneSingle();
+    //InitDropZoneSingle();
 
 });
 

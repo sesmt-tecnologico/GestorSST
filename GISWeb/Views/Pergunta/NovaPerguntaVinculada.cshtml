@@ -1,0 +1,115 @@
+﻿@using GISModel.Entidades
+@using GISModel.Entidades.Quest
+@using GISModel.DTO.Pergunta
+
+@model VMNovaPerguntaVinculada
+
+    <div id="formCadPergunta">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+                <div class="page-header">
+                    <h1>
+                        Cadastro de Pergunta
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        @using (Ajax.BeginForm("CadastrarVinculada", "Pergunta", null, new AjaxOptions
+        {
+            HttpMethod = "POST",
+            OnBegin = "OnBeginCadastrarPergunta",
+            OnSuccess = "OnSuccessCadastrarPergunta",
+        }, new { @id = "formCadastroPergunta", @class = "form-horizontal", @autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(d => d.PerguntaVinculada.UniqueKey)
+            @Html.HiddenFor(d => d.TipoRespostaItemVinculada.UniqueKey)
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-8">
+                    <div class="form-group">
+                        @Html.Label("Pergunta Vinculada", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.PerguntaVinculada.Descricao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.Label("Resposta", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.TipoRespostaItemVinculada.Nome, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.Ordem, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.Ordem, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.TipoResposta, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EnumDropDownListFor(x => x.TipoResposta, "Selecione ...", new { @class = "chosen-select form-control" })
+                            @Html.ValidationMessageFor(d => d.TipoResposta, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-4">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.UKTipoResposta, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.DropDownListFor(d => d.UKTipoResposta, new SelectList(ViewBag.TiposDeRespostas, "UniqueKey", "Nome"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @disabled = "disabled" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="form-group">
+                        @Html.LabelFor(d => d.Descricao, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.EditorFor(d => d.Descricao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                            @Html.ValidationMessageFor(d => d.Descricao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                    <button class="btn btn-info" id="btnSalvar" type="submit">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        Salvar
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-warning" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        Limpar
+                    </button>
+                    &nbsp;
+                    <a class="btn" href="javascript:history.back()">
+                        <i class="ace-icon fa fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+        }
+
+    </div> <!-- Fim FormQuery -->
+
+@section Scripts {
+    <script src="~/Scripts/Custom/Pergunta/Novo.js"></script>
+}

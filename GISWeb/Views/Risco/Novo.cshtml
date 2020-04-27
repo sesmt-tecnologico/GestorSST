@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        @using (Ajax.BeginForm("Cadastrar", "Risco", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarRisco", }, new { @id = "formCadastroRisco", @class = "form-horizontal" }))
+        @using (Ajax.BeginForm("Cadastrar", "Risco", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarRisco", }, new { @id = "formCadastroRisco", @class = "form-horizontal", @autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
 
