@@ -26,7 +26,7 @@
                 <div class="form-group">
                     @Html.Label("Empresa", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                     <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownListFor(d => d.EmpresaID, (SelectList)ViewBag.Empresa, "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
+                        @Html.DropDownListFor(d => d.ID, (SelectList)ViewBag.Empresa, "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
                         @Html.ValidationMessageFor(d => d.Empresa.NomeFantasia, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
 
                     </div>

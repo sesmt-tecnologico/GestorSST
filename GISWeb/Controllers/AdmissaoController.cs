@@ -59,10 +59,10 @@ namespace GISWeb.Controllers
                 List<Empresa> empresas = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.Fornecedor).ToList();
                 List<Admissao> admissoesAtivas = AdmissaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKEmpregado.Equals(UKEmpregado) && string.IsNullOrEmpty(a.DataDemissao)).ToList();
 
-                foreach (Admissao adm in admissoesAtivas)
-                {
-                    empresas.RemoveAll(a => a.UniqueKey.Equals(adm.UKEmpresa));
-                }
+                //foreach (Admissao adm in admissoesAtivas)
+                //{
+                //    empresas.RemoveAll(a => a.UniqueKey.Equals(adm.UKEmpresa));
+                //}
 
                 if (empresas.Count == 0)
                     throw new Exception("Nenhuma empresa disponível para admissão.");
@@ -147,8 +147,8 @@ namespace GISWeb.Controllers
                 string query = @"select a.UniqueKey, a.DataAdmissao, a.DataDemissao, a.Justificativa, e.NomeFantasia as Empresa, u.Nome as NomeUsuario
                              from tbAdmissao a, tbEmpresa e, tbUsuario u
                              where a.UKEmpregado = '" + UKEmpregado + @"' and a.Status = 1 and a.UsuarioExclusao is null and
-	                               a.UKEmpresa = e.UniqueKey and e.UsuarioExclusao is null and
-	                               a.UsuarioInclusao = u.Login and u.UsuarioExclusao is null";
+	                               a.UKEmpresa = e.UniqueKey and e.DataExclusao = '9999-12-31 23:59:59.997' and
+	                               a.UsuarioInclusao = u.Login and u.DataExclusao = '9999-12-31 23:59:59.997' ";
 
                 DataTable result = AdmissaoBusiness.GetDataTable(query);
                 if (result.Rows.Count > 0)

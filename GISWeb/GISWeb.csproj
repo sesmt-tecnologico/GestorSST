@@ -299,6 +299,7 @@
     <Content Include="Content\Ace\FontAwesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\Ace\FontAwesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\Ace\FontAwesome\fonts\FontAwesome.otf" />
+    <Content Include="Images\Home\LogoGestor.fw.png" />
     <Content Include="Images\slack_loading.gif" />
     <Content Include="Scripts\Ace\ace-extra.js" />
     <Content Include="Scripts\Ace\ace.ajax-content.js" />
@@ -826,6 +827,7 @@
     <Content Include="Views\Workflow\_VincularAnalise.cshtml" />
     <Content Include="Views\Ged\_ExibirWorkflow.cshtml" />
     <Content Include="Views\Workflow\_ExibirWorkflow.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
