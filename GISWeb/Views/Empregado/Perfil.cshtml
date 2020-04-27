@@ -1,5 +1,6 @@
 ﻿@model Empregado
 @using GISModel.Entidades
+@using GISModel.DTO.Permissoes
 
 <div class="row content">
     <div class="col-sm-12 col-xs-12 text-left">
@@ -196,12 +197,30 @@
 
                 <div class="space-20"></div>
 
-                <button id="btnAdmissao" class="btn btn-mini btn-block btn-info" data-target="#modalAdmissao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                    <i class="ace-icon fa fa-plus-circle bigger-120"></i>
-                    <span class="bigger-110">Admitir</span>
-                </button>
+                @{
 
-                @*<a href="@Url.Action("Index","Ged", new { id = Model.UniqueKey.ToString() })" class="btn btn-mini btn-block btn-info"><i class="glyphicon glyphicon-upload"></i>&nbsp;Upload Documentos</a>*@
+                    bool podeEditar = false;
+
+                    if (ViewBag.Permissoes != null)
+                    {
+                        List<VMPermissao> permissoes = (List<VMPermissao>)ViewBag.Permissoes;
+
+                        if (permissoes.Where(a => a.Perfil.Equals("Administrador") || a.Perfil.Equals("Super Administrador")).Count() > 0)
+                        {
+                            podeEditar = true;
+                        }
+                    }
+
+                }
+
+
+                @if (podeEditar)
+                {
+                    <button id="btnAdmissao" class="btn btn-mini btn-block btn-info" data-target="#modalAdmissao" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                        <i class="ace-icon fa fa-plus-circle bigger-120"></i>
+                        <span class="bigger-110">Admitir</span>
+                    </button>
+                }
 
             </div>
         </div>
@@ -236,6 +255,13 @@
     <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
 
     <script src="~/Scripts/Custom/Empregado/Perfil.js"></script>
+    <script type="text/javascript">
+
+        jQuery(function ($) {
+            CarregarAdmissao();
+        });
+
+    </script>
 }
 
 

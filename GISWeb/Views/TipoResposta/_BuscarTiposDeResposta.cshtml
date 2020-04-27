@@ -1,0 +1,77 @@
+﻿@using GISModel.Entidades.Quest
+@using System.Configuration
+@model List<TipoResposta>
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+        <ol class="dd-list">
+
+            @foreach (TipoResposta tipoResp in Model)
+            {
+
+                string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+                <li class="dd-item collapseOne" data-id="@tipoResp.UniqueKey">
+                    <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
+
+                        @tipoResp.Nome
+
+                        <div class="pull-right action-buttons">
+                            <a class="blue CustomTooltip" href="@Url.Action("Novo", "TipoRespostaItem")?id=@tipoResp.UniqueKey" title="Novo item da resposta">
+                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                            </a>
+
+                            @if (tipoResp.TiposResposta.Count() == 0)
+                            {
+                                <a class="red CustomTooltip" href="#" title="Excluir resposta" onclick="deleteTipoResposta('@tipoResp.UniqueKey.ToString()', '@tipoResp.Nome'); return false;">
+                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                </a>
+                            }
+
+                        </div>
+
+                    </div>
+
+                    @if (tipoResp.TiposResposta.Count() > 0)
+                    {
+                        <ol class="dd-list">
+                            @foreach (TipoRespostaItem item in tipoResp.TiposResposta)
+                            {
+                                <li class="dd-item">
+                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+                                        @item.Nome
+
+                                        <div class="pull-right action-buttons">
+                                            <a class="red CustomTooltip" href="#" title="Excluir item da resposta" onclick="deleteItemResposta('@item.UniqueKey.ToString()', '@item.Nome'); return false;">
+                                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </li>
+                            }
+                        </ol>
+                    }
+
+                </li>
+
+            }
+
+        </ol>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        No momento, nenhum tipo de resposta de múltipla escolha cadastrado.
+        <br>
+    </div>
+}
+

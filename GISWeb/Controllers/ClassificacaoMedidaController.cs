@@ -4,15 +4,20 @@ using GISHelpers.Utils;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISModel.Enums;
+using GISWeb.Infraestrutura.Filters;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.SessionState;
 
 namespace GISWeb.Controllers
 {
 
+    [Autorizador]
+    [DadosUsuario]
+    [SessionState(SessionStateBehavior.ReadOnly)]
     public class ClassificacaoMedidaController : BaseController
     {
 
@@ -32,9 +37,7 @@ namespace GISWeb.Controllers
         public ActionResult Index()
         {
 
-            ViewBag.Classificacao = ClassificacaoMedidaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
-
-            ViewBag.TotalClassificacao = ClassificacaoMedidaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).Count();
+            ViewBag.Classificacao = ClassificacaoMedidaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).OrderBy(a => a.Nome).ToList();
 
             return View();
         }

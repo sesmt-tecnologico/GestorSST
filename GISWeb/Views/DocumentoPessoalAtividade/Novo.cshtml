@@ -42,7 +42,7 @@
             HttpMethod = "POST",
             OnBegin = "OnBeginCadastrarDocsPorAtividade",
             OnSuccess = "OnSuccessCadastrarDocsPorAtividade",
-        }, new { @id = "formCadastroDocsPorAtividade", @class = "form-horizontal" }))
+        }, new { @id = "formCadastroDocsPorAtividade", @class = "form-horizontal", @autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
 

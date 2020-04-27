@@ -1,5 +1,4 @@
 ﻿@model List<PesquisaEstabelecimentoViewModel>
-
 @using GISModel.DTO.Estabelecimento
 
 <div class="space-6"></div>
@@ -35,21 +34,24 @@
 
             <thead>
                 <tr style="background-image: linear-gradient(to bottom, #ffffff 0%, #e2e2e2 80%); font-size: 12px; height: 28px; min-height: 10px">
-                    <th class="hidden-800 hidden-480 left" width="10px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
-                        Codigo
-                    </th>
-                    <th class="hidden-800 hidden-480 left" width="10px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
+                    
+                    <th class="hidden-800 hidden-480 left" width="200px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
                         Tipo
                     </th>
 
                     <th class="hidden-800 hidden-480 left" width="80px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
-                        Estabelecimento
+                        Codigo
                     </th>
-                    <th class="hidden-800 hidden-480 left" width="80px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
-                        Sigla
+                    
+                    <th class="hidden-800 hidden-480 left" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
+                        Nome Completo
                     </th>
 
-                    <th class="center" width="5px" style="padding: 0px 0px 0px 8px; border-bottom: 0px">
+                    <th class="hidden-800 hidden-480 left" width="120px" style="padding: 0px 0px 0px 5px; border-bottom: 0px">
+                        Departamento
+                    </th>
+
+                    <th class="center" width="80px" style="padding: 0px 0px 0px 8px; border-bottom: 0px">
                     </th>
                 </tr>
             </thead>
@@ -60,28 +62,26 @@
                     {
                         <tr>
                             <td>
-                                @item.Codigo
-                            </td>
-                            <td>
                                 @item.TipoDeEstabelecimento
                             </td>
-
                             <td>
-                                @item.NomeEstabelecimento
-                            </td>
-                            <td>
-                                @item.Sigla
+                                @item.Codigo
                             </td>
 
-
                             <td>
+                                @item.NomeCompleto
+                            </td>
+                            <td>
+                                @item.Departamento
+                            </td>
+                            <td class="center">
                                 <div class="hidden-sm hidden-xs action-buttons">
 
                                     <a href='@Url.Action("Edicao", "Estabelecimento", new { Uk = @item.UniqueKey})' class="green">
                                         <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
                                     </a>
 
-                                    <a class="red" href="#" onclick="DeletarEstabelecimento('@item.IDEstabelecimento', '@item.NomeEstabelecimento');">
+                                    <a class="red" href="#" onclick="DeletarEstabelecimento('@item.UniqueKey', '@item.NomeCompleto');">
                                         <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
                                     </a>
                                 </div>
@@ -96,7 +96,7 @@
 
 
                                             <li>
-                                                <a href='@Url.Action("Edicao", "Estabelecimento", new { id = item.IDEstabelecimento })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                <a href='@Url.Action("Edicao", "Estabelecimento", new { id = item.UniqueKey })' class="tooltip-success" data-rel="tooltip" title="Edit">
                                                     <span class="green">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                     </span>
@@ -104,7 +104,7 @@
                                             </li>
 
                                             <li>
-                                                <a href="#" class="tooltip-error" onclick="DeletarEstabelecimento('@item.IDEstabelecimento', '@item.NomeEstabelecimento');" data-rel="tooltip" title="Delete">
+                                                <a href="#" class="tooltip-error" onclick="DeletarEstabelecimento('@item.UniqueKey', '@item.NomeCompleto');" data-rel="tooltip" title="Delete">
                                                     <span class="red">
                                                         <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                                     </span>
@@ -132,7 +132,7 @@ else
             Oops!
         </strong>
 
-        No momento, nenhum Estabelecimento encontrado.
+        No momento, nenhum Estabelecimento encontrado para os filtros informados acima.
         <br>
     </div>
 }

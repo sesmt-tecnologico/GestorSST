@@ -1,0 +1,100 @@
+﻿@using GISModel.Entidades
+@using System.Configuration
+
+@{
+    ViewBag.Title = "Suporte";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Equipe de Suporte
+        </h3>
+    </div>
+</div>
+
+@if (ViewBag.Perfis != null && ViewBag.Perfis.Count > 0)
+{
+
+    List<Perfil> lista = (List<Perfil>)ViewBag.Perfis;
+
+
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+
+            <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+                <ol class="dd-list">
+
+                    @foreach (Perfil item in lista)
+                    {
+                        string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+                    <li class="dd-item">
+                        <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
+                            @item.Nome
+                        </div>
+
+                        <ol class="dd-list" style="">
+                            <li class="dd-item" data-id="68979a97-09b6-4046-8371-25354aa0c1a4"> 
+                                <div class="dd2-content" style="border-left: 2px solid #a039c2;">
+                                    <table style="line-height: 2; width: 100%;">
+                                        <tbody>
+                                            @foreach (Usuario user in item.Usuarios)
+                                            {
+                                                <tr>
+                                                    <td width="25%">@user.Nome</td>
+                                                    <td width="25%">@user.Email</td>
+                                                    <td width="25%">@user.Telefone</td>
+                                                    <td width="25%">@user.Departamento.Sigla</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        </ol>
+
+                    </li>
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        Nenhuma informação encontrada para ser exibida.
+        <br>
+    </div>
+}
+
+
+@section Stylesheets {
+        
+}
+
+
+@section Scripts {
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+
+    <script type="text/javascript">
+        jQuery(function ($) {
+
+            $('.dd').nestable();
+            $('.dd').nestable('collapseAll');
+            //$($(".collapseOne button")[1]).click();
+            $('.dd-handle a').on('mousedown', function (e) {
+                e.stopPropagation();
+            });
+
+
+
+        });
+    </script>
+}

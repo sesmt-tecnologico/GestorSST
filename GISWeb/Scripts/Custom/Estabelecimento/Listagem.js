@@ -1,30 +1,22 @@
 ﻿jQuery(function ($) {
 
-    //AplicajQdataTable("dynamic-table", [{ "bSortable": false }, null, null, null,null, { "bSortable": false }], false, 20);
+    Chosen();
 
-
-    $(".ddPesquisar").change(function () {
+    $("#btnLocalizarEstabelecimentos").off("click").on("click", function () {
         $("#formPesquisarEstabelecimento").submit();
     });
-
-
-
 
 });
 
 function OnBeginPesquisarEstabelecimento() {
-    $(".LoadingLayout").show();
-    $('#blnSalvar').hide();
-    $("#formPesquisarEstabelecimento").css({ opacity: "0.5" });
+    $('.page-content-area').ace_ajax('startLoading');
 }
 
 function OnSuccessPesquisarEstabelecimento(data) {
-    $('#formPesquisarEstabelecimento').removeAttr('style');
-    $(".LoadingLayout").hide();
-    $('#btnSalvar').show();
+    $('.page-content-area').ace_ajax('stopLoading', true);
 
     if (data.resultado != null && data.resultado.Erro != null && data.resultado.Erro != undefined && data.resultado.Erro != "") {
-      ExibirMensagemDeErro(resultado.Erro);
+      ExibirMensagemDeErro(data.resultado.Erro);
     }
     else {
 
@@ -220,26 +212,23 @@ function BuscarDetalhesEmpresa(IDEmpresa) {
 function DeletarEstabelecimento(IDEstabelecimento, NomeEstabelecimento) {
     
     var callback = function () {
-        $('.LoadingLayout').show();
-        $('#dynamic-table').css({ opacity: "0.5" });
+        $('.page-content-area').ace_ajax('startLoading');
 
         $.ajax({
             method: "POST",
             url: "/Estabelecimento/Terminar",
             data: { id: IDEstabelecimento },
             error: function (erro) {
-                $(".LoadingLayout").hide();
-                $("#dynamic-table").css({ opacity: '' });
+                $('.page-content-area').ace_ajax('stopLoading', true);
                 ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
             },
             success: function (content) {
-                $('.LoadingLayout').hide();
-                $("#dynamic-table").css({ opacity: '' });
+                $('.page-content-area').ace_ajax('stopLoading', true);
 
                 TratarResultadoJSON(content.resultado);
 
                 if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
-                    $("#linha-" + IDEstabelecimento).remove();
+                    $(".resultadoEstabelecimento").html("");
                 }
             }
         });

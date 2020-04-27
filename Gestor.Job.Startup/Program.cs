@@ -194,7 +194,7 @@ namespace Gestor.Job.Startup
                     CPF = CPF,
                     Nome = Nome,
                     Login = Login,
-                    Senha = CreateHashFromPassword(Senha),
+                    Senha = Senha,
                     Email = Email,
                     UKEmpresa = Guid.Parse(UKEmpresa),
                     UKDepartamento = Guid.Parse(UKDepartamento),

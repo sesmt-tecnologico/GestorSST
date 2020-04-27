@@ -22,7 +22,7 @@
         </div>
 
 
-        @using (Ajax.BeginForm("Cadastrar", "DocumentoAlocacao", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarDoc", OnSuccess = "OnSuccessCadastrarDoc", }, new { @id = "formCadastroDoc", @class = "form-horizontal" }))
+        @using (Ajax.BeginForm("Cadastrar", "DocumentoAlocacao", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarDoc", OnSuccess = "OnSuccessCadastrarDoc", }, new { @id = "formCadastroDoc", @class = "form-horizontal", @autocomplete = "off" }))
         {
             @Html.AntiForgeryToken()
 

@@ -31,16 +31,15 @@ function DeletarContrato(IDContrato, NumeroContrato) {
     ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir o Contrato '" + NumeroContrato + "'?", "Exclusão do Contrato", callback, "btn-danger");
 }
 
+function OnBeginExcluirContrato() {
+    $(".LoadingLayout").show();
+    $('#blnSalvar').hide();
+    $("#formExcluirContrato").css({ opacity: "0.5" });
+}
+
 function OnSuccessExcluirContrato(data) {
     $('#formExcluirContrato').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#blnSalvar').show();
     TratarResultadoJSON(data.resultado);
-    ExibirMsgGritter(data.resultado);
-}
-
-function OnBeginExcluirContrato() {
-    $(".LoadingLayout").show();
-    $('#blnSalvar').hide();
-    $("#formExcluirContrato").css({ opacity: "0.5" });
 }

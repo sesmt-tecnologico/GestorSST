@@ -46,21 +46,15 @@
 
 });
 
-
-
-
-
+function OnBeginCadastrarDepartamento() {
+    $(".LoadingLayout").show();
+    $('#blnSalvar').hide();
+    $("#formCadastroDepartamento").css({ opacity: "0.5" });
+}
 
 function OnSuccessCadastrarDepartamento(data) {
     $('#formCadastroDepartamento').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#btnSalvar').show();
     TratarResultadoJSON(data.resultado);
-    ExibirMsgGritter(data.resultado);
-}
-
-function OnBeginCadastrarDepartamento() {
-    $(".LoadingLayout").show();
-    $('#blnSalvar').hide();
-    $("#formCadastroDepartamento").css({ opacity: "0.5" });
 }

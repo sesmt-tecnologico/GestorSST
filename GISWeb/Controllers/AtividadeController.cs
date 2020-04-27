@@ -91,7 +91,7 @@ namespace GISWeb.Controllers
         // GET: TipoDeRisco
         public ActionResult Index()
         {
-            ViewBag.Atividade = AtividadeBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).OrderBy(d => d.Descricao).ToList();
+            //ViewBag.Atividade = AtividadeBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).OrderBy(d => d.Descricao).ToList();
 
             return View();
         }

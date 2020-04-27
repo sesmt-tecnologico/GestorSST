@@ -2,11 +2,13 @@
 using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Conta;
 using GISModel.DTO.Shared;
+using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using System.Web.SessionState;
@@ -26,6 +28,15 @@ namespace GISWeb.Controllers
 
             [Inject]
             public IUsuarioBusiness UsuarioBusiness { get; set; }
+
+            [Inject]
+            public IEmpregadoBusiness EmpregadoBusiness { get; set; }
+
+            [Inject]
+            public IDepartamentoBusiness DepartamentoBusiness { get; set; }
+
+            [Inject]
+            public IEmpresaBusiness EmpresaBusiness { get; set; }
 
         #endregion
 
@@ -49,6 +60,19 @@ namespace GISWeb.Controllers
                 {
                     string msgErro = string.Empty;
                     AutorizacaoProvider.LogIn(usuario, out msgErro);
+
+                    if (AutorizacaoProvider.UsuarioAutenticado.Permissoes.Where(a => a.Perfil.Equals("Empregado")).Count() > 0)
+                    {
+                        Empregado emp = EmpregadoBusiness.Consulta.FirstOrDefault(a => 
+                                                string.IsNullOrEmpty(a.UsuarioExclusao) && 
+                                                a.CPF.ToUpper().Trim().Replace(".", "").Replace("-", "").Equals(usuario.Login.ToUpper().Trim()));
+
+                        if (emp != null)
+                        {
+                            return Json(new { url = Url.Action("Desktop", "Empregado", new { id = emp.UniqueKey }) });
+                        }
+                    }
+
                     return Json(new { url = Url.Action(ConfigurationManager.AppSettings["Web:DefaultAction"], ConfigurationManager.AppSettings["Web:DefaultController"]) });
                 }
 
@@ -59,35 +83,6 @@ namespace GISWeb.Controllers
                 return Json(new { alerta = ex.Message, titulo = "Oops! Problema ao realizar login..." });
             }
         }
-
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //[CaptchaValidation("CaptchaCode", "LoginCaptcha", "Código do CAPTCHA incorreto.")]
-        //public ActionResult LoginComCaptcha(AutenticacaoModel usuario)
-        //{
-        //    MvcCaptcha.ResetCaptcha("LoginCaptcha");
-        //    ViewBag.IncluirCaptcha = Convert.ToBoolean(ConfigurationManager.AppSettings["AD:DMZ"]);
-
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            AutorizacaoProvider.Logar(usuario);
-
-        //            if (!string.IsNullOrWhiteSpace(usuario.Nome))
-        //                return Json(new { url = usuario.Nome.Replace("$", "&") });
-        //            else
-        //                return Json(new { url = Url.Action(ConfigurationManager.AppSettings["Web:DefaultAction"], ConfigurationManager.AppSettings["Web:DefaultController"]) });
-        //        }
-
-        //        return View("Login", usuario);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { alerta = ex.Message, titulo = "Oops! Problema ao realizar login..." });
-        //    }
-        //}
 
         public ActionResult Logout()
         {
@@ -107,7 +102,27 @@ namespace GISWeb.Controllers
         [DadosUsuario]
         public ActionResult Perfil()
         {
-            return View(AutorizacaoProvider.UsuarioAutenticado);
+
+            Usuario usr = UsuarioBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(AutorizacaoProvider.UsuarioAutenticado.UniqueKey));
+
+            AutenticacaoModel aut = AutorizacaoProvider.UsuarioAutenticado;
+            aut.Telefone = usr.Telefone;
+
+            try
+            {
+                Departamento dep = DepartamentoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(usr.UKDepartamento));
+                aut.Departamento = dep.Sigla + " [" + dep.Codigo + "]";
+            }
+            catch { }
+
+            try
+            {
+                Empresa emp = EmpresaBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(usr.UKEmpresa));
+                aut.Empresa = emp.NomeFantasia;
+            }
+            catch { }
+
+            return View(aut);
         }
 
         [HttpPost]
@@ -182,7 +197,7 @@ namespace GISWeb.Controllers
                     else
                     {
                         NovaSenhaViewModel oNovaSenhaViewModel = new NovaSenhaViewModel();
-                        oNovaSenhaViewModel.IDUsuario = id.Substring(0, id.IndexOf("#"));
+                        //oNovaSenhaViewModel.UKUsuario = id.Substring(0, id.IndexOf("#"));
                         return View(oNovaSenhaViewModel);
                     }
                 }
@@ -205,25 +220,27 @@ namespace GISWeb.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult DefinirSenha(NovaSenhaViewModel novaSenhaViewModel)
+        public ActionResult DefinirSenha(NovaSenhaViewModel entidade)
         {
             if (ModelState.IsValid)
             {
-                if (novaSenhaViewModel.NovaSenha.Equals(novaSenhaViewModel.ConfirmarNovaSenha))
+                if (entidade.NovaSenha.Equals(entidade.ConfirmarNovaSenha))
                 {
                     try
                     {
-                        if (string.IsNullOrEmpty(novaSenhaViewModel.IDUsuario))
-                            return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível localizar o ID do usuário através de sua requisição. Solicite um novo acesso." } });
+                        Usuario user = UsuarioBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Login.Equals(AutorizacaoProvider.UsuarioAutenticado.Login));
 
-                        UsuarioBusiness.DefinirSenha(novaSenhaViewModel);
+                        if (user == null)
+                            return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível localizar o usuário logado na base de dados. Favor acionar o administrador." } });
 
-                        Extensions.GravaCookie("MensagemSucesso", "Senha alterada com sucesso.", 10);
+                        if (!user.Senha.Equals(UsuarioBusiness.CreateHashFromPassword(entidade.SenhaAtual)))
+                            return Json(new { resultado = new RetornoJSON() { Alerta = "A senha atual não confere com a senha da base de dados." } });
 
+                        entidade.UKUsuario = user.UniqueKey;
 
-                        //TempData["MensagemSucesso"] = "Senha alterada com sucesso.";
+                        UsuarioBusiness.DefinirSenha(entidade);
 
-                        return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Login", "Conta") } });
+                        return Json(new { resultado = new RetornoJSON() { Sucesso = "Senha alterada com sucesso." } });
                     }
                     catch (Exception ex)
                     {
@@ -262,7 +279,7 @@ namespace GISWeb.Controllers
 
 
                     //TempData["MensagemSucesso"] = "Solicitação de acesso realizada com sucesso.";
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Login", "Conta") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Login", "Account") } });
                 }
                 catch (Exception ex)
                 {

@@ -146,9 +146,11 @@ namespace GISWeb.Controllers
 
                 string query = @"select a.UniqueKey, a.DataAdmissao, a.DataDemissao, a.Justificativa, e.NomeFantasia as Empresa, u.Nome as NomeUsuario
                              from tbAdmissao a, tbEmpresa e, tbUsuario u
-                             where a.UKEmpregado = '" + UKEmpregado + @"' and a.Status = 1 and a.UsuarioExclusao is null and
+
+                             where a.UKEmpregado = '" + UKEmpregado + @"' and a.Status = 1 and a.DataExclusao = '9999-12-31 23:59:59.997' and
 	                               a.UKEmpresa = e.UniqueKey and e.DataExclusao = '9999-12-31 23:59:59.997' and
-	                               a.UsuarioInclusao = u.Login and u.DataExclusao = '9999-12-31 23:59:59.997' ";
+	                               a.UsuarioInclusao = u.Login and u.DataExclusao = '9999-12-31 23:59:59.997'";
+
 
                 DataTable result = AdmissaoBusiness.GetDataTable(query);
                 if (result.Rows.Count > 0)
@@ -189,15 +191,15 @@ namespace GISWeb.Controllers
             string query = @"select al.UniqueKey, c.Numero as Contrato, cargo.NomeDoCargo, func.NomeDaFuncao, est.Descricao as Estabelecimento, eq.NomeDaEquipe, dep.Sigla, 
                                     atv.Descricao as Atividade, al.DataInclusao, al.UsuarioInclusao, est.UniqueKey as UKEstab, func.UniqueKey as UKFuncao
                              from tbAlocacao al 
-		                             inner join tbContrato c on al.UKContrato = c.UniqueKey and c.UsuarioExclusao is null
-		                             inner join tbCargo cargo on al.UKCargo = cargo.UniqueKey and cargo.UsuarioExclusao is null
-		                             inner join tbFuncao func on al.UKFuncao = func.UniqueKey and func.UsuarioExclusao is null
-		                             inner join tbEstabelecimento est on al.UKEstabelecimento = est.UniqueKey and est.UsuarioExclusao is null
-		                             inner join tbEquipe eq on al.UKEquipe = eq.UniqueKey and eq.UsuarioExclusao is null
-		                             inner join tbDepartamento dep on al.UKDepartamento = dep.UniqueKey and dep.UsuarioExclusao is null
-		                             left outer join REL_FuncaoAtividade fa on func.UniqueKey = fa.UKFuncao and fa.UsuarioExclusao is null
-		                             left outer join tbAtividade atv on fa.UKAtividade = atv.UniqueKey and atv.UsuarioExclusao is null
-                             where al.UsuarioExclusao is null and al.UKAdmissao = '" + UKAdmissao + "' ";
+		                             inner join tbContrato c on al.UKContrato = c.UniqueKey and c.DataExclusao = '9999-12-31 23:59:59.997'
+		                             inner join tbCargo cargo on al.UKCargo = cargo.UniqueKey and cargo.DataExclusao = '9999-12-31 23:59:59.997'
+		                             inner join tbFuncao func on al.UKFuncao = func.UniqueKey and func.DataExclusao = '9999-12-31 23:59:59.997'
+		                             inner join tbEstabelecimento est on al.UKEstabelecimento = est.UniqueKey and est.DataExclusao = '9999-12-31 23:59:59.997'
+		                             inner join tbEquipe eq on al.UKEquipe = eq.UniqueKey and eq.DataExclusao = '9999-12-31 23:59:59.997'
+		                             inner join tbDepartamento dep on al.UKDepartamento = dep.UniqueKey and dep.DataExclusao = '9999-12-31 23:59:59.997'
+		                             left outer join REL_FuncaoAtividade fa on func.UniqueKey = fa.UKFuncao and fa.DataExclusao = '9999-12-31 23:59:59.997'
+		                             left outer join tbAtividade atv on fa.UKAtividade = atv.UniqueKey and atv.DataExclusao = '9999-12-31 23:59:59.997'
+                             where al.DataExclusao = '9999-12-31 23:59:59.997' and al.UKAdmissao = '" + UKAdmissao + "' ";
 
             DataTable result = AdmissaoBusiness.GetDataTable(query);
             if (result.Rows.Count > 0)
@@ -332,13 +334,23 @@ namespace GISWeb.Controllers
         {
             try
             {
+
+                //######################################################################################################
+
                 if (string.IsNullOrEmpty(id))
-                    throw new Exception("Não foi possível localizar a identificação da alocação para prosseguir com a operação.");
+                    throw new Exception("Não foi possível localizar a identificação da admissão para prosseguir com a operação.");
 
                 Guid UKAdmissao = Guid.Parse(id);
                 Admissao adm = AdmissaoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKAdmissao));
                 if (adm == null)
                     throw new Exception("Não foi possível encontrar a admissão na base de dados.");
+
+                Empregado oEmp = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(adm.UKEmpregado));
+                if (oEmp == null)
+                    throw new Exception("Não foi possível encontrar o empregado na base de dados.");
+
+                //######################################################################################################
+
 
                 List<Alocacao> als = AlocacaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKAdmissao.Equals(UKAdmissao)).ToList();
                 if (als.Count > 0)
@@ -352,6 +364,24 @@ namespace GISWeb.Controllers
 
                 adm.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                 AdmissaoBusiness.Terminar(adm);
+
+
+
+                oEmp.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                EmpregadoBusiness.Terminar(oEmp);
+
+                EmpregadoBusiness.Inserir(new Empregado()
+                {
+                    CPF = oEmp.CPF,
+                    Nome = oEmp.Nome,
+                    DataNascimento = oEmp.DataNascimento,
+                    Email = oEmp.Email,
+                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login,
+                    UniqueKey = oEmp.UniqueKey,
+                    Status = "Já admitido alguma vez"
+                });
+
+
 
                 Extensions.GravaCookie("MensagemSucesso", "O empregado foi demitido com sucesso.", 10);
 

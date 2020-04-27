@@ -1,7 +1,8 @@
-﻿
-jQuery(function ($) {
+﻿jQuery(function ($) {
 
     AplicaTooltip();
+
+    BuscarQuestionario();
 
 });
 
@@ -36,7 +37,6 @@ function OnClickBuscarArquivos(pUKObjeto) {
 
 
 }
-
 
 function InitDropZoneSingle() {
     try {
@@ -178,4 +178,144 @@ function InitDropZoneSingle() {
     } catch (e) {
         ExibirMensagemGritter('Alerta', 'Este browser não é compatível com o componente Dropzone.js. Sugerimos a utilização do Google Chrome ou Internet Explorer 10 (ou versão superior).', 'gritter-warning');
     }
+}
+
+function BuscarQuestionario() {
+
+    $('.page-content-area').ace_ajax('startLoading');
+
+    $.ajax({
+        method: "POST",
+        url: "/Questionario/BuscarQuestionarioPorEmpregado",
+        data: { UKEmpregado: $("#txtUKEmpregado").val(), UKFonteGeradora: $("#txtUKFonteGeradora").val() },
+        error: function (erro) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+                ExibirMensagemDeErro(content.resultado.Erro);
+            }
+            else {
+                $(".conteudoQuestionario").html(content);
+                AplicaTooltip();
+
+                if ($(".dd").length > 0) {
+                    $('.dd').nestable();
+                    $('.dd').nestable('collapseAll');
+                    $($(".collapseOne button")[1]).click();
+                    $('.dd-handle a').on('mousedown', function (e) {
+                        e.stopPropagation();
+                    });
+                }
+            }
+            
+        }
+    });
+
+}
+
+function ExisteSubPergunta(pUKPergunta, pUKTipoRespostaItem)
+{
+    $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html("");
+    $(".conteudoSubPergunta." + pUKPergunta).html("");
+    $('.page-content-area').ace_ajax('startLoading');
+
+    $.ajax({
+        method: "POST",
+        url: "/Questionario/BuscarPerguntasVinculadasView",
+        data: { UKPergunta: pUKPergunta, UKTipoRespostaItem: pUKTipoRespostaItem },
+        error: function (erro) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+                ExibirMensagemDeErro(content.resultado.Erro);
+            }
+            else {
+                $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html(content);
+                AplicaTooltip();
+            }
+
+        }
+    });
+
+}
+
+function GravarQuestionario(pUKQuestionario, pUKEmpresa) {
+
+    var pUKEmpregado = $("#txtUKEmpregado").val();
+    var pUKFonteGeradora = $("#txtUKFonteGeradora").val();
+
+    var arrPerguntas = [];
+    $(".pergunta").each(function () {
+        var ukpergunta = $(this).data("uk");
+        var tipo = $(this).data("tipo");
+
+        var arrResposta = [];
+        arrResposta.push(ukpergunta);
+
+        if (tipo == "Selecao_Unica") {
+            $('input:radio[name="' + ukpergunta + '"]').each(function () {
+                if ($(this).is(':checked')) {
+                    var UKTipoResp = $(this).data("uk");
+                    arrResposta.push(UKTipoResp);
+
+                    var resposta = $.trim($(this).next().text());
+                    arrResposta.push(resposta);
+                }
+            });
+        }
+        else if (tipo == "Multipla_Selecao") {
+            $('input:checkbox[name="' + ukpergunta + '"]').each(function () {
+                if ($(this).is(':checked')) {
+                    var UKTipoResp = $(this).data("uk");
+                    arrResposta.push(UKTipoResp);
+
+                    var resposta = $.trim($(this).next().text());
+                    arrResposta.push(resposta);
+                }
+            });
+        }
+        else {
+            arrResposta.push("*");
+            arrResposta.push($(".txtPergunta-" + ukpergunta).val());
+        }
+
+        arrPerguntas.push(arrResposta);
+    });
+
+    var obj = {
+        UKFonteGeradora: pUKFonteGeradora,
+        UKEmpregado: pUKEmpregado,
+        UKQuestionario: pUKQuestionario,
+        UKEmpresa: pUKEmpresa,
+        PerguntasRespondidas: arrPerguntas
+    };
+
+    $('.page-content-area').ace_ajax('startLoading');
+
+    $.ajax({
+        method: "POST",
+        url: "/Questionario/GravarRespostaQuestionarioAnalise",
+        data: { entidade: obj },
+        error: function (erro) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            TratarResultadoJSON(content.resultado);
+        }
+    });
+
 }

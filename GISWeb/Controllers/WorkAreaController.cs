@@ -263,10 +263,13 @@ namespace GISWeb.Controllers
 
 
         [HttpPost]
-        public ActionResult BuscarWorkAreaParaPerfilEmpregado(string UKEstabelecimento)
+        public ActionResult BuscarWorkAreaParaPerfilEmpregado(string UKEstabelecimento, string UKEmpregado)
         {
             try
             {
+
+                ViewBag.UKEmpregado = UKEmpregado;
+
                 List<WorkArea> lista = new List<WorkArea>();
 
                 string sql = @"select wa.UniqueKey, wa.Nome, wa.Descricao, 
@@ -538,7 +541,7 @@ namespace GISWeb.Controllers
 
                     Extensions.GravaCookie("MensagemSucesso", "WorkArea '" + entidade.Nome + "' foi cadastrada com sucesso!", 10);
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "WorkArea") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "FonteGeradoraDeRisco") } });
                 }
                 catch (Exception ex)
                 {
@@ -562,13 +565,11 @@ namespace GISWeb.Controllers
 
         public ActionResult Edicao(string id)
         {
-            Guid ID = Guid.Parse(id);
-            ViewBag.Workarea = new SelectList(WorkAreaBusiness.Consulta.ToList(), "ID", "Nome");
+            Guid uk = Guid.Parse(id);
+            
+            var obj = WorkAreaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(uk)));
 
-            var lista = WorkAreaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(ID)));
-
-
-            return View(lista);
+            return View(obj);
         }
 
         [HttpPost]
@@ -579,13 +580,25 @@ namespace GISWeb.Controllers
             {
                 try
                 {
-                    entidade.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    WorkAreaBusiness.Alterar(entidade);
+                    WorkArea objBanco = WorkAreaBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(entidade.UniqueKey));
+                    if (objBanco == null)
+                        throw new Exception("Não foi possível encontrar a workarea na base de dados.");
+
+                    objBanco.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    WorkAreaBusiness.Terminar(objBanco);
+
+                    WorkAreaBusiness.Inserir(new WorkArea() 
+                    { 
+                        UniqueKey = objBanco.UniqueKey,
+                        Nome = entidade.Nome,
+                        Descricao = entidade.Descricao,
+                        UKEstabelecimento = objBanco.UKEstabelecimento,
+                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                    });
 
                     Extensions.GravaCookie("MensagemSucesso", "A WorkArea '" + entidade.Nome + "' foi atualizado com sucesso.", 10);
 
-
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "WorkArea") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "FonteGeradoraDeRisco") } });
                 }
                 catch (Exception ex)
                 {
@@ -608,8 +621,34 @@ namespace GISWeb.Controllers
 
 
 
+        [HttpPost]
+        public ActionResult Terminar(string id) 
+        {
+            try
+            {
+                Guid guidUK = Guid.Parse(id);
+                WorkArea obj = WorkAreaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(guidUK));
+                if (obj == null)
+                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir a workarea, pois a mesmo não foi localizada na base de dados." } });
 
+                obj.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                WorkAreaBusiness.Terminar(obj);
 
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "A WorkArea '" + obj.Nome + "' foi excluída com sucesso." } });
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+
+        }
 
 
 

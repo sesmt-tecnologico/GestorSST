@@ -6,17 +6,15 @@ jQuery(function ($) {
 
 });
 
-function OnSuccessCadastrarEmpregado(data) {
-    $('#formCadastroEmpregado').removeAttr('style');
-    $(".LoadingLayout").hide();
-    $('#btnSalvar').show();
-    TratarResultadoJSON(data.resultado);
-    ExibirMsgGritter(data.resultado);
-}
-
 function OnBeginCadastrarEmpregado() {
     $(".LoadingLayout").show();
     $('#blnSalvar').hide();
     $("#formCadastroEmpregado").css({ opacity: "0.5" });
 }
 
+function OnSuccessCadastrarEmpregado(data) {
+    $('#formCadastroEmpregado').removeAttr('style');
+    $(".LoadingLayout").hide();
+    $('#btnSalvar').show();
+    TratarResultadoJSON(data.resultado);
+}

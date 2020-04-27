@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    @using (Ajax.BeginForm("Cadastrar", "Estabelecimento", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarEstabelecimento", OnSuccess = "OnSuccessCadastrarEstabelecimento", }, new { @id = "formCadastroEstabelecimento", @class = "form-horizontal" }))
+    @using (Ajax.BeginForm("Cadastrar", "Estabelecimento", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarEstabelecimento", OnSuccess = "OnSuccessCadastrarEstabelecimento", }, new { @id = "formCadastroEstabelecimento", @class = "form-horizontal", @autocomplete = "off" }))
     {
         @Html.AntiForgeryToken()
 
@@ -26,7 +26,6 @@
                     <div class="col-xs-12 col-sm-12">
                         @Html.EnumDropDownListFor(model => model.TipoDeEstabelecimento, htmlAttributes: new { @class = "form-control" })
                         <input type="text" name="EmpresaID" id="EmpresaID" value=@ViewBag.Empresas hidden />
-
                     </div>
                 </div>
             </div>

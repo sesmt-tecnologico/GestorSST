@@ -8,6 +8,8 @@ namespace GISCore.Business.Abstract
 
         AutenticacaoModel ValidarCredenciais(AutenticacaoModel autenticacaoModel);
 
+        void InserirSemEmailESenha(Usuario usuario);
+
         void DefinirSenha(NovaSenhaViewModel novaSenhaViewModel);
 
         void SolicitarAcesso(string email);
@@ -15,6 +17,8 @@ namespace GISCore.Business.Abstract
         byte[] RecuperarAvatar(string login);
 
         void SalvarAvatar(string login, string imageStringBase64, string extensaoArquivo);
+
+        string CreateHashFromPassword(string pstrOriginalPassword);
 
     }
 }

@@ -189,7 +189,7 @@
                             <i class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
                         </div>
                         <div id="modalAlterarSenhaCorpo">
-                            @using (Ajax.BeginForm("AlterarSenha", "Account", null, new AjaxOptions
+                            @using (Ajax.BeginForm("DefinirSenha", "Account", null, new AjaxOptions
                             {
                                 HttpMethod = "POST",
                                 OnSuccess = "OnSuccessAlterarSenha",
@@ -222,7 +222,7 @@
                                     <label class="col-sm-3 control-label no-padding-right">Confirmar Senha</label>
 
                                     <div class="col-sm-9">
-                                        <input class="col-xs-12 text-box single-line password" id="ConfirmarSenha" name="ConfirmarSenha" placeholder="Confirme sua nova senha" type="password" value="">
+                                        <input class="col-xs-12 text-box single-line password" id="ConfirmarNovaSenha" name="ConfirmarNovaSenha" placeholder="Confirme sua nova senha" type="password" value="">
                                     </div>
                                 </div>
                             }

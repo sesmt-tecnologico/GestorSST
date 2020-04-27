@@ -1,0 +1,76 @@
+﻿@using GISModel.DTO.Resposta
+@using System.Configuration
+@model List<VMPesquisaEmpregado>
+
+@if (Model != null && Model.Count > 0)
+{
+    string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+    <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+        <ol class="dd-list">
+
+            @foreach (VMPesquisaEmpregado emp in Model)
+            {
+
+                <li class="dd-item collapseOne">
+                    <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+
+                        <span style="margin-right: 60px;">Questionário: @emp.Nome</span>
+
+                    </div>
+
+                    @if (emp.Questionarios.Count > 0)
+                    {
+                        <ol class="dd-list">
+                            @foreach (VMPesquisaQuestionario quest in emp.Questionarios)
+                            {
+                                <li class="dd-item">
+                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                        <span class="CustomTooltip" title="Questionário" style="width: 400px; float: left;">@quest.Nome</span>
+                                        <span class="CustomTooltip" title="Data de Envio" style="width: 400px; float: left;">@quest.DataEnvio.ToString("dd/MM/yyyy")</span>
+                                        <span class="CustomTooltip" title="Fonte Geradora de Risco">@quest.Objeto</span>
+                                    </div>
+
+                                    @if (quest.Perguntas != null && quest.Perguntas.Count > 0)
+                                    {
+                                        <ol class="dd-list">
+                                            @foreach (VMPesquisaPergunta item in quest.Perguntas)
+                                            {
+                                                <li class="dd-item">
+                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+
+                                                        <span style="width: 50%; float: left;">Pergunta: @item.Pergunta</span>
+
+                                                        <span style="float: left;">Resposta: @item.Resposta</span>
+
+                                                        <div class="pull-right action-buttons">
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ol>
+                                    }
+                                </li>
+                            }
+                        </ol>
+                    }
+                </li>
+            }
+
+        </ol>
+    </div>
+
+
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        Não foi encontrado nenhum questionário respondido para os filtros informados acima.
+        <br>
+    </div>
+}

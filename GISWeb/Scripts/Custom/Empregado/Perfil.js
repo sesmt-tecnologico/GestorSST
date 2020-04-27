@@ -86,7 +86,7 @@
         });
     }
 
-    CarregarAdmissao();
+    
 
 });
 
@@ -133,7 +133,7 @@ function CarregarAdmissao() {
                     $.ajax({
                         method: "POST",
                         url: "/WorkArea/BuscarWorkAreaParaPerfilEmpregado",
-                        data: { UKEstabelecimento: $(".txtEstabelecimento").data("ukestabelecimento") },
+                        data: { UKEstabelecimento: $(".txtEstabelecimento").data("ukestabelecimento"), UKEmpregado: $("#UKEmp").val() },
                         error: function (erro) {
                             ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
                         },

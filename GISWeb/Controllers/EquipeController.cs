@@ -33,16 +33,26 @@ namespace GISWeb.Controllers
         public ActionResult Index()
         {
 
-            ViewBag.Equipe = EquipeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+            var equipes = (from equipe in EquipeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                          join emp in EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList() on equipe.UKEmpresa equals emp.UniqueKey
+                          select new Equipe { UniqueKey = equipe.UniqueKey,
+                                              NomeDaEquipe = equipe.NomeDaEquipe,
+                                              Empresa = new Empresa() { 
+                                                    NomeFantasia = emp.NomeFantasia
+                                              },
+                                              DataInclusao = equipe.DataInclusao,
+                                              UsuarioInclusao = equipe.UsuarioInclusao,
+                                              ResumoAtividade = equipe.ResumoAtividade
+                          }).OrderBy(a => a.NomeDaEquipe).ToList();
 
+            ViewBag.Equipe = equipes;
 
             return View();
         }
 
         public ActionResult Novo()
         {
-
-            ViewBag.Empresa = new SelectList(EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList(), "ID", "NomeFantasia");
+            ViewBag.Empresa = EmpresaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
 
             return View();
         }
@@ -56,6 +66,7 @@ namespace GISWeb.Controllers
             {
                 try
                 {
+                    oEquipe.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     EquipeBusiness.Inserir(oEquipe);
 
                     Extensions.GravaCookie("MensagemSucesso", "A Equipe '" + oEquipe.NomeDaEquipe + "' foi cadastrada com sucesso!", 10);
@@ -87,22 +98,29 @@ namespace GISWeb.Controllers
 
         public ActionResult Edicao(string id)
         {
-            var ID_Equipe = Guid.Parse(id);
-            return View(EquipeBusiness.Consulta.FirstOrDefault(p => p.ID.Equals(ID_Equipe)));
+            var UK = Guid.Parse(id);
+            return View(EquipeBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UK)));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Atualizar(Equipe oEquipe)
+        public ActionResult Atualizar(Equipe entidade)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    EquipeBusiness.Alterar(oEquipe);
+                    Equipe obj = EquipeBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(entidade.UniqueKey));
+                    if (obj == null)
+                        throw new Exception("A equipe a ser atualizada não foi encontrada na base de dados.");
 
-                    Extensions.GravaCookie("MensagemSucesso", "A equipe '" + oEquipe.NomeDaEquipe + "' foi atualizada com sucesso.", 10);
+                    obj.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    EquipeBusiness.Terminar(obj);
 
+                    entidade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    EquipeBusiness.Inserir(entidade);
+
+                    Extensions.GravaCookie("MensagemSucesso", "A equipe '" + entidade.NomeDaEquipe + "' foi atualizada com sucesso.", 10);
 
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Equipe") } });
@@ -127,41 +145,38 @@ namespace GISWeb.Controllers
         }
 
 
-
-            [HttpPost]
-            public ActionResult Terminar(string id)
+        [HttpPost]
+        public ActionResult Terminar(string id)
+        {
+            var UK = Guid.Parse(id);
+            try
             {
-                var ID_Equipe = Guid.Parse(id);
-                try
-                {
-                    Equipe oEquipe = EquipeBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ID.Equals(ID_Equipe));
+                Equipe oEquipe = EquipeBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UK));
+                if (oEquipe == null)
+                    return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir a equipe, pois a mesmo não foi localizado." } });
 
-                    if (oEquipe == null)
-                    {
-                        return Json(new { resultado = new RetornoJSON() { Erro = "Não foi possível excluir a equipe, pois a mesmo não foi localizado." } });
-                    }
-                    else
-                    {
-                        oEquipe.DataExclusao = DateTime.Now;
-                        oEquipe.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                        EquipeBusiness.Excluir(oEquipe);
+                oEquipe.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                EquipeBusiness.Terminar(oEquipe);
 
-                        return Json(new { resultado = new RetornoJSON() { Sucesso = "A equipe '" + oEquipe.NomeDaEquipe + "' foi excluída com sucesso." } });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    if (ex.GetBaseException() == null)
-                    {
-                        return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-                    }
-                    else
-                    {
-                        return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
-                    }
-                }
+                Extensions.GravaCookie("MensagemSucesso", "A equipe '" + oEquipe.NomeDaEquipe + "' foi excluída com sucesso.", 10);
 
+                return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Equipe") } });
+                    
             }
-    }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+        }
 
+
+        
+    }
 }

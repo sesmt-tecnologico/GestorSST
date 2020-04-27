@@ -46,7 +46,6 @@ function OnSuccessCadastrarDepartamento(data) {
     $('#formEdicaoDepartamento').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#blnSalvar').show();
-    ExibirMsgGritter(data.resultado);
 }
 
 function OnBeginAtualizarDepartamento() {

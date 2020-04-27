@@ -15,7 +15,12 @@
         </div>
     </div>
 
-    @using (Ajax.BeginForm("Cadastrar", "Usuario", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarUsuario", OnSuccess = "OnSuccessCadastrarUsuario", }, new { @id = "formCadastroUsuario", @class = "form-horizontal" }))
+    @using (Ajax.BeginForm("Cadastrar", "Usuario", null, 
+                new AjaxOptions { 
+                    HttpMethod = "POST", 
+                    OnBegin = "OnBeginCadastrarUsuario", 
+                    OnSuccess = "OnSuccessCadastrarUsuario", 
+                }, new { @id = "formCadastroUsuario", @class = "form-horizontal", @autocomplete = "off" }))
     {
         @Html.AntiForgeryToken()
 
@@ -26,7 +31,7 @@
                     <div class="col-xs-12 col-sm-12">
                         @Html.EditorFor(d => d.CPF, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCPF" } })
                         @Html.ValidationMessageFor(d => d.CPF, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-                        @Html.HiddenFor(d => d.IDUsuario)
+                        @Html.HiddenFor(d => d.Senha)
                     </div>
                 </div>
             </div>
@@ -54,35 +59,39 @@
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
                     @Html.LabelFor(d => d.Email, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+
                     <div class="col-xs-12 col-sm-12">
-                        @Html.EditorFor(d => d.Email, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-at bigger-110"></i>
+                            </span>
+                            @Html.EditorFor(d => d.Email, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                        </div>
+                        @Html.ValidationMessageFor(d => d.Email, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-xs-12 col-sm-4">
                 <div class="form-group">
-                    @Html.LabelFor(d => d.IDEmpresa, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    @Html.LabelFor(d => d.UKEmpresa, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                     <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownListFor(d => d.IDEmpresa, new SelectList(ViewBag.Empresas, "IDEmpresa", "NomeFantasia"), "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
-                        @Html.ValidationMessageFor(d => d.IDEmpresa, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        @Html.DropDownListFor(d => d.UKEmpresa, new SelectList(ViewBag.Empresas, "UniqueKey", "NomeFantasia"), "Selecione uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEmpresa", @autocomplete = "on" })
+                        @Html.ValidationMessageFor(d => d.UKEmpresa, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
                     </div>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-xs-12 col-sm-4">
                 <div class="form-group">
-                    @Html.LabelFor(d => d.IDDepartamento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                    @Html.LabelFor(d => d.UKDepartamento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                     <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownListFor(d => d.IDDepartamento, new SelectList("IDDepartamento", "Sigla"), "Selecione antes uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on", @id = "ddlDepartamento", @disabled = "disabled" })
+                        @Html.DropDownListFor(d => d.UKDepartamento, new SelectList("UniqueKey", "Sigla"), "Selecione antes uma Empresa...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on", @id = "ddlDepartamento", @disabled = "disabled" })
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-xs-12 col-sm-4">
                 <div class="form-group">
                     @Html.LabelFor(d => d.TipoDeAcesso, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                     <div class="col-xs-12 col-sm-12">
@@ -100,7 +109,7 @@
                     Salvar
                 </button>
                 &nbsp;
-                <button class="btn btn-info" type="submit" onclick="$('#UniqueKey').val('redirect');">
+                <button class="btn btn-info" type="submit" onclick="$('#Senha').val('redirect');">
                     <i class="ace-icon fa fa-check bigger-110"></i>
                     Salvar e Fechar
                 </button>
@@ -123,5 +132,6 @@
 @section Scripts {
     <script src="~/Scripts/jQuery/inputmask.js"></script>
     <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
+    
     <script src="~/Scripts/Custom/Usuario/Novo.js"></script>
 }

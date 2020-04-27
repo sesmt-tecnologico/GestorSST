@@ -1,7 +1,63 @@
-﻿
+﻿@using System.Configuration
 @{
-    ViewBag.Title = "Sobre";
+    ViewBag.Title = "Sobre...";
 }
 
-<h2>Sobre</h2>
+<div class="well">
+    <h1 class="grey lighter smaller">
+        <span class="green bigger-125">
+            <i class="ace-icon fa fa-info-circle"></i>
+            @ConfigurationManager.AppSettings["Web:NomeModulo"]
+        </span>
+    </h1>
+
+    <hr />
+
+    <h3 class="lighter smaller">
+        @ConfigurationManager.AppSettings["Web:NomeCompletoModulo"]
+        <br />
+        Versão @ConfigurationManager.AppSettings["Web:VersaoModulo"]
+    </h3>
+
+    @*<h4 class="lighter">
+        <span style="font-size: 12px">
+            Superintendência de Tecnologia da Informação e Telecomunicações, TI
+        </span>
+    </h4>*@
+
+    <div class="space"></div>
+
+    <h4 class="lighter smaller">
+        <span style="font-size: 12px">
+            <br />
+            <br />
+            Copyright © @DateTime.UtcNow.Year.ToString(), MunTec Softwares. Todos os direitos reservados.
+            <br />
+            <br />
+            <br />
+            Esta cópia do GESTOR é licenciada para <b>MunTec Softwares</b>.
+            <br />
+            <br />
+            <br />
+            <br />
+            <b>Esta interface do GESTOR inclui:</b>
+            <br />
+            Croppie - Copyright © 2015 Foliotek Inc
+            <br />
+            reCAPTCHA 2.0 - © Google Inc. All rights reserved.
+            <br />
+            FontAwesome - Font Awesome by Dave Gandy
+        </span>
+    </h4>
+
+    <hr />
+    <div class="space"></div>
+
+    <div class="center">
+        <a href="javascript:history.back()" class="btn btn-grey">
+            <i class="ace-icon fa fa-arrow-left"></i>
+            Voltar
+        </a>
+    </div>
+</div>
 

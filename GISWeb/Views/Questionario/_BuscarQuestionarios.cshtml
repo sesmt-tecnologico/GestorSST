@@ -1,0 +1,157 @@
+﻿@using GISModel.Entidades
+@using GISModel.Entidades.Quest
+@using System.Configuration
+@using GISHelpers.Utils
+@using GISWeb.Infraestrutura.Helpers
+@model List<Empresa>
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+        <ol class="dd-list">
+
+            @foreach (Empresa emp in Model)
+            {
+
+                string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+                <li class="dd-item collapseOne">
+                    <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
+
+                        Empresa: @emp.NomeFantasia
+
+                        <div class="pull-right action-buttons">
+
+                        </div>
+                    </div>
+
+                    @if (emp.Questionarios.Count() > 0)
+                    {
+                        <ol class="dd-list">
+                            @foreach (Questionario quest in emp.Questionarios)
+                            {
+                                <li class="dd-item">
+                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+                                        <span style="margin-right: 60px;">Questionário: @quest.Nome</span>
+                                        <span style="margin-right: 60px;">Tipo: @quest.TipoQuestionario.GetDisplayName()</span>
+
+                                        <span style="margin-right: 60px;">Frequência: @quest.Tempo.ToString() @quest.Periodo.GetDisplayName()</span>
+
+
+                                        @if (quest.Status == GISModel.Enums.Situacao.Ativo)
+                                        {
+                                            <span>Status: <strong style="color: green;">Ativo</strong></span>
+                                        }
+                                        else
+                                        {
+                                            <span>Status: <strong style="color: red;">Inativo</strong></span>
+                                        }
+
+                                        <div class="pull-right action-buttons">
+
+                                            @if (quest.Status == GISModel.Enums.Situacao.Ativo)
+                                            {
+                                                <a class="red CustomTooltip" href="#" title="Desativar" onclick="DesativarQuestionario('@quest.UniqueKey.ToString()'); return false;">
+                                                    <i class="ace-icon fa fa-remove bigger-130"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="green CustomTooltip" href="#" title="Ativar" onclick="AtivarQuestionario('@quest.UniqueKey.ToString()'); return false;">
+                                                    <i class="ace-icon fa fa-check bigger-130"></i>
+                                                </a>
+                                            }
+
+                                            <a class="blue CustomTooltip" href="@Url.Action("Novo", "Pergunta")?id=@quest.UniqueKey" title="Nova pergunta">
+                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                            </a>
+
+                                            @if (quest.Perguntas.Count == 0)
+                                            {
+                                                <a class="red CustomTooltip" href="#" title="Excluir questionário" onclick="deleteQuestionario('@quest.UniqueKey.ToString()', '@quest.Nome'); return false;">
+                                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    @if (quest.Perguntas.Count > 0)
+                                    {
+                                        <ol class="dd-list">
+
+                                            @foreach (Pergunta perg in quest.Perguntas)
+                                            {
+                                                <li class="dd-item">
+                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+
+                                                        @if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Multipla_Selecao || perg.TipoResposta == GISModel.Enums.ETipoResposta.Selecao_Unica)
+                                                        {
+                                                            <span style="width: 434px; float: left;">Pergunta @perg.Ordem.ToString(): @perg.Descricao</span>
+                                                            <span style="float: left;">Tipo de resposta: @perg.TipoResposta.GetDisplayName()</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span style="width: 450px; float: left;">Pergunta @perg.Ordem.ToString(): @perg.Descricao</span>
+                                                            <span style="float: left;">Tipo de resposta: @perg.TipoResposta.GetDisplayName()</span>
+                                                        }
+
+                                                        <div class="pull-right action-buttons">
+                                                            <a class="red CustomTooltip" href="#" title="Excluir pergunta" onclick="deletePergunta('@perg.UniqueKey.ToString()', '@perg.Ordem.ToString()'); return false;">
+                                                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                    @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count > 0)
+                                                    {
+                                                        <ol class="dd-list">
+                                                            @foreach (TipoRespostaItem item in perg._TipoResposta.TiposResposta)
+                                                            {
+                                                            <li class="dd-item">
+                                                                <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+                                                                    @item.Nome
+
+                                                                    <div class="pull-right action-buttons">
+                                                                        <a class="blue CustomTooltip" href="@Url.Action("NovaPerguntaVinculada", "Pergunta")?UKT=@item.UniqueKey&UKP=@perg.UniqueKey" title="Nova pergunta vinculada">
+                                                                            <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                                @if (item.Perguntas != null && item.Perguntas.Count() > 0)
+                                                                {
+                                                                    @Html.QuestionarioRecursivoHelperRazor().MontarListaPerguntas(item.Perguntas)
+                                                                }
+
+                                                            </li>
+                                                            }
+                                                        </ol>
+                                                    }
+                                                </li>
+                                            }
+                                        </ol>
+                                    }
+                                </li>
+                            }
+                        </ol>
+                    }
+                </li>
+            }
+        </ol>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        No momento, nenhum questionário cadastrado na base de dados.
+        <br>
+    </div>
+}
+
+

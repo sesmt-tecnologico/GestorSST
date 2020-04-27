@@ -8,9 +8,15 @@ using System.Linq;
 using System.Web.Mvc;
 using GISModel.DTO.Shared;
 using System.Collections.Generic;
+using GISWeb.Infraestrutura.Filters;
+using System.Web.SessionState;
 
 namespace GISWeb.Controllers
 {
+
+    [Autorizador]
+    [DadosUsuario]
+    [SessionState(SessionStateBehavior.ReadOnly)]
     public class WorkflowController : BaseController
     {
         #region inject

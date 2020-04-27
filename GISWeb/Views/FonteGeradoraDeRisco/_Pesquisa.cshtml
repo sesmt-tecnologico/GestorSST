@@ -34,9 +34,13 @@
                                 <i class="ace-icon fa fa-pencil bigger-130"></i>
                             </a>
 
-                            <a class="red CustomTooltip" href="#" title="Excluir Workarea" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
-                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                            </a>
+                            @if (wa.FonteGeradoraDeRisco.Count == 0)
+                            {
+                                <a class="red CustomTooltip" href="#" title="Excluir Workarea" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
+                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                </a>
+                            }
+
 
                             <a href="@Url.Action("ListaReconhecimentoPorWorkArea", "ReconhecimentoDoRisco", new {id = @wa.UniqueKey })" class="blue CustomTooltip" title="Listar Reconhecimento">
                                 <i class="ace-icon fa fa-search red bigger-125"></i>
@@ -110,15 +114,15 @@
                                                                         }
                                                                         else
                                                                         {
-                                                                            <a href="@Url.Action("ListaReconhecimentoPorWorkArea", "ReconhecimentoDoRisco", new {id = @wa.UniqueKey })" class="blue CustomTooltip" title="Exibir Reconhecimento / Controles">
+                                                                            <a href="@Url.Action("ListaReconhecimentoPorRisco", "ReconhecimentoDoRisco", new {id = @pRisc.UniqueKey })" class="blue CustomTooltip" title="Exibir Reconhecimento / Controles">
                                                                                 <i class="ace-icon fa fa-search red bigger-125"></i>
                                                                             </a>
 
-                                                                            <a href="#" class="orange CustomTooltip" title="Editar Controle do Risco" onclick="ExibirMensagemDeAlerta('Em construção...');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                            <a href="#" class="orange CustomTooltip" title="Editar Controle do Risco" onclick="OnClickEditarControleDoRisco('@pRisc.Reconhecimento.UniqueKey', '@wa.UniqueKey.ToString()','@font.UniqueKey.ToString()', '@per.UniqueKey.ToString()', '@pRisc.UniqueKey.ToString()');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                                                                 <i class="ace-icon fa fa-pencil-square orange bigger-125"></i>
                                                                             </a>
 
-                                                                            <a href="#" class="red CustomTooltip" title="Excluir Controle do Risco" onclick="alert('Em construção...');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                            <a href="#" class="red CustomTooltip" title="Excluir Controle do Risco" onclick="ExcluirReconhecimentoComControles('@pRisc.Reconhecimento.UniqueKey', '@per.Descricao', '@pRisc.Nome'); return false;">
                                                                                 <i class="ace-icon fa fa-remove red bigger-125"></i>
                                                                             </a>
                                                                         }
