@@ -20,33 +20,37 @@
 
                         @wa.Nome <span> - </span> @wa.Descricao
 
-                        <div class="pull-right action-buttons">
+                    <div class="pull-right action-buttons">
 
-                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@wa.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@wa.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                            <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+                        </a>
+
+                        <a class="blue CustomTooltip" href="@Url.Action("Novo", "FonteGeradoraDeRisco", new {id = @wa.UniqueKey })" title="Adicionar Fonte Geradora de Risco">
+                            <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                        </a>
+
+                        <a class="orange CustomTooltip" href="@Url.Action("Edicao", "WorkArea", new {id = @wa.UniqueKey })" title="Editar WorkArea">
+                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                        </a>
+
+                        @if (wa.FonteGeradoraDeRisco.Count == 0)
+                        {
+                            <a class="red CustomTooltip" href="#" title="Excluir Workarea" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
+                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
                             </a>
-
-                            <a class="blue CustomTooltip" href="@Url.Action("Novo", "FonteGeradoraDeRisco", new {id = @wa.UniqueKey })" title="Adicionar Fonte Geradora de Risco">
-                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
-                            </a>
-
-                            <a class="orange CustomTooltip" href="@Url.Action("Edicao", "WorkArea", new {id = @wa.UniqueKey })" title="Editar WorkArea">
-                                <i class="ace-icon fa fa-pencil bigger-130"></i>
-                            </a>
-
-                            @if (wa.FonteGeradoraDeRisco.Count == 0)
-                            {
-                                <a class="red CustomTooltip" href="#" title="Excluir Workarea" onclick="deleteWorkfArea('@wa.UniqueKey.ToString()', '@wa.Nome'); return false;">
-                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                </a>
-                            }
+                        }
 
 
-                            <a href="@Url.Action("ListaReconhecimentoPorWorkArea", "ReconhecimentoDoRisco", new {id = @wa.UniqueKey })" class="blue CustomTooltip" title="Listar Reconhecimento">
-                                <i class="ace-icon fa fa-search red bigger-125"></i>
-                            </a>
+                        <a href="@Url.Action("ListaReconhecimentoPorWorkArea", "ReconhecimentoDoRisco", new {id = @wa.UniqueKey })" class="blue CustomTooltip" title="Listar Reconhecimento">
+                            <i class="ace-icon fa fa-search red bigger-125"></i>
+                        </a>
 
-                        </div>
+                        <a href="@Url.Action("Index", "Medicoes", new { ukwork = @wa.UniqueKey  })" class="blue CustomTooltip" title="Medicoes / Controles" style="margin-left: 25px;">
+                            <i class="ace-icon fa fa-sun-o red bigger-125"></i>
+                        </a>
+
+                    </div>
                     </div>
 
                     @if (wa.FonteGeradoraDeRisco.Count > 0)
@@ -114,6 +118,8 @@
                                                                         }
                                                                         else
                                                                         {
+
+
                                                                             <a href="@Url.Action("ListaReconhecimentoPorRisco", "ReconhecimentoDoRisco", new {id = @pRisc.UniqueKey })" class="blue CustomTooltip" title="Exibir Reconhecimento / Controles">
                                                                                 <i class="ace-icon fa fa-search red bigger-125"></i>
                                                                             </a>
@@ -127,7 +133,11 @@
                                                                             </a>
                                                                         }
 
-                                                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@pRisc.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" style="margin-left: 25px;">
+                                                                        <a href="@Url.Action("Novo", "Exposicao", new {UKRisco = @pRisc.UniqueKey, UKEstabelecimento = @wa.UKEstabelecimento, UKWorkarea = @wa.UniqueKey  })" class="blue CustomTooltip" title="Cadastrar Exposição / Controles" style="margin-left: 25px;">
+                                                                            <i class="ace-icon fa fa-sun-o red bigger-125"></i>
+                                                                        </a>
+
+                                                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@pRisc.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" >
                                                                             <i class="ace-icon fa fa-cloud blue bigger-125"></i>
                                                                         </a>
 

@@ -474,7 +474,31 @@ function OnClickDesalocar(origemElemento) {
                 }
             }
         });
+
+
+        $.ajax({
+            method: "POST",
+            url: "/Documentoalocacao/DesalocarDocs",
+            data: { id: ukAlocacao },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                TratarResultadoJSON(content.resultado);
+
+                if (content.resultado.Sucesso != null && content.resultado.Sucesso != "") {
+                    $("#linha-" + IDAdmissao).remove();
+                }
+            }
+        });
+
+
     };
+
+    
 
 
 

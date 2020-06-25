@@ -1,7 +1,7 @@
 ﻿
 
 
-$("#btnLiberar").click(function() {
+$("#btnLiberar").click(function () {
     alert("ok");
 });
 
@@ -41,7 +41,7 @@ function onClickAnalise(UKAlocacao, UKREL_DocAloc, status) {
                     $.ajax({
                         method: "POST",
                         url: "/Workflow/ConfirmaAnalise",
-                        data: { UKAlocacao: UKAloc, UKREL_DocAloc: UKREL, Coment: Coment, status:status },
+                        data: { UKAlocacao: UKAloc, UKREL_DocAloc: UKREL, Coment: Coment, status: status },
                         error: function (erro) {
                             $("#modalAddAnaliseLoading").hide();
                             ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
@@ -96,12 +96,12 @@ function onClickPesquisaWorkflow(UKAlocacao, UKREL_DocAloc) {
             ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
         },
         success: function (content) {
-            
+
             $('#modalAddWorkflowCorpoLoading').hide();
             $('#modalAddWorkflowCorpo').html(content);
-            
-            $('#modalAddWorkflowLoading').hide();          
-                                  
+
+            $('#modalAddWorkflowLoading').hide();
+
 
         }
     });
@@ -112,7 +112,7 @@ function onClickPesquisaWorkflow(UKAlocacao, UKREL_DocAloc) {
 
 
 
-$("#URLLogoMarca").on('click',function () {
+$("#URLLogoMarca").on('click', function () {
     alert("The paragraph was clicked.");
 });
 
@@ -123,7 +123,7 @@ $("#URLLogoMarca").attr("data-toggle", "modal");
 $("#URLLogoMarca").attr("data-backdrop", "static");
 $("#URLLogoMarca").attr("data-keyboard", "false");
 
-  $("#URLLogoMarca").click(function () {
+$("#URLLogoMarca").click(function () {
 
     var btnUploadArquivo = $(this);
 
@@ -154,7 +154,7 @@ $("#URLLogoMarca").attr("data-keyboard", "false");
         }
     });
 
- });
+});
 
 
 

@@ -1,4 +1,5 @@
-﻿using GISWeb.Infraestrutura.Provider.Abstract;
+﻿
+using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System.Web.Mvc;
 
@@ -8,6 +9,7 @@ namespace GISWeb.Infraestrutura.Filters
     {
         [Inject]
         public ICustomAuthorizationProvider AutorizacaoProvider { get; set; }
+
 
         public override void OnResultExecuting(ResultExecutingContext filterContext)
         {
@@ -20,6 +22,8 @@ namespace GISWeb.Infraestrutura.Filters
                 filterContext.Controller.ViewBag.TipoDeAcesso = AutorizacaoProvider.UsuarioAutenticado.TipoDeAcesso;
                 filterContext.Controller.ViewBag.Permissoes = AutorizacaoProvider.UsuarioAutenticado.Permissoes;
             }
+
+          
         }
 
     }

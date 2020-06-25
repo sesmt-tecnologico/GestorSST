@@ -124,9 +124,15 @@
     <Compile Include="DTO\GerenciamentoDoRisco\VMNovoReconhecimentoControle.cs" />
     <Compile Include="DTO\GerenciamentoDoRisco\VMReconhecimento.cs" />
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
+    <Compile Include="DTO\PCMSO\VMLaso.cs" />
+    <Compile Include="DTO\PCMSO\VMLExamesRiscos.cs" />
+    <Compile Include="DTO\PCMSO\VMLListaExames.cs" />
     <Compile Include="DTO\Pergunta\VMNovaPerguntaVinculada.cs" />
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />
+    <Compile Include="DTO\PPRA\VMLGrupoRiscoHom.cs" />
+    <Compile Include="DTO\PPRA\VMListaMedicoes.cs" />
+    <Compile Include="DTO\PPRA\VMLListaExposicao.cs" />
     <Compile Include="DTO\Questionario\VMQuestionarioRespondido.cs" />
     <Compile Include="DTO\Resposta\VMPesquisaEmpregado.cs" />
     <Compile Include="DTO\Resposta\VMPesquisaPergunta.cs" />
@@ -137,6 +143,7 @@
     <Compile Include="DTO\WorkArea\PesquisaWorkAreaViewModel.cs" />
     <Compile Include="DTO\WorkArea\REL_WorkAreaAtividadeViewModel.cs" />
     <Compile Include="DTO\WorkArea\WorkAreaViewModel.cs" />
+    <Compile Include="DTO\Workflow\PesquisaWorkflowViewModel.cs" />
     <Compile Include="Entidades\Admissao.cs" />
     <Compile Include="Entidades\Alocacao.cs" />
     <Compile Include="Entidades\AnaliseRisco.cs" />
@@ -153,6 +160,10 @@
     <Compile Include="Entidades\Diretoria.cs" />
     <Compile Include="Entidades\Departamento.cs" />
     <Compile Include="Entidades\DocAtividade.cs" />
+    <Compile Include="Entidades\PCMSO\ASO.cs" />
+    <Compile Include="Entidades\PCMSO\Exames.cs" />
+    <Compile Include="Entidades\PCMSO\REL_RiscosExames.cs" />
+    <Compile Include="Entidades\PPRA\Medicoes.cs" />
     <Compile Include="Entidades\Quest\Pergunta.cs" />
     <Compile Include="Entidades\Quest\Questionario.cs" />
     <Compile Include="Entidades\Quest\REL_PerguntaTipoRespostaItem.cs" />
@@ -163,7 +174,7 @@
     <Compile Include="Entidades\REL_DocumentosAlocados.cs" />
     <Compile Include="Entidades\FonteGeradoraDeRisco.cs" />
     <Compile Include="Entidades\Link.cs" />
-    <Compile Include="Entidades\PerigoPotencial.cs" />
+    <Compile Include="Entidades\ListaDePerigo.cs" />
     <Compile Include="Entidades\ReconhecimentoDoRisco.cs" />
     <Compile Include="Entidades\REL_ArquivoEmpregado.cs" />
     <Compile Include="Entidades\REL_AtividadePerigo.cs" />
@@ -202,7 +213,12 @@
     <Compile Include="Entidades\UsuarioPerfil.cs" />
     <Compile Include="Entidades\WorkArea.cs" />
     <Compile Include="Entidades\Workflow.cs" />
+    <Compile Include="Enums\EGenero.cs" />
+    <Compile Include="Enums\EObrigatoriedade.cs" />
+    <Compile Include="Enums\EPeriodicidade.cs" />
     <Compile Include="Enums\EPeriodo.cs" />
+    <Compile Include="Enums\ETipoExame.cs" />
+    <Compile Include="Enums\ETipoMedicoes.cs" />
     <Compile Include="Enums\ETipoQuestionario.cs" />
     <Compile Include="Enums\ETipoResposta.cs" />
     <Compile Include="Enums\ETrajetoria .cs" />
@@ -210,7 +226,7 @@
     <Compile Include="Enums\ETipoContratoFornecedor.cs" />
     <Compile Include="Enums\ETipoPlanoAcao.cs" />
     <Compile Include="Enums\EControle.cs" />
-    <Compile Include="Enums\ESeveridadeSeg.cs" />
+    <Compile Include="Enums\EGravidade.cs" />
     <Compile Include="Enums\EProbabilidadeSeg.cs" />
     <Compile Include="Enums\EExposicaoSeg.cs" />
     <Compile Include="Enums\EExposicaoCalor.cs" />

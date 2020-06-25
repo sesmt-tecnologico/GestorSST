@@ -31,7 +31,7 @@ namespace GISWeb.Controllers
         public IPossiveisDanosBusiness PossiveisDanosBusiness { get; set; }
 
         [Inject]
-        public IPerigoPotencialBusiness PerigoPotencialBusiness { get; set; }
+        public IListaDePerigoBusiness ListaDePerigoBusiness { get; set; }
 
         [Inject]
         public IAtividadesDoEstabelecimentoBusiness AtividadesDoEstabelecimentoBusiness { get; set; }
@@ -56,7 +56,7 @@ namespace GISWeb.Controllers
         {
             ViewBag.EventoPerigoso = new SelectList(EventoPerigosoBusiness.Consulta.ToList(), "IDEventoPerigoso", "Descricao");
             ViewBag.PossiveisDanos = new SelectList(PossiveisDanosBusiness.Consulta.ToList(), "IDPossiveisDanos", "DescricaoDanos");
-            ViewBag.EventPeriPotencial = new SelectList(PerigoPotencialBusiness.Consulta.ToList(), "IDPerigoPotencial", "DescricaoEvento");
+            ViewBag.EventPeriPotencial = new SelectList(ListaDePerigoBusiness.Consulta.ToList(), "IDPerigoPotencial", "DescricaoEvento");
             ViewBag.AtivEstabelecimento = new SelectList(AtividadesDoEstabelecimentoBusiness.Consulta.ToList(), "IDAtividadesDoEstabelecimento", "DescricaoDestaAtividade");
             ViewBag.idAtividadeEstabel = id;
             ViewBag.Nome = Nome;
@@ -67,7 +67,7 @@ namespace GISWeb.Controllers
                                         on Tip.idAtividadesDoEstabelecimento equals ATE.ID
                                         join PD in PossiveisDanosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                         on Tip.idPossiveisDanos equals PD.ID
-                                        join PP in PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                        join PP in ListaDePerigoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                         on Tip.idPerigoPotencial equals PP.ID
                                         join EP in EventoPerigosoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                         on Tip.idEventoPerigoso equals EP.ID
@@ -83,9 +83,9 @@ namespace GISWeb.Controllers
                                                 DescricaoDanos = PD.DescricaoDanos,
 
                                             },
-                                            PerigoPotencial = new PerigoPotencial()
+                                            ListaDePerigo = new ListaDePerigo()
                                             {
-                                                DescricaoEvento = PP.DescricaoEvento,
+                                                DescricaoPerigo = PP.DescricaoPerigo,
                                             },
                                             EventoPerigoso = new EventoPerigoso()
                                             {

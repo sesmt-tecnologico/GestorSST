@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GISModel.Enums
 {
-    public enum ESeveridadeSeg
+    public enum EGravidade
     {
 
         //Semestral

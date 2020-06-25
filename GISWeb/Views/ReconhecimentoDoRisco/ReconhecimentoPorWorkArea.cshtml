@@ -160,22 +160,29 @@ else
                             <a href="#" class="CustomTooltip" title="Clique para exibir os arquivos" onclick="OnClickBuscarArquivos('@control.UniqueKey'); return false;" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                 <span>@control.TipoDeControle</span>
                             </a>
+                           
                         </div>
                         <div class="col-sm-4 col-xs-12">
 
                             @if (control.Link != null && !control.Link.UniqueKey.Equals(Guid.Empty))
                             {
-                                <a class="blue CustomTooltip position-relative" href="#" title="Clique para reproduzir o vídeo" onclick="window.open('@control.Link.URL');return false;" )>
+                                @*<a class="blue CustomTooltip position-relative" href="#" title="Clique para reproduzir o vídeo" onclick="window.open('@control.Link.URL');return false;" )>
                                     <i class="ace-icon fa fa-video-camera"></i>
                                     <span style="margin-left: 5px;">@control.ClassificacaoMedida.Nome</span>
 
-                                </a>
-                            }
-                            else
-                            {
-                                @control.ClassificacaoMedida.Nome
-                            }
-                        </div>
+                                </a>*@
+
+                                <a class="blue CustomTooltip position-relative" href="#" title="Clique para reproduzir o vídeo" onclick="OnClickVerAula('@control.Link.URL');return false;" data-target="#modalVerAula" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
+                                    <i class="ace-icon fa fa-video-camera"></i>
+                                    <span style="margin-left: 5px;">@control.ClassificacaoMedida.Nome</span>
+
+                                    </a>
+                                    }
+                                    else
+                                    {
+                                    @control.ClassificacaoMedida.Nome
+                                    }
+                            </div>
                         <div class="col-sm-4 col-xs-12">
                             <span>@control.EControle.GetDisplayName()</span>
                         </div>

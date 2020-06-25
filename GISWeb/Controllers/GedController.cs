@@ -62,13 +62,13 @@ namespace GISWeb.Controllers
         public IBaseBusiness<Alocacao> AlocacaoBusiness { get; set; }
 
         [Inject]
-        public IBaseBusiness<Funcao> FuncaoBusiness { get; set; }      
+        public IBaseBusiness<Funcao> FuncaoBusiness { get; set; }
 
 
         [Inject]
         public IBaseBusiness<REL_FuncaoAtividade> REL_FuncaoAtividadeBusiness { get; set; }
 
-        
+
 
         #endregion
 
@@ -89,7 +89,7 @@ namespace GISWeb.Controllers
 
         public ActionResult Upload(string ukemp, string ukalocado, string ukfuncao)
         {
-            Guid UKfunc = Guid.Parse(ukfuncao);          
+            Guid UKfunc = Guid.Parse(ukfuncao);
             //ViewBag.UKEmpregado = ukemp;
             var ukAdmissao = AdmissaoBusiness.GetAdmissao(Guid.Parse(ukemp)).UniqueKey;
 
@@ -98,7 +98,7 @@ namespace GISWeb.Controllers
             ViewBag.UKEmpregado = ukemp;
             ViewBag.UKAlocado = ukalocado;
             ViewBag.UKFuncao = ukfuncao;
-            
+
 
             //Criar obj para relacionar documentos com Alocação 
             //cadastrar este obj na classe REL_DocumentoAlocção
@@ -131,10 +131,11 @@ namespace GISWeb.Controllers
 
         public ActionResult BuscarAdmissoesAtuaisGed(string UKEmpregado)
         {
-           
+
 
             var lista = this.AdmissaoBusiness.BuscarAdmissoesAtuais(UKEmpregado);
 
+            //tem que implementar por empregado
             var val = REL_DocumentosAlocadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
 
             ViewBag.RE_DocsAl = val;
@@ -171,7 +172,7 @@ namespace GISWeb.Controllers
                         arquivoPostado.InputStream.CopyTo(target);
 
                         nomeArquivo = Request.Files[arquivo].FileName;
-                        if (ArquivosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && 
+                        if (ArquivosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) &&
                         a.UniqueKey.Equals(UKEmpregado) && a.NomeLocal.ToUpper().Equals(arquivoPostado.FileName.ToUpper())).Count() > 0)
                         {
                             throw new Exception("Já existe um arquivo com este nome.");
@@ -193,7 +194,7 @@ namespace GISWeb.Controllers
 
                             var _RELarquivoEmpregado = new REL_ArquivoEmpregado()
                             {
-                                UKEmpregado = UKEmpregado, 
+                                UKEmpregado = UKEmpregado,
                                 UKObjetoArquivo = _arquivo.UniqueKey,
                                 UKLocacao = Guid.Parse(ukAlocado),
                                 UKFuncao = Guid.Parse(ukFuncao),
@@ -206,7 +207,7 @@ namespace GISWeb.Controllers
                         }
                     }
                 };
-                
+
                 if (Request.Files.Count == 1)
                     Extensions.GravaCookie("MensagemSucesso", "O arquivo '" + arquivoPostado.FileName + "' foi anexado com êxito.", 1);
                 else
@@ -225,7 +226,7 @@ namespace GISWeb.Controllers
                 Response.StatusCode = 500;
                 if (ex.GetBaseException() == null)
                 {
-                    Extensions.GravaCookie("MensagemErro",ex.Message, 1);
+                    Extensions.GravaCookie("MensagemErro", ex.Message, 1);
                     return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
                 }
                 else

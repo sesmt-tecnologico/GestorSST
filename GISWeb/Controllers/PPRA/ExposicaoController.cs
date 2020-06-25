@@ -12,6 +12,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using GISModel.Enums;
+using GISHelpers.Utils;
+using GISModel.DTO.PPRA;
 
 namespace GISWeb.Controllers
 {
@@ -57,7 +60,31 @@ namespace GISWeb.Controllers
         public IAtividadeAlocadaBusiness AtividadeAlocadaBusiness { get; set; }
 
         [Inject]
-        public ITipoDeRiscoBusiness TipoDeRiscoBusiness { get; set; }
+        public IRiscoBusiness RiscoBusiness { get; set; }
+
+        [Inject]
+        public IPerigoBusiness PerigoBusiness { get; set; }
+
+        [Inject]
+        public IReconhecimentoBusiness ReconhecimentoBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<FonteGeradoraDeRisco> FonteGeradoraDeRiscoBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<REL_PerigoRisco> REL_PerigoRiscoBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<REL_FontePerigo> REL_FontePerigoBusiness { get; set; }
+
+
+
+
+        [Inject]
+        public IWorkAreaBusiness WorkareaBusiness { get; set; }
+
+
+
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
@@ -65,119 +92,123 @@ namespace GISWeb.Controllers
         #endregion
 
 
-        public ActionResult Novo(Exposicao oExposicao, string IDAtividadeAlocada, string idAlocacao, string idTipoDeRisco, string idEmpregado)
+        public ActionResult Novo(Exposicao oExposicao,  string UKRisco, string UKEstabelecimento, string UKWorkarea)
         {
-            if(ExposicaoBusiness.Consulta.Any(p=>p.idAtividadeAlocada.Equals(IDAtividadeAlocada) && p.idTipoDeRisco.Equals(idTipoDeRisco)))
-            {
-                return Json(new { resultado = new RetornoJSON() { Alerta = "Já existe uma exposição para esta Alocação!" } });
-                
-            }
-            else { 
+
+            Guid GuidRisc = Guid.Parse(UKRisco);
+            Guid GuidUkEstab = Guid.Parse(UKEstabelecimento);
+            Guid GuidUKWork = Guid.Parse(UKWorkarea);
+
            
-            ViewBag.AtivAloc = IDAtividadeAlocada;
-            ViewBag.IDaloc = idAlocacao;
-            ViewBag.IDRisc= idTipoDeRisco;
-            ViewBag.IdEmpregado = idEmpregado;
-
-            ViewBag.Imagens = AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(IDAtividadeAlocada))).ToList();
-
-            var EXPO = (from TR in TipoDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                            
-                        join ATE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                        on TR.idAtividadesDoEstabelecimento equals ATE.ID
-                        where TR.ID.Equals(idTipoDeRisco)
-                        select new TipoDeRisco()
-                        {
-                            ID = TR.ID,
-                            idPossiveisDanos = TR.idPossiveisDanos,
-                            idAtividadesDoEstabelecimento = TR.idAtividadesDoEstabelecimento,
-                            idEventoPerigoso = TR.idEventoPerigoso,
-                            idPerigoPotencial = TR.idPerigoPotencial,
-                            EClasseDoRisco = TR.EClasseDoRisco,
-                            FonteGeradora = TR.FonteGeradora,
-                            Tragetoria = TR.Tragetoria
-
-                        }).ToList();
 
 
-            ViewBag.Riscos = EXPO;
-
-            var Aloc = (from a in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(idAlocacao))).ToList()
-                        select new
-                        {
-                            id = a.ID
-                        }
-                        ).ToList();
-
-
-            List<string> Filtro = new List<string>();
-
-            Guid? filtro = null;
-
-            foreach (var item in Aloc)
+            if (ExposicaoBusiness.Consulta.Any(p=>p.UKRisco.Equals(GuidRisc) && p.UKWorkArea.Equals(GuidUKWork)))
             {
-                filtro = item.id;
-            }
-            
-            List<string> model = Filtro;
+                var UltimoReconhecimento = ExposicaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKWorkArea.Equals(GuidUKWork) && p.UKRisco.Equals(GuidRisc));
 
-            ViewBag.IDaloc = filtro;
+                var enumData = from EProbabilidadeSeg e in Enum.GetValues(typeof(EProbabilidadeSeg))
+                               select new
+                               {
+                                   ID = (int)e,
+                                   Name = e.GetDisplayName()
+                               };
+                var EProb = new SelectList(enumData, "ID", "Name", UltimoReconhecimento.EProbabilidadeSeg);
 
 
-            try
-            {
+                List<VMLListaExposicao> ListExp = (from ex in ExposicaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                                   join e in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                                   on ex.UKEstabelecimento equals e.UniqueKey
+                                                   join wa in WorkareaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                                   on e.UniqueKey equals wa.UKEstabelecimento 
+                                                   join rp in REL_PerigoRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) ).ToList()
+                                                   on ex.UKRisco equals rp.UKRisco
+                                                   join r in RiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                                   on ex.UKRisco equals r.UniqueKey
+                                                   join p in PerigoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                                   on rp.UKPerigo equals p.UniqueKey
+                                                   join fp in REL_FontePerigoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                                   on p.UniqueKey equals fp.UKPerigo
+                                                   join f in FonteGeradoraDeRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                                   on fp.UKFonteGeradora equals f.UniqueKey
+                                                   where ex.UKWorkArea.Equals(GuidUKWork) && ex.UKRisco.Equals(GuidRisc)
+                                                   select new VMLListaExposicao()
+                                                   {
+                                                       EExposicaoInsalubre = ex.EExposicaoInsalubre,
+                                                       EExposicaoCalor = ex.EExposicaoCalor,
+                                                       EExposicaoSeg = ex.EExposicaoSeg,
+                                                       Estabelecimento = e.NomeCompleto,
+                                                       Workarea = wa.Nome,
+                                                       FonteGeradora = f.FonteGeradora,
+                                                       Risco = r.Nome,
+                                                       UsuarioInclusao = ex.UsuarioInclusao,
+                                                       DataInclusao = ex.DataInclusao
+
+
+                                                   }).ToList();
+
+
+
+                ViewBag.lista = ListExp.ToList();
+
+
+
+
+
+                ViewBag.Prob =  UltimoReconhecimento.EProbabilidadeSeg.GetDisplayName();
+
+                ViewBag.ukExposi = UltimoReconhecimento.UniqueKey;
+
+                ViewBag.ukWorkarea = UltimoReconhecimento.UKWorkArea;
+
+
+
+                ViewBag.ultimo = UltimoReconhecimento;
                 
-                if (oExposicao == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Alerta = "Imagens não encontrada." } });
-                }
-                else
-                {
-                    return Json(new { data = RenderRazorViewToString("_Novo", oExposicao) });
-                }
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetBaseException() == null)
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
-                }
-                else
-                {
-                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
-                }
-            }
             }
 
-            //return View();
+            ViewBag.ukworkarea = GuidUKWork;
+            ViewBag.IDRisc= GuidRisc;
+            ViewBag.Estab = GuidUkEstab;
+
+            ViewBag.Imagens = AtividadeAlocadaBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.ID.Equals(GuidRisc))).ToList();
+
+            var Reconhecimento = ReconhecimentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKWorkarea.Equals(GuidUKWork) && p.UKRisco.Equals(GuidRisc));
+
+            ViewBag.classeRisco = Reconhecimento.EClasseDoRisco;
+
+            return View();
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(Exposicao oExposicao, string idAtividadeAlocada, string idAlocacao, string idTipoDeRisco, string idEmpregado)
+        public ActionResult Cadastrar(Exposicao oExposicao, string ukWorkarea, string ukRisc, string ukEstab)
         {
-            
+
+            Guid Ukestabelecimento = Guid.Parse(ukEstab);
+            Guid UKRisco = Guid.Parse(ukRisc);
+            Guid UKWorkarea = Guid.Parse(ukWorkarea);
+
             if (ModelState.IsValid)
             {
                 try
                 {
 
-                    oExposicao.idAtividadeAlocada = Guid.Parse(idAtividadeAlocada);
-                    oExposicao.idAlocacao = Guid.Parse(idAlocacao);
-                    oExposicao.idTipoDeRisco = Guid.Parse(idTipoDeRisco);
+
+                    oExposicao.UKEstabelecimento = Ukestabelecimento;
+                    oExposicao.UKRisco = UKRisco;
+                    oExposicao.UKWorkArea = UKWorkarea;
+                    oExposicao.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     ExposicaoBusiness.Inserir(oExposicao);
 
                     Extensions.GravaCookie("MensagemSucesso", "A Exposição foi registrada com sucesso.", 10);
 
 
                     
-                    //return Json(new { data = RenderRazorViewToString("_DetalhesAmbienteAlocado", oExposicao) }); 
-
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("PerfilEmpregado", "Admissao", new { id = idEmpregado}) } });
                     
-                    //return Json(new { resultado = new RetornoJSON() { Sucesso = "Exposição Cadastrada com sucesso!" } });
 
-
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "FonteGeradoraDeRisco") } });
+                    
+                  
                 }
                 catch (Exception ex)
                 {

@@ -4,8 +4,12 @@
         $("#formAlterarSenha").submit();
     });
 
+   
+
     $('.btnAlterarValor').on('click', function (e) {
         e.preventDefault();
+
+        
 
         var elementoClicado = $(this);
         var propriedade = elementoClicado.data('propriedade');
@@ -72,5 +76,33 @@ function OnSuccessAlterarSenha(content) {
     if (content.resultado.Sucesso != null && content.resultado.Sucesso != undefined && content.resultado.Sucesso != "") {
         $("#modalAlterarSenha").modal("hide");
     }
+
+}
+//roda a cada 12 horas
+setInterval(function () {
+
+    BuscarTotalDocsInbox();
+
+    
+
+}, 72000);
+
+ function BuscarTotalDocsInbox() {
+
+    $.ajax({
+        url: '/Inbox/BuscarTotalDocsInbox',
+        global: false,
+        type: 'POST',
+        async: true,
+        success: function (data) {
+
+            $(".liNavbarInboxBadgeTotalPessoal").html(data.resultado.Total);
+
+            //$(".totalDocsPessoal").html(data.resultado.Pessoal + data.resultado.PessoalVeiculo);
+            //$(".totalDocsGrupos").html(data.resultado.Grupos + data.resultado.GruposVeiculo);
+
+            $("#liNavbarInbox").show();
+        }
+    });
 
 }

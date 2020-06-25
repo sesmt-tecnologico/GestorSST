@@ -1,0 +1,46 @@
+﻿<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+@using GISModel.DTO.Workflow
+
+
+@model List<PesquisaWorkflowViewModel>
+
+@{
+    ViewBag.Title = "Workflow";
+}
+
+
+
+
+<div class="container">
+    <h2>Workflow</h2>
+    <div class="row">
+
+        <div class="col-md-12 col-lg-12">
+            <div id="tracking-pre"></div>
+            <div id="tracking">
+                <div class="text-center tracking-status-intransit">
+                    <p class="tracking-status text-tight">in transit</p>
+                </div>
+                <div class="tracking-list">
+                    @foreach (PesquisaWorkflowViewModel iwork in ViewBag.oWork)
+                    {
+                        <div class="tracking-item">
+                            <div class="tracking-icon status-intransit">
+                                <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                                    <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
+                                </svg>
+                                <!-- <i class="fas fa-circle"></i> -->
+                            </div>
+                            <div class="tracking-date">@iwork.UsuarioInclusao<span>@iwork.Data</span></div>
+                            <div class="tracking-content">@iwork.Documento<span>@iwork.Comentarios</span></div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -299,6 +299,11 @@
     <Content Include="Content\Ace\FontAwesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\Ace\FontAwesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\Ace\FontAwesome\fonts\FontAwesome.otf" />
+    <Content Include="Images\fluxo\Fluxo01.fw.png" />
+    <Content Include="Images\fluxo\fluxo02.fw.png" />
+    <Content Include="Images\fluxo\fluxo03.fw.png" />
+    <Content Include="Images\fluxo\fluxo4.fw.png" />
+    <Content Include="Images\GestorLogoGrande1.fw.png" />
     <Content Include="Images\Home\LogoGestor.fw.png" />
     <Content Include="Images\slack_loading.gif" />
     <Content Include="Scripts\Ace\ace-extra.js" />
@@ -433,6 +438,8 @@
     <Content Include="Scripts\Custom\EventoPerigoso\Excluir.js" />
     <Content Include="Scripts\Custom\EventoPerigoso\Listagem.js" />
     <Content Include="Scripts\Custom\EventoPerigoso\Novo.js" />
+    <Content Include="Scripts\Custom\Exames\Listagem.js" />
+    <Content Include="Scripts\Custom\Exames\Novo.js" />
     <Content Include="Scripts\Custom\Exposicao\Edicao.js" />
     <Content Include="Scripts\Custom\Exposicao\Listagem.js" />
     <Content Include="Scripts\Custom\Exposicao\Novo.js" />
@@ -447,7 +454,10 @@
     <Content Include="Scripts\Custom\Funcao\Lista.js" />
     <Content Include="Scripts\Custom\Funcao\Novo.js" />
     <Content Include="Scripts\Custom\GED\AdicionaArquivos.js" />
+    <Content Include="Scripts\Custom\GED\EditaDados.js" />
     <Content Include="Scripts\Custom\GED\Lista.js" />
+    <Content Include="Scripts\Custom\Indicaores\Lista.js" />
+    <Content Include="Scripts\Custom\Indicaores\Listagem.js" />
     <Content Include="Scripts\Custom\Link\Edicao.js" />
     <Content Include="Scripts\Custom\Link\Listagem.js" />
     <Content Include="Scripts\Custom\Link\Novo.js" />
@@ -456,6 +466,8 @@
     <Content Include="Scripts\Custom\ListaDepartamento\Lista.js" />
     <Content Include="Scripts\Custom\ListaDepartamento\Novo.js" />
     <Content Include="Scripts\Custom\ListaEnumerada\Listagem.js" />
+    <Content Include="Scripts\Custom\Medicoes\Listagem.js" />
+    <Content Include="Scripts\Custom\Medicoes\Novo.js" />
     <Content Include="Scripts\Custom\MedidaControleRiscoFuncao\Edicao.js" />
     <Content Include="Scripts\Custom\MedidaControleRiscoFuncao\Listagem.js" />
     <Content Include="Scripts\Custom\MedidaControleRiscoFuncao\Novo.js" />
@@ -485,6 +497,8 @@
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Novo.js" />
     <Content Include="Scripts\Custom\Resposta\Listagem.js" />
+    <Content Include="Scripts\Custom\RiscoExame\Listagem.js" />
+    <Content Include="Scripts\Custom\RiscoExame\Novo.js" />
     <Content Include="Scripts\Custom\Risco\Edicao.js" />
     <Content Include="Scripts\Custom\Risco\Excluir.js" />
     <Content Include="Scripts\Custom\Risco\Listagem.js" />
@@ -563,23 +577,29 @@
     <Compile Include="Controllers\EstabelecimentoAmbienteController.cs" />
     <Compile Include="Controllers\EstabelecimentoController.cs" />
     <Compile Include="Controllers\EventoPerigosoController.cs" />
-    <Compile Include="Controllers\ExposicaoController.cs" />
+    <Compile Include="Controllers\PCMSO\ASOController.cs" />
+    <Compile Include="Controllers\PCMSO\ExamesController.cs" />
+    <Compile Include="Controllers\PPRA\ExposicaoController.cs" />
     <Compile Include="Controllers\FonteGeradoraDeRiscoController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
     <Compile Include="Controllers\FuncaoController.cs" />
     <Compile Include="Controllers\GedController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InboxController.cs" />
     <Compile Include="Controllers\IndicadoresController.cs" />
     <Compile Include="Controllers\LinkController.cs" />
     <Compile Include="Controllers\ListaEnumeradaController.cs" />
     <Compile Include="Controllers\MedidasDeControleController.cs" />
     <Compile Include="Controllers\MidiaController.cs" />
     <Compile Include="Controllers\NivelHierarquicoController.cs" />
+    <Compile Include="Controllers\PCMSO\REL_RiscosExamesController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
     <Compile Include="Controllers\PerigoController.cs" />
     <Compile Include="Controllers\PermissoesController.cs" />
     <Compile Include="Controllers\PlanoDeAcaoController.cs" />
     <Compile Include="Controllers\PossiveisDanosController.cs" />
+    <Compile Include="Controllers\PPRA\MedicoesController.cs" />
+    <Compile Include="Controllers\PPRA\PPRAController.cs" />
     <Compile Include="Controllers\Quest\PerguntaController.cs" />
     <Compile Include="Controllers\Quest\QuestionarioController.cs" />
     <Compile Include="Controllers\Quest\RespostaController.cs" />
@@ -841,7 +861,6 @@
     <Content Include="Views\Workflow\_VincularAnalise.cshtml" />
     <Content Include="Views\Ged\_ExibirWorkflow.cshtml" />
     <Content Include="Views\Workflow\_ExibirWorkflow.cshtml" />
-
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Empregado\Desktop.cshtml" />
     <Content Include="Views\Usuario\_Pesquisar.cshtml" />
@@ -862,7 +881,19 @@
     <Content Include="Views\Questionario\_BuscarQuestionarioPorEmpregado.cshtml" />
     <Content Include="Views\Questionario\_BuscarPerguntasVinculadasView.cshtml" />
     <Content Include="Views\Resposta\_Pesquisar.cshtml" />
-
+    <Content Include="Views\Workflow\_VisualizarWorkflow.cshtml" />
+    <Content Include="Views\Workflow\VisualizarWorkflow.cshtml" />
+    <Content Include="Views\DocumentoAlocacao\_EditarData.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\_VerAula.cshtml" />
+    <Content Include="Views\Indicadores\_IndicadoresAVP.cshtml" />
+    <Content Include="Views\PPRA\PPRAReconhecimentoWA.cshtml" />
+    <Content Include="Views\Medicoes\Novo.cshtml" />
+    <Content Include="Views\Medicoes\Index.cshtml" />
+    <Content Include="Views\Exames\Index.cshtml" />
+    <Content Include="Views\Exames\Novo.cshtml" />
+    <Content Include="Views\REL_RiscosExames\Index.cshtml" />
+    <Content Include="Views\REL_RiscosExames\Novo.cshtml" />
+    <Content Include="Views\ASO\ListaASOEmpregado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -881,6 +912,7 @@
     <Folder Include="Images\Relatorios\" />
     <Folder Include="Views\AtividadeFuncaoLiberada\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Inbox\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GISCore\GISCore.csproj">

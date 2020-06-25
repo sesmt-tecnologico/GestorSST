@@ -32,7 +32,7 @@ else
 {
     foreach (Admissao adm in Model)
     {
-        
+
 
         <div class="widget-box transparent collapsed" id="widget-box-1" data-ukadmissao="@adm.UniqueKey.ToString()">
             <div class="widget-header green" style="border-bottom: 1px solid #ddd">
@@ -40,10 +40,17 @@ else
                     <i class="ace-icon fa fa-building" style="color: #585858"></i>
                     <a href="#" data-action="collapse" class="green">
                         <b>EMPRESA: @adm.Empresa.NomeFantasia</b>
+                    </a>&nbsp;
+                    <b><i style="color:crimson">ASO:</i> </b>
+                    <a href='@Url.Action("ListaASOEmpregado", "ASO", new { ukEmpregado = adm.UKEmpregado})' class="blue CustomTooltip" title="ASO">
+
+                        <i class="ace-icon fa fa-user-md bigger-150"></i>
+
                     </a>
-                </h5>                
+                </h5>
 
             </div>
+
 
             <div class="widget-body">
                 <div class="widget-main">
@@ -81,7 +88,7 @@ else
 
                                     <div style="float: right; border: 0px;">
 
-                                        @Html.ActionLink("Uploads Documentos", "Upload", "Ged",
+                                        @Html.ActionLink("Docs", "Upload", "Ged",
                                                  new
                                                       {
                                                        ukemp = adm.UKEmpregado.ToString(),
@@ -89,18 +96,20 @@ else
                                                        ukfuncao = adm.Alocacoes.SingleOrDefault(x => x.UniqueKey == al.UniqueKey).Funcao.UniqueKey,
 
                                                       },
-                                                 new { @class = "btn btn-primary" })
+                                                 new { @class = "fa fa-cloud-upload blue bigger-200" })
+
+
                                     </div>
 
-                                    <div style="float: right; border: 0px;">
-                                        @Html.ActionLink("Cadastrar Documentos", "Novo", "DocumentoAlocacao",
-                                                 new
-                                                      {
-                                                       UKAlocacao = @al.UniqueKey,
+                                    @*<div style="float: right; border: 0px;">
+                                            @Html.ActionLink("Confirmar  ", "Novo", "DocumentoAlocacao",
+                                                     new
+                                                          {
+                                                           UKAlocacao = @al.UniqueKey,
 
-                                                       },
-                                                 new { @class = "btn btn-success "  })
-                                    </div>
+                                                           },
+                                                     new { @class = "fa fa-file-archive-o green bigger-200 " })
+                                        </div>*@
 
 
                                 </div>
@@ -181,53 +190,52 @@ else
                                             <div class="col-sm-10 col-xs-10">
                                                 <h3 class="header smaller lighter green" style="margin-left: 13px">Atividades | Documentos</h3>
                                             </div>
-                                            </div>
+                                        </div>
 
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    @if (al.Funcao.Atividades == null || al.Funcao.Atividades.Count == 0)
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                @if (al.Funcao.Atividades == null || al.Funcao.Atividades.Count == 0)
+                                                {
+                                                    <div class="alert alert-warning">
+                                                        <strong>
+                                                            <i class="ace-icon fa fa-meh-o"></i>
+                                                            Oops!
+                                                        </strong>
+
+                                                        Nenhuma atividade vinculada com a função acima.
+                                                        <br>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+
+                                                    foreach (Atividade atv in al.Funcao.Atividades)
                                                     {
-                                                        <div class="alert alert-warning">
-                                                            <strong>
-                                                                <i class="ace-icon fa fa-meh-o"></i>
-                                                                Oops!
-                                                            </strong>
 
-                                                            Nenhuma atividade vinculada com a função acima.
-                                                            <br>
-                                                        </div>
-                                                    }
-                                                    else
-                                                    {
+                                                        <div class="p-3 mb-2 bg-info" style="font-size: 14px; line-height: 2.0"><i style="color:orangered"> Atividade:</i>&nbsp;@atv.Descricao</div>
 
-                                                        foreach (Atividade atv in al.Funcao.Atividades)
+
+                                                        if (atv.DocumentosPessoal == null || atv.DocumentosPessoal.Count == 0)
+                                                        {
+                                                            <div class="alert alert-warning">
+                                                                <strong>
+                                                                    <i class="ace-icon fa fa-meh-o"></i>
+                                                                    Oops!
+                                                                </strong>
+
+                                                                Nenhum documento para atividade acima.
+                                                                <br>
+                                                            </div>
+                                                        }
+                                                        else
                                                         {
 
-                                                            <div class="p-3 mb-2 bg-info text-white"> <strong>@atv.Descricao</strong></div>
-
-
-                                                            if (atv.DocumentosPessoal == null || atv.DocumentosPessoal.Count == 0)
-                                                            {
-                                                                <div class="alert alert-warning">
-                                                                    <strong>
-                                                                        <i class="ace-icon fa fa-meh-o"></i>
-                                                                        Oops!
-                                                                    </strong>
-
-                                                                    Nenhum documento para atividade acima.
-                                                                    <br>
-                                                                </div>
-                                                            }
-                                                            else
+                                                            foreach (var item in atv.DocumentosPessoal)
                                                             {
 
-                                                                foreach (var item in atv.DocumentosPessoal)
-                                                                {
 
-
-                                                                    @*Cadastrando no workflow Uniquekey da alocação e UniqueKey do REL_Documentoalocação*@
-
-
+                                                                @*Cadastrado no workflow Uniquekey da alocação e UniqueKey do REL_Documentoalocação*@
+                                                                @*Consulta REL_DocumentoAlocado*@
 
                                                                 foreach (var item4 in ViewBag.RE_DocsAl)
                                                                 {
@@ -237,358 +245,464 @@ else
                                                                     var status3 = 3;
                                                                     RelDocAloc = item4.UniqueKey;
 
-                                                                    if (status == item4.Posicao && item4.UKDocumento == item.UniqueKey && !(Convert.ToString(item4.DataDocumento) == "12/31/9999 11:59:59 PM"))
+                                                                    if (status == item4.Posicao && item4.UKDocumento == item.UniqueKey)
                                                                     {
-                                                                            <div class="row">
-                                                                                <div class="col-xs-12 col-sm-3">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                <span>
-                                                                                                    <b>
-                                                                                                        <i style="color: black ">
-                                                                                                            &nbsp;@item.NomeDocumento&nbsp;
-                                                                                                        </i>
-                                                                                                    </b>
-                                                                                                </span>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-xs-12 col-sm-2">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
+
+                                                                        <div class="row">
+                                                                            <div class="col-xs-12 col-sm-3">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            <span>
                                                                                                 <b>
                                                                                                     <i style="color: black ">
-                                                                                                        <p><span>Realizado em:</span>&nbsp;@item4.DataDocumento.ToShortDateString()</p>
+                                                                                                        &nbsp;@item.NomeDocumento&nbsp;
+
                                                                                                     </i>
                                                                                                 </b>
-
-                                                                                            </div>
+                                                                                            </span>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-xs-12 col-sm-2">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                @foreach (var item3 in ViewBag.Validade)
-                                                            {
-                                                                if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
-                                                                {
-                                                                                                        <b>
-                                                                                                            <i style="color: black ">
-                                                                                                                <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
-                                                                                                            </i>
-                                                                                                        </b>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-sm-2">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            <b>
+                                                                                                @if (@item4.DataDocumento != Convert.ToDateTime("9999-12-31 23:59:59.997"))
+                                                                                                {
+                                                                                                    <i style="color: black ">
+                                                                                                        <span>Realizado em:</span>&nbsp;@item4.DataDocumento.ToShortDateString()
+                                                                                                        <input type="hidden" id="UKEmp" value="@item.UniqueKey.ToString()" />
+                                                                                                    </i>
+                                                                                                    <span class="action-buttons">
+                                                                                                        &nbsp;
+                                                                                                        <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                            <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                        </a>
+                                                                                                    </span>
+
+                                                                                                }
+                                                                                                else
+                                                                                                {
+
+                                                                                                    <span style="font-weight: 700">
+                                                                                                        Realizado em:
+                                                                                                    </span>
+                                                                                                    <span class="action-buttons">
+                                                                                                        &nbsp;
+                                                                                                        <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                            <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                        </a>
+                                                                                                    </span>
 
 
-                                                                                                    }
+                                                                                                }
 
-                                                            }
-                                                                                            </div>
+                                                                                            </b>
+
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-xs-12 col-sm-1">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                <span>
-                                                                                                    <a class="blue CustomTooltip" href="#" title="Solicitar Análise " onclick="onClickAnalise('@al.UniqueKey','@item4.UniqueKey','1');" data-target="#modalAddAnalise" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                                        <i class="fa fa-share blue bigger-150" aria-hidden="true"></i>
-                                                                                                    </a>
-                                                                                                </span>
-                                                                                            </div>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-sm-2">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            @foreach (var item3 in ViewBag.Validade)
+                                                                                            {
+                                                                                                if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
+                                                                                                {
+                                                                                                    <b>
+                                                                                                        <i style="color: black ">
+                                                                                                            <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
+                                                                                                        </i>
+                                                                                                    </b>
+
+
+                                                                                                }
+
+                                                                                            }
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
 
-
-                                                                        }
-                                                                        else if (status1 == item4.Posicao && item4.UKDocumento == item.UniqueKey)
-                                                                        {
-
-                                                                            <div class="row">
-                                                                                <div class="col-xs-12 col-sm-3">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                <span>
-                                                                                                    <b>
-                                                                                                        <i style="color: blue ">
-                                                                                                            &nbsp;@item.NomeDocumento&nbsp;
-                                                                                                        </i>
-                                                                                                    </b>
-                                                                                                </span>
-                                                                                            </div>
+                                                                            @*Toda regra acima para definir o trecho abaixo*@
+                                                                            <div class="col-xs-12 col-sm-2" style="font-size: 12px; line-height: 2.0">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12">
+                                                                                        <div class="input-group">
+                                                                                            <span>
+                                                                                                @*statutos é passado por parametro aqui*@
+                                                                                                <a class="blue CustomTooltip" href="#" title="Solicitar Análise " onclick="onClickAnalise('@al.UniqueKey','@item4.UniqueKey','1');" data-target="#modalAddAnalise" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                    <i class="fa fa-share blue bigger-150" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;<img src="~/Images/fluxo/fluxo01.fw.png" width="50px" title="Não iniciado" /></i>
+                                                                                                </a>
+                                                                                            </span>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-xs-12 col-sm-2">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
+                                                                            </div>
+                                                                        </div>
+                                                                        ////////////// Se o documento estiver no fluxo
+
+                                                                    }
+                                                                    else if (status1 == item4.Posicao && item4.UKDocumento == item.UniqueKey)
+                                                                    {
+
+                                                                        <div class="row">
+                                                                            <div class="col-xs-12 col-sm-3">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            <span>
                                                                                                 <b>
                                                                                                     <i style="color: blue ">
-                                                                                                        <p><span>Realizado em:</span>&nbsp;@item4.DataDocumento.ToShortDateString()</p>
+                                                                                                        &nbsp;@item.NomeDocumento&nbsp;
                                                                                                     </i>
                                                                                                 </b>
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-xs-12 col-sm-2">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                @foreach (var item3 in ViewBag.Validade)
-                                                        {
-                                                            if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
-                                                            {
-                                                                                                        <b>
-                                                                                                            <i style="color: blue ">
-                                                                                                                <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
-                                                                                                            </i>
-                                                                                                        </b>
-
-
-                                                                                                    }
-
-                                                        }
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-xs-12 col-sm-1">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                <span>
-                                                                                                    <a class="blue CustomTooltip" href="#" title="Aprovar" onclick="onClickAnalise('@al.UniqueKey','@item4.UniqueKey','2');" data-target="#modalAddAnalise" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                                        <i class="fa fa-check-square green bigger-150" aria-hidden="true">&nbsp;</i>
-                                                                                                    </a>
-                                                                                                    <a class="blue CustomTooltip" href="#" title="Reprovar" onclick="onClickAnalise('@al.UniqueKey','@item4.UniqueKey','3');" data-target="#modalAddAnalise" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                                        <i class="fa fa-check-square red bigger-150" aria-hidden="true"></i>
-                                                                                                    </a>
-                                                                                                </span>
-                                                                                            </div>
+                                                                                            </span>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+                                                                            <div class="col-xs-12 col-sm-2">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12">
+                                                                                        <div class="input-group">
+                                                                                            <b>
+                                                                                                @if (@item4.DataDocumento != Convert.ToDateTime("9999-12-31 23:59:59.997"))
+                                                                                                {
+
+                                                                                                    <i style="color: blue ">
+                                                                                                        <span class="profile-info-row" style="font-size: 12px; line-height: 2.0">Realizado:&nbsp;@item4.DataDocumento.ToShortDateString()</span>
+                                                                                                        <span class="action-buttons">
+                                                                                                            &nbsp;
+                                                                                                            <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                                <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                            </a>
+                                                                                                        </span>
+                                                                                                    </i>
 
 
-                                                                        }
-                                                                        else if (status2 == item4.Posicao && item4.UKDocumento == item.UniqueKey)
-                                                                        {
-                                                                            <div class="row">
-                                                                                <div class="col-xs-12 col-sm-3">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                <span>
-                                                                                                    <b>
-                                                                                                        <i style="color: green ">
-                                                                                                            &nbsp;@item.NomeDocumento&nbsp;
-                                                                                                        </i>
-                                                                                                    </b>
-                                                                                                </span>
-                                                                                            </div>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <div class="profile-info-row" style="font-size: 12px; line-height: 0.7">
+                                                                                                        <div class="profile-info-name"> Realizado: </div>
+                                                                                                        <span class="action-buttons">
+                                                                                                            &nbsp;
+                                                                                                            <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                                <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                            </a>
+                                                                                                        </span>
+                                                                                                    </div>
+                                                                                                }
+                                                                                            </b>
+
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-xs-12 col-sm-2">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-sm-2">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            @foreach (var item3 in ViewBag.Validade)
+                                                                                            {
+                                                                                                if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
+                                                                                                {
+                                                                                                    <b>
+                                                                                                        <i style="color: blue ">
+                                                                                                            <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
+                                                                                                        </i>
+                                                                                                    </b>
+
+
+                                                                                                }
+
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-sm-2">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            <span>
+                                                                                                <a class="blue CustomTooltip" href="#" title="Aprovar" onclick="onClickAnalise('@al.UniqueKey','@item4.UniqueKey','2');" data-target="#modalAddAnalise" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                    <i class="fa fa-check-square green bigger-150" aria-hidden="true">&nbsp;</i>
+                                                                                                </a>
+                                                                                                <a class="blue CustomTooltip" href="#" title="Reprovar" onclick="onClickAnalise('@al.UniqueKey','@item4.UniqueKey','3');" data-target="#modalAddAnalise" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                    <i class="fa fa-check-square red bigger-150" aria-hidden="true">&nbsp;<img src="~/Images/fluxo/fluxo02.fw.png" width="50px" title="Em análise" /></i>
+                                                                                                </a>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    }
+                                                                    //Se documento aprovado
+
+                                                                    else if (status2 == item4.Posicao && item4.UKDocumento == item.UniqueKey)
+                                                                    {
+                                                                        <div class="row">
+                                                                            <div class="col-xs-12 col-sm-3">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            <span>
                                                                                                 <b>
                                                                                                     <i style="color: green ">
-                                                                                                        <p><span>Realizado em:</span>&nbsp;@item4.DataDocumento.ToShortDateString()</p>
+                                                                                                        &nbsp;@item.NomeDocumento&nbsp;
                                                                                                     </i>
+
                                                                                                 </b>
-
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-xs-12 col-sm-2">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                               @foreach (var item3 in ViewBag.Validade)
-                                                                                                {
-                                                                                                        if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
-                                                                                                        {
-                                                                                                        <b>
-                                                                                                            <i style="color: green ">
-                                                                                                                <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
-                                                                                                            </i>
-                                                                                                        </b>
-
-                                                                                                        }
-
-                                                                                                 }
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-xs-12 col-sm-1">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                <span>
-                                                                                                    <a class="blue CustomTooltip" href="#" title="Aprovado ">
-                                                                                                        <i class="fa fa-thumbs-up green bigger-150" aria-hidden="true"></i>
-                                                                                                    </a>
-                                                                                                </span>
-                                                                                            </div>
+                                                                                            </span>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+                                                                            <div class="col-xs-12 col-sm-2">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            <b>
+                                                                                                @if (@item4.DataDocumento != Convert.ToDateTime("9999-12-31 23:59:59.997"))
+                                                                                                {
+                                                                                                    <i style="color: green ">
+                                                                                                        <span>Realizado em:</span>&nbsp;@item4.DataDocumento.ToShortDateString()
+                                                                                                    </i>
+                                                                                                    <span class="action-buttons">
+                                                                                                        &nbsp;
+                                                                                                        <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                            <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                        </a>
+                                                                                                    </span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+
+                                                                                                    <i style="color: green ">
+                                                                                                        <span>Realizado em:</span>
+                                                                                                    </i>
+                                                                                                    <span class="action-buttons">
+                                                                                                        &nbsp;
+                                                                                                        <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                            <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                        </a>
+                                                                                                    </span>
 
 
-                                                                        }
-                                                                        else if (status3 == item4.Posicao && item4.UKDocumento == item.UniqueKey)
-                                                                        {
+                                                                                                }
+                                                                                            </b>
 
-                                                                            <div class="row">
-                                                                                <div class="col-xs-12 col-sm-3">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                <span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-sm-2">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            @foreach (var item3 in ViewBag.Validade)
+                                                                                            {
+                                                                                                if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
+                                                                                                {
                                                                                                     <b>
-                                                                                                        <i style="color: red ">
-                                                                                                            &nbsp;@item.NomeDocumento&nbsp;
+                                                                                                        <i style="color: green ">
+                                                                                                            <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
                                                                                                         </i>
                                                                                                     </b>
-                                                                                                </span>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-xs-12 col-sm-2">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                <b>
-                                                                                                    <i style="color: red ">
-                                                                                                        <p><span>Realizado em:</span>&nbsp;@item4.DataDocumento.ToShortDateString()</p>
-                                                                                                    </i>
-                                                                                                </b>
 
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-xs-12 col-sm-2">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                @foreach (var item3 in ViewBag.Validade)
-                                                                                                {
-                                                                                                    if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
-                                                                                                    {
-                                                                                                            <b>
-                                                                                                            <i style="color: red ">
-                                                                                                                <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
-                                                                                                            </i>
-                                                                                                        </b>
+                                                                                                }
 
-
-                                                                                                    }
-
-                                                                                                  }
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-xs-12 col-sm-1">
-                                                                                    <div class="form-group">
-                                                                                        <div class="col-xs-12 col-sm-12">
-                                                                                            <div class="input-group">
-                                                                                                <span>
-                                                                                                    <a class="blue CustomTooltip" href="#" title="Reprovado(solicitar nova analise) " onclick="onClickAnalise('@al.UniqueKey','@item4.UniqueKey','1');" data-target="#modalAddAnalise" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                                        <i class="fa fa-thumbs-down red bigger-150" aria-hidden="true"></i>
-                                                                                                    </a>
-                                                                                                </span>
-                                                                                            </div>
+                                                                                            }
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+                                                                            <div class="col-xs-12 col-sm-1" style="font-size: 12px; line-height: 2.0">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12">
+                                                                                        <div class="input-group">
+                                                                                            <span>
+                                                                                                <a class="blue CustomTooltip" href="#" title="Aprovado ">
+                                                                                                    <i class="fa fa-thumbs-up green bigger-150" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp;<img src="~/Images/fluxo/fluxo03.fw.png" width="50px" title="Aprovado" /></i>
+                                                                                                </a>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
 
 
-                                                                        }
+                                                                    }
+                                                                    ///Se documento recusado
+
+                                                                    else if (status3 == item4.Posicao && item4.UKDocumento == item.UniqueKey)
+                                                                    {
+
+                                                                        <div class="row">
+                                                                            <div class="col-xs-12 col-sm-3">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            <span>
+                                                                                                <b>
+                                                                                                    <i style="color: red ">
+                                                                                                        &nbsp;@item.NomeDocumento&nbsp;
+                                                                                                    </i>
+                                                                                                </b>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-sm-2">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            <b>
+                                                                                                @if (@item4.DataDocumento != Convert.ToDateTime("9999-12-31 23:59:59.997"))
+                                                                                                {
+                                                                                                    <i style="color: red ">
+                                                                                                        <span>Realizado em:</span>&nbsp;@item4.DataDocumento.ToShortDateString()
+                                                                                                    </i>
+                                                                                                    <span class="action-buttons">
+                                                                                                        &nbsp;
+                                                                                                        <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                            <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                        </a>
+                                                                                                    </span>
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    <i style="color: red ">
+                                                                                                        <span>Realizado em:</span>
+                                                                                                    </i>
+                                                                                                    <span class="action-buttons">
+                                                                                                        &nbsp;
+                                                                                                        <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                            <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                        </a>
+                                                                                                    </span>
+                                                                                                }
+                                                                                            </b>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-sm-2">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
+                                                                                        <div class="input-group">
+                                                                                            @foreach (var item3 in ViewBag.Validade)
+                                                                                            {
+                                                                                                if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
+                                                                                                {
+                                                                                                    <b>
+                                                                                                        <i style="color: red ">
+                                                                                                            <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
+                                                                                                        </i>
+                                                                                                    </b>
+
+
+                                                                                                }
+
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-xs-12 col-sm-2" style="font-size: 12px; line-height: 2.0">
+                                                                                <div class="form-group">
+                                                                                    <div class="col-xs-12 col-sm-12">
+                                                                                        <div class="input-group">
+                                                                                            <span>
+                                                                                                <a class="blue CustomTooltip" href="#" title="Reprovado(solicitar nova analise) " onclick="onClickAnalise('@al.UniqueKey','@item4.UniqueKey','1');" data-target="#modalAddAnalise" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                                    <i class="fa fa-thumbs-down red bigger-150" aria-hidden="true">&nbsp;&nbsp;&nbsp;&nbsp; <img src="~/Images/fluxo/fluxo4.fw.png" width="50px" title="Edição" /></i>
+                                                                                                </a>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
 
 
                                                                     }
 
 
-
                                                                 }
 
+
+
                                                             }
+
                                                         }
-
                                                     }
-                                                </div>
+
+                                                }
                                             </div>
+                                        </div>
 
-                                            <div class="row">
-                                                <div class="col-sm-10 col-xs-10">
-                                                    <h3 class="header smaller lighter green" style="margin-left: 13px">Evidências Anexadas</h3>
-                                                </div>
-                                                <div class="col-sm-2 col-xs-2">
-                                                    <div style="float: right; border: 0px;">
-                                                        <span>
-                                                            <a class="blue CustomTooltip" href="#" title="Exibir Workflow " onclick="onClickPesquisaWorkflow('@al.UniqueKey','@RelDocAloc');" data-target="#modalAddWorkflow" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                <i class="fa fa-comments red bigger-150" aria-hidden="true">Workflow</i>
-                                                            </a>
-                                                        </span>
-
-                                                        
-                                                    </div>
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-sm-10 col-xs-10">
+                                                <h3 class="header smaller lighter green" style="margin-left: 13px">Evidências Anexadas</h3>
                                             </div>
+                                            <div class="col-sm-2 col-xs-2">
+                                                <div style="float: right; border: 0px;">
+                                                    <span>
+                                                        <a class="blue CustomTooltip" href="#" title="Exibir Workflow " onclick="onClickPesquisaWorkflow('@al.UniqueKey','@RelDocAloc');" data-target="#modalAddWorkflow" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                            <i class="fa fa-comments red bigger-150" aria-hidden="true">Workflow</i>
+                                                        </a>
+                                                    </span>
 
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    @if (al.ArquivoEmpregado == null || al.ArquivoEmpregado.Count == 0)
-                                                    {
-                                                        <div class="alert alert-warning">
-                                                            <strong>
-                                                                <i class="ace-icon fa fa-meh-o"></i>
-                                                                Oops!
-                                                            </strong>
 
-                                                            Nenhum documento anexado.
-                                                            <br>
-                                                        </div>
-                                                    }
-                                                    else
-                                                    {
-                                                        <ul>
-                                                            @foreach (ArquivoEmpregadoViewModel arq in al.ArquivoEmpregado)
-                                                            {
-                                                                <li>
-                                                                    <i class="fa fa-file-archive-o orange bigger-150" aria-hidden="true">
-                                                                        <a href="@path/Arquivo/Visualizar/@arq.UKObjectArquivo" target="_blank" class="CustomTooltip blue" title="Visualizar">
-                                                                            @arq.NomeLocal
-                                                                        </a>
-                                                                    </i>
-                                                                </li>
-                                                            }
-                                                        </ul>
-                                                    }
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                @if (al.ArquivoEmpregado == null || al.ArquivoEmpregado.Count == 0)
+                                                {
+                                                    <div class="alert alert-warning">
+                                                        <strong>
+                                                            <i class="ace-icon fa fa-meh-o"></i>
+                                                            Oops!
+                                                        </strong>
+
+                                                        Nenhum documento anexado.
+                                                        <br>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <ul>
+                                                        @foreach (ArquivoEmpregadoViewModel arq in al.ArquivoEmpregado)
+                                                        {
+                                                            <li>
+                                                                <i class="fa fa-file-archive-o orange bigger-150" aria-hidden="true">
+                                                                    <a href="@path/Arquivo/Visualizar/@arq.UKObjectArquivo" target="_blank" class="CustomTooltip blue" title="Visualizar">
+                                                                        @arq.NomeLocal
+                                                                    </a>
+                                                                </i>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -596,7 +710,7 @@ else
                             {
                                 <div class="space-14"></div>
                             }
-                           
+
                         }
 
 
@@ -609,16 +723,41 @@ else
 
         <br />
 
-        
+
     }
 
 }
-@section Scripts {
-    @Scripts.Render("~/bundles/jQ_dataTable")
 
-    <script src="~/Scripts/Custom/GED/Lista.js"></script>
+
+
+
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+
+    @Styles.Render("~/bundles/croppie_css")
+
 }
 
+@section Scripts {
+    <script src="~/Scripts/Ace/ace.widget-box.js"></script>
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    @Scripts.Render("~/bundles/croppie_js")
+    <script src="~/Scripts/Ace/jQ/jquery.maskedinput.js"></script>
+
+    @Scripts.Render("~/bundles/custom/profile")
+
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+
+    <script src="~/Scripts/Custom/Empregado/PerfilGed.js"></script>
+
+    <script src="~/Scripts/Custom/GED/Lista.js"></script>
+
+
+
+
+
+
+}
 
 
 

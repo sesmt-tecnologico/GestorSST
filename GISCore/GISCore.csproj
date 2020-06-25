@@ -141,7 +141,7 @@
     <Compile Include="Business\Abstract\IRiscoBusiness.cs" />
     <Compile Include="Business\Abstract\INivelHierarquicoBusiness.cs" />
     <Compile Include="Business\Abstract\IPerfilBusiness.cs" />
-    <Compile Include="Business\Abstract\IPerigoPotencialBusiness.cs" />
+    <Compile Include="Business\Abstract\IListaDePerigoBusiness.cs" />
     <Compile Include="Business\Abstract\IExposicaoBusiness.cs" />
     <Compile Include="Business\Abstract\IPlanoDeAcaoBusiness.cs" />
     <Compile Include="Business\Abstract\IAtividadeAlocadaBusiness.cs" />
@@ -180,7 +180,7 @@
     <Compile Include="Business\Concrete\RiscoBusiness.cs" />
     <Compile Include="Business\Concrete\NivelHierarquicoBusiness.cs" />
     <Compile Include="Business\Concrete\PerfilBusiness.cs" />
-    <Compile Include="Business\Concrete\PerigoPotencialBusiness.cs" />
+    <Compile Include="Business\Concrete\ListaDePerigoBusiness.cs" />
     <Compile Include="Business\Concrete\ExposicaoBusiness.cs" />
     <Compile Include="Business\Concrete\PlanoDeAcaoBusiness.cs" />
     <Compile Include="Business\Concrete\AtividadeAlocadaBusiness.cs" />
@@ -215,6 +215,62 @@
     </Compile>
     <Compile Include="DI\GISNinjectModule.cs" />
     <Compile Include="Infrastructure\Utils\Extensions.cs" />
+    <Compile Include="Migrations\202006201650319_v01.cs" />
+    <Compile Include="Migrations\202006201650319_v01.Designer.cs">
+      <DependentUpon>202006201650319_v01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006201937148_v02.cs" />
+    <Compile Include="Migrations\202006201937148_v02.Designer.cs">
+      <DependentUpon>202006201937148_v02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006211325167_v03.cs" />
+    <Compile Include="Migrations\202006211325167_v03.Designer.cs">
+      <DependentUpon>202006211325167_v03.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006211356317_v04.cs" />
+    <Compile Include="Migrations\202006211356317_v04.Designer.cs">
+      <DependentUpon>202006211356317_v04.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006211437180_v05.cs" />
+    <Compile Include="Migrations\202006211437180_v05.Designer.cs">
+      <DependentUpon>202006211437180_v05.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006211956364_v06.cs" />
+    <Compile Include="Migrations\202006211956364_v06.Designer.cs">
+      <DependentUpon>202006211956364_v06.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006221622183_v07.cs" />
+    <Compile Include="Migrations\202006221622183_v07.Designer.cs">
+      <DependentUpon>202006221622183_v07.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006221737318_v08.cs" />
+    <Compile Include="Migrations\202006221737318_v08.Designer.cs">
+      <DependentUpon>202006221737318_v08.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006221800170_v09.cs" />
+    <Compile Include="Migrations\202006221800170_v09.Designer.cs">
+      <DependentUpon>202006221800170_v09.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006231323508_v091.cs" />
+    <Compile Include="Migrations\202006231323508_v091.Designer.cs">
+      <DependentUpon>202006231323508_v091.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006231422209_v10.cs" />
+    <Compile Include="Migrations\202006231422209_v10.Designer.cs">
+      <DependentUpon>202006231422209_v10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006231426185_v11.cs" />
+    <Compile Include="Migrations\202006231426185_v11.Designer.cs">
+      <DependentUpon>202006231426185_v11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006231435211_v12.cs" />
+    <Compile Include="Migrations\202006231435211_v12.Designer.cs">
+      <DependentUpon>202006231435211_v12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006250006580_v13.cs" />
+    <Compile Include="Migrations\202006250006580_v13.Designer.cs">
+      <DependentUpon>202006250006580_v13.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -238,6 +294,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Connected Services\WCF_Suporte\Suporte.wsdl" />
     <None Include="Connected Services\WCF_Suporte\Suporte.xsd">
       <SubType>Designer</SubType>
@@ -275,6 +332,50 @@
   </ItemGroup>
   <ItemGroup>
     <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202006201650319_v01.resx">
+      <DependentUpon>202006201650319_v01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006201937148_v02.resx">
+      <DependentUpon>202006201937148_v02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006211325167_v03.resx">
+      <DependentUpon>202006211325167_v03.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006211356317_v04.resx">
+      <DependentUpon>202006211356317_v04.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006211437180_v05.resx">
+      <DependentUpon>202006211437180_v05.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006211956364_v06.resx">
+      <DependentUpon>202006211956364_v06.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006221622183_v07.resx">
+      <DependentUpon>202006221622183_v07.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006221737318_v08.resx">
+      <DependentUpon>202006221737318_v08.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006221800170_v09.resx">
+      <DependentUpon>202006221800170_v09.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006231323508_v091.resx">
+      <DependentUpon>202006231323508_v091.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006231422209_v10.resx">
+      <DependentUpon>202006231422209_v10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006231426185_v11.resx">
+      <DependentUpon>202006231426185_v11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006231435211_v12.resx">
+      <DependentUpon>202006231435211_v12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006250006580_v13.resx">
+      <DependentUpon>202006250006580_v13.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.111.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.111.0\build\net45\System.Data.SQLite.Core.targets')" />

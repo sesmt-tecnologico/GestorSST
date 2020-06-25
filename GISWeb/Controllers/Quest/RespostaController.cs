@@ -146,6 +146,8 @@ namespace GISWeb.Controllers.Quest
 	                                         ri.UKPergunta = p.UniqueKey and p.DataExclusao = '9999-12-31 23:59:59.997' " + sWhere + @"
                                        order by emp.Nome, r.DataInclusao desc, q.Nome, r.UniqueKey, p.Ordem";
 
+                var total = sql.Count();
+
                 List<VMPesquisaEmpregado> lista = new List<VMPesquisaEmpregado>();
                 DataTable result = RespostaBusiness.GetDataTable(sql);
                 if (result.Rows.Count > 0)

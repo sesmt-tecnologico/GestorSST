@@ -1,0 +1,211 @@
+﻿@model GISModel.Entidades.PPRA.Medicoes
+
+
+@{
+    ViewBag.Title = "Medições de Risco Ocupacional";
+}
+
+    <div id="formCadastroExposicao">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+                <div class="page-header">
+                    <h1>
+                        Avaliações quantitativa de Risco Ocupacional
+                    </h1>
+                </div>
+            </div>
+        </div>
+        @{
+            Html.RenderPartial("_MensagensDeRetorno");
+        }
+
+        <h3>Risco:&nbsp; @ViewBag.Risco</h3>
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                @if (ViewBag.Medicoes != null)
+                {
+                    <div class="alert alert-warning">
+                        <strong>
+                            <i class="ace-icon fa fa-meh-o"></i>
+
+                        </strong>
+                        Já existe Avaliações Qualitativas cadastrada para este risco nesta Worarea! Você pode atualizar este cadastro fazendo uma nova.
+                        <br>
+                    </div>
+
+                    <div>
+                        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Fonte Geradora</th>
+                                    <th>Tipo de Medição</th>
+                                    <th>Valor da Medição</th>
+                                    <th>Máxima Exposição</th>
+                                    <th>Observações</th>
+                                    <th>Data de inclusão</th>
+                                    <th>Usuário Inclusão</th>
+                                    <th width="89px"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var iMedicao in ViewBag.Medicoes)
+                                {
+                                    <tr>
+                                        <td>@iMedicao.FonteGeradora</td>
+                                        <td>@iMedicao.TipoMedicao</td>
+                                        <td>@iMedicao.ValorMedicoes</td>
+                                        <td>@iMedicao.MaxExposicao</td>
+                                        <td>@iMedicao.Observacao</td>
+                                        <td>@iMedicao.DataInclusao</td>
+                                        <td>@iMedicao.UsuarioInclusao</td>
+
+                                        <td>
+                                            <div class="hidden-sm hidden-xs action-buttons">
+
+                                            </div>
+
+
+                                        </td>
+                                    </tr>
+
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        <strong>
+                            <i class="ace-icon fa fa-meh-o"></i>
+                            Oops!
+                        </strong>
+
+                        Nenhuma Avaliação Qualitativa cadastrada para este risco nesta Worarea!.
+                        <br>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <strong>
+                            <i class="ace-icon fa fa-meh-o"></i>
+
+                        </strong>
+
+                        Faça um cadasto abaixo!.
+                        <br>
+                    </div>
+                }
+
+
+
+            </div>
+        </div>
+
+        <div>
+            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                <tbody>
+                    <tr id="linha">
+
+                        <td>
+                            @using (Ajax.BeginForm("Cadastrar", "Medicoes", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarMedicoes", OnSuccess = "OnSuccessCadastrarMedicoes", }, new { @id = "formCadastroMedicoes", @class = "form-horizontal" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="text" name="UKExposicao" id="UKExposicao" value=@ViewBag.Exposicao hidden />
+                                <input type="text" name="ukworkarea" id="ukworkarea" value=@ViewBag.ukWorkarea hidden />
+
+                                @*<h3>Reconhecimento de Riscos(PPRA)</h3>*@
+                                <div class="container-fluid" style="border:1px solid #cecece;">
+
+                                </div><br />
+
+                                <h3>Registrar Avaliação Qualitativa de Risco Ocupacional</h3>
+                                <div class="container-fluid" style="border:1px solid #cecece;">
+                                    <div class="row">
+
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.TipoMedicoes, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                                <div class="col-xs-12 col-sm-12">
+                                                    @Html.EnumDropDownListFor(model => model.TipoMedicoes, htmlAttributes: new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.TipoMedicoes, "", new { @class = "text-danger" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ValorMedicao, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                                <div class="col-xs-12 col-sm-12">
+                                                    @Html.EditorFor(model => model.ValorMedicao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                                                    @Html.ValidationMessageFor(model => model.ValorMedicao, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(d => d.MaxExpDiaria, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                                <div class="col-xs-12 col-sm-12">
+                                                    @Html.EditorFor(d => d.MaxExpDiaria, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                                                    @Html.ValidationMessageFor(d => d.MaxExpDiaria, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(d => d.Observacoes, new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                                <div class="col-xs-12 col-sm-12">
+                                                    @Html.EditorFor(d => d.Observacoes, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                                                    @Html.ValidationMessageFor(d => d.Observacoes, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><br />
+
+
+                                <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                                    <button class="btn btn-info" id="btnSalvar" type="submit">
+                                        <i class="ace-icon fa fa-check bigger-110"></i>
+                                        Salvar
+                                    </button>
+
+                                </div>
+
+                            }
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
+    @*@Scripts.Render("~/bundles/jQ_dataTable")*@
+    <script src="~/Scripts/jQuery/inputmask.js"></script>
+    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
+    <script src="~/Scripts/Custom/Medicoes/Novo.js"></script>
+
+
+}
+
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+}

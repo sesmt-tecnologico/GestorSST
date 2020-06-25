@@ -339,6 +339,128 @@ namespace GISWeb.Controllers
                                    
         }
 
+        public ActionResult Editar(string UK)
+        {
+            Guid UKrel = Guid.Parse(UK);
+           var documento = REL_DocumentosAlocadoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKrel));
+            ViewBag.uk = UK;
+            ViewBag.UKDocalocado = documento;
+
+
+            return View("_EditarData");
+        }
+
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public ActionResult EditarData(string UK, string data)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Guid UKp = Guid.Parse(UK);
+
+                    var documento = REL_DocumentosAlocadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(UKp));
+
+                    documento.DataDocumento = Convert.ToDateTime(data);
+
+                    REL_DocumentosAlocadoBusiness.Alterar(documento);
+
+                    TempData["MensagemSucesso"] = "Data alterada para: '" + documento.DataDocumento + "' com sucesso.";
+
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Ged") } });
+                }
+                catch (Exception ex)
+                {
+                    if (ex.GetBaseException() == null)
+                    {
+                        return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                    }
+                    else
+                    {
+                        return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                    }
+                }
+
+            }
+            else
+            {
+                return Json(new { resultado = TratarRetornoValidacaoToJSON() });
+            }
+        }
+
+
+
+        [HttpPost]
+        [RestritoAAjax]
+        public ActionResult DesalocarDocs(string id)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                    throw new Exception("Não foi possível localizar a identificação da alocação para prosseguir com a operação.");
+
+                Guid UKAlocacao = Guid.Parse(id);
+
+                var al = (from r in REL_DocumentosAlocadoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKAlocacao.Equals(UKAlocacao)).ToList()
+                         select new REL_DocumentosAlocados()
+                         {
+                             ID = r.ID,
+                             UKAlocacao = r.UKAlocacao,
+
+                         }).ToList();
+
+                List<REL_DocumentosAlocados> REL = new List<REL_DocumentosAlocados>();
+
+                REL = al;
+
+
+                if (REL == null)
+                    throw new Exception("Não foi possível encontrar os Documentos na base de dados.");
+
+                //Admissao ad = AdmissaoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(al.UKAdmissao));
+                //if (ad == null)
+                //    throw new Exception("Não foi possível encontrar a admissão onde o empregado está alocado na base de dados.");
+                foreach(var item in REL)
+                {
+                    if (item.UKAlocacao.Equals(UKAlocacao) && item.UsuarioExclusao == null)
+                        {
+
+                        REL_DocumentosAlocados docs = REL_DocumentosAlocadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKAlocacao.Equals(UKAlocacao));
+                        if (docs == null)
+                            throw new Exception("Não foi possível encontrar a alocação na base de dados.");
+
+                        docs.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                        
+                        REL_DocumentosAlocadoBusiness.Terminar(docs);
+                       
+                    }
+
+                }
+
+                return Json(new { resultado = new RetornoJSON() { Sucesso = "Documentos desalocados!" } });
+
+
+                //Extensions.GravaCookie("MensagemSucesso", "Docuemntos desalocado com sucesso.", 10);
+
+
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+        }
+
+
 
 
     }

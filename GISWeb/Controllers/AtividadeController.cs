@@ -49,7 +49,7 @@ namespace GISWeb.Controllers
         public IEventoPerigosoBusiness EventoPerigosoBusiness { get; set; }
 
         [Inject]
-        public IPerigoPotencialBusiness PerigoPotencialBusiness { get; set; }
+        public IBaseBusiness<ListaDePerigo> ListaPerigoBusiness { get; set; }
 
         [Inject]
         public IAtividadesDoEstabelecimentoBusiness AtividadesDoEstabelecimentoBusiness { get; set; }
@@ -215,36 +215,36 @@ from tbAtividade  a
                         }
 
                     }
-                        
-                        else
-                        {
-                            lista.Add(obj);
 
-                            obj = new Atividade()
+                    else
+                    {
+                        lista.Add(obj);
+
+                        obj = new Atividade()
+                        {
+                            UniqueKey = Guid.Parse(row["UK_Atividade"].ToString()),
+                            Descricao = row["nome"].ToString(),
+                            Perigos = new List<Perigo>()
+                        };
+
+                        if (!string.IsNullOrEmpty(row["relap"].ToString()))
+                        {
+
+                            oPerigo = new Perigo()
                             {
-                                UniqueKey = Guid.Parse(row["UK_Atividade"].ToString()),
-                                Descricao = row["nome"].ToString(),
-                                Perigos = new List<Perigo>()
+                                UniqueKey = Guid.Parse(row["rel02"].ToString()),
+                                Descricao = row["NomePerigo"].ToString(),
                             };
 
-                             if (!string.IsNullOrEmpty(row["relap"].ToString()))
-                             {
-
-                                oPerigo = new Perigo()
-                                {
-                                    UniqueKey = Guid.Parse(row["rel02"].ToString()),
-                                    Descricao = row["NomePerigo"].ToString(),
-                                };
-
-                                     obj.Perigos.Add(oPerigo);
+                            obj.Perigos.Add(oPerigo);
 
 
-                             }
                         }
+                    }
                 }
 
-                    if (obj != null)
-                        lista.Add(obj);
+                if (obj != null)
+                    lista.Add(obj);
 
 
             }
@@ -401,7 +401,7 @@ from tbAtividade  a
 
                                 obj.DocumentosPessoal.Add(oDocumento);
                             }
-                            
+
                             else if (oDocumento.UniqueKey.ToString().Equals(row["rel2"].ToString()))
 
                             {
@@ -498,7 +498,7 @@ from tbAtividade  a
                                         on Tip.idAtividade equals ATE.ID
                                         join PD in PossiveisDanosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                         on Tip.idPossiveisDanos equals PD.ID
-                                        join PP in PerigoPotencialBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                        join PP in ListaPerigoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                         on Tip.idPerigoPotencial equals PP.ID
                                         join EP in EventoPerigosoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                         on Tip.idEventoPerigoso equals EP.ID
@@ -514,9 +514,9 @@ from tbAtividade  a
                                                 DescricaoDanos = PD.DescricaoDanos,
 
                                             },
-                                            PerigoPotencial = new PerigoPotencial()
+                                            ListaDePerigo = new ListaDePerigo()
                                             {
-                                                DescricaoEvento = PP.DescricaoEvento,
+                                                DescricaoPerigo = PP.DescricaoPerigo,
                                             },
                                             EventoPerigoso = new EventoPerigoso()
                                             {
@@ -585,7 +585,7 @@ from tbAtividade  a
             }
 
         }
-        
+
 
         public ActionResult Edicao(string id, string Uk)
         {
@@ -636,7 +636,7 @@ from tbAtividade  a
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
-        
+
 
         public ActionResult Excluir(string id)
         {
@@ -743,7 +743,7 @@ from tbAtividade  a
                     oAtividade.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                     AtividadeBusiness.Excluir(oAtividade);
 
-                    Extensions.GravaCookie("MensagemSucesso", "Atividade '"+ oAtividade.Descricao +"' foi removida com sucesso.", 10);
+                    Extensions.GravaCookie("MensagemSucesso", "Atividade '" + oAtividade.Descricao + "' foi removida com sucesso.", 10);
 
                     return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Atividade") } });
                 }
@@ -804,7 +804,7 @@ from tbAtividade  a
         public ActionResult BuscarRiscoForAutoComplete(string key)
         {
             try
-           {
+            {
                 List<string> perigoAsString = new List<string>();
                 List<Perigo> lista = PerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.ToUpper().Contains(key.ToUpper())).ToList();
 
@@ -852,5 +852,5 @@ from tbAtividade  a
             }
         }
     }
-    
+
 }

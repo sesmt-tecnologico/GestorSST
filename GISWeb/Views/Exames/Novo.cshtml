@@ -1,0 +1,77 @@
+﻿@model GISModel.Entidades.PCMSO.Exames
+
+
+@{
+    ViewBag.Title = "Exames";
+}
+
+<div id="formCadastroExame">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Exames
+                </h1>
+            </div>
+        </div>
+    </div>
+    @{
+        Html.RenderPartial("_MensagensDeRetorno");
+    }
+
+
+    <div>
+        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+            <tbody>
+                <tr id="linha">
+
+                    <td>
+                        @using (Ajax.BeginForm("Cadastrar", "Exames", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarExames", OnSuccess = "OnSuccessCadastrarExames", }, new { @id = "formCadastroExames", @class = "form-horizontal" }))
+                        {
+                            @Html.AntiForgeryToken()                            
+
+                           
+                           
+                                <div class="row">                                   
+                                    <div class="col-xs-12 col-sm-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                            <div class="col-xs-12 col-sm-12">
+                                                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
+                                                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                          <br />
+
+
+                            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                                <button class="btn btn-info" id="btnSalvar" type="submit">
+                                    <i class="ace-icon fa fa-check bigger-110"></i>
+                                    Salvar
+                                </button>
+
+                            </div>
+
+                        }
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+@section Scripts {
+    
+   
+    <script src="~/Scripts/Custom/Exames/Novo.js"></script>
+
+
+}
+

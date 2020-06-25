@@ -460,7 +460,7 @@ namespace GISWeb.Controllers
                                     oPerigo = new Perigo()
                                     {
                                         ID = Guid.Parse(row["relfp"].ToString()),
-                                        UniqueKey = Guid.Parse(row["UKPerigo"].ToString()),
+                                       UniqueKey = Guid.Parse(row["UKPerigo"].ToString()),
                                         Descricao = row["perigo"].ToString(),
                                         Riscos = new List<Risco>()
                                     };
@@ -817,18 +817,18 @@ namespace GISWeb.Controllers
                             {
                                 if (REL_FontePerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKFonteGeradora.Equals(guidFonte) && a.UKPerigo.Equals(rTemp.UniqueKey)).Count() == 0)
                                 {
-                                    Perigo p = new Perigo()
-                                    {
-                                        UniqueKey = Guid.NewGuid(),
-                                        Descricao = rTemp.Descricao,
-                                        UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-                                    };
-                                    PerigoBusiness.Inserir(p);
+                                    //Perigo p = new Perigo()
+                                    //{
+                                    //    UniqueKey = rTemp.UniqueKey
+                                    //    Descricao = rTemp.Descricao,
+                                    //    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                    //};
+                                    //PerigoBusiness.Inserir(p);
 
                                     REL_FontePerigo FontePerigo = new REL_FontePerigo()
                                     {
                                         UKFonteGeradora = guidFonte,
-                                        UKPerigo = p.UniqueKey,
+                                        UKPerigo = rTemp.UniqueKey,
                                         UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                                     };
 
@@ -854,18 +854,18 @@ namespace GISWeb.Controllers
                     {
                         if (REL_FontePerigoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKFonteGeradora.Equals(guidFonte) && a.UKPerigo.Equals(rTemp.UniqueKey)).Count() == 0)
                         {
-                            Perigo p = new Perigo()
-                            {
-                                UniqueKey = Guid.NewGuid(),
-                                Descricao = rTemp.Descricao,
-                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-                            };
-                            PerigoBusiness.Inserir(p);
+                            //Perigo p = new Perigo()
+                            //{
+                                
+                            //    Descricao = rTemp.Descricao,
+                            //    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                            //};
+                            //PerigoBusiness.Inserir(p);
 
                             REL_FontePerigo FontePerigo = new REL_FontePerigo()
                             {
                                 UKFonteGeradora = guidFonte,
-                                UKPerigo = p.UniqueKey,
+                                UKPerigo = rTemp.UniqueKey,
                                 UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                             };
 

@@ -53,6 +53,8 @@ namespace GISWeb.Controllers
         public ActionResult Novo()
         {
 
+            ViewBag.ListaPerigo = EventoPerigosBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+
             return View();
         }
 
@@ -241,7 +243,7 @@ namespace GISWeb.Controllers
                                 {
                                     oRisco.Danos.Add(new PossiveisDanos()
                                     {
-                                        UniqueKey = Guid.Parse(row["rel02"].ToString()),
+                                        UniqueKey = Guid.Parse(row["relR"].ToString()),
                                         DescricaoDanos = row["DescricaoDanos"].ToString()
                                     });
                                 }

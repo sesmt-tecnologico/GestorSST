@@ -8,33 +8,34 @@ namespace GISModel.Entidades
     [Table("tbExposicao")]
     public class Exposicao: EntidadeBase
     {
-        public Guid idAtividadeAlocada { get; set; }
 
-        public Guid idAlocacao { get; set; }
 
-        public Guid idTipoDeRisco { get; set; }               
 
-        [Display(Name = "Tempo Estimado Mensal")]
-        public string TempoEstimado { get; set; }
+        public Guid UKEstabelecimento { get; set; }
 
-        [Display(Name ="Exposição")]
+        public Guid UKWorkArea { get; set; }
+
+        public Guid UKRisco { get; set; }               
+
+        [Display(Name = "Observações")]
+        public string Observacao { get; set; }
+
+        [Display(Name ="Exposição PPRA")]
         public EExposicaoInsalubre EExposicaoInsalubre { get; set; }
 
         [Display(Name = "Exposição ao Calor")]
         public EExposicaoCalor EExposicaoCalor { get; set; }
 
-        [Display(Name = "Exposição ")]
+        [Display(Name = "Exposição HIRA ")]
         public EExposicaoSeg EExposicaoSeg { get; set; }
 
         [Display(Name = "Probabilidade")]
         public EProbabilidadeSeg EProbabilidadeSeg { get; set; }
 
-        [Display(Name = "Severidade")]
-        public ESeveridadeSeg ESeveridadeSeg { get; set; }
+        [Display(Name = "Gravidade")]
+        public EGravidade EGravidade { get; set; }
 
-        public virtual AtividadeAlocada AtividadeAlocada { get; set; }
-
-        public virtual TipoDeRisco TipoDeRisco { get; set; }
+       
 
         
     }

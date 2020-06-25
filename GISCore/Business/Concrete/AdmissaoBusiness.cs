@@ -216,11 +216,14 @@ namespace GISCore.Business.Concrete
             {
                 List<Admissao> lista = new List<Admissao>();
 
-                string query = @"select a.UniqueKey, a.DataAdmissao, a.DataDemissao, a.Justificativa, e.NomeFantasia as Empresa, u.Nome as NomeUsuario
-                             from tbAdmissao a, tbEmpresa e, tbUsuario u
-                             where a.UKEmpregado = '" + UKEmpregado + @"' and a.Status = 1 and a.UsuarioExclusao is null and
-	                               a.UKEmpresa = e.UniqueKey and e.UsuarioExclusao is null and
-	                               a.UsuarioInclusao = u.Login and u.UsuarioExclusao is null";
+                string query = @"select a.UniqueKey, a.DataAdmissao, a.DataDemissao,a.Justificativa,
+                                e.NomeFantasia 
+                                as Empresa, u.Nome as NomeUsuario
+                                from tbAdmissao a, tbEmpresa e, tbUsuario u
+                                where a.UKEmpregado = '"+ UKEmpregado + @"' and a.Status = 1 
+                                and a.DataExclusao='9999-12-31 23:59:59.997' 
+                                and a.UKEmpresa = e.UniqueKey and e.DataExclusao='9999-12-31 23:59:59.997' and
+                                a.UsuarioInclusao = u.Login and u.DataExclusao='9999-12-31 23:59:59.997'";
 
                 DataTable result = GetDataTable(query);
                 if (result.Rows.Count > 0)

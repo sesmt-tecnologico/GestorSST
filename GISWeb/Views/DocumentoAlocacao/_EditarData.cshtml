@@ -1,0 +1,123 @@
+﻿@*@using GISModel.Entidades
+
+    @model List<REL_DocumentosAlocados>
+
+    @{
+        ViewBag.Title = "ConfirmaData";
+    }
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Confirmar Datas
+                </h1>
+            </div>
+        </div>
+    </div>
+
+
+        @foreach (var item in  ViewBag.UKDocalocado)
+        {
+
+            if (item != null)
+            {
+                <div id="form" value="@item.UKDocumento">
+
+
+                    @using (Ajax.BeginForm("EditarData", "DocumentoAlocacao", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarDat", OnSuccess = "OnSuccessCadastrarDat", }, new { @id = "numero", @class = "form-horizontal", @autocomplete = "off" }))
+
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6">
+                                <div class="form-group">
+                                    @Html.Label("Data", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                    <div class="col-xs-12 col-sm-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+                                            <input type="datetime" class="txtUKdate" name="UKdate" id="UKdate" />
+                                            <input type="text" class="txtUKDocumento" name="UKDoc" id="UKDoc" value="@item.UKDocumento" hidden />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div><br />
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-2 col-sm-offset-1 align-center">
+                                @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                                <div class="col-xs-12 col-sm-12">
+                                    <button class="btn btn-info" id="btnSalvar" type="submit">
+                                        <i class="ace-icon fa fa-check bigger-100"></i>
+                                        Confirmar
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div><br /><br />
+
+                    }
+
+                </div>
+
+
+            }
+
+
+
+        }
+
+
+
+
+
+
+    @section Scripts {
+
+        <script src="~/Scripts/Custom/DocumentoAlocacao/Editar.js"></script>
+
+    }*@
+
+
+
+
+@{
+    Layout = "";
+}
+
+
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+            @Html.Label("Data", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+            <div class="col-xs-12 col-sm-12">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-calendar bigger-80"></i>
+                    </span>
+                    <input type="date" value="30/12/2020" class="txtUKdate" name="UKdate" id="UKdate" autocomplete="off" />
+                    <input type="hidden" class="hidden txtUk" value="@ViewBag.uk" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*<div class="col-sm-12">
+
+            <input type="hidden" class="hidden txtUkAlocacao" value="@ViewBag.UKAlocacao" />
+            <input type="hidden" class="hidden txtUkREL" value="@ViewBag.UKREL" />
+
+            <input type="text" class="txtComentario col-xs-12 col-sm-12" />
+
+        </div>*@
+</div>
+

@@ -15,6 +15,7 @@ using System.Data;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using GISHelpers.Utils;
 using System.Globalization;
+using GISModel.Enums;
 
 namespace GISWeb.Controllers
 {
@@ -85,6 +86,14 @@ namespace GISWeb.Controllers
 
         public ActionResult Novo()
         {
+            var enumData = from EGenero e in Enum.GetValues(typeof(EGenero))
+                           select new
+                           {
+                               ID = (int)e,
+                               Name = e.GetDisplayName()
+                           };
+            ViewBag.EGenero = new SelectList(enumData, "ID", "Name");
+
             return View();
         }
 

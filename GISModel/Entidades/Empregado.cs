@@ -1,4 +1,5 @@
 ﻿using GISModel.CustomAttributes;
+using GISModel.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,6 +21,9 @@ namespace GISModel.Entidades
 
         [Display(Name = "Data de Nascimento")]
         public string DataNascimento { get; set; }
+
+        [Display(Name = "Genero")]
+        public EGenero Genero { get; set; }
 
         [Required(ErrorMessage = "Informe o e-mail do empregado")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Informe um e-mail válido")]

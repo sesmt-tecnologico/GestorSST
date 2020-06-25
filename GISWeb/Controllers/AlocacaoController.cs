@@ -49,6 +49,9 @@ namespace GISWeb.Controllers
         public IPerfilBusiness PerfilBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<DocumentosPessoal> DocumentosPessoalBusiness { get; set; }
+
+        [Inject]
         public IUsuarioPerfilBusiness UsuarioPerfilBusiness { get; set; }
 
 
@@ -58,7 +61,10 @@ namespace GISWeb.Controllers
         [Inject]
         public IBaseBusiness<REL_ContratoFornecedor> ContratoFornecedorBusiness { get; set; }
 
-        
+        [Inject]
+        public IBaseBusiness<REL_DocumentosAlocados> REL_DocumentosAlocadoBusiness { get; set; }
+
+
 
 
         [Inject]
@@ -122,8 +128,8 @@ namespace GISWeb.Controllers
 
 
 
-                    if (AlocacaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && 
-                                                             a.UKAdmissao.Equals(entidade.UKAdmissao) && 
+                    if (AlocacaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) &&
+                                                             a.UKAdmissao.Equals(entidade.UKAdmissao) &&
                                                              a.UKCargo.Equals(entidade.UKCargo) &&
                                                              a.UKFuncao.Equals(entidade.UKFuncao)).Count() > 0) {
                         throw new Exception("Já existe uma alocação deste empregado neste cargo e função selecionado.");
@@ -168,11 +174,228 @@ namespace GISWeb.Controllers
                             }
                         }
 
+                        //Cadastrando os documentos relacionados com a atividade alocada.
 
-                        Extensions.GravaCookie("MensagemSucesso", "O empregado foi alocado com sucesso.", 10);
 
-                        return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Perfil", "Empregado", new { id = oAdmissao.UKEmpregado.ToString() }) } });
-                    }
+                        var aloc = @"select top 1  UniqueKey, DataInclusao  from tbAlocacao LAST_INSET_ID ORDER BY DataInclusao DESC  ";
+
+                        List<Alocacao> lista1 = new List<Alocacao>();
+
+                        DataTable result1 = DocumentosPessoalBusiness.GetDataTable(aloc);
+
+                        if (result1.Rows.Count > 0)
+                        {
+
+                            Alocacao UkAloc = null;
+                            Guid ukal = Guid.Empty;
+
+                            foreach (DataRow row in result1.Rows)
+                            {
+
+                                if (UkAloc == null)
+                                {
+                                    UkAloc = new Alocacao()
+                                    {
+                                        UniqueKey = Guid.Parse(row["UniqueKey"].ToString())
+                                    };
+
+                                }
+
+                            }
+
+                            if (UkAloc != null)
+                                lista1.Add(UkAloc);
+
+                            foreach (var item in lista1)
+                            {
+                                if (item != null)
+                                {
+                                    ukal = item.UniqueKey;
+                                }
+                            }
+
+
+
+                        List<Alocacao> lista = new List<Alocacao>();
+
+
+                        var sql = @"select al.UniqueKey as UKal, fa.UniqueKey as UKfa, d.UniqueKey as UKd, d.NomeDocumento as Nome,
+                        da.UniqueKey as UKda
+                        from tbAlocacao al
+                        join REL_FuncaoAtividade fa
+                        on al.UKFuncao = fa.UKFuncao
+                        join REL_DocumentoPessoalAtividade da
+                        on fa.UKAtividade = da.UKAtividade
+                        join tbDocumentosPessoal d
+                        on da.UKDocumentoPessoal = d.UniqueKey and d.DataExclusao = '9999-12-31 23:59:59.997'
+                        where al.UniqueKey = '" + ukal + @"'
+                        order by al.UniqueKey ";
+
+                        DataTable result = DocumentosPessoalBusiness.GetDataTable(sql);
+
+                        if (result.Rows.Count > 0)
+                        {
+
+                            Alocacao obj = null;
+                            DocumentosPessoal oDoc = null;
+
+                            foreach (DataRow row in result.Rows)
+                            {
+
+                                if (obj == null)
+                                {
+                                    obj = new Alocacao()
+                                    {
+                                        UniqueKey = Guid.Parse(row["UKal"].ToString()),
+                                        DocumentosPessoal = new List<DocumentosPessoal>()
+                                    };
+
+                                    if (!string.IsNullOrEmpty(row["UKd"].ToString()))
+                                    {
+                                        oDoc = new DocumentosPessoal()
+                                        {
+                                            UniqueKey = Guid.Parse(row["UKd"].ToString()),
+                                            NomeDocumento = row["nome"].ToString(),
+
+                                        };
+
+
+                                        obj.DocumentosPessoal.Add(oDoc);
+                                    }
+                                }
+                                else if (obj.UniqueKey.Equals(Guid.Parse(row["UKal"].ToString())))
+                                {
+                                    if (!string.IsNullOrEmpty(row["UKda"].ToString()))
+                                    {
+                                        if (oDoc == null)
+                                        {
+                                            oDoc = new DocumentosPessoal()
+                                            {
+                                                UniqueKey = Guid.Parse(row["UKd"].ToString()),
+                                                NomeDocumento = row["nome"].ToString(),
+
+                                            };
+
+                                            obj.DocumentosPessoal.Add(oDoc);
+                                        }
+
+
+                                        else
+                                        {
+                                            oDoc = new DocumentosPessoal()
+                                            {
+                                                UniqueKey = Guid.Parse(row["UKd"].ToString()),
+                                                NomeDocumento = row["nome"].ToString(),
+
+                                            };
+
+                                            obj.DocumentosPessoal.Add(oDoc);
+                                        }
+
+
+                                    }
+                                }
+                                else
+                                {
+                                    lista.Add(obj);
+
+                                    obj = new Alocacao()
+                                    {
+                                        UniqueKey = Guid.Parse(row["UKal"].ToString()),
+                                        DocumentosPessoal = new List<DocumentosPessoal>()
+                                    };
+
+                                    if (!string.IsNullOrEmpty(row["UKd"].ToString()))
+                                    {
+                                        oDoc = new DocumentosPessoal()
+                                        {
+                                            UniqueKey = Guid.Parse(row["UKd"].ToString()),
+                                            NomeDocumento = row["nome"].ToString(),
+
+                                        };
+
+
+                                        obj.DocumentosPessoal.Add(oDoc);
+                                    }
+                                }
+                            }
+
+                            if (obj != null)
+                                lista.Add(obj);
+
+
+                            if (lista == null)
+                                throw new Exception("Nenhum Documento para vincular.");
+
+                            string documento = string.Empty;
+
+                            foreach (var item in obj.DocumentosPessoal)
+                            {
+                                if (item != null)
+                                {
+
+                                    documento += item.NomeDocumento + ",";
+
+                                }
+                            }
+
+
+                            if (documento.Contains(","))
+                            {
+                                documento = documento.Remove(documento.Length - 1);
+
+                                foreach (string ativ in documento.Split(','))
+                                {
+                                    if (!string.IsNullOrEmpty(ativ.Trim()))
+                                    {
+                                        DocumentosPessoal pTemp = DocumentosPessoalBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.NomeDocumento.Equals(ativ.Trim()));
+                                        if (pTemp != null)
+                                        {
+                                            if (REL_DocumentosAlocadoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKDocumento.Equals(pTemp.UniqueKey) && a.UKAlocacao.Equals(ukal)).Count() == 0)
+                                            {
+                                                REL_DocumentosAlocadoBusiness.Inserir(new REL_DocumentosAlocados()
+                                                {
+                                                    Posicao = 0,
+                                                    UKAlocacao = ukal,
+                                                    UKDocumento = pTemp.UniqueKey,
+                                                    DataDocumento = DateTime.MaxValue,
+                                                    UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                                });
+
+                                            }
+                                            //else
+                                            //{
+                                            //    return Json(new { resultado = new RetornoJSON() { Erro = "Este documento já está cadastrado para esta alocação!." } });
+                                            //}
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                DocumentosPessoal pTemp = DocumentosPessoalBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.NomeDocumento.Equals(documento.Trim()));
+                                if (pTemp != null)
+                                {
+                                   
+                                    if (REL_DocumentosAlocadoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKDocumento.Equals(pTemp.UniqueKey) && a.UKAlocacao.Equals(ukal)).Count() == 0)
+                                    {
+                                        REL_DocumentosAlocadoBusiness.Inserir(new REL_DocumentosAlocados()
+                                        {
+                                            UKAlocacao = ukal,
+                                            UKDocumento = pTemp.UniqueKey,
+                                            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                                        });
+                                    }
+                                }
+                            }
+                        } }
+
+
+                            Extensions.GravaCookie("MensagemSucesso", "O empregado foi alocado com sucesso.", 10);
+
+                            return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Perfil", "Empregado", new { id = oAdmissao.UKEmpregado.ToString() }) } });
+                        }
+                    
                 }
                 catch (Exception ex)
                 {
@@ -213,6 +436,16 @@ namespace GISWeb.Controllers
 
                 al.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                 AlocacaoBusiness.Terminar(al);
+
+                //var da = REL_DocumentosAlocadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKAlocacao.Equals(UKAlocacao)).ToList(); 
+                //foreach(var item in da)
+                //{
+                //    if(da != null)
+                //    {
+                //        item.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                //        REL_DocumentosAlocadoBusiness.Terminar(item);
+                //    }
+                //}
 
                 Extensions.GravaCookie("MensagemSucesso", "O empregado foi desalocado com sucesso.", 10);
 

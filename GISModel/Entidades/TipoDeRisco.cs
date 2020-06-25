@@ -39,7 +39,7 @@ namespace GISModel.Entidades
 
         public virtual PossiveisDanos PossiveisDanos { get; set; }
 
-        public virtual PerigoPotencial PerigoPotencial { get; set; }
+        public virtual ListaDePerigo ListaDePerigo { get; set; }
 
         public virtual AtividadesDoEstabelecimento AtividadesDoEstabelecimento {get; set;}
 

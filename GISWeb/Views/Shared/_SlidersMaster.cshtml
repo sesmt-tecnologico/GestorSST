@@ -73,3 +73,52 @@
         </div>
     </div>
 </div>
+
+
+
+<div id="modalVerAula" class="modal fade" style="overflow: hide;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="modalVerAulaX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="smaller lighter grey no-margin">
+                    <span class="hidden-800">Vídeo aula </span>
+                    <b><span id="modalVerAulaTituloName"></span></b>
+                    <span id="modalVerAulaCorpoLoading" style="float: right; font-size: 10px; padding-right: 5px; padding-top: 4px; vertical-align: middle">
+                        <span id="modalVerAulaCorpoLoadingTexto" style="padding-right: 5px"></span>
+                        <img src="~/Images/slack_loading.gif" width="25px" />
+                    </span>
+                </h3>
+                <h6 id="modalVerAulaTitulo" style="color: #777; font-size: 11px; padding-left: 2px; margin: 5px 0px -5px 0px"></h6>
+            </div>
+
+            <div class="modal-body" style="overflow-y: auto;">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="modalVerAulaCorpo"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span id="modalVerAulaLoading" style="display: none; float: left; padding-top: 6px">
+                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                        </span>
+
+                        <button id="modalVerAulaFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                            <i class="ace-icon fa fa-times"></i>
+                            Fechar
+                        </button>
+
+                        @*<button id="modalVerAulaProsseguir" class="btn btn-sm btn-info" style="right: 5px; left: auto">
+                            <i class="ace-icon fa fa-check"></i>
+                            Prosseguir
+                        </button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

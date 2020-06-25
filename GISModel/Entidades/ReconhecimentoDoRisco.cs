@@ -25,6 +25,15 @@ namespace GISModel.Entidades
 
 
 
+        [Display(Name = "Probabilidade")]
+        public string Probabilidade { get; set; }
+
+        [Display(Name = "Gravidade")]
+        public string Gravidade { get; set; }
+
+        [Display(Name = "Exposição")]
+        public string Exposicao { get; set; }
+
 
 
 

@@ -1,4 +1,6 @@
 ﻿using GISModel.Entidades;
+using GISModel.Entidades.PCMSO;
+using GISModel.Entidades.PPRA;
 using GISModel.Entidades.Quest;
 using System.Data.Entity;
 
@@ -83,7 +85,7 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<Exposicao> Exposicao { get; set; }
 
-        public DbSet<PerigoPotencial> PerigoPotencial { get; set; }
+        public DbSet<ListaDePerigo> ListaDePerigo { get; set; }
 
         public DbSet<Usuario> Usuario { get; set; }
 
@@ -97,6 +99,9 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<ReconhecimentoDoRisco> ReconhecimentoDoRisco { get; set; }
 
+        public DbSet<Medicoes> Medicoes { get; set; }
+
+        public DbSet<Exames> Exames { get; set; }
 
         public DbSet<Link> Link { get; set; }
 
@@ -128,6 +133,8 @@ namespace GISCore.Repository.Configuration
         public DbSet<REL_RiscoControle> REL_RiscoControle { get; set; }
 
         public DbSet<REL_ArquivoEmpregado> REL_ArquivoEmpregado { get; set; }
+
+        public DbSet<REL_RiscosExames> REL_RiscosExames { get; set; }
 
 
 

@@ -192,12 +192,11 @@ namespace GISWeb.Controllers
         {
 
             string sql = @"select r.UniqueKey as UK_Risco, r.Nome as Nome_risco, d.UniqueKey as UK_Danos, d.DescricaoDanos, rd.UKRiscos as rel01,
-
-                                  rd.UKDanosSaude as rel02 
+                           rd.UKDanosSaude as rel02 
                            from [dbo].[tbRisco] r
-                                left join [REL_RiscoDanosASaude]  rd on rd.UKRiscos = r.UniqueKey and r.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
-                                left join [tbPossiveisDanos]  d on d.UniqueKey = rd.UKDanosSaude and d.DataExclusao = CAST('9999-12-31 23:59:59.997'as datetime2)
-                           order by r.Nome";
+                           left join [REL_RiscoDanosASaude]  rd on rd.UKRiscos = r.UniqueKey and r.DataExclusao = '9999-12-31 23:59:59.997'
+                           left join [tbPossiveisDanos]  d on d.UniqueKey = rd.UKDanosSaude and d.DataExclusao = '9999-12-31 23:59:59.997'
+                            order by r.Nome";
 
 
 

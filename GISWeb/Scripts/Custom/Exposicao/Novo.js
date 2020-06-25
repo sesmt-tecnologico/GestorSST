@@ -45,3 +45,15 @@
 
   
 
+function OnBeginCadastrarExposicao() {
+    $(".LoadingLayout").show();
+    $('#blnSalvar').hide();
+    $("#formCadastroExposicao").css({ opacity: "0.5" });
+}
+
+function OnSuccessCadastrarExposicao(data) {
+    $('#formCadastroExposicao').removeAttr('style');
+    $(".LoadingLayout").hide();
+    $('#btnSalvar').show();
+    TratarResultadoJSON(data.resultado);
+}

@@ -1,5 +1,6 @@
 ﻿jQuery(function ($) {
 
+    Chosen();
 
     GetDocumento();
 

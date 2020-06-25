@@ -37,6 +37,16 @@ namespace GISModel.DTO.GerenciamentoDoRisco
         [Required(ErrorMessage = "Selecione a classe do risco antes de prosseguir.")]
         public EClasseDoRisco EClasseDoRisco { get; set; }
 
+        [Display(Name = "Probabilidade")]
+        [Required(ErrorMessage = "Selecione a probabilidade do risco antes de prosseguir.")]
+        public EProbabilidadeSeg EProbabilidadeSeg { get; set; }
+
+
+        [Display(Name = "Gravidade")]
+        [Required(ErrorMessage = "Selecione a Gravidade do risco antes de prosseguir.")]
+        public EGravidade EGravidade { get; set; }
+
+
 
 
 

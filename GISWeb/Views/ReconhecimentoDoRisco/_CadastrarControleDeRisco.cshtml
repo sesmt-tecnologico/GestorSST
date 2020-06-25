@@ -69,6 +69,27 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group">
+                        @Html.Label("Probabilidade", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.DropDownListFor(d => d.EProbabilidadeSeg, ViewBag.EProbabilidade as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                            @Html.ValidationMessageFor(d => d.EProbabilidadeSeg, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group">
+                        @Html.Label("Gravidade", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                        <div class="col-xs-12 col-sm-12">
+                            @Html.DropDownListFor(d => d.EGravidade, ViewBag.EGravidade as SelectList, "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
+                            @Html.ValidationMessageFor(d => d.EGravidade, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="space-14"></div>
 
@@ -77,10 +98,10 @@
                     <span style="float: left; margin-top: 7px;">CONTROLE DO RISCO</span>
 
                     <div class="pull-right">
-                        <button class="btn btn-white btn-info btn-bold CustomTooltip" 
-                                title="Adicionar tipo de controle" 
+                        <button class="btn btn-white btn-info btn-bold CustomTooltip"
+                                title="Adicionar tipo de controle"
                                 style="margin-top: 3px; margin-bottom: 3px; padding: 3px 4px 0px 8px;"
-                                onclick="OnClickNovoTipoControle(); return false;" 
+                                onclick="OnClickNovoTipoControle(); return false;"
                                 data-target="#modalAddTipoControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                             <i class="ace-icon fa fa-plus bigger-120 blue"></i>
                         </button>

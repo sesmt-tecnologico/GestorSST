@@ -9,6 +9,8 @@ namespace GISModel.DTO.GerenciamentoDoRisco
 
         public string WorkArea { get; set; }
 
+       
+
         public List<Entidades.FonteGeradoraDeRisco> FontesGeradoras { get; set; }
 
     }

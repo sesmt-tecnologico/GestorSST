@@ -48,6 +48,9 @@ namespace GISWeb.Controllers
         public IBaseBusiness<TipoDeControle> TipoDeControleBusiness { get; set; }
 
         [Inject]
+        public IPossiveisDanosBusiness PossiveisDanosBusiness { get; set; }
+
+        [Inject]
         public IBaseBusiness<ClassificacaoMedida> ClassificacaoMedidaBusiness { get; set; }
 
 
@@ -71,6 +74,13 @@ namespace GISWeb.Controllers
             return View();
         }
 
+        public ActionResult VerAula(string UKObjeto)
+        {
+
+            ViewBag.link = UKObjeto;
+
+            return View("_VerAula");
+        }
 
 
         public ActionResult CriarControle(string UKWorkarea, string UKFonte, string UKPerigo, string UKRisco)
@@ -119,7 +129,7 @@ namespace GISWeb.Controllers
             ViewBag.Risco = objRisco.Nome;
 
 
-
+            ViewBag.Danos = PossiveisDanosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
 
 
 
@@ -143,7 +153,23 @@ namespace GISWeb.Controllers
             ViewBag.ETrajetoria = new SelectList(enumData01, "ID", "Name");
 
 
-            
+            var enumData02 = from EProbabilidadeSeg e in Enum.GetValues(typeof(EProbabilidadeSeg))
+                             select new
+                             {
+                                 ID = (int)e,
+                                 Name = e.GetDisplayName()
+                             };
+            ViewBag.EProbabilidadeSeg = new SelectList(enumData02, "ID", "Name");
+
+
+            var enumData03 = from EGravidade e in Enum.GetValues(typeof(EGravidade))
+                             select new
+                             {
+                                 ID = (int)e,
+                                 Name = e.GetDisplayName()
+                             };
+            ViewBag.EGravidade = new SelectList(enumData03, "ID", "Name");
+
 
             return PartialView("_CadastrarControleDeRisco");
 
@@ -314,9 +340,6 @@ namespace GISWeb.Controllers
                                  Name = e.GetDisplayName()
                              };
             ViewBag.ETrajetoria = new SelectList(enumData01, "ID", "Name", objReconhecimento.Tragetoria.ToString());
-
-
-            
             
             
             VMNovoReconhecimentoControle obj = new VMNovoReconhecimentoControle();
@@ -755,6 +778,7 @@ namespace GISWeb.Controllers
                                     {
                                         risk = new Risco()
                                         {
+                                            UniqueKey = Guid.Parse(row["UKRisco"].ToString()),
                                             Nome = row["Risco"].ToString(),
                                             Reconhecimento = new ReconhecimentoDoRisco()
                                             {
@@ -1403,6 +1427,7 @@ namespace GISWeb.Controllers
                                     {
                                         risk = new Risco()
                                         {
+                                            UniqueKey = Guid.Parse(row["UKRisco"].ToString()),
                                             Nome = row["Risco"].ToString(),
                                             Reconhecimento = new ReconhecimentoDoRisco()
                                             {
