@@ -1,5 +1,7 @@
-﻿using GISModel.Enums;
+﻿using GISModel.Entidades.PPRA;
+using GISModel.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,7 +17,9 @@ namespace GISModel.Entidades
 
         public Guid UKWorkArea { get; set; }
 
-        public Guid UKRisco { get; set; }               
+        public Guid UKRisco { get; set; }
+
+        public Guid Risco_ID { get; set; }
 
         [Display(Name = "Observações")]
         public string Observacao { get; set; }
@@ -35,7 +39,8 @@ namespace GISModel.Entidades
         [Display(Name = "Gravidade")]
         public EGravidade EGravidade { get; set; }
 
-       
+
+       public List<Medicoes> Medicao { get; set; }
 
         
     }

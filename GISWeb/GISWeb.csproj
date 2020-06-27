@@ -530,6 +530,7 @@
     <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jQuery\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jQuery\jquery-2.2.0.js" />
     <Content Include="Scripts\jQuery\jquery.inputmask.js" />

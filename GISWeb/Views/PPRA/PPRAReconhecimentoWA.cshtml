@@ -1,5 +1,6 @@
 ﻿@using GISModel.DTO.GerenciamentoDoRisco
 @using GISModel.Entidades
+@using GISModel.Entidades.PPRA
 @using GISHelpers.Utils
 
 @model VMReconhecimento
@@ -14,15 +15,7 @@
 }
 else
 {
-    <div class="alert alert-warning">
-        <strong>
-            <i class="ace-icon fa fa-meh-o"></i>
-            Oops!
-        </strong>
 
-        <h3>Pagina em Construção!</h3>
-        <br>
-    </div>
 
     <div class="row">
         <div class="col-sm-12 col-xs-12">
@@ -191,6 +184,107 @@ else
                         </div>
                     </div>
                 }
+
+
+
+
+                bool firstExpo = false;
+
+                if (risk.Exposicao != null)
+                {
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="center bolder" style="float: left; width: 100%; background-color: #f0f9df; padding: 3px;">
+                                Avaliação Quantitativa dos riscos Ocupacionais
+                            </div>
+                        </div>
+                    </div>
+
+                    foreach (Exposicao expo in risk.Exposicao)
+                    {
+
+                        if (expo.UniqueKey != null)
+                        {
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-12">
+                                    <span class="center bolder blue" style="float: left; width: 100%;">Exposição Insalubre</span>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <span class="center bolder blue" style="float: left; width: 100%;">Exposição ao Calor</span>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <span class="center bolder blue" style="float: left; width: 100%;">Observaçao</span>
+                                </div>
+                            </div>
+
+                            first = true;
+                        }
+
+
+                        <div class="row">
+
+
+                            <div class="col-sm-4 col-xs-12">
+                                <span>@expo.EExposicaoInsalubre.GetDisplayName()</span>
+                            </div>
+                            <div class="col-sm-4 col-xs-12">
+                                <span>@expo.EExposicaoCalor.GetDisplayName()</span>
+                            </div>
+                            <div class="col-sm-4 col-xs-12">
+                                <span>@expo.Observacao</span>
+                            </div>
+
+                        </div>
+
+                        foreach (Medicoes med in expo.Medicao)
+                        {
+
+                            if (med.UniqueKey != null)
+                            {
+                                <div class="row">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <span class="center bolder blue" style="float: left; width: 100%;">Tipo de Medicoes</span>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <span class="center bolder blue" style="float: left; width: 100%;">Valor daMedicao</span>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <span class="center bolder blue" style="float: left; width: 100%;">Máxima Exposicao Diária</span>
+                                    </div>
+                                </div>
+
+                                first = true;
+                            }
+
+
+                            <div class="row">
+
+                                <div class="col-sm-4 col-xs-12">
+                                    <span>@med.TipoMedicoes.GetDisplayName()</span>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <span>@med.ValorMedicao</span>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <span>@med.MaxExpDiaria</span>
+                                </div>
+
+                            </div>
+
+
+                        }
+                    }
+
+
+
+
+
+                }
+
+
+
+
+
 
             }
 

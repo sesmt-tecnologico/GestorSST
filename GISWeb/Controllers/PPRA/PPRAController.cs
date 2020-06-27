@@ -2,6 +2,7 @@
 using GISModel.DTO.GerenciamentoDoRisco;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
+using GISModel.Entidades.PPRA;
 using GISModel.Enums;
 using GISWeb.Infraestrutura.Filters;
 using GISWeb.Infraestrutura.Provider.Abstract;
@@ -87,7 +88,27 @@ namespace GISWeb.Controllers.PPRA
 
             try
             {
-                string sql = @"select w.UniqueKey as UKWorkArea, w.Nome as workarea, 
+                //      string sql = @"select w.UniqueKey as UKWorkArea, w.Nome as workarea, 
+                //                            f.UniqueKey as UKFonte, f.FonteGeradora, 
+                //                            per.Descricao as Perigo, 
+                //                            risc.UniqueKey as UKRisco, risc.Nome as Risco, 
+                //                            r.Tragetoria, r.EClasseDoRisco, 
+                //                            tc.UniqueKey as UKTipoControle, tc.Descricao as TipoControle, 
+                //                            c.UKClassificacaoDaMedia,  c.EControle, 
+                //                            cm.UniqueKey as UKcm, cm.Nome as NomeClass,
+                //                            lk.UniqueKey as UKLink, lk.URL as URLLInk
+                //                     from [dbGestor].[dbo].[tbReconhecimentoDoRisco] r
+                //                        left join [dbGestor].[dbo].[tbWorkArea]  w on w.UniqueKey = r.UKWorkArea and w.DataExclusao ='9999-12-31 23:59:59.997' 
+                //                        left join [dbGestor].[dbo].[tbFonteGeradoraDeRisco] f on f.UniqueKey = r.UKFonteGeradora and f.DataExclusao ='9999-12-31 23:59:59.997' 
+                //                        left join [dbGestor].[dbo].[tbPerigo] per on per.UniqueKey = r.UKPerigo and per.DataExclusao ='9999-12-31 23:59:59.997' 
+                //                        left join [dbGestor].[dbo].[tbRisco]  risc on risc.UniqueKey = r.UKRisco and risc.DataExclusao ='9999-12-31 23:59:59.997' 
+                //                        left join [dbGestor].[dbo].[tbControleDoRisco]  c on c.UKReconhecimentoDoRisco = r.UniqueKey and c.DataExclusao ='9999-12-31 23:59:59.997' 
+                //                        left join [dbGestor].[dbo].[tbTipoDeControle]  tc on tc.UniqueKey = c.UKTipoDeControle and tc.DataExclusao ='9999-12-31 23:59:59.997' 
+                //left join ClassificacaoMedidas cm on cm.UniqueKey = c.UKClassificacaoDaMedia and cm.DataExclusao ='9999-12-31 23:59:59.997'
+                //                              left join tbLink lk on lk.UniqueKey = c.UKLink and lk.DataExclusao ='9999-12-31 23:59:59.997'                             
+                //                    order by f.FonteGeradora, per.Descricao, risc.Nome";
+
+                string sql = @" select w.UniqueKey as UKWorkArea, w.Nome as workarea, 
                                       f.UniqueKey as UKFonte, f.FonteGeradora, 
                                       per.Descricao as Perigo, 
                                       risc.UniqueKey as UKRisco, risc.Nome as Risco, 
@@ -95,7 +116,9 @@ namespace GISWeb.Controllers.PPRA
                                       tc.UniqueKey as UKTipoControle, tc.Descricao as TipoControle, 
                                       c.UKClassificacaoDaMedia,  c.EControle, 
                                       cm.UniqueKey as UKcm, cm.Nome as NomeClass,
-                                      lk.UniqueKey as UKLink, lk.URL as URLLInk
+                                      lk.UniqueKey as UKLink, lk.URL as URLLInk,ex.EExposicaoInsalubre as ExpoInsalubre,ex.EExposicaoCalor as ExpoCalor,ex.Observacao as exObs,
+									  ex.EExposicaoSeg as ExpoSeguranca,ex.EProbabilidadeSeg as Probabilidade,ex.EGravidade as Gravidade, ex.UniqueKey as exUK,
+									  tm.UniqueKey as UKtm,tm.TipoMedicoes as Tipo, tm.ValorMedicao as Valor,tm.MaxExpDiaria as MaxExpoDiaria, tm.Observacoes as Obs, tm.UKExposicao as UKExpo
                                from [dbGestor].[dbo].[tbReconhecimentoDoRisco] r
 		                                left join [dbGestor].[dbo].[tbWorkArea]  w on w.UniqueKey = r.UKWorkArea and w.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbFonteGeradoraDeRisco] f on f.UniqueKey = r.UKFonteGeradora and f.DataExclusao ='9999-12-31 23:59:59.997' 
@@ -104,8 +127,17 @@ namespace GISWeb.Controllers.PPRA
 		                                left join [dbGestor].[dbo].[tbControleDoRisco]  c on c.UKReconhecimentoDoRisco = r.UniqueKey and c.DataExclusao ='9999-12-31 23:59:59.997' 
 		                                left join [dbGestor].[dbo].[tbTipoDeControle]  tc on tc.UniqueKey = c.UKTipoDeControle and tc.DataExclusao ='9999-12-31 23:59:59.997' 
 										left join ClassificacaoMedidas cm on cm.UniqueKey = c.UKClassificacaoDaMedia and cm.DataExclusao ='9999-12-31 23:59:59.997'
-                                        left join tbLink lk on lk.UniqueKey = c.UKLink and lk.DataExclusao ='9999-12-31 23:59:59.997'                             
+                                        left join tbLink lk on lk.UniqueKey = c.UKLink and lk.DataExclusao ='9999-12-31 23:59:59.997' 
+										left join tbExposicao ex on   ex.UKRisco = risc.UniqueKey and ex.DataExclusao = '9999-12-31 23:59:59.997'
+										left join tbMedicoes tm on ex.UniqueKey = tm.UKExposicao and tm.DataExclusao = '9999-12-31 23:59:59.997'
+                                        where r.EClasseDoRisco = '2'
+										                           
                               order by f.FonteGeradora, per.Descricao, risc.Nome";
+
+
+
+
+
 
                 DataTable result = ReconhecimentoBusiness.GetDataTable(sql);
                 if (result.Rows.Count > 0)
@@ -114,6 +146,8 @@ namespace GISWeb.Controllers.PPRA
                     FonteGeradoraDeRisco fonte = null;
                     Perigo per = null;
                     Risco risk = null;
+                    Exposicao exp = null;
+                    Medicoes med = null;
 
                     foreach (DataRow row in result.Rows)
                     {
@@ -154,6 +188,7 @@ namespace GISWeb.Controllers.PPRA
                                                 Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
                                                 EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true),
                                             },
+                                            Exposicao = new List<Exposicao>(),
                                             Controles = new List<ControleDeRiscos>()
                                         };
 
@@ -181,11 +216,42 @@ namespace GISWeb.Controllers.PPRA
 
                                             risk.Controles.Add(control);
                                         }
+                                        
+
+                                        if(!string.IsNullOrEmpty(row["exUK"]?.ToString()))
+                                        {
+                                            exp = new Exposicao()
+                                            {
+                                                UniqueKey = Guid.Parse(row["exUK"].ToString()),
+                                                EExposicaoInsalubre = (EExposicaoInsalubre)Enum.Parse(typeof(EExposicaoInsalubre), row["ExpoSeguranca"].ToString(), true),
+                                                EExposicaoCalor = (EExposicaoCalor)Enum.Parse(typeof(EExposicaoCalor), row["ExpoCalor"].ToString(), true),
+                                                Observacao = row["exObs"].ToString(),
+                                                Medicao = new List<Medicoes>()
+                                            };
+                                        }
+
+                                           if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                            {
+                                               med = new Medicoes()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                    TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                    ValorMedicao = row["Valor"].ToString(),
+                                                   MaxExpDiaria = row["MaxExpoDiaria"].ToString()
 
 
+                                               };
+
+                                            exp.Medicao.Add(med);
+
+                                           }
+
+                                        risk.Exposicao.Add(exp);
+                                        
 
                                         per.Riscos.Add(risk);
-                                    }
+
+                                    }  
 
                                     fonte.Perigos.Add(per);
                                 }
@@ -223,7 +289,42 @@ namespace GISWeb.Controllers.PPRA
                                             }
 
                                             risk.Controles.Add(control);
+
+
                                         }
+                                        if (!string.IsNullOrEmpty(row["exUK"]?.ToString()))
+                                        {
+                                            exp = new Exposicao()
+                                            {
+                                                UniqueKey = Guid.Parse(row["exUK"].ToString()),
+                                                EExposicaoInsalubre = (EExposicaoInsalubre)Enum.Parse(typeof(EExposicaoInsalubre), row["ExpoSeguranca"].ToString(), true),
+                                                EExposicaoCalor = (EExposicaoCalor)Enum.Parse(typeof(EExposicaoCalor), row["ExpoCalor"].ToString(), true),
+                                                Observacao = row["exObs"].ToString(),
+                                                Medicao = new List<Medicoes>()
+                                            };
+
+                                            risk.Exposicao.Add(exp);
+                                        }
+                                       
+                                            if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                            {
+                                                med = new Medicoes()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                    TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                    ValorMedicao = row["Valor"].ToString(),
+                                                    MaxExpDiaria = row["MaxExpoDiaria"].ToString()
+
+
+                                                };
+
+                                                exp.Medicao.Add(med);
+
+                                            }
+
+                                          
+                                       
+
 
                                     }
                                     else
@@ -263,9 +364,39 @@ namespace GISWeb.Controllers.PPRA
 
                                             risk.Controles.Add(control);
                                         }
+                                        if (!string.IsNullOrEmpty(row["exUK"]?.ToString()))
+                                        {
+                                            exp = new Exposicao()
+                                            {
+                                                UniqueKey = Guid.Parse(row["exUK"].ToString()),
+                                                EExposicaoInsalubre = (EExposicaoInsalubre)Enum.Parse(typeof(EExposicaoInsalubre), row["ExpoSeguranca"].ToString(), true),
+                                                EExposicaoCalor = (EExposicaoCalor)Enum.Parse(typeof(EExposicaoCalor), row["ExpoCalor"].ToString(), true),
+                                                Observacao = row["exObs"].ToString(),
+                                                Medicao = new List<Medicoes>()
+                                            };
+
+                                            risk.Exposicao.Add(exp);
+                                        }
+                                            if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                            {
+                                                med = new Medicoes()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                    TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                    ValorMedicao = row["Valor"].ToString(),
+                                                    MaxExpDiaria = row["MaxExpoDiaria"].ToString()
 
 
-                                        per.Riscos.Add(risk);
+                                                };
+
+                                                exp.Medicao.Add(med);
+
+                                            }
+                                                                                   
+
+                                            per.Riscos.Add(risk);
+
+                                                                               
                                     }
 
                                 }
@@ -289,6 +420,7 @@ namespace GISWeb.Controllers.PPRA
                                                 Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
                                                 EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true),
                                             },
+                                            Exposicao = new List<Exposicao>(),
                                             Controles = new List<ControleDeRiscos>()
                                         };
 
@@ -315,14 +447,47 @@ namespace GISWeb.Controllers.PPRA
 
                                             risk.Controles.Add(control);
                                         }
+                                        if (!string.IsNullOrEmpty(row["exUK"]?.ToString()))
+                                        {
+                                            exp = new Exposicao()
+                                            {
+                                                UniqueKey = Guid.Parse(row["exUK"].ToString()),
+                                                EExposicaoInsalubre = (EExposicaoInsalubre)Enum.Parse(typeof(EExposicaoInsalubre), row["ExpoSeguranca"].ToString(), true),
+                                                EExposicaoCalor = (EExposicaoCalor)Enum.Parse(typeof(EExposicaoCalor), row["ExpoCalor"].ToString(), true),
+                                                Observacao = row["exObs"].ToString(),
+                                                Medicao = new List<Medicoes>()
+                                            };
 
+                                            risk.Exposicao.Add(exp);
+                                        }
+
+                                                if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                                        {
+                                                            med = new Medicoes()
+                                                            {
+                                                                UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                                TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                                ValorMedicao = row["Valor"].ToString(),
+                                                                MaxExpDiaria = row["MaxExpoDiaria"].ToString()
+
+
+                                                            };
+
+                                                            exp.Medicao.Add(med);
+
+                                                }
+                                           
+
+
+
+                                    }
 
                                         per.Riscos.Add(risk);
-                                    }
+                                 }
 
                                     fonte.Perigos.Add(per);
 
-                                }
+                              
                             }
                             else
                             {
@@ -352,6 +517,7 @@ namespace GISWeb.Controllers.PPRA
                                                 Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
                                                 EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true),
                                             },
+                                            Exposicao = new List<Exposicao>(),
                                             Controles = new List<ControleDeRiscos>()
                                         };
 
@@ -378,7 +544,36 @@ namespace GISWeb.Controllers.PPRA
 
                                             risk.Controles.Add(control);
                                         }
+                                        if (!string.IsNullOrEmpty(row["exUK"]?.ToString()))
+                                        {
+                                            exp = new Exposicao()
+                                            {
+                                                UniqueKey = Guid.Parse(row["exUK"].ToString()),
+                                                EExposicaoInsalubre = (EExposicaoInsalubre)Enum.Parse(typeof(EExposicaoInsalubre), row["ExpoSeguranca"].ToString(), true),
+                                                EExposicaoCalor = (EExposicaoCalor)Enum.Parse(typeof(EExposicaoCalor), row["ExpoCalor"].ToString(), true),
+                                                Observacao = row["exObs"].ToString(),
+                                                Medicao = new List<Medicoes>()
+                                            };
 
+                                            risk.Exposicao.Add(exp);
+                                        }
+                                    }
+
+                                    if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                            {
+                                                med = new Medicoes()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                    TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                    ValorMedicao = row["Valor"].ToString(),
+                                                    MaxExpDiaria = row["MaxExpoDiaria"].ToString()
+
+
+                                                };
+
+                                                exp.Medicao.Add(med);
+
+                                        
 
                                         per.Riscos.Add(risk);
                                     }

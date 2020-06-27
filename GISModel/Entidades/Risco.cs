@@ -22,6 +22,9 @@ namespace GISModel.Entidades
         [NotMapped]
         public ReconhecimentoDoRisco Reconhecimento { get; set; }
 
+        public List<Exposicao> Exposicao { get; set; }
+
+
         
 
     }

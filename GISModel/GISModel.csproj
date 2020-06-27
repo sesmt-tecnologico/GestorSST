@@ -133,6 +133,7 @@
     <Compile Include="DTO\PPRA\VMLGrupoRiscoHom.cs" />
     <Compile Include="DTO\PPRA\VMListaMedicoes.cs" />
     <Compile Include="DTO\PPRA\VMLListaExposicao.cs" />
+    <Compile Include="DTO\PPRA\VMLPPRA.cs" />
     <Compile Include="DTO\Questionario\VMQuestionarioRespondido.cs" />
     <Compile Include="DTO\Resposta\VMPesquisaEmpregado.cs" />
     <Compile Include="DTO\Resposta\VMPesquisaPergunta.cs" />
