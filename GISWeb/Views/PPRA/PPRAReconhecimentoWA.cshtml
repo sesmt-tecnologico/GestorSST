@@ -186,24 +186,25 @@ else
                 }
 
 
-
-
                 bool firstExpo = false;
 
-                if (risk.Exposicao != null)
+
+
+                foreach (Exposicao expo in risk.Exposicao)
                 {
-                    <div class="row">
-                        <div class="col-sm-12 col-xs-12">
-                            <div class="center bolder" style="float: left; width: 100%; background-color: #f0f9df; padding: 3px;">
-                                Avaliação Quantitativa dos riscos Ocupacionais
+                    if (expo.UniqueKey != null)
+                    {
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="center bolder" style="float: left; width: 100%; background-color: #f0f9df; padding: 3px;">
+                                    Avaliação Quantitativa dos riscos Ocupacionais
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    foreach (Exposicao expo in risk.Exposicao)
-                    {
 
-                        if (expo.UniqueKey != null)
+
+                        if (!expo.UniqueKey.Equals(Guid.Empty))
                         {
                             <div class="row">
                                 <div class="col-sm-4 col-xs-12">

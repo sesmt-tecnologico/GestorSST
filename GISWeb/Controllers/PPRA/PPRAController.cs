@@ -228,7 +228,7 @@ namespace GISWeb.Controllers.PPRA
                                                 Observacao = row["exObs"].ToString(),
                                                 Medicao = new List<Medicoes>()
                                             };
-                                        }
+                                       
 
                                            if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
                                             {
@@ -246,8 +246,8 @@ namespace GISWeb.Controllers.PPRA
 
                                            }
 
-                                        risk.Exposicao.Add(exp);
-                                        
+                                              risk.Exposicao.Add(exp);
+                                        }
 
                                         per.Riscos.Add(risk);
 
@@ -304,7 +304,7 @@ namespace GISWeb.Controllers.PPRA
                                             };
 
                                             risk.Exposicao.Add(exp);
-                                        }
+                                       
                                        
                                             if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
                                             {
@@ -322,8 +322,8 @@ namespace GISWeb.Controllers.PPRA
 
                                             }
 
-                                          
-                                       
+                                        }
+
 
 
                                     }
@@ -376,7 +376,7 @@ namespace GISWeb.Controllers.PPRA
                                             };
 
                                             risk.Exposicao.Add(exp);
-                                        }
+                                       
                                             if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
                                             {
                                                 med = new Medicoes()
@@ -392,9 +392,9 @@ namespace GISWeb.Controllers.PPRA
                                                 exp.Medicao.Add(med);
 
                                             }
-                                                                                   
 
-                                            per.Riscos.Add(risk);
+                                        }
+                                        per.Riscos.Add(risk);
 
                                                                                
                                     }
@@ -459,7 +459,7 @@ namespace GISWeb.Controllers.PPRA
                                             };
 
                                             risk.Exposicao.Add(exp);
-                                        }
+                                        
 
                                                 if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
                                                         {
@@ -476,7 +476,7 @@ namespace GISWeb.Controllers.PPRA
                                                             exp.Medicao.Add(med);
 
                                                 }
-                                           
+                                        }
 
 
 
@@ -556,29 +556,29 @@ namespace GISWeb.Controllers.PPRA
                                             };
 
                                             risk.Exposicao.Add(exp);
-                                        }
-                                    }
-
-                                    if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
-                                            {
-                                                med = new Medicoes()
-                                                {
-                                                    UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
-                                                    TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
-                                                    ValorMedicao = row["Valor"].ToString(),
-                                                    MaxExpDiaria = row["MaxExpoDiaria"].ToString()
-
-
-                                                };
-
-                                                exp.Medicao.Add(med);
-
                                         
+                                    
+
+                                            if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                                    {
+                                                        med = new Medicoes()
+                                                        {
+                                                            UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                            TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                            ValorMedicao = row["Valor"].ToString(),
+                                                            MaxExpDiaria = row["MaxExpoDiaria"].ToString()
+
+
+                                                        };
+
+                                                        exp.Medicao.Add(med);
+                                                
+                                            }
+                                        }
 
                                         per.Riscos.Add(risk);
+                                        fonte.Perigos.Add(per);
                                     }
-
-                                    fonte.Perigos.Add(per);
                                 }
 
                                 obj.FontesGeradoras.Add(fonte);
