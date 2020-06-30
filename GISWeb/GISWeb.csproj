@@ -491,6 +491,7 @@
     <Content Include="Scripts\Custom\PossiveisDanos\Excluir.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Listagem.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Novo.js" />
+    <Content Include="Scripts\Custom\PPRA\Lista.js" />
     <Content Include="Scripts\Custom\Questionario\Listagem.js" />
     <Content Include="Scripts\Custom\Questionario\Novo.js" />
     <Content Include="Scripts\Custom\Reconhecimento\Listagem.js" />
@@ -895,6 +896,10 @@
     <Content Include="Views\REL_RiscosExames\Index.cshtml" />
     <Content Include="Views\REL_RiscosExames\Novo.cshtml" />
     <Content Include="Views\ASO\ListaASOEmpregado.cshtml" />
+    <Content Include="Views\PPRA\_PesquisaPPRA2.cshtml" />
+    <Content Include="Views\PPRA\_PesquisaPPRA.cshtml" />
+    <Content Include="Views\PPRA\PesquisaPPRA.cshtml" />
+    <Content Include="Views\PPRA\_Resultado.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

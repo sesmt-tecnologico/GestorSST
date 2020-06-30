@@ -110,16 +110,10 @@
                                                                     <div class="pull-right action-buttons">
 
 
-                                                                        @if (pRisc.Reconhecimento == null)
-                                                                        {
-                                                                            <a href="#" class="blue CustomTooltip" title="Cadastrar controle Risco" onclick="OnClickControleDoRisco('@wa.UniqueKey.ToString()','@font.UniqueKey.ToString()', '@per.UniqueKey.ToString()', '@pRisc.UniqueKey.ToString()');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
-                                                                            </a>
-                                                                        }
-                                                                        else
+                                                                        @if (pRisc.Reconhecimento !=null && pRisc.Reconhecimento.UKWorkarea == wa.UniqueKey  )
                                                                         {
 
-
+                                                                           
                                                                             <a href="@Url.Action("ListaReconhecimentoPorRisco", "ReconhecimentoDoRisco", new {id = @pRisc.UniqueKey })" class="blue CustomTooltip" title="Exibir Reconhecimento / Controles">
                                                                                 <i class="ace-icon fa fa-search red bigger-125"></i>
                                                                             </a>
@@ -132,12 +126,22 @@
                                                                                 <i class="ace-icon fa fa-remove red bigger-125"></i>
                                                                             </a>
                                                                         }
+                                                                        else
+                                                                        {
+
+                                                                            <a href="#" class="blue CustomTooltip" title="Cadastrar controle Risco" onclick="OnClickControleDoRisco('@wa.UniqueKey.ToString()','@font.UniqueKey.ToString()', '@per.UniqueKey.ToString()', '@pRisc.UniqueKey.ToString()');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                                            </a>
+
+                                                                            
+
+                                                                        }
 
                                                                         <a href="@Url.Action("Novo", "Exposicao", new {UKRisco = @pRisc.UniqueKey, UKEstabelecimento = @wa.UKEstabelecimento, UKWorkarea = @wa.UniqueKey  })" class="blue CustomTooltip" title="Cadastrar Exposição / Controles" style="margin-left: 25px;">
                                                                             <i class="ace-icon fa fa-sun-o red bigger-125"></i>
                                                                         </a>
 
-                                                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@pRisc.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" >
+                                                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@pRisc.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                                                             <i class="ace-icon fa fa-cloud blue bigger-125"></i>
                                                                         </a>
 

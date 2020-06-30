@@ -1,5 +1,6 @@
 ﻿using GISCore.Business.Abstract;
 using GISModel.DTO.GerenciamentoDoRisco;
+using GISModel.DTO.PPRA;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISModel.Entidades.PPRA;
@@ -28,6 +29,17 @@ namespace GISWeb.Controllers.PPRA
 
         [Inject]
         public IArquivoBusiness ArquivoBusiness { get; set; }
+
+        [Inject]
+        public IAdmissaoBusiness AdmissaoBusiness { get; set; }
+
+       
+
+        [Inject]
+        public IEmpregadoBusiness EmpregadoBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<Alocacao> AlocacaoBusiness { get; set; }
 
         [Inject]
         public IRiscoBusiness RiscoBusiness { get; set; }
@@ -66,10 +78,10 @@ namespace GISWeb.Controllers.PPRA
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
+        [Inject]
+        public IEstabelecimentoBusiness EstabelecimentoBusiness  { get; set; }
+
         #endregion
-
-
-
 
 
 
@@ -78,35 +90,25 @@ namespace GISWeb.Controllers.PPRA
         {
             return View();
         }
-   
-
-
-
         public ActionResult PPRAReconhecimentoWA()
+        {
+            
+            ViewBag.Estab = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PesquisaPPRA(VMLListaExposicao entidade)
 
         {
 
             try
             {
-                //      string sql = @"select w.UniqueKey as UKWorkArea, w.Nome as workarea, 
-                //                            f.UniqueKey as UKFonte, f.FonteGeradora, 
-                //                            per.Descricao as Perigo, 
-                //                            risc.UniqueKey as UKRisco, risc.Nome as Risco, 
-                //                            r.Tragetoria, r.EClasseDoRisco, 
-                //                            tc.UniqueKey as UKTipoControle, tc.Descricao as TipoControle, 
-                //                            c.UKClassificacaoDaMedia,  c.EControle, 
-                //                            cm.UniqueKey as UKcm, cm.Nome as NomeClass,
-                //                            lk.UniqueKey as UKLink, lk.URL as URLLInk
-                //                     from [dbGestor].[dbo].[tbReconhecimentoDoRisco] r
-                //                        left join [dbGestor].[dbo].[tbWorkArea]  w on w.UniqueKey = r.UKWorkArea and w.DataExclusao ='9999-12-31 23:59:59.997' 
-                //                        left join [dbGestor].[dbo].[tbFonteGeradoraDeRisco] f on f.UniqueKey = r.UKFonteGeradora and f.DataExclusao ='9999-12-31 23:59:59.997' 
-                //                        left join [dbGestor].[dbo].[tbPerigo] per on per.UniqueKey = r.UKPerigo and per.DataExclusao ='9999-12-31 23:59:59.997' 
-                //                        left join [dbGestor].[dbo].[tbRisco]  risc on risc.UniqueKey = r.UKRisco and risc.DataExclusao ='9999-12-31 23:59:59.997' 
-                //                        left join [dbGestor].[dbo].[tbControleDoRisco]  c on c.UKReconhecimentoDoRisco = r.UniqueKey and c.DataExclusao ='9999-12-31 23:59:59.997' 
-                //                        left join [dbGestor].[dbo].[tbTipoDeControle]  tc on tc.UniqueKey = c.UKTipoDeControle and tc.DataExclusao ='9999-12-31 23:59:59.997' 
-                //left join ClassificacaoMedidas cm on cm.UniqueKey = c.UKClassificacaoDaMedia and cm.DataExclusao ='9999-12-31 23:59:59.997'
-                //                              left join tbLink lk on lk.UniqueKey = c.UKLink and lk.DataExclusao ='9999-12-31 23:59:59.997'                             
-                //                    order by f.FonteGeradora, per.Descricao, risc.Nome";
+
+                List<VMReconhecimento> lista = new List<VMReconhecimento>();
 
                 string sql = @" select w.UniqueKey as UKWorkArea, w.Nome as workarea, 
                                       f.UniqueKey as UKFonte, f.FonteGeradora, 
@@ -130,7 +132,7 @@ namespace GISWeb.Controllers.PPRA
                                         left join tbLink lk on lk.UniqueKey = c.UKLink and lk.DataExclusao ='9999-12-31 23:59:59.997' 
 										left join tbExposicao ex on   ex.UKRisco = risc.UniqueKey and ex.DataExclusao = '9999-12-31 23:59:59.997'
 										left join tbMedicoes tm on ex.UniqueKey = tm.UKExposicao and tm.DataExclusao = '9999-12-31 23:59:59.997'
-                                        where r.EClasseDoRisco = '2'
+                                        where r.EClasseDoRisco = '2' and  w.UKEstabelecimento = '" + entidade.Estabelecimento + @"'
 										                           
                               order by f.FonteGeradora, per.Descricao, risc.Nome";
 
@@ -586,13 +588,13 @@ namespace GISWeb.Controllers.PPRA
                         }
                     }
 
-                    return View("PPRAReconhecimentoWA", obj);
+                    if (obj != null)
+                        lista.Add(obj);
                 }
 
-                return View("PPRAReconhecimentoWA");
+               return PartialView("_PesquisaPPRA", lista);
+
             }
-
-
             catch (Exception ex)
             {
                 return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
@@ -602,8 +604,663 @@ namespace GISWeb.Controllers.PPRA
         }
 
 
+        public ActionResult PesquisaPPRA()
+        {
+
+
+            ViewBag.Estab = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Pesquisa(VMLListaExposicao entidade)
+        {
+
+            Guid UKestab = Guid.Parse(entidade.Estabelecimento);
+
+            List<VMLGHE> ListaGHE = (from al in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                     join adm in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                     on al.UKAdmissao equals adm.UniqueKey
+                                     join emp in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                     on adm.UKEmpregado equals emp.UniqueKey
+                                     join est in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                     on al.UKEstabelecimento equals est.UniqueKey
+                                     where al.UKEstabelecimento.Equals(UKestab)
+                                     select new VMLGHE()
+                                     {
+                                         Nome = emp.Nome,
+                                         CPF = emp.CPF,
+                                         DataNascimento = emp.DataNascimento,
+                                         DataAlocacao = al.DataInclusao
+
+
+                                     }).ToList();
+
+            ViewBag.GHE = ListaGHE.ToList();
+
+
+
+            try
+            {
+
+                List<VMReconhecimento> lista = new List<VMReconhecimento>();
+
+                string sql = @" select w.UniqueKey as UKWorkArea, w.Nome as workarea, 
+                                      f.UniqueKey as UKFonte, f.FonteGeradora, f.UKWorkArea as fUKWorkArea,
+                                      per.Descricao as Perigo, 
+                                      risc.UniqueKey as UKRisco, risc.Nome as Risco, 
+                                      r.Tragetoria, r.EClasseDoRisco, 
+                                      tc.UniqueKey as UKTipoControle, tc.Descricao as TipoControle, 
+                                      c.UKClassificacaoDaMedia,  c.EControle, 
+                                      cm.UniqueKey as UKcm, cm.Nome as NomeClass,
+                                      lk.UniqueKey as UKLink, lk.URL as URLLInk,ex.EExposicaoInsalubre as ExpoInsalubre,ex.EExposicaoCalor as ExpoCalor,ex.Observacao as exObs,
+									  ex.EExposicaoSeg as ExpoSeguranca,ex.EProbabilidadeSeg as Probabilidade,ex.EGravidade as Gravidade, ex.UniqueKey as exUK,
+									  tm.UniqueKey as UKtm,tm.TipoMedicoes as Tipo, tm.ValorMedicao as Valor,tm.MaxExpDiaria as MaxExpoDiaria, tm.Observacoes as Obs, tm.UKExposicao as UKExpo
+                               from [dbGestor].[dbo].[tbReconhecimentoDoRisco] r
+		                                left join [dbGestor].[dbo].[tbWorkArea]  w on w.UniqueKey = r.UKWorkArea and w.DataExclusao ='9999-12-31 23:59:59.997' 
+		                                left join [dbGestor].[dbo].[tbFonteGeradoraDeRisco] f on f.UniqueKey = r.UKFonteGeradora and f.DataExclusao ='9999-12-31 23:59:59.997' 
+		                                left join [dbGestor].[dbo].[tbPerigo] per on per.UniqueKey = r.UKPerigo and per.DataExclusao ='9999-12-31 23:59:59.997' 
+		                                left join [dbGestor].[dbo].[tbRisco]  risc on risc.UniqueKey = r.UKRisco and risc.DataExclusao ='9999-12-31 23:59:59.997' 
+		                                left join [dbGestor].[dbo].[tbControleDoRisco]  c on c.UKReconhecimentoDoRisco = r.UniqueKey and c.DataExclusao ='9999-12-31 23:59:59.997' 
+		                                left join [dbGestor].[dbo].[tbTipoDeControle]  tc on tc.UniqueKey = c.UKTipoDeControle and tc.DataExclusao ='9999-12-31 23:59:59.997' 
+										left join ClassificacaoMedidas cm on cm.UniqueKey = c.UKClassificacaoDaMedia and cm.DataExclusao ='9999-12-31 23:59:59.997'
+                                        left join tbLink lk on lk.UniqueKey = c.UKLink and lk.DataExclusao ='9999-12-31 23:59:59.997' 
+										left join tbExposicao ex on   ex.UKRisco = risc.UniqueKey and ex.DataExclusao = '9999-12-31 23:59:59.997'
+										left join tbMedicoes tm on ex.UniqueKey = tm.UKExposicao and tm.DataExclusao = '9999-12-31 23:59:59.997'
+                                        where r.EClasseDoRisco = '2' and  w.UKEstabelecimento = '" + entidade.Estabelecimento + @"'
+										                           
+                              order by f.FonteGeradora, per.Descricao, risc.Nome";
+
+
+
+
+
+
+                DataTable result = ReconhecimentoBusiness.GetDataTable(sql);
+                if (result.Rows.Count > 0)
+                {
+                    Estabelecimento Est = null;
+                    VMReconhecimento obj = null;
+                    FonteGeradoraDeRisco fonte = null;
+                    Perigo per = null;
+                    Risco risk = null;
+                    Exposicao exp = null;
+                    Medicoes med = null;
+
+                    foreach (DataRow row in result.Rows)
+                    {
+                        if (obj == null)
+                        {
+                            obj = new VMReconhecimento()
+                            {
+                                UKWorkArea = row["UKWorkArea"].ToString(),
+                                WorkArea = row["workarea"].ToString(),
+                                FontesGeradoras = new List<FonteGeradoraDeRisco>()
+                            };
+
+                            if (!string.IsNullOrEmpty(row["FonteGeradora"]?.ToString()))
+                            {
+                                fonte = new FonteGeradoraDeRisco()
+                                {
+                                    UniqueKey = Guid.Parse(row["UKFonte"].ToString()),
+                                    Descricao = row["FonteGeradora"].ToString(),
+                                    UKWorkArea = Guid.Parse(row["fUKWorkArea"].ToString()),
+                                    Perigos = new List<Perigo>()
+                                };
+
+                                if (!string.IsNullOrEmpty(row["Perigo"]?.ToString()))
+                                {
+                                    per = new Perigo()
+                                    {
+                                        Descricao = row["Perigo"].ToString(),
+                                        Riscos = new List<Risco>()
+                                    };
+
+                                    if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                    {
+                                        risk = new Risco()
+                                        {
+                                            UniqueKey = Guid.Parse(row["UKRisco"].ToString()),
+                                            Nome = row["Risco"].ToString(),
+                                            Reconhecimento = new ReconhecimentoDoRisco()
+                                            {
+                                                Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
+                                                EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true),
+                                            },
+                                            Exposicao = new List<Exposicao>(),
+                                            Controles = new List<ControleDeRiscos>()
+                                        };
+
+                                        if (!string.IsNullOrEmpty(row["UKTipoControle"]?.ToString()))
+                                        {
+
+                                            ControleDeRiscos control = new ControleDeRiscos()
+                                            {
+                                                UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
+                                                TipoDeControle = row["TipoControle"].ToString(),
+                                                Link = new Link(),
+                                                UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
+                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
+                                                ClassificacaoMedida = new ClassificacaoMedida()
+                                                {
+                                                    Nome = row["NomeClass"].ToString()
+                                                }
+                                            };
+
+                                            if (!string.IsNullOrEmpty(row["UKLink"].ToString()))
+                                            {
+                                                control.Link.UniqueKey = Guid.Parse(row["UKLink"].ToString());
+                                                control.Link.URL = row["URLLInk"].ToString();
+                                            }
+
+                                            risk.Controles.Add(control);
+                                        }
+
+
+                                        if (!string.IsNullOrEmpty(row["exUK"]?.ToString()))
+                                        {
+                                            exp = new Exposicao()
+                                            {
+                                                UniqueKey = Guid.Parse(row["exUK"].ToString()),
+                                                EExposicaoInsalubre = (EExposicaoInsalubre)Enum.Parse(typeof(EExposicaoInsalubre), row["ExpoSeguranca"].ToString(), true),
+                                                EExposicaoCalor = (EExposicaoCalor)Enum.Parse(typeof(EExposicaoCalor), row["ExpoCalor"].ToString(), true),
+                                                Observacao = row["exObs"].ToString(),
+                                                Medicao = new List<Medicoes>()
+                                            };
+
+
+                                            if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                            {
+                                                med = new Medicoes()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                    TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                    ValorMedicao = row["Valor"].ToString(),
+                                                    MaxExpDiaria = row["MaxExpoDiaria"].ToString()
+
+
+                                                };
+
+                                                exp.Medicao.Add(med);
+
+                                            }
+
+                                            risk.Exposicao.Add(exp);
+                                        }
+
+                                        per.Riscos.Add(risk);
+
+                                    }
+
+                                    fonte.Perigos.Add(per);
+                                }
+
+                                obj.FontesGeradoras.Add(fonte);
+                            }
+                        }
+                        else
+                        {
+                            if (obj.UKWorkArea.Equals(Guid.Parse(row["UKWorkArea"].ToString())))
+                            {
+
+                                if (fonte.Descricao.Equals(row["FonteGeradora"].ToString()))
+                                {
+                                    if (per.Descricao.Equals(row["Perigo"].ToString()))
+                                    {
+                                        if (risk.Nome.Equals(row["Risco"].ToString()))
+                                        {
+                                            if (!string.IsNullOrEmpty(row["UKTipoControle"]?.ToString()))
+                                            {
+                                                var control = new ControleDeRiscos()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
+                                                    TipoDeControle = row["TipoControle"].ToString(),
+                                                    Link = new Link(),
+                                                    UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
+                                                    EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
+                                                    ClassificacaoMedida = new ClassificacaoMedida()
+                                                    {
+                                                        Nome = row["NomeClass"].ToString()
+                                                    }
+                                                };
+
+                                                if (!string.IsNullOrEmpty(row["UKLink"].ToString()))
+                                                {
+                                                    control.Link.UniqueKey = Guid.Parse(row["UKLink"].ToString());
+                                                    control.Link.URL = row["URLLInk"].ToString();
+                                                }
+
+                                                risk.Controles.Add(control);
+
+
+                                            }
+                                            if (!string.IsNullOrEmpty(row["exUK"]?.ToString()))
+                                            {
+                                                exp = new Exposicao()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["exUK"].ToString()),
+                                                    EExposicaoInsalubre = (EExposicaoInsalubre)Enum.Parse(typeof(EExposicaoInsalubre), row["ExpoSeguranca"].ToString(), true),
+                                                    EExposicaoCalor = (EExposicaoCalor)Enum.Parse(typeof(EExposicaoCalor), row["ExpoCalor"].ToString(), true),
+                                                    Observacao = row["exObs"].ToString(),
+                                                    Medicao = new List<Medicoes>()
+                                                };
+
+                                                risk.Exposicao.Add(exp);
+
+
+                                                if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                                {
+                                                    med = new Medicoes()
+                                                    {
+                                                        UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                        TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                        ValorMedicao = row["Valor"].ToString(),
+                                                        MaxExpDiaria = row["MaxExpoDiaria"].ToString()
+
+
+                                                    };
+
+                                                    exp.Medicao.Add(med);
+
+                                                }
+
+                                            }
+
+
+
+                                        }
+                                        else
+                                        {
+                                            risk = new Risco()
+                                            {
+                                                UniqueKey = Guid.Parse(row["UKRisco"].ToString()),
+                                                Nome = row["Risco"].ToString(),
+                                                Reconhecimento = new ReconhecimentoDoRisco()
+                                                {
+                                                    Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
+                                                    EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true),
+                                                },
+                                                Controles = new List<ControleDeRiscos>()
+                                            };
+
+                                            if (!string.IsNullOrEmpty(row["UKTipoControle"]?.ToString()))
+                                            {
+                                                var control = new ControleDeRiscos()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
+                                                    TipoDeControle = row["TipoControle"].ToString(),
+                                                    Link = new Link(),
+                                                    UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
+                                                    EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
+                                                    ClassificacaoMedida = new ClassificacaoMedida()
+                                                    {
+                                                        Nome = row["NomeClass"].ToString()
+                                                    }
+                                                };
+
+                                                if (!string.IsNullOrEmpty(row["UKLink"].ToString()))
+                                                {
+                                                    control.Link.UniqueKey = Guid.Parse(row["UKLink"].ToString());
+                                                    control.Link.URL = row["URLLInk"].ToString();
+                                                }
+
+                                                risk.Controles.Add(control);
+                                            }
+                                            if (!string.IsNullOrEmpty(row["exUK"]?.ToString()))
+                                            {
+                                                exp = new Exposicao()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["exUK"].ToString()),
+                                                    EExposicaoInsalubre = (EExposicaoInsalubre)Enum.Parse(typeof(EExposicaoInsalubre), row["ExpoSeguranca"].ToString(), true),
+                                                    EExposicaoCalor = (EExposicaoCalor)Enum.Parse(typeof(EExposicaoCalor), row["ExpoCalor"].ToString(), true),
+                                                    Observacao = row["exObs"].ToString(),
+                                                    Medicao = new List<Medicoes>()
+                                                };
+
+                                                risk.Exposicao.Add(exp);
+
+                                                if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                                {
+                                                    med = new Medicoes()
+                                                    {
+                                                        UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                        TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                        ValorMedicao = row["Valor"].ToString(),
+                                                        MaxExpDiaria = row["MaxExpoDiaria"].ToString()
+
+
+                                                    };
+
+                                                    exp.Medicao.Add(med);
+
+                                                }
+
+                                            }
+                                            per.Riscos.Add(risk);
+
+
+                                        }
+
+                                    }
+                                    else
+                                    {
+
+                                        per = new Perigo()
+                                        {
+                                            Descricao = row["Perigo"].ToString(),
+                                            Riscos = new List<Risco>()
+                                        };
+
+                                        if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                        {
+                                            risk = new Risco()
+                                            {
+                                                UniqueKey = Guid.Parse(row["UKRisco"].ToString()),
+                                                Nome = row["Risco"].ToString(),
+                                                Reconhecimento = new ReconhecimentoDoRisco()
+                                                {
+                                                    Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
+                                                    EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true),
+                                                },
+                                                Exposicao = new List<Exposicao>(),
+                                                Controles = new List<ControleDeRiscos>()
+                                            };
+
+                                            if (!string.IsNullOrEmpty(row["UKTipoControle"]?.ToString()))
+                                            {
+                                                var control = new ControleDeRiscos()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
+                                                    TipoDeControle = row["TipoControle"].ToString(),
+                                                    Link = new Link(),
+                                                    UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
+                                                    EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
+                                                    ClassificacaoMedida = new ClassificacaoMedida()
+                                                    {
+                                                        Nome = row["NomeClass"].ToString()
+                                                    }
+                                                };
+
+                                                if (!string.IsNullOrEmpty(row["UKLink"].ToString()))
+                                                {
+                                                    control.Link.UniqueKey = Guid.Parse(row["UKLink"].ToString());
+                                                    control.Link.URL = row["URLLInk"].ToString();
+                                                }
+
+                                                risk.Controles.Add(control);
+                                            }
+                                            if (!string.IsNullOrEmpty(row["exUK"]?.ToString()))
+                                            {
+                                                exp = new Exposicao()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["exUK"].ToString()),
+                                                    EExposicaoInsalubre = (EExposicaoInsalubre)Enum.Parse(typeof(EExposicaoInsalubre), row["ExpoSeguranca"].ToString(), true),
+                                                    EExposicaoCalor = (EExposicaoCalor)Enum.Parse(typeof(EExposicaoCalor), row["ExpoCalor"].ToString(), true),
+                                                    Observacao = row["exObs"].ToString(),
+                                                    Medicao = new List<Medicoes>()
+                                                };
+
+                                                risk.Exposicao.Add(exp);
+
+
+                                                if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                                {
+                                                    med = new Medicoes()
+                                                    {
+                                                        UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                        TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                        ValorMedicao = row["Valor"].ToString(),
+                                                        MaxExpDiaria = row["MaxExpoDiaria"].ToString()
+
+
+                                                    };
+
+                                                    exp.Medicao.Add(med);
+
+                                                }
+                                            }
+
+
+
+                                        }
+
+                                        per.Riscos.Add(risk);
+                                    }
+
+                                    fonte.Perigos.Add(per);
+
+
+                                }
+                                else
+                                {
+
+                                    fonte = new FonteGeradoraDeRisco()
+                                    {
+                                        UniqueKey = Guid.Parse(row["UKFonte"].ToString()),
+                                        Descricao = row["FonteGeradora"].ToString(),
+                                        UKWorkArea = Guid.Parse(row["fUKWorkArea"].ToString()),
+                                        Perigos = new List<Perigo>()
+                                    };
+
+                                    if (!string.IsNullOrEmpty(row["Perigo"]?.ToString()))
+                                    {
+                                        per = new Perigo()
+                                        {
+                                            Descricao = row["Perigo"].ToString(),
+                                            Riscos = new List<Risco>()
+                                        };
+
+                                        if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                        {
+                                            risk = new Risco()
+                                            {
+                                                UniqueKey = Guid.Parse(row["UKRisco"].ToString()),
+                                                Nome = row["Risco"].ToString(),
+                                                Reconhecimento = new ReconhecimentoDoRisco()
+                                                {
+                                                    Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
+                                                    EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true),
+                                                },
+                                                Exposicao = new List<Exposicao>(),
+                                                Controles = new List<ControleDeRiscos>()
+                                            };
+
+                                            if (!string.IsNullOrEmpty(row["UKTipoControle"]?.ToString()))
+                                            {
+                                                var control = new ControleDeRiscos()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
+                                                    TipoDeControle = row["TipoControle"].ToString(),
+                                                    Link = new Link(),
+                                                    UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
+                                                    EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
+                                                    ClassificacaoMedida = new ClassificacaoMedida()
+                                                    {
+                                                        Nome = row["NomeClass"].ToString()
+                                                    }
+                                                };
+
+                                                if (!string.IsNullOrEmpty(row["UKLink"].ToString()))
+                                                {
+                                                    control.Link.UniqueKey = Guid.Parse(row["UKLink"].ToString());
+                                                    control.Link.URL = row["URLLInk"].ToString();
+                                                }
+
+                                                risk.Controles.Add(control);
+                                            }
+                                            if (!string.IsNullOrEmpty(row["exUK"]?.ToString()))
+                                            {
+                                                exp = new Exposicao()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["exUK"].ToString()),
+                                                    EExposicaoInsalubre = (EExposicaoInsalubre)Enum.Parse(typeof(EExposicaoInsalubre), row["ExpoSeguranca"].ToString(), true),
+                                                    EExposicaoCalor = (EExposicaoCalor)Enum.Parse(typeof(EExposicaoCalor), row["ExpoCalor"].ToString(), true),
+                                                    Observacao = row["exObs"].ToString(),
+                                                    Medicao = new List<Medicoes>()
+                                                };
+
+                                                risk.Exposicao.Add(exp);
+
+
+
+                                                if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                                {
+                                                    med = new Medicoes()
+                                                    {
+                                                        UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                        TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                        ValorMedicao = row["Valor"].ToString(),
+                                                        MaxExpDiaria = row["MaxExpoDiaria"].ToString()
+
+
+                                                    };
+
+                                                    exp.Medicao.Add(med);
+
+                                                }
+                                            }
+
+                                            per.Riscos.Add(risk);
+                                            fonte.Perigos.Add(per);
+                                        }
+                                    }
+
+                                    obj.FontesGeradoras.Add(fonte);
+
+
+                                }
+
+                            }
+                            
+                            else
+                            {
+                                lista.Add(obj);
+
+                                obj = new VMReconhecimento()
+                                {
+                                    UKWorkArea = row["UKWorkArea"].ToString(),
+                                    WorkArea = row["workarea"].ToString(),
+                                    FontesGeradoras = new List<FonteGeradoraDeRisco>()
+                                };
+
+                                fonte = new FonteGeradoraDeRisco()
+                                {
+                                    UniqueKey = Guid.Parse(row["UKFonte"].ToString()),
+                                    Descricao = row["FonteGeradora"].ToString(),
+                                    UKWorkArea = Guid.Parse(row["fUKWorkArea"].ToString()),
+                                    Perigos = new List<Perigo>()
+                                };
+
+                                if (!string.IsNullOrEmpty(row["Perigo"]?.ToString()))
+                                {
+                                    per = new Perigo()
+                                    {
+                                        Descricao = row["Perigo"].ToString(),
+                                        Riscos = new List<Risco>()
+                                    };
+
+                                    if (!string.IsNullOrEmpty(row["Risco"]?.ToString()))
+                                    {
+                                        risk = new Risco()
+                                        {
+                                            UniqueKey = Guid.Parse(row["UKRisco"].ToString()),
+                                            Nome = row["Risco"].ToString(),
+                                            Reconhecimento = new ReconhecimentoDoRisco()
+                                            {
+                                                Tragetoria = (ETrajetoria)Enum.Parse(typeof(ETrajetoria), row["Tragetoria"].ToString(), true),
+                                                EClasseDoRisco = (EClasseDoRisco)Enum.Parse(typeof(EClasseDoRisco), row["EClasseDoRisco"].ToString(), true),
+                                            },
+                                            Exposicao = new List<Exposicao>(),
+                                            Controles = new List<ControleDeRiscos>()
+                                        };
+
+                                        if (!string.IsNullOrEmpty(row["UKTipoControle"]?.ToString()))
+                                        {
+                                            var control = new ControleDeRiscos()
+                                            {
+                                                UniqueKey = Guid.Parse(row["UKTipoControle"].ToString()),
+                                                TipoDeControle = row["TipoControle"].ToString(),
+                                                Link = new Link(),
+                                                UKClassificacaoDaMedia = Guid.Parse(row["UKClassificacaoDaMedia"].ToString()),
+                                                EControle = (EControle)Enum.Parse(typeof(EControle), row["EControle"].ToString(), true),
+                                                ClassificacaoMedida = new ClassificacaoMedida()
+                                                {
+                                                    Nome = row["NomeClass"].ToString()
+                                                }
+                                            };
+
+                                            if (!string.IsNullOrEmpty(row["UKLink"].ToString()))
+                                            {
+                                                control.Link.UniqueKey = Guid.Parse(row["UKLink"].ToString());
+                                                control.Link.URL = row["URLLInk"].ToString();
+                                            }
+
+                                            risk.Controles.Add(control);
+                                        }
+                                        if (!string.IsNullOrEmpty(row["exUK"]?.ToString()))
+                                        {
+                                            exp = new Exposicao()
+                                            {
+                                                UniqueKey = Guid.Parse(row["exUK"].ToString()),
+                                                EExposicaoInsalubre = (EExposicaoInsalubre)Enum.Parse(typeof(EExposicaoInsalubre), row["ExpoSeguranca"].ToString(), true),
+                                                EExposicaoCalor = (EExposicaoCalor)Enum.Parse(typeof(EExposicaoCalor), row["ExpoCalor"].ToString(), true),
+                                                Observacao = row["exObs"].ToString(),
+                                                Medicao = new List<Medicoes>()
+                                            };
+
+                                            risk.Exposicao.Add(exp);
+
+
+
+                                            if (!string.IsNullOrEmpty(row["UKExpo"]?.ToString()))
+                                            {
+                                                med = new Medicoes()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["UKExpo"].ToString()),
+                                                    TipoMedicoes = (ETipoMedicoes)Enum.Parse(typeof(ETipoMedicoes), row["Tipo"].ToString(), true),
+                                                    ValorMedicao = row["Valor"].ToString(),
+                                                    MaxExpDiaria = row["MaxExpoDiaria"].ToString()
+
+
+                                                };
+
+                                                exp.Medicao.Add(med);
+
+                                            }
+                                        }
+
+                                        per.Riscos.Add(risk);
+                                        fonte.Perigos.Add(per);
+                                    }
+                                }
+
+                                obj.FontesGeradoras.Add(fonte);
+                            }
+                        }
+                    }
+
+                    if (obj != null)
+                        lista.Add(obj);
+                }
+
+                return PartialView("_Resultado", lista);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+            }
+
+
+
+            //return PartialView("_Resultado");
+        }
+
 
     }
 
 
+    
 }

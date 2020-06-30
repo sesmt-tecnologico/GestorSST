@@ -412,7 +412,8 @@ namespace GISWeb.Controllers
                 string sql = @"select wa.UniqueKey as UniqWa, wa.UKEstabelecimento, wa.Nome, wa.Descricao,f.UniqueKey as UniqFon, f.FonteGeradora, 
 	                                  r1.Uniquekey as relfp,
 									  p.UniqueKey as ukperigo, p.Descricao as perigo, 
-	                                  r2.UniqueKey as relpr,r.UniqueKey as ukrisco, r.Nome as risco, re.UniqueKey UKReconhecimento 
+	                                  r2.UniqueKey as relpr,r.UniqueKey as ukrisco, r.Nome as risco, 
+                                re.UniqueKey as UKReconhecimento, re.UKRisco as rUKrisco, re.UKWorkarea as rWorkarea , re.UKFonteGeradora as rUKFonte
                                from tbWorkArea wa 	                               								
 									left join tbFonteGeradoraDeRisco f on f.UKWorkarea = wa.UniqueKey and f.DataExclusao ='9999-12-31 23:59:59.997' 
 									left join REL_FontePerigo r1 on r1.UKFonteGeradora = f.UniqueKey and r1.DataExclusao ='9999-12-31 23:59:59.997' 
@@ -478,7 +479,10 @@ namespace GISWeb.Controllers
                                         {
                                             oRisco.Reconhecimento = new ReconhecimentoDoRisco()
                                             {
-                                                UniqueKey = Guid.Parse(row["UKReconhecimento"].ToString())
+                                                UniqueKey = Guid.Parse(row["UKReconhecimento"].ToString()),
+                                                UKWorkarea = Guid.Parse(row["rWorkarea"].ToString()),
+                                                UKRisco = Guid.Parse(row["rUKRisco"].ToString()),
+                                                UKFonteGeradora = Guid.Parse(row["rUKFonte"].ToString()),
                                             };
                                         }
 
@@ -492,7 +496,8 @@ namespace GISWeb.Controllers
                                 obj.FonteGeradoraDeRisco.Add(oFonte);
                             }
                         }
-                        else if (obj.UniqueKey.Equals(Guid.Parse(row["UniqWa"].ToString())))
+                        else 
+                        if (obj.UniqueKey.Equals(Guid.Parse(row["UniqWa"].ToString())))
                         {
                             if (!string.IsNullOrEmpty(row["UniqFon"].ToString()))
                             {
@@ -505,7 +510,10 @@ namespace GISWeb.Controllers
                                         Descricao = row["Descricao"].ToString(),
                                         Perigos = new List<Perigo>()
                                     };
+                                    if (!string.IsNullOrEmpty(row["relfp"].ToString()))
+                                    {
 
+                                   
                                     if (oFonte.Perigos.Equals(row["relfp"].ToString()))
                                     {
                                         oPerigo = new Perigo()
@@ -529,7 +537,10 @@ namespace GISWeb.Controllers
                                             {
                                                 oRisco.Reconhecimento = new ReconhecimentoDoRisco()
                                                 {
-                                                    UniqueKey = Guid.Parse(row["UKReconhecimento"].ToString())
+                                                    UniqueKey = Guid.Parse(row["UKReconhecimento"].ToString()),
+                                                    UKWorkarea = Guid.Parse(row["rWorkarea"].ToString()),
+                                                    UKRisco = Guid.Parse(row["rUKRisco"].ToString()),
+                                                    UKFonteGeradora = Guid.Parse(row["rUKFonte"].ToString()),
                                                 };
                                             }
 
@@ -537,6 +548,7 @@ namespace GISWeb.Controllers
                                         }
 
                                         oFonte.Perigos.Add(oPerigo);
+                                        }
                                     }
 
                                     obj.FonteGeradoraDeRisco.Add(oFonte);
@@ -567,7 +579,10 @@ namespace GISWeb.Controllers
                                             {
                                                 oRisco.Reconhecimento = new ReconhecimentoDoRisco()
                                                 {
-                                                    UniqueKey = Guid.Parse(row["UKReconhecimento"].ToString())
+                                                    UniqueKey = Guid.Parse(row["UKReconhecimento"].ToString()),
+                                                    UKWorkarea = Guid.Parse(row["rWorkarea"].ToString()),
+                                                    UKRisco = Guid.Parse(row["rUKRisco"].ToString()),
+                                                    UKFonteGeradora = Guid.Parse(row["rUKFonte"].ToString()),
                                                 };
                                             }
 
@@ -634,7 +649,10 @@ namespace GISWeb.Controllers
                                             {
                                                 oRisco.Reconhecimento = new ReconhecimentoDoRisco()
                                                 {
-                                                    UniqueKey = Guid.Parse(row["UKReconhecimento"].ToString())
+                                                    UniqueKey = Guid.Parse(row["UKReconhecimento"].ToString()),
+                                                    UKWorkarea = Guid.Parse(row["rWorkarea"].ToString()),
+                                                    UKRisco = Guid.Parse(row["rUKRisco"].ToString()),
+                                                    UKFonteGeradora = Guid.Parse(row["rUKFonte"].ToString()),
                                                 };
                                             }
 
@@ -695,7 +713,11 @@ namespace GISWeb.Controllers
                                         {
                                             oRisco.Reconhecimento = new ReconhecimentoDoRisco()
                                             {
-                                                UniqueKey = Guid.Parse(row["UKReconhecimento"].ToString())
+                                                UniqueKey = Guid.Parse(row["UKReconhecimento"].ToString()),
+                                                UKWorkarea = Guid.Parse(row["rWorkarea"].ToString()),
+                                                UKRisco = Guid.Parse(row["rUKRisco"].ToString()),
+                                                UKFonteGeradora = Guid.Parse(row["rUKFonte"].ToString()),
+
                                             };
                                         }
 

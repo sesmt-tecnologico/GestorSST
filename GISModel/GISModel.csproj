@@ -130,6 +130,7 @@
     <Compile Include="DTO\Pergunta\VMNovaPerguntaVinculada.cs" />
     <Compile Include="DTO\Permissoes\UsuarioPerfilViewModel.cs" />
     <Compile Include="DTO\Permissoes\VMPermissao.cs" />
+    <Compile Include="DTO\PPRA\VMLGHE.cs" />
     <Compile Include="DTO\PPRA\VMLGrupoRiscoHom.cs" />
     <Compile Include="DTO\PPRA\VMListaMedicoes.cs" />
     <Compile Include="DTO\PPRA\VMLListaExposicao.cs" />

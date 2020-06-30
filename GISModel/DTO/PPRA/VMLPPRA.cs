@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GISModel.DTO.PPRA
 {
-    class VMLPPRA
+    public class VMLPPRA
     {
         public string UKWorkArea { get; set; }
 

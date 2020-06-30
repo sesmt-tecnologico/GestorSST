@@ -1,0 +1,46 @@
+﻿@model GISModel.DTO.PPRA.VMLListaExposicao
+
+@{
+    ViewBag.Title = "Listagem de WorkAreas";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            PPRA por Estabelecimento
+        </h3>
+    </div>
+</div>
+
+@using (Ajax.BeginForm("Pesquisa", "PPRA", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginPesquisaPPRA", OnSuccess = "OnSuccessPesquisaPPRA" }, new { @id = "formPesquisaPPRA", @class = "form-horizontal", @autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.Estabelecimento, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.Estabelecimento, new SelectList(ViewBag.Estab, "UniqueKey", "NomeCompleto"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style waPesquisar", @autocomplete = "on" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+}
+
+
+
+
+<div class="resultadoPPRA"></div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    
+       
+    <script src="~/Scripts/Custom/PPRA/Lista.js"></script>
+    
+}
