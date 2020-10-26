@@ -85,3 +85,85 @@ else
         <br>
     </div>
 }
+
+
+<div class="row">
+    <div class="col-sm-12 col-xs-12">
+        <h3 class="header smaller lighter light-red" style="margin-left: 13px;">Atividades / Perigos / Riscos</h3>
+    </div>
+</div>
+
+@foreach (var item in ViewBag.Atividade)
+{
+    string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+
+    if (item.NomeAtividade.Count > 0)
+    {
+        <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+            <ol class="dd-list">
+
+                @foreach (var item2 in item.NomeAtividade)
+                {
+
+                <li class="dd-item" data-id="@item2.UniqueKey.ToString()">
+                    <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">                       
+                        <span><i style="color: green">  Atividade:  - </i></span>@item2.Descricao
+                        <div class="pull-right action-buttons">
+
+                            <a href="@Url.Action("AnaliseDeRiscoAtividade", "ReconhecimentoDoRisco", new {id = @item2.UniqueKey, UKE = ViewBag.UKEmpregado })" class="blue CustomTooltip" title="Análise de Risco">
+                                <i class="ace-icon fa fa-clipboard red bigger-125"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                    
+                    <ol class="dd-list">
+                        @foreach (var item3 in item2.Perigos)
+                        {
+
+                            <li class="dd-item" data-id="@item3.UniqueKey">
+
+                                <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+                                    <span><i style="color:black">  Perigos:  - </i></span>@item3.Descricao
+                                </div>
+                                <ol class="dd-list">
+                                    @foreach (var item4 in item3.Riscos)
+                                    {
+                                        <li class="dd-item" data-id="@item4.UniqueKey">
+                                            <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                                <span><i style="color: orangered">Riscos:  - </i></span>@item4.Nome
+                                            </div>
+
+                                            <ol class="dd-list">
+                                                @foreach (var item5 in item4.Danos)
+                                                {
+                                                    <li class="dd-item" data-id="@item5.UniqueKey">
+                                                        <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+                                                            <span><i style="color:brown"> Poss.Danos: - </i></span>@item5.DescricaoDanos
+                                                        </div>
+                                                    </li>
+                                                }
+                                            </ol>
+                                        </li>
+                                     }
+
+                                </ol>
+                            </li>
+
+                        }
+                    </ol>
+
+                </li>
+
+
+                }
+
+
+
+            </ol>
+        </div>
+
+
+    }
+}

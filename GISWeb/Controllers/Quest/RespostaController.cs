@@ -149,6 +149,8 @@ namespace GISWeb.Controllers.Quest
                 var total = sql.Count();
 
                 List<VMPesquisaEmpregado> lista = new List<VMPesquisaEmpregado>();
+                List<VMPesquisaPergunta> ListaPergunta = new List<VMPesquisaPergunta>();
+
                 DataTable result = RespostaBusiness.GetDataTable(sql);
                 if (result.Rows.Count > 0)
                 {
@@ -227,10 +229,12 @@ namespace GISWeb.Controllers.Quest
                             }
                             else
                             {
+                                VMPesquisaPergunta  oPergunta = ListaPergunta.FirstOrDefault(a => a.UKPergunta.Equals(row["UKPergunta"].ToString()));
 
-                                if (!string.IsNullOrEmpty(row["Pergunta"].ToString()))
+                                //if (!string.IsNullOrEmpty(row["Pergunta"].ToString()))
+                                if(oPergunta == null)
                                 {
-                                    VMPesquisaPergunta oPergunta = new VMPesquisaPergunta()
+                                     oPergunta = new VMPesquisaPergunta()
                                     {
                                         UKPergunta = row["UKPergunta"].ToString(),
                                         Pergunta = row["Pergunta"].ToString(),

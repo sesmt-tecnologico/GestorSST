@@ -9,6 +9,7 @@ namespace GISModel.Entidades.Quest
     [Table("tbTipoRespostaItem")]
     public class TipoRespostaItem : EntidadeBase
     {
+        
 
         public Guid UKTipoResposta { get; set; }
 

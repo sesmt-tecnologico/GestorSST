@@ -1,0 +1,121 @@
+﻿
+@using GISModel.Entidades
+@using System.Configuration
+@model List<Perigo>
+
+
+@{ Layout = ""; }
+
+
+@if (Model != null && Model.Count > 0)
+{
+
+    <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+        <ol class="dd-list">
+            @{
+                string Perigo = string.Empty;
+
+            }
+
+
+
+            @foreach (Perigo dep in Model)
+            {
+                if (!Perigo.Contains(dep.Descricao + ";"))
+                {
+                    Perigo += dep.Descricao + ";";
+
+                    string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+                    <li class="dd-item collapseOne" data-id="@dep.UniqueKey">
+
+                        <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">
+
+                            <span><i style="color: brown">Perigo - </i> </span>@dep.Descricao
+
+                            <div class="pull-right action-buttons">
+                                @*<a class="blue CustomTooltip" href="@Url.Action("Novo", "DocumentoPessoalAtividade", new {nome = @dep.Descricao, Uk = @dep.UniqueKey })" title="Novo Documento">*@
+                                <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickVincularRisco('@dep.UniqueKey');" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                    <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                </a>
+
+                                <a class="orange CustomTooltip" href="@Url.Action("Edicao", "Perigo")?UK=@dep.UniqueKey" title="Editar Perigo">
+                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        @if (Model.Count > 0)
+                        {
+                    <ol class="dd-list">
+
+                        @foreach (Risco risk in dep.Riscos)
+                        {
+                            if (risk != null)
+                            {
+                                <li class="dd-item" data-id="@risk.UniqueKey.ToString()">
+                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+
+                                        <span><i style="color: orangered">Risco - </i> </span>@risk.Nome
+
+
+                                    </div>
+
+                                    @*@if (risk.Danos.Count > 0)
+                                    {
+                                        <ol class="dd-list">
+                                            @foreach (PossiveisDanos pd in risk.Danos)
+                                            {
+                                                <li class="dd-item" data-id="@pd.UniqueKey.ToString()">
+                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                                        <span><i style="color: yellowgreen">Possíveis Danos - </i> </span>@pd.DescricaoDanos
+
+                                                        <div class="pull-right action-buttons">
+                                                            <a href="#" class="blue CustomTooltip" title="Desvincular Danos" onclick="OnClickRemoverDano('@pd.UniqueKey', '@risk.UniqueKey', '@pd.DescricaoDanos')">
+                                                                <i class="ace-icon fa fa-trash red bigger-125"></i>
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ol>
+                                    }*@
+
+
+                                </li>
+
+                            }
+
+                        }
+                        
+                    </ol>
+                        }
+
+                    </li>
+                }
+
+
+            }
+
+        </ol>
+
+
+    </div>
+
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        No momento, nenhum Perigo encontrado.
+        <br>
+    </div>
+}
+
+
+

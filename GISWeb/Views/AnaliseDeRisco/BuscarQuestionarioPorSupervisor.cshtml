@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Análise de Risco";
+}
+
+<div class="row">
+    <div class="col-sm-12 col-xs-12">
+        <a href="@Url.Action("BuscarQuestionarioPorSupervisor", "AnaliseDeRisco", new {   })" class="btn btn-primary btn-lg btn-block">
+            <i class="ace-icon fa fa-fire bigger-110"></i>
+            <span class="bigger-110 no-text-shadow">Documentação</span>
+        </a>
+    </div>
+
+    @*<div class="col-sm-6 col-xs-12">
+            <a href="@Url.Action("Perfil", "Empregado", new { id = ViewBag.UKEmp })" class="btn btn-secondary btn-lg btn-block">
+                <i class="ace-icon fa fa-bolt bigger-110"></i>
+
+                Riscos
+            </a>
+        </div>*@
+</div>
+
+
+
+
+<div class="conteudoQuestionario"></div>
+
+<div class="conteudoQuestionarioMD"></div>
+
+
+
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+    <script src="~/Scripts/Ace/jQ/typeahead.jquery.js"></script>
+    <script src="~/Scripts/Ace/elements.typeahead.js"></script>
+
+    <script src="~/Scripts/Ace/ace.widget-box.js"></script>
+    <script src="~/Scripts/Ace/chosen.jquery.js"></script>
+
+    <script src="~/Scripts/Ace/bootstrap-tag.js"></script>
+
+    <script src="~/Scripts/Custom/Reconhecimento/Listagem.js"></script>
+}

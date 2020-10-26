@@ -1,4 +1,5 @@
 ﻿using GISCore.Business.Abstract;
+using GISModel.DTO.Indicadores;
 using GISModel.DTO.Resposta;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
@@ -61,6 +62,8 @@ namespace GISWeb.Controllers
 
         public ActionResult AvalPsicossocial()
         {
+
+
             bool isSuperAdmin = CustomAuthorizationProvider.UsuarioAutenticado.Permissoes.Where(a => a.Perfil.Equals("Super Administrador")).Count() > 0;
             if (isSuperAdmin)
             {
@@ -104,12 +107,16 @@ namespace GISWeb.Controllers
 
                 throw new Exception("O usuário autenticado no sistema não possui permissão para acessar esta tela.");
             }
+                                
+           
         }
+            
+               
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Pesquisar(VMPesquisaResposta entidade)
+        public ActionResult Pesquisar(VMIndicadorResposta entidade)
         {
             try
             {
@@ -117,18 +124,18 @@ namespace GISWeb.Controllers
                 string sFrom = string.Empty;
                 string sWhere = string.Empty;
 
-                if (entidade.UKEmpresa == null)
-                    throw new Exception("Selecione uma empresa para prosseguir na pesquisa.");
+                //if (entidade.UKEmpresa == null)
+                //    throw new Exception("Selecione uma empresa para prosseguir na pesquisa.");
 
-                if (entidade.UKQuestionario == null && entidade.UKEmpregado == null)
-                    throw new Exception("Selecione um questionário ou um empregado para prosseguir na pesquisa.");
+                //if (entidade.UKQuestionario == null && entidade.UKEmpregado == null)
+                //    throw new Exception("Selecione um questionário ou um empregado para prosseguir na pesquisa.");
 
 
-                if ((entidade.UKEmpresa == null || entidade.UKEmpresa == Guid.Empty) &&
-                    (entidade.UKEmpregado == null || entidade.UKEmpregado == Guid.Empty) &&
-                    (entidade.UKQuestionario == null || entidade.UKQuestionario == Guid.Empty) &&
-                    string.IsNullOrEmpty(entidade.Periodo))
-                    throw new Exception("Informe pelo menos um filtro para prosseguir na pesquisa.");
+                //if ((entidade.UKEmpresa == null || entidade.UKEmpresa == Guid.Empty) &&
+                //    (entidade.UKEmpregado == null || entidade.UKEmpregado == Guid.Empty) &&
+                //    (entidade.UKQuestionario == null || entidade.UKQuestionario == Guid.Empty) &&
+                //    string.IsNullOrEmpty(entidade.Periodo))
+                //    throw new Exception("Informe pelo menos um filtro para prosseguir na pesquisa.");
 
 
 
@@ -169,27 +176,29 @@ namespace GISWeb.Controllers
 
                 var total = sql.Count();
 
-                List<VMPesquisaEmpregado> lista = new List<VMPesquisaEmpregado>();
+                List<VMIndicadorPesquisaEmpregado> lista = new List<VMIndicadorPesquisaEmpregado>();
+                List<VMIndicadorPesquisaPergunta> ListaPergunta = new List<VMIndicadorPesquisaPergunta>();
+
                 DataTable result = RespostaBusiness.GetDataTable(sql);
                 if (result.Rows.Count > 0)
                 {
                     foreach (DataRow row in result.Rows)
                     {
 
-                        VMPesquisaEmpregado oEmp = lista.FirstOrDefault(a => a.UniqueKey.Equals(row["UKEmpregado"].ToString()));
+                        VMIndicadorPesquisaEmpregado oEmp = lista.FirstOrDefault(a => a.UniqueKey.Equals(row["UKEmpregado"].ToString()));
                         if (oEmp == null)
                         {
-                            oEmp = new VMPesquisaEmpregado()
+                            oEmp = new VMIndicadorPesquisaEmpregado()
                             {
                                 UniqueKey = row["UKEmpregado"].ToString(),
                                 Nome = row["Nome"].ToString(),
-                                Questionarios = new List<VMPesquisaQuestionario>()
+                                Questionarios = new List<VMIndicadorPesquisaQuestionario>()
                             };
 
                             if (!string.IsNullOrEmpty(row["Questionario"].ToString()))
                             {
 
-                                VMPesquisaQuestionario oQuest = new VMPesquisaQuestionario()
+                                VMIndicadorPesquisaQuestionario oQuest = new VMIndicadorPesquisaQuestionario()
                                 {
                                     Nome = row["Questionario"].ToString(),
                                     TipoQuestionario = int.Parse(row["TipoQuestionario"].ToString()),
@@ -197,16 +206,17 @@ namespace GISWeb.Controllers
                                     UKResposta = row["UniqueKey"].ToString(),
                                     Objeto = row["FonteGeradora"].ToString(),
                                     DataEnvio = (DateTime)row["DataInclusao"],
-                                    Perguntas = new List<VMPesquisaPergunta>()
+                                    Perguntas = new List<VMIndicadorPesquisaPergunta>()
                                 };
 
                                 if (!string.IsNullOrEmpty(row["Pergunta"].ToString()))
                                 {
-                                    VMPesquisaPergunta oPergunta = new VMPesquisaPergunta()
+                                    VMIndicadorPesquisaPergunta oPergunta = new VMIndicadorPesquisaPergunta()
                                     {
                                         UKPergunta = row["UKPergunta"].ToString(),
                                         Pergunta = row["Pergunta"].ToString(),
-                                        Resposta = row["Resposta"].ToString()
+                                        Resposta = row["Resposta"].ToString(),
+
                                     };
 
                                     oQuest.Perguntas.Add(oPergunta);
@@ -221,10 +231,10 @@ namespace GISWeb.Controllers
                         else
                         {
 
-                            VMPesquisaQuestionario oQuest = oEmp.Questionarios.FirstOrDefault(a => a.UKResposta.Equals(row["UniqueKey"].ToString()));
+                            VMIndicadorPesquisaQuestionario oQuest = oEmp.Questionarios.FirstOrDefault(a => a.UKResposta.Equals(row["UniqueKey"].ToString()));
                             if (oQuest == null)
                             {
-                                oQuest = new VMPesquisaQuestionario()
+                                oQuest = new VMIndicadorPesquisaQuestionario()
                                 {
                                     Nome = row["Questionario"].ToString(),
                                     TipoQuestionario = int.Parse(row["TipoQuestionario"].ToString()),
@@ -232,12 +242,12 @@ namespace GISWeb.Controllers
                                     UKResposta = row["UniqueKey"].ToString(),
                                     Objeto = row["FonteGeradora"].ToString(),
                                     DataEnvio = (DateTime)row["DataInclusao"],
-                                    Perguntas = new List<VMPesquisaPergunta>()
+                                    Perguntas = new List<VMIndicadorPesquisaPergunta>()
                                 };
 
                                 if (!string.IsNullOrEmpty(row["Pergunta"].ToString()))
                                 {
-                                    VMPesquisaPergunta oPergunta = new VMPesquisaPergunta()
+                                    VMIndicadorPesquisaPergunta oPergunta = new VMIndicadorPesquisaPergunta()
                                     {
                                         UKPergunta = row["UKPergunta"].ToString(),
                                         Pergunta = row["Pergunta"].ToString(),
@@ -251,10 +261,12 @@ namespace GISWeb.Controllers
                             }
                             else
                             {
+                                VMIndicadorPesquisaPergunta oPergunta = ListaPergunta.FirstOrDefault(a => a.UKPergunta.Equals(row["UKPergunta"].ToString()));
 
-                                if (!string.IsNullOrEmpty(row["Pergunta"].ToString()))
+                                //if (!string.IsNullOrEmpty(row["Pergunta"].ToString()))
+                                if (oPergunta == null)
                                 {
-                                    VMPesquisaPergunta oPergunta = new VMPesquisaPergunta()
+                                    oPergunta = new VMIndicadorPesquisaPergunta()
                                     {
                                         UKPergunta = row["UKPergunta"].ToString(),
                                         Pergunta = row["Pergunta"].ToString(),
@@ -262,19 +274,23 @@ namespace GISWeb.Controllers
                                     };
 
                                     oQuest.Perguntas.Add(oPergunta);
+
+
+                                    
                                 }
 
                             }
-
+                            
+                           
                         }
-
+                       
                     }
                 }
+               
 
-                ViewBag.QTotal = lista.Count();
+                
 
-
-                return View("_IndicadoresAVP",lista);
+                return PartialView("_IndicadoresAVP",lista);
             }
             catch (Exception ex)
             {

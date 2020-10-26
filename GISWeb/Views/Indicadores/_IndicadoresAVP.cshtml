@@ -1,24 +1,43 @@
-﻿
-
-@{ 
-    Layout = null;
-}
-
-
-
-@using GISModel.DTO.Resposta
+﻿@using GISModel.DTO.Indicadores
 @using System.Configuration
-@model List<VMPesquisaEmpregado>
+@model List<VMIndicadorPesquisaEmpregado>
+
 
 @if (Model != null && Model.Count > 0)
 {
+
+
+
     string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
 
     <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
         <ol class="dd-list">
 
-            @foreach (VMPesquisaEmpregado emp in Model)
+            @foreach (VMIndicadorPesquisaEmpregado emp in Model)
             {
+                var count = 0;
+
+                foreach (VMIndicadorPesquisaQuestionario Totais in emp.Questionarios)
+                {
+                    foreach (VMIndicadorPesquisaPergunta resp in Totais.Perguntas)
+                    {
+                        string num = "532518F7-318D-4CF4-BD54-5D70892213E6";
+
+                        num = num.ToLower();
+
+                        if (resp.UKPergunta.Contains(num))
+                        {
+
+                            count++;
+
+                        }
+
+
+                    }
+                }
+
+                <h2>Total de ciente: @count</h2>
+
 
                 <li class="dd-item collapseOne">
                     <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
@@ -30,24 +49,21 @@
                     @if (emp.Questionarios.Count > 0)
                     {
                         <ol class="dd-list">
-                            @foreach (VMPesquisaQuestionario quest in emp.Questionarios)
+                            @foreach (VMIndicadorPesquisaQuestionario quest in emp.Questionarios)
                             {
                                 <li class="dd-item">
-                                    @emp.Questionarios.Count();
-
-
-                                    @*<div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
                                         <span class="CustomTooltip" title="Questionário" style="width: 400px; float: left;">@quest.Nome</span>
                                         <span class="CustomTooltip" title="Data de Envio" style="width: 400px; float: left;">@quest.DataEnvio.ToString("dd/MM/yyyy")</span>
                                         <span class="CustomTooltip" title="Fonte Geradora de Risco">@quest.Objeto</span>
-                                    </div>*@
+                                    </div>
 
                                     @if (quest.Perguntas != null && quest.Perguntas.Count > 0)
                                     {
                                         <ol class="dd-list">
-                                            @foreach (VMPesquisaPergunta item in quest.Perguntas)
+                                            @foreach (VMIndicadorPesquisaPergunta item in quest.Perguntas)
                                             {
-                                                @*<li class="dd-item">
+                                                <li class="dd-item">
                                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
 
                                                         <span style="width: 50%; float: left;">Pergunta: @item.Pergunta</span>
@@ -57,7 +73,7 @@
                                                         <div class="pull-right action-buttons">
                                                         </div>
                                                     </div>
-                                                </li>*@
+                                                </li>
                                             }
                                         </ol>
                                     }
@@ -85,6 +101,5 @@ else
         <br>
     </div>
 }
-
 
 

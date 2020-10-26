@@ -311,7 +311,7 @@ from tbAtividade  a
 
 
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "Atividade") } });
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "AtividadeGeradoraRisco") } });
 
                 }
                 catch (Exception ex)
@@ -587,12 +587,11 @@ from tbAtividade  a
         }
 
 
-        public ActionResult Edicao(string id, string Uk)
+        public ActionResult Edicao(string id)
         {
-            //ViewBag.Riscos = TipoDeRiscoBusiness.Consulta.Where(p => p.IDTipoDeRisco.Equals(id));
-
-            Guid ID_Ativ = Guid.Parse(id);
-            Guid UK_Ativ = Guid.Parse(Uk);
+            
+           
+            Guid UK_Ativ = Guid.Parse(id);
 
             ViewBag.Atividades = AtividadeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && (p.UniqueKey.Equals(UK_Ativ))).ToList();
 

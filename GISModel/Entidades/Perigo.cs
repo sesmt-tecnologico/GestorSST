@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GISModel.Entidades.PCMSO;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,6 +17,8 @@ namespace GISModel.Entidades
 
 
         public List<Risco> Riscos { get; set; }
+
+        public List<Exames> Exames { get; set; }
 
     }
 }

@@ -169,7 +169,7 @@ namespace GISWeb.Controllers
 
             if (string.IsNullOrEmpty(ukDepartamento))
             {
-                ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && !a.Fornecedor).ToList();
+                ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Fornecedor).ToList();
             }
             else
             {

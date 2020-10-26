@@ -7,6 +7,8 @@ namespace GISModel.Entidades.Quest
     public class RespostaItem : EntidadeBase
     {
 
+        public Guid UKFonteGeradora { get; set; }
+
         public Guid UKResposta { get; set; }
 
         public Guid UKPergunta { get; set; }

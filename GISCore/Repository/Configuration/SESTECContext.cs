@@ -1,4 +1,5 @@
 ﻿using GISModel.Entidades;
+using GISModel.Entidades.AnaliseDeRisco;
 using GISModel.Entidades.PCMSO;
 using GISModel.Entidades.PPRA;
 using GISModel.Entidades.Quest;
@@ -122,10 +123,6 @@ namespace GISCore.Repository.Configuration
         public DbSet<REL_RiscoDanosASaude> REL_RiscoDanosASaude { get; set; }
 
 
-
-
-
-
         public DbSet<REL_FontePerigo> REL_WorkFontePerigo { get; set; }
 
         public DbSet<REL_PerigoRisco> REL_PerigoRisco { get; set; }
@@ -135,6 +132,8 @@ namespace GISCore.Repository.Configuration
         public DbSet<REL_ArquivoEmpregado> REL_ArquivoEmpregado { get; set; }
 
         public DbSet<REL_RiscosExames> REL_RiscosExames { get; set; }
+
+        public DbSet<REL_AnaliseDeRiscoEmpregados> REL_AnaliseDeRiscoEmpregado { get; set; }
 
 
 

@@ -366,6 +366,8 @@
     <Content Include="Scripts\Custom\AmbienteDoEstabelecimento\Excluir.js" />
     <Content Include="Scripts\Custom\AmbienteDoEstabelecimento\Lista.js" />
     <Content Include="Scripts\Custom\AmbienteDoEstabelecimento\Novo.js" />
+    <Content Include="Scripts\Custom\AnaliseDeRisco\Lista.js" />
+    <Content Include="Scripts\Custom\AnaliseDeRisco\Novo.js" />
     <Content Include="Scripts\Custom\Atividade\Edicao.js" />
     <Content Include="Scripts\Custom\Atividade\Excluir.js" />
     <Content Include="Scripts\Custom\Atividade\ListaAtividadePerigo.js" />
@@ -559,10 +561,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdmissaoController.cs" />
     <Compile Include="Controllers\AlocacaoController.cs" />
+    <Compile Include="Controllers\AnaliseRisco\AnaliseDeRiscoController.cs" />
     <Compile Include="Controllers\ArquivoController.cs" />
     <Compile Include="Controllers\AtividadeAlocadaController.cs" />
     <Compile Include="Controllers\AtividadeController.cs" />
     <Compile Include="Controllers\AtividadeFuncaoLiberadaController.cs" />
+    <Compile Include="Controllers\AtividadeGeradoraRiscoController.cs" />
     <Compile Include="Controllers\AtividadesDoEstabelecimentoController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CargoController.cs" />
@@ -900,6 +904,21 @@
     <Content Include="Views\PPRA\_PesquisaPPRA.cshtml" />
     <Content Include="Views\PPRA\PesquisaPPRA.cshtml" />
     <Content Include="Views\PPRA\_Resultado.cshtml" />
+    <Content Include="Views\Questionario\_PainelMenor.cshtml" />
+    <Content Include="Views\AtividadeGeradoraRisco\Index.cshtml" />
+    <Content Include="Views\AtividadeGeradoraRisco\_PesquisaAtividade.cshtml" />
+    <Content Include="Views\AtividadeGeradoraRisco\_Arquivos.cshtml" />
+    <Content Include="Views\AtividadeGeradoraRisco\_ListaPerigo.cshtml" />
+    <Content Include="Views\AtividadeGeradoraRisco\_CadastrarControleDeRisco.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\ReconhecimentoPorAtividade .cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\ListaReconhecimentoRiscoAtividade.cshtml" />
+    <Content Include="Views\ReconhecimentoDoRisco\AnaliseDeRiscoAtividade.cshtml" />
+    <Content Include="Views\AnaliseDeRisco\BuscarQuestionarioPorSupervisor.cshtml" />
+    <Content Include="Views\AnaliseDeRisco\_BuscarQuestionario.cshtml" />
+    <Content Include="Views\AnaliseDeRisco\Index.cshtml" />
+    <Content Include="Views\AnaliseDeRisco\_VincularNome.cshtml" />
+    <Content Include="Views\Empregado\_ListaEmpregados.cshtml" />
+    <Content Include="Views\AnaliseDeRisco\_BuscarAPR.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

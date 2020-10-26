@@ -195,6 +195,8 @@ namespace GISWeb.Controllers
 
             ViewBag.UKPerigo = UKPerigo;
 
+
+
             ViewBag.Riscos = RiscoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
 
             return PartialView("_VincularRisco");

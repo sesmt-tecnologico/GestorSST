@@ -81,7 +81,7 @@ namespace GISWeb.Controllers.PCMSO
         {
             Guid emp = Guid.Parse(ukEmpregado);
 
-            List<VMLaso> ListaASO = (from al in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+      var ListaASO = (from al in AlocacaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                      join ad in AdmissaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpregado.Equals(emp)).ToList()
                                      on al.UKAdmissao equals ad.UniqueKey
                                      join e in EmpregadoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(emp)).ToList()
@@ -96,8 +96,8 @@ namespace GISWeb.Controllers.PCMSO
                                      on wa.UniqueKey equals fon.UKWorkArea
                                      join fp in REL_FontePerigoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                      on fon.UniqueKey equals fp.UKFonteGeradora
-                                     //join re in REL_RiscosExamesBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                     //on fp.UKPerigo equals re.ukPerigo
+                                     join re in REL_RiscosExamesBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                     on fp.UKPerigo equals re.ukPerigo
                                      join pr in REL_PerigoRiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                      on fp.UKPerigo equals pr.UKPerigo
                                      join r in RiscoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
@@ -105,7 +105,7 @@ namespace GISWeb.Controllers.PCMSO
                                      join p in PerigoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
                                      on fp.UKPerigo equals p.UniqueKey
                                      
-                                     //where e.UniqueKey.Equals(emp) && ad.UKEmpregado.Equals(emp)
+                                     //where r.UniqueKey.Equals(emp) && ad.UKEmpregado.Equals(emp)
                                      select new VMLaso()
                                      {
                                         ukPerigo = fp.UKPerigo,
@@ -114,20 +114,13 @@ namespace GISWeb.Controllers.PCMSO
                                         CPF = e.CPF,
                                         Funcao = f.NomeDaFuncao,
                                         Perigo = p.Descricao,
-
+                                         
 
                                      }).ToList();
 
-            List<VMLaso> asolist = new List<VMLaso>();
-            VMLaso aso = null;
-            foreach(var item in ListaASO)
-            {
-                aso = new VMLaso()
-                {
-                    ukPerigo = item.ukPerigo
-                };
-                asolist.Add(aso);
-            }
+            List<VMLaso> asolist = ListaASO;
+
+           
 
             
 
@@ -135,57 +128,99 @@ namespace GISWeb.Controllers.PCMSO
 
             List<VMLExamesRiscos> ListaE = new List<VMLExamesRiscos>();
             VMLExamesRiscos obj = null;
+            Exames oEx = null;
+            Perigo Per = null;
            
             if(obj == null)
             {
-                foreach(var item3 in asolist)
-                {
-                    
+                List<VMLExamesRiscos> ListaExame = new List<VMLExamesRiscos>();
 
-                    List<VMLExamesRiscos> ListaExame = (from r in REL_RiscosExamesBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ukPerigo.Equals(item3.ukPerigo)).ToList()
-                                                          join e in ExamesBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                          on r.ukExame equals e.UniqueKey
+
+                foreach (var item3 in asolist)
+                {
+                    if(item3 != null)
+                    { 
+
+                        var oListaExame = (from r in REL_RiscosExamesBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.ukPerigo.Equals(item3.ukPerigo)).ToList()
+                                                        join e in ExamesBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                                        on r.ukExame equals e.UniqueKey
                                                         join p in PerigoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
-                                                        on r.ukPerigo equals p.UniqueKey
-                                                        where r.ukPerigo.Equals(item3.ukPerigo)
+                                                        on r.ukPerigo equals p.UniqueKey                                                        
                                                         select new VMLExamesRiscos()
                                                           {
+                                                              Perigo = p.Descricao,
                                                               TipoExame = r.TipoExame,
                                                               Exame = e.Nome, 
-                                                              Obrigatoriedade = r.Obrigariedade
+                                                              Obrigatoriedade = r.Obrigariedade,
+                                                              
+
                                                           }).ToList();
 
-                    foreach (var item2 in ListaExame)
+
+                        ListaExame = oListaExame.ToList();
+                    }
+
+                    
+
+                }
+
+                foreach (var item2 in ListaExame)
+                {
+
+                    if (obj == null)
                     {
-
-                        if (item2 != null)
+                        obj = new VMLExamesRiscos()
                         {
-                            obj = new VMLExamesRiscos()
-                            {
-                                TipoExame = item2.TipoExame,
-                                Exame =item2.Exame,
-                                Obrigatoriedade = item2.Obrigatoriedade
+                            Perigo = item2.Perigo,
+                            Exame = item2.Exame,
+                            Obrigatoriedade = item2.Obrigatoriedade,
+                            TipoExame = item2.TipoExame,
 
-                            };
-                        }
+                            ListaExames = new List<Exames>()
 
 
+                        };
+
+                        oEx = new Exames()
+                        {
+                            Nome = item2.Exame,
+
+                        };
+
+                        obj.ListaExames.Add(oEx);
                         ListaE.Add(obj);
                     }
 
-                        ViewBag.ListaExame = ListaE.ToList().OrderBy(p => p.TipoExame);
+                    else
+                    {
+                        if (obj.Perigo.Equals(item2.Perigo))
+                        {
+                           
+                                oEx = new Exames()
+                                {
+                                    Nome = item2.Exame,
+
+                                };
+
+                                obj.ListaExames.Add(oEx);
+                                ListaE.Add(obj);
+
+                           
+                        }
+
+                        
+
+                    }
                 }
+
+                ViewBag.ListaExame = ListaE.ToList().OrderBy(p => p.TipoExame);
+
 
 
             }
 
 
-           
-
             ViewBag.listaASO = ListaASO.ToList();
-
-
-
 
             return View();
         }

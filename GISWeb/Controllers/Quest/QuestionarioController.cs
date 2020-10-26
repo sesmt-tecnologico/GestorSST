@@ -31,6 +31,9 @@ namespace GISWeb.Controllers.Quest
         public IBaseBusiness<Questionario> QuestionarioBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<FonteGeradoraDeRisco> FonteGeradoraDeRiscoBusiness { get; set; }
+
+        [Inject]
         public IBaseBusiness<Pergunta> PerguntaBusiness { get; set; }
 
         [Inject]
@@ -585,6 +588,157 @@ namespace GISWeb.Controllers.Quest
         }
 
 
+        public ActionResult BuscarQuestionarioPorEmpregadoMD(string UKEmpregado, string UKFonteGeradora)
+        {
+            try
+            {
+                ViewBag.UKEmpregado = UKEmpregado;
+                ViewBag.UKFonteGeradora = UKFonteGeradora;
+
+                Questionario oQuest = null;
+
+                string sql = @"select q.UniqueKey, q.Nome, q.Tempo, q.Periodo, q.UKEmpresa, 
+	                                  p.UniqueKey as UKPergunta, p.Descricao as Pergunta, p.TipoResposta, p.Ordem, 
+	                                  tr.UniqueKey as UKTipoResposta, tr.Nome as TipoResposta, 
+	                                  tri.Uniquekey as UKTipoRespostaItem, tri.nome as TipoRespostaItem
+                               from tbAdmissao a, tbQuestionario q
+		                               left join tbPergunta  p on q.UniqueKey = p.UKQuestionario and p.DataExclusao ='9999-12-31 23:59:59.997' 
+		                               left join tbTipoResposta  tr on tr.UniqueKey = p.UKTipoResposta and tr.DataExclusao ='9999-12-31 23:59:59.997' 
+		                               left join tbTipoRespostaItem tri on tr.UniqueKey = tri.UKTipoResposta and tri.DataExclusao ='9999-12-31 23:59:59.997' 
+                               where a.UKEmpregado = '" + UKEmpregado + @"' and a.DataExclusao = '9999-12-31 23:59:59.997' and
+	                                 a.UKEmpresa = q.UKEmpresa and q.DataExclusao = '9999-12-31 23:59:59.997' and q.TipoQuestionario = 2 and q.Status = 1
+                               order by p.Ordem, tri.Ordem";
+
+                DataTable result = QuestionarioBusiness.GetDataTable(sql);
+                if (result.Rows.Count > 0)
+                {
+
+                    oQuest = new Questionario();
+                    oQuest.UniqueKey = Guid.Parse(result.Rows[0]["UniqueKey"].ToString());
+                    oQuest.Nome = result.Rows[0]["Nome"].ToString();
+                    oQuest.Periodo = (EPeriodo)Enum.Parse(typeof(EPeriodo), result.Rows[0]["Periodo"].ToString(), true);
+                    oQuest.Tempo = int.Parse(result.Rows[0]["Tempo"].ToString());
+                    oQuest.Perguntas = new List<Pergunta>();
+                    oQuest.UKEmpresa = Guid.Parse(result.Rows[0]["UKEmpresa"].ToString());
+
+                    Guid UKEmp = Guid.Parse(UKEmpregado);
+                    Guid UKFonte = Guid.Parse(UKFonteGeradora);
+
+
+                    string sql2 = @"select MAX(DataInclusao) as UltimoQuestRespondido
+                                    from tbResposta
+                                    where UKEmpregado = '" + UKEmpregado + @"' and 
+                                          UKQuestionario = '" + result.Rows[0]["UniqueKey"].ToString() + @"' and 
+                                          UKObjeto = '" + UKFonteGeradora + "'";
+
+                    DataTable result2 = QuestionarioBusiness.GetDataTable(sql2);
+                    if (result2.Rows.Count > 0)
+                    {
+                        if (!string.IsNullOrEmpty(result2.Rows[0]["UltimoQuestRespondido"].ToString()))
+                        {
+                            DateTime UltimaResposta = (DateTime)result2.Rows[0]["UltimoQuestRespondido"];
+
+                            DateTime DataAtualMenosTempoQuestionario = DateTime.Now;
+                            if (oQuest.Periodo == EPeriodo.Dia)
+                            {
+                                DataAtualMenosTempoQuestionario = DataAtualMenosTempoQuestionario.AddDays(-oQuest.Tempo);
+                            }
+                            else if (oQuest.Periodo == EPeriodo.Mes)
+                            {
+                                DataAtualMenosTempoQuestionario = DataAtualMenosTempoQuestionario.AddMonths(-oQuest.Tempo);
+                            }
+                            else if (oQuest.Periodo == EPeriodo.Ano)
+                            {
+                                DataAtualMenosTempoQuestionario = DataAtualMenosTempoQuestionario.AddYears(-oQuest.Tempo);
+                            }
+
+                            if (UltimaResposta.CompareTo(DataAtualMenosTempoQuestionario) >= 0)
+                            {
+                                return PartialView("_PainelMenor");
+                            }
+                        }
+                    }
+
+                    foreach (DataRow row in result.Rows)
+                    {
+
+
+                        if (!string.IsNullOrEmpty(row["UKPergunta"].ToString()))
+                        {
+                            if (!string.IsNullOrEmpty(row["UKPergunta"].ToString()))
+                            {
+                                Pergunta oPergunta = oQuest.Perguntas.FirstOrDefault(a => a.UniqueKey.ToString().Equals(row["UKPergunta"].ToString()));
+                                if (oPergunta == null)
+                                {
+                                    oPergunta = new Pergunta()
+                                    {
+                                        UniqueKey = Guid.Parse(row["UKPergunta"].ToString()),
+                                        Descricao = row["Pergunta"].ToString(),
+                                        Ordem = int.Parse(row["Ordem"].ToString()),
+                                        TipoResposta = (ETipoResposta)Enum.Parse(typeof(ETipoResposta), row["TipoResposta"].ToString(), true)
+                                    };
+
+                                    if (!string.IsNullOrEmpty(row["UKTipoResposta"].ToString()))
+                                    {
+                                        TipoResposta oTipoResposta = new TipoResposta()
+                                        {
+                                            UniqueKey = Guid.Parse(row["UKTipoResposta"].ToString()),
+                                            Nome = row["TipoResposta"].ToString(),
+                                            TiposResposta = new List<TipoRespostaItem>()
+                                        };
+
+                                        if (!string.IsNullOrEmpty(row["UKTipoRespostaItem"].ToString()))
+                                        {
+                                            TipoRespostaItem oTipoRespostaItem = new TipoRespostaItem()
+                                            {
+                                                UniqueKey = Guid.Parse(row["UKTipoRespostaItem"].ToString()),
+                                                Nome = row["TipoRespostaItem"].ToString()
+                                            };
+
+                                            oTipoResposta.TiposResposta.Add(oTipoRespostaItem);
+                                        }
+
+                                        oPergunta._TipoResposta = oTipoResposta;
+                                    }
+
+                                    oQuest.Perguntas.Add(oPergunta);
+                                }
+                                else
+                                {
+
+                                    if (!string.IsNullOrEmpty(row["UKTipoRespostaItem"].ToString()))
+                                    {
+                                        TipoRespostaItem oTipoRespostaItem = new TipoRespostaItem()
+                                        {
+                                            UniqueKey = Guid.Parse(row["UKTipoRespostaItem"].ToString()),
+                                            Nome = row["TipoRespostaItem"].ToString()
+                                        };
+
+                                        oPergunta._TipoResposta.TiposResposta.Add(oTipoRespostaItem);
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                return PartialView("_PainelMenor", oQuest);
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+        }
+
+
         [HttpPost]
         public ActionResult GravarRespostaQuestionarioAnalise(VMQuestionarioRespondido entidade) { 
             try
@@ -624,34 +778,45 @@ namespace GISWeb.Controllers.Quest
                 };
                 RespostaBusiness.Inserir(oResposta);
 
+               
+
                 foreach (string[] pergunta in entidade.PerguntasRespondidas)
                 {
-                    string UKPergunta = pergunta[0];
-                    string UKTipoRespostaItem = pergunta[1];
-                    string strResposta = pergunta[2];
+                    string PerguntaResultado = pergunta[0];
+                    Guid pResutado = Guid.Parse(PerguntaResultado); 
+                        
+                        string UKPergunta = pergunta[0];
+                        string UKTipoRespostaItem = pergunta[1];
+                        string strResposta = pergunta[2];
 
-                    if (!string.IsNullOrEmpty(strResposta))
-                    {
-                        RespostaItem oRespostaItem = new RespostaItem()
+                        if (!string.IsNullOrEmpty(strResposta))
                         {
-                            UKResposta = oResposta.UniqueKey,
-                            UKPergunta = Guid.Parse(UKPergunta),
-                            Resposta = strResposta,
-                            UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
-                        };
+                            RespostaItem oRespostaItem = new RespostaItem()
+                            {
+                                UKFonteGeradora = Guid.Parse(entidade.UKFonteGeradora),
+                                UKResposta = oResposta.UniqueKey,
+                                UKPergunta = Guid.Parse(UKPergunta),
+                                Resposta = strResposta,
+                                UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
+                            };
 
-                        if (!string.IsNullOrEmpty(UKTipoRespostaItem) && !UKTipoRespostaItem.Equals("*"))
-                        {
-                            oRespostaItem.UKTipoRespostaItem = Guid.Parse(UKTipoRespostaItem);
+                            if (!string.IsNullOrEmpty(UKTipoRespostaItem) && !UKTipoRespostaItem.Equals("*"))
+                            {
+                                oRespostaItem.UKTipoRespostaItem = Guid.Parse(UKTipoRespostaItem);
+                            }
+
+                            RespostaItemBusiness.Inserir(oRespostaItem);
                         }
 
-                        RespostaItemBusiness.Inserir(oRespostaItem);
-                    }
+
+                    
+
+                    
                 }
 
                 Extensions.GravaCookie("MensagemSucesso", "Dados do questionário salvos com sucesso.", 10);
 
-                return Json(new { resultado = new RetornoJSON() { URL = Url.Action("AnaliseDeRisco", "ReconhecimentoDoRisco", new { id = entidade.UKFonteGeradora, UKE = entidade.UKEmpregado }) } });
+                return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "AnaliseDeRisco", new {  }) } });
             }
             catch (Exception ex)
             {

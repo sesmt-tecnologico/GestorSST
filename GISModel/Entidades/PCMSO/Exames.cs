@@ -15,6 +15,8 @@ namespace GISModel.Entidades.PCMSO
         [Display(Name ="Exame")]
         public string Nome { get; set; }
 
+        //public List<Perigo> Perigo { get; set; }
+
 
     }
 }

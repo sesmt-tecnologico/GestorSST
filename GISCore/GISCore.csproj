@@ -279,6 +279,30 @@
     <Compile Include="Migrations\202006292238480_v19.Designer.cs">
       <DependentUpon>202006292238480_v19.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202007012219448_v20.cs" />
+    <Compile Include="Migrations\202007012219448_v20.Designer.cs">
+      <DependentUpon>202007012219448_v20.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010022030334_fonteGeradoraResposItem.cs" />
+    <Compile Include="Migrations\202010022030334_fonteGeradoraResposItem.Designer.cs">
+      <DependentUpon>202010022030334_fonteGeradoraResposItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010022033259_fonteGeradoraResposItemCorrecao.cs" />
+    <Compile Include="Migrations\202010022033259_fonteGeradoraResposItemCorrecao.Designer.cs">
+      <DependentUpon>202010022033259_fonteGeradoraResposItemCorrecao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010142333549_recAtividade.cs" />
+    <Compile Include="Migrations\202010142333549_recAtividade.Designer.cs">
+      <DependentUpon>202010142333549_recAtividade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010201341020_analiserisco.cs" />
+    <Compile Include="Migrations\202010201341020_analiserisco.Designer.cs">
+      <DependentUpon>202010201341020_analiserisco.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010251309294_ukbjeto.cs" />
+    <Compile Include="Migrations\202010251309294_ukbjeto.Designer.cs">
+      <DependentUpon>202010251309294_ukbjeto.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -389,6 +413,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006292238480_v19.resx">
       <DependentUpon>202006292238480_v19.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202007012219448_v20.resx">
+      <DependentUpon>202007012219448_v20.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010022030334_fonteGeradoraResposItem.resx">
+      <DependentUpon>202010022030334_fonteGeradoraResposItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010022033259_fonteGeradoraResposItemCorrecao.resx">
+      <DependentUpon>202010022033259_fonteGeradoraResposItemCorrecao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010142333549_recAtividade.resx">
+      <DependentUpon>202010142333549_recAtividade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010201341020_analiserisco.resx">
+      <DependentUpon>202010201341020_analiserisco.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010251309294_ukbjeto.resx">
+      <DependentUpon>202010251309294_ukbjeto.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

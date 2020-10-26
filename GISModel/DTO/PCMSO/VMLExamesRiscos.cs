@@ -1,4 +1,6 @@
-﻿using GISModel.Enums;
+﻿using GISModel.Entidades;
+using GISModel.Entidades.PCMSO;
+using GISModel.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +19,8 @@ namespace GISModel.DTO.PCMSO
         public string  Exame { get; set; }
 
         public EObrigatoriedade Obrigatoriedade { get; set; }
+
+        public List<Exames> ListaExames { get; set; }
 
     }
 }

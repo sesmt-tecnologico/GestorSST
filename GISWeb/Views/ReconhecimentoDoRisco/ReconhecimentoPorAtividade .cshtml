@@ -1,0 +1,185 @@
+﻿@using GISModel.DTO.GerenciamentoDoRisco
+@using GISModel.Entidades
+@using GISHelpers.Utils
+
+@model VMReconhecimento
+
+@{
+    ViewBag.Title = "Reconhecimento Por WorkArea";
+}
+
+@if (Model == null)
+{
+
+}
+else
+{
+
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <span class="center bolder" style="float: left; width: 100%; font-size: 20px;">
+                Listagem de reconhecimento dos Riscos da WorkArea: <span class="green">
+
+                    <a href="#" class="CustomTooltip" title="Clique para exibir os arquivos" onclick="OnClickBuscarArquivos('@Model.UKAtividade'); return false;" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                        @Model.AtivDescricao
+                    </a>
+
+                </span>
+            </span>
+        </div>
+    </div>
+
+
+    bool firstFonte = false;
+    foreach (Perigo font in Model.Perigo)
+    {
+        if (!firstFonte)
+        {
+            firstFonte = true;
+            <div class="space-8"></div>
+        }
+        else
+        {
+            <div class="space-22"></div>
+        }
+
+
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <span class="center bolder" style="float: left; width: 100%">
+                    <span class="red">Perigo:</span>
+
+                    <a href="#" class="CustomTooltip" title="Clique para exibir os arquivos" onclick="OnClickBuscarArquivos('@font.UniqueKey'); return false;" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                        @font.Descricao
+                    </a>
+
+                </span>
+            </div>
+        </div>
+        <div class="space-10"></div>
+       
+
+            bool firstRisco = false;
+            foreach (Risco risk in font.Riscos)
+            {
+                if (!firstRisco)
+                {
+                    firstRisco = true;
+
+                    <div style="border-bottom: 2px solid #777;">
+                    </div>
+                }
+                else
+                {
+                    <div style="border-bottom: 2px solid #777; margin-top: 20px;">
+                    </div>
+                }
+
+
+
+                <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+                        <span class="bolder center" style="float: left; width: 100%; padding: 5px; background-color: #f7d9d6;">Risco</span>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <span class="bolder center" style="float: left; width: 100%; padding: 5px; background-color: #f7d9d6;">Tragetória</span>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <span class="bolder center" style="float: left; width: 100%; padding: 5px; background-color: #f7d9d6;">Classe do Risco</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+                        <a href="#" class="CustomTooltip" title="Clique para exibir os arquivos" onclick="OnClickBuscarArquivos('@risk.UniqueKey'); return false;" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                            <span>@risk.Nome</span>
+                        </a>
+
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <span>@risk.Reconhecimento.Tragetoria</span>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
+                        <span>@risk.Reconhecimento.EClasseDoRisco</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="center bolder" style="float: left; width: 100%; background-color: #f0f9df; padding: 3px;">
+                            Controles
+                        </div>
+                    </div>
+                </div>
+
+                bool first = false;
+
+                foreach (ControleDeRiscos control in risk.Controles)
+                {
+                    if (!first)
+                    {
+                        <div class="row">
+                            <div class="col-sm-4 col-xs-12">
+                                <span class="center bolder blue" style="float: left; width: 100%;">Tipo de Controle</span>
+                            </div>
+                            <div class="col-sm-4 col-xs-12">
+                                <span class="center bolder blue" style="float: left; width: 100%;">Classificação da Medida</span>
+                            </div>
+                            <div class="col-sm-4 col-xs-12">
+                                <span class="center bolder blue" style="float: left; width: 100%;">Eficácia</span>
+                            </div>
+                        </div>
+
+                        first = true;
+                    }
+
+
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-12">
+                            <a href="#" class="CustomTooltip" title="Clique para exibir os arquivos" onclick="OnClickBuscarArquivos('@control.UniqueKey'); return false;" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                <span>@control.TipoDeControle</span>
+                            </a>
+                           
+                        </div>
+                        <div class="col-sm-4 col-xs-12">
+
+                            @if (control.Link != null && !control.Link.UniqueKey.Equals(Guid.Empty))
+                            {
+                                @*<a class="blue CustomTooltip position-relative" href="#" title="Clique para reproduzir o vídeo" onclick="window.open('@control.Link.URL');return false;" )>
+                                    <i class="ace-icon fa fa-video-camera"></i>
+                                    <span style="margin-left: 5px;">@control.ClassificacaoMedida.Nome</span>
+
+                                </a>*@
+
+                                <a class="blue CustomTooltip position-relative" href="#" title="Clique para reproduzir o vídeo" onclick="OnClickVerAula('@control.Link.URL');return false;" data-target="#modalVerAula" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
+                                    <i class="ace-icon fa fa-video-camera"></i>
+                                    <span style="margin-left: 5px;">@control.ClassificacaoMedida.Nome</span>
+
+                                    </a>
+                                    }
+                                    else
+                                    {
+                                    @control.ClassificacaoMedida.Nome
+                                    }
+                            </div>
+                        <div class="col-sm-4 col-xs-12">
+                            <span>@control.EControle.GetDisplayName()</span>
+                        </div>
+                    </div>
+                }
+
+            }
+        
+
+    }
+
+}
+
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
+    <script src="~/Scripts/Custom/Reconhecimento/Listagem.js"></script>
+}

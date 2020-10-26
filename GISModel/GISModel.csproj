@@ -102,7 +102,11 @@
     <Compile Include="DTO\Admissao\ArquivoEmpregadoViewModel.cs" />
     <Compile Include="DTO\Admissao\PerfilEmpregadoViewModel.cs" />
     <Compile Include="DTO\Admissao\PesquisaEmpregadoViewModel.cs" />
+    <Compile Include="DTO\Admissao\VMAtividadesRiscos.cs" />
+    <Compile Include="DTO\AnaliseDeRisco\VMAnaliseDeRiscoEmpregados.cs" />
     <Compile Include="DTO\AnaliseRisco\AnaliseRiscosViewModel.cs" />
+    <Compile Include="DTO\AtividadeGeradoraRisco\VMAtividadeGeradoraRisco.cs" />
+    <Compile Include="DTO\AtividadeGeradoraRisco\VMNovoReconhecimentoControle.cs" />
     <Compile Include="DTO\AtividadesAlocada\AtividadesAlocadasViewModel.cs" />
     <Compile Include="DTO\Atividade\AtividadeAlocadaFuncaoViewModel.cs" />
     <Compile Include="DTO\Conta\AutenticacaoModel.cs" />
@@ -123,6 +127,10 @@
     <Compile Include="DTO\Ged\VMArquivoEmpregado.cs" />
     <Compile Include="DTO\GerenciamentoDoRisco\VMNovoReconhecimentoControle.cs" />
     <Compile Include="DTO\GerenciamentoDoRisco\VMReconhecimento.cs" />
+    <Compile Include="DTO\Indicadores\VMIndicadorPesquisaEmpregado.cs" />
+    <Compile Include="DTO\Indicadores\VMIndicadorPesquisaPergunta.cs" />
+    <Compile Include="DTO\Indicadores\VMIndicadorPesquisaQuestionario.cs" />
+    <Compile Include="DTO\Indicadores\VMIndicadorResposta.cs" />
     <Compile Include="DTO\Menu\PerfilMenuViewModel.cs" />
     <Compile Include="DTO\PCMSO\VMLaso.cs" />
     <Compile Include="DTO\PCMSO\VMLExamesRiscos.cs" />
@@ -148,6 +156,7 @@
     <Compile Include="DTO\Workflow\PesquisaWorkflowViewModel.cs" />
     <Compile Include="Entidades\Admissao.cs" />
     <Compile Include="Entidades\Alocacao.cs" />
+    <Compile Include="Entidades\AnaliseDeRisco\REL_AnaliseDeRiscoEmpregados.cs" />
     <Compile Include="Entidades\AnaliseRisco.cs" />
     <Compile Include="Entidades\Arquivo.cs" />
     <Compile Include="Entidades\Atividade.cs" />

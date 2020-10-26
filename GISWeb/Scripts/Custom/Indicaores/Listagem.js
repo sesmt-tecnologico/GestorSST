@@ -7,6 +7,7 @@
     AplicaDateRangePicker();
 
     if ($("#UKEmpresa").val() != "") {
+
         $.ajax({
             method: "POST",
             url: "/Questionario/ListarQuestionariosPorEmpresa",
@@ -184,9 +185,13 @@
 
 function OnBeginPesquisarResposta() {
     $('.page-content-area').ace_ajax('startLoading');
+    //$(".LoadingLayout").show();
+    //$('#btnSalvar').hide();
+    //$("#formPesquisar").css({ opacity: "0.5" });
 }
 
 function OnSuccessPesquisarResposta(data) {
+
     $('.page-content-area').ace_ajax('stopLoading', true);
 
     if (data.resultado != undefined && data.resultado.Erro != null && data.resultado.Erro != undefined && data.resultado.Erro != "")
@@ -194,7 +199,7 @@ function OnSuccessPesquisarResposta(data) {
         ExibirMensagemDeErro(data.resultado.Erro);
     }
     else {
-        $(".resultadoRespostas").html(data);
+        $(".resultadoGrafico").html(data);
 
         AplicaTooltip();
         
@@ -207,5 +212,10 @@ function OnSuccessPesquisarResposta(data) {
             });
         }
     }
+   
+    //$("#formPesquisar").removeAttr('style');
+    //$(".LoadingLayout").hide();
+    //$('#btnSalvar').show();
+    //TratarResultadoJSON(data.resultado);
 
 }

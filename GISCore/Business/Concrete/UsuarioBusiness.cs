@@ -204,7 +204,7 @@ namespace GISCore.Business.Concrete
 
             //Enviar Email
             var client = new SendGridClient(ConfigurationManager.AppSettings["SendGridAPIKey"]);
-            var from = new EmailAddress("antonio.hpereira@icloud.com");
+            var from = new EmailAddress("antoniohenriques52@gmail.com");
             var subject = "Seja bem-vindo ao GESTOR";
 
             var to = new EmailAddress(usuario.Email);

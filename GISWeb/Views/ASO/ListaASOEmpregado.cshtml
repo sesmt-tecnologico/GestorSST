@@ -1,4 +1,5 @@
 ﻿@using GISModel.Entidades
+@using GISModel.Enums
 
 @{
     ViewBag.Title = "ASO por Empregado";
@@ -17,15 +18,6 @@
     </div>*@
 <div class="text-center"><h3>Atestado de Saúde Ocupacional - ASO</h3></div>
 
-<div class="alert alert-warning">
-    <strong>
-        <i class="ace-icon fa fa-meh-o"></i>
-        Oops!
-    </strong>
-
-    <h3>Pagina em Construção!</h3>
-    <br>
-</div>
 
 <div class="row">
     <div class="col-xs-12">
@@ -40,7 +32,7 @@
                             <th>Empregado</th>
                             <th>CPF</th>
                             <th>Perigo</th>
-                            <th></th>
+                            
 
                         </tr>
                     </thead>
@@ -63,12 +55,7 @@
                                     <td>@iASO.CPF</td>
                                     <td>@iASO.Perigo</td>
 
-                                    <td>
-                                        <div class="hidden-sm hidden-xs action-buttons">
-
-                                        </div>
-
-                                    </td>
+                                    
                                 </tr>
 
                                 <h4>Função: @iASO.Funcao</h4>
@@ -85,35 +72,53 @@
 
 
                 <table id="dynamic-table" class="table table-striped table-bordered table-hover">
-                    <thead>
+                    @*<thead>
                         <tr>
                             <th>Tipo de Exame</th>
+                            <th>Perigo</th>
                             <th>Obrigatoriedade</th>
                             <th>Exame</th>
                             <th></th>
 
                         </tr>
-                    </thead>
+                    </thead>*@
 
                     <tbody>
-
+                        @{ 
+                            var perigo = string.Empty;
+                        }
+                       
 
                         @foreach (var iEx in ViewBag.ListaExame)
                         {
 
 
-                            <tr>
-                                <td>@iEx.TipoExame</td>
-                                <td>@iEx.Obrigatoriedade</td>
-                                <td>@iEx.Exame</td>
 
-                                <td>
-                                    <div class="hidden-sm hidden-xs action-buttons">
+                            if (iEx.Perigo != perigo)
+                            {
 
-                                    </div>
 
-                                </td>
-                            </tr>
+                                <tr>
+                                    @iEx.TipoExame
+                                     @iEx.Perigo
+                                    @iEx.Obrigatoriedade                              
+                                    
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                    
+                                    @foreach (var item in iEx.ListaExames)
+                                    {
+                                        @item.Nome <br/>
+                                    }
+                                    </td>
+
+                                </tr>
+
+                                perigo = iEx.Perigo;
+
+                            }
 
 
                         }

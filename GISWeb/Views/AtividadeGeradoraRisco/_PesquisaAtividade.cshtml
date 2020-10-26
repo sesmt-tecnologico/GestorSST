@@ -1,0 +1,186 @@
+﻿
+@using GISModel.DTO.Admissao
+@using GISModel.Entidades
+@using System.Configuration
+@model List<VMAtividadesRiscos>
+
+
+<div class="space-6"></div>
+
+
+
+<div class="row">
+    <div class="col-sm-12 col-xs-12">
+        <h3 class="header smaller lighter light-red" style="margin-left: 13px;">Atividades / Perigos / Riscos</h3>
+    </div>
+</div>
+
+
+
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+        string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+
+        <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+            <ol class="dd-list">
+
+
+                @foreach (var item2 in item.NomeAtividade)
+                {
+
+                    <li class="dd-item" data-id="@item2.UniqueKey.ToString()">
+                        <div class="dd2-content" style="border-left: 2px solid @arrCores[0];">                            
+                            <span><i style="color: green">  Atividade:  - </i></span>@item2.Descricao
+                        <div class="pull-right action-buttons">
+
+                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@item2.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+                            </a>
+                            <a class="blue CustomTooltip" href="#" title="Vincular Perigo" onclick="OnClickVincularPerigo('@item2.UniqueKey');" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                            </a>
+                           
+
+                            <a class="orange CustomTooltip" href="@Url.Action("Edicao", "Atividade", new {id = item2.UniqueKey })" title="Editar Atividade">
+                                <i class="ace-icon fa fa-pencil bigger-130"></i>
+                            </a>
+
+                            @if (item.NomeAtividade.Count == 0)
+                            {
+                                <a class="red CustomTooltip" href="#" title="Excluir Atividade" onclick="deleteAtividade('@item2.UniqueKey.ToString()', '@item2.Descricao'); return false;">
+                                    <i class="ace-icon fa fa-trash-o bigger-130"></i>
+                                </a>
+                            }
+
+
+                            <a href="@Url.Action("ListaReconhecimentoPorWorkArea", "ReconhecimentoDoRisco", new {id = item2.UniqueKey })" class="blue CustomTooltip" title="Listar Reconhecimento">
+                                <i class="ace-icon fa fa-search red bigger-125"></i>
+                            </a>
+
+                            <a href="@Url.Action("Index", "Medicoes", new { ukwork = item2.UniqueKey  })" class="blue CustomTooltip" title="Medicoes / Controles" style="margin-left: 25px;">
+                                <i class="ace-icon fa fa-sun-o red bigger-125"></i>
+                            </a>
+
+                        </div>
+                        </div>
+                        @if(item2.Perigos.Count() > 0){
+                        
+                        <ol class="dd-list">
+                            @foreach (Perigo item3 in item2.Perigos)
+                            {
+
+                                <li class="dd-item" data-id="@item3.UniqueKey.ToString()">
+
+                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">                                       
+                                        <span><i style="color:black">  Perigos:  - </i></span>@item3.Descricao
+                                        <div class="pull-right action-buttons">
+                                            <a class="blue CustomTooltip" href="#" title="Vincular Risco" onclick="OnClickVincularRisco('@item3.UniqueKey');" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                            </a>
+
+                                            <a href="#" class="blue CustomTooltip" title="Desvincular Perigo" onclick="OnClickRemoverPerigo('@item3.UniqueKey', '@item3.UniqueKey', '@item3.Descricao')">
+                                                <i class="ace-icon fa fa-trash red bigger-125"></i>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    @if(item3.Riscos.Count() > 0)
+                                    {
+                                   
+                                    <ol class="dd-list">
+                                        @foreach (var item4 in item3.Riscos)
+                                        {
+                                        <li class="dd-item" data-id="@item4.UniqueKey">
+                                            <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+                                                <span><i style="color: orangered">Riscos:  - </i></span>@item4.Nome
+
+
+                                                <div class="pull-right action-buttons">
+                                                    @if (item4.Reconhecimento != null && item4.Reconhecimento.UKAtividade == item2.UniqueKey)
+                                                    {
+                                                        <a href="@Url.Action("ListaReconhecimentoRiscoAtividade", "ReconhecimentoDoRisco", new {id = item4.UniqueKey })" class="blue CustomTooltip" title="Exibir Reconhecimento / Controles">
+                                                            <i class="ace-icon fa fa-search red bigger-125"></i>
+                                                        </a>
+
+                                                        <a href="#" class="orange CustomTooltip" title="Editar Controle do Risco" onclick="OnClickEditarControleDoRisco('@item4.Reconhecimento.UniqueKey', '@item2.UniqueKey.ToString()', '@item3.UniqueKey.ToString()', '@item4.UniqueKey.ToString()');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                            <i class="ace-icon fa fa-pencil-square orange bigger-125"></i>
+                                                        </a>
+
+                                                        <a href="#" class="red CustomTooltip" title="Excluir Controle do Risco" onclick="ExcluirReconhecimentoComControles('@item4.Reconhecimento.UniqueKey', '@item3.Descricao', '@item4.Nome'); return false;">
+                                                            <i class="ace-icon fa fa-remove red bigger-125"></i>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="#" class="blue CustomTooltip" title="Cadastrar controle Risco" onclick="OnClickControleDeRisco('@item2.UniqueKey.ToString()','@item3.UniqueKey.ToString()', '@item4.UniqueKey.ToString()');" data-target="#modalAddControle" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                            <i class="ace-icon fa fa-plus-circle green bigger-125"></i>
+                                                        </a>
+
+                                                    }
+
+
+
+
+                                                    <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@item4.UniqueKey');" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                        <i class="ace-icon fa fa-cloud blue bigger-125"></i>
+                                                    </a>
+
+                                                    <a class="blue CustomTooltip" href="#" title="Vincular Possíveis Danos" onclick="OnClickVincularPossiveisDanos('@item4.UniqueKey');" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                        <i class="ace-icon fa fa-plus-circle red bigger-125"></i>
+                                                    </a>
+
+
+                                                    <a href="#" class="blue CustomTooltip" title="Excluir Perigo" onclick="OnClickRemoverFonteGeradora('@item4.UniqueKey', '@item4.Nome')">
+                                                        <i class="ace-icon fa fa-trash red bigger-125"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+
+                                                <ol class="dd-list">
+                                                    @foreach (var item5 in item4.Danos)
+                                                    {
+                                                        <li class="dd-item" data-id="@item5.UniqueKey">
+                                                            <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">                                                                
+                                                                <span><i style="color:brown"> Poss.Danos: - </i></span>@item5.DescricaoDanos
+                                                            </div>
+                                                        </li>
+                                                    }
+                                                </ol>
+</li>
+                                        }
+                                    </ol>
+                                     }
+                                </li>
+
+                            }
+                        </ol>
+                        }
+                    </li>
+                }
+
+
+
+            </ol>
+        </div>
+
+
+    }
+
+}
+    else
+    {
+        <div class="alert alert-warning">
+            <strong>
+                <i class="ace-icon fa fa-meh-o"></i>
+                Oops!
+            </strong>
+
+            Nenhum Perigo cadastrado para a Atividade selecionada!.
+            <br>
+        </div>
+
+    }

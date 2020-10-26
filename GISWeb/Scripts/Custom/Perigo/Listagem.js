@@ -3,6 +3,7 @@
     Chosen();
 
     GetDocumento();
+   // GetDocumentoAtividade();
 
 
 });
@@ -41,6 +42,43 @@ function GetDocumento() {
         }
     });
 }
+
+function GetDocumentoAtividade() {
+
+    $('.page-content-area').ace_ajax('startLoading');
+    $("#contentDoc").html("");
+
+    $.ajax({
+        method: "POST",
+        url: "/AtividadeGeradoraRisco/Index",
+        error: function (erro) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            ExibirMensagemDeErro(erro.responseText);
+        },
+        success: function (content) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            if (content.erro != null && content.erro != undefined && content.erro != "") {
+                ExibirMensagemDeErro(content.erro);
+            }
+            else {
+                $("#contentDoc").html(content);
+
+                AplicaTooltip();
+
+                $('.dd').nestable();
+                $('.dd').nestable('collapseAll');
+                $($(".collapseOne button")[1]).click();
+                $('.dd-handle a').on('mousedown', function (e) {
+                    e.stopPropagation();
+                });
+            }
+        }
+    });
+}
+
+
 
 
 function OnClickVincularRisco(pUK_Perigo) {
@@ -89,6 +127,7 @@ function OnClickVincularRisco(pUK_Perigo) {
                                 $('#modalAddAtividade').modal('hide');
 
                                 GetDocumento();
+                                GetDocumentoAtividade();
                             }
 
 

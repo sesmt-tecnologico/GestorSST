@@ -1,205 +1,101 @@
-﻿
-
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', { 'packages': ['bar'] });
-    google.charts.setOnLoadCallback(drawChart);
-    google.charts.load("current", { packages: ["corechart"] });
-    google.charts.setOnLoadCallback(drawChart01);
-    google.charts.setOnLoadCallback(drawChart02);
-    google.charts.setOnLoadCallback(drawChart03);
-
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Ano', 'Total de AR', 'Conhece a Atividade', 'Sentiu-se Mal', 'Sentiu-se Bem'],
-            ['2016', 683, 650, 103, 235],
-            ['2017', 824, 802, 64, 760],
-            ['2018', 915, 910, 65, 850],
-            ['2019', 1030, 1015, 55, 975]
-        ]);
-
-        var options = {
-            chart: {
-                title: 'Indicador Performance Geral',
-                subtitle: 'Sentimento e Conhecimento: Análise de Risco 2016 a 2019',
-
-            },
-            bars: 'horizontal' // Required for Material Bar Charts.
-        };
-
-        var chart = new google.charts.Bar(document.getElementById('barchart_material'));
-
-        chart.draw(data, google.charts.Bar.convertOptions(options));
-    }
-    function drawChart01() {
-        var data = google.visualization.arrayToDataTable([
-            ['Task', 'Hours per Day'],
-            ['Eletricista', 11],
-            ['Motorista', 2],
-            ['Ajudante', 4],
-            ['Mecanico', 2],
-            ['Tecnico Industrial', 3]
-        ]);
-
-        var options = {
-            title: 'Sentiu-se Mal por função',
-            is3D: true,
-            //chartArea: { left: 20, top: 0, width: '50%', height: '75%' }
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-        chart.draw(data, options);
-    }
-
-    function drawChart02() {
-        var data = google.visualization.arrayToDataTable([
-            ['Task', 'Hours per Day'],
-            ['Eletricista', 5],
-            ['Motorista', 2],
-            ['Ajudante', 7],
-            ['Mecanico', 2],
-            ['Tecnico Industrial', 3]
-        ]);
-
-        var options = {
-            title: 'Duvidas durante a Atividade',
-            pieHole: 0.4,
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-    }
-    function drawChart03() {
-        var data = google.visualization.arrayToDataTable([
-            ['Task', 'Hours per Day'],
-            ['Eletricista', 2],
-            ['Motorista', 4],
-            ['Ajudante', 5],
-            ['Mecanico', 2],
-            ['Tecnico Industrial', 3]
-        ]);
-
-        var options = {
-            title: 'Sentiu-se Mal durante a Atividade',
-            pieHole: 0.4,
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart01'));
-        chart.draw(data, options);
-    }
-
-</script>
+﻿@using GISModel.Entidades
+@using GISModel.DTO.Indicadores
+@model VMIndicadorPesquisaEmpregado
 
 
 
-<h1>Painel de Performace de Análise de Risco</h1>
-@*<div class="hidden-sm hidden-xs ">*@
-<div>
-    <div class="jumbotron">
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 ">
-                <div class="form-group ">
-                    @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12 ">
-                        <div id="barchart_material" style="width:  600px; height: 500px;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 ">
-                <div class="form-group ">
-                    @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12 ">
-                        <div id="piechart_3d" style="width: 600px; height: 500px;"></div>
-                    </div>
-                </div>
-            </div>
 
 
-        </div><br />
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 ">
-                <div class="form-group ">
-                    @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12 ">
-                        <div id="donutchart" style="width: 600px; height: 500px;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6 ">
-                <div class="form-group ">
-                    @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12 ">
-                        <div id="donutchart01" style="width: 600px; height: 500px;"></div>
-                    </div>
-                </div>
-            </div>
+@{
+    ViewBag.Title = "Pesquisa de Contratos";
+}
 
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Pesquisa de Respostas
 
-        </div>
-
+            <button id="btnLocalizarRespostas" class="btn btn-primary btnPesquisar" style="float: right; border: 0px; border-bottom: 2px; margin-top: -2px; height: 34px;">
+                <i class="ace-icon fa fa-search"></i>
+                Pesquisar
+            </button>
+        </h3>
     </div>
 </div>
 
+@using (Ajax.BeginForm("Pesquisar", "Indicadores", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnBegin = "OnBeginPesquisarResposta",
+    OnSuccess = "OnSuccessPesquisarResposta"
+}, new { @id = "formPesquisar", @class = "form-horizontal", @autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
 
-@*<div class="hidden-md hidden-lg">
-        <div class="jumbotron">
-            <div class="inline pos-rel">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 ">
-                        <div class="form-group ">
-                            @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                            <div class="col-xs-12 col-sm-12 ">
-                                <div id="barchart_material" style="width: 600px; height: 500px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 ">
-                        <div class="form-group ">
-                            @Html.Label("", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
-                            <div class="col-xs-12 col-sm-12 ">
-                                <div id="piechart_3d" style="width:  600px; height: 500px;"></div>
-                            </div>
-                        </div>
-                    </div>
-
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.UKEmpresa, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.UKEmpresa, new SelectList(ViewBag.Empresas, "UniqueKey", "NomeFantasia"), "Selecione ...", new { @class = "chosen-select form-control tag-input-style", @autocomplete = "on" })
                 </div>
             </div>
-
         </div>
-    </div>*@
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.UKQuestionario, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.UKQuestionario, new SelectList(new List<EntidadeBase>(), "UniqueKey", "Nome"), new { @class = "chosen-select form-control tag-input-style", @data_placeholder = "Selecione antes uma empresa", @autocomplete = "on" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.Periodo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(d => d.Periodo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12 date-range-picker" } })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(d => d.UKEmpregado, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.UKEmpregado, new SelectList(new List<EntidadeBase>(), "UniqueKey", "Nome"), new { @class = "chosen-select form-control tag-input-style", @data_placeholder = "Selecione antes uma empresa", @autocomplete = "on" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+<div class="resultadoGrafico"></div>
 
 
-@*<html>
-    <head>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-            google.charts.load("current", { packages: ["corechart"] });
-            google.charts.setOnLoadCallback(drawChart);
-            function drawChart() {
-                var data = google.visualization.arrayToDataTable([
-                    ['Task', 'Hours per Day'],
-                    ['Work', 11],
-                    ['Eat', 2],
-                    ['Commute', 2],
-                    ['Watch TV', 2],
-                    ['Sleep', 7]
-                ]);
 
-                var options = {
-                    title: 'My Daily Activities',
-                    pieHole: 0.4,
-                };
 
-                var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-                chart.draw(data, options);
-            }
-        </script>
-    </head>
-    <body>
-        <div id="donutchart" style="width: 900px; height: 500px;"></div>
-    </body>
-    </html>*@
+
+
+
+
+@section Stylesheets {
+    <link href="~/Content/Ace/css/daterangepicker.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Ace/moment.js"></script>
+    <script src="~/Scripts/Ace/daterangepicker.js"></script>
+
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+
+    <script src="~/Scripts/Custom/Indicaores/Listagem.js"></script>
+}

@@ -11,6 +11,17 @@
 @if (Model == null)
 {
 
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-meh-o"></i>
+            Oops!
+        </strong>
+
+        No momento, nenhum reconhecimento foi encontrado.
+        <br>
+    </div>
+
+
 }
 else
 {
@@ -33,6 +44,8 @@ else
                     @Model.WorkArea
                 </a>
             </span>
+
+
         </div>
     </div>
 
@@ -176,9 +189,9 @@ else
 
                                     @if (control.Link != null && !control.Link.UniqueKey.Equals(Guid.Empty))
                                     {
-                                        <a class="blue CustomTooltip position-relative" href="#" title="Clique para reproduzir o vídeo" onclick="OnClickVerAula('@control.Link.URL');return false;" data-target="#modalVerAula" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
+                                        <a class="red CustomTooltip position-relative" href="#" title="Clique para reproduzir o vídeo" onclick="OnClickVerAula('@control.Link.URL');return false;" data-target="#modalVerAula" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
                                             <i class="ace-icon fa fa-video-camera"></i>
-                                            <span style="margin-left: 5px;">@control.ClassificacaoMedida.Nome</span>
+                                            <span style="margin-left: 5px; color: blue">@control.ClassificacaoMedida.Nome</span>
 
                                         </a>
                                     }
@@ -209,7 +222,7 @@ else
 
     <div class="hidden-md hidden-lg">
 
-       
+
 
         @{
             //bool firstFonte1 = false;
@@ -281,16 +294,16 @@ else
 
 
                         @*<div class="row">
-                            <div class="col-sm-4 col-xs-12">
-                                <span class="bolder center" style="float: left; width: 100%; padding: 5px; background-color: #f7d9d6;">Risco</span>
-                            </div>
-                            <div class="col-sm-4 col-xs-12">
-                                <span class="bolder center" style="float: left; width: 100%; padding: 5px; background-color: #f7d9d6;">Tragetória</span>
-                            </div>
-                            <div class="col-sm-4 col-xs-12">
-                                <span class="bolder center" style="float: left; width: 100%; padding: 5px; background-color: #f7d9d6;">Classe do Risco</span>
-                            </div>
-                        </div>*@
+                                <div class="col-sm-4 col-xs-12">
+                                    <span class="bolder center" style="float: left; width: 100%; padding: 5px; background-color: #f7d9d6;">Risco</span>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <span class="bolder center" style="float: left; width: 100%; padding: 5px; background-color: #f7d9d6;">Tragetória</span>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <span class="bolder center" style="float: left; width: 100%; padding: 5px; background-color: #f7d9d6;">Classe do Risco</span>
+                                </div>
+                            </div>*@
                         <div class="row">
                             <div class="col-sm-4 col-xs-12">
                                 <span class="bolder left" style="float: left; width: 100%; padding: 5px; background-color: #f7d9d6;">
@@ -331,16 +344,16 @@ else
                             if (!first)
                             {
                                 @*<div class="row">
-                                    <div class="col-sm-4 col-xs-12">
-                                        <span class="center bolder blue" style="float: left; width: 100%;">Tipo de Controle</span>
-                                    </div>
-                                    <div class="col-sm-4 col-xs-12">
-                                        <span class="center bolder blue" style="float: left; width: 100%;">Classificação da Medida</span>
-                                    </div>
-                                    <div class="col-sm-4 col-xs-12">
-                                        <span class="center bolder blue" style="float: left; width: 100%;">Eficácia</span>
-                                    </div>
-                                </div>*@
+                                        <div class="col-sm-4 col-xs-12">
+                                            <span class="center bolder blue" style="float: left; width: 100%;">Tipo de Controle</span>
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12">
+                                            <span class="center bolder blue" style="float: left; width: 100%;">Classificação da Medida</span>
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12">
+                                            <span class="center bolder blue" style="float: left; width: 100%;">Eficácia</span>
+                                        </div>
+                                    </div>*@
 
                                 first = true;
                             }
@@ -362,9 +375,9 @@ else
                                     {
                                         <span class="left" style="float: left; width: 100%;">
                                             Classificação da Medida:&nbsp;
-                                            <a class="blue CustomTooltip position-relative" href="#" title="Clique para reproduzir o vídeo" onclick="OnClickVerAula('@control.Link.URL');return false;" data-target="#modalVerAula" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
+                                            <a class="red CustomTooltip position-relative" href="#" title="Clique para reproduzir o vídeo" onclick="OnClickVerAula('@control.Link.URL');return false;" data-target="#modalVerAula" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
                                                 <i class="ace-icon fa fa-video-camera"></i>
-                                                <span style="margin-left: 5px;">@control.ClassificacaoMedida.Nome</span>
+                                                <span style="margin-left: 5px; color: blue">@control.ClassificacaoMedida.Nome</span>
 
                                             </a>
                                         </span>
@@ -394,23 +407,29 @@ else
             }
 
 
-            <div class="conteudoQuestionario">
-
-            </div>
+            <div class="conteudoQuestionarioMD"></div>
         }
 
     </div>
 
-        }
+}
 
-        @section Stylesheets {
-            @Styles.Render("~/bundles/ace_css_fileUpload")
-        }
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+}
 
-        @section Scripts {
-            @Scripts.Render("~/bundles/jQ_dataTable")
-            @Scripts.Render("~/bundles/ace_js_fileUpload")
-            <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+    <script src="~/Scripts/Ace/jQ/typeahead.jquery.js"></script>
+    <script src="~/Scripts/Ace/elements.typeahead.js"></script>
 
-            <script src="~/Scripts/Custom/Reconhecimento/Listagem.js"></script>
-        }
+    <script src="~/Scripts/Ace/ace.widget-box.js"></script>
+    <script src="~/Scripts/Ace/chosen.jquery.js"></script>
+
+    <script src="~/Scripts/Ace/bootstrap-tag.js"></script>
+
+
+    <script src="~/Scripts/Custom/AnaliseDeRisco/Lista.js"></script>
+}

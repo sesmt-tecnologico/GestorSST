@@ -420,7 +420,7 @@ namespace GISWeb.Controllers
 									left join tbPerigo p on r1.UKPerigo = p.UniqueKey and p.DataExclusao = '9999-12-31 23:59:59.997' 
 									left join REL_PerigoRisco r2 on r2.UKPerigo = p.UniqueKey and r2.DataExclusao ='9999-12-31 23:59:59.997' 	
 	                                left join tbRisco r on r2.UKRisco = r.UniqueKey  and r.DataExclusao = '9999-12-31 23:59:59.997' 
-                                    left join tbReconhecimentoDoRisco re on r.UniqueKey = re.UKRisco  and re.DataExclusao = '9999-12-31 23:59:59.997' 
+                                    left join tbReconhecimentoDoRisco re on r.UniqueKey = re.UKRisco and f.Uniquekey = re.UKFonteGeradora  and re.DataExclusao = '9999-12-31 23:59:59.997' 
                                where wa.DataExclusao ='9999-12-31 23:59:59.997' 
 							   and wa.UKEstabelecimento = '" + entidade.UKEstabelecimento + @"'
                                order by wa.UniqueKey";

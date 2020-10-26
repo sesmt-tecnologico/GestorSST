@@ -108,6 +108,10 @@ function DeletarCargo(IDCargo, Nome) {
 
 }
 
+
+
+
+
 function OnClickVincularAtividade(pUK_Funcao) {
     $.ajax({
         method: "POST",

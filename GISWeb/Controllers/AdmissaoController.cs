@@ -41,6 +41,24 @@ namespace GISWeb.Controllers
 
         [Inject]
         public IArquivoBusiness ArquivoBusiness { get; set; }
+        [Inject]
+        public IFuncaoBusiness FuncaoBusiness { get; set; }
+
+        [Inject]
+        public IPerigoBusiness PerigoBusiness { get; set; }
+        [Inject]
+        public IRiscoBusiness RiscoBusiness { get; set; }
+
+        [Inject]
+        public IAtividadeBusiness AtividaeBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<REL_FuncaoAtividade> FuncaoAtividadeBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<REL_AtividadePerigo> AtividadePerigoBusiness { get; set; }
+        [Inject]
+        public IBaseBusiness<REL_PerigoRisco> PerigoRiscoBusiness { get; set; }
 
         [Inject]
         public IREL_ArquivoEmpregadoBusiness REL_ArquivoEmpregadoBusiness { get; set; }
@@ -142,7 +160,12 @@ namespace GISWeb.Controllers
         {
             try
             {
-                List<Admissao> lista = new List<Admissao>();
+               
+
+                
+                
+
+                List <Admissao> lista = new List<Admissao>();
 
                 string query = @"select a.UniqueKey, a.DataAdmissao, a.DataDemissao, a.Justificativa, e.NomeFantasia as Empresa, u.Nome as NomeUsuario
                              from tbAdmissao a, tbEmpresa e, tbUsuario u

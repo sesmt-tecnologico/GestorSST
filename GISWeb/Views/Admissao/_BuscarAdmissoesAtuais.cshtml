@@ -177,37 +177,7 @@ else
 
                                         <div class="space-10"></div>
 
-                                        <div class="row">
-                                            <div class="col-sm-12 col-xs-12">
-                                                <h3 class="header smaller lighter green" style="margin-left: 13px">Atividades</h3>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                @if (al.Funcao.Atividades == null || al.Funcao.Atividades.Count == 0)
-                                                {
-                                                    <div class="alert alert-warning">
-                                                        <strong>
-                                                            <i class="ace-icon fa fa-meh-o"></i>
-                                                            Oops!
-                                                        </strong>
-
-                                                        Nenhuma atividade vinculada com a função acima.
-                                                        <br>
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <ul>
-                                                        @foreach (Atividade atv in al.Funcao.Atividades)
-                                                        {
-                                                            <li>@atv.Descricao</li>
-                                                        }
-                                                    </ul>
-                                                }
-                                            </div>
-                                        </div>
+                                                                             
 
                                     </div>
                                 </div>
@@ -226,6 +196,8 @@ else
 
         <br />
     }
+
+   
 
 }
 

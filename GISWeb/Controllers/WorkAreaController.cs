@@ -1,5 +1,6 @@
 ﻿using GISCore.Business.Abstract;
 using GISCore.Infrastructure.Utils;
+using GISModel.DTO.Admissao;
 using GISModel.DTO.Shared;
 using GISModel.DTO.WorkArea;
 using GISModel.Entidades;
@@ -26,6 +27,9 @@ namespace GISWeb.Controllers
 
         [Inject]
         public IWorkAreaBusiness WorkAreaBusiness { get; set; }
+
+        [Inject]
+        public IAlocacaoBusiness AlocacaoBusiness { get; set; }
 
         [Inject]
         public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
@@ -509,6 +513,284 @@ namespace GISWeb.Controllers
                         lista.Add(obj);
 
                 }
+
+                string query01 = @"select al.Uniquekey as ukAl, adm.Uniquekey as ukAdm, emp.Uniquekey as ukEmp, emp.Nome,f.Uniquekey as ukfunc,
+                 f.NomeDaFuncao, a.Uniquekey as ukAtiv, a.Descricao as NomeAtividade, p.Uniquekey as ukPer, p.Descricao as DescPerigo, r.UniqueKey as ukrisc, 
+                r.Nome as NomeRisco,  pd.Uniquekey as UKdanos, pd.DescricaoDanos
+                from tbAlocacao al
+                join tbAdmissao adm
+                on al.UKAdmissao = adm.Uniquekey and al.DataExclusao = '9999-12-31 23:59:59.997'
+                join tbEmpregado emp
+                on adm.UKEmpregado = emp.Uniquekey and emp.DataExclusao = '9999-12-31 23:59:59.997'
+                join tbFuncao f
+                on al.UKFuncao = f.Uniquekey and f.DataExclusao = '9999-12-31 23:59:59.997'
+                join REL_FuncaoAtividade rel01
+                on f.Uniquekey = rel01.UKFuncao
+                join tbAtividade a
+                on rel01.UKAtividade = a.Uniquekey and a.DataExclusao = '9999-12-31 23:59:59.997'
+                join REL_AtividadePerigo rel02
+                on a.Uniquekey = rel02.UKAtividade and a.DataExclusao = '9999-12-31 23:59:59.997'
+                join tbPerigo p
+                on rel02.UKPerigo = p.Uniquekey and p.DataExclusao = '9999-12-31 23:59:59.997'
+                join REL_PerigoRisco rel03
+                on p.Uniquekey = rel03.UKPerigo and p.DataExclusao = '9999-12-31 23:59:59.997'
+                join tbRisco r
+                on rel03.UKRisco = r.Uniquekey and p.DataExclusao = '9999-12-31 23:59:59.997'
+                join REL_RiscoDanosASaude rel04
+                on rel03.UKRisco = rel04.UKRiscos 
+                join tbPossiveisDanos pd
+                on rel04.UKDanosSaude = pd.Uniquekey and pd.DataExclusao = '9999-12-31 23:59:59.997'
+                where emp.Uniquekey =  '" + UKEmpregado + @"'";
+
+                VMAtividadesRiscos obj1 = null;
+                Atividade atividade = null;
+                Perigo perigo = null;
+                Risco risc = null;
+                PossiveisDanos danos = null;
+                List<VMAtividadesRiscos> ListRiscos = new List<VMAtividadesRiscos>();
+
+                DataTable result01 = AlocacaoBusiness.GetDataTable(query01);
+                if (result01.Rows.Count > 0)
+                {
+
+                    foreach (DataRow row in result01.Rows)
+                    {
+                        if (obj1 == null)
+                        {
+
+                            obj1 = new VMAtividadesRiscos()
+                            {
+                                UkFuncao = row["ukfunc"].ToString(),
+                                UKAtividade =row["ukAtiv"].ToString(),
+                                UKPerigo = row["ukPer"].ToString(),
+                                UKRisco = row["ukrisc"].ToString(),
+                                UKDanos = row["UKdanos"].ToString(),
+                                NomeAtividade = new List<Atividade>(),
+
+                            };
+                            if (!string.IsNullOrEmpty(row["ukAtiv"]?.ToString()))
+                            {
+                                atividade = new Atividade()
+                                {
+                                    UniqueKey = Guid.Parse(row["ukAtiv"].ToString()),
+                                    Descricao = row["NomeAtividade"].ToString(),
+                                    Perigos = new List<Perigo>(),
+                                };
+
+                                if (!string.IsNullOrEmpty(row["ukPer"]?.ToString()))
+                                {
+                                    perigo = new Perigo()
+                                    {
+                                        UniqueKey = Guid.Parse(row["ukPer"].ToString()),
+                                        Descricao = row["DescPerigo"].ToString(),
+                                        Riscos = new List<Risco>()
+                                    };
+
+                                    atividade.Perigos.Add(perigo);
+                                }
+
+                                if (!string.IsNullOrEmpty(row["ukrisc"]?.ToString()))
+                                {
+                                    risc = new Risco()
+                                    {
+                                        UniqueKey = Guid.Parse(row["ukPer"].ToString()),
+                                        Nome = row["NomeRisco"].ToString(),
+                                        Danos = new List<PossiveisDanos>()
+                                    };
+
+                                    perigo.Riscos.Add(risc);
+
+                                }
+                                if (!string.IsNullOrEmpty(row["UKdanos"]?.ToString()))
+                                {
+                                    danos = new PossiveisDanos()
+                                    {
+                                        UniqueKey = Guid.Parse(row["UKdanos"].ToString()),
+                                        DescricaoDanos = row["DescricaoDanos"].ToString()
+                                    };
+
+                                    risc.Danos.Add(danos);
+
+                                }
+
+                                obj1.NomeAtividade.Add(atividade);
+
+                                ListRiscos.Add(obj1);
+                            }
+
+                        }
+                        else
+                        {
+                            if (obj1.UkFuncao.Equals(row["ukfunc"].ToString()))
+                            {
+                                if (obj1.UKAtividade.Equals(row["ukAtiv"].ToString()))
+                                {
+
+                                    if (obj1.UKPerigo.Equals(row["ukPer"].ToString()))
+                                    {                                 
+
+                                        if (obj1.UKRisco.Equals(row["ukrisc"].ToString()))
+                                        {                                           
+
+                                            if (!string.IsNullOrEmpty(row["UKdanos"]?.ToString()))
+                                            {
+                                                danos = new PossiveisDanos()
+                                                {
+                                                    DescricaoDanos = row["DescricaoDanos"].ToString()
+                                                };
+
+                                                risc.Danos.Add(danos);
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (!string.IsNullOrEmpty(row["ukrisc"]?.ToString()))
+                                            {
+                                                risc = new Risco()
+                                                {
+                                                    UniqueKey = Guid.Parse(row["ukPer"].ToString()),
+                                                    Nome = row["NomeRisco"].ToString(),
+                                                    Danos = new List<PossiveisDanos>()
+                                                };
+
+                                                perigo.Riscos.Add(risc);
+
+                                            }
+                                            if (!string.IsNullOrEmpty(row["UKdanos"]?.ToString()))
+                                            {
+                                                danos = new PossiveisDanos()
+                                                {
+                                                    DescricaoDanos = row["DescricaoDanos"].ToString()
+                                                };
+
+                                                risc.Danos.Add(danos);
+
+                                            }
+
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        if (!string.IsNullOrEmpty(row["ukPer"]?.ToString()))
+                                        {
+                                            perigo = new Perigo()
+                                            {
+                                                UniqueKey = Guid.Parse(row["ukPer"].ToString()),
+                                                Descricao = row["DescPerigo"].ToString(),
+                                                Riscos = new List<Risco>()
+                                            };
+
+                                            atividade.Perigos.Add(perigo);
+                                        }
+
+                                        if (!string.IsNullOrEmpty(row["ukrisc"]?.ToString()))
+                                        {
+                                            risc = new Risco()
+                                            {
+                                                UniqueKey = Guid.Parse(row["ukPer"].ToString()),
+                                                Nome = row["NomeRisco"].ToString(),
+                                                Danos = new List<PossiveisDanos>()
+                                            };
+
+                                            perigo.Riscos.Add(risc);
+
+                                        }
+                                        if (!string.IsNullOrEmpty(row["UKdanos"]?.ToString()))
+                                        {
+                                            danos = new PossiveisDanos()
+                                            {
+                                                DescricaoDanos = row["DescricaoDanos"].ToString()
+                                            };
+
+                                            risc.Danos.Add(danos);
+
+                                        }
+
+
+                                    }
+
+                                    //ListRiscos.Add(obj1);
+                                }                                
+                                else
+                                {
+                                    if (!string.IsNullOrEmpty(row["ukAtiv"].ToString()))
+                                    {
+                                        obj1 = new VMAtividadesRiscos()
+                                        {
+                                            UkFuncao = row["ukfunc"].ToString(),
+                                            UKAtividade = row["ukAtiv"].ToString(),
+                                            UKPerigo = row["ukPer"].ToString(),
+                                            UKRisco = row["ukrisc"].ToString(),
+                                            UKDanos = row["UKdanos"].ToString(),
+                                            NomeAtividade = new List<Atividade>(),
+
+                                        };
+
+                                        atividade = new Atividade()
+                                        {
+                                            UniqueKey = Guid.Parse(row["ukAtiv"].ToString()),
+                                            Descricao = row["NomeAtividade"].ToString(),
+                                            Perigos = new List<Perigo>(),
+                                        };
+
+                                        if (!string.IsNullOrEmpty(row["ukPer"].ToString()))
+                                        {
+                                            perigo = new Perigo()
+                                            {
+                                                UniqueKey = Guid.Parse(row["ukPer"].ToString()),
+                                                Descricao = row["DescPerigo"].ToString(),
+                                                Riscos = new List<Risco>()
+                                            };
+
+                                            atividade.Perigos.Add(perigo);
+                                        }
+
+                                        if (!string.IsNullOrEmpty(row["ukrisc"]?.ToString()))
+                                        {
+                                            risc = new Risco()
+                                            {
+                                                Nome = row["NomeRisco"].ToString(),
+                                                Danos = new List<PossiveisDanos>()
+                                            };
+
+                                            perigo.Riscos.Add(risc);
+
+                                        }
+                                        if (!string.IsNullOrEmpty(row["UKdanos"]?.ToString()))
+                                        {
+                                            danos = new PossiveisDanos()
+                                            {
+                                                DescricaoDanos = row["DescricaoDanos"].ToString()
+                                            };
+
+                                            risc.Danos.Add(danos);
+
+                                        }
+
+                                        obj1.NomeAtividade.Add(atividade);
+
+
+                                        ListRiscos.Add(obj1);
+
+                                    }
+                                }
+
+                                //ListRiscos.Add(obj1);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+               
+
+                ViewBag.Atividade = ListRiscos;
+
+
 
                 return PartialView("_PesquisaParaPerfilEmpregado", lista);
             }

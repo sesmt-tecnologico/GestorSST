@@ -16,6 +16,8 @@ using GISWeb.Infraestrutura.Provider.Abstract;
 using GISHelpers.Utils;
 using System.Globalization;
 using GISModel.Enums;
+using GISModel.Entidades.AnaliseDeRisco;
+using GISModel.DTO.AnaliseDeRisco;
 
 namespace GISWeb.Controllers
 {
@@ -48,6 +50,9 @@ namespace GISWeb.Controllers
 
         [Inject]
         public IUsuarioBusiness UsuarioBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<REL_AnaliseDeRiscoEmpregados> REL_AnaliseDeRiscoEmpregadosBusiness { get; set; }
 
         #endregion
 
@@ -336,6 +341,38 @@ namespace GISWeb.Controllers
             }
         }
 
+        public ActionResult ListaEmpregado(string UKRegistro)
+        {
+
+            var oEmp = from e in EmpregadoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                       join re in REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Registro.Equals(UKRegistro)).ToList()
+                       on e.UniqueKey equals re.UKEmpregado
+                       select new VMAnaliseDeRiscoEmpregados()
+                       {
+                           UKEmpregado = e.UniqueKey,
+                           NomeEmpregado = e.Nome,
+                           CPF = e.CPF,
+                           Supervisor = re.UsuarioInclusao                                
+                                       
+
+
+                        };
+
+
+            List<VMAnaliseDeRiscoEmpregados> list = new List<VMAnaliseDeRiscoEmpregados>();
+
+            foreach(var item in oEmp)
+            {
+                if(item != null)
+                {
+                    list.Add(item);
+                }
+            }
+
+
+            return View("_ListaEmpregados", list);
+
+        }
 
 
         [HttpPost]

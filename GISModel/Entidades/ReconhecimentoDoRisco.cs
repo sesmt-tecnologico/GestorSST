@@ -17,6 +17,9 @@ namespace GISModel.Entidades
         [Display(Name = "Fonte Geradora")]
         public Guid UKFonteGeradora { get; set; }
 
+        [Display(Name = "Atividade")]
+        public Guid UKAtividade { get; set; }
+
         [Display(Name = "Perigo")]
         public Guid UKPerigo { get; set; }
 
