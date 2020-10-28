@@ -14,5 +14,11 @@ namespace GISModel.DTO.AnaliseDeRisco
         public string  CPF { get; set; }
 
         public string Supervisor { get; set; }
+
+        public string  Pergunta { get; set; }
+
+        public string Resposta { get; set; }
+
+        public DateTime Data { get; set; }
     }
 }

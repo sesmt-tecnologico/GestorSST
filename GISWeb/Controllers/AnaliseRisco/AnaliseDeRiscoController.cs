@@ -1,4 +1,5 @@
 ﻿using GISCore.Business.Abstract;
+using GISModel.DTO.AnaliseDeRisco;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISModel.Entidades.AnaliseDeRisco;
@@ -111,6 +112,64 @@ namespace GISWeb.Controllers.AnaliseRisco
             ViewBag.Relacao = emp;
 
             ViewBag.Atividade = AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+
+
+            var APR = from ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()                      
+                      join r in RespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                      on ri.UKResposta equals r.UniqueKey
+                      join p in PerguntaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                      on ri.UKPergunta equals p.UniqueKey
+                      join re in REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).Take(1).ToList()
+                      on ri.UKFonteGeradora equals Guid.Parse(re.Registro)
+                      where ri.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login) 
+                      select new VMAnaliseDeRiscoEmpregados()
+                      {
+                          Pergunta = p.Descricao,
+                          Resposta = ri.Resposta,
+                          Data = ri.DataInclusao
+                          
+
+                      };
+
+            List<VMAnaliseDeRiscoEmpregados> ListAPR = new List<VMAnaliseDeRiscoEmpregados>();
+
+            foreach(var item in APR)
+            {
+                if(item.Data.Date == data)
+                {
+                    ListAPR.Add(item);
+                }
+            }
+
+            ViewBag.APR = ListAPR;
+            //#############################//
+
+            var ARisc = from ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                      join r in RespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                      on ri.UKResposta equals r.UniqueKey
+                      join p in PerguntaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                      on ri.UKPergunta equals p.UniqueKey                      
+                      where ri.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)
+                      select new VMAnaliseDeRiscoEmpregados()
+                      {
+                          Pergunta = p.Descricao,
+                          Resposta = ri.Resposta,
+                          Data = ri.DataInclusao
+
+
+                      };
+
+            List<VMAnaliseDeRiscoEmpregados> ListARisc = new List<VMAnaliseDeRiscoEmpregados>();
+
+            foreach (var item2 in ARisc)
+            {
+                if (item2.Data.Date == data)
+                {
+                    ListARisc.Add(item2);
+                }
+            }
+
+            ViewBag.ARISC = ListARisc;
 
 
 
@@ -255,24 +314,32 @@ namespace GISWeb.Controllers.AnaliseRisco
                         {
                             DateTime UltimaResposta = (DateTime)result2.Rows[0]["UltimoQuestRespondido"];
 
-                            DateTime DataAtualMenosTempoQuestionario = DateTime.Now;
-                            if (oQuest.Periodo == EPeriodo.Dia)
-                            {
-                                DataAtualMenosTempoQuestionario = DataAtualMenosTempoQuestionario.AddDays(-oQuest.Tempo);
-                            }
-                            else if (oQuest.Periodo == EPeriodo.Mes)
-                            {
-                                DataAtualMenosTempoQuestionario = DataAtualMenosTempoQuestionario.AddMonths(-oQuest.Tempo);
-                            }
-                            else if (oQuest.Periodo == EPeriodo.Ano)
-                            {
-                                DataAtualMenosTempoQuestionario = DataAtualMenosTempoQuestionario.AddYears(-oQuest.Tempo);
-                            }
+                            DateTime DataAtualMenosTempoQuestionario = DateTime.Now.Date;
 
-                            if (UltimaResposta.CompareTo(DataAtualMenosTempoQuestionario) >= 0)
+                            var data = DateTime.Now.Date;
+
+                            if (UltimaResposta.Date.CompareTo(data) >= 0)
                             {
                                 return PartialView("_BuscarAPR");
                             }
+
+                            //if (oQuest.Periodo == EPeriodo.Dia)
+                            //{
+                            //    DataAtualMenosTempoQuestionario = DataAtualMenosTempoQuestionario.AddDays(-oQuest.Tempo);
+                            //}
+                            //else if (oQuest.Periodo == EPeriodo.Mes)
+                            //{
+                            //    DataAtualMenosTempoQuestionario = DataAtualMenosTempoQuestionario.AddMonths(-oQuest.Tempo);
+                            //}
+                            //else if (oQuest.Periodo == EPeriodo.Ano)
+                            //{
+                            //    DataAtualMenosTempoQuestionario = DataAtualMenosTempoQuestionario.AddYears(-oQuest.Tempo);
+                            //}
+
+                            //if (UltimaResposta.CompareTo(DataAtualMenosTempoQuestionario) >= 0)
+                            //{
+                            //    return PartialView("_BuscarAPR");
+                            //}
                         }
                     }
 

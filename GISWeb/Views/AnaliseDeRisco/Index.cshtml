@@ -7,6 +7,8 @@
 
 
 
+
+
 @{
     ViewBag.Title = "Index";
 }
@@ -82,7 +84,56 @@
         </div>
     </div>
 
+    if (ViewBag.APR != null)
+    {
 
+        <p>
+
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Click aqui e veja a APR de Hoje.
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div>
+                            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Pergunta</th>
+                                        <th>Resposta</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach (VMAnaliseDeRiscoEmpregados iEmp in ViewBag.APR)
+                                    {
+
+                                        <tr>
+
+                                            <td>@iEmp.Pergunta</td>
+                                            <td>@iEmp.Resposta</td>
+
+
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 
     <div class="resultadoAPR"></div>
 
@@ -104,115 +155,171 @@
     <div class="space-3"></div>
     <div class="hr hr-24"></div>
     <div class="space-3"></div>
-    
 
-        <div class="row">
-            <div class="col-xs-12 col-sm-6">
-                <div class="form-group">
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.DropDownListFor(d => d.UniqueKey, new SelectList(ViewBag.Atividade, "UniqueKey", "Descricao"), "Selecione um Serviço ...", new { @class = "chosen-select form-control tag-input-style oAtividade", @autocomplete = "on" })
-                    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownListFor(d => d.UniqueKey, new SelectList(ViewBag.Atividade, "UniqueKey", "Descricao"), "Selecione um Serviço ...", new { @class = "chosen-select form-control tag-input-style oAtividade", @autocomplete = "on" })
                 </div>
             </div>
-
         </div>
 
+    </div>
+    <br />
 
 
-        }
-        else
-        {
-        <div class="row">
-            <div class="col-sm-12 col-xs-12">
-                <a onclick="OnClickVincularNome()" class="btn btn-secondary btn-lg btn-block" data-target="#modalAddNome" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                    <i class="ace-icon fa fa-fire bigger-110"></i>
-                    <span class="bigger-110 no-text-shadow">Cadastrar Empregados na Atividade </span>
+
+
+}
+else
+{
+    <div class="row">
+        <div class="col-sm-12 col-xs-12">
+            <a onclick="OnClickVincularNome()" class="btn btn-secondary btn-lg btn-block" data-target="#modalAddNome" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                <i class="ace-icon fa fa-fire bigger-110"></i>
+                <span class="bigger-110 no-text-shadow">Cadastrar Empregados na Atividade </span>
+            </a>
+        </div>&nbsp;&nbsp;
+
+        @*<div class="col-sm-6 col-xs-12">
+                <a href="@Url.Action("Perfil", "Empregado", new { id = ViewBag.UKEmp })" class="btn btn-secondary btn-lg btn-block">
+                    <i class="ace-icon fa fa-bolt bigger-110"></i>
+
+                    Riscos
                 </a>
-            </div>&nbsp;&nbsp;
+            </div>*@
+    </div>
 
-            @*<div class="col-sm-6 col-xs-12">
-                    <a href="@Url.Action("Perfil", "Empregado", new { id = ViewBag.UKEmp })" class="btn btn-secondary btn-lg btn-block">
-                        <i class="ace-icon fa fa-bolt bigger-110"></i>
+}
 
-                        Riscos
-                    </a>
-                </div>*@
+
+
+
+
+<div class="conteudoQuestionario"></div>
+
+<div class="conteudoQuestionarioMD"></div>
+
+ @if (ViewBag.ARISC != null)
+    {
+
+<p>
+
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
+        Click aqui e veja a APR de Hoje.
+    </button>
+</p>
+<div class="collapse" id="collapseExample2">
+    <div class="card card-body">
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div>
+                    <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Pergunta</th>
+                                <th>Resposta</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (VMAnaliseDeRiscoEmpregados iRisc in ViewBag.ARISC)
+                            {
+
+                                <tr>
+
+                                    <td>@iRisc.Pergunta</td>
+                                    <td>@iRisc.Resposta</td>
+
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
         </div>
-
-        }
-
-
-
-
-
-        <div class="conteudoQuestionario"></div>
-
-        <div class="conteudoQuestionarioMD"></div>
+    </div>
+</div>
+    }
+ <br/>
+ <br />
+ <br />
 
 
-        @section Stylesheets {
-            @Styles.Render("~/bundles/ace_css_fileUpload")
-        }
+@section Stylesheets {
+    @Styles.Render("~/bundles/ace_css_fileUpload")
+}
 
-        @section Scripts {
-            @Scripts.Render("~/bundles/jQ_dataTable")
-            @Scripts.Render("~/bundles/ace_js_fileUpload")
-            <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
-            <script src="~/Scripts/Ace/jQ/typeahead.jquery.js"></script>
-            <script src="~/Scripts/Ace/elements.typeahead.js"></script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
+    <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+    <script src="~/Scripts/Ace/jQ/typeahead.jquery.js"></script>
+    <script src="~/Scripts/Ace/elements.typeahead.js"></script>
 
-            <script src="~/Scripts/Ace/ace.widget-box.js"></script>
-            <script src="~/Scripts/Ace/chosen.jquery.js"></script>
+    <script src="~/Scripts/Ace/ace.widget-box.js"></script>
+    <script src="~/Scripts/Ace/chosen.jquery.js"></script>
 
-            <script src="~/Scripts/Ace/bootstrap-tag.js"></script>
-            <script src="~/Scripts/Custom/AnaliseDeRisco/Lista.js"></script>
-            <script src="~/Scripts/Custom/AnaliseDeRisco/Novo.js"></script>
+    <script src="~/Scripts/Ace/bootstrap-tag.js"></script>
+    <script src="~/Scripts/Custom/AnaliseDeRisco/Lista.js"></script>
+    <script src="~/Scripts/Custom/AnaliseDeRisco/Novo.js"></script>
 
-        }
+}
 
 
-        @section Sliders {
+@section Sliders {
 
-            <div id="modalAddNome" class="modal fade" style="overflow: auto">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button id="modalAddNomeX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Trabalhador autorizado (Participantes da APR/AR/APT)</h3>
+    <div id="modalAddNome" class="modal fade" style="overflow: auto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalAddNomeX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Trabalhador autorizado (Participantes da APR/AR/APT)</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalAddNomeCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                            <div id="modalAddNomeCorpo"></div>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div id="modalAddNomeCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
-                                    <div id="modalAddNomeCorpo"></div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span id="modalAddNomeLoading" style="display: block; float: left; padding-top: 6px">
+                                <img src="~/Images/slack_loading.gif" width="28px" />
+                            </span>
 
-                        <div class="modal-footer">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <span id="modalAddNomeLoading" style="display: block; float: left; padding-top: 6px">
-                                        <img src="~/Images/slack_loading.gif" width="28px" />
-                                    </span>
+                            <button id="modalAddNomeFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                <i class="ace-icon fa fa-times"></i>
+                                Fechar
+                            </button>
 
-                                    <button id="modalAddNomeFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
-                                        <i class="ace-icon fa fa-times"></i>
-                                        Fechar
-                                    </button>
-
-                                    <button id="modalAddNomeProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
-                                        <i class="ace-icon fa fa-check"></i>
-                                        Confirmar
-                                    </button>
-                                </div>
-                            </div>
+                            <button id="modalAddNomeProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                <i class="ace-icon fa fa-check"></i>
+                                Confirmar
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-        }
+        </div>
+    </div>
+}
 
 
 
