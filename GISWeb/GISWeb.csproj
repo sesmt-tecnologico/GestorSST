@@ -919,6 +919,7 @@
     <Content Include="Views\AnaliseDeRisco\_VincularNome.cshtml" />
     <Content Include="Views\Empregado\_ListaEmpregados.cshtml" />
     <Content Include="Views\AnaliseDeRisco\_BuscarAPR.cshtml" />
+    <Content Include="Views\AnaliseDeRisco\_ListarAR.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

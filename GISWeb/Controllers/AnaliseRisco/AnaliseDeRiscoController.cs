@@ -144,16 +144,25 @@ namespace GISWeb.Controllers.AnaliseRisco
             ViewBag.APR = ListAPR;
             //#############################//
 
-            var ARisc = from ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
-                      join r in RespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
-                      on ri.UKResposta equals r.UniqueKey
-                      join p in PerguntaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
-                      on ri.UKPergunta equals p.UniqueKey                      
-                      where ri.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)
+            
+
+            //var ARisc = from ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+            //          join r in RespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+            //          on ri.UKResposta equals r.UniqueKey
+            //          join p in PerguntaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+            //          on ri.UKPergunta equals p.UniqueKey  
+            //          join a in AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+            //          on ri.UKFonteGeradora equals a.UniqueKey
+
+
+                      var ARisc = from a in AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                                  join ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList() 
+                                  on a.UniqueKey equals ri.UKFonteGeradora
+                                  where ri.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)
                       select new VMAnaliseDeRiscoEmpregados()
                       {
-                          Pergunta = p.Descricao,
-                          Resposta = ri.Resposta,
+                          UKAtividade = a.UniqueKey,
+                          Atividade = a.Descricao,                          
                           Data = ri.DataInclusao
 
 
@@ -176,6 +185,52 @@ namespace GISWeb.Controllers.AnaliseRisco
 
             return View();
         }
+
+        public ActionResult ListarAR(string ukAtividade)
+        {
+            var data = DateTime.Now.Date;
+
+
+            Guid ativ = Guid.Parse(ukAtividade);
+
+            var ARisc = from ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                        join r in RespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                        on ri.UKResposta equals r.UniqueKey
+                        join p in PerguntaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                        on ri.UKPergunta equals p.UniqueKey
+                        join a in AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                        on ri.UKFonteGeradora equals a.UniqueKey
+                        where ri.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login) && a.UniqueKey.Equals(ativ)
+                        select new VMAnaliseDeRiscoEmpregados()
+                        {
+
+                            Pergunta = p.Descricao,
+                            Resposta = ri.Resposta,
+                            Data = ri.DataInclusao
+
+
+                        };
+
+            List<VMAnaliseDeRiscoEmpregados> ListARisc = new List<VMAnaliseDeRiscoEmpregados>();
+
+            foreach (var item2 in ARisc)
+            {
+                if (item2.Data.Date == data)
+                {
+                    ListARisc.Add(item2);
+                }
+            }
+
+            ViewBag.ARISC = ListARisc;
+
+
+
+
+            return PartialView("_ListarAR");
+        }
+
+
+
         public ActionResult VincularNome()
         {
 
@@ -432,6 +487,8 @@ namespace GISWeb.Controllers.AnaliseRisco
 
                 Questionario oQuest = null;
 
+                //FonteGeradora aqui é a atividade
+
                 string sql = @"select q.UniqueKey, q.Nome, q.Tempo, q.Periodo, q.UKEmpresa, 
 	                                  p.UniqueKey as UKPergunta, p.Descricao as Pergunta, p.TipoResposta, p.Ordem, 
 	                                  tr.UniqueKey as UKTipoResposta, tr.Nome as TipoResposta, 
@@ -441,7 +498,7 @@ namespace GISWeb.Controllers.AnaliseRisco
 		                               left join tbTipoResposta  tr on tr.UniqueKey = p.UKTipoResposta and tr.DataExclusao ='9999-12-31 23:59:59.997' 
 		                               left join tbTipoRespostaItem tri on tr.UniqueKey = tri.UKTipoResposta and tri.DataExclusao ='9999-12-31 23:59:59.997' 
                                where a.UKEmpregado = '" + UKEmpregado + @"' and a.DataExclusao = '9999-12-31 23:59:59.997' and
-	                                 a.UKEmpresa = q.UKEmpresa and q.DataExclusao = '9999-12-31 23:59:59.997' and q.TipoQuestionario = 3 and q.Status = 1
+	                                 a.UKEmpresa = q.UKEmpresa and q.DataExclusao = '9999-12-31 23:59:59.997' and q.TipoQuestionario = 2 and q.Status = 1
                                order by p.Ordem, tri.Ordem";
 
                 DataTable result = QuestionarioBusiness.GetDataTable(sql);
@@ -474,6 +531,17 @@ namespace GISWeb.Controllers.AnaliseRisco
                             DateTime UltimaResposta = (DateTime)result2.Rows[0]["UltimoQuestRespondido"];
 
                             DateTime DataAtualMenosTempoQuestionario = DateTime.Now;
+
+                            var data = DateTime.Now.Date;
+
+                            //if (UltimaResposta.Date.CompareTo(data) >= 0)
+                            //{
+                            //    return PartialView("_BuscarAPR");
+                            //}
+
+
+
+
                             if (oQuest.Periodo == EPeriodo.Dia)
                             {
                                 DataAtualMenosTempoQuestionario = DataAtualMenosTempoQuestionario.AddDays(-oQuest.Tempo);

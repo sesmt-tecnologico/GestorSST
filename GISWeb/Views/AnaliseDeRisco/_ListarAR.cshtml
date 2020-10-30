@@ -1,0 +1,65 @@
+﻿@using GISModel.Entidades
+@using GISModel.DTO.AnaliseDeRisco
+
+@model GISModel.Entidades.Atividade
+
+
+
+
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+   
+
+
+    
+
+    @if (ViewBag.ARISC != null)
+    {
+
+        
+            <div class="card card-body">
+
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div>
+                            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Pergunta</th>
+                                        <th>Resposta</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach (VMAnaliseDeRiscoEmpregados iEmp in ViewBag.ARISC)
+                                    {
+
+                                        <tr>
+
+                                            <td>@iEmp.Pergunta</td>
+                                            <td>@iEmp.Resposta</td>
+
+
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        
+    }

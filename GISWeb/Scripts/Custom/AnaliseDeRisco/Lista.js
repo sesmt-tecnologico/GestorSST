@@ -135,6 +135,45 @@ function OnClickVerAula(pUKObjeto) {
 
 
 
+function OnClickVerAR(UKAtividade) {
+
+    $.ajax({
+        method: "POST",
+        url: "/AnaliseDeRisco/ListarAR",
+        data: { ukAtividade: UKAtividade },
+        error: function (erro) {
+            $("#modalAddArquivosLoading").hide();
+            $("#modalAddArquivosCorpoLoading").hide();
+
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+            $("#modalAddArquivosLoading").hide();
+            $("#modalAddArquivosCorpoLoading").hide();
+
+            $("#modalAddArquivosCorpo").html(content);
+
+            AplicaTooltip();
+
+            if ($("#tableArquivos").length > 0) {
+                AplicajQdataTable("tableArquivos", [null, null, null], false, 20);
+
+                AplicaTooltip();
+            }
+
+        }
+    });
+
+
+}
+
+
+
+
+
+
+
+
 function OnClickBuscarArquivos(pUKObjeto) {
 
     $.ajax({
