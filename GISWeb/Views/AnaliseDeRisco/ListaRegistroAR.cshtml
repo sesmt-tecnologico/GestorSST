@@ -11,173 +11,345 @@
 
 
 
-<div class="row">
-    <div class="col-xs-12">
+    <div class="row">
+        <div class="hidden-md hidden-lg">
+            <div class="col-xs-12">
 
-       
 
-        @if (ViewBag.nomes != null)
-        {
-        <div>
-            <div class="center">
-                <h3>ANÁLISE E CONTROLES DE RISCOS - RDS</h3>
+
+                @if (ViewBag.nomes != null)
+                {
+                    <div>
+                        <div class="center">
+                            <h3>ANÁLISE 1 E CONTROLES DE RISCOS - RDS</h3>
+
+                        </div>
+                        <br />
+
+                        <div class="center">
+                            <h4>
+                                É OBRIGATÓRIO PREENCHER TODOS OS ITENS COM A PARTICIPAÇÃO DA EQUIPE <br />
+                                Interromper suas atividades exercendo o direito de recusa, sempre que constatarem evidências de riscos não
+                                controlados que comprometam a sua segurança e saúde ou a de outras pessoas.
+                            </h4>
+
+                        </div>
+                        <br />
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th width="150px">CPF</th>
+                                    <th width="80px">Responsável</th>
+                                    @*<th width="80px"></th>*@
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (VMAnaliseDeRiscoEmpregados iResposta in ViewBag.nomes)
+                                {
+
+
+                                    <tr>
+                                        <td>
+                                            @iResposta.NomeEmpregado
+
+
+
+                                        </td>
+                                        <td>@iResposta.CPF</td>
+                                        <td>@iResposta.Usuario</td>
+
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                }
 
             </div>
-            <br />
 
-            <div class="center">
-                <h4>
-                    É OBRIGATÓRIO PREENCHER TODOS OS ITENS COM A PARTICIPAÇÃO DA EQUIPE <br />
-                    Interromper suas atividades exercendo o direito de recusa, sempre que constatarem evidências de riscos não
-                    controlados que comprometam a sua segurança e saúde ou a de outras pessoas.
-                </h4>
 
-            </div>
-            <br />
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>CPF</th>
-                        <th width="320px">Responsável</th>
-                        @*<th width="80px"></th>*@
-                    </tr>
-                </thead>
 
-                <tbody>
 
-                    @foreach (VMAnaliseDeRiscoEmpregados iResposta in ViewBag.nomes)
+
+            <div class="row">
+                <div class="col-xs-12">
+
+
+
+                    @if (ViewBag.RelatorioAPR != null)
                     {
+                        <div><h3>TELEFONE (S) EMERGÊNCIA: 192 SAMU - 193 Bombeiros - Outros:</h3></div>
+
+                        <div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Pergunta</th>
+                                        <th width="80px">Resposta</th>
+                                        @*<th width="80px"></th>*@
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach (VMRelatorioAnaliseDeRisco iResposta in ViewBag.RelatorioAPR)
+                                    {
 
 
-                        <tr>
-                            <td>
-                                @iResposta.NomeEmpregado
+                                        <tr>
 
+                                            <td>@iResposta.Pergunta</td>
+                                            <td>@iResposta.Resposta</td>
 
+                                        </tr>
 
-                            </td>
-                            <td>@iResposta.CPF</td>
-                            <td>@iResposta.Usuario</td>
+                                    }
 
-                        </tr>
-
+                                </tbody>
+                            </table>
+                        </div>
                     }
 
-                </tbody>
-            </table>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-12">
+
+
+
+                    @if (ViewBag.RelatorioAR != null)
+                    {
+                        <div class="space-3"></div>
+                        <div class="hr hr-24"></div>
+                        <div class="space-3"></div>
+                        <div class="center"><h3>ACR - ANÁLISE E CONTROLE DE RISCOS </h3></div>
+                        <div class="space-3"></div>
+                        <div class="hr hr-24"></div>
+                        <div class="space-3"></div>
+                        <div>
+                            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="380px">Atividade</th>
+                                        <th>Pergunta</th>
+                                        <th width="80px">Resposta</th>
+                                        <th width="80px">Data</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach (VMRelatorioAnaliseDeRisco iResposta in ViewBag.RelatorioAR)
+                                    {
+
+
+                                        <tr>
+                                            <td>
+
+
+                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iResposta.Objeto','@iResposta.NumRegistro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                    <i class="ace-icon fa fa-camera-retro blue bigger-150"> </i>&nbsp;&nbsp;
+                                                </a>@iResposta.Atividade
+
+
+                                            </td>
+                                            <td>@iResposta.Pergunta</td>
+                                            <td>@iResposta.Resposta</td>
+                                            <td>@iResposta.Data</td>
+
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                </div>
+            </div>
         </div>
-        }
-
     </div>
-</div>
+
+    <div class="row">
+        <div class="hidden-sm hidden-xs">
+            <div class="col-xs-12">
 
 
 
+                @if (ViewBag.nomes != null)
+                {
+                    <div>
+                        <div class="center">
+                            <h3>ANÁLISE E CONTROLES DE RISCOS - RDS</h3>
 
-<div class="row">
-    <div class="col-xs-12">
+                        </div>
+                        <br />
+
+                        <div class="center">
+                            <h4>
+                                É OBRIGATÓRIO PREENCHER TODOS OS ITENS COM A PARTICIPAÇÃO DA EQUIPE <br />
+                                Interromper suas atividades exercendo o direito de recusa, sempre que constatarem evidências de riscos não
+                                controlados que comprometam a sua segurança e saúde ou a de outras pessoas.
+                            </h4>
+
+                        </div>
+                        <br />
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>CPF</th>
+                                    <th width="320px">Responsável</th>
+                                    @*<th width="80px"></th>*@
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (VMAnaliseDeRiscoEmpregados iResposta in ViewBag.nomes)
+                                {
+
+
+                                    <tr>
+                                        <td>
+                                            @iResposta.NomeEmpregado
 
 
 
-        @if (ViewBag.RelatorioAPR != null)
-        {
-            <div><h3>TELEFONE (S) EMERGÊNCIA: 192 SAMU - 193 Bombeiros - Outros:</h3></div>
+                                        </td>
+                                        <td>@iResposta.CPF</td>
+                                        <td>@iResposta.Usuario</td>
 
-            <div>
-                <table class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>Pergunta</th>
-                            <th width="320px">Resposta</th>
-                            @*<th width="80px"></th>*@
-                        </tr>
-                    </thead>
+                                    </tr>
 
-                    <tbody>
+                                }
 
-                        @foreach (VMRelatorioAnaliseDeRisco iResposta in ViewBag.RelatorioAPR)
-                        {
+                            </tbody>
+                        </table>
+                    </div>
+                }
 
-
-                            <tr>
-
-                                <td>@iResposta.Pergunta</td>
-                                <td>@iResposta.Resposta</td>
-
-                            </tr>
-
-                        }
-
-                    </tbody>
-                </table>
             </div>
-        }
-
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-xs-12">
 
 
 
-        @if (ViewBag.RelatorioAR != null)
-        {
-            <div class="space-3"></div>
-            <div class="hr hr-24"></div>
-            <div class="space-3"></div>
-            <div class="center"><h3>ACR - ANÁLISE E CONTROLE DE RISCOS </h3></div>
-            <div class="space-3"></div>
-            <div class="hr hr-24"></div>
-            <div class="space-3"></div>
-            <div>
-                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th width="380px">Atividade</th>
-                            <th>Pergunta</th>
-                            <th width="320px">Resposta</th>
-                            @*<th width="80px"></th>*@
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        @foreach (VMRelatorioAnaliseDeRisco iResposta in ViewBag.RelatorioAR)
-                        {
 
 
-                            <tr>
-                                <td>
+            <div class="row">
+                <div class="col-xs-12">
 
 
-                                    <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iResposta.Objeto','@iResposta.NumRegistro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                        <i class="ace-icon fa fa-camera-retro blue bigger-150"> </i>&nbsp;&nbsp;
-                                    </a>@iResposta.Atividade
+
+                    @if (ViewBag.RelatorioAPR != null)
+                    {
+                        <div><h3>TELEFONE (S) EMERGÊNCIA: 192 SAMU - 193 Bombeiros - Outros:</h3></div>
+
+                        <div>
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Pergunta</th>
+                                        <th width="320px">Resposta</th>
+                                        @*<th width="80px"></th>*@
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach (VMRelatorioAnaliseDeRisco iResposta in ViewBag.RelatorioAPR)
+                                    {
 
 
-                                </td>
-                                <td>@iResposta.Pergunta</td>
-                                <td>@iResposta.Resposta</td>
+                                        <tr>
 
-                            </tr>
+                                            <td>@iResposta.Pergunta</td>
+                                            <td>@iResposta.Resposta</td>
 
-                        }
+                                        </tr>
 
-                    </tbody>
-                </table>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                </div>
             </div>
-        }
 
+
+            <div class="row">
+                <div class="col-xs-12">
+
+
+
+                    @if (ViewBag.RelatorioAR != null)
+                    {
+                        <div class="space-3"></div>
+                        <div class="hr hr-24"></div>
+                        <div class="space-3"></div>
+                        <div class="center"><h3>ACR - ANÁLISE E CONTROLE DE RISCOS </h3></div>
+                        <div class="space-3"></div>
+                        <div class="hr hr-24"></div>
+                        <div class="space-3"></div>
+                        <div>
+                            <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="380px">Atividade</th>
+                                        <th>Pergunta</th>
+                                        <th width="320px">Resposta</th>
+                                        <th width="220px">Data</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    @foreach (VMRelatorioAnaliseDeRisco iResposta in ViewBag.RelatorioAR)
+                                    {
+
+
+                                        <tr>
+                                            <td>
+
+
+                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iResposta.Objeto','@iResposta.NumRegistro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                    <i class="ace-icon fa fa-camera-retro blue bigger-150"> </i>&nbsp;&nbsp;
+                                                </a>@iResposta.Atividade
+
+
+                                            </td>
+                                            <td>@iResposta.Pergunta</td>
+                                            <td>@iResposta.Resposta</td>
+                                            <td>@iResposta.Data</td>
+
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 
 
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jQ_dataTable")
-    <script src="~/Scripts/Custom/Registro/Listagem.js"></script>
-    <script src="~/Scripts/Custom/AnaliseDeRisco/Lista.js"></script>
-}
+
+        @section Scripts {
+            @Scripts.Render("~/bundles/jQ_dataTable")
+            <script src="~/Scripts/Custom/Registro/Listagem.js"></script>
+            <script src="~/Scripts/Custom/AnaliseDeRisco/Lista.js"></script>
+        }

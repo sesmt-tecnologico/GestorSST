@@ -19,38 +19,78 @@ function GetDocumento(UKEmpregado,UkRegistro) {
     //var UkSupervisor = $.trim($(".txtSupervisor").val());
     //var UkRegistro = $.trim($(".txtRegistro").val());
 
-    $('.page-content-area').ace_ajax('startLoading');
-    $("#contentDoc").html("");
+    var altura = $(window).height();
+    var comprimento = $(window).width();  
+    if (altura <= 650 && comprimento <= 832) {
 
-    $.ajax({
-        method: "POST",
-        url: "/AnaliseDeRisco/BuscarQuestionarioAPR",
-        data: { UKEmpregado: UKEmpregado, UKFonteGeradora: UkRegistro },
-        error: function (erro) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+        $('.page-content-area').ace_ajax('startLoading');
+        $("#contentDoc").html("");
 
-            ExibirMensagemDeErro(erro.responseText);
-        },
-        success: function (content) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+        $.ajax({
+            method: "POST",
+            url: "/AnaliseDeRisco/BuscarQuestionarioAPR_MD",
+            data: { UKEmpregado: UKEmpregado, UKFonteGeradora: UkRegistro },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
 
-            if (content.erro != null && content.erro != undefined && content.erro != "") {
-                ExibirMensagemDeErro(content.erro);
+                ExibirMensagemDeErro(erro.responseText);
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                if (content.erro != null && content.erro != undefined && content.erro != "") {
+                    ExibirMensagemDeErro(content.erro);
+                }
+                else {
+                    $("#contentDoc").html(content);
+
+                    AplicaTooltip();
+
+                    $('.dd').nestable();
+                    $('.dd').nestable('collapseAll');
+                    $($(".collapseOne button")[1]).click();
+                    $('.dd-handle a').on('mousedown', function (e) {
+                        e.stopPropagation();
+                    });
+                }
             }
-            else {
-                $("#contentDoc").html(content);
+        });
+    } else {
+        $('.page-content-area').ace_ajax('startLoading');
+        $("#contentDoc").html("");
 
-                AplicaTooltip();
+        $.ajax({
+            method: "POST",
+            url: "/AnaliseDeRisco/BuscarQuestionarioAPR",
+            data: { UKEmpregado: UKEmpregado, UKFonteGeradora: UkRegistro },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
 
-                $('.dd').nestable();
-                $('.dd').nestable('collapseAll');
-                $($(".collapseOne button")[1]).click();
-                $('.dd-handle a').on('mousedown', function (e) {
-                    e.stopPropagation();
-                });
+                ExibirMensagemDeErro(erro.responseText);
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                if (content.erro != null && content.erro != undefined && content.erro != "") {
+                    ExibirMensagemDeErro(content.erro);
+                }
+                else {
+                    $("#contentDoc").html(content);
+
+                    AplicaTooltip();
+
+                    $('.dd').nestable();
+                    $('.dd').nestable('collapseAll');
+                    $($(".collapseOne button")[1]).click();
+                    $('.dd-handle a').on('mousedown', function (e) {
+                        e.stopPropagation();
+                    });
+                }
             }
-        }
-    });
+        });
+
+
+    }
 }
 
 

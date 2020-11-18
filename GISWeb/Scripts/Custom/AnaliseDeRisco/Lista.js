@@ -15,48 +15,102 @@
 
     $(".oAtividade").change(function () {
 
-        if ($("#UniqueKey").val() != "") {
-            var UkSupervisor = $.trim($(".txtSupervisor").val());
-            var UKAtividade = $.trim($("#UniqueKey").val());
-            var oRegistro = $.trim($("#txtRegistro").val());
-            //alert(UkSupervisor);
+        var altura = $(window).height();
+        var comprimento = $(window).width();
 
-            $('.page-content-area').ace_ajax('startLoading');
+        if (altura <= 650 && comprimento <= 832) {
 
-            $.ajax({
-                method: "POST",
-                url: "/AnaliseDeRisco/BuscarQuestionarioPorSupervisor",
-                data: { UKEmpregado: UkSupervisor, UKFonteGeradora: UKAtividade, oRegistro: oRegistro },
-                error: function (erro) {
-                    $('.page-content-area').ace_ajax('stopLoading', true);
+            if ($("#UniqueKey").val() != "") {
+                var UkSupervisor = $.trim($(".txtSupervisor").val());
+                var UKAtividade = $.trim($("#UniqueKey").val());
+                var oRegistro = $.trim($("#txtRegistro").val());
+                //alert(UkSupervisor);
 
-                    ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
-                },
-                success: function (content) {
-                    $('.page-content-area').ace_ajax('stopLoading', true);
+                $('.page-content-area').ace_ajax('startLoading');
 
-                    if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
-                        ExibirMensagemDeErro(content.resultado.Erro);
-                    }
-                    else {
-                        $(".conteudoQuestionario").html(content);
-                        AplicaTooltip();
+                $.ajax({
+                    method: "POST",
+                    url: "/AnaliseDeRisco/BuscarQuestionarioPorSupervisorMD",
+                    data: { UKEmpregado: UkSupervisor, UKFonteGeradora: UKAtividade, oRegistro: oRegistro },
+                    error: function (erro) {
+                        $('.page-content-area').ace_ajax('stopLoading', true);
 
-                        if ($(".dd").length > 0) {
-                            $('.dd').nestable();
-                            $('.dd').nestable('collapseAll');
-                            $($(".collapseOne button")[1]).click();
-                            $('.dd-handle a').on('mousedown', function (e) {
-                                e.stopPropagation();
-                            });
+                        ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                    },
+                    success: function (content) {
+                        $('.page-content-area').ace_ajax('stopLoading', true);
+
+                        if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+                            ExibirMensagemDeErro(content.resultado.Erro);
                         }
+                        else {
+                            $(".conteudoQuestionario").html(content);
+                            AplicaTooltip();
+
+                            if ($(".dd").length > 0) {
+                                $('.dd').nestable();
+                                $('.dd').nestable('collapseAll');
+                                $($(".collapseOne button")[1]).click();
+                                $('.dd-handle a').on('mousedown', function (e) {
+                                    e.stopPropagation();
+                                });
+                            }
+                        }
+
                     }
+                });
 
-                }
-            });
 
+            }
+        } else {
+
+            if ($("#UniqueKey").val() != "") {
+
+                var UkSupervisor1 = $.trim($(".txtSupervisor").val());
+                var UKAtividade1 = $.trim($("#UniqueKey").val());
+                var oRegistro1 = $.trim($("#txtRegistro").val());
+                //alert(UkSupervisor);
+
+                $('.page-content-area').ace_ajax('startLoading');
+
+                $.ajax({
+                    method: "POST",
+                    url: "/AnaliseDeRisco/BuscarQuestionarioPorSupervisor",
+                    data: { UKEmpregado: UkSupervisor1, UKFonteGeradora: UKAtividade1, oRegistro: oRegistro1 },
+                    error: function (erro) {
+                        $('.page-content-area').ace_ajax('stopLoading', true);
+
+                        ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                    },
+                    success: function (content) {
+                        $('.page-content-area').ace_ajax('stopLoading', true);
+
+                        if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+                            ExibirMensagemDeErro(content.resultado.Erro);
+                        }
+                        else {
+                            $(".conteudoQuestionario").html(content);
+                            AplicaTooltip();
+
+                            if ($(".dd").length > 0) {
+                                $('.dd').nestable();
+                                $('.dd').nestable('collapseAll');
+                                $($(".collapseOne button")[1]).click();
+                                $('.dd-handle a').on('mousedown', function (e) {
+                                    e.stopPropagation();
+                                });
+                            }
+                        }
+
+                    }
+                });
+
+
+            }
 
         }
+
+
     });
     
         

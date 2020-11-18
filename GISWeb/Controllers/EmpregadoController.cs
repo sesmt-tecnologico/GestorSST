@@ -61,11 +61,13 @@ namespace GISWeb.Controllers
 
             if (string.IsNullOrEmpty(id))
             {
-                if (CustomAuthorizationProvider.UsuarioAutenticado.Permissoes.Where(a => a.Perfil.Equals("Empregado")).Count() > 0)
+                if (CustomAuthorizationProvider.UsuarioAutenticado.Permissoes.Where(a => a.Perfil.Equals("Empregado") ||
+                a.Perfil.Equals("Super Administrador")).Count() > 0)
                 {
                     Empregado emp = EmpregadoBusiness.Consulta.FirstOrDefault(a =>
                                             string.IsNullOrEmpty(a.UsuarioExclusao) &&
-                                            a.CPF.ToUpper().Trim().Replace(".", "").Replace("-", "").Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login.ToUpper().Trim()));
+                                            a.CPF.ToUpper().Trim().Replace(".", "").Replace("-", "").Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login.ToUpper().Trim())
+                                            || CustomAuthorizationProvider.UsuarioAutenticado.Nome.Equals("Super User"));
                     if (emp != null)
                     {
                         id = emp.UniqueKey.ToString();

@@ -37,7 +37,7 @@
 
     <input type="text" hidden id="txtRegistro" value="@ViewBag.Registro"/>
     
-    <h4>Supervisor:&nbsp; @ViewBag.Supervisor&nbsp; &nbsp;Análise Nº: &nbsp;@ViewBag.Nregist </h4>
+    <h4>Responsável CPF:&nbsp;[@ViewBag.Supervisor]&nbsp; &nbsp;&nbsp; &nbsp;Análise Nº: &nbsp;@ViewBag.Nregist </h4>
     <div class="row">
         <div class="col-xs-12">
 
@@ -91,7 +91,7 @@
         </div>
     </div>
 
-    if (ViewBag.APR != null)
+    if (ViewBag.APR.Count > 0)
     {
 
         <p>
@@ -184,22 +184,18 @@
 }
 else
 {
+<div class="jumbotron">
     <div class="row">
         <div class="col-sm-12 col-xs-12">
-            <a onclick="OnClickVincularNome()" class="btn btn-secondary btn-lg btn-block" data-target="#modalAddNome" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+            <a onclick="OnClickVincularNome()" class="btn btn-secondary btn-lg btn-block" aling="center" data-target="#modalAddNome" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                 <i class="ace-icon fa fa-fire bigger-110"></i>
-                <span class="bigger-110 no-text-shadow">Cadastrar Empregados na Atividade </span>
+                <span class="bigger-110 no-text-shadow  align-bottom">Cadastrar Empregados na Atividade </span>
             </a>
         </div>&nbsp;&nbsp;
 
-        @*<div class="col-sm-6 col-xs-12">
-                <a href="@Url.Action("Perfil", "Empregado", new { id = ViewBag.UKEmp })" class="btn btn-secondary btn-lg btn-block">
-                    <i class="ace-icon fa fa-bolt bigger-110"></i>
 
-                    Riscos
-                </a>
-            </div>*@
     </div>
+</div>
 
 }
 
@@ -216,7 +212,7 @@ else
     </div>
 </div>
 
-@if (ViewBag.ARISC != null)
+@if (ViewBag.ARISC.Count > 0)
 {
 
     <p>
