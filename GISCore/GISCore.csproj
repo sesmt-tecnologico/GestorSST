@@ -299,9 +299,17 @@
     <Compile Include="Migrations\202010201341020_analiserisco.Designer.cs">
       <DependentUpon>202010201341020_analiserisco.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202010251309294_ukbjeto.cs" />
-    <Compile Include="Migrations\202010251309294_ukbjeto.Designer.cs">
-      <DependentUpon>202010251309294_ukbjeto.cs</DependentUpon>
+    <Compile Include="Migrations\202011041129454_RegistroFoto.cs" />
+    <Compile Include="Migrations\202011041129454_RegistroFoto.Designer.cs">
+      <DependentUpon>202011041129454_RegistroFoto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011050010194_RegistroResposta.cs" />
+    <Compile Include="Migrations\202011050010194_RegistroResposta.Designer.cs">
+      <DependentUpon>202011050010194_RegistroResposta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011171126094_RegistroRespostaItem.cs" />
+    <Compile Include="Migrations\202011171126094_RegistroRespostaItem.Designer.cs">
+      <DependentUpon>202011171126094_RegistroRespostaItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -429,8 +437,14 @@
     <EmbeddedResource Include="Migrations\202010201341020_analiserisco.resx">
       <DependentUpon>202010201341020_analiserisco.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010251309294_ukbjeto.resx">
-      <DependentUpon>202010251309294_ukbjeto.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202011041129454_RegistroFoto.resx">
+      <DependentUpon>202011041129454_RegistroFoto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011050010194_RegistroResposta.resx">
+      <DependentUpon>202011050010194_RegistroResposta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011171126094_RegistroRespostaItem.resx">
+      <DependentUpon>202011171126094_RegistroRespostaItem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

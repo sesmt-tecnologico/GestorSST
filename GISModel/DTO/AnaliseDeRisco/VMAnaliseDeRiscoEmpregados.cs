@@ -26,6 +26,8 @@ namespace GISModel.DTO.AnaliseDeRisco
 
         public string Resposta { get; set; }
 
+        public string Usuario { get; set; }
+
         public DateTime Data { get; set; }
     }
 }

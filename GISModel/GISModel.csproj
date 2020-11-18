@@ -104,6 +104,7 @@
     <Compile Include="DTO\Admissao\PesquisaEmpregadoViewModel.cs" />
     <Compile Include="DTO\Admissao\VMAtividadesRiscos.cs" />
     <Compile Include="DTO\AnaliseDeRisco\VMAnaliseDeRiscoEmpregados.cs" />
+    <Compile Include="DTO\AnaliseDeRisco\VMRelatorioAnaliseDeRisco.cs" />
     <Compile Include="DTO\AnaliseRisco\AnaliseRiscosViewModel.cs" />
     <Compile Include="DTO\AtividadeGeradoraRisco\VMAtividadeGeradoraRisco.cs" />
     <Compile Include="DTO\AtividadeGeradoraRisco\VMNovoReconhecimentoControle.cs" />

@@ -17,5 +17,7 @@ namespace GISModel.Entidades.Quest
 
         public string Resposta { get; set; }
 
+        public string Registro { get; set; }
+
     }
 }

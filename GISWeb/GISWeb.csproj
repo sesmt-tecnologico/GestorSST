@@ -497,6 +497,7 @@
     <Content Include="Scripts\Custom\Questionario\Listagem.js" />
     <Content Include="Scripts\Custom\Questionario\Novo.js" />
     <Content Include="Scripts\Custom\Reconhecimento\Listagem.js" />
+    <Content Include="Scripts\Custom\Registro\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Listagem.js" />
     <Content Include="Scripts\Custom\REL_DepartamentoContrato\Novo.js" />
     <Content Include="Scripts\Custom\Resposta\Listagem.js" />
@@ -920,6 +921,8 @@
     <Content Include="Views\Empregado\_ListaEmpregados.cshtml" />
     <Content Include="Views\AnaliseDeRisco\_BuscarAPR.cshtml" />
     <Content Include="Views\AnaliseDeRisco\_ListarAR.cshtml" />
+    <Content Include="Views\AnaliseDeRisco\Registros.cshtml" />
+    <Content Include="Views\AnaliseDeRisco\ListaRegistroAR.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

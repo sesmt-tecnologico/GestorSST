@@ -956,12 +956,14 @@ namespace GISWeb.Controllers
 
         [HttpPost]
         [RestritoAAjax]
-        public ActionResult ListarArquivosAnexados(string UKObjeto)
+        public ActionResult ListarArquivosAnexados(string UKObjeto, string Registro)
         {
             Guid uk = Guid.Parse(UKObjeto);
+            //Guid ukRegis = Guid.Parse(Registro);
             ViewBag.UKObjeto = UKObjeto;
+            ViewBag.Registro = Registro;
 
-            List<Arquivo> arquivos = ArquivoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKObjeto.Equals(uk)).ToList();
+            List<Arquivo> arquivos = ArquivoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKObjeto.Equals(uk) && a.NumRegistro.Equals(Registro)).ToList();
 
             return PartialView("_Arquivos", arquivos);
         }

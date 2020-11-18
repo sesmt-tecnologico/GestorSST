@@ -7,13 +7,13 @@ namespace GISCore.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ukbjeto : IMigrationMetadata
+    public sealed partial class RegistroResposta : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ukbjeto));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RegistroResposta));
         
         string IMigrationMetadata.Id
         {
-            get { return "202010251309294_ukbjeto"; }
+            get { return "202011050010194_RegistroResposta"; }
         }
         
         string IMigrationMetadata.Source

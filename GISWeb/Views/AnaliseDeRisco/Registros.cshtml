@@ -1,0 +1,94 @@
+﻿@using GISModel.Entidades.Quest
+
+@{
+    ViewBag.Title = "Listagem de AR";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Relação de Análise de Risco
+           
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+       
+
+        @if (ViewBag.listRegistro != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Registro</th>
+                            <th>Data</th>
+                            <th class="hidden-480">Responsável</th>
+                            @*<th width="80px"></th>*@
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (Resposta iResposta in ViewBag.listRegistro)
+                        {
+                            
+
+                            <tr id="linha-@iResposta.ID" >
+                                <td>
+                                    <a href='@Url.Action("ListaRegistroAR", "AnaliseDeRisco", new { id = iResposta.Registro })' class="green">
+                                        <i class="ace-icon fa-file-archive-o  bigger-130" title="Editar"></i>
+                                        @iResposta.Registro.Substring(0, 8)
+                                    </a>
+
+                                    
+
+                                </td>
+                                <td>@iResposta.DataInclusao</td>
+                                <td >@iResposta.UsuarioInclusao</td>
+                                @*<td>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        <a href='@Url.Action("Edicao", "Empresa", new { id = iResposta.ID })' class="green">
+                                            <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
+                                        </a>
+                                        
+                                    </div>
+
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href='@Url.Action("Edicao", "Empresa", new { id = iResposta.ID })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                        <span class="green">
+                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                               
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>*@
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Custom/Registro/Listagem.js"></script>
+}

@@ -10,7 +10,7 @@
     //BuscarQuestionario();
     //BuscarQuestionarioMD();
 
-
+    
     
 
     $(".oAtividade").change(function () {
@@ -18,6 +18,7 @@
         if ($("#UniqueKey").val() != "") {
             var UkSupervisor = $.trim($(".txtSupervisor").val());
             var UKAtividade = $.trim($("#UniqueKey").val());
+            var oRegistro = $.trim($("#txtRegistro").val());
             //alert(UkSupervisor);
 
             $('.page-content-area').ace_ajax('startLoading');
@@ -25,7 +26,7 @@
             $.ajax({
                 method: "POST",
                 url: "/AnaliseDeRisco/BuscarQuestionarioPorSupervisor",
-                data: { UKEmpregado: UkSupervisor, UKFonteGeradora: UKAtividade },
+                data: { UKEmpregado: UkSupervisor, UKFonteGeradora: UKAtividade, oRegistro: oRegistro },
                 error: function (erro) {
                     $('.page-content-area').ace_ajax('stopLoading', true);
 
@@ -155,11 +156,11 @@ function OnClickVerAR(UKAtividade) {
 
             AplicaTooltip();
 
-            if ($("#tableArquivos").length > 0) {
-                AplicajQdataTable("tableArquivos", [null, null, null], false, 20);
+            //if ($("#tableArquivos").length > 0) {
+            //    AplicajQdataTable("tableArquivos", [null, null, null], false, 20);
 
-                AplicaTooltip();
-            }
+            //    AplicaTooltip();
+            //}
 
         }
     });
@@ -174,17 +175,20 @@ function OnClickVerAR(UKAtividade) {
 
 
 
-function OnClickBuscarArquivos(pUKObjeto) {
+function OnClickBuscarArquivos(pUKObjeto, Regis) {
+
+    var oRegis = $(".txtRegistro").val();
+    
 
     $.ajax({
         method: "POST",
-        url: "/ReconhecimentoDoRisco/ListarArquivosAnexados",
-        data: { UKObjeto: pUKObjeto },
+        url: "/FonteGeradoraDeRisco/ListarArquivosAnexados",
+        data: { UKObjeto: pUKObjeto, Registro: Regis },
         error: function (erro) {
             $("#modalArquivosLoading").hide();
             $("#modalArquivosCorpoLoading").hide();
 
-            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error')
         },
         success: function (content) {
             $("#modalArquivosLoading").hide();
@@ -195,13 +199,95 @@ function OnClickBuscarArquivos(pUKObjeto) {
             AplicaTooltip();
 
             if ($("#tableArquivos").length > 0) {
-                AplicajQdataTable("tableArquivos", [null, null, null], false, 20);
+                AplicajQdataTable("tableArquivos", [null, null, null, { "bSortable": false }], false, 20);
+
+                var sHTML = '<a href="#" style="float: left; margin-top: 6px;" class="CustomTooltip lnkUploadArquivo" title = "Anexar Novo Arquivo" data-target="#modalNovoArquivo" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-uniquekey="' + pUKObjeto + '">';
+                sHTML += '          <i class="ace-icon fa fa-camera bigger-170"></i>';
+                sHTML += '</a>';
+
+                $($($("#tableArquivos_wrapper").children()[0]).children()[0]).html(sHTML);
 
                 AplicaTooltip();
             }
 
+            $('.lnkUploadArquivo').off("click").on('click', function (e) {
+                e.preventDefault();
+
+                var btnUploadArquivo = $(this);
+
+                $('#modalNovoArquivoX').show();
+
+                $('#modalNovoArquivoFechar').removeClass('disabled');
+                $('#modalNovoArquivoFechar').removeAttr('disabled');
+                $('#modalNovoArquivoFechar').on('click', function (e) {
+                    e.preventDefault();
+                    $('#modalNovoArquivo').modal('hide');
+                });
+
+                $('#modalNovoArquivoProsseguir').hide();
+
+                $('#modalNovoArquivoCorpo').html('');
+                $('#modalNovoArquivoCorpoLoading').show();
+
+                $.ajax({
+                    method: "GET",
+                    url: "/Arquivo/Upload",
+                    data: { ukObjeto: btnUploadArquivo.closest("[data-uniquekey]").data("uniquekey"), Regis: oRegis },
+                    error: function (erro) {
+                        $('#modalNovoArquivo').modal('hide');
+                        ExibirMensagemGritter('Oops!', erro.responseText, 'gritter-error');
+                    },
+                    success: function (content) {
+                        $('#modalNovoArquivoCorpoLoading').hide();
+                        $('#modalNovoArquivoCorpo').html(content);
+
+                        InitDropZoneSingle(btnUploadArquivo);
+
+                        Chosen();
+
+                        $.validator.unobtrusive.parse('#formUpload');
+                    }
+                });
+            });
+
+            $(".btnExcluirArquivo").off("click").on("click", function (e) {
+
+                var UKArquivo = $(this).data("ukarquivo");
+                var callback = function () {
+                    $("#modalArquivosCorpoLoading").show();
+
+                    $.ajax({
+                        method: "POST",
+                        url: "/Arquivo/Excluir",
+                        data: { ukArquivo: UKArquivo },
+                        error: function (erro) {
+
+                            $("#modalArquivosCorpoLoading").hide();
+
+                            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                        },
+                        success: function (content) {
+                            $("#modalArquivosCorpoLoading").hide();
+
+                            if (content.erro) {
+                                ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                            }
+                            else {
+                                ExibirMensagemDeSucesso("Arquivo excluído com sucesso.");
+                                $("#modalArquivos").modal("hide");
+                            }
+
+                        }
+                    });
+                };
+
+                ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir este arquivo?", "Exclusão de Arquivo", callback, "btn-danger");
+
+            });
+
         }
     });
+
 
 
 }
@@ -433,6 +519,7 @@ function GravarQuestionarioAPR(pUKQuestionario, pUKEmpresa) {
 
     var pUKEmpregado = $("#txtUKEmpregado").val();
     var pUKFonteGeradora = $("#txtUKFonteGeradora").val();
+    var Registro = $("#txtRegistro").val();
 
     var arrPerguntas = [];
     $(".perguntaAPR").each(function () {
@@ -485,7 +572,9 @@ function GravarQuestionarioAPR(pUKQuestionario, pUKEmpresa) {
         UKEmpregado: pUKEmpregado,
         UKQuestionario: pUKQuestionario,
         UKEmpresa: pUKEmpresa,
-        PerguntasRespondidas: arrPerguntas
+        PerguntasRespondidas: arrPerguntas,
+        Registro: Registro
+
     };
 
     $('.page-content-area').ace_ajax('startLoading');
@@ -542,6 +631,7 @@ function GravarQuestionario(pUKQuestionario, pUKEmpresa) {
 
     var pUKEmpregado = $("#txtUKEmpregado").val();
     var pUKFonteGeradora = $("#txtUKFonteGeradora").val();
+    var pRegistro = $("#txtRegistro").val();
 
     var arrPerguntas = [];
     $(".pergunta").each(function () {
@@ -593,8 +683,9 @@ function GravarQuestionario(pUKQuestionario, pUKEmpresa) {
         UKFonteGeradora: pUKFonteGeradora,
         UKEmpregado: pUKEmpregado,
         UKQuestionario: pUKQuestionario,
-        UKEmpresa: pUKEmpresa,
-        PerguntasRespondidas: arrPerguntas
+        UKEmpresa: pUKEmpresa,        
+        PerguntasRespondidas: arrPerguntas,
+        Registro: pRegistro
     };
 
     $('.page-content-area').ace_ajax('startLoading');

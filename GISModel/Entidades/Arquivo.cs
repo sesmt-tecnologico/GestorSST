@@ -16,6 +16,8 @@ namespace GISModel.Entidades
 
         public string NomeRemoto { get; set; }
 
+        public string NumRegistro { get; set; }
+
         [NotMapped]
         public byte[] Conteudo { get; set; }
 

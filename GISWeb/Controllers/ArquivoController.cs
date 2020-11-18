@@ -75,12 +75,13 @@ namespace GISWeb.Controllers
 
 
         [RestritoAAjax]
-        public ActionResult Upload(string ukObjeto)
+        public ActionResult Upload(string ukObjeto, string Regis)
         {
             try
             {
 
                 ViewBag.UKObjeto = ukObjeto;
+                ViewBag.Registro = Regis;
 
                 return PartialView("_Upload");
             }
@@ -97,10 +98,12 @@ namespace GISWeb.Controllers
         [HttpPost]
         [RestritoAAjax]
         [ValidateAntiForgeryToken]
-        public ActionResult Upload(Arquivo arquivo)
+        public ActionResult Upload(Arquivo arquivo, string Registro)
         {
             try
             {
+             
+
                 HttpPostedFileBase arquivoPostado = null;
                 foreach (string fileInputName in Request.Files)
                 {
@@ -115,7 +118,7 @@ namespace GISWeb.Controllers
                         {
                             var target = new MemoryStream();
                             arquivoPostado.InputStream.CopyTo(target);
-
+                            arquivo.NumRegistro = Registro;
                             arquivo.Conteudo = target.ToArray();
                             arquivo.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
                             arquivo.DataInclusao = DateTime.Now;
