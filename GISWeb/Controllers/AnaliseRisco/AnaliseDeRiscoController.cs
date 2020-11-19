@@ -119,16 +119,29 @@ namespace GISWeb.Controllers.AnaliseRisco
 
             ViewBag.Atividade = AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
 
-           // RespostaItem iRegis = RespostaItemBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao));
+           RespostaItem iRegis = RespostaItemBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) 
+           && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login));
+
+            REL_AnaliseDeRiscoEmpregados oEmp = REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+           && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login));
 
 
+            
+
+
+            if (iRegis != null)
+            {
+                var oRegistro = iRegis.Registro;
+           
+           
 
             var APR = from ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()                      
                       join r in RespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
                       on ri.UKResposta equals r.UniqueKey
                       join p in PerguntaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
                       on ri.UKPergunta equals p.UniqueKey
-                      join re in REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                      join re in REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) 
+                      && a.Registro.Equals(oRegistro)).ToList().Take(1)
                       on Convert.ToString(ri.UKFonteGeradora) equals re.Registro
                       where ri.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)                      
                       select new VMAnaliseDeRiscoEmpregados()
@@ -140,20 +153,25 @@ namespace GISWeb.Controllers.AnaliseRisco
 
                       };
 
-            List<VMAnaliseDeRiscoEmpregados> ListAPR = new List<VMAnaliseDeRiscoEmpregados>();
+                    List<VMAnaliseDeRiscoEmpregados> ListAPR = new List<VMAnaliseDeRiscoEmpregados>();
 
-            foreach(var item in APR)
-            {
-                if(item.Data.Date == data)
-                {
-                    ListAPR.Add(item);
-                }
+                    foreach(var item in APR)
+                    {
+                        if(item.Data.Date == data)
+                        {
+                            ListAPR.Add(item);
+                        }
+                    }
+
+                
+
+                ViewBag.APR = ListAPR;
+
             }
-
-            ViewBag.APR = ListAPR;
+            
             //#############################//
 
-            
+
 
             //var ARisc = from ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
             //          join r in RespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
@@ -164,7 +182,7 @@ namespace GISWeb.Controllers.AnaliseRisco
             //          on ri.UKFonteGeradora equals a.UniqueKey
 
 
-                      var ARisc = from a in AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+            var ARisc = from a in AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
                                   join ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList() 
                                   on a.UniqueKey equals ri.UKFonteGeradora
                                   where ri.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)
