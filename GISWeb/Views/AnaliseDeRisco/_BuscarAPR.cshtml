@@ -33,12 +33,9 @@
             <li class="dd-item collapseOne">
                 <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
                     <span style="margin-right: 60px;"> @Model.Nome</span>
-
-
                     <div class="pull-right action-buttons">
                         <a class="green" href="#" onclick="GravarQuestionarioAPR('@Model.UniqueKey.ToString()', '@Model.UKEmpresa.ToString()'); return false;">
                             Enviar &nbsp;
-
                             <i class="ace-icon fa fa-send bigger-130"></i>
                         </a>
                     </div>
@@ -53,7 +50,15 @@
                             {
                                 <li class="dd-item">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
-                                        <span style="width: 800px; float: left;" class="perguntaAPR" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">Pergunta @perg.Ordem.ToString(): @perg.Descricao</span>
+                                        <span style="width: 600px; float: left;" class="perguntaAPR" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">Pergunta @perg.Ordem.ToString(): @perg.Descricao.Substring(0,50)...
+                                            <a class="tooltip-error" data-rel="tooltip" title="@perg.Descricao">
+                                                <span class="red">
+                                                    <i class="ace-icon fa fa-info-circle bigger-120"></i>
+                                                </span>
+                                            </a>
+                                        
+                                        </span>
+                                        
                                     </div>
 
                                     @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count > 0)

@@ -49,7 +49,14 @@
                             {
                                 <li class="dd-item">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
-                                        <span style="width: 600px; float: left;" class="pergunta" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">Pergunta @perg.Ordem.ToString(): @perg.Descricao</span>
+                                        <span style="width: 600px; float: left;" class="pergunta" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">
+                                            Pergunta @perg.Ordem.ToString(): @perg.Descricao.Substring(0, 35)...
+                                            <a class="tooltip-error" data-rel="tooltip" title="@perg.Descricao">
+                                                <span class="red">
+                                                    <i class="ace-icon fa fa-info-circle bigger-120"></i>
+                                                </span>
+                                            </a>
+                                        </span>
                                     </div>
 
                                     @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count > 0)

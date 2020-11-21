@@ -19,6 +19,8 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<REL_DocumentosAlocados> REL_DocumentosAlocados { get; set; }
 
+        public DbSet<REL_AtividadeEquipe> REL_AtividadeEquipe { get; set; }
+
 
         public DbSet<ClassificacaoMedida> ClassificacaoMedida { get; set; }
 

@@ -183,6 +183,7 @@
     <Compile Include="Entidades\Quest\RespostaItem.cs" />
     <Compile Include="Entidades\Quest\TipoResposta.cs" />
     <Compile Include="Entidades\Quest\TipoRespostaItem.cs" />
+    <Compile Include="Entidades\REL_AtividadeEquipe.cs" />
     <Compile Include="Entidades\REL_DocumentosAlocados.cs" />
     <Compile Include="Entidades\FonteGeradoraDeRisco.cs" />
     <Compile Include="Entidades\Link.cs" />

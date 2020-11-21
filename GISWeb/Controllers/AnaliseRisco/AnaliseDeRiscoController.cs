@@ -1,4 +1,5 @@
 ﻿using GISCore.Business.Abstract;
+using GISModel.DTO.Admissao;
 using GISModel.DTO.AnaliseDeRisco;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
@@ -27,6 +28,9 @@ namespace GISWeb.Controllers.AnaliseRisco
 
         [Inject]
         public IBaseBusiness<Questionario> QuestionarioBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<Admissao> AdmissaoBusiness { get; set; }
 
         [Inject]
         public IBaseBusiness<Arquivo> ArquivoBusiness { get; set; }
@@ -125,7 +129,7 @@ namespace GISWeb.Controllers.AnaliseRisco
             REL_AnaliseDeRiscoEmpregados oEmp = REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
            && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login));
 
-
+            
             
 
 
@@ -168,7 +172,11 @@ namespace GISWeb.Controllers.AnaliseRisco
                 ViewBag.APR = ListAPR;
 
             }
-            
+
+           
+
+
+
             //#############################//
 
 
@@ -819,7 +827,7 @@ namespace GISWeb.Controllers.AnaliseRisco
 		                               left join tbTipoResposta  tr on tr.UniqueKey = p.UKTipoResposta and tr.DataExclusao ='9999-12-31 23:59:59.997' 
 		                               left join tbTipoRespostaItem tri on tr.UniqueKey = tri.UKTipoResposta and tri.DataExclusao ='9999-12-31 23:59:59.997' 
                                where a.UKEmpregado = '" + UKEmpregado + @"' and a.DataExclusao = '9999-12-31 23:59:59.997' and
-	                                 a.UKEmpresa = q.UKEmpresa and q.DataExclusao = '9999-12-31 23:59:59.997' and q.TipoQuestionario = 2 and q.Status = 1
+	                                 a.UKEmpresa = q.UKEmpresa and q.DataExclusao = '9999-12-31 23:59:59.997' and q.TipoQuestionario = 3 and q.Status = 1
                                order by p.Ordem, tri.Ordem";
 
                 DataTable result = QuestionarioBusiness.GetDataTable(sql);
@@ -983,7 +991,7 @@ namespace GISWeb.Controllers.AnaliseRisco
 		                               left join tbTipoResposta  tr on tr.UniqueKey = p.UKTipoResposta and tr.DataExclusao ='9999-12-31 23:59:59.997' 
 		                               left join tbTipoRespostaItem tri on tr.UniqueKey = tri.UKTipoResposta and tri.DataExclusao ='9999-12-31 23:59:59.997' 
                                where a.UKEmpregado = '" + UKEmpregado + @"' and a.DataExclusao = '9999-12-31 23:59:59.997' and
-	                                 a.UKEmpresa = q.UKEmpresa and q.DataExclusao = '9999-12-31 23:59:59.997' and q.TipoQuestionario = 2 and q.Status = 1
+	                                 a.UKEmpresa = q.UKEmpresa and q.DataExclusao = '9999-12-31 23:59:59.997' and q.TipoQuestionario = 3 and q.Status = 1
                                order by p.Ordem, tri.Ordem";
 
                 DataTable result = QuestionarioBusiness.GetDataTable(sql);
@@ -1132,13 +1140,40 @@ namespace GISWeb.Controllers.AnaliseRisco
         {
             try
             {
+                var emp = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.CPF.ToUpper().Trim().Replace(".", "").Replace("-", "").Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login.ToUpper().Trim())
+                            || a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login));
+
+                var adm = AdmissaoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKEmpregado.Equals(emp.UniqueKey));
+
+
                 List<string> riscosAsString = new List<string>();
-                List<Empregado> lista = EmpregadoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.ToUpper().Contains(key.ToUpper())).ToList();
+
+                var empList = from a in AdmissaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                                join e in EmpregadoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.ToUpper().Contains(key.ToUpper())).ToList()
+                                on a.UKEmpregado equals e.UniqueKey                                
+                                where a.UKEmpresa.Equals(adm.UKEmpresa)
+                                select new PerfilEmpregadoViewModel()
+                                {
+                                    NomeEmpregado = e.Nome
+                                };
+
+                List<string> ListEmp = new List<string>();
+
+                foreach (var item in empList)
+                {
+                    if(item != null)
+                    {
+                        ListEmp.Add(item.NomeEmpregado);
+                    }
+
+                }
+
+                List <Empregado> lista = EmpregadoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Nome.ToUpper().Contains(key.ToUpper())).ToList();
 
                 foreach (Empregado com in lista)
                     riscosAsString.Add(com.Nome);
 
-                return Json(new { Result = riscosAsString });
+                return Json(new { Result = ListEmp });
             }
             catch (Exception ex)
             {
@@ -1151,6 +1186,9 @@ namespace GISWeb.Controllers.AnaliseRisco
         {
             try
             {
+               
+
+
                 Empregado item = EmpregadoBusiness.Consulta.FirstOrDefault(a => a.Nome.ToUpper().Equals(key.ToUpper()));
 
                 if (item == null)

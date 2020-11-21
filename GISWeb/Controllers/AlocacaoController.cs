@@ -43,6 +43,9 @@ namespace GISWeb.Controllers
         public IEmpregadoBusiness EmpregadoBusiness { get; set; }
 
         [Inject]
+        public IEmpresaBusiness EmpresaBusiness { get; set; }
+
+        [Inject]
         public IUsuarioBusiness UsuarioBusiness { get; set; }
 
         [Inject]
@@ -54,6 +57,9 @@ namespace GISWeb.Controllers
         [Inject]
         public IUsuarioPerfilBusiness UsuarioPerfilBusiness { get; set; }
 
+        [Inject]
+        public IDepartamentoBusiness DepartamentoBusiness { get; set; }
+
 
         [Inject]
         public IEstabelecimentoBusiness EstabelecimentoBusiness { get; set; }
@@ -63,6 +69,9 @@ namespace GISWeb.Controllers
 
         [Inject]
         public IBaseBusiness<REL_DocumentosAlocados> REL_DocumentosAlocadoBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<REL_EstabelecimentoDepartamento> REL_EstabelecimentoDepartamentoBusiness { get; set; }
 
 
 
@@ -78,6 +87,8 @@ namespace GISWeb.Controllers
             {
                 Guid UKAdmissao = Guid.Parse(id);
                 Admissao oAdmissao = AdmissaoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(UKAdmissao));
+                Empresa oEmpresa = EmpresaBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UniqueKey.Equals(oAdmissao.UKEmpresa));
+                Departamento oDepartamento = DepartamentoBusiness.Consulta.FirstOrDefault(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpresa.Equals(oEmpresa.UniqueKey));
 
                 Alocacao obj = new Alocacao();
                 obj.UKAdmissao = oAdmissao.UniqueKey;
@@ -87,8 +98,17 @@ namespace GISWeb.Controllers
                                      select cont).ToList();
 
                 ViewBag.Cargos = CargoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
-                ViewBag.Estabelecimentos = EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList();
-                ViewBag.Equipes = EquipeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpresa.Equals(oAdmissao.UKEmpresa)).ToList();
+
+                ViewBag.Estabelecimentos = (from e in EstabelecimentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                            join re in REL_EstabelecimentoDepartamentoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToList()
+                                            on e.UniqueKey equals re.UKEstabelecimento
+                                            where re.UKDepartamento.Equals(oDepartamento.UniqueKey)
+                                            select e).ToList();
+
+
+                    
+                    
+                    ViewBag.Equipes = EquipeBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao) && p.UKEmpresa.Equals(oAdmissao.UKEmpresa)).ToList();
 
                 return PartialView("_Novo", obj);
             }

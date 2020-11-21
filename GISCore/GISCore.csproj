@@ -311,6 +311,10 @@
     <Compile Include="Migrations\202011171126094_RegistroRespostaItem.Designer.cs">
       <DependentUpon>202011171126094_RegistroRespostaItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011211839197_AtividadeEquipe.cs" />
+    <Compile Include="Migrations\202011211839197_AtividadeEquipe.Designer.cs">
+      <DependentUpon>202011211839197_AtividadeEquipe.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -445,6 +449,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011171126094_RegistroRespostaItem.resx">
       <DependentUpon>202011171126094_RegistroRespostaItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011211839197_AtividadeEquipe.resx">
+      <DependentUpon>202011211839197_AtividadeEquipe.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

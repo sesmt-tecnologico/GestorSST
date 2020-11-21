@@ -368,6 +368,8 @@
     <Content Include="Scripts\Custom\AmbienteDoEstabelecimento\Novo.js" />
     <Content Include="Scripts\Custom\AnaliseDeRisco\Lista.js" />
     <Content Include="Scripts\Custom\AnaliseDeRisco\Novo.js" />
+    <Content Include="Scripts\Custom\AtividadeEquipe\Listagem.js" />
+    <Content Include="Scripts\Custom\AtividadeEquipe\Novo.js" />
     <Content Include="Scripts\Custom\Atividade\Edicao.js" />
     <Content Include="Scripts\Custom\Atividade\Excluir.js" />
     <Content Include="Scripts\Custom\Atividade\ListaAtividadePerigo.js" />
@@ -566,6 +568,7 @@
     <Compile Include="Controllers\ArquivoController.cs" />
     <Compile Include="Controllers\AtividadeAlocadaController.cs" />
     <Compile Include="Controllers\AtividadeController.cs" />
+    <Compile Include="Controllers\AtividadeEquipeController.cs" />
     <Compile Include="Controllers\AtividadeFuncaoLiberadaController.cs" />
     <Compile Include="Controllers\AtividadeGeradoraRiscoController.cs" />
     <Compile Include="Controllers\AtividadesDoEstabelecimentoController.cs" />
@@ -925,6 +928,8 @@
     <Content Include="Views\AnaliseDeRisco\ListaRegistroAR.cshtml" />
     <Content Include="Views\AnaliseDeRisco\_BuscarAPRMD.cshtml" />
     <Content Include="Views\AnaliseDeRisco\_BuscarQuestionarioMD.cshtml" />
+    <Content Include="Views\AtividadeEquipe\Index.cshtml" />
+    <Content Include="Views\AtividadeEquipe\Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

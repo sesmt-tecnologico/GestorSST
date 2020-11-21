@@ -1,6 +1,12 @@
 ﻿jQuery(function ($) {
 
     AplicaTooltip();
+
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
     //var altura = $(window).height();
     //var comprimento = $(window).width();  
 
@@ -117,6 +123,8 @@
 
 
 });
+
+
 
 
 function OnClickVerAula(pUKObjeto) {

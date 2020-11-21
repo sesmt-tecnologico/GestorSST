@@ -7,6 +7,8 @@ namespace GISModel.Entidades
     [Table("tbAtividade")]
     public class Atividade: EntidadeBase
     {
+        [Display(Name = "Código da Atividade")]
+        public string Codigo { get; set; }
 
         [Display(Name ="Descrição da Atividade")]
         public string Descricao { get; set; }

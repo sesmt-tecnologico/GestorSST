@@ -1,0 +1,100 @@
+﻿@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Listagem de Atividades";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Empresas
+            <a href="@Url.Action("Novo", "AtividadeEquipe")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                Nova Atividade
+            </a>
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        @*@{
+                Html.RenderPartial("_MensagensDeRetorno");
+            }*@
+
+        @if (ViewBag.Atividade != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Descrição</th>                            
+                            
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (Atividade iAtividade in ViewBag.Atividade)
+                        {
+                            
+
+                            <tr id="linha-@iAtividade.ID" >
+                                <td>@iAtividade.Codigo</td>
+                                
+                                <td class="hidden-480">@iAtividade.Descricao</td>
+                                <td>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        <a href='@Url.Action("Edicao", "AtividadeEquipe", new { id = iAtividade.ID })' class="green">
+                                            <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
+                                        </a>
+
+                                        <a class="red" href="#" onclick="DeletarEmpresa('@iAtividade.ID', '@iAtividade.Descricao');">
+                                            <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
+                                        </a>
+                                    </div>
+
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href='@Url.Action("Edicao", "AtividadeEquipe", new { id = iAtividade.ID })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                        <span class="green">
+                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#" class="tooltip-error" onclick="DeletarEmpresa('@iAtividade.ID', '@iAtividade.Descricao');" data-rel="tooltip" title="Delete">
+                                                        <span class="red">
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+    <script src="~/Scripts/Custom/Empresa/Listagem.js"></script>
+}
