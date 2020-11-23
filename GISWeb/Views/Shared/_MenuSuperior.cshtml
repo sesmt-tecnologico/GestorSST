@@ -82,7 +82,7 @@
                 }
 
 
-                @if (isEmpregado || isSuperAdmin )
+                @if (isGestorTecnico ||isEmpregado || isSuperAdmin )
                 {
                     <li class="hover">
                         <a href="@path/Empregado/Desktop">
@@ -97,7 +97,7 @@
         </li>
     }
 
-    @if (isGestorTecnico || isSuperAdmin)
+    @if ( isSuperAdmin)
     {
         <li class="hover">
 
@@ -130,6 +130,12 @@
                     </a>
                 </li>
                 <li class="hover">
+                    <a href="@path/AtividadeEquipe/Index">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Atividades/Equipe
+                    </a>
+                </li>
+                <li class="hover">
                     <a href="@path/Atividade/AtividadePerigo">
                         <i class="menu-icon fa fa-caret-right"></i>
                         Atividades/Perigo
@@ -145,7 +151,7 @@
         </li>
     }
 
-    @if (isGestorTecnico || isTecnico || isSuperAdmin)
+    @if ( isSuperAdmin)
     {
         <li class="hover">
 
@@ -160,7 +166,7 @@
 
             <ul class="submenu">
 
-                @if (isGestorTecnico || isSuperAdmin)
+                @if (isSuperAdmin)
                 {
                     <li class="hover">
                         <a href="@path/Perigo/Index">
@@ -315,7 +321,7 @@
         </li>
     }
 
-    @if (isGestorTecnico || isTecnico || isSuperAdmin || isMedicina)
+    @if ( isTecnico || isSuperAdmin || isMedicina)
     {
         <li class="hover">
             <a href="#" class="dropdown-toggle">

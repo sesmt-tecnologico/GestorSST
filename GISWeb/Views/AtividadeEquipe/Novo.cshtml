@@ -8,18 +8,22 @@
 }
 
 
-<div id="FormCadastroAtividade">
+<div id="formCadastroAtividade">
     <div class="row">
         <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
             <div class="page-header">
                 <h1>
                     Cadastro de Atividades
+                    <a href="@Url.Action("Index", "AtividadeEquipe")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                        <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                        Lista Atividades
+                    </a>
                 </h1>
             </div>
         </div>
     </div>
 
-    @using (Ajax.BeginForm("Cadastrar", "AtividadeEquipe", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarAtividade", OnSuccess = "OnSucessCadastrarAtividade" }, new { @id = "FormCadastroAtividade", @class = "form-horizontal", @autocomplete = "off" }))
+    @using (Ajax.BeginForm("Cadastrar", "AtividadeEquipe", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "OnBeginCadastrarAtividade", OnSuccess = "OnSucessCadastrarAtividade" }, new { @id = "formCadastroAtividade", @class = "form-horizontal", @autocomplete = "off" }))
     {
         @Html.AntiForgeryToken()
 
@@ -41,7 +45,7 @@
                 <div class="form-group">
                     @Html.LabelFor(d => d.Codigo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                     <div class="col-xs-12 col-sm-12">
-                        @Html.EditorFor(d => d.Codigo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCNPJ" } })
+                        @Html.EditorFor(d => d.Codigo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
                         @Html.ValidationMessageFor(d => d.Codigo, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
                     </div>
                 </div>
@@ -50,7 +54,7 @@
                 <div class="form-group">
                     @Html.LabelFor(d => d.Descricao, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
                     <div class="col-xs-12 col-sm-12">
-                        @Html.EditorFor(d => d.Descricao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "txtCNPJ" } })
+                        @Html.EditorFor(d => d.Descricao, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12" } })
                         @Html.ValidationMessageFor(d => d.Descricao, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
                     </div>
                 </div>

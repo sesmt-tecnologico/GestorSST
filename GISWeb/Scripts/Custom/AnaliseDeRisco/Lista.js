@@ -233,10 +233,6 @@ function OnClickVerAR(UKAtividade) {
 
 
 
-
-
-
-
 function OnClickBuscarArquivos(pUKObjeto, Regis) {
 
     var oRegis = $(".txtRegistro").val();
@@ -695,6 +691,8 @@ function GravarQuestionario(pUKQuestionario, pUKEmpresa) {
     var pUKFonteGeradora = $("#txtUKFonteGeradora").val();
     var pRegistro = $("#txtRegistro").val();
 
+    //criar outra funcao para gravar questionario conclusao e inserir atividade - txtUKatividade
+
     var arrPerguntas = [];
     $(".pergunta").each(function () {
         var ukpergunta = $(this).data("uk");
@@ -748,6 +746,92 @@ function GravarQuestionario(pUKQuestionario, pUKEmpresa) {
         UKEmpresa: pUKEmpresa,        
         PerguntasRespondidas: arrPerguntas,
         Registro: pRegistro
+    };
+
+    $('.page-content-area').ace_ajax('startLoading');
+
+    $.ajax({
+        method: "POST",
+        url: "/Questionario/GravarRespostaQuestionarioAnalise",
+        data: { entidade: obj },
+        error: function (erro) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            TratarResultadoJSON(content.resultado);
+        }
+    });
+
+}
+
+
+function GravarQuestionarioConclusao(pUKQuestionario, pUKEmpresa) {
+
+    var pUKEmpregado = $("#txtUKEmpregado").val();
+    var pUKFonteGeradora = $("#txtUKFonteGeradora").val();
+    var pRegistro = $("#txtRegistro").val();
+    var pUKAtividade = $("#txtUKAtividade").val();
+
+    //criar outra funcao para gravar questionario conclusao e inserir atividade - txtUKatividade
+
+    var arrPerguntas = [];
+    $(".pergunta").each(function () {
+        var ukpergunta = $(this).data("uk");
+        var tipo = $(this).data("tipo");
+
+        var arrResposta = [];
+        arrResposta.push(ukpergunta);
+
+
+        if (tipo == "Selecao_Unica") {
+
+            $('input:radio[name="' + ukpergunta + '"]').each(function () {
+                if ($(this).is(':checked')) {
+                    var UKTipoResp = $(this).data("uk");
+                    arrResposta.push(UKTipoResp);
+
+                    var resposta = $.trim($(this).next().text());
+                    arrResposta.push(resposta);
+                }
+            });
+        }
+
+        else if (tipo == "Multipla_Selecao") {
+            $('input:checkbox[name="' + ukpergunta + '"]').each(function () {
+                if ($(this).is(':checked')) {
+                    var UKTipoResp = $(this).data("uk");
+                    arrResposta.push(UKTipoResp);
+
+                    var resposta = $.trim($(this).next().text());
+                    arrResposta.push(resposta);
+                }
+            });
+        }
+        else {
+            arrResposta.push("*");
+            arrResposta.push($(".txtPergunta-" + ukpergunta).val());
+        }
+
+
+        arrPerguntas.push(arrResposta);
+
+
+
+
+    });
+
+    var obj = {
+        UKFonteGeradora: pUKAtividade,
+        UKEmpregado: pUKEmpregado,
+        UKQuestionario: pUKQuestionario,
+        UKEmpresa: pUKEmpresa,
+        PerguntasRespondidas: arrPerguntas,
+        Registro: pRegistro
+        
     };
 
     $('.page-content-area').ace_ajax('startLoading');
@@ -846,5 +930,96 @@ function GravarQuestionarioMD(pUKQuestionario, pUKEmpresa) {
             TratarResultadoJSON(content.resultado);
         }
     });
+
+}
+
+function OnClickBuscarQuestionarioConclusao(UKAtividade, Fonte) {
+
+    var altura = $(window).height();
+    var comprimento = $(window).width();
+
+    if (altura <= 650 && comprimento <= 832) {
+
+        $.ajax({
+            method: "POST",
+            url: "/AnaliseDeRisco/BuscarQuestionarioConclusaoMD",
+            data: { UKAtividade: UKAtividade, UKFonteGeradora: Fonte },
+            error: function (erro) {
+                $("#modalAddFechamentoLoading").hide();
+                $("#modalAddFechamentoCorpoLoading").hide();
+
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+
+
+            },
+            success: function (content) {
+                $("#modalAddFechamentoLoading").hide();
+                $("#modalAddFechamentoCorpoLoading").hide();
+
+                $("#modalAddFechamentoCorpo").html(content);
+
+                AplicaTooltip();
+
+                if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+                    ExibirMensagemDeErro(content.resultado.Erro);
+                }
+                else {
+                    //    //$(".conteudoQuestionarioQC").html(content);
+                    //    //AplicaTooltip();
+
+                    if ($(".dd").length > 0) {
+                        $('.dd').nestable();
+                        $('.dd').nestable('collapseAll');
+                        $($(".collapseOne button")[1]).click();
+                        $('.dd-handle a').on('mousedown', function (e) {
+                            e.stopPropagation();
+                        });
+                    }
+                }
+
+            }
+        });
+    } else {
+
+        $.ajax({
+            method: "POST",
+            url: "/AnaliseDeRisco/BuscarQuestionarioConclusao",
+            data: { UKAtividade: UKAtividade, UKFonteGeradora: Fonte },
+            error: function (erro) {
+                $("#modalAddFechamentoLoading").hide();
+                $("#modalAddFechamentoCorpoLoading").hide();
+
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+
+
+            },
+            success: function (content) {
+                $("#modalAddFechamentoLoading").hide();
+                $("#modalAddFechamentoCorpoLoading").hide();
+
+                $("#modalAddFechamentoCorpo").html(content);
+
+                AplicaTooltip();
+
+                if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+                    ExibirMensagemDeErro(content.resultado.Erro);
+                }
+                else {
+                    //    //$(".conteudoQuestionarioQC").html(content);
+                    //    //AplicaTooltip();
+
+                    if ($(".dd").length > 0) {
+                        $('.dd').nestable();
+                        $('.dd').nestable('collapseAll');
+                        $($(".collapseOne button")[1]).click();
+                        $('.dd-handle a').on('mousedown', function (e) {
+                            e.stopPropagation();
+                        });
+                    }
+                }
+
+            }
+        });
+    }
 
 }

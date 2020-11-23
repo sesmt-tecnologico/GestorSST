@@ -16,7 +16,10 @@ namespace GISModel.Enums
         Analise_de_Risco_Equipe = 3,
 
         [Display(Name = "Análise Preliminar de Risco Equipe")]
-        Analise_Preliminar_de_Risco_Equipe = 4
+        Analise_Preliminar_de_Risco_Equipe = 4,
+
+        [Display(Name = "Conclusão de Análise de Risco")]
+        Conclusao_Analise_de_Risco_Equipe = 5
 
     }
 

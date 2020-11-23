@@ -774,7 +774,7 @@ namespace GISWeb.Controllers.Quest
                     UKEmpresa = Guid.Parse(entidade.UKEmpresa),
                     UKQuestionario = Guid.Parse(entidade.UKQuestionario),
                     UKObjeto = Guid.Parse(entidade.UKFonteGeradora),
-                    Registro = entidade.Registro,
+                    Registro = entidade.Registro,                    
                     UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                 };
                 RespostaBusiness.Inserir(oResposta);

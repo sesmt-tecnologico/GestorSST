@@ -930,6 +930,8 @@
     <Content Include="Views\AnaliseDeRisco\_BuscarQuestionarioMD.cshtml" />
     <Content Include="Views\AtividadeEquipe\Index.cshtml" />
     <Content Include="Views\AtividadeEquipe\Novo.cshtml" />
+    <Content Include="Views\AnaliseDeRisco\_QuestionarioQC.cshtml" />
+    <Content Include="Views\AnaliseDeRisco\_QuestionarioQCMD .cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

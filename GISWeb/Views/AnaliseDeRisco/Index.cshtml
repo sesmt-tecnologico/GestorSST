@@ -6,9 +6,6 @@
 
 
 
-
-
-
 @{
     ViewBag.Title = "Index";
 }
@@ -35,8 +32,8 @@
     <input type="hidden" class="txtRegistro col-xs-12 col-sm-12" value="@ViewBag.Registro" />
     <input type="hidden" class="txtSupervisor col-xs-12 col-sm-12" value="@ViewBag.UKSupervisor" />
 
-    <input type="text" hidden id="txtRegistro" value="@ViewBag.Registro"/>
-    
+    <input type="text" hidden id="txtRegistro" value="@ViewBag.Registro" />
+
     <h4>Responsável CPF:&nbsp;[@ViewBag.Supervisor]&nbsp; &nbsp;&nbsp; &nbsp;Análise Nº: &nbsp;@ViewBag.Nregist </h4>
     <div class="row">
         <div class="col-xs-12">
@@ -57,16 +54,16 @@
                         @foreach (var iEmp in ViewBag.Relacao)
                         {
 
-                        <tr id="">
+                            <tr id="">
 
-                            <td>@iEmp.Nome</td>
-                            <td>@iEmp.CPF</td>
-                            <td class="center" width="96">
-                            <i class="fa fa-user-o" aria-hidden="true"></i>
-                            </td>
+                                <td>@iEmp.Nome</td>
+                                <td>@iEmp.CPF</td>
+                                <td class="center" width="96">
+                                    <i class="fa fa-user-o" aria-hidden="true"></i>
+                                </td>
 
 
-                        </tr>
+                            </tr>
 
                         }
 
@@ -91,7 +88,7 @@
         </div>
     </div>
 
-    if (ViewBag.APR !=null)
+    if (ViewBag.APR != null)
     {
 
         <p>
@@ -112,7 +109,7 @@
                                     <tr>
                                         <th>Pergunta</th>
                                         <th>Resposta</th>
-                                        
+
 
                                     </tr>
                                 </thead>
@@ -122,14 +119,14 @@
                                     @foreach (VMAnaliseDeRiscoEmpregados iEmp in ViewBag.APR)
                                     {
 
-                                    <tr>
+                                        <tr>
 
-                                        <td>@iEmp.Pergunta</td>
-                                        <td>@iEmp.Resposta</td>
-                                       
+                                            <td>@iEmp.Pergunta</td>
+                                            <td>@iEmp.Resposta</td>
 
 
-                                    </tr>
+
+                                        </tr>
 
                                     }
 
@@ -143,7 +140,7 @@
             </div>
         </div>
     }
-    
+
 
     <div class="resultadoAPR"></div>
 
@@ -185,18 +182,18 @@
 }
 else
 {
-<div class="jumbotron">
-    <div class="row">
-        <div class="col-sm-12 col-xs-12">
-            <a onclick="OnClickVincularNome()" class="btn btn-secondary btn-lg btn-block" aling="center" data-target="#modalAddNome" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                <i class="ace-icon fa fa-fire bigger-110"></i>
-                <span class="bigger-110 no-text-shadow  align-bottom">Cadastrar Empregados na Atividade </span>
-            </a>
-        </div>&nbsp;&nbsp;
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <a onclick="OnClickVincularNome()" class="btn btn-secondary btn-lg btn-block" aling="center" data-target="#modalAddNome" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                    <i class="ace-icon fa fa-fire bigger-110"></i>
+                    <span class="bigger-110 no-text-shadow  align-bottom">Cadastrar Empregados na Atividade </span>
+                </a>
+            </div>&nbsp;&nbsp;
 
 
+        </div>
     </div>
-</div>
 
 }
 
@@ -212,8 +209,15 @@ else
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+        <div id="content2" style="padding-left: 12px;">
 
-@if (ViewBag.ARISC.Count > 0)
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.TotalRisc > 0 )
 {
 
     <p>
@@ -232,21 +236,22 @@ else
                         var ukativ = string.Empty;
                         //string ativ = ukativ;
 
-                        foreach (VMAnaliseDeRiscoEmpregados iRisc in ViewBag.ARISC)
-                        {
+                      
+
+                                foreach (VMAnaliseDeRiscoEmpregados iRisc in ViewBag.ARISC)
+                                {
 
 
-                            var vbAtiv = Convert.ToString(@iRisc.UKAtividade);
+                                var vbAtiv = Convert.ToString(@iRisc.UKAtividade);
 
-                            if (vbAtiv != ukativ)
-                            {
+                                    if (vbAtiv != ukativ)
+                                    {
+
                                         <div class="container">
 
 
                                                                 <div class="row">
                                                                     <div class="hidden">@iRisc.UKAtividade</div><br />
-
-
 
 
                                                                     <a class="red CustomTooltip position-relative" href="#" title="Análise de Risco" onclick="OnClickVerAR('@iRisc.UKAtividade');return false;" data-target="#modalAddArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
@@ -257,27 +262,46 @@ else
                                                                         <i class="ace-icon fa fa-camera blue bigger-125"></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                     </a>
 
-                                                                    <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span><br />
+                                                                    <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span>
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                                    
+                                                                        @*<i class="ace-icon fa fa-lock blue bigger-140"></i>*@
+                                                                    
+                                                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                            <i class="ace-icon fa fa-unlock green bigger-140"></i>
+                                                                        </a>
+
+                                                                    
+
+                                                                
+
+
                                                                 </div>
 
                                         </div>
 
 
-                                                ukativ = Convert.ToString(@iRisc.UKAtividade);
+                                        ukativ = Convert.ToString(@iRisc.UKAtividade);
 
-                            }
+                               
 
-
-
-                                                }
-                                                }
+                               
+                                     }
 
 
+                                 }
+                        
+
+
+                              }
 
 
 
-                                            </div>
-                                        </div>
+
+
+                </div>
+            </div>
         </div>
     </div>
 }
@@ -376,6 +400,46 @@ else
                             </span>
 
                             <button id="modalAddArquivosFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                <i class="ace-icon fa fa-times"></i>
+                                Fechar
+                            </button>
+
+                            @*<button id="modalAddArquivosProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                    <i class="ace-icon fa fa-check"></i>
+                                    Confirmar
+                                </button>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalAddFechamento" class="modal fade" style="overflow: auto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalAddFechamentoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Concluir Análise de Risco</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalAddFechamentoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                            <div id="modalAddFechamentoCorpo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span id="modalAddFechamentoLoading" style="display: block; float: left; padding-top: 6px">
+                                <img src="~/Images/slack_loading.gif" width="28px" />
+                            </span>
+
+                            <button id="modalAddFechamentoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
                                 <i class="ace-icon fa fa-times"></i>
                                 Fechar
                             </button>

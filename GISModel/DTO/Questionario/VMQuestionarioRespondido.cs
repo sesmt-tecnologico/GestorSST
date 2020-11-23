@@ -14,6 +14,9 @@ namespace GISModel.DTO.Questionario
         public string UKEmpresa { get; set; }
 
         public string Registro { get; set; }
+
+        public string Status { get; set; }
+
         public List<string[]> PerguntasRespondidas { get; set; }
 
     }

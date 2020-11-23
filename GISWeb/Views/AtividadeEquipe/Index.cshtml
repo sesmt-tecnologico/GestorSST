@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-xs-12">
         <h3 class="header smaller lighter blue">
-            Empresas
+            Atividade
             <a href="@Url.Action("Novo", "AtividadeEquipe")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
                 <i class="ace-icon fa fa-plus bigger-120 blue"></i>
                 Nova Atividade
@@ -45,7 +45,7 @@
                                 <td>@iAtividade.Codigo</td>
                                 
                                 <td class="hidden-480">@iAtividade.Descricao</td>
-                                <td>
+                                @*<td>
                                     <div class="hidden-sm hidden-xs action-buttons">
                                         <a href='@Url.Action("Edicao", "AtividadeEquipe", new { id = iAtividade.ID })' class="green">
                                             <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
@@ -81,7 +81,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </td>
+                                </td>*@
                             </tr>
 
                         }
@@ -96,5 +96,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jQ_dataTable")
-    <script src="~/Scripts/Custom/Empresa/Listagem.js"></script>
+
+<script src="~/Scripts/Custom/AtividadeEquipe/Listagem.js"></script>
+    
 }

@@ -145,10 +145,14 @@ namespace GISWeb.Controllers
         public ActionResult Pesquisa()
         {
 
+
+
             //ViewBag.Status = new List<string> { "Atualmente admitido", "Já admitido alguma vez", "Atualmente sem admissão" };
             ViewBag.Empresas = EmpresaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
             ViewBag.Cargos = CargoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
             ViewBag.Contratos = ContratoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
+
+
 
             return View();
         }

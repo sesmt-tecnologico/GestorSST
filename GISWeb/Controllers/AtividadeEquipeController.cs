@@ -6,6 +6,7 @@ using GISWeb.Infraestrutura.Filters;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
@@ -56,7 +57,7 @@ namespace GISWeb.Controllers
                                 on a.UniqueKey equals ra.UKAtividade
                                 where ra.UKEmpresa.Equals(oEmpresa.UniqueKey)
                                 select a
-                                 );
+                                 ).OrderBy(a=>a.Descricao);
 
            return View();
         }
@@ -98,11 +99,25 @@ namespace GISWeb.Controllers
                 try
                 {
                     oAtividade.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    AtividadeBusiness.Inserir(oAtividade);
+                    AtividadeBusiness.Inserir(oAtividade);                   
 
-                    Extensions.GravaCookie("MensagemSucesso", "A Equipe '" + oAtividade.Descricao + "' foi cadastrada com sucesso!", 10);
+                    var aAtividade = AtividadeBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Descricao.Equals(oAtividade.Descricao));
+                                       
 
-                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "AtividadeEquipe") } });
+                    REL_AtividadeEquipe oAtividadeEquipe = new REL_AtividadeEquipe()
+                    {
+
+                    UKEmpresa = Guid.Parse(EmpID),
+                    UKEquipe = Guid.Parse(oEquipe),
+                    UKAtividade = aAtividade.UniqueKey
+                    };                   
+
+                    REL_AtividadeEquipeBusiness.Inserir(oAtividadeEquipe);
+
+
+                    Extensions.GravaCookie("MensagemSucesso", "A atividade '" + oAtividade.Descricao + "' foi cadastrada com sucesso!", 10);
+
+                    return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Novo", "AtividadeEquipe") } });
 
                 }
                 catch (Exception ex)

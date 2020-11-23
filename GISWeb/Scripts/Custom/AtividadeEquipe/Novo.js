@@ -10,7 +10,7 @@ function OnBeginCadastrarAtividade() {
 }
 
 
-function OnSuccessCadastrarAtividade(data) {
+function OnSucessCadastrarAtividade(data) {
     $('#formCadastroAtividade').removeAttr('style');
     $(".LoadingLayout").hide();
     $('#btnSalvar').show();

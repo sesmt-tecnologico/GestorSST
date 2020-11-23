@@ -27,18 +27,7 @@
         <ol class="dd-list">
 
             <li class="dd-item collapseOne">
-                <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
-                    <span style="margin-right: 60px;"> @Model.Nome</span>
 
-
-                    <div class="pull-right action-buttons">
-                        <a class="green" href="#" onclick="GravarQuestionario('@Model.UniqueKey.ToString()', '@Model.UKEmpresa.ToString()'); return false;">
-                            Enviar 2 &nbsp;
-
-                            <i class="ace-icon fa fa-send bigger-130"></i>
-                        </a>
-                    </div>
-                </div>
 
 
                 @if (Model.Perguntas.Count > 0)
@@ -52,7 +41,7 @@
                                         <span style="width: 600px; float: left;" class="perguntaMD" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">
                                             Pergunta @perg.Ordem.ToString(): @perg.Descricao.Substring(0, 35)...
                                             <a class="tooltip-error" data-rel="tooltip" title="@perg.Descricao">
-                                                <span class="red">
+                                                <span class="green">
                                                     <i class="ace-icon fa fa-info-circle bigger-120"></i>
                                                 </span>
                                             </a>
@@ -123,7 +112,7 @@
                                             Pergunta @perg.Ordem.ToString():<i style="min-height"> @perg.Descricao.Substring(0, 10)...</i>
 
                                             <a class="tooltip-error" data-rel="tooltip" title="@perg.Descricao">
-                                                <span class="red">
+                                                <span class="green">
                                                     <i class="ace-icon fa fa-info-circle bigger-120"></i>
                                                 </span>
                                             </a>
@@ -191,6 +180,18 @@
                     <span style="margin-right: 60px;"> @Model.Nome</span>
 
 
+                    <div class="pull-right action-buttons">
+                        <a class="green" href="#" onclick="GravarQuestionario('@Model.UniqueKey.ToString()', '@Model.UKEmpresa.ToString()'); return false;">
+                            Enviar 2 &nbsp;
+
+                            <i class="ace-icon fa fa-send bigger-130"></i>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
+                    <span style="margin-right: 60px;"> @Model.Nome</span>
                     <div class="pull-right action-buttons">
                         <a class="green" href="#" onclick="GravarQuestionario('@Model.UniqueKey.ToString()', '@Model.UKEmpresa.ToString()'); return false;">
                             Enviar 2 &nbsp;

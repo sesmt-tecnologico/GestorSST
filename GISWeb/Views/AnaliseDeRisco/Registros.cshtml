@@ -1,4 +1,5 @@
 ﻿@using GISModel.Entidades.Quest
+@using GISModel.DTO.Permissoes
 
 @{
     ViewBag.Title = "Listagem de AR";
@@ -8,75 +9,148 @@
     <div class="col-xs-12">
         <h3 class="header smaller lighter blue">
             Relação de Análise de Risco
-           
+
         </h3>
     </div>
 </div>
+@{
+    List<VMPermissao> permissoes = (List<VMPermissao>)ViewBag.Permissoes;
 
-<div class="row">
-    <div class="col-xs-12">
-
-       
-
-        @if (ViewBag.listRegistro != null)
-        {
-            <div>
-                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>Registro</th>
-                            <th>Data</th>
-                            <th class="hidden-480">Responsável</th>
-                            @*<th width="80px"></th>*@
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        @{
-                            string regis = null;
-
-                        foreach (Resposta iResposta in ViewBag.listRegistro)
-                        {
+    bool isSuperAdmin = permissoes.Where(a => a.Perfil.Equals("Super Administrador")).Count() > 0;
+     bool isGestorTecnico = permissoes.Where(a => a.Perfil.Equals("Gestor Técnico")).Count() > 0;
 
 
 
 
-                            if (@iResposta.Registro != @regis)
-                            {
+    <div class="row">
+        <div class="col-xs-12">
 
+            @if (isSuperAdmin || isGestorTecnico )
+            {
 
-                                <tr id="linha-@iResposta.ID">
-                                    <td>
-                                        <a href='@Url.Action("ListaRegistroAR", "AnaliseDeRisco", new { id = iResposta.Registro })' class="green">
-                                            <i class="ace-icon fa-file-archive-o  bigger-130" title="Editar"></i>
-                                            @iResposta.Registro.Substring(0, 8)
-                                        </a>
-
-                                    </td>
-                                    <td>@iResposta.DataInclusao</td>
-                                    <td>@iResposta.UsuarioInclusao</td>
-
-
-
-
-
+                if (ViewBag.listRegistroTotal != null)
+                {
+                    <div>
+                        <table id="dynamic-table2" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Registro</th>
+                                    <th>Data</th>
+                                    <th class="hidden-480">Responsável</th>
+                                    @*<th width="80px"></th>*@
                                 </tr>
+                            </thead>
 
-                                regis = @iResposta.Registro;
+                            <tbody>
 
-                            }
+                                @{
+                                    string regis = null;
 
-                        }
-                            }
+                                    foreach (Resposta iResposta in ViewBag.listRegistroTotal)
+                                    {
 
-                    </tbody>
-                </table>
-            </div>
-        }
 
+
+
+                                        if (@iResposta.Registro != @regis)
+                                        {
+
+
+                                            <tr id="linha-@iResposta.ID">
+                                                <td>
+                                                    <a href='@Url.Action("ListaRegistroAR", "AnaliseDeRisco", new { id = iResposta.Registro })' class="green">
+                                                        <i class="ace-icon fa-file-archive-o  bigger-130" title="Editar"></i>
+                                                        @iResposta.Registro.Substring(0, 8)
+                                                    </a>
+
+                                                </td>
+                                                <td>@iResposta.DataInclusao</td>
+                                                <td>@iResposta.UsuarioInclusao</td>
+
+
+
+
+
+                                            </tr>
+
+                                            regis = @iResposta.Registro;
+
+                                        }
+
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            }
+            else
+            {
+
+                if (ViewBag.listRegistro != null)
+                {
+                    <div>
+                        <table id="dynamic-table2" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Registro</th>
+                                    <th>Data</th>
+                                    <th class="hidden-480">Responsável</th>
+                                    @*<th width="80px"></th>*@
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @{
+                                    string regis = null;
+
+                                    foreach (Resposta iResposta in ViewBag.listRegistro)
+                                    {
+
+
+
+
+                                        if (@iResposta.Registro != @regis)
+                                        {
+
+
+                                            <tr id="linha-@iResposta.ID">
+                                                <td>
+                                                    <a href='@Url.Action("ListaRegistroAR", "AnaliseDeRisco", new { id = iResposta.Registro })' class="green">
+                                                        <i class="ace-icon fa-file-archive-o  bigger-130" title="Editar"></i>
+                                                        @iResposta.Registro.Substring(0, 8)
+                                                    </a>
+
+                                                </td>
+                                                <td>@iResposta.DataInclusao</td>
+                                                <td>@iResposta.UsuarioInclusao</td>
+
+
+
+
+
+                                            </tr>
+
+                                            regis = @iResposta.Registro;
+
+                                        }
+
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+
+            }
+
+        </div>
     </div>
-</div>
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jQ_dataTable")
