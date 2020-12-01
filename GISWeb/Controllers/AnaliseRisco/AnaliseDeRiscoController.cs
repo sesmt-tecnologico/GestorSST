@@ -1266,12 +1266,12 @@ namespace GISWeb.Controllers.AnaliseRisco
 
                 foreach (var item in oEquipe)
                 {
-                    if (item != null && item.NomeDaEquipe.Contains("MO1- Equipe de Corte e Religação"))
+                    if (item != null && item.NomeDaEquipe.Contains("EQUIPE DE CORTE/RELIGA"))
                     {
                         TQuest = "6";
 
                     }
-                    if (item != null && item.NomeDaEquipe.Contains("COMERCIAL"))
+                    if (item != null && item.NomeDaEquipe.Contains("EQUIPE DE LIGAÇÃO/SERVIÇOS"))
                     {
                         TQuest = "7";
 
