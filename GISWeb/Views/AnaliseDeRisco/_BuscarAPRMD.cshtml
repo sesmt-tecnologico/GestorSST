@@ -109,14 +109,42 @@
                             {
                                 <li class="dd-item">
                                     <div class="dd2-content" style="border-left: 12px solid @arrCores[2];">
-                                        <span style="width: 400px; height: 12px; float: left;" class="perguntaAPR" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">
-                                            @perg.Ordem.ToString():<i style="min-height">
-                                                @perg.Descricao.Substring(0, 50)...
-                                                <a class="tooltip-error" data-rel="tooltip" title="@perg.Descricao">
-                                                    <span class="green">
-                                                        <i class="ace-icon fa fa-info-circle bigger-120"></i>
-                                                    </span>
-                                                </a>
+                                        <span style="float: left;" class="perguntaAPR" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">
+                                           
+                                          <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="center">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-left dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href="" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                        <span class="green">
+                                                            @perg.Descricao
+                                                        </span>
+                                                    </a>
+
+                                                        @*<a class="tooltip-error" data-rel="tooltip" title="@perg.Descricao">
+                                                            <span class="green">
+                                                                <i class="ace-icon fa fa-info-circle bigger-120"></i>
+                                                            </span>
+                                                        </a>*@
+
+                                                    
+                                                </li>
+                                               
+                                            </ul>
+                                        </div> @perg.Ordem.ToString():<i style="min-height">
+                                                @perg.Descricao.Substring(0, 20)...
+
+
+
+
+
+
+
+
+                                                
 
                                             </i>
                                         </span>
@@ -183,8 +211,8 @@
                 }
 
                 <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
-                    <span style="margin-right: 60px;"> @Model.Nome</span>
-                    <div class="pull-right action-buttons">
+                    <span style="float-right: 2px;"> @Model.Nome.Substring(0,24)</span>
+                    <div class="pull-right action-buttons ">
                         <a class="green" href="#" onclick="GravarQuestionarioAPR('@Model.UniqueKey.ToString()', '@Model.UKEmpresa.ToString()'); return false;">
                             Enviar &nbsp;
 

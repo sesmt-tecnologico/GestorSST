@@ -33,6 +33,7 @@
                 @if (Model.Perguntas.Count > 0)
                 {
                     <div class="hidden-sm hidden-xs">
+                       
                         <ol class="dd-list">
                             @foreach (Pergunta perg in Model.Perguntas)
                             {
@@ -108,18 +109,37 @@
                             {
                                 <li class="dd-item">
                                     <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
-                                        <span style="width: 400px; float: left;" class="pergunta" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">
-                                            Pergunta @perg.Ordem.ToString():<i style="min-height"> @perg.Descricao.Substring(0, 10)...</i>
+                                        <span style="float: left;" class="pergunta" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">
+                                           
 
-                                            <a class="tooltip-error" data-rel="tooltip" title="@perg.Descricao">
-                                                <span class="green">
-                                                    <i class="ace-icon fa fa-info-circle bigger-120"></i>
-                                                </span>
-                                            </a>
+                                          <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="center">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-left dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href="" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                        <span class="green">
+                                                            @perg.Descricao
+                                                        </span>
+                                                    </a>
+
+                                                        @*<a class="tooltip-error" data-rel="tooltip" title="@perg.Descricao">
+                                                            <span class="green">
+                                                                <i class="ace-icon fa fa-info-circle bigger-120"></i>
+                                                            </span>
+                                                        </a>*@
+
+                                                    
+                                                </li>
+                                               
+                                            </ul>
+                                        </div> Pergunta @perg.Ordem.ToString():<i style="min-height"> @perg.Descricao.Substring(0, 10)...</i>
 
                                         </span>
                                     </div>
-
+                                    
                                     @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count > 0)
                                     {
                                         <ol class="dd-list">
@@ -176,8 +196,8 @@
 
 
                 }
-                <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
-                    <span style="margin-right: 60px;"> @Model.Nome</span>
+                <div class="dd2-content" style="float: left 2px solid @arrCores[1];">
+                    <span style="float: right 60px;"> @Model.Nome</span>
 
 
                     <div class="pull-right action-buttons">
@@ -190,16 +210,7 @@
                 </div>
 
 
-                <div class="dd2-content" style="border-left: 2px solid @arrCores[1];">
-                    <span style="margin-right: 60px;"> @Model.Nome</span>
-                    <div class="pull-right action-buttons">
-                        <a class="green" href="#" onclick="GravarQuestionario('@Model.UniqueKey.ToString()', '@Model.UKEmpresa.ToString()'); return false;">
-                            Enviar 2 &nbsp;
-
-                            <i class="ace-icon fa fa-send bigger-130"></i>
-                        </a>
-                    </div>
-                </div>
+                
             </li>
         </ol>
     </div>

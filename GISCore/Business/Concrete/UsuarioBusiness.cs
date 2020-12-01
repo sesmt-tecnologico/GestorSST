@@ -222,6 +222,9 @@ namespace GISCore.Business.Concrete
 
         }
 
+      
+     
+
         public void InserirSemEmailESenha(Usuario usuario)
         {
             base.Inserir(usuario);

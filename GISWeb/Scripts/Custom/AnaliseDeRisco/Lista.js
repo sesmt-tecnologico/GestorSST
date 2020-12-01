@@ -125,7 +125,9 @@
 });
 
 
-
+$(function () {
+    $("#mensagem").dialog();
+});
 
 function OnClickVerAula(pUKObjeto) {
 

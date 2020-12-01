@@ -34,7 +34,8 @@
 
     <input type="text" hidden id="txtRegistro" value="@ViewBag.Registro" />
 
-    <h4>Responsável CPF:&nbsp;[@ViewBag.Supervisor]&nbsp; &nbsp;&nbsp; &nbsp;Análise Nº: &nbsp;@ViewBag.Nregist </h4>
+    <h4>Responsável:&nbsp;[@ViewBag.Empregado]&nbsp; &nbsp;&nbsp; &nbsp;Análise Nº: &nbsp;@ViewBag.Nregist </h4>
+
     <div class="row">
         <div class="col-xs-12">
 
@@ -146,6 +147,7 @@
 
 
     <br />
+    if (ViewBag.APR != null) {
 
     <div class="space-3"></div>
     <div class="hr hr-24"></div>
@@ -164,35 +166,98 @@
         <div class="space-3"></div>*@
 
 
-    <div class="row">
-        <div class="col-xs-12 col-sm-6">
-            <div class="form-group">
-                <div class="col-xs-12 col-sm-12">
-                    @Html.DropDownListFor(d => d.UniqueKey, new SelectList(ViewBag.Atividade, "UniqueKey", "Descricao"), "Selecione um Serviço ...", new { @class = "chosen-select form-control tag-input-style oAtividade", @autocomplete = "on" })
+    @*<div class="row">
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownListFor(d => d.UniqueKey, new SelectList(ViewBag.Atividade, "UniqueKey", "Descricao"), "Selecione um Serviço ...", new { @class = "chosen-select form-control tag-input-style oAtividade", @autocomplete = "on" })
+                    </div>
                 </div>
             </div>
-        </div>
 
-    </div>
-    <br />
+        </div>*@
 
 
 
-
-}
-else
-{
-    <div class="jumbotron">
+    <div class="hidden-md hidden-lg">
         <div class="row">
             <div class="col-sm-12 col-xs-12">
-                <a onclick="OnClickVincularNome()" class="btn btn-secondary btn-lg btn-block" aling="center" data-target="#modalAddNome" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                <a onclick="OnClickVincularAtividade()" class="btn btn-secondary btn-lg btn-block" aling="center" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                     <i class="ace-icon fa fa-fire bigger-110"></i>
-                    <span class="bigger-110 no-text-shadow  align-bottom">Cadastrar Empregados na Atividade </span>
+                    <span class="bigger-110 no-text-shadow  align-bottom">Selecionar a  Atividade  </span>
                 </a>
             </div>&nbsp;&nbsp;
 
 
         </div>
+    </div>
+    <div class="hidden-sm hidden-xs">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <a onclick="OnClickVincularAtividade()" class="btn btn-secondary btn-lg btn-block" aling="center" data-target="#modalAddAtividade" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                    <i class="ace-icon fa fa-fire bigger-110"></i>
+                    <span class="bigger-110 no-text-shadow  align-bottom">Selecionar a  Atividade para Análise de Risco </span>
+                </a>
+            </div>&nbsp;&nbsp;
+
+
+        </div>
+
+    </div>
+
+
+
+    <div id="mensagem" title="Dica de Segurança!" style="display:none">
+        @foreach (var item in @ViewBag.Listafrase)
+        {
+            if (item != null)
+            {
+                <h2>@item.Descricao</h2>
+            }
+        }
+        <p></p>
+    </div>
+
+
+
+
+    <br />
+
+
+     }
+
+}
+else
+{
+
+    <div class="hidden-sm hidden-xs">
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <a onclick="OnClickVincularNome()" class="btn btn-secondary btn-lg btn-block" aling="center" data-target="#modalAddNome" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                        <i class="ace-icon fa fa-fire bigger-110"></i>
+                        <span class="bigger-110 no-text-shadow  align-bottom">Cadastrar Empregados na Atividade </span>
+                    </a>
+                </div>&nbsp;&nbsp;
+
+            </div>
+        </div>
+
+    </div>
+    <div class="hidden-md hidden-lg">
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <a onclick="OnClickVincularNome()" class="btn btn-secondary btn-lg btn-block" aling="center" data-target="#modalAddNome" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                        <i class="ace-icon fa fa-fire bigger-110"></i>
+                        <span class="bigger-110 no-text-shadow  align-bottom">Cadastrar Empregados </span>
+                    </a>
+                </div>&nbsp;&nbsp;
+
+
+            </div>
+        </div>
+
     </div>
 
 }
@@ -217,7 +282,9 @@ else
     </div>
 </div>
 
-@if (ViewBag.TotalRisc > 0 )
+
+
+@if (ViewBag.TotalRisc > 0)
 {
 
     <p>
@@ -234,67 +301,76 @@ else
 
                     @{
                         var ukativ = string.Empty;
-                        //string ativ = ukativ;
-
-                      
-
-                                foreach (VMAnaliseDeRiscoEmpregados iRisc in ViewBag.ARISC)
-                                {
+                        var data = string.Empty;
+                        var vbResp = string.Empty;
 
 
-                                var vbAtiv = Convert.ToString(@iRisc.UKAtividade);
 
-                                    if (vbAtiv != ukativ)
-                                    {
-
-                                        <div class="container">
+                        foreach (VMAnaliseDeRiscoEmpregados iRisc in ViewBag.ARISC)
+                        {
 
 
-                                                                <div class="row">
-                                                                    <div class="hidden">@iRisc.UKAtividade</div><br />
+                            var vbAtiv = Convert.ToString(@iRisc.UKAtividade);
+                            var Resp = Convert.ToString(@iRisc.UKResposta);
+
+                            
 
 
-                                                                    <a class="red CustomTooltip position-relative" href="#" title="Análise de Risco" onclick="OnClickVerAR('@iRisc.UKAtividade');return false;" data-target="#modalAddArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
-                                                                        <i class="ace-icon fa fa-archive bigger-150 "></i>
-                                                                    </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            if (vbAtiv != ukativ )
+                            {
 
-                                                                    <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                        <i class="ace-icon fa fa-camera blue bigger-125"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <div class="container">
+
+
+                                                            <div class="row">
+                                                                <div class="hidden">@iRisc.UKAtividade</div><br />
+
+
+                                                                <a class="red CustomTooltip position-relative" href="#" title="Análise de Risco" onclick="OnClickVerAR('@iRisc.UKAtividade');return false;" data-target="#modalAddArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
+                                                                    <i class="ace-icon fa fa-archive bigger-150 "></i>
+                                                                </a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                    <i class="ace-icon fa fa-camera blue bigger-125"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                </a>
+
+                                                                <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                                                @if (@ViewBag.TotalRespostas > 0)
+                                                                {
+                                                                     
+
+                                                                    <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                        <i class="ace-icon fa fa-unlock green bigger-140"></i>
                                                                     </a>
 
-                                                                    <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span>
-                                                                    &nbsp;&nbsp;&nbsp;&nbsp;
-
-                                                                    
-                                                                        @*<i class="ace-icon fa fa-lock blue bigger-140"></i>*@
-                                                                    
-                                                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                            <i class="ace-icon fa fa-unlock green bigger-140"></i>
-                                                                        </a>
-
-                                                                    
-
-                                                                
+                                                                }
+                                                                else
+                                                                {
+                                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                    <i class="ace-icon fa fa-unlock green bigger-140"></i>
+                                                                </a>
 
 
-                                                                </div>
+                                                                }
 
-                                        </div>
+                                                            </div>
 
-
-                                        ukativ = Convert.ToString(@iRisc.UKAtividade);
-
-                               
-
-                               
-                                     }
+                                    </div>
 
 
-                                 }
-                        
+                                    ukativ = Convert.ToString(@iRisc.UKAtividade);
+                                    vbResp = Convert.ToString(@iRisc.UKResposta);
 
 
-                              }
+
+                                }
+                         }
+                            
+                            
+
+                    }
 
 
 
@@ -372,7 +448,45 @@ else
             </div>
         </div>
     </div>
+    <div id="modalAddAtividade" class="modal fade" style="overflow: auto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalAddAtividadeX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i>Selecione a Atividade digitando no mínimo 3 letras. </h3>
+                </div>
 
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalAddAtividadeCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                            <div id="modalAddAtividadeCorpo"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span id="modalAddAtividadeLoading" style="display: block; float: left; padding-top: 6px">
+                                <img src="~/Images/slack_loading.gif" width="28px" />
+                            </span>
+
+                            @*<button id="modalAddAtividadeFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                    <i class="ace-icon fa fa-times"></i>
+                                    Fechar
+                                </button>*@
+
+                            <button id="modalAddAtividadeProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                <i class="ace-icon fa fa-check"></i>
+                                Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div id="modalAddArquivos" class="modal fade" style="overflow: auto">

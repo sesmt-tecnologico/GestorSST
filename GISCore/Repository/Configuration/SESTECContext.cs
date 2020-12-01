@@ -17,6 +17,8 @@ namespace GISCore.Repository.Configuration
 
         public DbSet<Workflow> Workflow { get; set; }
 
+        public DbSet<FrasesSeguranca> FrasesSeguranca { get; set; }
+
         public DbSet<REL_DocumentosAlocados> REL_DocumentosAlocados { get; set; }
 
         public DbSet<REL_AtividadeEquipe> REL_AtividadeEquipe { get; set; }

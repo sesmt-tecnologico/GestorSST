@@ -453,6 +453,9 @@
     <Content Include="Scripts\Custom\Fornecedor\Excluir.js" />
     <Content Include="Scripts\Custom\Fornecedor\Lista.js" />
     <Content Include="Scripts\Custom\Fornecedor\Novo.js" />
+    <Content Include="Scripts\Custom\Frases\Edicao.js" />
+    <Content Include="Scripts\Custom\Frases\Listagem.js" />
+    <Content Include="Scripts\Custom\Frases\Novo.js" />
     <Content Include="Scripts\Custom\Funcao\Edicao.js" />
     <Content Include="Scripts\Custom\Funcao\Excluir.js" />
     <Content Include="Scripts\Custom\Funcao\Lista.js" />
@@ -587,6 +590,7 @@
     <Compile Include="Controllers\EstabelecimentoAmbienteController.cs" />
     <Compile Include="Controllers\EstabelecimentoController.cs" />
     <Compile Include="Controllers\EventoPerigosoController.cs" />
+    <Compile Include="Controllers\FrasesSegurancaController.cs" />
     <Compile Include="Controllers\PCMSO\ASOController.cs" />
     <Compile Include="Controllers\PCMSO\ExamesController.cs" />
     <Compile Include="Controllers\PPRA\ExposicaoController.cs" />
@@ -932,6 +936,11 @@
     <Content Include="Views\AtividadeEquipe\Novo.cshtml" />
     <Content Include="Views\AnaliseDeRisco\_QuestionarioQC.cshtml" />
     <Content Include="Views\AnaliseDeRisco\_QuestionarioQCMD .cshtml" />
+    <Content Include="Views\AnaliseDeRisco\_VincularAtividade.cshtml" />
+    <Content Include="Views\FrasesSeguranca\Index.cshtml" />
+    <Content Include="Views\FrasesSeguranca\Novo.cshtml" />
+    <Content Include="Views\AnaliseDeRisco\Geolocalizacao.cshtml" />
+    <Content Include="Views\FrasesSeguranca\Edicao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

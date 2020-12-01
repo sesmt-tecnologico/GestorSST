@@ -1,0 +1,133 @@
+﻿@using GISModel.Entidades
+
+@{
+    ViewBag.Title = "Listagem de Frases";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Empresas
+            <a href="@Url.Action("Novo", "FrasesSeguranca")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                Nova Frase
+            </a>
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+        @*@{
+                Html.RenderPartial("_MensagensDeRetorno");
+            }*@
+
+        @if (ViewBag.Frases != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Status</th>
+                            <th width="80px">Editar</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (FrasesSeguranca iFrases in ViewBag.Frases)
+                        {
+
+
+                        <tr id="linha-@iFrases.ID">
+                            <td>@iFrases.Descricao</td>
+                            <td>@iFrases.Categoria</td>
+                            <td>
+                                @if (iFrases.Status == GISModel.Enums.Situacao.Ativo)
+                                {
+                                    <span>Status: <strong style="color: green;">Ativo</strong></span>
+                                }
+                                else
+                                {
+                                    <span>Status: <strong style="color: red;">Inativo</strong></span>
+                                }
+
+                                <div class="pull-right action-buttons">
+
+                                    @if (iFrases.Status == GISModel.Enums.Situacao.Ativo)
+                                    {
+                                        <a class="red CustomTooltip" href="#" title="Desativar" onclick="DesativarFrase('@iFrases.UniqueKey.ToString()'); return false;">
+                                            <i class="ace-icon fa fa-remove bigger-130"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="green CustomTooltip" href="#" title="Ativar" onclick="AtivarFrase('@iFrases.UniqueKey.ToString()'); return false;">
+                                            <i class="ace-icon fa fa-check bigger-130"></i>
+                                        </a>
+                                    }
+
+
+                                </div>
+                            </td>
+
+
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons center">
+                                    <a href='@Url.Action("Edicao", "FrasesSeguranca", new { id = iFrases.ID })' class="green">
+                                        <i class="ace-icon fa fa-pencil bigger-130" title="Editar"></i>
+                                    </a>
+
+                                   
+                                </div>
+
+                                <div class="hidden-md hidden-lg">
+                                    <div class="inline pos-rel">
+                                        <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                            <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                        </button>
+
+                                        <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                            <li>
+                                                <a href='@Url.Action("Edicao", "FrasesSeguranca", new { id = iFrases.ID })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                    <span class="green">
+
+                                                        <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#" class="tooltip-error" onclick="DeletarFrase('@iFrases.ID', '@iFrases.Descricao');" data-rel="tooltip" title="Delete">
+                                                    <span class="red">
+                                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jQ_dataTable")
+
+
+    <script src="~/Scripts/Custom/Frases/Listagem.js"></script>
+
+    <script src="~/Scripts/Custom/Frases/Edicao.js"></script>
+}

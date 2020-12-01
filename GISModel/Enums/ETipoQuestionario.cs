@@ -19,7 +19,17 @@ namespace GISModel.Enums
         Analise_Preliminar_de_Risco_Equipe = 4,
 
         [Display(Name = "Conclusão de Análise de Risco")]
-        Conclusao_Analise_de_Risco_Equipe = 5
+        Conclusao_Analise_de_Risco_Equipe = 5,
+
+        [Display(Name = " Análise de Risco Corte e Religa")]
+        Analise_de_Risco_CR = 6,
+
+        [Display(Name = " Análise de Risco LIGAÇÃO/SERVIÇOS")]
+        Ligacao_Servico = 7,
+
+        [Display(Name = " Análise de Risco INSPEÇÃO/PAV")]
+        INSPECAO_PAV = 8,
+
 
     }
 

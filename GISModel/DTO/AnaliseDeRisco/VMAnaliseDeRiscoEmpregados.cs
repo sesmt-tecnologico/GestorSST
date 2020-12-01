@@ -12,6 +12,8 @@ namespace GISModel.DTO.AnaliseDeRisco
 
         public Guid UKAtividade { get; set; }
 
+        public Guid UKResposta { get; set; }
+
         public string Atividade { get; set; }
 
         public string NomeEmpregado { get; set; }
@@ -20,11 +22,11 @@ namespace GISModel.DTO.AnaliseDeRisco
 
         public string Supervisor { get; set; }
 
-        public string Fonte { get; set; }
+        public Guid Fonte { get; set; }
 
         public string  Pergunta { get; set; }
 
-        public string Resposta { get; set; }
+        public string Resposta { get; set; }        
 
         public string Usuario { get; set; }
 

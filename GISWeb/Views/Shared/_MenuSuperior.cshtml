@@ -71,6 +71,13 @@
                         </a>
                         <b class="arrow"></b>
                     </li>
+                    <li class="hover">
+                        <a href="@path/FrasesSeguranca/Index">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Frases
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
 
                     <li class="hover">
                         <a href="@path/Empregado/Pesquisa">
@@ -82,7 +89,7 @@
                 }
 
 
-                @if (isGestorTecnico ||isEmpregado || isSuperAdmin )
+                @if (isGestorTecnico || isEmpregado || isSuperAdmin)
                 {
                     <li class="hover">
                         <a href="@path/Empregado/Desktop">
@@ -91,6 +98,14 @@
                         </a>
                         <b class="arrow"></b>
                     </li>
+
+                    @*<li class="hover">
+                        <a href="@path/AnaliseDeRisco/Geolocalizacao">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Localização
+                        </a>
+                        <b class="arrow"></b>
+                    </li>*@
                 }
 
             </ul>
