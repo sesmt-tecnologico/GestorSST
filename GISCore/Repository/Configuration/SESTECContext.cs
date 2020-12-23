@@ -15,6 +15,7 @@ namespace GISCore.Repository.Configuration
             Database.SetInitializer<SESTECContext>(null);
         }
 
+        public DbSet<ARInterrompida> ARInterrompida { get; set; }
         public DbSet<Workflow> Workflow { get; set; }
 
         public DbSet<FrasesSeguranca> FrasesSeguranca { get; set; }

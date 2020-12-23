@@ -6,7 +6,7 @@ namespace Gestor.Job.Startup.Infrastructure
 {
     internal class Orb
     {
-       // private IAtividadeBusiness _AtividadeBusiness { get; set; }
+       //private IAtividadeBusiness _AtividadeBusiness { get; set; }
 
        private IBaseBusiness<REL_AtividadeEquipe> _AtividadeEquipeBusiness { get; set; }
 
@@ -26,7 +26,7 @@ namespace Gestor.Job.Startup.Infrastructure
         {
 
            // _AtividadeBusiness = kernel.Get<IAtividadeBusiness>();
-           _AtividadeEquipeBusiness = kernel.Get<IBaseBusiness<REL_AtividadeEquipe>>();
+            _AtividadeEquipeBusiness = kernel.Get<IBaseBusiness<REL_AtividadeEquipe>>();
             //_EmpresaBusiness = kernel.Get<IEmpresaBusiness>();
             //_NivelHierarquicoBusiness = kernel.Get<INivelHierarquicoBusiness>();
             //_DepartamentoBusiness = kernel.Get<IDepartamentoBusiness>();

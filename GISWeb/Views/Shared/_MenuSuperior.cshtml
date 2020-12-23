@@ -99,13 +99,18 @@
                         <b class="arrow"></b>
                     </li>
 
-                    @*<li class="hover">
+                    if (isGestorTecnico || isSuperAdmin)
+                    {
+                    <li class="hover">
                         <a href="@path/AnaliseDeRisco/Geolocalizacao">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Localização
                         </a>
                         <b class="arrow"></b>
-                    </li>*@
+                    </li>
+                    }
+
+                    
                 }
 
             </ul>

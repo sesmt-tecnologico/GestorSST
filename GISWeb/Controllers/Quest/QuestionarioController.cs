@@ -743,6 +743,7 @@ namespace GISWeb.Controllers.Quest
         public ActionResult GravarRespostaQuestionarioAnalise(VMQuestionarioRespondido entidade) { 
             try
             {
+                
 
                 if (string.IsNullOrEmpty(entidade.UKEmpregado))
                     throw new Exception("Não foi possível identificar o empregado que está respondendo o questionário.");
@@ -767,6 +768,8 @@ namespace GISWeb.Controllers.Quest
                     }
                 }
 
+                var situacao = entidade.Status;
+
                 Resposta oResposta = new Resposta()
                 {
                     UniqueKey = Guid.NewGuid(),
@@ -774,7 +777,8 @@ namespace GISWeb.Controllers.Quest
                     UKEmpresa = Guid.Parse(entidade.UKEmpresa),
                     UKQuestionario = Guid.Parse(entidade.UKQuestionario),
                     UKObjeto = Guid.Parse(entidade.UKFonteGeradora),
-                    Registro = entidade.Registro,                    
+                    Registro = entidade.Registro,
+                    Status = situacao != null? situacao:"",
                     UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                 };
                 RespostaBusiness.Inserir(oResposta);
@@ -810,6 +814,7 @@ namespace GISWeb.Controllers.Quest
                             RespostaItemBusiness.Inserir(oRespostaItem);
                         }
 
+                        
 
                     
 

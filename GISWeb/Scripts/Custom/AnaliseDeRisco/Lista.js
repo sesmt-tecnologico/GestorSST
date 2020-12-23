@@ -197,6 +197,36 @@ function OnClickVerAula(pUKObjeto) {
 }
 
 
+function ConfirmDialog(message) {
+    $('<div></div>').appendTo('body')
+        .html('<div><h3>' + message + '?</h3></div>')
+        .dialog({
+            modal: true,
+            title: 'Delete message',
+            zIndex: 10000,
+            autoOpen: true,
+            width: 'auto',
+            resizable: false,
+            buttons: {
+                Yes: function () {
+                    // $(obj).removeAttr('onclick');                                
+                    // $(obj).parents('.Parent').remove();
+
+                    $('body').append('<h1>Confirm Dialog Result: <i>Yes</i></h1>');
+
+                    $(this).dialog("close");
+                },
+                No: function () {
+                    $('body').append('<h1>Confirm Dialog Result: <i>No</i></h1>');
+
+                    $(this).dialog("close");
+                }
+            },
+            close: function (event, ui) {
+                $(this).remove();
+            }
+        });
+};
 
 
 
@@ -232,6 +262,11 @@ function OnClickVerAR(UKAtividade) {
 
 }
 
+function OnClickAterramento() {
+
+    alert("Em construção");
+
+}
 
 
 
@@ -657,33 +692,130 @@ function GravarQuestionarioAPR(pUKQuestionario, pUKEmpresa) {
 
 }
 
-function ExisteSubPergunta(pUKPergunta, pUKTipoRespostaItem) {
-    $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html("");
-    $(".conteudoSubPergunta." + pUKPergunta).html("");
-    $('.page-content-area').ace_ajax('startLoading');
+function myImped() {
 
-    $.ajax({
-        method: "POST",
-        url: "/Questionario/BuscarPerguntasVinculadasView",
-        data: { UKPergunta: pUKPergunta, UKTipoRespostaItem: pUKTipoRespostaItem },
-        error: function (erro) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+        var registro = $(".txtRegistroSubs").val();
+        var supervisor = $(".txtSupervisor").val();
+        var item = $(".txtItem").val();
+    var texto = $(".txtOpcao").val();
 
-            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
-        },
-        success: function (content) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+    alert("Seu supervisor será informado, favor entrar em contato.");
 
-            if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
-                ExibirMensagemDeErro(content.resultado.Erro);
+        var obj = {
+            Item: item,
+            Descricao: texto
+
+        };
+
+        $('.page-content-area').ace_ajax('startLoading');
+
+        $.ajax({
+            method: "POST",
+            url: "/ARInterrompida/Cadastrar",
+            data: { oARinterrompida: obj },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
+
+                TratarResultadoJSON(content.resultado);
             }
-            else {
-                $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html(content);
-                AplicaTooltip();
-            }
+        });
+   
+ }
 
+
+
+
+
+
+function ExisteSubPergunta(pUKPergunta, pUKTipoRespostaItem, pNome) {
+
+    
+    
+    if (pNome == "Não" ) {
+        //alert("Deseja encerrar?");
+
+        $.confirm({
+            title: 'Condição Impeditiva!',
+            content: 'Ao descrever a situação, a atividade será encerrada e o Resposável será avisado para providenciar as soluções.',
+            type: 'green',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: 'Confirmar',
+                    btnClass: 'btn-green',
+                    action: function () {
+
+                        $('input:radio').each(function () {
+
+                            var botao = $(".rbOpcao");
+                            var enviar = $(".enviar");
+
+                            botao.prop('disabled', true);
+
+
+                            enviar.hide();
+
+
+                            $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html("");
+                            $(".conteudoSubPergunta." + pUKPergunta).html("");
+                            $('.page-content-area').ace_ajax('startLoading');
+
+                            $.ajax({
+                                method: "POST",
+                                url: "/Questionario/BuscarPerguntasVinculadasView",
+                                data: { UKPergunta: pUKPergunta, UKTipoRespostaItem: pUKTipoRespostaItem },
+                                error: function (erro) {
+                                    $('.page-content-area').ace_ajax('stopLoading', true);
+
+                                    ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                                },
+                                success: function (content) {
+                                    $('.page-content-area').ace_ajax('stopLoading', true);
+
+                                    if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+                                        ExibirMensagemDeErro(content.resultado.Erro);
+                                    }
+                                    else {
+                                        $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html(content);
+                                        AplicaTooltip();
+                                    }
+
+                                }
+                            });
+                            
+
+                           
+                        });
+                    }
+                },
+                close: {
+                    text: "Cancelar",
+                    action:function() {
+                        
+                        var botao = $(".rbOpcao");                            
+                        botao.prop('checked', false);
+
+                       
+
+                    }
+                }
+                    
+            }
+        });
         }
-    });
+   
+
+
+    
+
+
+
+   
 
 }
 
@@ -832,7 +964,8 @@ function GravarQuestionarioConclusao(pUKQuestionario, pUKEmpresa) {
         UKQuestionario: pUKQuestionario,
         UKEmpresa: pUKEmpresa,
         PerguntasRespondidas: arrPerguntas,
-        Registro: pRegistro
+        Registro: pRegistro,
+        Status: "Fechado"
         
     };
 

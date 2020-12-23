@@ -30,6 +30,9 @@ namespace GISModel.Enums
         [Display(Name = " Análise de Risco INSPEÇÃO/PAV")]
         INSPECAO_PAV = 8,
 
+        [Display(Name = " Análise de Risco CONSTRUÇÃO/MANUTENÇAO EM RDA")]
+        CONSTRUÇÃO_MANUTENÇAO_RDA = 9
+
 
     }
 

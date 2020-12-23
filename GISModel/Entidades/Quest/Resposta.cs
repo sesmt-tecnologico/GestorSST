@@ -24,7 +24,13 @@ namespace GISModel.Entidades.Quest
         public Guid? UKObjeto { get; set; }
 
         [Display(Name = "Registro")]
-        public string Registro { get; set; }       
+        public string Registro { get; set; }
+
+        [Display(Name = "Status")]
+        public string Status { get; set; }
+
+
+
 
 
         [NotMapped]

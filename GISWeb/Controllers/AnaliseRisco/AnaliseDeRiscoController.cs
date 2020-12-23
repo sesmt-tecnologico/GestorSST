@@ -204,9 +204,11 @@ namespace GISWeb.Controllers.AnaliseRisco
                       where ri.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)                      
                       select new VMAnaliseDeRiscoEmpregados()
                       {
+                          
                           Pergunta = p.Descricao,
                           Resposta = ri.Resposta,
-                          Data = ri.DataInclusao
+                          Data = ri.DataInclusao,
+                          Status = r.Status
                           
 
                       };
@@ -221,12 +223,38 @@ namespace GISWeb.Controllers.AnaliseRisco
                         }
                     }
 
-                
+
+
+
+                var Fech = from r in RespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao))                           
+                           where r.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)
+                           && r.Status.Contains("Fechado")
+                           select new VMAnaliseDeRiscoEmpregados()
+                           {
+                               Status = r.Status,
+                               Data = r.DataInclusao
+
+                          };
+
+                List<VMAnaliseDeRiscoEmpregados> ListFech = new List<VMAnaliseDeRiscoEmpregados>();
+
+                foreach (var itemfech in Fech)
+                {
+                    if (itemfech.Data.Date == data)
+                    {
+                        ListFech.Add(itemfech);
+                    }
+                }
+
+                var fechado = ListFech.Count();
+
+                ViewBag.Fechado = fechado;
 
 
 
 
                 ViewBag.APR = ListAPR;
+                ViewBag.APRcount = ListAPR.Count;
 
             }
 
@@ -283,7 +311,8 @@ namespace GISWeb.Controllers.AnaliseRisco
 
 
             var oFechamento = from r in RespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
-                        join ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Resposta.Contains("Com Desvio") || a.Resposta.Contains("Sem Desvio")).ToList()
+                        join ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) 
+                        && a.Resposta.Contains("Sim") || a.Resposta.Contains("Não")).ToList()
                         on r.UniqueKey equals ri.UKResposta
                         join a in AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
                         on ri.UKFonteGeradora equals a.UniqueKey
@@ -847,6 +876,8 @@ namespace GISWeb.Controllers.AnaliseRisco
                     }
                 }
 
+                
+
                 return PartialView("_BuscarAPR", oQuest);
             }
             catch (Exception ex)
@@ -1065,6 +1096,11 @@ namespace GISWeb.Controllers.AnaliseRisco
                         TQuest = "7";
                         
                     }
+                    if (item != null && item.NomeDaEquipe.Contains("EQUIPE DE CONSTRUÇÃO/ MANUTENÇÃO EM RDA"))
+                    {
+                        TQuest = "9";
+
+                    }
 
                 }
                                                
@@ -1247,6 +1283,9 @@ namespace GISWeb.Controllers.AnaliseRisco
 
 
 
+
+
+
                 Guid oUKEmpregado = Guid.Parse(UKEmpregado);
 
 
@@ -1276,6 +1315,11 @@ namespace GISWeb.Controllers.AnaliseRisco
                         TQuest = "7";
 
                     }
+                    if (item != null && item.NomeDaEquipe.Contains("EQUIPE DE CONSTRUÇÃO/ MANUTENÇÃO EM RDA"))
+                    {
+                        TQuest = "9";
+
+                    }
 
                 }
 
@@ -1285,6 +1329,8 @@ namespace GISWeb.Controllers.AnaliseRisco
 
                 ViewBag.UKEmpregado = UKEmpregado;
                 ViewBag.UKFonteGeradora = oAtividade.UniqueKey;
+                var fonte = oAtividade.UniqueKey;
+
                 ViewBag.Registro = oRegistro;
 
                 Questionario oQuest = null;
@@ -1323,7 +1369,7 @@ namespace GISWeb.Controllers.AnaliseRisco
                                     from tbResposta
                                     where UKEmpregado = '" + UKEmpregado + @"' and 
                                           UKQuestionario = '" + result.Rows[0]["UniqueKey"].ToString() + @"' and 
-                                          UKObjeto = '" + UKFonteGeradora + "'";
+                                          UKObjeto = '" + fonte + "'";
 
                     DataTable result2 = QuestionarioBusiness.GetDataTable(sql2);
                     if (result2.Rows.Count > 0)
@@ -1427,6 +1473,7 @@ namespace GISWeb.Controllers.AnaliseRisco
 
                     }
                 }
+
 
                 return PartialView("_BuscarQuestionarioMD", oQuest);
 
@@ -1876,7 +1923,7 @@ namespace GISWeb.Controllers.AnaliseRisco
 
               var oAtividade = from a in AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
                                        join re in REL_AtividadeEquipeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
-                                       on a.UniqueKey equals re.UKAtividade
+                                       on a.UniqueKey equals re.UKAtividade                                       
                                        where re.UKEquipe.Equals(oAlocacao.UKEquipe)
                                        select new AtividadeAlocadaFuncaoViewModel()
                                        {

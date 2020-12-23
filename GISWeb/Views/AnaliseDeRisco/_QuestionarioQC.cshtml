@@ -61,7 +61,7 @@
                                                         {
                                                             <div class="radio" style="margin: 0;">
                                                                 <label>
-                                                                    <input name="@perg.UniqueKey.ToString()" type="radio" data-uk="@item.UniqueKey.ToString()" class="ace rbOpcao" onclick="ExisteSubPergunta('@perg.UniqueKey.ToString()', '@item.UniqueKey.ToString()');">
+                                                                    <input name="@perg.UniqueKey.ToString()" type="radio" data-uk="@item.UniqueKey.ToString()" class="ace rbOpcao" onclick="ExisteSubPergunta('@perg.UniqueKey.ToString()', '@item.UniqueKey.ToString()','@item.Nome.ToString()');">
                                                                     <span class="lbl"> @item.Nome</span>
                                                                 </label>
                                                             </div>

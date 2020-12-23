@@ -568,6 +568,7 @@
     <Compile Include="Controllers\AdmissaoController.cs" />
     <Compile Include="Controllers\AlocacaoController.cs" />
     <Compile Include="Controllers\AnaliseRisco\AnaliseDeRiscoController.cs" />
+    <Compile Include="Controllers\AnaliseRisco\ARInterrompidaController.cs" />
     <Compile Include="Controllers\ArquivoController.cs" />
     <Compile Include="Controllers\AtividadeAlocadaController.cs" />
     <Compile Include="Controllers\AtividadeController.cs" />
@@ -957,6 +958,7 @@
     <Folder Include="Images\EstabelecimentoImagens\" />
     <Folder Include="Images\MedidasDeControle\" />
     <Folder Include="Images\Relatorios\" />
+    <Folder Include="Views\ARInterrompida\" />
     <Folder Include="Views\AtividadeFuncaoLiberada\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Inbox\" />

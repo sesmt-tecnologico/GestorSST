@@ -157,6 +157,7 @@
     <Compile Include="DTO\Workflow\PesquisaWorkflowViewModel.cs" />
     <Compile Include="Entidades\Admissao.cs" />
     <Compile Include="Entidades\Alocacao.cs" />
+    <Compile Include="Entidades\AnaliseDeRisco\ARInterrompida.cs" />
     <Compile Include="Entidades\AnaliseDeRisco\REL_AnaliseDeRiscoEmpregados.cs" />
     <Compile Include="Entidades\AnaliseRisco.cs" />
     <Compile Include="Entidades\Arquivo.cs" />

@@ -30,6 +30,9 @@ namespace GISModel.DTO.AnaliseDeRisco
 
         public string Usuario { get; set; }
 
+        public string Status { get; set; }
+
+
         public DateTime Data { get; set; }
     }
 }
