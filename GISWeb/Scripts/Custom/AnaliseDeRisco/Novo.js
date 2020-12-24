@@ -8,10 +8,38 @@
     
 
     GetDocumento(UKEmpregado, UkRegistro);
+
+    //getCadeado(UKFonteGeradora);
    
-
-
+   
 });
+
+
+function getCadeado(UKFonteGeradora) {
+
+    var UkRegistro = $.trim($(".txtRegistro").val());
+
+    $.ajax({
+        method: "POST",
+        url: "/AnaliseDeRisco/Index",
+        data: {UKFonteGeradora: UkRegistro },
+        error: function (erro) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            ExibirMensagemDeErro(erro.responseText);
+        },
+        success: function (content) {
+            $('.page-content-area').ace_ajax('stopLoading', true);
+
+            alert("Pegou cadedo!");                      
+
+               
+            
+        }
+    });
+
+
+}
 
 
 

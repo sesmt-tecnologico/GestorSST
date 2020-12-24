@@ -14,7 +14,7 @@
 @if (ViewBag.Relacao.Count > 0)
 {
     <div class="center">
-        <h3>ANÁLISE E CONTROLES DE RISCOS - RDS</h3>
+        <h3>ANÁLISE E CONTROLES DE RISCOS - RDA</h3>
 
     </div>
     <br />
@@ -91,7 +91,7 @@
         </div>
     </div>
 
-    if (ViewBag.APR != null && ViewBag.APRcount > 0)
+    if (ViewBag.APR != null || ViewBag.APRcount > 0)
     {
 
         <p>
@@ -344,6 +344,7 @@ else
 
                             var vbAtiv = Convert.ToString(@iRisc.UKAtividade);
                             var Resp = Convert.ToString(@iRisc.UKResposta);
+                           
 
 
 
@@ -354,40 +355,45 @@ else
                                 <div class="container">
 
 
-                                    <div class="row">
-                                        <div class="hidden">@iRisc.UKAtividade</div><br />
+                                                        <div class="row">
+                                                            <div class="hidden">@iRisc.UKAtividade</div><br />
 
 
-                                        <a class="red CustomTooltip position-relative" href="#" title="Análise de Risco" onclick="OnClickVerAR('@iRisc.UKAtividade');return false;" data-target="#modalAddArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
-                                            <i class="ace-icon fa fa-archive bigger-150 "></i>
-                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <a class="red CustomTooltip position-relative" href="#" title="Análise de Risco" onclick="OnClickVerAR('@iRisc.UKAtividade');return false;" data-target="#modalAddArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
+                                                                <i class="ace-icon fa fa-archive bigger-150 "></i>
+                                                            </a>&nbsp;&nbsp;&nbsp;&nbsp;
 
-                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                            <i class="ace-icon fa fa-camera blue bigger-125"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                                        </a>
+                                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                <i class="ace-icon fa fa-camera blue bigger-125"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            </a>
 
-                                        <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;
 
-                                        @if (@ViewBag.Fechado > 0)
-                                        {
-
-
-                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                <i class="ace-icon fa fa-unlock green bigger-140"></i>
-                                            </a>
-
-                                        }
-                                        else
-                                        {
-                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                <i class="ace-icon fa fa-unlock green bigger-140"></i>
-                                            </a>
+                                                            @foreach (var cad in ViewBag.Cadeado)
+                                                            {
 
 
-                                        }
+                                                                if (cad.UniqueKey == iRisc.UKResposta && cad.Status == "Fechado" )
+                                                                {
 
-                                    </div>
+
+                                                                    <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                        <i class="ace-icon fa fa-lock red bigger-140"></i>
+                                                                    </a>
+
+                                                                }
+                                                                if(cad.UniqueKey == iRisc.UKResposta && cad.Status != "Fechado")
+                                                                {
+                                                                    <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                        <i class="ace-icon fa fa-unlock green bigger-140"></i>
+                                                                    </a>
+
+
+                                                                }
+                                                             }
+
+                                                        </div>
 
                                 </div>
 
