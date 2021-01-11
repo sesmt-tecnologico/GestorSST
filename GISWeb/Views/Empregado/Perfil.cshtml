@@ -242,12 +242,14 @@
 @section Stylesheets {
     @*@Styles.Render("~/bundles/css_common_end")*@
     @Styles.Render("~/bundles/croppie_css")
+    @Styles.Render("~/bundles/ace_css_fileUpload")
 }
 
 @section Scripts {
     <script src="~/Scripts/Ace/ace.widget-box.js"></script>
     @Scripts.Render("~/bundles/jQ_dataTable")
     @Scripts.Render("~/bundles/croppie_js")
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
     <script src="~/Scripts/Ace/jQ/jquery.maskedinput.js"></script>
     @*@Scripts.Render("~/bundles/js_common_end")*@
     @Scripts.Render("~/bundles/custom/profile")
@@ -267,6 +269,82 @@
 
 
 @section Sliders {
+
+
+    <div id="modalIndexarFoto" class="modal fade" style="z-index: 10001">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalIndexarFotoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Indexar Foto</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalIndexarFotoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.GIF" width="28px" /></div>
+                            <div id="modalIndexarFotoCorpo">
+                                <div class="alert alert-info">
+                                    <button type="button" class="close" data-dismiss="alert">
+                                        <i class="ace-icon fa fa-times"></i>
+                                    </button>
+
+                                    <strong>
+                                        <i class="ace-icon fa fa-info-circle"></i>
+                                        Mensagem:
+                                    </strong>
+
+                                    Este recurso não funciona em Internet Explorer 9 ou inferior.
+                                    <br>
+                                </div>
+
+                                <div id="divFotoPerfil" class="row">
+                                    <div class="col-xs-12">
+                                        <div class="space-14"></div>
+
+                                        <div id="divInputUpload" class="row">
+                                            <div class="col-xs-8 col-xs-offset-2">
+                                                <input type="file" id="inputUpload" accept="image/*" style="max-width: 300px" />
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-8 col-xs-offset-2">
+                                                <div id="divCropie">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span id="modalIndexarFotoLoading" style="display: none; float: left; padding-top: 6px">
+                                <img src="~/Images/slack_loading.GIF" width="28px" />
+                            </span>
+
+                            <button id="modalIndexarrFotoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                <i class="ace-icon fa fa-times"></i>
+                                Fechar
+                            </button>
+
+                            <button id="modalIndexarFotoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                <i class="ace-icon fa fa-check"></i>
+                                Atualizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <div id="modalAdmissao" class="modal fade" style="overflow: auto">
         <div class="modal-dialog">
@@ -421,6 +499,6 @@
         </div>
     </div>
 
-    
+
 
 }

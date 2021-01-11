@@ -1,5 +1,6 @@
 ﻿using GISCore.Business.Abstract;
 using GISModel.Entidades;
+using GISModel.Entidades.Quest;
 using Ninject;
 
 namespace Gestor.Job.Startup.Infrastructure
@@ -8,7 +9,7 @@ namespace Gestor.Job.Startup.Infrastructure
     {
        //private IAtividadeBusiness _AtividadeBusiness { get; set; }
 
-       private IBaseBusiness<REL_AtividadeEquipe> _AtividadeEquipeBusiness { get; set; }
+       private IBaseBusiness<TipoRespostaItem> _TipoRespostaItemBusiness { get; set; }
 
         //private IEmpresaBusiness _EmpresaBusiness { get; set; }
 
@@ -25,8 +26,8 @@ namespace Gestor.Job.Startup.Infrastructure
         public Orb(IKernel kernel)
         {
 
-           // _AtividadeBusiness = kernel.Get<IAtividadeBusiness>();
-            _AtividadeEquipeBusiness = kernel.Get<IBaseBusiness<REL_AtividadeEquipe>>();
+            // _AtividadeBusiness = kernel.Get<IAtividadeBusiness>();
+            _TipoRespostaItemBusiness = kernel.Get<IBaseBusiness<TipoRespostaItem>>();
             //_EmpresaBusiness = kernel.Get<IEmpresaBusiness>();
             //_NivelHierarquicoBusiness = kernel.Get<INivelHierarquicoBusiness>();
             //_DepartamentoBusiness = kernel.Get<IDepartamentoBusiness>();
@@ -38,11 +39,11 @@ namespace Gestor.Job.Startup.Infrastructure
 
 
 
-        internal void CadastrarAtividadeEquipe(REL_AtividadeEquipe entidade)
+        internal void CadastrarAtividadeEquipe(TipoRespostaItem entidade)
         {
             try
             {
-                _AtividadeEquipeBusiness.Inserir(entidade);
+                _TipoRespostaItemBusiness.Inserir(entidade);
             }
             catch { }
         }

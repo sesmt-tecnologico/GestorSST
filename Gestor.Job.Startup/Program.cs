@@ -78,24 +78,24 @@ namespace Gestor.Job.Startup
             for (int row = start.Row + 1; row <= end.Row; row++)
             {
                 string ID = ws.Cells[row, 1].Text;
-                string UKEmpresa = ws.Cells[row, 2].Text;
-                string UKEquipe = ws.Cells[row, 3].Text;
-                string UKAtividade = ws.Cells[row, 4].Text;
-                string Uniquekey = ws.Cells[row, 5].Text;
-                string UsuarioInclusao = ws.Cells[row, 6].Text;
-                string DataInclusao = ws.Cells[row, 7].Text;
-                string UsuarioExclusao = ws.Cells[row, 8].Text;
-                string DataExclusao = ws.Cells[row, 9].Text;
+                string UKTipoResposta = ws.Cells[row, 2].Text;
+                string Nome = ws.Cells[row, 3].Text;
+                string Uniquekey = ws.Cells[row, 4].Text;                
+                string UsuarioInclusao = ws.Cells[row, 5].Text;
+                string DataInclusao = ws.Cells[row, 6].Text;
+                string UsuarioExclusao = ws.Cells[row, 7].Text;
+                string DataExclusao = ws.Cells[row, 8].Text;
+                string Ordem = ws.Cells[row, 9].Text;
 
 
-                OrbEffect.CadastrarAtividadeEquipe(new GISModel.Entidades.REL_AtividadeEquipe()
+                OrbEffect.CadastrarAtividadeEquipe(new GISModel.Entidades.Quest.TipoRespostaItem()
                 {
 
                     //ID = Guid.Parse(ID),
-                    UKEmpresa = Guid.Parse(UKEmpresa.Trim()),
-                    UKEquipe = Guid.Parse(UKEquipe.Trim()),
-                    UKAtividade = Guid.Parse(UKAtividade.Trim()),
-                    UsuarioInclusao = UsuarioInclusao
+                    UKTipoResposta = Guid.Parse(UKTipoResposta.Trim()),
+                    Nome = Nome ,                   
+                    UsuarioInclusao = UsuarioInclusao,
+                    Ordem = Convert.ToInt32(Ordem)
 
 
                 });

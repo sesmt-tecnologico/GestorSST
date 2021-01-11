@@ -119,7 +119,7 @@
 
     });
     
-        
+   // OnClickBuscarQuestionarioConclusao();
 
 
 });
@@ -734,10 +734,10 @@ function myImped() {
 
 function ExisteSubPergunta(pUKPergunta, pUKTipoRespostaItem, pNome) {
 
-    
+    alert("Deseja encerrar?");
     
     if (pNome == "Não" ) {
-        //alert("Deseja encerrar?");
+        
 
         $.confirm({
             title: 'Condição Impeditiva!',

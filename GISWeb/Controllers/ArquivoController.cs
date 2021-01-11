@@ -1,4 +1,7 @@
-﻿using GISCore.Business.Abstract;
+﻿using Amazon;
+using Amazon.Rekognition;
+using Amazon.Rekognition.Model;
+using GISCore.Business.Abstract;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
 using GISWeb.Infraestrutura.Filters;
@@ -12,6 +15,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
+using GISCore.Infrastructure.Utils;
 
 namespace GISWeb.Controllers
 {
@@ -28,6 +32,9 @@ namespace GISWeb.Controllers
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
+        [Inject]
+        public IBaseBusiness<Validacoes> ValidacoesBusiness { get; set; }
 
         #endregion
 
@@ -72,6 +79,319 @@ namespace GISWeb.Controllers
                 return Json(new { resultado = TratarRetornoValidacaoToJSON() });
             }
         }
+
+        [RestritoAAjax]
+        public ActionResult RecoFaceUpload(string ukObjeto, string Regis)
+        {
+            try
+            {
+
+                ViewBag.UKObjeto = ukObjeto;
+                ViewBag.Registro = Regis;
+
+                return PartialView("_RecoFaceUpload");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Content(ex.Message, "text/html");
+            }
+        }
+
+
+        [RestritoAAjax]
+        public ActionResult IndexFaceUpload(string ukObjeto, string Nome)
+        {
+            try
+            {
+
+                ViewBag.UKObjeto = ukObjeto;
+                ViewBag.Nome = Nome;
+
+                return PartialView("_IndexFaceUpload");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Content(ex.Message, "text/html");
+            }
+        }
+
+        [HttpPost]
+        [RestritoAAjax]
+        [ValidateAntiForgeryToken]
+        public ActionResult IndexFaceUpload(Arquivo arquivo)
+        {
+            try
+            {
+
+
+                string Semelhanca = string.Empty;
+                string input = string.Empty;
+
+                HttpPostedFileBase arquivoPostado = null;
+                foreach (string fileInputName in Request.Files)
+                {
+
+                    var nome = arquivo.NomeLocal;
+
+                    arquivoPostado = Request.Files[fileInputName];
+
+
+                    var target = new MemoryStream();
+                    arquivoPostado.InputStream.CopyTo(target);
+                    arquivo.Conteudo = target.ToArray();
+                    arquivo.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    arquivo.DataInclusao = DateTime.Now;
+                    arquivo.Extensao = Path.GetExtension(arquivoPostado.FileName);
+                    arquivo.NomeLocal = arquivoPostado.FileName;
+
+                    byte[] inputImageData = arquivo.Conteudo;
+                    var inputImageStream = new MemoryStream(inputImageData);
+
+                    var item = arquivo.Conteudo;
+
+                    input = arquivo.NomeLocal;
+
+
+                    var rekognitionClient = new AmazonRekognitionClient("AKIAIQSK5ZOGDP4FEAZA", "ovOn8vXcmP+PME9CnNhUtkUQE4f4eVAY94DYDRkg", RegionEndpoint.USWest2);
+
+                    Image image = new Image()
+                    {
+                        Bytes = inputImageStream
+                    };
+
+                    IndexFacesRequest indexFacesRequest = new IndexFacesRequest()
+                    {
+                        Image = image,
+                        CollectionId = "live",
+                        ExternalImageId = input,
+                        DetectionAttributes = new List<String>() { "ALL" }
+                    };
+
+                    try
+                    {
+                        IndexFacesResponse indexFacesResponse = rekognitionClient.IndexFaces(indexFacesRequest);
+                    }
+                    catch (Exception)
+                    {
+
+                        throw new Exception("Imagem não Indexada!");
+                    }
+
+
+
+                }
+
+                if (input != null)
+                    return Json(new { sucesso = "O Empregado '" + input + "' foi analisado com êxito." });
+                else
+                    return Json(new { sucesso = "Empregado não encontrado!" });
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { erro = ex.Message });
+            }
+        }
+
+
+
+
+
+
+        [HttpPost]
+        [RestritoAAjax]
+        [ValidateAntiForgeryToken]
+        public ActionResult RecoFaceUpload(Arquivo arquivo)
+        {
+            try
+            {
+
+
+                string Semelhanca = string.Empty;
+                String resultado = string.Empty;
+
+                HttpPostedFileBase arquivoPostado = null;
+                foreach (string fileInputName in Request.Files)
+                {
+
+
+
+                    arquivoPostado = Request.Files[fileInputName];
+
+
+                    var target = new MemoryStream();
+                    arquivoPostado.InputStream.CopyTo(target);
+                    arquivo.Conteudo = target.ToArray();
+                    arquivo.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    arquivo.DataInclusao = DateTime.Now;
+                    arquivo.Extensao = Path.GetExtension(arquivoPostado.FileName);
+                    arquivo.NomeLocal = arquivoPostado.FileName;
+
+                    byte[] inputImageData = arquivo.Conteudo;
+                    var inputImageStream = new MemoryStream(inputImageData);
+
+                    var item = arquivo.Conteudo;
+
+                    var input = arquivo.NomeLocal;
+
+                    var rekognitionClient = new AmazonRekognitionClient("AKIAIQSK5ZOGDP4FEAZA", "ovOn8vXcmP+PME9CnNhUtkUQE4f4eVAY94DYDRkg", RegionEndpoint.USWest2);
+
+                    Image image = new Image()
+                    {
+                        Bytes = inputImageStream
+                    };
+
+
+
+
+                    // Get an image object from S3 bucket.
+                    /* Image image = new Image()
+                     {
+                         S3Object = new S3Object()
+                         {
+                             Bucket = "recface01",
+                             Name = input
+                         }
+                     };*/
+
+
+                    /* IndexFacesRequest indexFacesRequest = new IndexFacesRequest()
+                     {
+                         Image = image,
+                         CollectionId = "live",
+                         ExternalImageId = input,
+                         DetectionAttributes = new List<String>() { "ALL" }
+                     };
+
+
+
+                     IndexFacesResponse indexFacesResponse = rekognitionClient.IndexFaces(indexFacesRequest);*/
+
+
+
+
+                    SearchFacesByImageRequest searchFacesByImageRequest = new SearchFacesByImageRequest()
+                    {
+                        CollectionId = "live",
+                        Image = image,
+                        FaceMatchThreshold = 70F,
+                        MaxFaces = 2
+
+                    };
+
+                    var contaFace = 0;
+                    try
+                    {
+                        SearchFacesByImageResponse searchFacesByImageResponse = rekognitionClient.SearchFacesByImage(searchFacesByImageRequest);
+                        List<FaceMatch> faceMatches = searchFacesByImageResponse.FaceMatches;
+                        BoundingBox searchedFaceBoundingBox = searchFacesByImageResponse.SearchedFaceBoundingBox;
+                        float searchedFaceConfidence = searchFacesByImageResponse.SearchedFaceConfidence;
+
+                        if (faceMatches.Count == 0)
+                        {
+                            contaFace = 2;
+                        }
+
+                        if (faceMatches.Count > 0)
+                        {
+
+
+
+
+                            foreach (FaceMatch face in faceMatches)
+                            {
+
+
+                                if (face != null )//&& face.Face.ExternalImageId == "FredericoAlmeidaAredes.jpeg")
+                                {
+
+
+                                    //Extensions.GravaCookie("MensagemSucesso", "Empregado identificado com: '" + face.Similarity + "'de semlhança.", 10);
+                                    //return Json(new { sucesso = "O arquivo foi anexado com êxito." });
+                                    // return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "AnaliseDeRisco") } });
+
+                                    Semelhanca = face.Similarity.ToString();
+
+                                    resultado = face.Face.ExternalImageId.ToString();
+
+                                    contaFace = 1;
+
+
+                                    Validacoes val = new Validacoes()
+                                    {
+                                        Registro = arquivo.NumRegistro,
+                                        NomeIndex = face.Face.ExternalImageId
+
+
+                                    };
+
+                                    ValidacoesBusiness.Inserir(val);
+
+
+                                }
+                                else
+                                {
+                                    contaFace = 3;
+                                    throw new Exception("Empregado com Nome diferente!");
+
+                                }
+
+                            }
+
+                            Extensions.GravaCookie("MensagemSucesso", "Empregado '" + resultado + "' identificado com: '" + Semelhanca + "' de semelhança.", 10);
+
+
+                        }
+                        else
+                        {
+                            throw new Exception("Empregado não encontrado!");
+
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+                        if (contaFace == 2 )
+                        {
+                            throw new Exception("Empregado não encontrado!");
+                        }
+                        if (contaFace == 3)
+                        {
+                            throw new Exception("A imagem não corresponde com o empregado atual");
+                        }
+                        else
+                        {
+                            throw new Exception("Essa não é uma imagem válida!");
+                        }
+
+
+
+                    }
+
+                }
+
+                if (Semelhanca != null)
+                    return Json(new { sucesso = "O Empregado '" + resultado + "' foi analisado com êxito." });
+                else
+                    return Json(new { sucesso = "Empregado não encontrado!" });
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { erro = ex.Message });
+            }
+
+
+
+        }
+
+
+
+
 
 
         [RestritoAAjax]

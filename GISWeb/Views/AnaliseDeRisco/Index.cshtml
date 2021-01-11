@@ -62,7 +62,8 @@
                                 <td>@iEmp.Nome</td>
                                 <td>@iEmp.CPF</td>
                                 <td class="center" width="96">
-                                    <i class="fa fa-user-o" aria-hidden="true"></i>
+                                    <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickValidar('@ViewBag.Registro' );" data-target="#modalNovoArquivo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                        <i class="fa fa-user-circle-o bigger-170" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                 </td>
 
 
@@ -149,7 +150,7 @@
 
 
     <br />
-    if (ViewBag.APR != null && ViewBag.APRcount > 0)
+    if (ViewBag.APR.Count > 0 )
     {
 
         <div class="space-3"></div>
@@ -344,7 +345,7 @@ else
 
                             var vbAtiv = Convert.ToString(@iRisc.UKAtividade);
                             var Resp = Convert.ToString(@iRisc.UKResposta);
-                           
+
 
 
 
@@ -355,45 +356,44 @@ else
                                 <div class="container">
 
 
-                                                        <div class="row">
-                                                            <div class="hidden">@iRisc.UKAtividade</div><br />
+                                    <div class="row">
+                                        <div class="hidden">@iRisc.UKAtividade</div><br />
 
 
-                                                            <a class="red CustomTooltip position-relative" href="#" title="Análise de Risco" onclick="OnClickVerAR('@iRisc.UKAtividade');return false;" data-target="#modalAddArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
-                                                                <i class="ace-icon fa fa-archive bigger-150 "></i>
-                                                            </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a class="red CustomTooltip position-relative" href="#" title="Análise de Risco" onclick="OnClickVerAR('@iRisc.UKAtividade');return false;" data-target="#modalAddArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
+                                            <i class="ace-icon fa fa-archive bigger-150 "></i>
+                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
 
-                                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                <i class="ace-icon fa fa-camera blue bigger-125"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            </a>
+                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                            <i class="ace-icon fa fa-camera blue bigger-125"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </a>
 
-                                                            <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span>
-                                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
 
-                                                            @foreach (var cad in ViewBag.Cadeado)
-                                                            {
-
-
-                                                                if (cad.UniqueKey == iRisc.UKResposta && cad.Status == "Fechado" )
-                                                                {
+                                        
 
 
-                                                                    <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                        <i class="ace-icon fa fa-lock red bigger-140"></i>
-                                                                    </a>
+                                            @if ( iRisc.Status == "Fechado")
+                                            {
+                                            
 
-                                                                }
-                                                                if(cad.UniqueKey == iRisc.UKResposta && cad.Status != "Fechado")
-                                                                {
-                                                                    <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                        <i class="ace-icon fa fa-unlock green bigger-140"></i>
-                                                                    </a>
+                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                    <i class="ace-icon fa fa-lock red bigger-140"></i>
+                                                </a>
+
+                                            }
+                                            else
+                                            {
+                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                    <i class="ace-icon fa fa-unlock green bigger-140"></i>
+                                                </a>
 
 
-                                                                }
-                                                             }
+                                            }
+                                       
 
-                                                        </div>
+                                    </div>
 
                                 </div>
 
@@ -442,6 +442,7 @@ else
     <script src="~/Scripts/Ace/bootstrap-tag.js"></script>
     <script src="~/Scripts/Custom/AnaliseDeRisco/Lista.js"></script>
     <script src="~/Scripts/Custom/AnaliseDeRisco/Novo.js"></script>
+    <script src="~/Scripts/Custom/Reconhecimento/Listagem.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
@@ -451,6 +452,55 @@ else
 
 
 @section Sliders {
+
+
+    <div id="modalNovoArquivo" class="modal fade" style="overflow: hide;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="modalNovoArquivoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="smaller lighter grey no-margin">
+                        <span class="hidden-800">Upload de Arquivo </span>
+                        <b><span id="modalNovoArquivoTituloName"></span></b>
+                        <span id="modalNovoArquivoCorpoLoading" style="float: right; font-size: 10px; padding-right: 5px; padding-top: 4px; vertical-align: middle">
+                            <span id="modalNovoArquivoCorpoLoadingTexto" style="padding-right: 5px"></span>
+                            <img src="~/Images/slack_loading.gif" width="25px" />
+                        </span>
+                    </h3>
+                    <h6 id="modalNovoArquivoTitulo" style="color: #777; font-size: 11px; padding-left: 2px; margin: 5px 0px -5px 0px"></h6>
+                </div>
+
+                <div class="modal-body" style="overflow-y: auto;">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div id="modalNovoArquivoCorpo"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span id="modalArquivoLoading" style="display: none; float: left; padding-top: 6px">
+                                @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                                <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                            </span>
+
+                            <button id="modalArquivoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                <i class="ace-icon fa fa-times"></i>
+                                Fechar
+                            </button>
+
+                            <button id="modalArquivoProsseguir" class="btn btn-sm btn-info" style="right: 5px; left: auto">
+                                <i class="ace-icon fa fa-check"></i>
+                                Prosseguir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div id="modalAddNome" class="modal fade" style="overflow: auto">
         <div class="modal-dialog">

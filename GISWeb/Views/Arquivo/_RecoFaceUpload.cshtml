@@ -1,0 +1,23 @@
+﻿@using GISModel.Entidades
+@model Arquivo
+
+
+@using (Html.BeginForm("RecoFaceUpload", "Arquivo", FormMethod.Post, new
+{
+    @id = "formUpload",
+    @class = "dropzone",
+    @enctype = "multipart/form-data"
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(i => i.UKObjeto, new { @Value = ViewBag.UKObjeto })
+    @Html.HiddenFor(i => i.NumRegistro, new { @Value = ViewBag.Registro })
+
+    <input hidden type="text" name="Registro" id="Registro" value="@ViewBag.Registro" />
+
+    <div class="fallback" style="border: 1px solid red;">
+        <input name="file" style="border: 1px solid red;" type="file" multiple="" />
+    </div>
+}
+
+

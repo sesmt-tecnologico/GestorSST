@@ -316,7 +316,8 @@ namespace GISWeb.Controllers.AnaliseRisco
                                   Data = ri.DataInclusao,
                                   Resposta = ri.Resposta,
                                   Fonte = ri.UKFonteGeradora,
-                                  Atividade = a.Descricao
+                                  Atividade = a.Descricao,
+                                  Status= r.Status
 
                               };
 
@@ -340,21 +341,31 @@ namespace GISWeb.Controllers.AnaliseRisco
 
 
 
-            var cadeado =  RespostaBusiness.Consulta.Where(a=>string.IsNullOrEmpty(a.UsuarioExclusao)
-            && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)).ToList();
+            //var cadeado = (from r in  RespostaBusiness.Consulta.Where(a=>string.IsNullOrEmpty(a.UsuarioExclusao))
+            //              join ri in  RespostaItemBusiness.Consulta.Where(a=>string.IsNullOrEmpty(a.UsuarioExclusao))
+            //              on r.UniqueKey equals ri.UKResposta
+            //             where r.Status.Contains("Fechado") && r.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)
+            //            select new VMAnaliseDeRiscoEmpregados()
+            //            {
+            //                UKResposta = r.UniqueKey,
+            //                Data = ri.DataInclusao,
+            //                Resposta = ri.Resposta,
+            //                Fonte = ri.UKFonteGeradora
 
-            List<Resposta> listCadeado = new List<Resposta>();
+            //            }).ToList();
+
+            //List<VMAnaliseDeRiscoEmpregados> listCadeado = new List<VMAnaliseDeRiscoEmpregados>();
 
 
-            foreach(var cad in cadeado)
-            {
-                if(cad.DataInclusao.Date == data)
-                {
-                    listCadeado.Add(cad);
-                }
-            }
+            //foreach (var cad in cadeado)
+            //{
+            //    if (cad.Data.Date == data)
+            //    {
+            //        listCadeado.Add(cad);
+            //    }
+            //}
 
-            ViewBag.Cadeado = listCadeado;
+            //ViewBag.Cadeado = listCadeado.OrderByDescending(a => a.Data);
 
 
             var frases = FrasesSegurancaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) &&

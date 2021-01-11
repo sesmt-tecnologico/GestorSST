@@ -66,8 +66,8 @@ namespace GISWeb.Controllers
                 //string sql01 = @"select 'Posicao' as posicao,count(*) as total from REL_DocumentoAlocacao d
                 //                where d.Posicao = 1 ";
 
-                string sql01 = @"select 'Status' as posicao,count(*) as total from tbARInterrompida d
-                                where d.Status = 1 ";
+                string sql01 = @"select 'Status' as posicao,count(*) as total from tbARInterrompida d";
+                                //where d.Status = 1 ";
 
                 DataTable dtInbox = WorkflowBusiness.GetDataTable(sql01);
                 if (dtInbox.Rows.Count > 0)

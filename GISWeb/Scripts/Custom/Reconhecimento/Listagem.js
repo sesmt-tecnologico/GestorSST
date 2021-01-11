@@ -82,6 +82,133 @@ function OnClickVerAula(pUKObjeto) {
 }
 
 
+function OnClickValidar(Regis) {
+
+    var oRegis = $(".txtRegistro").val();
+
+
+
+    // $('.lnkUploadArquivo').off("click").on('click', function (e) {
+    //  e.preventDefault();
+
+    var btnUploadArquivo = $(this);
+
+    $('#modalNovoArquivoX').show();
+
+    $('#modalNovoArquivoFechar').removeClass('disabled');
+    $('#modalNovoArquivoFechar').removeAttr('disabled');
+    $('#modalNovoArquivoFechar').on('click', function (e) {
+        e.preventDefault();
+        $('#modalNovoArquivo').modal('hide');
+    });
+
+    $('#modalNovoArquivoProsseguir').hide();
+
+    $('#modalNovoArquivoCorpo').html('');
+    $('#modalNovoArquivoCorpoLoading').show();
+
+    $.ajax({
+        method: "GET",
+        url: "/Arquivo/RecoFaceUpload",
+        data: { ukObjeto: btnUploadArquivo.closest("[data-uniquekey]").data("uniquekey"), Regis: oRegis },
+        error: function (erro) {
+            $('#modalNovoArquivo').modal('hide');
+            ExibirMensagemGritter('Oops!', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+            $('#modalNovoArquivoCorpoLoading').hide();
+            $('#modalNovoArquivoCorpo').html(content);
+
+            InitDropZoneSingle(btnUploadArquivo);
+
+            Chosen();
+
+            $.validator.unobtrusive.parse('#formUpload');
+        }
+    });
+    // });
+
+    $(".btnExcluirArquivo").off("click").on("click", function (e) {
+
+        var UKArquivo = $(this).data("ukarquivo");
+        var callback = function () {
+            $("#modalArquivosCorpoLoading").show();
+
+            $.ajax({
+                method: "POST",
+                url: "/Arquivo/Excluir",
+                data: { ukArquivo: UKArquivo },
+                error: function (erro) {
+
+                    $("#modalArquivosCorpoLoading").hide();
+
+                    ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                },
+                success: function (content) {
+                    $("#modalArquivosCorpoLoading").hide();
+
+                    if (content.erro) {
+                        ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                    }
+                    else {
+                        ExibirMensagemDeSucesso("Arquivo excluído com sucesso.");
+                        $("#modalArquivos").modal("hide");
+                    }
+
+                }
+            });
+        };
+
+        ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir este arquivo?", "Exclusão de Arquivo", callback, "btn-danger");
+
+    });
+
+    // }
+    //});
+
+
+
+
+
+
+
+
+    $(".btnExcluirArquivo").off("click").on("click", function (e) {
+
+        var UKArquivo = $(this).data("ukarquivo");
+        var callback = function () {
+            $("#modalArquivosCorpoLoading").show();
+
+            $.ajax({
+                method: "POST",
+                url: "/Arquivo/Excluir",
+                data: { ukArquivo: UKArquivo },
+                error: function (erro) {
+
+                    $("#modalArquivosCorpoLoading").hide();
+
+                    ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                },
+                success: function (content) {
+                    $("#modalArquivosCorpoLoading").hide();
+
+                    if (content.erro) {
+                        ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                    }
+                    else {
+                        ExibirMensagemDeSucesso("Arquivo excluído com sucesso.");
+                        $("#modalArquivos").modal("hide");
+                    }
+
+                }
+            });
+        };
+
+        ExibirMensagemDeConfirmacaoSimples("Tem certeza que deseja excluir este arquivo?", "Exclusão de Arquivo", callback, "btn-danger");
+
+    });
+}
+
 
 
 
@@ -209,7 +336,7 @@ function InitDropZoneSingle() {
                 if (myDropzone.getUploadingFiles().length === 0 && myDropzone.getQueuedFiles().length === 0 && myDropzone.getRejectedFiles().length === 0) {
                     $('#modalNovoArquivo').modal('hide');
 
-                    ExibirMensagemDeSucesso("Arquivo anexado com sucesso.");
+                    ExibirMensagemDeSucesso("Empregado e Assinatura validados com exito!");
                     $("#modalArquivos").modal("hide");
                 }
             }
@@ -339,35 +466,122 @@ function BuscarQuestionarioMD() {
     }
 }
 
-function ExisteSubPergunta(pUKPergunta, pUKTipoRespostaItem) {
-    $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html("");
-    $(".conteudoSubPergunta." + pUKPergunta).html("");
-    $('.page-content-area').ace_ajax('startLoading');
+function ExisteSubPergunta(pUKPergunta, pUKTipoRespostaItem, pNome) {
 
-    $.ajax({
-        method: "POST",
-        url: "/Questionario/BuscarPerguntasVinculadasView",
-        data: { UKPergunta: pUKPergunta, UKTipoRespostaItem: pUKTipoRespostaItem },
-        error: function (erro) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+    //alert("Deseja encerrar?");
 
-            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
-        },
-        success: function (content) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+    if (pNome == "Não") {
 
-            if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
-                ExibirMensagemDeErro(content.resultado.Erro);
+
+        $.confirm({
+            title: 'Condição Impeditiva!',
+            content: 'Ao descrever a situação, a atividade será encerrada e o Resposável será avisado para providenciar as soluções.',
+            type: 'green',
+            typeAnimated: true,
+            buttons: {
+                tryAgain: {
+                    text: 'Confirmar',
+                    btnClass: 'btn-green',
+                    action: function () {
+
+                        $('input:radio').each(function () {
+
+                            var botao = $(".rbOpcao");
+                            var enviar = $(".enviar");
+
+                            botao.prop('disabled', true);
+
+
+                            enviar.hide();
+
+
+                            $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html("");
+                            $(".conteudoSubPergunta." + pUKPergunta).html("");
+                            $('.page-content-area').ace_ajax('startLoading');
+
+                            $.ajax({
+                                method: "POST",
+                                url: "/Questionario/BuscarPerguntasVinculadasView",
+                                data: { UKPergunta: pUKPergunta, UKTipoRespostaItem: pUKTipoRespostaItem },
+                                error: function (erro) {
+                                    $('.page-content-area').ace_ajax('stopLoading', true);
+
+                                    ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+                                },
+                                success: function (content) {
+                                    $('.page-content-area').ace_ajax('stopLoading', true);
+
+                                    if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+                                        ExibirMensagemDeErro(content.resultado.Erro);
+                                    }
+                                    else {
+                                        $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html(content);
+                                        AplicaTooltip();
+                                    }
+
+                                }
+                            });
+
+
+
+                        });
+                    }
+                },
+                close: {
+                    text: "Cancelar",
+                    action: function () {
+
+                        var botao = $(".rbOpcao");
+                        botao.prop('checked', false);
+
+
+
+                    }
+                }
+
             }
-            else {
-                $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html(content);
-                AplicaTooltip();
-            }
+        });
+    }
 
-        }
-    });
+
+
+
+
+
+
+
 
 }
+
+//function ExisteSubPergunta(pUKPergunta, pUKTipoRespostaItem) {
+//    $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html("");
+//    $(".conteudoSubPergunta." + pUKPergunta).html("");
+//    $('.page-content-area').ace_ajax('startLoading');
+
+//    $.ajax({
+//        method: "POST",
+//        url: "/Questionario/BuscarPerguntasVinculadasView",
+//        data: { UKPergunta: pUKPergunta, UKTipoRespostaItem: pUKTipoRespostaItem },
+//        error: function (erro) {
+//            $('.page-content-area').ace_ajax('stopLoading', true);
+
+//            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+//        },
+//        success: function (content) {
+//            $('.page-content-area').ace_ajax('stopLoading', true);
+
+//            if (content.resultado != null && content.resultado != undefined && content.resultado.Erro != null && content.resultado.Erro != undefined && content.resultado.Erro != "") {
+//                ExibirMensagemDeErro(content.resultado.Erro);
+//            }
+//            else {
+//                $(".conteudoSubPergunta." + pUKPergunta + "." + pUKTipoRespostaItem).html(content);
+//                AplicaTooltip();
+//            }
+
+//        }
+//    });
+
+//}
 
 function GravarQuestionario(pUKQuestionario, pUKEmpresa) {
 
