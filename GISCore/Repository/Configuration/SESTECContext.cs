@@ -1,8 +1,10 @@
 ﻿using GISModel.Entidades;
 using GISModel.Entidades.AnaliseDeRisco;
+using GISModel.Entidades.Estoques;
 using GISModel.Entidades.PCMSO;
 using GISModel.Entidades.PPRA;
 using GISModel.Entidades.Quest;
+using GISModel.Entidades.Veiculo;
 using System.Data.Entity;
 
 namespace GISCore.Repository.Configuration
@@ -15,6 +17,10 @@ namespace GISCore.Repository.Configuration
             Database.SetInitializer<SESTECContext>(null);
         }
 
+
+        public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<Produto> Produto { get; set; }
+        public DbSet<MovimentacaoVeicular> MovimentacaoVeicular { get; set; }
         public DbSet<Validacoes> Validacoes { get; set; }
         public DbSet<ARInterrompida> ARInterrompida { get; set; }
         public DbSet<Workflow> Workflow { get; set; }

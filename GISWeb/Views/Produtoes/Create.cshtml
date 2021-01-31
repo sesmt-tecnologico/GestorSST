@@ -1,0 +1,121 @@
+﻿@model GISModel.Entidades.Estoques.Produto
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Produto</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <div class="form-group">
+                @Html.Label("Categoria", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownList("Categoria", new SelectList(ViewBag.categoria, "UniqueKey", "NomeCategoria"), "Selecione uma Categoria", new { @class = "chosen-select form-control tag-input-style", @id = "txtCategoria", @autocomplete = "" })
+                    @Html.ValidationMessage("Categoria", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12 ", @id = "txtProduto", @autocomplete = "off" } })
+                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "font-size: 10px; color: #a94442;" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.CheckBoxFor(model => model.status, new { htmlAttributes = new {@class = "col-xs-12 col-sm-12" , @id = "txtstatus" } })
+                   
+                    @Html.ValidationMessageFor(model => model.status, "", new { @class = "font-size: 10px; color: #a94442;" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.QunatMinima, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(model => model.QunatMinima, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12 ", @id = "txtQuantMinima", @autocomplete = "off" } })
+                    @Html.ValidationMessageFor(model => model.QunatMinima, "", new { @class = "font-size: 10px; color: #a94442;" })
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Qunatidade, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(model => model.Qunatidade, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12 ", @id = "txtQuantidade", @autocomplete = "off" } })
+                    @Html.ValidationMessageFor(model => model.Qunatidade, "", new { @class = "font-size: 10px; color: #a94442;" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PrecoUnit, htmlAttributes: new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(model => model.PrecoUnit, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12 ", @id = "txtPrecoUnit", @autocomplete = "off" } })
+                    @Html.ValidationMessageFor(model => model.PrecoUnit, "", new { @class = "font-size: 10px; color: #a94442;" })
+                </div>
+            </div>
+        </div>
+    </div><br />
+
+
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+            <button class="btn btn-info" id="btnSalvar" onclick="SalvarProduto()">
+                <i class="ace-icon fa fa-check bigger-110"></i>
+                Salvar
+            </button>
+            &nbsp;
+            <button class="btn btn-warning" type="reset">
+                <i class="ace-icon fa fa-undo bigger-110"></i>
+                Limpar
+            </button>
+            &nbsp;
+            <a class="btn" href="javascript:history.back()">
+                <i class="ace-icon fa fa-arrow-left"></i>
+                Voltar
+            </a>
+        </div>
+    </div><br />
+</div>
+
+
+<div id="divProdutos">
+
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Custom/Produto/Novo.js"></script>
+
+}
+

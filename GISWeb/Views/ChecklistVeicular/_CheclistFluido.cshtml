@@ -1,0 +1,372 @@
+﻿@using GISModel.Entidades.Quest
+@using System.Configuration
+
+@model Questionario
+
+<div class="space-3"></div>
+<div class="hr hr-24"></div>
+<div class="space-3"></div>
+
+@if (Model != null)
+{
+
+    <div class="center"><h3>Verificação do Nível de Fluido </h3></div>
+
+    <div class="space-3"></div>
+    <div class="hr hr-24"></div>
+    <div class="space-3"></div>
+
+    
+    string[] arrCores = ConfigurationManager.AppSettings["Web:PadraoCoresLista"].Split(',');
+
+    <input type="hidden" id="txtUKEmpregado" value="@ViewBag.UKEmpregado" />
+    <input type="hidden" id="txtUKFonteGeradora" value="@ViewBag.UKFonteGeradora" />
+
+    <div class="dd dd-draghandle" style="max-width:100%;" id="nestable">
+        <ol class="dd-list">
+
+            <li class="dd-item collapseOne">
+
+                @if (Model.Perguntas.Count > 0)
+                {
+                    int count = 0;
+                    <div class="hidden-sm hidden-xs">
+                        <ol class="dd-list">
+                            @foreach (Pergunta perg in Model.Perguntas)
+                            {
+                                count++;
+                                if (count == 1)
+                                {
+                                    <li class="dd-item">
+                                        <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                            <span style="width: 600px; float: left;" class="perguntaAPR" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">
+                                                Pergunta @perg.Ordem.ToString(): @perg.Descricao
+                                               
+
+                                            </span>
+
+                                        </div>
+                                        <input type="hidden" class="txtItem col-xs-12 col-sm-12" value="@perg.Descricao" />
+
+                                        @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count > 0)
+                                        {
+
+                                            <ol class="dd-list">
+                                                @foreach (TipoRespostaItem item in perg._TipoResposta.TiposResposta)
+                                                {
+
+
+                                                    <li class="dd-item">
+                                                        <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+
+                                                            @if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Selecao_Unica)
+                                                            {
+                                                                if (item.Nome.Contains("N/A"))
+                                                                {
+
+                                                                    <div class="radio" style="margin: 0;">
+                                                                        <label>
+                                                                            <input name="@perg.UniqueKey.ToString()" type="radio" disabled data-uk="@item.UniqueKey.ToString()" class="ace rbOpcao" onclick="ExisteSubPergunta('@perg.UniqueKey.ToString()', '@item.UniqueKey.ToString()','@item.Nome.ToString()');">
+                                                                            <span class="lbl"> @item.Nome</span>
+                                                                        </label>
+                                                                    </div>
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="radio" style="margin: 0;">
+                                                                        <label>
+                                                                            <input name="@perg.UniqueKey.ToString()" type="radio" data-uk="@item.UniqueKey.ToString()" class="ace rbOpcao" value="@item.Nome" onclick="ExisteSubPergunta('@perg.UniqueKey.ToString()', '@item.UniqueKey.ToString()','@item.Nome.ToString()');">
+                                                                            <span class="lbl"> @item.Nome</span>
+                                                                        </label>
+                                                                    </div>
+                                                                }
+
+
+                                                            }
+                                                            else if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Multipla_Selecao)
+                                                            {
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <input name="@perg.UniqueKey.ToString()" data-uk="@item.UniqueKey.ToString()" class="ace ace-checkbox-2 cbOpcao" type="checkbox">
+                                                                        <span class="lbl"> @item.Nome</span>
+                                                                    </label>
+                                                                </div>
+                                                            }
+
+                                                            <div class="pull-right action-buttons">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="conteudoSubPergunta @perg.UniqueKey.ToString() @item.UniqueKey.ToString()">
+                                                        </div>
+
+                                                    </li>
+                                                }
+                                            </ol>
+                                        }
+                                        else
+                                        {
+                                            <ol class="dd-list">
+                                                <li class="dd-item">
+                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+                                                        <input type="text" class="txtOpcao txtPergunta-@perg.UniqueKey.ToString()" value="" style="width: 100%;" />
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                        }
+                                    </li>
+
+
+
+
+                                }
+                                else
+                                {
+
+
+                                    <li class="dd-item">
+                                        <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                            <span style="width: 600px; float: left;" class="perguntaAPR" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">
+                                                Pergunta @perg.Ordem.ToString(): @perg.Descricao
+                                                
+
+                                            </span>
+
+                                        </div>
+
+                                        @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count > 0)
+                                        {
+
+                                            <ol class="dd-list">
+                                                @foreach (TipoRespostaItem item in perg._TipoResposta.TiposResposta)
+                                                {
+
+
+                                                    <li class="dd-item">
+                                                        <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+
+                                                            @if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Selecao_Unica)
+                                                            {
+
+                                                                <div class="radio" style="margin: 0;">
+                                                                    <label>
+                                                                        <input name="@perg.UniqueKey.ToString()" type="radio" data-uk="@item.UniqueKey.ToString()" class="ace rbOpcao" onclick="ExisteSubPergunta('@perg.UniqueKey.ToString()', '@item.UniqueKey.ToString()','@item.Nome.ToString()');">
+                                                                        <span class="lbl"> @item.Nome</span>
+                                                                    </label>
+                                                                </div>
+
+
+                                                            }
+                                                            else if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Multipla_Selecao)
+                                                            {
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <input name="@perg.UniqueKey.ToString()" data-uk="@item.UniqueKey.ToString()" class="ace ace-checkbox-2 cbOpcao" type="checkbox">
+                                                                        <span class="lbl"> @item.Nome</span>
+                                                                    </label>
+                                                                </div>
+                                                            }
+
+                                                            <div class="pull-right action-buttons">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="conteudoSubPergunta @perg.UniqueKey.ToString() @item.UniqueKey.ToString()">
+                                                        </div>
+
+                                                    </li>
+                                                }
+                                            </ol>
+                                        }
+                                        else
+                                        {
+                                            <ol class="dd-list">
+                                                <li class="dd-item">
+                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+                                                        <input type="text" class="txtOpcao txtPergunta-@perg.UniqueKey.ToString()" value="" style="width: 100%;" />
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                        }
+                                    </li>
+                                }
+                            }
+                        </ol>
+                    </div>
+                @*<div class="hidden-md hidden-lg">
+                        <ol class="dd-list">
+                            @foreach (Pergunta perg in Model.Perguntas)
+                            {
+                                count++;
+                                if (count == 1)
+                                {
+                                    <li class="dd-item">
+                                        <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                            <span style="width: 500px; float: left;" class="perguntaAPR" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">
+                                                Pergunta @perg.Ordem.ToString(): @perg.Descricao
+                                               
+
+                                            </span>
+
+                                        </div>
+                                        <input type="hidden" class="txtItem col-xs-12 col-sm-12" value="@perg.Descricao" />
+
+                                        @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count > 0)
+                                        {
+                                            <ol class="dd-list">
+                                                @foreach (TipoRespostaItem item in perg._TipoResposta.TiposResposta)
+                                                {
+                                                    <li class="dd-item">
+                                                        <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+
+                                                            @if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Selecao_Unica)
+                                                            {
+                                                                <div class="radio" style="margin: 0;">
+                                                                    <label>
+                                                                        <input name="@perg.UniqueKey.ToString()" type="radio" data-uk="@item.UniqueKey.ToString()" class="ace rbOpcao" onclick="ExisteSubPergunta('@perg.UniqueKey.ToString()', '@item.UniqueKey.ToString()','@item.Nome.ToString()');">
+                                                                        <span class="lbl"> @item.Nome</span>
+                                                                    </label>
+                                                                </div>
+                                                            }
+                                                            else if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Multipla_Selecao)
+                                                            {
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <input name="@perg.UniqueKey.ToString()" data-uk="@item.UniqueKey.ToString()" class="ace ace-checkbox-2 cbOpcao" type="checkbox">
+                                                                        <span class="lbl"> @item.Nome</span>
+                                                                    </label>
+                                                                </div>
+                                                            }
+
+                                                            <div class="pull-right action-buttons">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="conteudoSubPergunta @perg.UniqueKey.ToString() @item.UniqueKey.ToString()">
+                                                        </div>
+
+                                                    </li>
+                                                }
+                                            </ol>
+                                        }
+                                        else
+                                        {
+                                            <ol class="dd-list">
+                                                <li class="dd-item">
+                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+                                                        <input type="text" class="txtOpcao txtPergunta-@perg.UniqueKey.ToString()" value="" style="width: 100%;" />
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                        }
+                                    </li>
+
+
+                                }
+                                else
+                                {
+
+                                    <li class="dd-item">
+                                        <div class="dd2-content" style="border-left: 2px solid @arrCores[2];">
+                                            <span style="width: 500px; float: left;" class="perguntaAPR" data-uk="@perg.UniqueKey.ToString()" data-tipo="@perg.TipoResposta.ToString()">
+                                                Pergunta @perg.Ordem.ToString(): @perg.Descricao
+                                                
+
+                                            </span>
+
+                                        </div>
+
+                                        @if (perg._TipoResposta != null && perg._TipoResposta.TiposResposta != null && perg._TipoResposta.TiposResposta.Count > 0)
+                                        {
+                                            <ol class="dd-list">
+                                                @foreach (TipoRespostaItem item in perg._TipoResposta.TiposResposta)
+                                                {
+                                                    <li class="dd-item">
+                                                        <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+
+                                                            @if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Selecao_Unica)
+                                                            {
+                                                                <div class="radio" style="margin: 0;">
+                                                                    <label>
+                                                                        <input name="@perg.UniqueKey.ToString()" type="radio" data-uk="@item.UniqueKey.ToString()" class="ace rbOpcao" onclick="ExisteSubPergunta('@perg.UniqueKey.ToString()', '@item.UniqueKey.ToString()','@item.Nome.ToString()');">
+                                                                        <span class="lbl"> @item.Nome</span>
+                                                                    </label>
+                                                                </div>
+                                                            }
+                                                            else if (perg.TipoResposta == GISModel.Enums.ETipoResposta.Multipla_Selecao)
+                                                            {
+                                                                <div class="checkbox">
+                                                                    <label>
+                                                                        <input name="@perg.UniqueKey.ToString()" data-uk="@item.UniqueKey.ToString()" class="ace ace-checkbox-2 cbOpcao" type="checkbox">
+                                                                        <span class="lbl"> @item.Nome</span>
+                                                                    </label>
+                                                                </div>
+                                                            }
+
+                                                            <div class="pull-right action-buttons">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="conteudoSubPergunta @perg.UniqueKey.ToString() @item.UniqueKey.ToString()">
+                                                        </div>
+
+                                                    </li>
+                                                }
+                                            </ol>
+                                        }
+                                        else
+                                        {
+                                            <ol class="dd-list">
+                                                <li class="dd-item">
+                                                    <div class="dd2-content" style="border-left: 2px solid @arrCores[3];">
+                                                        <input type="text" class="txtOpcao txtPergunta-@perg.UniqueKey.ToString()" value="" style="width: 100%;" />
+                                                    </div>
+                                                </li>
+                                            </ol>
+                                        }
+                                    </li>
+
+
+                                }
+
+
+                            }
+                        </ol>
+                    </div>*@
+
+
+
+                }
+                <div class="dd2-content enviar" style="border-left: 2px solid @arrCores[1];">
+                    <span style="margin-right: 60px;"> @Model.Nome</span>
+                    <div class="pull-right action-buttons" id="enviar">
+                        <a class="green " href="#" onclick="GravarQuestionarioAPR('@Model.UniqueKey.ToString()', '@Model.UKEmpresa.ToString()'); return false;">
+                            Enviar &nbsp;
+                            <i class="ace-icon fa fa-send bigger-130"></i>
+                        </a>
+                    </div>
+                </div>
+
+
+            </li>
+        </ol>
+    </div>
+
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>
+            <i class="ace-icon fa fa-smile-o"></i>
+            Olá!
+        </strong>&nbsp;&nbsp;
+
+        A APR de hoje já foi elaborada. Click no botão abaixo para abrir o formulário.
+        <br>
+    </div>
+}
+
+
+
+

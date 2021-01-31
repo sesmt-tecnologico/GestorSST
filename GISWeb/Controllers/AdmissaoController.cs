@@ -160,10 +160,11 @@ namespace GISWeb.Controllers
         {
             try
             {
-               
+                Guid emp = Guid.Parse(UKEmpregado);
 
-                
-                
+                Empregado Empregado = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(emp));
+
+                ViewBag.empregado = Empregado.Nome;
 
                 List <Admissao> lista = new List<Admissao>();
 

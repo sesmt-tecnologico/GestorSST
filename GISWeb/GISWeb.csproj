@@ -194,6 +194,12 @@
     <Content Include="assets\images\gallery\thumb-4.jpg" />
     <Content Include="assets\images\gallery\thumb-5.jpg" />
     <Content Include="assets\images\gallery\thumb-6.jpg" />
+    <Content Include="assets\images\IconsImage\bateria.png" />
+    <Content Include="assets\images\IconsImage\Limpador.png" />
+    <Content Include="assets\images\IconsImage\oleomotor.png" />
+    <Content Include="assets\images\IconsImage\origenDestino.jpg" />
+    <Content Include="assets\images\IconsImage\parteEletrica.png" />
+    <Content Include="assets\images\IconsImage\pneus.jpg" />
     <Content Include="assets\images\placeholder\165x90.png" />
     <Content Include="assets\images\placeholder\255x150.png" />
     <Content Include="assets\images\placeholder\530x270.png" />
@@ -508,6 +514,7 @@
     <Content Include="Scripts\Custom\PossiveisDanos\Listagem.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Novo.js" />
     <Content Include="Scripts\Custom\PPRA\Lista.js" />
+    <Content Include="Scripts\Custom\Produto\Novo.js" />
     <Content Include="Scripts\Custom\Questionario\Listagem.js" />
     <Content Include="Scripts\Custom\Questionario\Novo.js" />
     <Content Include="Scripts\Custom\Reconhecimento\Listagem.js" />
@@ -535,6 +542,9 @@
     <Content Include="Scripts\Custom\Usuario\Edicao.js" />
     <Content Include="Scripts\Custom\Usuario\Listagem.js" />
     <Content Include="Scripts\Custom\Usuario\Novo.js" />
+    <Content Include="Scripts\Custom\Veiculo\CheckList.js" />
+    <Content Include="Scripts\Custom\Veiculo\lista.js" />
+    <Content Include="Scripts\Custom\Veiculo\Novo.js" />
     <Content Include="Scripts\Custom\WorkArea\Editar.js" />
     <Content Include="Scripts\Custom\WorkArea\Listagem.js" />
     <Content Include="Scripts\Custom\WorkArea\Novo.js" />
@@ -587,6 +597,7 @@
     <Compile Include="Controllers\AtividadesDoEstabelecimentoController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CargoController.cs" />
+    <Compile Include="Controllers\CategoriasController.cs" />
     <Compile Include="Controllers\ClassificacaoMedidaController.cs" />
     <Compile Include="Controllers\ContratoController.cs" />
     <Compile Include="Controllers\ControleDeRiscosController.cs" />
@@ -624,6 +635,7 @@
     <Compile Include="Controllers\PossiveisDanosController.cs" />
     <Compile Include="Controllers\PPRA\MedicoesController.cs" />
     <Compile Include="Controllers\PPRA\PPRAController.cs" />
+    <Compile Include="Controllers\ProdutoesController.cs" />
     <Compile Include="Controllers\Quest\PerguntaController.cs" />
     <Compile Include="Controllers\Quest\QuestionarioController.cs" />
     <Compile Include="Controllers\Quest\RespostaController.cs" />
@@ -634,6 +646,8 @@
     <Compile Include="Controllers\TipoDeControleController.cs" />
     <Compile Include="Controllers\TipoDeRiscoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\Veiculo\ChecklistVeicularController.cs" />
+    <Compile Include="Controllers\Veiculo\MovimentacaoVeicularController.cs" />
     <Compile Include="Controllers\WorkAreaController.cs" />
     <Compile Include="Controllers\WorkflowController.cs" />
     <Compile Include="Global.asax.cs">
@@ -953,6 +967,23 @@
     <Content Include="Views\FrasesSeguranca\Edicao.cshtml" />
     <Content Include="Views\Arquivo\_IndexFaceUpload.cshtml" />
     <Content Include="Views\Arquivo\_RecoFaceUpload.cshtml" />
+    <Content Include="Views\MovimentacaoVeicular\Novo.cshtml" />
+    <Content Include="Views\MovimentacaoVeicular\Index.cshtml" />
+    <Content Include="Views\MovimentacaoVeicular\ListaMovimentacao.cshtml" />
+    <Content Include="Views\ChecklistVeicular\Index.cshtml" />
+    <Content Include="Views\ChecklistVeicular\_CheclistFluido.cshtml" />
+    <Content Include="Views\ChecklistVeicular\_CheclistFluidoMD.cshtml" />
+    <Content Include="Views\Categorias\Create.cshtml" />
+    <Content Include="Views\Categorias\Delete.cshtml" />
+    <Content Include="Views\Categorias\Details.cshtml" />
+    <Content Include="Views\Categorias\Edit.cshtml" />
+    <Content Include="Views\Categorias\Index.cshtml" />
+    <Content Include="Views\Produtoes\Create.cshtml" />
+    <Content Include="Views\Produtoes\Delete.cshtml" />
+    <Content Include="Views\Produtoes\Details.cshtml" />
+    <Content Include="Views\Produtoes\Edit.cshtml" />
+    <Content Include="Views\Produtoes\Index.cshtml" />
+    <Content Include="Views\Produtoes\_ListarProduto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

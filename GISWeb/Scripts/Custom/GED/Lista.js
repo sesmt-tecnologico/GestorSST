@@ -1,9 +1,11 @@
 ﻿
+//jQuery(function ($) {
 
+//    $(".btnAlterarValor").click(function () {
+//        alert("ok");
+//    });
 
-$("#btnLiberar").click(function () {
-    alert("ok");
-});
+//});
 
 
 function onClickAnalise(UKAlocacao, UKREL_DocAloc, status) {

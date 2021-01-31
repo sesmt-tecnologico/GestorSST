@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>CHECKLIST DIÁRIO PARA VEÍCULOS</h2>
+
+
+<div class="row">
+
+    <div class="col-sm-6 col-xs-12">
+        <a onclick="OnClickFluido()" class="btn btn-primary btn-lg btn-block" aling="center" data-backdrop="static" data-keyboard="false">
+            <img src="~/assets/images/IconsImage/oleomotor.png" width="220" height="180" /><br />
+            <span class="bigger-110 no-text-shadow  align-bottom">Verificação do Nível do Fluido </span>
+        </a>
+    </div>
+
+    <div class="col-sm-6 col-xs-12">
+        <a onclick="OnClickFluido()" class="btn btn-yellow btn-lg btn-block" aling="center" data-backdrop="static" data-keyboard="false">
+            <img src="~/assets/images/IconsImage/bateria.png" width="180" height="180"/><br />
+            <span class="bigger-110 no-text-shadow  align-bottom">Funcionamento da Parte Elétrica </span>
+        </a>
+    </div>
+</div><br/>
+
+    <div class="row">
+        <div class="col-sm-6 col-xs-12">
+            <a onclick="OnClickFluido()" class="btn btn-success btn-lg btn-block" aling="center" data-backdrop="static" data-keyboard="false">
+           
+              <img src="~/assets/images/IconsImage/Limpador.png" width="220" height="180" /><br />
+                <span class="bigger-110 no-text-shadow  align-bottom">Funcionamento dos instrumentos </span>
+            </a>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+            <a onclick="OnClickFluido()" class="btn btn-overlap btn-lg btn-block" aling="center" data-backdrop="static" data-keyboard="false">
+                <img src="~/assets/images/IconsImage/pneus.jpg" width="180" height="180" /><br />
+                <span class="bigger-110 no-text-shadow  align-bottom">Estado de Conservação </span>
+            </a>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <div id="contentDoc" style="padding-left: 12px;">
+
+            </div>
+        </div>
+    </div>
+
+
+    @section Stylesheets {
+        @Styles.Render("~/bundles/ace_css_fileUpload")
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jQ_dataTable")
+        @Scripts.Render("~/bundles/ace_js_fileUpload")
+        <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
+        <script src="~/Scripts/Ace/jQ/typeahead.jquery.js"></script>
+        <script src="~/Scripts/Ace/elements.typeahead.js"></script>
+
+        <script src="~/Scripts/Custom/Veiculo/CheckList.js"></script>
+
+        <script src="~/Scripts/Ace/ace.widget-box.js"></script>
+        <script src="~/Scripts/Ace/chosen.jquery.js"></script>
+
+        <script src="~/Scripts/Ace/bootstrap-tag.js"></script>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+
+
+    }

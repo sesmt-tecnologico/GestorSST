@@ -4,8 +4,6 @@
 @model GISModel.Entidades.Atividade
 
 
-
-
 @{
     ViewBag.Title = "Index";
 }
@@ -62,7 +60,7 @@
                                 <td>@iEmp.Nome</td>
                                 <td>@iEmp.CPF</td>
                                 <td class="center" width="96">
-                                    <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickValidar('@ViewBag.Registro' );" data-target="#modalNovoArquivo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                    <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickValidar('@iEmp.Nome' );" data-target="#modalNovoArquivo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
                                         <i class="fa fa-user-circle-o bigger-170" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                 </td>
 
@@ -78,6 +76,40 @@
 
         </div>
     </div>
+
+
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Validações
+                    </button>
+                </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <h4>Validações realizadas através de reconhecimento facial.</h4>
+
+                    @if (@ViewBag.valido != null)
+                    {
+                        foreach (Validacoes item in @ViewBag.valido)
+                        {
+                            var nome = item.NomeIndex;
+
+                            @nome.Substring(0, nome.Length - 4)<br />
+
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
 
     <div><h3>TELEFONE (S) EMERGÊNCIA: 192 SAMU - 193 Bombeiros - Outros:</h3></div>
@@ -150,7 +182,7 @@
 
 
     <br />
-    if (ViewBag.APR.Count > 0 )
+    if (ViewBag.APR != null)
     {
 
         <div class="space-3"></div>
@@ -356,44 +388,46 @@ else
                                 <div class="container">
 
 
-                                    <div class="row">
-                                        <div class="hidden">@iRisc.UKAtividade</div><br />
+                                                        <div class="row">
+                                                            <div class="hidden">@iRisc.UKAtividade</div><br />
 
 
-                                        <a class="red CustomTooltip position-relative" href="#" title="Análise de Risco" onclick="OnClickVerAR('@iRisc.UKAtividade');return false;" data-target="#modalAddArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
-                                            <i class="ace-icon fa fa-archive bigger-150 "></i>
-                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <a class="red CustomTooltip position-relative" href="#" title="Análise de Risco" onclick="OnClickVerAR('@iRisc.UKAtividade');return false;" data-target="#modalAddArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
+                                                                <i class="ace-icon fa fa-archive bigger-150 "></i>
+                                                            </a>&nbsp;&nbsp;&nbsp;&nbsp;
 
-                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                            <i class="ace-icon fa fa-camera blue bigger-125"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                                        </a>
+                                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos01('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                <i class="ace-icon fa fa-camera blue bigger-125"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            </a>
 
-                                        <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-
-                                        
+                                                            <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span>
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;
 
 
-                                            @if ( iRisc.Status == "Fechado")
-                                            {
-                                            
-
-                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                    <i class="ace-icon fa fa-lock red bigger-140"></i>
-                                                </a>
-
-                                            }
-                                            else
-                                            {
-                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                    <i class="ace-icon fa fa-unlock green bigger-140"></i>
-                                                </a>
 
 
-                                            }
-                                       
+                                                            @if (iRisc.Status == "Fechado")
+                                                            {
 
-                                    </div>
+
+                                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                    <i class="ace-icon fa fa-lock red bigger-140"></i>
+                                                                </a>
+
+                                                            }
+
+                                                            @if (iRisc.Status != "Fechado")
+                                                            {
+
+                                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                    <i class="ace-icon fa fa-unlock green bigger-140"></i>
+                                                                </a>
+
+
+                                                            }
+
+
+                                                        </div>
 
                                 </div>
 

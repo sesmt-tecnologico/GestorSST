@@ -1,0 +1,90 @@
+﻿@model GISModel.Entidades.Estoques.Produto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Produto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Qunatidade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qunatidade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrecoUnit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrecoUnit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UKCategoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UKCategoria)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UniqueKey)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UniqueKey)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioInclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioInclusao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataInclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataInclusao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioExclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioExclusao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataExclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataExclusao)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

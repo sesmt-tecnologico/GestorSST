@@ -26,6 +26,13 @@ namespace GISModel.Entidades.Quest
         [Display(Name = "Registro")]
         public string Registro { get; set; }
 
+        [Display(Name = "latitude")]
+        public string latitude { get; set; }
+
+        [Display(Name = "longitude")]
+        public string longitude { get; set; }
+
+
         [Display(Name = "Status")]
         public string Status { get; set; }
 

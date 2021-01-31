@@ -443,6 +443,13 @@ namespace GISWeb.Controllers.Quest
             {
                 ViewBag.UKEmpregado = UKEmpregado;
                 ViewBag.UKFonteGeradora = UKFonteGeradora;
+                Guid emp = Guid.Empty;
+
+                if(UKEmpregado != null)
+                {
+                    emp = Guid.Parse(UKEmpregado);
+                }               
+                 
 
                 Questionario oQuest = null;
 
@@ -454,7 +461,7 @@ namespace GISWeb.Controllers.Quest
 		                               left join tbPergunta  p on q.UniqueKey = p.UKQuestionario and p.DataExclusao ='9999-12-31 23:59:59.997' 
 		                               left join tbTipoResposta  tr on tr.UniqueKey = p.UKTipoResposta and tr.DataExclusao ='9999-12-31 23:59:59.997' 
 		                               left join tbTipoRespostaItem tri on tr.UniqueKey = tri.UKTipoResposta and tri.DataExclusao ='9999-12-31 23:59:59.997' 
-                               where a.UKEmpregado = '" + UKEmpregado + @"' and a.DataExclusao = '9999-12-31 23:59:59.997' and
+                               where a.UKEmpregado = '" + emp + @"' and a.DataExclusao = '9999-12-31 23:59:59.997' and
 	                                 a.UKEmpresa = q.UKEmpresa and q.DataExclusao = '9999-12-31 23:59:59.997' and q.TipoQuestionario = 2 and q.Status = 1
                                order by p.Ordem, tri.Ordem";
 
@@ -595,6 +602,13 @@ namespace GISWeb.Controllers.Quest
                 ViewBag.UKEmpregado = UKEmpregado;
                 ViewBag.UKFonteGeradora = UKFonteGeradora;
 
+                Guid emp = Guid.Empty;
+
+                if (UKEmpregado != null)
+                {
+                    emp = Guid.Parse(UKEmpregado);
+                }
+
                 Questionario oQuest = null;
 
                 string sql = @"select q.UniqueKey, q.Nome, q.Tempo, q.Periodo, q.UKEmpresa, 
@@ -605,7 +619,7 @@ namespace GISWeb.Controllers.Quest
 		                               left join tbPergunta  p on q.UniqueKey = p.UKQuestionario and p.DataExclusao ='9999-12-31 23:59:59.997' 
 		                               left join tbTipoResposta  tr on tr.UniqueKey = p.UKTipoResposta and tr.DataExclusao ='9999-12-31 23:59:59.997' 
 		                               left join tbTipoRespostaItem tri on tr.UniqueKey = tri.UKTipoResposta and tri.DataExclusao ='9999-12-31 23:59:59.997' 
-                               where a.UKEmpregado = '" + UKEmpregado + @"' and a.DataExclusao = '9999-12-31 23:59:59.997' and
+                               where a.UKEmpregado = '" + emp + @"' and a.DataExclusao = '9999-12-31 23:59:59.997' and
 	                                 a.UKEmpresa = q.UKEmpresa and q.DataExclusao = '9999-12-31 23:59:59.997' and q.TipoQuestionario = 2 and q.Status = 1
                                order by p.Ordem, tri.Ordem";
 
@@ -760,6 +774,10 @@ namespace GISWeb.Controllers.Quest
                 if (entidade.PerguntasRespondidas == null || entidade.PerguntasRespondidas.Count == 0)
                     throw new Exception("É necessário responder as perguntas para prosseguir na gravação dos dados.");
 
+
+
+
+
                 foreach (string[] perguntas in entidade.PerguntasRespondidas)
                 {
                     if (perguntas.Length < 3)
@@ -777,8 +795,8 @@ namespace GISWeb.Controllers.Quest
                     UKEmpresa = Guid.Parse(entidade.UKEmpresa),
                     UKQuestionario = Guid.Parse(entidade.UKQuestionario),
                     UKObjeto = Guid.Parse(entidade.UKFonteGeradora),
-                    Registro = entidade.Registro,
-                    Status = situacao != null? situacao:"",
+                    Registro = entidade.Registro, 
+                    Status = situacao != null? situacao:"",                    
                     UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login
                 };
                 RespostaBusiness.Inserir(oResposta);

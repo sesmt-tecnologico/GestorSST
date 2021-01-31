@@ -81,13 +81,17 @@ namespace GISWeb.Controllers
         }
 
         [RestritoAAjax]
-        public ActionResult RecoFaceUpload(string ukObjeto, string Regis)
+        public ActionResult RecoFaceUpload(string ukObjeto, string Nome, string Regis, string latitude, string longitude)
         {
             try
             {
-
-                ViewBag.UKObjeto = ukObjeto;
                 ViewBag.Registro = Regis;
+                ViewBag.UKObjeto = ukObjeto;
+                ViewBag.Nome = Nome;
+
+                ViewBag.latitude = latitude;
+                ViewBag.longitude = longitude;
+
 
                 return PartialView("_RecoFaceUpload");
             }
@@ -120,7 +124,7 @@ namespace GISWeb.Controllers
         [HttpPost]
         [RestritoAAjax]
         [ValidateAntiForgeryToken]
-        public ActionResult IndexFaceUpload(Arquivo arquivo)
+        public ActionResult IndexFaceUpload(Arquivo arquivo, string Nome)
         {
             try
             {
@@ -151,7 +155,7 @@ namespace GISWeb.Controllers
 
                     var item = arquivo.Conteudo;
 
-                    input = arquivo.NomeLocal;
+                    input = Nome.Trim().Replace(" ", "") + ".jpg";
 
 
                     var rekognitionClient = new AmazonRekognitionClient("AKIAIQSK5ZOGDP4FEAZA", "ovOn8vXcmP+PME9CnNhUtkUQE4f4eVAY94DYDRkg", RegionEndpoint.USWest2);
@@ -164,7 +168,7 @@ namespace GISWeb.Controllers
                     IndexFacesRequest indexFacesRequest = new IndexFacesRequest()
                     {
                         Image = image,
-                        CollectionId = "live",
+                        CollectionId = "Encel",
                         ExternalImageId = input,
                         DetectionAttributes = new List<String>() { "ALL" }
                     };
@@ -204,11 +208,11 @@ namespace GISWeb.Controllers
         [HttpPost]
         [RestritoAAjax]
         [ValidateAntiForgeryToken]
-        public ActionResult RecoFaceUpload(Arquivo arquivo)
+        public ActionResult RecoFaceUpload(Arquivo arquivo, string Nome, string latitude, string longitude)
         {
             try
             {
-
+                var nome = Nome.Trim().Replace(" ", "") + ".jpg";
 
                 string Semelhanca = string.Empty;
                 String resultado = string.Empty;
@@ -275,7 +279,7 @@ namespace GISWeb.Controllers
 
                     SearchFacesByImageRequest searchFacesByImageRequest = new SearchFacesByImageRequest()
                     {
-                        CollectionId = "live",
+                        CollectionId = "Encel",
                         Image = image,
                         FaceMatchThreshold = 70F,
                         MaxFaces = 2
@@ -305,7 +309,7 @@ namespace GISWeb.Controllers
                             {
 
 
-                                if (face != null )//&& face.Face.ExternalImageId == "FredericoAlmeidaAredes.jpeg")
+                                if (face != null && face.Face.ExternalImageId == nome)
                                 {
 
 
@@ -319,16 +323,31 @@ namespace GISWeb.Controllers
 
                                     contaFace = 1;
 
+                                    var validacao = ValidacoesBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+                                    && a.Registro.Equals(arquivo.NumRegistro) && a.NomeIndex.Equals(face.Face.ExternalImageId));
 
-                                    Validacoes val = new Validacoes()
+                                    if(validacao == null)
                                     {
-                                        Registro = arquivo.NumRegistro,
-                                        NomeIndex = face.Face.ExternalImageId
+                                        Validacoes val = new Validacoes()
+                                        {
+                                            Registro = arquivo.NumRegistro,
+                                            NomeIndex = face.Face.ExternalImageId,
+                                            latitude = latitude,
+                                            longitude = longitude
+
+                                        };
+
+                                        ValidacoesBusiness.Inserir(val);
+
+                                    }else
+                                    {
+                                        contaFace = 4;
+                                        throw new Exception("Empregado já validou este documento!");
 
 
-                                    };
+                                    }
 
-                                    ValidacoesBusiness.Inserir(val);
+
 
 
                                 }
@@ -362,6 +381,10 @@ namespace GISWeb.Controllers
                         {
                             throw new Exception("A imagem não corresponde com o empregado atual");
                         }
+                        if (contaFace == 4)
+                        {
+                            throw new Exception("Empregado já validou este documento!");
+                        }
                         else
                         {
                             throw new Exception("Essa não é uma imagem válida!");
@@ -389,7 +412,16 @@ namespace GISWeb.Controllers
 
         }
 
+        public ActionResult listarValidacoes(string Regis) {
 
+
+            var validacao = ValidacoesBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) 
+            && a.Registro.Equals(Regis)).ToString();
+
+
+
+            return View();
+        }
 
 
 

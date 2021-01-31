@@ -101,23 +101,61 @@
 
                     if (isGestorTecnico || isSuperAdmin)
                     {
+                        <li class="hover">
+                            <a href="@path/AnaliseDeRisco/Geolocalizacao">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                Localização
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    }
+
+
+                }
+
+            </ul>
+        </li>
+        <li class="hover">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon ace-icon fa fa-gavel"></i>
+                <span class="menu-text"> Material </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+
+                @if (isSuperAdmin || isGestorTecnico)
+                {
                     <li class="hover">
-                        <a href="@path/AnaliseDeRisco/Geolocalizacao">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Localização
+                        <a href="@path/Produtoes/Index">
+                            <i class="menu-icon fa fa-wrench"></i>
+                            Cadastrar Produto
                         </a>
                         <b class="arrow"></b>
                     </li>
-                    }
+                   
+                }
 
-                    
+
+                @if (isGestorTecnico || isSuperAdmin)
+                {
+                    <li class="hover">
+                        <a href="@path/Categorias/Index">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            Cadastrar Categoria
+                        </a>
+                        <b class="arrow"></b>
+                    </li>                    
+
+
                 }
 
             </ul>
         </li>
     }
 
-    @if ( isSuperAdmin)
+    @if (isSuperAdmin)
     {
         <li class="hover">
 
@@ -171,7 +209,7 @@
         </li>
     }
 
-    @if ( isSuperAdmin)
+    @if (isSuperAdmin)
     {
         <li class="hover">
 
@@ -306,11 +344,11 @@
                 <i class="menu-icon ace-icon fa fa-heartbeat"> </i>
                 <span class="menu-text">Medicina</span>
                 <b class="arrow fa fa-angle-down"></b>
-            </a>        
+            </a>
 
-            
-                
-           
+
+
+
             <b class="arrow"></b>
 
             <ul class="submenu">
@@ -324,7 +362,7 @@
                 <li class="hover">
                     <a href="@path/Exames">
                         <i class="menu-icon fa fa-caret-right"></i>
-                        Cadastrar Exames 
+                        Cadastrar Exames
                     </a>
 
                     <b class="arrow"></b>
@@ -332,7 +370,7 @@
                 <li class="hover">
                     <a href="@path/REL_RiscosExames">
                         <i class="menu-icon fa fa-caret-right"></i>
-                       Cdastrar Exames por Riscos
+                        Cdastrar Exames por Riscos
                     </a>
 
                     <b class="arrow"></b>
@@ -341,7 +379,7 @@
         </li>
     }
 
-    @if ( isTecnico || isSuperAdmin || isMedicina)
+    @if (isTecnico || isSuperAdmin || isMedicina)
     {
         <li class="hover">
             <a href="#" class="dropdown-toggle">

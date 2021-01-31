@@ -1,0 +1,56 @@
+﻿@model IEnumerable<GISModel.Entidades.Estoques.Produto>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Qunatidade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PrecoUnit)
+        </th>        
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioInclusao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataInclusao)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qunatidade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrecoUnit)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.UsuarioInclusao)
+        </td>               
+       
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

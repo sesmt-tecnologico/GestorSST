@@ -270,7 +270,7 @@ function OnClickAterramento() {
 
 
 
-function OnClickBuscarArquivos(pUKObjeto, Regis) {
+function OnClickBuscarArquivos01(pUKObjeto, Regis) {
 
     var oRegis = $(".txtRegistro").val();
     
@@ -386,6 +386,40 @@ function OnClickBuscarArquivos(pUKObjeto, Regis) {
 
 
 }
+
+//só lista fotos para relatorio
+function OnClickBuscarArquivos02(pUKObjeto) {
+
+    $.ajax({
+        method: "POST",
+        url: "/ReconhecimentoDoRisco/ListarArquivosAnexados",
+        data: { UKObjeto: pUKObjeto },
+        error: function (erro) {
+            $("#modalArquivosLoading").hide();
+            $("#modalArquivosCorpoLoading").hide();
+
+            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+        },
+        success: function (content) {
+            $("#modalArquivosLoading").hide();
+            $("#modalArquivosCorpoLoading").hide();
+
+            $("#modalArquivosCorpo").html(content);
+
+            AplicaTooltip();
+
+            if ($("#tableArquivos").length > 0) {
+                AplicajQdataTable("tableArquivos", [null, null, null], false, 20);
+
+                AplicaTooltip();
+            }
+
+        }
+    });
+
+
+}
+
 
 function InitDropZoneSingle() {
     try {
@@ -658,39 +692,37 @@ function GravarQuestionarioAPR(pUKQuestionario, pUKEmpresa) {
         arrPerguntas.push(arrResposta);
 
 
-
-
     });
 
-    var obj = {
-        UKFonteGeradora: pUKFonteGeradora,
-        UKEmpregado: pUKEmpregado,
-        UKQuestionario: pUKQuestionario,
-        UKEmpresa: pUKEmpresa,
-        PerguntasRespondidas: arrPerguntas,
-        Registro: Registro
 
-    };
+        var obj = {
+            UKFonteGeradora: pUKFonteGeradora,
+            UKEmpregado: pUKEmpregado,
+            UKQuestionario: pUKQuestionario,
+            UKEmpresa: pUKEmpresa,            
+            PerguntasRespondidas: arrPerguntas,
+            Registro: Registro
 
-    $('.page-content-area').ace_ajax('startLoading');
+        };
 
-    $.ajax({
-        method: "POST",
-        url: "/Questionario/GravarRespostaQuestionarioAnalise",
-        data: { entidade: obj },
-        error: function (erro) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+        $('.page-content-area').ace_ajax('startLoading');
 
-            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
-        },
-        success: function (content) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+        $.ajax({
+            method: "POST",
+            url: "/Questionario/GravarRespostaQuestionarioAnalise",
+            data: { entidade: obj },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
 
-            TratarResultadoJSON(content.resultado);
-        }
-    });
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
 
-}
+                TratarResultadoJSON(content.resultado);
+            }
+        });
+  }
 
 function myImped() {
 
@@ -873,34 +905,35 @@ function GravarQuestionario(pUKQuestionario, pUKEmpresa) {
 
     });
 
-    var obj = {
-        UKFonteGeradora: pUKFonteGeradora,
-        UKEmpregado: pUKEmpregado,
-        UKQuestionario: pUKQuestionario,
-        UKEmpresa: pUKEmpresa,        
-        PerguntasRespondidas: arrPerguntas,
-        Registro: pRegistro
-    };
+    
 
-    $('.page-content-area').ace_ajax('startLoading');
+        var obj = {
+            UKFonteGeradora: pUKFonteGeradora,
+            UKEmpregado: pUKEmpregado,
+            UKQuestionario: pUKQuestionario,
+            UKEmpresa: pUKEmpresa,
+            PerguntasRespondidas: arrPerguntas,
+            Registro: pRegistro
+        };
 
-    $.ajax({
-        method: "POST",
-        url: "/Questionario/GravarRespostaQuestionarioAnalise",
-        data: { entidade: obj },
-        error: function (erro) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+        $('.page-content-area').ace_ajax('startLoading');
 
-            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
-        },
-        success: function (content) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+        $.ajax({
+            method: "POST",
+            url: "/Questionario/GravarRespostaQuestionarioAnalise",
+            data: { entidade: obj },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
 
-            TratarResultadoJSON(content.resultado);
-        }
-    });
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
 
-}
+                TratarResultadoJSON(content.resultado);
+            }
+        });
+ }
 
 
 function GravarQuestionarioConclusao(pUKQuestionario, pUKEmpresa) {
@@ -1040,33 +1073,36 @@ function GravarQuestionarioMD(pUKQuestionario, pUKEmpresa) {
 
     });
 
-    var obj = {
-        UKFonteGeradora: pUKFonteGeradora,
-        UKEmpregado: pUKEmpregado,
-        UKQuestionario: pUKQuestionario,
-        UKEmpresa: pUKEmpresa,
-        PerguntasRespondidas: arrPerguntas
-    };
+   
 
-    $('.page-content-area').ace_ajax('startLoading');
+        var obj = {
+            UKFonteGeradora: pUKFonteGeradora,
+            UKEmpregado: pUKEmpregado,
+            UKQuestionario: pUKQuestionario,
+            UKEmpresa: pUKEmpresa,
+            latitude: latitude,
+            longitude: longitude,
+            PerguntasRespondidas: arrPerguntas
+        };
 
-    $.ajax({
-        method: "POST",
-        url: "/Questionario/GravarRespostaQuestionarioAnalise",
-        data: { entidade: obj },
-        error: function (erro) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+        $('.page-content-area').ace_ajax('startLoading');
 
-            ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
-        },
-        success: function (content) {
-            $('.page-content-area').ace_ajax('stopLoading', true);
+        $.ajax({
+            method: "POST",
+            url: "/Questionario/GravarRespostaQuestionarioAnalise",
+            data: { entidade: obj },
+            error: function (erro) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
 
-            TratarResultadoJSON(content.resultado);
-        }
-    });
+                ExibirMensagemGritter('Oops! Erro inesperado', erro.responseText, 'gritter-error');
+            },
+            success: function (content) {
+                $('.page-content-area').ace_ajax('stopLoading', true);
 
-}
+                TratarResultadoJSON(content.resultado);
+            }
+        });
+  }
 
 function OnClickBuscarQuestionarioConclusao(UKAtividade, Fonte) {
 

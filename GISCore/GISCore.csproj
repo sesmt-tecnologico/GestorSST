@@ -220,6 +220,50 @@
     <Compile Include="Migrations\202012212053219_situacao.designer.cs">
       <DependentUpon>202012212053219_situacao.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101121911572_localizacao.cs" />
+    <Compile Include="Migrations\202101121911572_localizacao.designer.cs">
+      <DependentUpon>202101121911572_localizacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101122028264_localizacaoResposta.cs" />
+    <Compile Include="Migrations\202101122028264_localizacaoResposta.designer.cs">
+      <DependentUpon>202101122028264_localizacaoResposta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101122352123_MVeiculo.cs" />
+    <Compile Include="Migrations\202101122352123_MVeiculo.designer.cs">
+      <DependentUpon>202101122352123_MVeiculo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101210019235_epi.cs" />
+    <Compile Include="Migrations\202101210019235_epi.designer.cs">
+      <DependentUpon>202101210019235_epi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101220010239_correcaoProduto.cs" />
+    <Compile Include="Migrations\202101220010239_correcaoProduto.designer.cs">
+      <DependentUpon>202101220010239_correcaoProduto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101220017289_Categoria.cs" />
+    <Compile Include="Migrations\202101220017289_Categoria.designer.cs">
+      <DependentUpon>202101220017289_Categoria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101231735246_Categoria03.cs" />
+    <Compile Include="Migrations\202101231735246_Categoria03.designer.cs">
+      <DependentUpon>202101231735246_Categoria03.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101231946452_Categoria04.cs" />
+    <Compile Include="Migrations\202101231946452_Categoria04.designer.cs">
+      <DependentUpon>202101231946452_Categoria04.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101241342558_produto02.cs" />
+    <Compile Include="Migrations\202101241342558_produto02.designer.cs">
+      <DependentUpon>202101241342558_produto02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101241346419_produto03.cs" />
+    <Compile Include="Migrations\202101241346419_produto03.designer.cs">
+      <DependentUpon>202101241346419_produto03.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101260047524_produto04.cs" />
+    <Compile Include="Migrations\202101260047524_produto04.designer.cs">
+      <DependentUpon>202101260047524_produto04.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -285,6 +329,39 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202012212053219_situacao.resx">
       <DependentUpon>202012212053219_situacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101121911572_localizacao.resx">
+      <DependentUpon>202101121911572_localizacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101122028264_localizacaoResposta.resx">
+      <DependentUpon>202101122028264_localizacaoResposta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101122352123_MVeiculo.resx">
+      <DependentUpon>202101122352123_MVeiculo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101210019235_epi.resx">
+      <DependentUpon>202101210019235_epi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101220010239_correcaoProduto.resx">
+      <DependentUpon>202101220010239_correcaoProduto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101220017289_Categoria.resx">
+      <DependentUpon>202101220017289_Categoria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101231735246_Categoria03.resx">
+      <DependentUpon>202101231735246_Categoria03.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101231946452_Categoria04.resx">
+      <DependentUpon>202101231946452_Categoria04.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101241342558_produto02.resx">
+      <DependentUpon>202101241342558_produto02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101241346419_produto03.resx">
+      <DependentUpon>202101241346419_produto03.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101260047524_produto04.resx">
+      <DependentUpon>202101260047524_produto04.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -174,6 +174,8 @@
     <Compile Include="Entidades\Diretoria.cs" />
     <Compile Include="Entidades\Departamento.cs" />
     <Compile Include="Entidades\DocAtividade.cs" />
+    <Compile Include="Entidades\Estoques\Categoria.cs" />
+    <Compile Include="Entidades\Estoques\Produto.cs" />
     <Compile Include="Entidades\FrasesSeguranca.cs" />
     <Compile Include="Entidades\PCMSO\ASO.cs" />
     <Compile Include="Entidades\PCMSO\Exames.cs" />
@@ -227,6 +229,8 @@
     <Compile Include="Entidades\TipoDeRisco.cs" />
     <Compile Include="Entidades\Usuario.cs" />
     <Compile Include="Entidades\UsuarioPerfil.cs" />
+    <Compile Include="Entidades\Veiculo\CheckListVeiculo.cs" />
+    <Compile Include="Entidades\Veiculo\MovimentacaoVeicular.cs" />
     <Compile Include="Entidades\WorkArea.cs" />
     <Compile Include="Entidades\Workflow.cs" />
     <Compile Include="Enums\ECategoriaFrases.cs" />

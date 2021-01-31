@@ -13,7 +13,11 @@
     @Html.HiddenFor(i => i.UKObjeto, new { @Value = ViewBag.UKObjeto })
     @Html.HiddenFor(i => i.NumRegistro, new { @Value = ViewBag.Registro })
 
-    <input hidden type="text" name="Registro" id="Registro" value="@ViewBag.Registro" />
+    <input hidden type="text" name="Nome" id="Nome" value="@ViewBag.Nome" />
+    <input hidden type="text" name="latitude" id="latitude" value="@ViewBag.latitude" />
+    <input hidden type="text" name="longitude" id="longitude" value="@ViewBag.longitude" />
+
+    
 
     <div class="fallback" style="border: 1px solid red;">
         <input name="file" style="border: 1px solid red;" type="file" multiple="" />

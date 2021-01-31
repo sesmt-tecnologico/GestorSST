@@ -21,5 +21,11 @@ namespace GISModel.Entidades
         [Display(Name = "Nome do Empregado")]
         public string NomeIndex { get; set; }
 
+        [Display(Name = "Latitude")]
+        public string latitude { get; set; }
+
+        [Display(Name = "longitude")]
+        public string longitude { get; set; }
+
     }
 }

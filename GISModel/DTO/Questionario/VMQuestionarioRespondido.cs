@@ -15,6 +15,10 @@ namespace GISModel.DTO.Questionario
 
         public string Registro { get; set; }
 
+        public string latitude { get; set; }
+
+        public string longitude { get; set; }
+
         public string Status { get; set; }
 
         public List<string[]> PerguntasRespondidas { get; set; }

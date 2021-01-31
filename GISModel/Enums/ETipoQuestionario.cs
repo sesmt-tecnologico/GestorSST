@@ -31,7 +31,10 @@ namespace GISModel.Enums
         INSPECAO_PAV = 8,
 
         [Display(Name = " Análise de Risco CONSTRUÇÃO/MANUTENÇAO EM RDA")]
-        CONSTRUÇÃO_MANUTENÇAO_RDA = 9
+        CONSTRUÇÃO_MANUTENÇAO_RDA = 9,
+
+        [Display(Name = " CheckList Veiculo Fluidos")]
+        Check_List_Veiculos_fluidos = 10
 
 
     }

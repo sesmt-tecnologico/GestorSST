@@ -221,31 +221,49 @@ else
 
     <div class="row">
         @*<div class="col-sm-6 col-xs-12">
-            <a href="@Url.Action("Index", "Ged", new { id = ViewBag.UKEmp })" class="btn btn-xs btn-primary btn-block">
-                <i class="ace-icon fa fa-fire bigger-110"></i>
-                <span class="bigger-110 no-text-shadow">Documentação</span>
-            </a>
-        </div>
+                <a href="@Url.Action("Index", "Ged", new { id = ViewBag.UKEmp })" class="btn btn-xs btn-primary btn-block">
+                    <i class="ace-icon fa fa-fire bigger-110"></i>
+                    <span class="bigger-110 no-text-shadow">Documentação</span>
+                </a>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+                <a href="@Url.Action("Perfil", "Empregado", new { id = ViewBag.UKEmp })" class="btn btn-xs btn-danger btn-block">
+                    <i class="ace-icon fa fa-bolt bigger-110"></i>
+
+                    Riscos
+                </a>
+            </div>*@
 
         <div class="col-sm-6 col-xs-12">
-            <a href="@Url.Action("Perfil", "Empregado", new { id = ViewBag.UKEmp })" class="btn btn-xs btn-danger btn-block">
-                <i class="ace-icon fa fa-bolt bigger-110"></i>
-
-                Riscos
-            </a>
-        </div>*@
-
-        <div class="col-sm-12 col-xs-12">
             <a href="@Url.Action("Index", "AnaliseDeRisco")" class="btn btn-xs btn-danger btn-block">
                 <i class="ace-icon fa fa-bolt bigger-110"></i>
                 Análise de Riscos
             </a>
-        </div><br /><br /><br /><br />
-
-        <div class="col-sm-12 col-xs-12">
+        </div>
+        <div class="col-sm-6 col-xs-12">
             <a href="@Url.Action("Registros", "AnaliseDeRisco")" class="btn btn-xs btn-info2 btn-block">
                 <i class="ace-icon fa fa-file-archive-o bigger-110"></i>
-                Lista de Arquivos
+                Pesquisa Análises de Risco
+            </a>
+        </div>
+
+    </div>
+    <br/>
+
+
+    <div class="row">       
+
+        <div class="col-sm-6 col-xs-12">
+            <a href="@Url.Action("Index", "MovimentacaoVeicular")" class="btn btn-xs btn-success btn-block">
+                <i class="ace-icon fa fa-car bigger-110"></i>
+                Controle de Movimentação Veicular
+            </a>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <a href="@Url.Action("Index","ChecklistVeicular")" class="btn btn-xs btn-yellow btn-block">
+                <i class="ace-icon fa fa-search bigger-110"></i>
+                CheckList Diário para veículos
             </a>
         </div>
 
@@ -285,19 +303,7 @@ else
                         <div class="col-xs-12">
                             <div id="modalAtualizarFotoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.GIF" width="28px" /></div>
                             <div id="modalAtualizarFotoCorpo">
-                                <div class="alert alert-info">
-                                    <button type="button" class="close" data-dismiss="alert">
-                                        <i class="ace-icon fa fa-times"></i>
-                                    </button>
-
-                                    <strong>
-                                        <i class="ace-icon fa fa-info-circle"></i>
-                                        Mensagem:
-                                    </strong>
-
-                                    Este recurso não funciona em Internet Explorer 9 ou inferior.
-                                    <br>
-                                </div>
+                                
 
                                 <div id="divFotoPerfil" class="row">
                                     <div class="col-xs-12">

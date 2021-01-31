@@ -28,6 +28,10 @@ namespace GISWeb.Controllers.AnaliseRisco
         #region Inject
 
         [Inject]
+        public IBaseBusiness<Validacoes> ValidacoesBusiness { get; set; }
+
+
+        [Inject]
         public IBaseBusiness<Questionario> QuestionarioBusiness { get; set; }
 
         [Inject]
@@ -87,7 +91,10 @@ namespace GISWeb.Controllers.AnaliseRisco
         // GET: AnaliseDeRisco
         public ActionResult Index()
         {
+            try
+            {
 
+            
 
             var relacao = from rel in REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)
                           && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)).ToList()
@@ -114,25 +121,6 @@ namespace GISWeb.Controllers.AnaliseRisco
                 }
 
             }
-
-            REL_AnaliseDeRiscoEmpregados AR = REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
-            && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login));
-            if (AR != null)
-            {
-                ViewBag.Supervisor = AR.UsuarioInclusao;
-
-                ViewBag.UKSupervisor = AR.UKEmpregado;
-                ViewBag.Registro = AR.Registro;
-
-                string NumRegist = Convert.ToString(AR.Registro);
-
-                string NR = NumRegist.Substring(0, 8);
-
-                ViewBag.Nregist = NR;
-
-
-            }
-
 
             ViewBag.Relacao = emp;
 
@@ -162,14 +150,40 @@ namespace GISWeb.Controllers.AnaliseRisco
 
             ViewBag.Atividade = Ativi;
 
-            var oRegis = RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+            var oRegis = REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)
                && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)).OrderByDescending(b => b.DataInclusao);
 
-            RespostaItem iRegis = oRegis.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+                REL_AnaliseDeRiscoEmpregados iRegis = oRegis.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
               && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login));
 
 
-            REL_AnaliseDeRiscoEmpregados oEmp = REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+                //     REL_AnaliseDeRiscoEmpregados AR = REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+                //&& a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login));
+
+
+                if (iRegis != null)
+                {
+                    ViewBag.Supervisor = iRegis.UsuarioInclusao;
+
+                    ViewBag.UKSupervisor = iRegis.UKEmpregado;
+                    ViewBag.Registro = iRegis.Registro;
+
+                    string NumRegist = iRegis.Registro;
+
+                    string NR = NumRegist.Substring(0, 8);
+
+                    ViewBag.Nregist = NR;
+
+
+                }
+
+
+
+
+
+
+
+                REL_AnaliseDeRiscoEmpregados oEmp = REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
            && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login));
 
 
@@ -385,9 +399,39 @@ namespace GISWeb.Controllers.AnaliseRisco
 
             ViewBag.Listafrase = listfrases;
 
-            
+            if (iRegis != null)
+            {
+                var _Registro = iRegis.Registro;
 
-            return View();
+                var validacao = ValidacoesBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+                  && a.Registro.Equals(_Registro)).ToList();
+
+
+                    List<Validacoes> ListValidacao = new List<Validacoes>();
+
+                    foreach (var item4 in validacao)
+                    {
+                        if (item4.DataExclusao.Date == data)
+                        {
+                            ListValidacao.Add(item4);
+                        }
+                    }
+                    
+
+                    ViewBag.valido = validacao.ToList();
+            }
+
+                return View();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+          
         }
 
         public ActionResult ListarAR(string ukAtividade)

@@ -88,60 +88,57 @@
 
     CarregarAdmissao();
 
+        $('.btnAlterarValor').on('click', function (e) {
+            e.preventDefault();
 
 
-    //    $('.btnAlterarValor').on('click', function (e) {
-    //        e.preventDefault();
+            var elementoClicado = $(this);
+            var propriedade = elementoClicado.data('propriedade');
+            var tipoCampo = elementoClicado.data('tipo');
 
-    //        alert("Clicou");
+            if (tipoCampo == 'exibircombobox' || tipoCampo == 'exibirtextbox') {
+                $('#' + elementoClicado.data('label')).hide();
+                $('#' + elementoClicado.data('combobox')).show();
 
-    //        var elementoClicado = $(this);
-    //        var propriedade = elementoClicado.data('propriedade');
-    //        var tipoCampo = elementoClicado.data('tipo');
+                if (propriedade == "Telefone") {
 
-    //        if (tipoCampo == 'exibircombobox' || tipoCampo == 'exibirtextbox') {
-    //            $('#' + elementoClicado.data('label')).hide();
-    //            $('#' + elementoClicado.data('combobox')).show();
+                    var idTextBox = elementoClicado.data('idtextbox');
 
-    //            if (propriedade == "Telefone") {
+                    $("#" + idTextBox).inputmask("(99) 9 9999-9999");
 
-    //                var idTextBox = elementoClicado.data('idtextbox');
+                    $("#" + idTextBox).keydown(function () {
+                        try {
+                            $("#" + idTextBox).unmask();
+                        } catch (e) { }
 
-    //                $("#" + idTextBox).inputmask("(99) 9 9999-9999");
+                        $("#" + idTextBox).inputmask("(99) 9 9999-9999");
+                    });
+                }
 
-    //                $("#" + idTextBox).keydown(function () {
-    //                    try {
-    //                        $("#" + idTextBox).unmask();
-    //                    } catch (e) { }
+            }
+            else if (tipoCampo == 'salvarcombobox' || tipoCampo == 'salvartextbox') {
+                valorAtual = $('#' + elementoClicado.data('referencia')).val();
 
-    //                    $("#" + idTextBox).inputmask("(99) 9 9999-9999");
-    //                });
-    //            }
+                $('.page-content-area').ace_ajax('startLoading');
 
-    //        }
-    //        else if (tipoCampo == 'salvarcombobox' || tipoCampo == 'salvartextbox') {
-    //            valorAtual = $('#' + elementoClicado.data('referencia')).val();
+                $.ajax({
+                    method: "POST",
+                    url: "/Home/AlterarPropriedade",
+                    data: { obid: elementoClicado.closest("[data-ukusuario]").data("ukusuario"), propriedade: propriedade, valor: valorAtual },
+                    success: function (content) {
+                        $('.page-content-area').ace_ajax('stopLoading', true);
 
-    //            $('.page-content-area').ace_ajax('startLoading');
+                        if (content.erro) {
+                            ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+                        } else {
 
-    //            $.ajax({
-    //                method: "POST",
-    //                url: "/Home/AlterarPropriedade",
-    //                data: { obid: elementoClicado.closest("[data-ukusuario]").data("ukusuario"), propriedade: propriedade, valor: valorAtual },
-    //                success: function (content) {
-    //                    $('.page-content-area').ace_ajax('stopLoading', true);
+                            location.reload();
 
-    //                    if (content.erro) {
-    //                        ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
-    //                    } else {
-
-    //                        location.reload();
-
-    //                    }
-    //                }
-    //            });
-    //        }
-    //    });
+                        }
+                    }
+                });
+            }
+        });
 
     //    $('.btnCancelarAlteracao').on('click', function (e) {
     //        e.preventDefault();
@@ -211,6 +208,65 @@
 
 
     //});
+});
+
+//function alterarValor() {
+
+
+//    alert("Clicou");
+
+//    var elementoClicado = $(this);
+//    var propriedade = elementoClicado.data('propriedade');
+//    var tipoCampo = elementoClicado.data('tipo');
+
+//    if (tipoCampo == 'exibircombobox' || tipoCampo == 'exibirtextbox') {
+//        $('#' + elementoClicado.data('label')).hide();
+//        $('#' + elementoClicado.data('combobox')).show();
+
+//        if (propriedade == "Telefone") {
+
+//            var idTextBox = elementoClicado.data('idtextbox');
+
+//            $("#" + idTextBox).inputmask("(99) 9 9999-9999");
+
+//            $("#" + idTextBox).keydown(function () {
+//                try {
+//                    $("#" + idTextBox).unmask();
+//                } catch (e) { }
+
+//                $("#" + idTextBox).inputmask("(99) 9 9999-9999");
+//            });
+//        }
+
+//    }
+//    else if (tipoCampo == 'salvarcombobox' || tipoCampo == 'salvartextbox') {
+//        valorAtual = $('#' + elementoClicado.data('referencia')).val();
+
+//        $('.page-content-area').ace_ajax('startLoading');
+
+//        $.ajax({
+//            method: "POST",
+//            url: "/Home/AlterarPropriedade",
+//            data: { obid: elementoClicado.closest("[data-ukusuario]").data("ukusuario"), propriedade: propriedade, valor: valorAtual },
+//            success: function (content) {
+//                $('.page-content-area').ace_ajax('stopLoading', true);
+
+//                if (content.erro) {
+//                    ExibirMensagemGritter('Oops!', content.erro, 'gritter-error');
+//                } else {
+
+//                    location.reload();
+
+//                }
+//            }
+//        });
+//    }
+//};
+
+
+
+
+
 
     function CarregarAdmissao() {
 
@@ -545,4 +601,3 @@
         }
 
     }
-});

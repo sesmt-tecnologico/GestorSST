@@ -20,6 +20,7 @@ namespace Suporte_API.Controllers
         // GET: api/Empregado
         public IEnumerable<Empregado> Get()
         {
+                                             
             return _repositorioEmpregados.Selecionar();
 
         }
