@@ -180,10 +180,7 @@ namespace GISWeb.Controllers.AnaliseRisco
 
 
 
-
-
-
-                REL_AnaliseDeRiscoEmpregados oEmp = REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+           REL_AnaliseDeRiscoEmpregados oEmp = REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
            && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login));
 
 
@@ -242,8 +239,6 @@ namespace GISWeb.Controllers.AnaliseRisco
                 }
 
 
-
-
                 var Fech = from r in RespostaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao))
                            where r.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)
                            && r.Status.Contains("Fechado")
@@ -269,16 +264,12 @@ namespace GISWeb.Controllers.AnaliseRisco
                 ViewBag.Fechado = fechado;
 
 
-
-
                 ViewBag.APR = ListAPR;
                 ViewBag.APRcount = ListAPR.Count;
 
-                
 
             }
 
-            
 
             var ARisc = from a in AtividadeBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
                         join ri in RespostaItemBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
@@ -307,8 +298,6 @@ namespace GISWeb.Controllers.AnaliseRisco
                     ListARisc.Add(item2);
                 }
             }
-
-
 
 
             ViewBag.TotalRisc = ListARisc.Count();
@@ -354,32 +343,6 @@ namespace GISWeb.Controllers.AnaliseRisco
             int intNumeroAleatorio;
 
 
-
-            //var cadeado = (from r in  RespostaBusiness.Consulta.Where(a=>string.IsNullOrEmpty(a.UsuarioExclusao))
-            //              join ri in  RespostaItemBusiness.Consulta.Where(a=>string.IsNullOrEmpty(a.UsuarioExclusao))
-            //              on r.UniqueKey equals ri.UKResposta
-            //             where r.Status.Contains("Fechado") && r.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)
-            //            select new VMAnaliseDeRiscoEmpregados()
-            //            {
-            //                UKResposta = r.UniqueKey,
-            //                Data = ri.DataInclusao,
-            //                Resposta = ri.Resposta,
-            //                Fonte = ri.UKFonteGeradora
-
-            //            }).ToList();
-
-            //List<VMAnaliseDeRiscoEmpregados> listCadeado = new List<VMAnaliseDeRiscoEmpregados>();
-
-
-            //foreach (var cad in cadeado)
-            //{
-            //    if (cad.Data.Date == data)
-            //    {
-            //        listCadeado.Add(cad);
-            //    }
-            //}
-
-            //ViewBag.Cadeado = listCadeado.OrderByDescending(a => a.Data);
 
 
             var frases = FrasesSegurancaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) &&

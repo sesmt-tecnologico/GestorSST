@@ -119,6 +119,9 @@
     <Compile Include="DTO\Departamento\CadastroViewModel.cs" />
     <Compile Include="DTO\DocumentosAlocacao\DocumentosAlocacaoViewModel.cs" />
     <Compile Include="DTO\EntidadeBase.cs" />
+    <Compile Include="DTO\EPI\EpiViewModel.cs" />
+    <Compile Include="DTO\EPI\FichaPadraoIViewModel.cs" />
+    <Compile Include="DTO\EPI\FichaDeEPIViewModel.cs" />
     <Compile Include="DTO\Estabelecimento\EstabelecimentoViewModel.cs" />
     <Compile Include="DTO\Estabelecimento\PesquisaEstabelecimentoViewModel.cs" />
     <Compile Include="DTO\FonteGeradoraDeRisco\FonteGeradoraViewModel.cs" />
@@ -144,6 +147,7 @@
     <Compile Include="DTO\PPRA\VMListaMedicoes.cs" />
     <Compile Include="DTO\PPRA\VMLListaExposicao.cs" />
     <Compile Include="DTO\PPRA\VMLPPRA.cs" />
+    <Compile Include="DTO\Produtos\ProdutosViewModel.cs" />
     <Compile Include="DTO\Questionario\VMQuestionarioRespondido.cs" />
     <Compile Include="DTO\Resposta\VMPesquisaEmpregado.cs" />
     <Compile Include="DTO\Resposta\VMPesquisaPergunta.cs" />
@@ -162,6 +166,7 @@
     <Compile Include="Entidades\AnaliseDeRisco\Validacoes.cs" />
     <Compile Include="Entidades\AnaliseRisco.cs" />
     <Compile Include="Entidades\Arquivo.cs" />
+    <Compile Include="Entidades\ArquivoFiscal\NotaFiscal.cs" />
     <Compile Include="Entidades\Atividade.cs" />
     <Compile Include="Entidades\AtividadeAlocada.cs" />
     <Compile Include="Entidades\AtividadeFuncaoLiberada.cs" />
@@ -176,11 +181,14 @@
     <Compile Include="Entidades\DocAtividade.cs" />
     <Compile Include="Entidades\Estoques\Categoria.cs" />
     <Compile Include="Entidades\Estoques\Produto.cs" />
+    <Compile Include="Entidades\Estoques\teste.cs" />
     <Compile Include="Entidades\FrasesSeguranca.cs" />
     <Compile Include="Entidades\PCMSO\ASO.cs" />
     <Compile Include="Entidades\PCMSO\Exames.cs" />
     <Compile Include="Entidades\PCMSO\REL_RiscosExames.cs" />
+    <Compile Include="Entidades\PPRA\FichaDeEPI.cs" />
     <Compile Include="Entidades\PPRA\Medicoes.cs" />
+    <Compile Include="Entidades\PPRA\ValidacaoFichaDeEpi.cs" />
     <Compile Include="Entidades\Quest\Pergunta.cs" />
     <Compile Include="Entidades\Quest\Questionario.cs" />
     <Compile Include="Entidades\Quest\REL_PerguntaTipoRespostaItem.cs" />
@@ -235,6 +243,7 @@
     <Compile Include="Entidades\Workflow.cs" />
     <Compile Include="Enums\ECategoriaFrases.cs" />
     <Compile Include="Enums\EGenero.cs" />
+    <Compile Include="Enums\EMotivoDevolucao.cs" />
     <Compile Include="Enums\EObrigatoriedade.cs" />
     <Compile Include="Enums\EPeriodicidade.cs" />
     <Compile Include="Enums\EPeriodo.cs" />

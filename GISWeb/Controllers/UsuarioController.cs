@@ -73,7 +73,8 @@ namespace GISWeb.Controllers
                     if (Usuario.TipoDeAcesso == GISModel.Enums.TipoDeAcesso.Sistema)
                     {
                         string senha = GISHelpers.Utils.Severino.GeneratePassword();
-                        Usuario.Senha = senha;
+                        // Usuario.Senha = senha;
+                        Usuario.Senha = "caete123";
                     }
 
 

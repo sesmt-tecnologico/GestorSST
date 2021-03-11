@@ -1,0 +1,138 @@
+﻿@model GISModel.Entidades.ArquivoFiscal.NotaFiscal
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>NotaFiscal</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Servico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Servico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Material)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Material)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServicoMaterial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServicoMaterial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Entrada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Entrada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Saida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Saida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Vencimento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Vencimento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fornecedor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fornecedor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Valor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Valor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UniqueKey)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UniqueKey)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioInclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioInclusao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataInclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataInclusao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioExclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioExclusao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataExclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataExclusao)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

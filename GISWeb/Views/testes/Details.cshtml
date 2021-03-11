@@ -1,0 +1,66 @@
+﻿@model GISModel.Entidades.Estoques.teste
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>teste</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.teste01)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.teste01)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UniqueKey)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UniqueKey)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioInclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioInclusao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataInclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataInclusao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioExclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioExclusao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataExclusao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataExclusao)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

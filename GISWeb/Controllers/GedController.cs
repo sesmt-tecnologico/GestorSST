@@ -135,6 +135,17 @@ namespace GISWeb.Controllers
 
             var lista = this.AdmissaoBusiness.BuscarAdmissoesAtuais(UKEmpregado);
 
+            Guid ukemp = Guid.Parse(UKEmpregado);
+
+            var adm = AdmissaoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKEmpregado.Equals(ukemp));
+            var aloc = AlocacaoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKAdmissao.Equals(adm.UniqueKey));
+
+            var docAloc = REL_DocumentosAlocadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKAlocacao.Equals(aloc.UniqueKey));
+
+
+
+
+
             //tem que implementar por empregado
             var val = REL_DocumentosAlocadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
 

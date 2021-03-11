@@ -18,10 +18,14 @@ namespace GISModel.Entidades.Veiculo
         [Display(Name = "Veículo")]
         public string Veiculo { get; set; }
 
+        [Display(Name = "Frota")]
+        public string frota { get; set; }
+
         [Display(Name = "KM Saída")]
         public string KMSaida { get; set; }
 
         [Display(Name = "KM Chegada")]
+        [Range(1,99999)]
         public string KMChegada { get; set; }
 
         [Display(Name = "Intinerário Origem")]

@@ -15,6 +15,7 @@ using GISModel.Entidades.Estoques;
 using GISWeb.Infraestrutura.Filters;
 using Ninject;
 using GISWeb.Infraestrutura.Provider.Abstract;
+using GISModel.DTO.Produtos;
 
 namespace GISWeb.Controllers
 {
@@ -42,7 +43,19 @@ namespace GISWeb.Controllers
         // GET: Produtoes
         public ActionResult Index()
         {
-            return View(db.Produto.ToList());
+            var prod = from p in db.Produto.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                               join c in db.Categoria.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                               on p.UKCategoria equals c.UniqueKey
+                               select new ProdutosViewModel(){
+                                   ID = p.ID,
+                                   Nome= p.Nome,
+                                   Quantidade= p.Qunatidade,
+                                   PrecoUnitario = p.PrecoUnit,
+                                   Categoria =c.NomeCategoria
+                                   
+                                 };
+
+            return View(prod.ToList());
         }
 
         // GET: Produtoes/Details/5
@@ -99,9 +112,24 @@ namespace GISWeb.Controllers
 
             var oProduto = ProdutoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKCategoria.Equals(UKcat)).ToList();
 
+            var prod = from p in db.Produto.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                       join c in db.Categoria.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                       on p.UKCategoria equals c.UniqueKey
+                       where c.UniqueKey.Equals(UKcat)
+                       select new ProdutosViewModel()
+                       {
+                           ID = p.ID,
+                           Nome = p.Nome,
+                           Quantidade = p.Qunatidade,
+                           PrecoUnitario = p.PrecoUnit,
+                           Categoria = c.NomeCategoria
+
+                       };
+
+
             ViewBag.Ukcategoria = UKcat;
 
-            return PartialView("_ListarProduto", oProduto);
+            return PartialView("_ListarProduto", prod);
 
         }
 

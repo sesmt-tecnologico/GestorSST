@@ -264,6 +264,54 @@
     <Compile Include="Migrations\202101260047524_produto04.designer.cs">
       <DependentUpon>202101260047524_produto04.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202102201845027_epi1.cs" />
+    <Compile Include="Migrations\202102201845027_epi1.designer.cs">
+      <DependentUpon>202102201845027_epi1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102201932476_epi2.cs" />
+    <Compile Include="Migrations\202102201932476_epi2.designer.cs">
+      <DependentUpon>202102201932476_epi2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102210042258_motivo.cs" />
+    <Compile Include="Migrations\202102210042258_motivo.designer.cs">
+      <DependentUpon>202102210042258_motivo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102210050189_motivo1.cs" />
+    <Compile Include="Migrations\202102210050189_motivo1.designer.cs">
+      <DependentUpon>202102210050189_motivo1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102210057063_motivo2.cs" />
+    <Compile Include="Migrations\202102210057063_motivo2.designer.cs">
+      <DependentUpon>202102210057063_motivo2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102212057156_v01.cs" />
+    <Compile Include="Migrations\202102212057156_v01.designer.cs">
+      <DependentUpon>202102212057156_v01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102212109022_v02.cs" />
+    <Compile Include="Migrations\202102212109022_v02.designer.cs">
+      <DependentUpon>202102212109022_v02.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102222245278_v03.cs" />
+    <Compile Include="Migrations\202102222245278_v03.designer.cs">
+      <DependentUpon>202102222245278_v03.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102232355510_v04.cs" />
+    <Compile Include="Migrations\202102232355510_v04.designer.cs">
+      <DependentUpon>202102232355510_v04.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202102282314392_v05.cs" />
+    <Compile Include="Migrations\202102282314392_v05.designer.cs">
+      <DependentUpon>202102282314392_v05.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103061329139_v06.cs" />
+    <Compile Include="Migrations\202103061329139_v06.designer.cs">
+      <DependentUpon>202103061329139_v06.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202103062010452_v07.cs" />
+    <Compile Include="Migrations\202103062010452_v07.designer.cs">
+      <DependentUpon>202103062010452_v07.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -362,6 +410,42 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101260047524_produto04.resx">
       <DependentUpon>202101260047524_produto04.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102201845027_epi1.resx">
+      <DependentUpon>202102201845027_epi1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102201932476_epi2.resx">
+      <DependentUpon>202102201932476_epi2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102210042258_motivo.resx">
+      <DependentUpon>202102210042258_motivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102210050189_motivo1.resx">
+      <DependentUpon>202102210050189_motivo1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102210057063_motivo2.resx">
+      <DependentUpon>202102210057063_motivo2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102212057156_v01.resx">
+      <DependentUpon>202102212057156_v01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102212109022_v02.resx">
+      <DependentUpon>202102212109022_v02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102222245278_v03.resx">
+      <DependentUpon>202102222245278_v03.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102232355510_v04.resx">
+      <DependentUpon>202102232355510_v04.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102282314392_v05.resx">
+      <DependentUpon>202102282314392_v05.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103061329139_v06.resx">
+      <DependentUpon>202103061329139_v06.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202103062010452_v07.resx">
+      <DependentUpon>202103062010452_v07.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -85,8 +85,37 @@ else
                                             <b>ALOCADO: @al.Cargo.NomeDoCargo | @al.Funcao.NomeDaFuncao</b>
                                         </a>
                                     </h5>
+                                    &nbsp; &nbsp; &nbsp;
+                                    <div style="float: right; border: 0px;">
+
+                                        @Html.ActionLink("Cadastrar EPI", "FichaEpi", "FichaDeEpi",
+                                                 new
+                                                      {
+                                                       idEmp = @adm.UKEmpregado,
+
+                                                      },
+                                                 new { @class = "fa fa-pencil-square-o orange bigger-200" })&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+
+
+
+                                    </div>
 
                                     <div style="float: right; border: 0px;">
+
+                                        @Html.ActionLink("Ficha de EPI", "FichaDeEpiPorEmpregado", "FichaDeEpi",
+                                                 new
+                                                      {
+                                                       idEmp = @adm.UKEmpregado,
+
+                                                      },
+                                                 new { @class = "fa fa-pencil-square-o red bigger-200" })&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+
+
+
+                                    </div>
+
+
+                                    <div style="float: right; border: 100px;">
 
                                         @Html.ActionLink("Docs", "Upload", "Ged",
                                                  new
@@ -96,20 +125,12 @@ else
                                                        ukfuncao = adm.Alocacoes.SingleOrDefault(x => x.UniqueKey == al.UniqueKey).Funcao.UniqueKey,
 
                                                       },
-                                                 new { @class = "fa fa-cloud-upload blue bigger-200" })
+                                                 new { @class = "fa fa-cloud-upload blue bigger-200" })&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+
 
 
                                     </div>
 
-                                    @*<div style="float: right; border: 0px;">
-                                            @Html.ActionLink("Confirmar  ", "Novo", "DocumentoAlocacao",
-                                                     new
-                                                          {
-                                                           UKAlocacao = @al.UniqueKey,
-
-                                                           },
-                                                     new { @class = "fa fa-file-archive-o green bigger-200 " })
-                                        </div>*@
 
 
                                 </div>
@@ -196,6 +217,8 @@ else
                                             <div class="col-sm-12">
                                                 @if (al.Funcao.Atividades == null || al.Funcao.Atividades.Count == 0)
                                                 {
+
+
                                                     <div class="alert alert-warning">
                                                         <strong>
                                                             <i class="ace-icon fa fa-meh-o"></i>
@@ -247,6 +270,7 @@ else
 
                                                                     if (status == item4.Posicao && item4.UKDocumento == item.UniqueKey)
                                                                     {
+                                                                        <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
 
                                                                         <div class="row">
                                                                             <div class="col-xs-12 col-sm-3">
@@ -256,7 +280,7 @@ else
                                                                                             <span>
                                                                                                 <b>
                                                                                                     <i style="color: black ">
-                                                                                                        &nbsp;@item.NomeDocumento&nbsp;
+                                                                                                        &nbsp;@item.NomeDocumento &nbsp;
 
                                                                                                     </i>
                                                                                                 </b>
@@ -272,54 +296,66 @@ else
                                                                                             <b>
                                                                                                 @if (@item4.DataDocumento != Convert.ToDateTime("9999-12-31 23:59:59.997"))
                                                                                                 {
+                                                                                                    <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
                                                                                                     <i style="color: black ">
-                                                                                                        <span>Realizado em:</span>&nbsp;@item4.DataDocumento
+                                                                                                        <span id="dData">Realizado:&nbsp;@item4.DataDocumento</span>
                                                                                                         <input type="hidden" id="UKEmp" value="@item.UniqueKey.ToString()" />
                                                                                                     </i>
                                                                                                     <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">
-                                                                                                        <div class="profile-info-name"> Telefone </div>
+                                                                                                        <div class="profile-info-name"> Data </div>
 
                                                                                                         <div class="profile-info-value">
-                                                                                                            <span id="labelTelefone">
-
-
+                                                                                                            <span id="labelData">
                                                                                                                 <span class="action-buttons">
                                                                                                                     &nbsp;
 
-                                                                                                                    <a href="#" class="CustomTooltip btnAlterarValor" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxTelefone" data-label="labelTelefone">
+                                                                                                                    <a href="#" class="CustomTooltip btnAlterarData" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxData" data-label="labelData">
                                                                                                                         <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
                                                                                                                     </a>
                                                                                                                 </span>
                                                                                                             </span>
 
-                                                                                                            <div id="divTboxTelefone" class="input-group" style="width: 200px; float: left; display: none">
-                                                                                                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxTelefone" type="text" value="">
+                                                                                                            <div id="divTboxData" class="input-group" style="width: 180px; float: left; display: none">
+                                                                                                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxData" type="text" value="@item4.DataDocumento">
 
                                                                                                                 <span class="input-group-btn">
-                                                                                                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarValor" title="Salvar" data-propriedade="Telefone" data-referencia="tboxTelefone" data-tipo="salvartextbox"></button>
-                                                                                                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlteracao" title="Cancelar" data-combobox="divTboxTelefone" data-label="labelTelefone"></button>
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarData" title="Salvar" data-propriedade="Realizado" data-referencia="tboxData" data-tipo="salvartextbox"></button>
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlterarData" title="Cancelar" data-combobox="divTboxData" data-label="labelData"></button>
                                                                                                                 </span>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-
                                                                                                 }
                                                                                                 else
                                                                                                 {
+                                                                                                    <i style="color: red ">
+                                                                                                        <span>Realizado:</span>
+                                                                                                    </i>
+                                                                                                    <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">
 
-                                                                                                    <span style="font-weight: 700">
-                                                                                                        Realizado em:
-                                                                                                    </span>
-                                                                                                    <span class="action-buttons">
-                                                                                                        &nbsp;
-                                                                                                        <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                                            <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
-                                                                                                        </a>
-                                                                                                    </span>
+                                                                                                        <div class="profile-info-value">
+                                                                                                            <span id="labelData">
 
+                                                                                                                <span class="action-buttons">
+                                                                                                                    &nbsp;
 
+                                                                                                                    <a href="#" class="CustomTooltip btnAlterarData" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxData" data-label="labelData">
+                                                                                                                        <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                                    </a>
+                                                                                                                </span>
+                                                                                                            </span>
+
+                                                                                                            <div id="divTboxData" class="input-group" style="width: 180px; float: left; display: none">
+                                                                                                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxData" type="text" value="">
+
+                                                                                                                <span class="input-group-btn">
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarData" title="Salvar" data-propriedade="Realizado" data-referencia="tboxData" data-tipo="salvartextbox"></button>
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlterarData" title="Cancelar" data-combobox="divTboxData" data-label="labelData"></button>
+                                                                                                                </span>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
                                                                                                 }
-
                                                                                             </b>
 
                                                                                         </div>
@@ -334,6 +370,7 @@ else
                                                                                             {
                                                                                                 if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
                                                                                                 {
+                                                                                                    <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
                                                                                                     <b>
                                                                                                         <i style="color: black ">
                                                                                                             <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
@@ -370,13 +407,14 @@ else
                                                                     }
                                                                     else if (status1 == item4.Posicao && item4.UKDocumento == item.UniqueKey)
                                                                     {
+                                                                        <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
 
                                                                         <div class="row">
                                                                             <div class="col-xs-12 col-sm-3">
                                                                                 <div class="form-group">
                                                                                     <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
                                                                                         <div class="input-group">
-                                                                                            <span>
+                                                                                            <span id="dData">
                                                                                                 <b>
                                                                                                     <i style="color: blue ">
                                                                                                         &nbsp;@item.NomeDocumento&nbsp;
@@ -395,28 +433,65 @@ else
                                                                                                 @if (@item4.DataDocumento != Convert.ToDateTime("9999-12-31 23:59:59.997"))
                                                                                                 {
 
+                                                                                                    <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
+
                                                                                                     <i style="color: blue ">
-                                                                                                        <span class="profile-info-row" style="font-size: 12px; line-height: 2.0">Realizado:&nbsp;@item4.DataDocumento.ToShortDateString()</span>
-                                                                                                        <span class="action-buttons">
-                                                                                                            &nbsp;
-                                                                                                            <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                                                <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
-                                                                                                            </a>
-                                                                                                        </span>
+                                                                                                        <span id="dData" class="profile-info-row" style="font-size: 12px; line-height: 2.0">Realizado:&nbsp;@item4.DataDocumento.ToShortDateString()</span>
+
                                                                                                     </i>
+                                                                                                    <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">
+                                                                                                        <div class="profile-info-name"> Data </div>
 
+                                                                                                        <div class="profile-info-value">
+                                                                                                            <span id="labelData">
+                                                                                                                <span class="action-buttons">
+                                                                                                                    &nbsp;
 
+                                                                                                                    <a href="#" class="CustomTooltip btnAlterarData" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxData" data-label="labelTelefone">
+                                                                                                                        <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                                    </a>
+                                                                                                                </span>
+                                                                                                            </span>
+
+                                                                                                            <div id="divTboxData" class="input-group" style="width: 180px; float: left; display: none">
+                                                                                                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxData" type="text" value="@item4.DataDocumento">
+
+                                                                                                                <span class="input-group-btn">
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarData" title="Salvar" data-propriedade="Realizado" data-referencia="tboxData" data-tipo="salvartextbox"></button>
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlterarData" title="Cancelar" data-combobox="divTboxData" data-label="labelData"></button>
+                                                                                                                </span>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
                                                                                                 }
                                                                                                 else
                                                                                                 {
-                                                                                                    <div class="profile-info-row" style="font-size: 12px; line-height: 0.7">
-                                                                                                        <div class="profile-info-name"> Realizado: </div>
-                                                                                                        <span class="action-buttons">
-                                                                                                            &nbsp;
-                                                                                                            <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                                                <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
-                                                                                                            </a>
-                                                                                                        </span>
+                                                                                                    <i style="color: red ">
+                                                                                                        <span>Realizado:</span>
+                                                                                                    </i>
+                                                                                                    <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">
+
+                                                                                                        <div class="profile-info-value">
+                                                                                                            <span id="labelData">
+
+                                                                                                                <span class="action-buttons">
+                                                                                                                    &nbsp;
+
+                                                                                                                    <a href="#" class="CustomTooltip btnAlterarData" title="Editar07" data-tipo="exibirtextbox" data-combobox="divTboxData" data-label="labelData">
+                                                                                                                        <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                                    </a>
+                                                                                                                </span>
+                                                                                                            </span>
+
+                                                                                                            <div id="divTboxData" class="input-group" style="width: 180px; float: left; display: none">
+                                                                                                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxData" type="text" value="">
+
+                                                                                                                <span class="input-group-btn">
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarData" title="Salvar" data-propriedade="Realizado" data-referencia="tboxData" data-tipo="salvartextbox"></button>
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlterarData" title="Cancelar" data-combobox="divTboxData" data-label="labelData"></button>
+                                                                                                                </span>
+                                                                                                            </div>
+                                                                                                        </div>
                                                                                                     </div>
                                                                                                 }
                                                                                             </b>
@@ -425,6 +500,7 @@ else
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
                                                                             <div class="col-xs-12 col-sm-3">
                                                                                 <div class="form-group">
                                                                                     <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
@@ -433,6 +509,7 @@ else
                                                                                             {
                                                                                                 if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
                                                                                                 {
+                                                                                                    <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
                                                                                                     <b>
                                                                                                         <i style="color: blue ">
                                                                                                             <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
@@ -471,6 +548,8 @@ else
 
                                                                     else if (status2 == item4.Posicao && item4.UKDocumento == item.UniqueKey)
                                                                     {
+
+                                                                        <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
                                                                         <div class="row">
                                                                             <div class="col-xs-12 col-sm-3">
                                                                                 <div class="form-group">
@@ -488,6 +567,8 @@ else
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
+                                                                            @*Este objeto abaixo está funcionando certo...usar como exwmplo*@
                                                                             <div class="col-xs-8 col-sm-3">
                                                                                 <div class="form-group">
                                                                                     <div class="col-xs-8 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
@@ -495,37 +576,30 @@ else
                                                                                             <b>
                                                                                                 @if (@item4.DataDocumento != Convert.ToDateTime("9999-12-31 23:59:59.997"))
                                                                                                 {
+
+                                                                                                    <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
                                                                                                     <i style="color: green ">
-                                                                                                        <span>Realizado em:</span>&nbsp;@item4.DataDocumento
+                                                                                                        <span id="dData">Realizado :&nbsp;@item4.DataDocumento.ToShortDateString()</span>
                                                                                                     </i>
-                                                                                                    <span class="action-buttons">
-                                                                                                        &nbsp;
-                                                                                                        <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                                            <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
-                                                                                                        </a>
-                                                                                                    </span>
-                                                                                                    <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">
-                                                                                                        <div class="profile-info-name"> Telefone </div>
+                                                                                                    <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">                                                                                                        
 
                                                                                                         <div class="profile-info-value">
-                                                                                                            <span id="labelTelefone">
-
-
+                                                                                                            <span id="labelData">
                                                                                                                 <span class="action-buttons">
                                                                                                                     &nbsp;
 
-                                                                                                                    <a href="#" class="CustomTooltip btnAlterarValor" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxTelefone" data-label="labelTelefone">
+                                                                                                                    <a href="#" class="CustomTooltip btnAlterarData" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxData" data-label="label">
                                                                                                                         <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
                                                                                                                     </a>
                                                                                                                 </span>
                                                                                                             </span>
 
-                                                                                                            <div id="divTboxTelefone" class="input-group" style="width: 200px; float: left; display: none">
-                                                                                                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxTelefone" type="text" value="">
+                                                                                                            <div id="divTboxData" class="input-group" style="width: 180px; float: left; display: none">
+                                                                                                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxData" type="text" value="@item4.DataDocumento">
 
                                                                                                                 <span class="input-group-btn">
-                                                                                                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarValor" title="Salvar" data-propriedade="Telefone" data-referencia="tboxTelefone" data-tipo="salvartextbox"></button>
-                                                                                                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlteracao" title="Cancelar" data-combobox="divTboxTelefone" data-label="labelTelefone"></button>
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarData" title="Salvar" data-propriedade="Realizado" data-referencia="tboxData" data-tipo="salvartextbox"></button>
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlterarData" title="Cancelar" data-combobox="divTboxData" data-label="labelData"></button>
                                                                                                                 </span>
                                                                                                             </div>
                                                                                                         </div>
@@ -533,36 +607,33 @@ else
                                                                                                 }
                                                                                                 else
                                                                                                 {
-
-                                                                                                   
+                                                                                                    <i style="color: red ">
+                                                                                                        <span>Realizado:</span>
+                                                                                                    </i>
                                                                                                     <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">
-                                                                                                        <div class="profile-info-name"> Realizado </div>
 
                                                                                                         <div class="profile-info-value">
-                                                                                                            <span id="labelRealizado">
-
+                                                                                                            <span id="labelData">
 
                                                                                                                 <span class="action-buttons">
                                                                                                                     &nbsp;
 
-                                                                                                                    <a href="#" class="CustomTooltip btnAlterarValor" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxRealizado" data-label="labelRealizado">
+                                                                                                                    <a href="#" class="CustomTooltip btnAlterarData" title="Editar07" data-tipo="exibirtextbox" data-combobox="divTboxData" data-label="labelData">
                                                                                                                         <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
                                                                                                                     </a>
                                                                                                                 </span>
                                                                                                             </span>
 
-                                                                                                            <div id="divTboxRealizado" class="input-group" style="width: 200px; float: left; display: none">
-                                                                                                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxRealizado" type="text" value="">
+                                                                                                            <div id="divTboxData" class="input-group" style="width: 180px; float: left; display: none">
+                                                                                                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxData" type="text" value="">
 
                                                                                                                 <span class="input-group-btn">
-                                                                                                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarValor" title="Salvar" data-propriedade="Realizado" data-referencia="tboxRealizado" data-tipo="salvartextbox"></button>
-                                                                                                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlteracao" title="Cancelar" data-combobox="divTboxTelefone" data-label="labelRealizado"></button>
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarData" title="Salvar" data-propriedade="Realizado" data-referencia="tboxData" data-tipo="salvartextbox"></button>
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlterarData" title="Cancelar" data-combobox="divTboxData" data-label="labelData"></button>
                                                                                                                 </span>
                                                                                                             </div>
                                                                                                         </div>
                                                                                                     </div>
-
-
                                                                                                 }
                                                                                             </b>
 
@@ -570,6 +641,9 @@ else
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
+
+
                                                                             <div class="col-xs-12 col-sm-3">
                                                                                 <div class="form-group">
                                                                                     <div class="col-xs-12 col-sm-12 profile-info-row" style="font-size: 12px; line-height: 2.0">
@@ -578,6 +652,7 @@ else
                                                                                             {
                                                                                                 if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
                                                                                                 {
+                                                                                                    <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
                                                                                                     <b>
                                                                                                         <i style="color: green ">
                                                                                                             <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
@@ -612,7 +687,7 @@ else
 
                                                                     else if (status3 == item4.Posicao && item4.UKDocumento == item.UniqueKey)
                                                                     {
-
+                                                                        <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
                                                                         <div class="row">
                                                                             <div class="col-xs-12 col-sm-3">
                                                                                 <div class="form-group">
@@ -621,7 +696,7 @@ else
                                                                                             <span>
                                                                                                 <b>
                                                                                                     <i style="color: red ">
-                                                                                                        &nbsp;@item.NomeDocumento&nbsp;
+                                                                                                        &nbsp;@item.NomeDocumento &nbsp;
                                                                                                     </i>
                                                                                                 </b>
                                                                                             </span>
@@ -636,27 +711,65 @@ else
                                                                                             <b>
                                                                                                 @if (@item4.DataDocumento != Convert.ToDateTime("9999-12-31 23:59:59.997"))
                                                                                                 {
+
+                                                                                                    <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
                                                                                                     <i style="color: red ">
-                                                                                                        <span>Realizado em:</span>&nbsp;@item4.DataDocumento
+                                                                                                        <span id="</span>">Realizado:&nbsp;@item4.DataDocumento</span>
                                                                                                     </i>
-                                                                                                    <span class="action-buttons">
-                                                                                                        &nbsp;
-                                                                                                        <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                                            <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
-                                                                                                        </a>
-                                                                                                    </span>
+                                                                                                    <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">
+                                                                                                        
+
+                                                                                                        <div class="profile-info-value">
+                                                                                                            <span id="labelData">
+                                                                                                                <span class="action-buttons">
+                                                                                                                    &nbsp;
+
+                                                                                                                    <a href="#" class="CustomTooltip btnAlterarData" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxData" data-label="labelData">
+                                                                                                                        <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                                    </a>
+                                                                                                                </span>
+                                                                                                            </span>
+
+                                                                                                            <div id="divTboxData" class="input-group" style="width: 200px; float: left; display: none">
+                                                                                                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxData" type="text" value="@item4.DataDocumento">
+
+                                                                                                                <span class="input-group-btn">
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarValor" title="Salvar" data-propriedade="Realizado" data-referencia="tboxData" data-tipo="salvartextbox"></button>
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlteracao" title="Cancelar" data-combobox="divTboxData" data-label="labelData"></button>
+                                                                                                                </span>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
                                                                                                 }
                                                                                                 else
                                                                                                 {
                                                                                                     <i style="color: red ">
-                                                                                                        <span>Realizado em:</span>
+                                                                                                        <span>Realizado:</span>
                                                                                                     </i>
-                                                                                                    <span class="action-buttons">
-                                                                                                        &nbsp;
-                                                                                                        <a class="blue CustomTooltip" href="#" title="Atlerar Data " onclick="onClickbtnAlterarValor('@item4.UniqueKey')" data-target="#modalData" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                                                            <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
-                                                                                                        </a>
-                                                                                                    </span>
+                                                                                                    <div class="profile-info-row" style="font-size: 10px; line-height: 0.7">
+
+                                                                                                        <div class="profile-info-value">
+                                                                                                            <span id="labelData">
+
+                                                                                                                <span class="action-buttons">
+                                                                                                                    &nbsp;
+
+                                                                                                                    <a href="#" class="CustomTooltip btnAlterarData" title="Editar" data-tipo="exibirtextbox" data-combobox="divTboxData" data-label="labelData">
+                                                                                                                        <i class="ace-icon fa fa-pencil bigger-100 dark"></i>
+                                                                                                                    </a>
+                                                                                                                </span>
+                                                                                                            </span>
+
+                                                                                                            <div id="divTboxData" class="input-group" style="width: 180px; float: left; display: none">
+                                                                                                                <input style="height: 20px; font-size: 10px" class="form-control text-box single-line" id="tboxData" type="text" value="">
+
+                                                                                                                <span class="input-group-btn">
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-success btn-sm CustomTooltip btnAlterarData" title="Salvar" data-propriedade="Realizado" data-referencia="tboxData" data-tipo="salvartextbox"></button>
+                                                                                                                    <button style="height: 20px" type="button" class="btn btn-danger btn-sm CustomTooltip btnCancelarAlterarData" title="Cancelar" data-combobox="divTboxData" data-label="labelData"></button>
+                                                                                                                </span>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
                                                                                                 }
                                                                                             </b>
 
@@ -672,6 +785,8 @@ else
                                                                                             {
                                                                                                 if (item4.UKDocumento == item3.UniqueKey && item3.Validade > 0)
                                                                                                 {
+
+                                                                                                    <input type="hidden" id="UKRel_Doc" value="@item4.UniqueKey" />
                                                                                                     <b>
                                                                                                         <i style="color: red ">
                                                                                                             <p><span>Validade:</span>&nbsp;@item3.Validade<span>&nbsp;Meses:</span></p>
@@ -795,62 +910,26 @@ else
 
 
 
-@*@section Stylesheets {
-        @Styles.Render("~/bundles/ace_css_fileUpload")
-
-        @Styles.Render("~/bundles/croppie_css")
-
-    }
-
-    @section Scripts {
-        <script src="~/Scripts/Ace/ace.widget-box.js"></script>
-        @Scripts.Render("~/bundles/jQ_dataTable")
-        @Scripts.Render("~/bundles/croppie_js")
-        <script src="~/Scripts/Ace/jQ/jquery.maskedinput.js"></script>
-
-        @Scripts.Render("~/bundles/custom/profile")
-
-        <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
-
-        <script src="~/Scripts/Custom/Empregado/PerfilGed.js"></script>
-
-        <script src="~/Scripts/Custom/GED/Lista.js"></script>
-
-
-
-
-    }*@
-
-
 
 <script>
 
 
-    $('.btnAlterarValor').on('click', function (e) {
+    $('.btnAlterarData').on('click', function (e) {
         e.preventDefault();
 
         var elementoClicado = $(this);
         var propriedade = elementoClicado.data('propriedade');
         var tipoCampo = elementoClicado.data('tipo');
 
+        var uk = $('#UKRel_Doc').val();
+
+
         if (tipoCampo == 'exibircombobox' || tipoCampo == 'exibirtextbox') {
             $('#' + elementoClicado.data('label')).hide();
+            $('#dData').hide();
             $('#' + elementoClicado.data('combobox')).show();
 
-            if (propriedade == "Telefone") {
-
-                var idTextBox = elementoClicado.data('idtextbox');
-
-                $("#" + idTextBox).inputmask("(99) 9 9999-9999");
-
-                $("#" + idTextBox).keydown(function () {
-                    try {
-                        $("#" + idTextBox).unmask();
-                    } catch (e) { }
-
-                    $("#" + idTextBox).inputmask("(99) 9 9999-9999");
-                });
-            }
+            
 
         }
         else if (tipoCampo == 'salvarcombobox' || tipoCampo == 'salvartextbox') {
@@ -860,8 +939,8 @@ else
 
             $.ajax({
                 method: "POST",
-                url: "/Home/AlterarPropriedade",
-                data: { obid: elementoClicado.closest("[data-ukusuario]").data("ukusuario"), propriedade: propriedade, valor: valorAtual },
+                url: "/Home/AlterarDataDoc",
+                data: { uk: uk, propriedade: propriedade, valor: valorAtual },
                 success: function (content) {
                     $('.page-content-area').ace_ajax('stopLoading', true);
 

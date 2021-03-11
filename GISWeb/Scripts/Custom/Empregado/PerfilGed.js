@@ -88,6 +88,8 @@
 
     CarregarAdmissao();
 
+    
+
         $('.btnAlterarValor').on('click', function (e) {
             e.preventDefault();
 
@@ -209,6 +211,7 @@
 
     //});
 });
+
 
 //function alterarValor() {
 

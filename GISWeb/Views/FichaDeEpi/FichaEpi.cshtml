@@ -1,0 +1,135 @@
+﻿@model GISModel.Entidades.PPRA.FichaDeEPI
+
+
+
+@{
+    ViewBag.Title = "FichaEpi";
+}
+
+
+
+    <div id="formCadastroEPI">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+                <div class="page-header">
+                    <h1>
+                        Cadastrar de EPI
+                    </h1>
+
+                    <h3>
+                        Empregado: @ViewBag.NomeEmpregado
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        @using (Ajax.BeginForm("CadastrarEPI", "FichaDeEpi", null, new AjaxOptions
+        {
+            HttpMethod = "POST",
+            OnBegin = "OnBeginCadastrarEPI",
+            OnSuccess = "OnSuccessCadastrarEPI",
+        }, new { @id = "formCadastroEPI", @class = "form-horizontal", @autocomplete = "off" }))
+        { 
+            @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.Label("EPI", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.DropDownList("UKProduto", ViewBag.epi as SelectList, "Selecione um EPI...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlEpi", @autocomplete = "on" })
+                    @Html.ValidationMessage("UKProduto", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.Quantidade, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(d => d.Quantidade, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                    @Html.ValidationMessageFor(d => d.Quantidade, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                    <input type="text" name="idEmp" id="idEmp" value=@ViewBag.Emp hidden />
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            <div class="form-group">
+                @Html.LabelFor(d => d.CA, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                <div class="col-xs-12 col-sm-12">
+                    @Html.EditorFor(d => d.CA, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                    @Html.ValidationMessageFor(d => d.CA, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+        @*<div class="row">
+            <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+                <div class="page-header">
+                    <h1>
+                        Devolução
+                    </h1>
+                </div>
+            </div>
+        </div>*@
+
+
+        <div class="row">
+
+            <div class="col-xs-12 col-sm-12">
+                <div class="form-group">
+                    @Html.Label("MotivoDevolucao", new { @class = "form-field-select-3 col-xs-12 col-sm-12 no-padding-right" })
+                    <div class="col-xs-12 col-sm-12">
+                        @Html.DropDownList("MotivoDevolucao", ViewBag.Motivo as SelectList, "Selecione um Motivo...", new { @class = "chosen-select form-control tag-input-style", @id = "ddlMotivo", @autocomplete = "on" })
+                        @Html.ValidationMessage("MotivoDevolucao", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                    </div>
+                </div>
+            </div>
+            
+
+        </div>
+
+
+        <br /><br />
+
+
+
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                <button class="btn btn-info" id="btnSalvar" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar
+                </button>
+                &nbsp;
+                <button class="btn btn-warning" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;
+                <a class="btn" href="javascript:history.back()">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+        }
+
+
+    </div> <!-- Fim FormQuery -->
+@section Scripts {
+    @Scripts.Render("~/bundles/ace_js_fileUpload")
+    <script src="~/Scripts/jQuery/inputmask.js"></script>
+    <script src="~/Scripts/jQuery/jquery.inputmask.js"></script>
+
+    <script src="~/Scripts/Custom/FichaDeEPI/Novo.js"></script>
+
+
+}

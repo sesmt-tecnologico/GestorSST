@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Detalhes</h2>
 
 <div>
     <h4>Produto</h4>
@@ -35,22 +35,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UKCategoria)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UKCategoria)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UniqueKey)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UniqueKey)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.UsuarioInclusao)
         </dt>
 
@@ -66,25 +50,11 @@
             @Html.DisplayFor(model => model.DataInclusao)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UsuarioExclusao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UsuarioExclusao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DataExclusao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DataExclusao)
-        </dd>
+       
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editar", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Retornar a Lista", "Index")
 </p>

@@ -26,6 +26,9 @@ namespace GISModel.Entidades.Estoques
         [Display(Name ="Preço Unitário")]
         public float PrecoUnit { get; set; }
 
+        [Display(Name = "C.A")]
+        public string CA { get; set; }
+
         public Guid UKCategoria { get; set; }
 
     }

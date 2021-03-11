@@ -1,56 +1,59 @@
-﻿@model IEnumerable<GISModel.Entidades.Estoques.Produto>
+﻿@model IEnumerable<GISModel.DTO.Produtos.ProdutosViewModel>
+
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Lista de Produtos</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Novo Produto", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Nome)
+            <p>Categoria</p>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Qunatidade)
+            <p>Nome</p>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PrecoUnit)
-        </th>        
-        <th>
-            @Html.DisplayNameFor(model => model.UsuarioInclusao)
+            <p>Quantidade</p>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DataInclusao)
+            <p>Preço Unitário</p>
         </th>
-       
+
+        <th>
+
+        </th>
+
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Qunatidade)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrecoUnit)
-        </td>        
-        <td>
-            @Html.DisplayFor(modelItem => item.UsuarioInclusao)
-        </td>               
-       
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Categoria)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Nome)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Quantidade)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PrecoUnitario)
+    </td>
+
+
+    <td>
+        @Html.ActionLink("Atualizar", "Edit", new { id = item.ID }) |
+        @Html.ActionLink("Detalhes", "Details", new { id = item.ID }) |
+        @Html.ActionLink("Excluir", "Delete", new { id = item.ID })
+    </td>
+</tr>
 }
 
 </table>

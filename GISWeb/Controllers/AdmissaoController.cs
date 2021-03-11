@@ -3,6 +3,7 @@ using GISCore.Infrastructure.Utils;
 using GISModel.DTO.Admissao;
 using GISModel.DTO.Shared;
 using GISModel.Entidades;
+using GISModel.Entidades.PPRA;
 using GISWeb.Infraestrutura.Filters;
 using GISWeb.Infraestrutura.Provider.Abstract;
 using Ninject;
@@ -62,6 +63,7 @@ namespace GISWeb.Controllers
 
         [Inject]
         public IREL_ArquivoEmpregadoBusiness REL_ArquivoEmpregadoBusiness { get; set; }
+        public IBaseBusiness<FichaDeEPI> FichaDeEpiBusiness { get; set; }
 
 
         #endregion
@@ -130,6 +132,10 @@ namespace GISWeb.Controllers
                         UniqueKey = oEmp.UniqueKey,
                         Status = "Atualmente admitido"
                     });
+
+
+
+                    
 
 
                     Extensions.GravaCookie("MensagemSucesso", "Admissão realizada com sucesso.", 10);

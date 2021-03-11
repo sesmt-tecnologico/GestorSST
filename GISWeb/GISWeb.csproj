@@ -88,6 +88,9 @@
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.6.4\lib\net40\Rotativa.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.SQLite, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.112.0\lib\net45\System.Data.SQLite.dll</HintPath>
@@ -306,6 +309,8 @@
     <Content Include="Content\Ace\Chosen\chosen.min.css" />
     <Content Include="Content\Croppie\croppie.css" />
     <Content Include="Content\Custom\Shared.css" />
+    <Content Include="Images\Assinaturas\FredericoAlmeidaAredes.jpg" />
+    <Content Include="Images\Assinaturas\FredericoAlmeidaAredes.png" />
     <Content Include="Images\CIPA-logo.png" />
     <Content Include="Images\favicon.ico" />
     <Content Include="Global.asax" />
@@ -321,6 +326,8 @@
     <Content Include="Images\GestorLogoGrande1.fw.png" />
     <Content Include="Images\Home\LogoGestor.fw.png" />
     <Content Include="Images\slack_loading.gif" />
+    <Content Include="Images\Veiculo\trajeto2.jpg" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\Ace\ace-extra.js" />
     <Content Include="Scripts\Ace\ace.ajax-content.js" />
     <Content Include="Scripts\Ace\ace.js" />
@@ -383,6 +390,7 @@
     <Content Include="Scripts\Custom\AmbienteDoEstabelecimento\Novo.js" />
     <Content Include="Scripts\Custom\AnaliseDeRisco\Lista.js" />
     <Content Include="Scripts\Custom\AnaliseDeRisco\Novo.js" />
+    <Content Include="Scripts\Custom\Arquivo\Novo.js" />
     <Content Include="Scripts\Custom\AtividadeEquipe\Listagem.js" />
     <Content Include="Scripts\Custom\AtividadeEquipe\Novo.js" />
     <Content Include="Scripts\Custom\Atividade\Edicao.js" />
@@ -462,6 +470,7 @@
     <Content Include="Scripts\Custom\Exposicao\Edicao.js" />
     <Content Include="Scripts\Custom\Exposicao\Listagem.js" />
     <Content Include="Scripts\Custom\Exposicao\Novo.js" />
+    <Content Include="Scripts\Custom\FichaDeEPI\Novo.js" />
     <Content Include="Scripts\Custom\FonteGeradora\Lista.js" />
     <Content Include="Scripts\Custom\FonteGeradora\Novo.js" />
     <Content Include="Scripts\Custom\Fornecedor\Edicao.js" />
@@ -514,6 +523,7 @@
     <Content Include="Scripts\Custom\PossiveisDanos\Listagem.js" />
     <Content Include="Scripts\Custom\PossiveisDanos\Novo.js" />
     <Content Include="Scripts\Custom\PPRA\Lista.js" />
+    <Content Include="Scripts\Custom\Produtos\Listagem.js" />
     <Content Include="Scripts\Custom\Produto\Novo.js" />
     <Content Include="Scripts\Custom\Questionario\Listagem.js" />
     <Content Include="Scripts\Custom\Questionario\Novo.js" />
@@ -558,6 +568,7 @@
     <Content Include="assets\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="assets\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jQuery\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jQuery\jquery-2.2.0.js" />
@@ -589,6 +600,7 @@
     <Compile Include="Controllers\AnaliseRisco\AnaliseDeRiscoController.cs" />
     <Compile Include="Controllers\AnaliseRisco\ARInterrompidaController.cs" />
     <Compile Include="Controllers\ArquivoController.cs" />
+    <Compile Include="Controllers\ArquivoFiscal\NotaFiscalsController.cs" />
     <Compile Include="Controllers\AtividadeAlocadaController.cs" />
     <Compile Include="Controllers\AtividadeController.cs" />
     <Compile Include="Controllers\AtividadeEquipeController.cs" />
@@ -614,6 +626,7 @@
     <Compile Include="Controllers\FrasesSegurancaController.cs" />
     <Compile Include="Controllers\PCMSO\ASOController.cs" />
     <Compile Include="Controllers\PCMSO\ExamesController.cs" />
+    <Compile Include="Controllers\PPRA\FichaDeEpiController.cs" />
     <Compile Include="Controllers\PPRA\ExposicaoController.cs" />
     <Compile Include="Controllers\FonteGeradoraDeRiscoController.cs" />
     <Compile Include="Controllers\FornecedorController.cs" />
@@ -643,6 +656,7 @@
     <Compile Include="Controllers\Quest\TipoRespostaItemController.cs" />
     <Compile Include="Controllers\ReconhecimentoDoRiscoController.cs" />
     <Compile Include="Controllers\RiscoController.cs" />
+    <Compile Include="Controllers\testesController.cs" />
     <Compile Include="Controllers\TipoDeControleController.cs" />
     <Compile Include="Controllers\TipoDeRiscoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
@@ -984,6 +998,22 @@
     <Content Include="Views\Produtoes\Edit.cshtml" />
     <Content Include="Views\Produtoes\Index.cshtml" />
     <Content Include="Views\Produtoes\_ListarProduto.cshtml" />
+    <Content Include="Views\FichaDeEpi\FichaEpi.cshtml" />
+    <Content Include="Views\FichaDeEpi\FichaDeEpiPorEmpregado.cshtml" />
+    <Content Include="Views\testes\Create.cshtml" />
+    <Content Include="Views\testes\Delete.cshtml" />
+    <Content Include="Views\testes\Details.cshtml" />
+    <Content Include="Views\testes\Edit.cshtml" />
+    <Content Include="Views\testes\Index.cshtml" />
+    <Content Include="Views\Arquivo\_RecoFaceUploadEPI.cshtml" />
+    <Content Include="Views\Arquivo\CriarCollection.cshtml" />
+    <Content Include="Views\Arquivo\ListarCollections.cshtml" />
+    <Content Include="Views\NotaFiscals\Create.cshtml" />
+    <Content Include="Views\NotaFiscals\Delete.cshtml" />
+    <Content Include="Views\NotaFiscals\Details.cshtml" />
+    <Content Include="Views\NotaFiscals\Edit.cshtml" />
+    <Content Include="Views\NotaFiscals\Index.cshtml" />
+    <Content Include="Views\MovimentacaoVeicular\_KMChegada.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1003,6 +1033,7 @@
     <Folder Include="Views\ARInterrompida\" />
     <Folder Include="Views\AtividadeFuncaoLiberada\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Epi\" />
     <Folder Include="Views\Inbox\" />
   </ItemGroup>
   <ItemGroup>

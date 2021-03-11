@@ -1,4 +1,7 @@
-﻿jQuery(function ($) {
+﻿
+
+
+jQuery(function ($) {
 
     DatePTBR();
 
@@ -38,6 +41,7 @@
     });
 
     if ($('#inputUpload').length > 0) {
+        var tam = $('#inputUpload').length;
         $('#inputUpload').ace_file_input({
             no_file: 'Selecione algum arquivo...',
             btn_choose: 'Escolher',
@@ -47,7 +51,7 @@
             droppable: false,
             thumbnail: false
         }).on('change', function () {
-            EnviaArquivoParaCroppieEmpregado(this);
+            EnviaArquivoParaCroppie(this);
 
             $('#modalAtualizarFotoProsseguir').show();
         });
@@ -78,13 +82,14 @@
                 type: 'canvas',
                 size: 'viewport'
             }).then(function (resp) {
-                TratarResultadoCroppieEmpregado({
+                TratarResultadoCroppie({
                     src: resp,
                     obid: $('#perfilAplicacao').data('obid-aplicacao')
                 });
             });
         });
     }
+
 
 
    

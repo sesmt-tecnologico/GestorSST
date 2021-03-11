@@ -97,8 +97,15 @@
                         foreach (Validacoes item in @ViewBag.valido)
                         {
                             var nome = item.NomeIndex;
+                            <td>
+                                @nome.Substring(0, nome.Length - 4)
+                            </td>                           
 
-                            @nome.Substring(0, nome.Length - 4)<br />
+                            <td>
+                                <img src="/Images/Assinaturas/@item.NomeIndex" alt="Assinatura" width="70px" />
+                            </td>
+                                
+
 
                         }
                     }

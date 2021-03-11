@@ -35,7 +35,7 @@
 
         if ($('#inputUpload').length > 0) {
             $('#inputUpload').ace_file_input({
-                no_file: 'Selecione algum arquivo...',
+                no_file: 'Selecione algum arquivo02...',
                 btn_choose: 'Escolher',
                 btn_change: 'Trocar',
                 allowExt: ["jpeg", "jpg", "png", "gif", "bmp"],

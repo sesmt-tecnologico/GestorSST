@@ -22,7 +22,7 @@ namespace GISModel.Entidades
 
         [Display(Name = "Data do Documento")]
         [DisplayFormat(ApplyFormatInEditMode = true,
-         DataFormatString = "{0:yyyy-MM-dd}")]        
+         DataFormatString = "{0:dd-MM-yyyy}")]        
         public DateTime DataDocumento { get; set; }
 
 

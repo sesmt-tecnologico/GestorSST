@@ -1,0 +1,63 @@
+﻿@model IEnumerable<GISModel.Entidades.Estoques.teste>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.teste01)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UniqueKey)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioInclusao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataInclusao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsuarioExclusao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataExclusao)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.teste01)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UniqueKey)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UsuarioInclusao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataInclusao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UsuarioExclusao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataExclusao)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

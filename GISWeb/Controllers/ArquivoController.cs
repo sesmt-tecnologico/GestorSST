@@ -16,6 +16,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using GISModel.Entidades.PPRA;
 
 namespace GISWeb.Controllers
 {
@@ -31,10 +32,17 @@ namespace GISWeb.Controllers
         public IArquivoBusiness ArquivoBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<Empregado> EmpregadoBusiness { get; set; }
+
+        [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
 
         [Inject]
         public IBaseBusiness<Validacoes> ValidacoesBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<ValidacaoFichaDeEpi> ValidacaoFichaDeEpiBusiness { get; set; }
+
 
         #endregion
 
@@ -44,6 +52,65 @@ namespace GISWeb.Controllers
 
             return View();
         }
+
+        public ActionResult ListarCollections()
+        {
+
+            var rekognitionClient = new AmazonRekognitionClient("AKIAIBLZ7KFAN6XG3NNA", "2nukFOTDN0zv/y2tzeCiLrAHM5TwbFgvEqqZA9zn", RegionEndpoint.USWest2);
+
+            var response = rekognitionClient.ListCollections(new ListCollectionsRequest
+            {
+            });
+
+            List<string> collectionIds = response.CollectionIds;
+
+            ViewBag.colecao = collectionIds.ToList();
+
+            return View();
+        }
+
+
+
+        public ActionResult CriarCollection()
+        {
+
+
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CadastrarCollection(string nome) {
+
+            try
+            {
+                var Collection = nome;
+
+                var rekognitionClient = new AmazonRekognitionClient("AKIAIBLZ7KFAN6XG3NNA", "2nukFOTDN0zv/y2tzeCiLrAHM5TwbFgvEqqZA9zn", RegionEndpoint.USWest2);
+
+
+                var response = rekognitionClient.CreateCollection(new CreateCollectionRequest
+                {
+                    CollectionId = Collection
+                });
+
+                string collectionArn = response.CollectionArn;
+                int statusCode = response.StatusCode;
+            }
+            catch (Exception ex)
+            {
+                return Json(new { erro = ex.Message });
+            }
+
+
+            return Json(new { sucesso = "Collection criada com Sucesso!" });
+
+        }
+
+        
+
+        
 
 
         [HttpPost]
@@ -158,7 +225,7 @@ namespace GISWeb.Controllers
                     input = Nome.Trim().Replace(" ", "") + ".jpg";
 
 
-                    var rekognitionClient = new AmazonRekognitionClient("AKIAIQSK5ZOGDP4FEAZA", "ovOn8vXcmP+PME9CnNhUtkUQE4f4eVAY94DYDRkg", RegionEndpoint.USWest2);
+                    var rekognitionClient = new AmazonRekognitionClient("AKIAIBLZ7KFAN6XG3NNA", "2nukFOTDN0zv/y2tzeCiLrAHM5TwbFgvEqqZA9zn", RegionEndpoint.USWest2);
 
                     Image image = new Image()
                     {
@@ -202,9 +269,6 @@ namespace GISWeb.Controllers
 
 
 
-
-
-
         [HttpPost]
         [RestritoAAjax]
         [ValidateAntiForgeryToken]
@@ -241,7 +305,7 @@ namespace GISWeb.Controllers
 
                     var input = arquivo.NomeLocal;
 
-                    var rekognitionClient = new AmazonRekognitionClient("AKIAIQSK5ZOGDP4FEAZA", "ovOn8vXcmP+PME9CnNhUtkUQE4f4eVAY94DYDRkg", RegionEndpoint.USWest2);
+                    var rekognitionClient = new AmazonRekognitionClient("AKIAIBLZ7KFAN6XG3NNA", "2nukFOTDN0zv/y2tzeCiLrAHM5TwbFgvEqqZA9zn", RegionEndpoint.USWest2);
 
                     Image image = new Image()
                     {
@@ -411,6 +475,245 @@ namespace GISWeb.Controllers
 
 
         }
+
+
+
+        [RestritoAAjax]
+        public ActionResult RecoFaceUploadEPI(string UKFichaDeEPI, string UKEmpregado, string UKProduto)
+        {
+            try
+            {
+                
+                ViewBag.UKObjeto = UKFichaDeEPI;
+                ViewBag.UKemp = UKEmpregado;
+                ViewBag.UniqEPi = UKProduto;
+
+
+
+                return PartialView("_RecoFaceUploadEPI");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Content(ex.Message, "text/html");
+            }
+        }
+
+
+        [HttpPost]
+        [RestritoAAjax]
+        [ValidateAntiForgeryToken]
+        public ActionResult RecoFaceUploadEPI(Arquivo arquivo, string UKFichaDeEPI,string UKEmpregado, string UKProduto)
+        {
+            try
+            {
+                Guid UKemp = Guid.Parse(UKEmpregado);
+                
+
+                Empregado empregado = EmpregadoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+                && a.UniqueKey.Equals(UKemp));
+
+                var nome = empregado.Nome.Trim().Replace(" ", "") + ".jpg";
+
+                
+
+                string Semelhanca = string.Empty;
+                String resultado = string.Empty;
+
+                HttpPostedFileBase arquivoPostado = null;
+                foreach (string fileInputName in Request.Files)
+                {
+
+
+
+                    arquivoPostado = Request.Files[fileInputName];
+
+
+                    var target = new MemoryStream();
+                    arquivoPostado.InputStream.CopyTo(target);
+                    arquivo.Conteudo = target.ToArray();
+                    arquivo.UsuarioInclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
+                    arquivo.DataInclusao = DateTime.Now;
+                    arquivo.Extensao = Path.GetExtension(arquivoPostado.FileName);
+                    arquivo.NomeLocal = arquivoPostado.FileName;
+
+                    byte[] inputImageData = arquivo.Conteudo;
+                    var inputImageStream = new MemoryStream(inputImageData);
+
+                    var item = arquivo.Conteudo;
+
+                    var input = arquivo.NomeLocal;
+
+                    var rekognitionClient = new AmazonRekognitionClient("AKIAIBLZ7KFAN6XG3NNA", "2nukFOTDN0zv/y2tzeCiLrAHM5TwbFgvEqqZA9zn", RegionEndpoint.USWest2);
+
+                    Image image = new Image()
+                    {
+                        Bytes = inputImageStream
+                    };
+
+
+
+
+                    // Get an image object from S3 bucket.
+                    /* Image image = new Image()
+                     {
+                         S3Object = new S3Object()
+                         {
+                             Bucket = "recface01",
+                             Name = input
+                         }
+                     };*/
+
+
+                    /* IndexFacesRequest indexFacesRequest = new IndexFacesRequest()
+                     {
+                         Image = image,
+                         CollectionId = "live",
+                         ExternalImageId = input,
+                         DetectionAttributes = new List<String>() { "ALL" }
+                     };
+
+
+
+                     IndexFacesResponse indexFacesResponse = rekognitionClient.IndexFaces(indexFacesRequest);*/
+
+
+
+
+                    SearchFacesByImageRequest searchFacesByImageRequest = new SearchFacesByImageRequest()
+                    {
+                        CollectionId = "GrupoCEI",
+                        Image = image,
+                        FaceMatchThreshold = 70F,
+                        MaxFaces = 2
+
+                    };
+
+                    var contaFace = 0;
+                    try
+                    {
+                        SearchFacesByImageResponse searchFacesByImageResponse = rekognitionClient.SearchFacesByImage(searchFacesByImageRequest);
+                        List<FaceMatch> faceMatches = searchFacesByImageResponse.FaceMatches;
+                        BoundingBox searchedFaceBoundingBox = searchFacesByImageResponse.SearchedFaceBoundingBox;
+                        float searchedFaceConfidence = searchFacesByImageResponse.SearchedFaceConfidence;
+
+                        if (faceMatches.Count == 0)
+                        {
+                            contaFace = 2;
+                        }
+
+                        if (faceMatches.Count > 0)
+                        {
+
+
+
+
+                            foreach (FaceMatch face in faceMatches)
+                            {
+
+
+                                if (face != null && face.Face.ExternalImageId == nome)
+                                {
+
+
+                                    //Extensions.GravaCookie("MensagemSucesso", "Empregado identificado com: '" + face.Similarity + "'de semlhança.", 10);
+                                    //return Json(new { sucesso = "O arquivo foi anexado com êxito." });
+                                    // return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Index", "AnaliseDeRisco") } });
+
+                                    Semelhanca = face.Similarity.ToString();
+
+                                    resultado = face.Face.ExternalImageId.ToString();
+
+                                    contaFace = 1;
+
+                                    var validacao = ValidacoesBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+                                    && a.Registro.Equals(arquivo.NumRegistro) && a.NomeIndex.Equals(face.Face.ExternalImageId));
+
+                                    if (validacao == null)
+                                    {
+                                        ValidacaoFichaDeEpi val = new ValidacaoFichaDeEpi()
+                                        {
+                                            UKFichaDeEPI =Convert.ToString(arquivo.UKObjeto),
+                                            NomeIndex = face.Face.ExternalImageId,
+                                            
+                                        };
+
+                                        ValidacaoFichaDeEpiBusiness.Inserir(val);
+
+                                    }
+                                    else
+                                    {
+                                        contaFace = 4;
+                                        throw new Exception("Empregado já validou este documento!");
+
+
+                                    }
+
+
+
+
+                                }
+                                else
+                                {
+                                    contaFace = 3;
+                                    throw new Exception("Empregado com Nome diferente!");
+
+                                }
+
+                            }
+
+                            Extensions.GravaCookie("MensagemSucesso", "Empregado '" + resultado + "' identificado com: '" + Semelhanca + "' de semelhança.", 10);
+
+
+                        }
+                        else
+                        {
+                            throw new Exception("Empregado não encontrado!");
+
+                        }
+
+                    }
+                    catch (Exception)
+                    {
+                        if (contaFace == 2)
+                        {
+                            throw new Exception("Empregado não encontrado!");
+                        }
+                        if (contaFace == 3)
+                        {
+                            throw new Exception("A imagem não corresponde com o empregado atual");
+                        }
+                        if (contaFace == 4)
+                        {
+                            throw new Exception("Empregado já validou este documento!");
+                        }
+                        else
+                        {
+                            throw new Exception("Essa não é uma imagem válida!");
+                        }
+
+
+
+                    }
+
+                }
+
+                if (Semelhanca != null)
+                    return Json(new { sucesso = "O Empregado '" + resultado + "' foi analisado com êxito." });
+                else
+                    return Json(new { sucesso = "Empregado não encontrado!" });
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { erro = ex.Message });
+            }
+
+
+
+        }
+
 
         public ActionResult listarValidacoes(string Regis) {
 

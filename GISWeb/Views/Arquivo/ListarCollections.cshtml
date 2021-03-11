@@ -1,0 +1,15 @@
+﻿
+
+@{
+    ViewBag.Title = "ListarCollections";
+}
+
+<h2>ListarCollections</h2>
+
+@foreach(var item in @ViewBag.colecao)
+{
+    if(item != null)
+    {
+        @item <br/>
+    }
+}

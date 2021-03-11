@@ -4,156 +4,346 @@
     ViewBag.Title = "Movimentação Veicular ";
 }
 
-<div id="formCadastroMovimentacaoVeicular">
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
-            <div class="page-header">
-                <h1>
-                    Cadastro de Movimentação
-                    </br>
-                </h1>
+    <div id="formCadastroMovimentacaoVeicular">
 
+        <div class=" hidden-md hidden-lg">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 >
+                        Cadastrar Movimentações<br/><br />
 
+                        <a href="@Url.Action("ListaMovimentacao", "MovimentacaoVeicular", new {usuario = @ViewBag.login })" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                            <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                            Lista de  Movimentação
+                        </a><br /><br />
+                    </h3>
+                </div>
             </div>
         </div>
-    </div>
-
-    @using (Ajax.BeginForm("Cadastrar", "MovimentacaoVeicular", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarMovimentacaoVeicular", }, new { @id = "formCadastroMovimentacaoVeicular", @class = "form-horizontal", @autocomplete = "off" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="row">
-
-            <div class="col-xs-12 col-sm-12">
-                <div class="form-group">
-                    @Html.LabelFor(d => d.Veiculo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.EditorFor(d => d.Veiculo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
-                        @Html.ValidationMessageFor(d => d.Veiculo, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-
-                    </div>
+        <div class= "hidden-sm hidden-xs">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="header smaller lighter blue">
+                        Cadastrar Movimentações
+                        <a href="@Url.Action("ListaMovimentacao", "MovimentacaoVeicular", new {usuario = @ViewBag.login })" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                            <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                            Lista de  Movimentação
+                        </a>
+                    </h3>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-12">
-                <div class="form-group">
-                    @Html.LabelFor(d => d.IntinerarioOrigem, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.EditorFor(d => d.IntinerarioOrigem, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
-                        @Html.ValidationMessageFor(d => d.IntinerarioOrigem, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12">
-                <div class="form-group">
-                    @Html.LabelFor(d => d.KMSaida, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.EditorFor(d => d.KMSaida, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
-                        @Html.ValidationMessageFor(d => d.KMSaida, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <div class="row">
-
-            <div class="col-xs-12 col-sm-12">
-                <div class="form-group">
-                    @Html.LabelFor(d => d.IntinerarioDestino, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.EditorFor(d => d.IntinerarioDestino, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
-                        @Html.ValidationMessageFor(d => d.IntinerarioDestino, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12">
-                <div class="form-group">
-                    @Html.LabelFor(d => d.KMChegada, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
-                    <div class="col-xs-12 col-sm-12">
-                        @Html.EditorFor(d => d.KMChegada, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
-                        @Html.ValidationMessageFor(d => d.KMChegada, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
-
-                    </div>
-                </div>
-            </div>
-
         </div>
 
 
 
-        <br />
-        <br />
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
-                <button class="btn btn-info" id="btnSalvar" type="submit">
-                    <i class="ace-icon fa fa-check bigger-110"></i>
-                    Salvar
-                </button>
-                &nbsp;
-                <button class="btn btn-warning" type="reset">
-                    <i class="ace-icon fa fa-undo bigger-110"></i>
-                    Limpar
-                </button>
-                &nbsp;
-                <a class="btn" href="javascript:history.back()">
-                    <i class="ace-icon fa fa-arrow-left"></i>
-                    Voltar
-                </a>
-            </div>
-        </div>
-    }
+        @using (Ajax.BeginForm("Cadastrar", "MovimentacaoVeicular", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarMovimentacaoVeicular", }, new { @id = "formCadastroMovimentacaoVeicular", @class = "form-horizontal", @autocomplete = "off" }))
+        {
+            @Html.AntiForgeryToken()
 
 
-</div> <!-- Fim FormQuery -->
+            <div class="row">
+
+                @if (ViewBag.mov == "1")
+                {
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            @Html.LabelFor(d => d.Veiculo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.EditorFor(d => d.Veiculo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                @Html.ValidationMessageFor(d => d.Veiculo, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
 
 
-<div id="modalArquivo" class="modal fade" style="z-index: 10001">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button id="modalArquivoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="smaller lighter blue no-margin"><i class="ace-icon fa fa-folder-open orange2"></i> Arquivo referente ao Ambiente de Trabalho</h3>
-            </div>
-
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div id="modalArquivoCorpoLoading" style="float: right; display: none">
-                            ...Carregando
-                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
-                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                            </div>
                         </div>
-                        <div id="modalArquivoCorpo"></div>
                     </div>
-                </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            @Html.LabelFor(d => d.frota, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.EditorFor(d => d.frota, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                @Html.ValidationMessageFor(d => d.frota, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(d => d.IntinerarioOrigem, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                <div class="col-xs-12 col-sm-12">
+                                    @Html.EditorFor(d => d.IntinerarioOrigem, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                    @Html.ValidationMessageFor(d => d.IntinerarioOrigem, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(d => d.KMSaida, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                <div class="col-xs-12 col-sm-12">
+                                    @if (ViewBag.KMSaida != 0)
+                                    {
+                                        @Html.EditorFor(d => d.KMSaida, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12 ", @id = "", @Value = ViewBag.kmSaida } })
+                                        @Html.ValidationMessageFor(d => d.KMSaida, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                                    }
+                                    else
+                                    {
+                                        @Html.EditorFor(d => d.KMSaida, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = ""} })
+                                        @Html.ValidationMessageFor(d => d.KMSaida, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(d => d.IntinerarioDestino, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                <div class="col-xs-12 col-sm-12">
+                                    @Html.EditorFor(d => d.IntinerarioDestino, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                    @Html.ValidationMessageFor(d => d.IntinerarioDestino, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-xs-12 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(d => d.KMChegada, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                <div class="col-xs-12 col-sm-12">
+                                    @Html.EditorFor(d => d.KMChegada, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                    @Html.ValidationMessageFor(d => d.KMChegada, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                                </div>
+                            </div>
+                        </div>*@
+
+                    </div>
+                }
+                @if (ViewBag.mov == "2")
+                {
+                    <div class="alert alert-info center">
+                        <h3>Veículo:&nbsp;@ViewBag.veiculo - Frota: @ViewBag.frota<br /><h4 style="color: red">Motorista: @ViewBag.usuario</h4></h3>
+                    </div>
+
+                    <input type="text" id="veiculo" name="veiculo" value="@ViewBag.veiculo" hidden />
+                    <input type="text" id="frota" name="frota" value="@ViewBag.frota" hidden />
+
+                    <div class="row">
+
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(d => d.IntinerarioOrigem, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                <div class="col-xs-12 col-sm-12">
+                                    @Html.EditorFor(d => d.IntinerarioOrigem, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                    @Html.ValidationMessageFor(d => d.IntinerarioOrigem, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(d => d.KMSaida, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                <div class="col-xs-12 col-sm-12">
+                                    @Html.EditorFor(d => d.KMSaida, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "", @Value = ViewBag.kmSaida, disabled ="disabled" } })
+                                    <input type="text" id="KMSaida" name="KMSaida" value="@ViewBag.kmSaida" hidden />
+                                    @Html.ValidationMessageFor(d => d.KMSaida, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(d => d.IntinerarioDestino, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                <div class="col-xs-12 col-sm-12">
+                                    @Html.EditorFor(d => d.IntinerarioDestino, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                    @Html.ValidationMessageFor(d => d.IntinerarioDestino, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-xs-12 col-sm-12">
+                            <div class="form-group">
+                                @Html.LabelFor(d => d.KMChegada, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                                <div class="col-xs-12 col-sm-12">
+                                    @Html.EditorFor(d => d.KMChegada, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                    @Html.ValidationMessageFor(d => d.KMChegada, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                                </div>
+                            </div>
+                        </div>*@
+
+                    </div>
+
+                }
+
+
             </div>
 
-            <div class="modal-footer">
+
+            if (@ViewBag.mov == "3")
+            {
                 <div class="row">
-                    <div class="col-xs-12">
-                        <span id="modalArquivoLoading" style="display: none; float: left; padding-top: 6px">
-                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
-                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
-                        </span>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            @Html.LabelFor(d => d.Veiculo, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.EditorFor(d => d.Veiculo, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                @Html.ValidationMessageFor(d => d.Veiculo, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
 
-                        <button id="modalArquivoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
-                            <i class="ace-icon fa fa-times"></i>
-                            Fechar
-                        </button>
 
-                        <button id="modalArquivoProsseguir" class="btn btn-sm btn-info" style="right: 5px; left: auto">
-                            <i class="ace-icon fa fa-check"></i>
-                            Prosseguir
-                        </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            @Html.LabelFor(d => d.frota, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.EditorFor(d => d.frota, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                @Html.ValidationMessageFor(d => d.frota, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="form-group">
+                            @Html.LabelFor(d => d.IntinerarioOrigem, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.EditorFor(d => d.IntinerarioOrigem, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                @Html.ValidationMessageFor(d => d.IntinerarioOrigem, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="form-group">
+                            @Html.LabelFor(d => d.KMSaida, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.EditorFor(d => d.KMSaida, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                @Html.ValidationMessageFor(d => d.KMSaida, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="form-group">
+                            @Html.LabelFor(d => d.IntinerarioDestino, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.EditorFor(d => d.IntinerarioDestino, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                @Html.ValidationMessageFor(d => d.IntinerarioDestino, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-xs-12 col-sm-12">
+                        <div class="form-group">
+                            @Html.LabelFor(d => d.KMChegada, new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
+                            <div class="col-xs-12 col-sm-12">
+                                @Html.EditorFor(d => d.KMChegada, new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                                @Html.ValidationMessageFor(d => d.KMChegada, string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
+
+                            </div>
+                        </div>
+                    </div>*@
+
+                </div>
+
+
+            }
+
+
+            <br />
+            <br />
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                    <button class="btn btn-info" id="btnSalvar" type="submit">
+                        <i class="ace-icon fa fa-check bigger-110"></i>
+                        Salvar
+                    </button>
+                    &nbsp;
+                    <button class="btn btn-warning" type="reset">
+                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                        Limpar
+                    </button>
+                    &nbsp;
+                    <a class="btn" href="javascript:history.back()">
+                        <i class="ace-icon fa fa-arrow-left"></i>
+                        Voltar
+                    </a>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
+        }
+
+
+    </div> <!-- Fim FormQuery -->
+
+
+                <div id="modalArquivo" class="modal fade" style="z-index: 10001">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button id="modalArquivoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 class="smaller lighter blue no-margin"><i class="ace-icon fa fa-folder-open orange2"></i> Arquivo referente ao Ambiente de Trabalho</h3>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div id="modalArquivoCorpoLoading" style="float: right; display: none">
+                                            ...Carregando
+                                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                                        </div>
+                                        <div id="modalArquivoCorpo"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <span id="modalArquivoLoading" style="display: none; float: left; padding-top: 6px">
+                                            @*<img src="~/Content/Images/ajax-loading.GIF" />*@
+                                            <i id="loadingLogin" style="margin-top: 5px;" class="ace-icon fa fa-spinner fa-spin blue bigger-125"></i>
+                                        </span>
+
+                                        <button id="modalArquivoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                            <i class="ace-icon fa fa-times"></i>
+                                            Fechar
+                                        </button>
+
+                                        <button id="modalArquivoProsseguir" class="btn btn-sm btn-info" style="right: 5px; left: auto">
+                                            <i class="ace-icon fa fa-check"></i>
+                                            Prosseguir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -163,18 +353,18 @@
 
 
 
-@section Scripts {
+                @section Scripts {
 
-    @Scripts.Render("~/bundles/ace_js_fileUpload")
+                    @Scripts.Render("~/bundles/ace_js_fileUpload")
 
-    <script src="~/Scripts/Custom/Veiculo/Novo.js"></script>
+                    <script src="~/Scripts/Custom/Veiculo/Novo.js"></script>
 
-}
+                }
 
 
-@section Stylesheets {
-    @Styles.Render("~/bundles/ace_css_fileUpload")
-}
+                @section Stylesheets {
+                    @Styles.Render("~/bundles/ace_css_fileUpload")
+                }
 
 
 

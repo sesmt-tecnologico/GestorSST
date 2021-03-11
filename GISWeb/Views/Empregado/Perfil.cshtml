@@ -255,7 +255,6 @@
     @Scripts.Render("~/bundles/custom/profile")
 
     <script src="~/Scripts/Ace/jQ/jquery.nestable.js"></script>
-
     <script src="~/Scripts/Custom/Empregado/Perfil.js"></script>
     <script type="text/javascript">
 
@@ -268,49 +267,50 @@
 
 
 
-@section Sliders {
+@*@section Sliders {
 
 
-    <div id="modalIndexarFoto" class="modal fade" style="z-index: 10001">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button id="modalIndexarFotoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Indexar Foto</h3>
-                </div>
+        <div id="modalIndexarFoto" class="modal fade" style="z-index: 10001">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="modalIndexarFotoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Indexar Foto</h3>
+                    </div>
 
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div id="modalIndexarFotoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.GIF" width="28px" /></div>
-                            <div id="modalIndexarFotoCorpo">
-                                <div class="alert alert-info">
-                                    <button type="button" class="close" data-dismiss="alert">
-                                        <i class="ace-icon fa fa-times"></i>
-                                    </button>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div id="modalIndexarFotoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.GIF" width="28px" /></div>
+                                <div id="modalIndexarFotoCorpo">
+                                    <div class="alert alert-info">
+                                        <button type="button" class="close" data-dismiss="alert">
+                                            <i class="ace-icon fa fa-times"></i>
+                                        </button>
 
-                                    <strong>
-                                        <i class="ace-icon fa fa-info-circle"></i>
-                                        Mensagem:
-                                    </strong>
+                                        <strong>
+                                            <i class="ace-icon fa fa-info-circle"></i>
+                                            Mensagem:
+                                        </strong>
 
-                                    Este recurso não funciona em Internet Explorer 9 ou inferior.
-                                    <br>
-                                </div>
+                                        Este recurso não funciona em Internet Explorer 9 ou inferior.
+                                        <br>
+                                    </div>
 
-                                <div id="divFotoPerfil" class="row">
-                                    <div class="col-xs-12">
-                                        <div class="space-14"></div>
+                                    <div id="divFotoPerfil" class="row">
+                                        <div class="col-xs-12">
+                                            <div class="space-14"></div>
 
-                                        <div id="divInputUpload" class="row">
-                                            <div class="col-xs-8 col-xs-offset-2">
-                                                <input type="file" id="inputUpload" accept="image/*" style="max-width: 300px" />
+                                            <div id="divInputUpload" class="row">
+                                                <div class="col-xs-8 col-xs-offset-2">
+                                                    <input type="file" id="inputUpload" accept="image/*" style="max-width: 300px" />
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="col-xs-8 col-xs-offset-2">
-                                                <div id="divCropie">
+                                            <div class="row">
+                                                <div class="col-xs-8 col-xs-offset-2">
+                                                    <div id="divCropie">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -319,31 +319,197 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="modal-footer">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <span id="modalIndexarFotoLoading" style="display: none; float: left; padding-top: 6px">
-                                <img src="~/Images/slack_loading.GIF" width="28px" />
-                            </span>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span id="modalIndexarFotoLoading" style="display: none; float: left; padding-top: 6px">
+                                    <img src="~/Images/slack_loading.GIF" width="28px" />
+                                </span>
 
-                            <button id="modalIndexarrFotoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
-                                <i class="ace-icon fa fa-times"></i>
-                                Fechar
-                            </button>
+                                <button id="modalIndexarrFotoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                    <i class="ace-icon fa fa-times"></i>
+                                    Fechar
+                                </button>
 
-                            <button id="modalIndexarFotoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
-                                <i class="ace-icon fa fa-check"></i>
-                                Atualizar
-                            </button>
+                                <button id="modalIndexarFotoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                    <i class="ace-icon fa fa-check"></i>
+                                    Atualizar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
+
+
+        <div id="modalAdmissao" class="modal fade" style="overflow: auto">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="modalAdmissaoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Admissão</h3>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div id="modalAdmissaoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                                <div id="modalAdmissaoCorpo"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span id="modalAdmissaoLoading" style="display: block; float: left; padding-top: 6px">
+                                    <img src="~/Images/slack_loading.gif" width="28px" />
+                                </span>
+
+                                <button id="modalAdmissaoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                    <i class="ace-icon fa fa-times"></i>
+                                    Fechar
+                                </button>
+
+                                <button id="modalAdmissaoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                    <i class="ace-icon fa fa-check"></i>
+                                    Confirmar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <div id="modalAtualizarFoto" class="modal fade" style="z-index: 10001">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="modalAtualizarFotoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Atualizar Foto de Perfil</h3>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div id="modalAtualizarFotoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.GIF" width="28px" /></div>
+                                <div id="modalAtualizarFotoCorpo">
+                                    <div class="alert alert-info">
+                                        <button type="button" class="close" data-dismiss="alert">
+                                            <i class="ace-icon fa fa-times"></i>
+                                        </button>
+
+                                        <strong>
+                                            <i class="ace-icon fa fa-info-circle"></i>
+                                            Mensagem:
+                                        </strong>
+
+                                        Este recurso não funciona em Internet Explorer 9 ou inferior.
+                                        <br>
+                                    </div>
+
+                                    <div id="divFotoPerfil" class="row">
+                                        <div class="col-xs-12">
+                                            <div class="space-14"></div>
+
+                                            <div id="divInputUpload" class="row">
+                                                <div class="col-xs-8 col-xs-offset-2">
+                                                    <input type="file" id="inputUpload" accept="image/*" style="max-width: 300px" />
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-xs-8 col-xs-offset-2">
+                                                    <div id="divCropie">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span id="modalAtualizarFotoLoading" style="display: none; float: left; padding-top: 6px">
+                                    <img src="~/Images/slack_loading.GIF" width="28px" />
+                                </span>
+
+                                <button id="modalAtualizarFotoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                    <i class="ace-icon fa fa-times"></i>
+                                    Fechar
+                                </button>
+
+                                <button id="modalAtualizarFotoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                    <i class="ace-icon fa fa-check"></i>
+                                    Atualizar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalAlocacao" class="modal fade" style="overflow: auto">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="modalAlocacaoX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> Alocação</h3>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div id="modalAlocacaoCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                                <div id="modalAlocacaoCorpo"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span id="modalAlocacaoLoading" style="display: block; float: left; padding-top: 6px">
+                                    <img src="~/Images/slack_loading.gif" width="28px" />
+                                </span>
+
+                                <button id="modalAlocacaoFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                    <i class="ace-icon fa fa-times"></i>
+                                    Fechar
+                                </button>
+
+                                <button id="modalAlocacaoProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                    <i class="ace-icon fa fa-check"></i>
+                                    Confirmar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    }*@
+
+
+
+
+
+@section Sliders {
+
+
+   
 
 
     <div id="modalAdmissao" class="modal fade" style="overflow: auto">

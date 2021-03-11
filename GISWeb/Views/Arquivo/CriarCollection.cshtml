@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Cadastro de Collection";
+}
+
+<div id="formCadCollection">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 widget-container-col ui-sortable">
+            <div class="page-header">
+                <h1>
+                    Cadastro de Collection
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm("CadastrarCollection", "Arquivo", null, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessCadastrarCollection", OnBegin = "OnBeginCadastrarCollection" }, new { @id = "formCadastroCollection", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <input type="text" name="nome" id="nome" />
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
+                <button class="btn btn-info" id="btnSalvar" type="submit">
+                    <i class="ace-icon fa fa-check bigger-110"></i>
+                    Salvar
+                </button>
+                &nbsp;
+                <button class="btn btn-warning" type="reset">
+                    <i class="ace-icon fa fa-undo bigger-110"></i>
+                    Limpar
+                </button>
+                &nbsp;
+                <a class="btn" href="javascript:history.back()">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    }
+
+
+</div> <!-- Fim FormQuery -->
+
+
+
+
+@section Scripts {
+
+    <script src="~/Scripts/Custom/Arquivo/Novo.js"></script>
+   
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

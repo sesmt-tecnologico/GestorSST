@@ -10,7 +10,7 @@
 
     <div class="col-sm-12 col-xs-12">
         @* <a onclick="OnClickFluido()" class="btn btn-primary btn-lg btn-block" aling="center" data-backdrop="static" data-keyboard="false">*@
-        <a href="@Url.Action("Novo","MovimentacaoVeicular")" class="btn btn-xs btn-bold btn-block">
+        <a href="@Url.Action("Novo","MovimentacaoVeicular")" class="btn btn-xs btn-bold btn-block btnMov">
             <img src="~/assets/images/IconsImage/origenDestino.jpg" width="220" height="180" /><br />
 
             <span class="bigger-110 no-text-shadow  align-bottom">Movimentação Veicular</span>
@@ -22,13 +22,13 @@
 <br />
 
 
-<div class="row">
+@*<div class="row">
 
     <div class="col-xs-12 col-sm-12">
         <div class="form-group">
             @Html.Label("Veículo", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
             <div class="col-xs-12 col-sm-12">
-                @Html.Editor("Veiculo", new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                @Html.Editor("Veiculo", new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "idVeiculo" } })
                 @Html.ValidationMessage("Veiculo", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
 
             </div>
@@ -38,7 +38,7 @@
         <div class="form-group">
             @Html.Label("Frota", new { @class = "form-field-select-3 col-xs-12 col-sm-6 no-padding-right" })
             <div class="col-xs-12 col-sm-12">
-                @Html.Editor("Frota", new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "" } })
+                @Html.Editor("Frota", new { htmlAttributes = new { @class = "col-xs-12 col-sm-12", @id = "idFrota" } })
                 @Html.ValidationMessage("Frota", string.Empty, new { @style = "font-size: 10px; color: #a94442;" })
 
             </div>
@@ -46,28 +46,9 @@
     </div>
 
 
-</div>
+</div>*@
 
-<br />
 
-<div class="row">
-    <div class="col-xs-12 col-sm-6 col-sm-offset-3 align-center">
-        <button class="btn btn-info" id="btnSalvar" type="submit">
-            <i class="ace-icon fa fa-check bigger-110"></i>
-            Salvar
-        </button>
-        &nbsp;
-        <button class="btn btn-warning" type="reset">
-            <i class="ace-icon fa fa-undo bigger-110"></i>
-            Limpar
-        </button>
-        &nbsp;
-        <a class="btn" href="javascript:history.back()">
-            <i class="ace-icon fa fa-arrow-left"></i>
-            Voltar
-        </a>
-    </div>
-</div>
 
 
 <div class="row">
@@ -97,7 +78,7 @@
 
     <script src="~/Scripts/Ace/bootstrap-tag.js"></script>
 
-
+    <script src="~/Scripts/Custom/Veiculo/Novo.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
 

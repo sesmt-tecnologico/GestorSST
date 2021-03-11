@@ -1,5 +1,6 @@
 ﻿using GISModel.Entidades;
 using GISModel.Entidades.AnaliseDeRisco;
+using GISModel.Entidades.ArquivoFiscal;
 using GISModel.Entidades.Estoques;
 using GISModel.Entidades.PCMSO;
 using GISModel.Entidades.PPRA;
@@ -17,7 +18,11 @@ namespace GISCore.Repository.Configuration
             Database.SetInitializer<SESTECContext>(null);
         }
 
+        public DbSet<teste> teste { get; set; }
 
+        public DbSet<ValidacaoFichaDeEpi> ValidacaoFichaDeEpi { get; set; }
+        public DbSet<NotaFiscal> NotaFiscal { get; set; }
+        public DbSet<FichaDeEPI> FichaDeEPI { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
         public DbSet<Produto> Produto { get; set; }
         public DbSet<MovimentacaoVeicular> MovimentacaoVeicular { get; set; }

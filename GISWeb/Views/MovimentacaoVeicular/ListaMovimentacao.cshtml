@@ -4,134 +4,253 @@
     ViewBag.Title = "Lista Movimentação Veicular";
 }
 
-<div class="row">
-    <div class="col-xs-12">
-        <h3 class="header smaller lighter blue">
-            Movimentações
-            <a href="@Url.Action("Novo", "Empregado")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
-                <i class="ace-icon fa fa-plus bigger-120 blue"></i>
-                Nova Movimentação
-            </a>
-        </h3>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12">
-
-        @if (ViewBag.movimentacao != null)
-        {
-            <div>
-                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>Veiculo</th>
-                            <th>KMSaida</th>
-                            <th>IntinerarioOrigem</th>
-                            <th>IntinerarioDestino</th>
-                            <th>KMChegada</th>                            
-                            <th width="89px"></th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        @foreach (var iVeiculo in ViewBag.movimentacao)
-                        {
-
-                            @*<tr id="linha-@iEmpregado.AdmissaoID">*@
-                            <tr>
-
-                                <td>@iVeiculo.Veiculo</td>
-                                <td>@iVeiculo.KMSaida</td>
-                                <td>@iVeiculo.IntinerarioOrigem</td>
-                                <td>@iVeiculo.IntinerarioDestino</td>
-                                <td>@iVeiculo.KMChegada + 
-                                    <a href='@Url.Action("index", "MovimentacaoVeicular", new { /*AdmissaoID =iVeiculo.IDAdmissao*/ })' class="blue">
-                                    <i class="ace-icon fa fa-car bigger-130"></i>
-</a>
-                               
-
-                                <td>
-                                    <div class="hidden-sm hidden-xs action-buttons">
-                                        @*<a class="blue" href="#" onclick="BuscarDetalhesEmpregado('@iEmpregado.IDEmpregado'); return false;">*@
-
-                                        @*Preciso pegar o id Admissao*@
-
-                                        <a href='@Url.Action("Novo", "Alocacao", new { /*AdmissaoID =iVeiculo.IDAdmissao*/ })' class="blue">
-                                            <i class="ace-icon fa fa-car bigger-130"></i>
-                                        </a>
-
-                                        @*<a href='@Url.Action("Novo", "Admissao", new { id = @iEmpregado.IDEmpregado })' class="green">
-                                                <i class="ace-icon fa fa-pencil bigger-130"></i>
-                                            </a>*@
-
-                                        @*<a class="red" href="#" onclick="DeletarEmpregado('@iEmpregado.IDEmpregado', '@iEmpregado.CPF');">
-                                                <i class="ace-icon fa fa-trash-o bigger-130"></i>
-                                            </a>*@
-                                    </div>
-
-                                    <div class="hidden-md hidden-lg">
-                                        <div class="inline pos-rel">
-                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-                                            </button>
-
-                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-
-                                                <li>
-                                                    <a href="#" class="tooltip-info" onclick="BuscarDetalhesEmpresa(''); return false;" data-rel="tooltip" title="View">
-                                                        <span class="blue">
-                                                            <i class="fa fa-industry" aria-hidden="true"></i>
-                                                        </span>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#" class="tooltip-info" onclick="BuscarDetalhesEmpresa(''); return false;" data-rel="tooltip" title="View">
-                                                        <span class="blue">
-                                                            <i class="ace-icon fa fa-search-plus bigger-120"></i>
-                                                        </span>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href='@Url.Action("Edicao", "Empregado", new { /*id = iVeiculo.Uniquekey*/})' class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                        <span class="green">
-                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-                                                        </span>
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="#" class="tooltip-error" onclick="DeletarEmpregado();" data-rel="tooltip" title="Delete">
-                                                        <span class="red">
-                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                        </span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
 
 
+    <div class="hidden-sm hidden-xs">
 
-
-
-                        }
-
-                    </tbody>
-                </table>
+        <div class="row">
+            <div class="col-xs-12">
+                <h3 class="header smaller lighter blue">
+                    Movimentações &nbsp;&nbsp; Veículo: @ViewBag.veiculo &nbsp; Frota: @ViewBag.frota
+                    <a href="@Url.Action("Novo", "MovimentacaoVeicular")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                        <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                        Nova Movimentação
+                    </a>
+                </h3>
             </div>
+        </div>
 
-        }
+        <div class="row">
+            <div class="col-xs-12">
 
+                @if (ViewBag.movimentacao != null)
+                {
+                    <div>
+                        <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+
+                                    <th width="100px" class="center">Data</th>
+                                    <th width="100px" class="center">KMSaida</th>
+                                    <th width="150px" class="center">IntinerarioOrigem</th>
+                                    <th width="150px" class="center">IntinerarioDestino</th>
+                                    <th width="100px" class="center">KMChegada</th>
+                                    <th width="100px" class="center">Km Rodado</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var iVeiculo in ViewBag.movimentacao)
+                                {
+
+                                    @*<tr id="linha-@iEmpregado.AdmissaoID">*@
+                                    <tr>
+
+                                        <td class="center">@iVeiculo.DataInclusao.ToString("dd/MM/yyyy")</td>
+                                        <td class="center">@iVeiculo.KMSaida</td>
+                                        <td class="center">@iVeiculo.IntinerarioOrigem</td>
+                                        <td class="center">@iVeiculo.IntinerarioDestino</td>
+                                        <td class="center">
+                                            @if (iVeiculo.KMChegada != null)
+                                            {
+                                                @iVeiculo.KMChegada
+                                            }
+                                            else
+                                            {
+                                                <a href="#" class="CustomTooltip" title="Clique para inserir o KM final" onclick="OnClickKMChegada('@iVeiculo.UniqueKey'); return false;" data-target="#modalKM" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                    <i class="ace-icon fa fa-car bigger-130"></i>
+                                                </a>
+
+
+                                            }
+
+
+
+                                        <td class="center">
+                                            @{
+                                                var KMRodado = 0;
+                                                if (@iVeiculo.KMChegada != null)
+                                                {
+                                                    KMRodado = Convert.ToInt32(@iVeiculo.KMChegada) - Convert.ToInt32(@iVeiculo.KMSaida);
+
+                                                    @KMRodado
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+    </div>
+
+<div class="hidden-md hidden-lg">
+    <div class="row">
+        <div class="col-xs-12">
+            <h3 class="header smaller black ">
+                <font size="3"> Veículo: @ViewBag.veiculo<br/>  Frota: @ViewBag.frota</font>
+                <a href="@Url.Action("Novo", "MovimentacaoVeicular")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                    <i class="ace-icon fa fa-plus bigger-60 blue"></i>
+                    Nova Movimentação
+                </a>
+            </h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            @if (ViewBag.movimentacao != null)
+            {
+                <div>
+                    <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                               
+                                    <th width="40px"><font size="1">Data</font></th>
+                                    <th width="40px"> <font size="1">KM Saida</font></th>
+                                    <th width="40px"><font size="1">Origem</font></th>
+                                    <th width="40px"><font size="1">Destino</font></th>
+                                    <th width="40px"><font size="1">KM Fim</font></th>
+                                    <th width="40px"><font size="1">KM Total</font></th>
+                                    
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var iVeiculo in ViewBag.movimentacao)
+                            {
+
+                                @*<tr id="linha-@iEmpregado.AdmissaoID">*@
+                                <tr>
+
+                                    <td><font size="1">@iVeiculo.DataInclusao.ToString("dd/MM/yy")</font></td>
+                                    <td><font size="1">@iVeiculo.KMSaida</font></td>
+                                    <td><font size="1">@iVeiculo.IntinerarioOrigem</font></td>
+                                    <td><font size="1">@iVeiculo.IntinerarioDestino</font></td>
+                                    <td>
+                                        @if (iVeiculo.KMChegada != null)
+                                        {
+                                        <font size="1">@iVeiculo.KMChegada</font>
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="CustomTooltip" title="Clique para inserir o KM final" onclick="OnClickKMChegada('@iVeiculo.UniqueKey'); return false;" data-target="#modalKM" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                <i class="ace-icon fa fa-car bigger-130"></i>
+                                            </a>
+
+
+                                        }
+
+
+
+                                    <td>
+                                        @{
+                                            var KMRodado = 0;
+                                            if (@iVeiculo.KMChegada != null)
+                                            {
+                                                KMRodado = Convert.ToInt32(@iVeiculo.KMChegada) - Convert.ToInt32(@iVeiculo.KMSaida);
+
+                                                <font size="1">@KMRodado</font>
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+
+
+
+
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            }
+
+        </div>
     </div>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jQ_dataTable")
-    <script src="~/Scripts/Custom/Empregado/Listagem.js"></script>
-}
+
+
+
+
+
+
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jQ_dataTable")
+
+        <script src="~/Scripts/Custom/Veiculo/lista.js"></script>
+        <script src="~/Scripts/Custom/Veiculo/Novo.js"></script>
+    }
+
+
+
+
+
+
+    @section Sliders {
+
+
+
+
+
+        <div id="modalKM" class="modal fade" style="overflow: auto">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button id="modalKMX" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="smaller lighter grey no-margin"><i class="ace-icon fa fa-random green"></i> KM Final</h3>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div id="modalKMCorpoLoading" style="float: right; display: none">...Carregando <img src="~/Images/slack_loading.gif" width="28px" /></div>
+                                <div id="modalKMCorpo"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <span id="modalKMLoading" style="display: block; float: left; padding-top: 6px">
+                                    <img src="~/Images/slack_loading.gif" width="28px" />
+                                </span>
+
+                                <button id="modalKMFechar" class="btn btn-sm btn-default pull-right" data-dismiss="modal">
+                                    <i class="ace-icon fa fa-times"></i>
+                                    Fechar
+                                </button>
+
+                                <button id="modalKMProsseguir" class="btn btn-sm btn-success" style="right: 5px; left: auto">
+                                    <i class="ace-icon fa fa-check"></i>
+                                    Confirmar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    }
