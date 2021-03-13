@@ -83,6 +83,9 @@ namespace GISWeb.Controllers.AnaliseRisco
 
         [Inject]
         public IBaseBusiness<REL_AnaliseDeRiscoEmpregados> REL_AnaliseDeRiscoEmpregadosBusiness { get; set; }
+        [Inject]
+        public IBaseBusiness<ARInterrompida> ARInterrompidaBusiness { get; set; }
+
 
         [Inject]
         public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
@@ -94,7 +97,12 @@ namespace GISWeb.Controllers.AnaliseRisco
             try
             {
 
-            
+
+                var oInter = ARInterrompidaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+                && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login) && a.Status == "Aberto").ToList();
+
+                ViewBag.inter = oInter.ToList();
+
 
             var relacao = from rel in REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)
                           && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)).ToList()

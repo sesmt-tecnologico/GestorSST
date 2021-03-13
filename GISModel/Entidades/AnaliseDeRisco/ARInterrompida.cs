@@ -18,8 +18,14 @@ namespace GISModel.Entidades.AnaliseDeRisco
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }
 
-        //[Display(Name = "Status")]
-        //public string Status { get; set; }
+        [Display(Name = "Supervisor")]
+        public string Supervisor { get; set; }
+
+        [Display(Name = "Registro")]
+        public string Registro { get; set; }
+
+        [Display(Name = "Status")]
+        public string Status { get; set; }
 
 
 

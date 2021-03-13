@@ -30,7 +30,7 @@ namespace GISCore.Business.Concrete
                 tempPlanoDeAcao.Responsavel= pPlanoDeAcao.Responsavel;
                 tempPlanoDeAcao.TipoDoPlanoDeAcao = pPlanoDeAcao.TipoDoPlanoDeAcao;
                 tempPlanoDeAcao.ResponsavelPelaEntrega= pPlanoDeAcao.ResponsavelPelaEntrega;
-                tempPlanoDeAcao.Entregue = pPlanoDeAcao.Entregue;
+                tempPlanoDeAcao.status = pPlanoDeAcao.status;
 
                 base.Alterar(tempPlanoDeAcao);
             }

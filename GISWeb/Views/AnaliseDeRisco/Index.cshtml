@@ -9,6 +9,20 @@
 }
 
 
+
+@foreach(var oARint in ViewBag.inter)
+{
+    if (oARint != null)
+    {
+        @oARint.Registro <br/>
+        @oARint.Status <br/>
+        @oARint.Descricao
+
+    }
+
+}
+
+
 @if (ViewBag.Relacao.Count > 0)
 {
     <div class="center">
@@ -32,7 +46,7 @@
 
     <input type="text" hidden id="txtRegistro" value="@ViewBag.Registro" />
 
-    <input type="hidden" class="txtRegistroSubs col-xs-12 col-sm-12" value="@ViewBag.Nregist" />
+    <input type="hidden" class="txtRegistroSubs col-xs-12 col-sm-12" value="@ViewBag.Registro" />
 
     <h4>Responsável:&nbsp;[@ViewBag.Empregado]&nbsp; &nbsp;&nbsp; &nbsp;Análise Nº: &nbsp;@ViewBag.Nregist </h4>
 

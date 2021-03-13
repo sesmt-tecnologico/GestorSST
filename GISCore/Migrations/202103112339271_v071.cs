@@ -1,0 +1,22 @@
+﻿namespace GISCore.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class v071 : DbMigration
+    {
+        public override void Up()
+        {
+            AddColumn("dbo.tbARInterrompida", "Supervisor", c => c.String());
+            AddColumn("dbo.tbARInterrompida", "Registro", c => c.String());
+            AddColumn("dbo.tbARInterrompida", "Status", c => c.String());
+        }
+        
+        public override void Down()
+        {
+            DropColumn("dbo.tbARInterrompida", "Status");
+            DropColumn("dbo.tbARInterrompida", "Registro");
+            DropColumn("dbo.tbARInterrompida", "Supervisor");
+        }
+    }
+}

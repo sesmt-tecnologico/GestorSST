@@ -12,22 +12,25 @@ namespace GISModel.Entidades
         [Display(Name ="Tipo do Plano de Ação")]
         public ETipoPlanoAcao TipoDoPlanoDeAcao { get; set; }
 
+        [Display(Name = "Item")]
+        public string item { get; set; }
+
+        [Display(Name = "Fato")]
+        public string fato { get; set; }
+
+
         
-        [Required]
-        [Display(Name = "Descrição do Plano de Ação")]
-        [StringLength(200,MinimumLength =30)]
+        [Display(Name = "Descrição do Plano de Ação")]        
         public string  DescricaoDoPlanoDeAcao { get; set; }
 
         [Display(Name ="Responsável")]
         public string Responsavel { get; set; }
 
-        [Display(Name ="Data Prevista")]   
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-        [DataType(DataType.Date, ErrorMessage = "Data em formato inválido")]
-        public DateTime DataPrevista { get; set; }
+        [Display(Name = "Data Prevista")]
+        public string DataPrevista { get; set; }
 
-        [Display(Name ="Entregue")]
-        public string Entregue { get; set; }
+        [Display(Name ="Status")]
+        public string status { get; set; }
 
         [Display(Name ="Responsável pela entrega")]
         public string ResponsavelPelaEntrega { get; set; }
@@ -35,8 +38,8 @@ namespace GISModel.Entidades
         [Display(Name ="Identificador")]
         public Guid Identificador { get; set; }
 
-        [Display(Name = "Gerência")]
-        public string Gerencia { get; set; }
+        [Display(Name = "Setor")]
+        public string Setor { get; set; }
 
     }
 }

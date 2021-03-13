@@ -159,22 +159,27 @@ namespace GISWeb.Controllers
             }
         }
 
-        public ActionResult CriarPlanoDeAção(string IDIdentificador)
-        {
+        
             
+
+
+        public ActionResult CriarPlanoDeAcao(string IDIdentificador)
+        {
+
+            Guid Ident = Guid.Parse(IDIdentificador);
 
             ViewBag.IDIentificador = IDIdentificador;
             ViewBag.PlanoDeAcao = PlanoDeAcaoBusiness.Consulta.Where(p => string.IsNullOrEmpty(p.UsuarioExclusao)).ToString();
             ViewBag.Departamento = new SelectList(DepartamentoBusiness.Consulta.ToList(), "Sigla", "Sigla");
-           PlanoDeAcao oPlanoDeAcao = PlanoDeAcaoBusiness.Consulta.FirstOrDefault(p=>p.Identificador.Equals(IDIdentificador));
-            if (PlanoDeAcaoBusiness.Consulta.Any(u =>string.IsNullOrEmpty(u.UsuarioExclusao) && (u.Identificador.Equals(IDIdentificador))))
+           PlanoDeAcao oPlanoDeAcao = PlanoDeAcaoBusiness.Consulta.FirstOrDefault(p=>p.Identificador.Equals(Ident));
+            if (PlanoDeAcaoBusiness.Consulta.Any(u =>string.IsNullOrEmpty(u.UsuarioExclusao) && (u.Identificador.Equals(Ident))))
                 
             {
                 //return Json(new { resultado = new RetornoJSON() { URL = Url.Action("Detalhes", "PlanoDeAcao", new { IDPlanoDeAcao = IDIdentificador }) } });
                 return Json(new { resultado = new RetornoJSON() { Erro = "Já existe um Plano de Ação em andamento para este Risco!" } });
             }
 
-            if(MedidasDeControleBusiness.Consulta.Any(u=>string.IsNullOrEmpty(u.UsuarioExclusao) &&(u.IDTipoDeRisco.Equals(IDIdentificador))))
+            if(MedidasDeControleBusiness.Consulta.Any(u=>string.IsNullOrEmpty(u.UsuarioExclusao) &&(u.IDTipoDeRisco.Equals(Ident))))
             {
                 return Json(new { resultado = new RetornoJSON() { Erro = "Já existe controle para este risco!" } });
             }
@@ -214,7 +219,7 @@ namespace GISWeb.Controllers
         public ActionResult Cadastrar(PlanoDeAcao oPlanoDeAcao, string IdentificadorID, string IDDepartamento)
         {
             oPlanoDeAcao.Identificador = Guid.Parse(IdentificadorID);
-            oPlanoDeAcao.Gerencia = IDDepartamento;
+            oPlanoDeAcao.status = IDDepartamento;
             if (ModelState.IsValid)
             {
                 try
@@ -269,7 +274,7 @@ namespace GISWeb.Controllers
                 {
                     oPlanoDeAcao.DataExclusao = DateTime.Now;
                     oPlanoDeAcao.UsuarioExclusao = CustomAuthorizationProvider.UsuarioAutenticado.Login;
-                    oPlanoDeAcao.Entregue = "Entregue";
+                    oPlanoDeAcao.status = "Entregue";
                     PlanoDeAcaoBusiness.Alterar(oPlanoDeAcao);
 
                     Extensions.GravaCookie("MensagemSucesso", "O Plano '" + oPlanoDeAcao.DescricaoDoPlanoDeAcao + "' foi encerrado com sucesso.", 10);

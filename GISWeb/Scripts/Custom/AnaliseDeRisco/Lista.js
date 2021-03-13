@@ -735,7 +735,9 @@ function myImped() {
 
         var obj = {
             Item: item,
-            Descricao: texto
+            Descricao: texto,
+            Supervisor: supervisor,
+            registro: registro
 
         };
 
