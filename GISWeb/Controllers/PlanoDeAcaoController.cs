@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using GISCore.Infrastructure.Utils;
+using System.Collections.Generic;
 
 namespace GISWeb.Controllers
 {
@@ -75,62 +76,32 @@ namespace GISWeb.Controllers
             return View();
         }
 
-        public ActionResult ListarPlanoDeAcao(string idTipoDeRisco)
+        public ActionResult ListarPlanoDeAcao()
         {
 
+            try
+            {
+               List<PlanoDeAcao> oPlanoDeAcao = PlanoDeAcaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList();
 
+                return View("ListarPlanoDeAcao", oPlanoDeAcao) ;
+
+            }
+            catch (Exception ex)
+            {
+
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
             
 
-            ViewBag.PlanoDeAcao = PlanoDeAcaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao) && (d.Identificador.Equals(idTipoDeRisco))).ToList();
             
-            //if (!PlanoDeAcaoBusiness.Consulta.Any(u => u.Identificador.Equals(idTipoDeRisco)))
-            //    throw new InvalidOperationException("Não existe um Plano de Ação para este risco!");
-
-
-            ViewBag.AtividadeEstabelecimento = AtividadesDoEstabelecimentoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList();
-
-            var IDAtividadeEstab = from AE in AtividadesDoEstabelecimentoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList()
-                                   join PA in PlanoDeAcaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList()
-                                   on AE.ID equals PA.Identificador
-                                   select new AtividadesDoEstabelecimento()
-                                   {
-                                       ID = AE.ID,
-                                       DescricaoDestaAtividade = AE.DescricaoDestaAtividade
-
-                                   };
-
-            ViewBag.AtivEstab = IDAtividadeEstab;
-
-
-
-            ViewBag.DataAtual = DateTime.Now;
-
-            var lAtividades =ViewBag.PlanoDeAcao;
-
-            var Plan = (from PA in PlanoDeAcaoBusiness.Consulta.Where(d => string.IsNullOrEmpty(d.UsuarioExclusao)).ToList()
-                        where PA.Identificador.Equals(idTipoDeRisco)
-                        select new PlanoDeAcao()
-                        {
-                            ID = PA.ID
-                        }
-                        ).ToList();
-
-
-            var ContarPlan = Plan.Count();
-
-            ViewBag.ContPlan = ContarPlan;
-
-
-            if (ContarPlan <=0)
-            {
-                return Json(new { resultado = new RetornoJSON() { Alerta = "Plano de Ação não encontrado." } });
-            }
-            else
-            {
-                return Json(new { data = RenderRazorViewToString("_ListarPlanoDeAcao", lAtividades) });
-            }
-
-            //return View();
+           
         }
 
         public ActionResult Detalhes(string IDPlanoDeAcao)

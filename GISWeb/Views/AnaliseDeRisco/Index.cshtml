@@ -10,12 +10,14 @@
 
 
 
-@foreach(var oARint in ViewBag.inter)
+@foreach (var oARint in ViewBag.inter)
 {
     if (oARint != null)
     {
-        @oARint.Registro <br/>
-        @oARint.Status <br/>
+        @oARint.Registro
+        <br />
+        @oARint.Status
+        <br />
         @oARint.Descricao
 
     }
@@ -113,13 +115,13 @@
                             var nome = item.NomeIndex;
                             <td>
                                 @nome.Substring(0, nome.Length - 4)
-                            </td>                           
+                            </td>
 
                             <td>
-                                <img src="/Images/Assinaturas/@item.NomeIndex" alt="Assinatura" width="70px" />
+                                <img src="/Images/Assinaturas/@item.NomeIndex" alt="Assinatura" width="100px" />
                             </td>
-                                
 
+                            <br />
 
                         }
                     }
@@ -368,11 +370,12 @@ else
     </div>
 </div>
 
-
+   
 
 @if (ViewBag.TotalRisc > 0)
 {
-
+    int collapse = 0;
+     int collapse2 = 20;
     <p>
 
         <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
@@ -406,49 +409,138 @@ else
                             if (vbAtiv != ukativ)
                             {
 
+                                collapse++;
+                                collapse2++;
+
+
+
+
                                 <div class="container">
 
 
-                                                        <div class="row">
-                                                            <div class="hidden">@iRisc.UKAtividade</div><br />
+                                    <div class="row">
+                                        <div class="hidden">@iRisc.UKAtividade</div><br />
 
 
-                                                            <a class="red CustomTooltip position-relative" href="#" title="Análise de Risco" onclick="OnClickVerAR('@iRisc.UKAtividade');return false;" data-target="#modalAddArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
-                                                                <i class="ace-icon fa fa-archive bigger-150 "></i>
-                                                            </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a class="red CustomTooltip position-relative" href="#" title="Análise de Risco" onclick="OnClickVerAR('@iRisc.UKAtividade');return false;" data-target="#modalAddArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false" )>
+                                            <i class="ace-icon fa fa-archive bigger-150 "></i>
+                                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
 
-                                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos01('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                <i class="ace-icon fa fa-camera blue bigger-125"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                            </a>
+                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarArquivos01('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalArquivos" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                            <i class="ace-icon fa fa-camera blue bigger-125"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </a>
 
-                                                            <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span>
-                                                            &nbsp;&nbsp;&nbsp;&nbsp;
-
-
+                                        <span style="margin-left: 5px; color: blue">@iRisc.Atividade&nbsp;&nbsp;</span>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
 
 
-                                                            @if (iRisc.Status == "Fechado")
+
+
+                                        @if (iRisc.Status == "Fechado")
+                                        {
+
+
+                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                <i class="ace-icon fa fa-lock red bigger-140"></i>
+                                            </a>
+
+                                        }
+
+                                        @if (iRisc.Status != "Fechado")
+                                        {
+
+                                            <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                <i class="ace-icon fa fa-unlock green bigger-140"></i>
+                                            </a>
+
+
+                                        }
+
+
+                                    </div>
+
+                                </div>
+
+                                <div id="accordion">
+
+                                    <div class="card">
+                                        <div class="card-header" id="headingTwo">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#@collapse" aria-expanded="false" aria-controls="collapseTwo">
+                                                    Clique aqui para a Validação dos participantes
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        <div id="@collapse" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div>
+                                                    <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Empregado</th>
+                                                                <th>CPF</th>
+                                                                <th>Confirme</th>
+
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            @foreach (var iEmp in ViewBag.Relacao)
                                                             {
 
+                                                                <tr id="">
 
-                                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                    <i class="ace-icon fa fa-lock red bigger-140"></i>
-                                                                </a>
+                                                                    <td>@iEmp.Nome</td>
+                                                                    <td>@iEmp.CPF</td>
+                                                                    <td class="center" width="96">
+                                                                        <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickValidar('@iEmp.Nome' );" data-target="#modalNovoArquivo" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+                                                                            <i class="fa fa-user-circle-o bigger-170" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    </td>
+
+
+                                                                </tr>
 
                                                             }
 
-                                                            @if (iRisc.Status != "Fechado")
-                                                            {
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header" id="headingThree">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#@collapse2" aria-expanded="false" aria-controls="collapseThree">
+                                                    Validações
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        <div id="@collapse2" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <h4>Validações realizadas através de reconhecimento facial.</h4>
 
-                                                                <a class="blue CustomTooltip" href="#" title="Arquivos anexados" onclick="OnClickBuscarQuestionarioConclusao('@iRisc.UKAtividade','@ViewBag.Registro' );" data-target="#modalAddFechamento" data-toggle="modal" data-backdrop="static" data-keyboard="false">
-                                                                    <i class="ace-icon fa fa-unlock green bigger-140"></i>
-                                                                </a>
+                                                @if (@ViewBag.valido != null)
+                                                {
+                                                    foreach (Validacoes item in @ViewBag.valido)
+                                                    {
+                                                        var nome = item.NomeIndex;
+                                                        <td>
+                                                            @nome.Substring(0, nome.Length - 4)
+                                                        </td>
 
+                                                        <td>
+                                                            <img src="/Images/Assinaturas/@item.NomeIndex" alt="Assinatura" width="100px" />
+                                                        </td>
 
-                                                            }
+                                                        <br />
 
-
-                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
 

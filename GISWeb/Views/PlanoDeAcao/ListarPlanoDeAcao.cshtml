@@ -1,0 +1,111 @@
+﻿@using GISModel.Entidades
+
+
+
+@{
+    ViewBag.Title = "Lista de Plano de Ação";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter blue">
+            Atividades Interrompidas durante Análise de Risco
+            @*<a href="@Url.Action("Novo", "PlanoDeAcao")" class="btn btn-white btn-info btn-bold" style="float: right; margin-top: -2px;">
+                    <i class="ace-icon fa fa-plus bigger-120 blue"></i>
+                    Novo Plano de Ação
+                </a>*@
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+
+
+        @if (Model != null)
+        {
+            <div>
+                <table id="dynamic-table" class="table table-striped table-bordered table-hover">
+
+                    <thead>
+                        <tr>
+
+                            <th width="400px">Item</th>
+                            <th>Fato</th>
+                            <th>Usuário</th>
+                            <th width="90px">Data de Inclusão</th>
+                            <th width="90px">Status</th>
+                            <th width="90px"></th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (PlanoDeAcao iPlanoDeAcao in @Model)
+                        {
+
+
+                            <tr>
+                                <td>@iPlanoDeAcao.item</td>
+                                <td>@iPlanoDeAcao.fato</td>
+                                <td>@iPlanoDeAcao.UsuarioInclusao</td>
+                                <td>@iPlanoDeAcao.DataInclusao.ToString("dd MM yyyy")</td>
+                                <td>@iPlanoDeAcao.status</td>
+                                <td>
+                                    <div class="hidden-sm hidden-xs action-buttons">
+                                        <a href='@Url.Action("Edicao", "PlanoDeAcao", new { id = iPlanoDeAcao.ID })' class="green">
+                                            <i class="ace-icon fa fa-pencil bigger-130" title="Criar Plano"></i>
+                                        </a>
+
+                                        <a class="red" href="#" onclick="DeletarEmpresa('@iPlanoDeAcao.ID', '@iPlanoDeAcao.fato');">
+                                            <i class="ace-icon fa fa-trash-o bigger-130" title="Excluir"></i>
+                                        </a>
+                                    </div>
+
+                                    <div class="hidden-md hidden-lg">
+                                        <div class="inline pos-rel">
+                                            <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                <i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
+                                            </button>
+
+                                            <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+                                                <li>
+                                                    <a href='@Url.Action("Edicao", "PlanoDeAcao", new { id = iPlanoDeAcao.ID })' class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                        <span class="green">
+
+                                                            <i class="ace-icon fa fa-pencil-square-o bigger-120" title="Criar Plano"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#" class="tooltip-error" onclick="DeletarEmpresa('@iPlanoDeAcao.ID', '@iPlanoDeAcao.fato');" data-rel="tooltip" title="Delete">
+                                                        <span class="red">
+                                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+
+
+    </div>
+</div>
+
+
+
+
+

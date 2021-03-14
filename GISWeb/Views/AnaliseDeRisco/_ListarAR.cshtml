@@ -15,10 +15,43 @@
 
 
 
-Responsável: &nbsp;@ViewBag.Resp<br/>
+Responsável: &nbsp;@ViewBag.Resp
+<br />
 Atividade:&nbsp; @ViewBag.Atividade&nbsp;&nbsp;
 Hora de Início: &nbsp;@ViewBag.AtiviHora
 
+<div class="card">
+    <div class="card-header" id="headingThree">
+        <h5 class="mb-0">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapseThree">
+                Validações
+            </button>
+        </h5>
+    </div>
+    <div id="collapse2" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+        <div class="card-body">
+            <h4>Validações realizadas através de reconhecimento facial.</h4>
+
+            @if (@ViewBag.valido != null)
+            {
+                foreach (Validacoes item in @ViewBag.valido)
+                {
+                    var nome = item.NomeIndex;
+                    <td>
+                        @nome.Substring(0, nome.Length - 4)
+                    </td>
+
+                    <td>
+                        <img src="/Images/Assinaturas/@item.NomeIndex" alt="Assinatura" width="100px" />
+                    </td>
+
+                    <br />
+
+                }
+            }
+        </div>
+    </div>
+</div>
 
 
 

@@ -66,7 +66,7 @@ namespace GISWeb.Controllers
                 //string sql01 = @"select 'Posicao' as posicao,count(*) as total from REL_DocumentoAlocacao d
                 //                where d.Posicao = 1 ";
 
-                string sql01 = @"select 'Status' as posicao,count(*) as total from tbARInterrompida d";
+                string sql01 = @"select 'status' as posicao,count(*) as total from tbPlanoDeAcao d";
                                 //where d.Status = 1 ";
 
                 DataTable dtInbox = WorkflowBusiness.GetDataTable(sql01);
@@ -74,7 +74,7 @@ namespace GISWeb.Controllers
                 {
                     foreach (DataRow row in dtInbox.Rows)
                     {
-                        if (row[0].ToString().Equals("Status"))
+                        if (row[0].ToString().Equals("status"))
                         {
                             iPessoal = int.Parse(row[1].ToString());
                         }

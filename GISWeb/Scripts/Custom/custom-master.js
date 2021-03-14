@@ -4,7 +4,7 @@
         $("#formAlterarSenha").submit();
     });
 
-   
+    BuscarTotalDocsInbox();
 
     $('.btnAlterarValor').on('click', function (e) {
         e.preventDefault();
@@ -81,9 +81,7 @@ function OnSuccessAlterarSenha(content) {
 //roda a cada 12 horas
 setInterval(function () {
 
-    BuscarTotalDocsInbox();
-
-    
+    //BuscarTotalDocsInbox();    
 
 }, 72000);
 

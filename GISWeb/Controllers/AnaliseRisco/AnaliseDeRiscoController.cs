@@ -407,7 +407,68 @@ namespace GISWeb.Controllers.AnaliseRisco
 
         public ActionResult ListarAR(string ukAtividade)
         {
+
             var data = DateTime.Now.Date;
+
+
+            var oRegis = REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+              && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)).OrderByDescending(b => b.DataInclusao);
+
+
+            REL_AnaliseDeRiscoEmpregados iRegis = oRegis.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+             && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login));
+
+            if (iRegis != null)
+            {
+                var _Registro = iRegis.Registro;
+
+                var validacao = ValidacoesBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+                  && a.Registro.Equals(_Registro)).ToList();
+
+
+                List<Validacoes> ListValidacao = new List<Validacoes>();
+
+                foreach (var item4 in validacao)
+                {
+                    if (item4.DataExclusao.Date == data)
+                    {
+                        ListValidacao.Add(item4);
+                    }
+                }
+
+
+                ViewBag.valido = validacao.ToList();
+            }
+        
+
+
+            var relacao = from rel in REL_AnaliseDeRiscoEmpregadosBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+                         && a.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)).ToList()
+                          join e in EmpregadoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                          on rel.UKEmpregado equals e.UniqueKey
+                          where rel.UsuarioInclusao.Equals(CustomAuthorizationProvider.UsuarioAutenticado.Login)
+                          select new Empregado()
+                          {
+                              UniqueKey = rel.UniqueKey,
+                              Nome = e.Nome,
+                              CPF = e.CPF,
+                              UsuarioInclusao = rel.UsuarioInclusao,
+                              DataInclusao = rel.DataInclusao
+                          };
+            
+
+            List<Empregado> emp = new List<Empregado>();
+
+            foreach (var item in relacao)
+            {
+                if (item.DataInclusao.Date == data)
+                {
+                    emp.Add(item);
+                }
+
+            }
+
+            ViewBag.Relacao = emp;
 
 
             Guid ativ = Guid.Parse(ukAtividade);
