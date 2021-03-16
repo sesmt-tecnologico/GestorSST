@@ -199,16 +199,105 @@ namespace GISWeb.Controllers.Veiculo
         public ActionResult ListaMovimentacao(string usuario)
         {
 
+            try
+            {
+                var Movimentacao = MovimentacaoVeicularBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)
+                && a.UsuarioInclusao.Equals(usuario)).ToList();
 
-             var Movimentacao = MovimentacaoVeicularBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)
-             && a.UsuarioInclusao.Equals(usuario)).ToList();
+                if( Movimentacao.Count() > 0)
+                {
 
-             ViewBag.movimentacao = Movimentacao.OrderByDescending(a=>a.DataInclusao);
+                    ViewBag.movimentacao = Movimentacao.OrderByDescending(a => a.DataInclusao);
 
-            MovimentacaoVeicular mov = Movimentacao.FirstOrDefault();
+                    MovimentacaoVeicular mov = Movimentacao.FirstOrDefault();
 
-            ViewBag.veiculo = mov.Veiculo;
-            ViewBag.frota = mov.frota;
+                    ViewBag.veiculo = mov.Veiculo;
+                    ViewBag.frota = mov.frota;
+
+                }
+                else
+                {
+                    Extensions.GravaCookie("MensagemErro", "Não registro para esse usuário no momento!", 10);
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+
+             
+
+            return View();
+        }
+
+
+        public ActionResult PesquisaMovimentacaoVeicular()
+        {
+
+
+
+
+
+            return View();
+
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ListaMovimentacaoVeiculo()
+        {
+
+            try
+            {
+                var Movimentacao = MovimentacaoVeicularBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao));
+                                   // && a.Veiculo.Equals(veiculo.Veiculo));
+                
+
+                if (Movimentacao.Count() > 0)
+                {
+
+                    ViewBag.movimentacao = Movimentacao.OrderByDescending(a => a.DataInclusao);
+
+                    MovimentacaoVeicular mov = Movimentacao.FirstOrDefault();
+
+                    ViewBag.veiculo = mov.Veiculo;
+                    ViewBag.frota = mov.frota;
+
+                }
+                else
+                {
+                    Extensions.GravaCookie("MensagemErro", "Não registro para esse usuário no momento!", 10);
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                if (ex.GetBaseException() == null)
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.Message } });
+                }
+                else
+                {
+                    return Json(new { resultado = new RetornoJSON() { Erro = ex.GetBaseException().Message } });
+                }
+            }
+
+
 
             return View();
         }

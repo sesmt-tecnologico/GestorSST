@@ -26,6 +26,27 @@
 });
 
 
+function OnBeginCadastrarPesquisa() {
+    $(".LoadingLayout").show();
+    $('#blnSalvar').hide();
+    $("#formCadastroMovimentacaoPesquisa").css({ opacity: "0.5" });
+}
+
+
+function OnSuccessCadastrarMovimentacaoPesquisa(data) {
+    $('#formCadastroMovimentacaoPesquisa').removeAttr('style');
+    $(".LoadingLayout").hide();
+    $('#btnSalvar').show();
+    TratarResultadoJSON(data.resultado);
+}
+
+
+
+
+
+
+
+
 function OnBeginCadastrarAtividade() {
     $(".LoadingLayout").show();
     $('#blnSalvar').hide();

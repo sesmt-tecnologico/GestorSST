@@ -7,8 +7,9 @@
 @{
     ViewBag.Title = "FichaDeEpiPorEmpregado";
 }
-
-<h2>Ficha de EPI</h2>
+<div class="center">
+    <h2>Ficha de EPI</h2><br />
+</div>
 
 @{
     var nome = "";
@@ -19,15 +20,37 @@
 
     if (nome == string.Empty)
     {
+        foreach (var carg in @ViewBag.cargo)
+        {
+            var cargo = carg;
 
-        <h1>
-            Empregado: @Html.DisplayFor(modelItem => item.Nome)
-        </h1>
+            
+
+        <h3>
+            Empregado:<i style="color:red"> @Html.DisplayFor(modelItem => item.Nome) </i>&nbsp;Cargo:<i style="color:red">  @cargo</i>
+        </h3>
 
         nome = item.Nome;
+
+
+        }
+
     }
 
 }
+
+<h4><br/>
+    - Recebi da Empresa &nbsp;<b> @ViewBag.empresa</b>, os equipamentos de proteção individual – EPI, abaixo relacionados, nas datas ali registradas, o qual, desde já, comprometo-me a usá-los
+    na execução de minhas tarefas e atividades, zelando pela sua perfeita guarda, conservação, uso e funcionamento, assumindo também o compromisso de devolvê-los quando solicitados ou por ocasião
+    de rescisão de contrato de trabalho;
+    2 - O descumprimento dos termos aqui estabelecidos, importará em ato faltoso do empregado, com aplicação de penalidades, que a critério do empregador, poderão variar de advertência por escrito à
+    rescisão do contrato de trabalho, independentemente de outras medidas de ordem jurídica aplicáveis com base especialmente no Art. 158 da CLT e NR-1 da Portaria do MTE 3.214/78 (1.8 e 1.8.1);
+    3 - No caso de perda, dano, extravio ou avarias dos equipamentos referidos no item 1, autorizo desde já, a dedução do valor correspondente do meu salário; e
+    4 - Declaro que os equipamentos que me foram entregues estão em perfeitas
+    condições e que os utilizo conforme as normas de segurança e treinamentos
+    realizados pela empre
+</h4><br />
+
 
 
 <table id="dynamic-table" class="table table-striped table-bordered table-hover">

@@ -1025,6 +1025,8 @@
     <Content Include="Views\MovimentacaoVeicular\_KMChegada.cshtml" />
     <Content Include="Views\ARInterrompida\Grafics.cshtml" />
     <Content Include="Views\PlanoDeAcao\ListarPlanoDeAcao.cshtml" />
+    <Content Include="Views\MovimentacaoVeicular\ListaMovimentacaoVeiculo.cshtml" />
+    <Content Include="Views\MovimentacaoVeicular\PesquisaMovimentacaoVeicular.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

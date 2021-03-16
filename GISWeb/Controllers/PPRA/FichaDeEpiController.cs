@@ -9,6 +9,7 @@ using GISWeb.Infraestrutura.Filters;
 using Ninject;
 using System;
 using System.Collections.Generic;
+using GISWeb.Infraestrutura.Provider.Abstract;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -31,13 +32,31 @@ namespace GISWeb.Controllers.PPRA
         public IBaseBusiness<FichaDeEPI> FichaDeEpiBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<Admissao> AdmissaoBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<Alocacao> AlocacaoBusiness { get; set; }
+
+        [Inject]
+        public IBaseBusiness<Cargo> CargoBusiness { get; set; }
+
+
+        [Inject]
         public IBaseBusiness<Produto> ProdutoBusiness { get; set; }
 
         [Inject]
         public IBaseBusiness<Empregado> EmpregadoBusiness { get; set; }
 
         [Inject]
+        public IBaseBusiness<Empresa> EmpresaBusiness { get; set; }
+
+        [Inject]
         public IBaseBusiness<Categoria> CategoriaBusiness { get; set; }
+
+
+        [Inject]
+        public ICustomAuthorizationProvider CustomAuthorizationProvider { get; set; }
+
         #endregion
 
         // GET: Epi
@@ -148,6 +167,41 @@ namespace GISWeb.Controllers.PPRA
 
             List<string> oProd = new List<string>();
 
+            var admissao = AdmissaoBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UKEmpregado.Equals(ukemp));
+
+            var empresa = EmpresaBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.UniqueKey.Equals(admissao.UKEmpresa));
+
+
+            var aloc =( from a in AlocacaoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                       join c in CargoBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
+                       on a.UKCargo equals c.UniqueKey
+                       where a.UKAdmissao.Equals(admissao.UniqueKey)
+                       select new Cargo()
+                       {
+                           NomeDoCargo = c.NomeDoCargo
+
+                       }).Take(1);
+
+
+            List<string> carg = new List<string>();
+
+            foreach( var item in aloc)
+            {
+                if (item != null)
+                {
+
+                    carg.Add(item.NomeDoCargo);
+
+                                                                                                
+                }
+
+            }
+
+            ViewBag.cargo = carg.ToList();
+
+            ViewBag.empresa = empresa.NomeFantasia;
+
+            //var empresa = CustomAuthorizationProvider.UsuarioAutenticado.Empresa;
 
             //var categoria = CategoriaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList();
 
@@ -158,7 +212,7 @@ namespace GISWeb.Controllers.PPRA
                         on f.UKProduto equals p.UniqueKey
                         join c in CategoriaBusiness.Consulta.Where(a => string.IsNullOrEmpty(a.UsuarioExclusao)).ToList()
                         on p.UKCategoria equals c.UniqueKey
-                        where e.UniqueKey.Equals(ukemp) && c.NomeCategoria.Contains("EPI")
+                        where e.UniqueKey.Equals(ukemp) 
                         select new FichaDeEPIViewModel()
                         {
                             UKFicahaDeEPI = f.UniqueKey,

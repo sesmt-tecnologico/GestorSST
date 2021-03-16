@@ -163,7 +163,9 @@ namespace GISWeb.Controllers
                         Usuario usr = UsuarioBusiness.Consulta.FirstOrDefault(a => string.IsNullOrEmpty(a.UsuarioExclusao) && a.Login.Equals(emp.CPF.Replace(".", "").Replace("-", "")));
                         if (usr == null)
                         {
-                            string Senha = GISHelpers.Utils.Severino.GeneratePassword();
+                            // string Senha = GISHelpers.Utils.Severino.GeneratePassword();
+
+                            string Senha = "escola10";
 
                             usr = new Usuario()
                             {

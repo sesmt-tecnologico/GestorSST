@@ -203,22 +203,22 @@ namespace GISCore.Business.Concrete
             base.Inserir(usuario);
 
             //Enviar Email
-            var client = new SendGridClient(ConfigurationManager.AppSettings["SendGridAPIKey"]);
-            var from = new EmailAddress("antoniohenriques52@gmail.com");
-            var subject = "Seja bem-vindo ao GESTOR";
+            //var client = new SendGridClient(ConfigurationManager.AppSettings["SendGridAPIKey"]);
+            //var from = new EmailAddress("antoniohenriques52@gmail.com");
+            //var subject = "Seja bem-vindo ao GESTOR";
 
-            var to = new EmailAddress(usuario.Email);
+            //var to = new EmailAddress(usuario.Email);
             
-            string sHTML = "<p>Olá " + usuario.Nome + "! Você foi cadastrado no sistema GESTOR.</p>" +
-                           "<p>Segue abaixo os seus dados de acesso.</p> <br />" +
-                           "<p>Login: <strong>" + usuario.Login + "</strong></p>" +
-                           "<p>Senha: <strong>" + senha + "</strong></p> <br />" +
-                           "<p>Atenciosamente,</p>" +
-                           "<p>Equipe GESTOR</p>"; ;
+            //string sHTML = "<p>Olá " + usuario.Nome + "! Você foi cadastrado no sistema GESTOR.</p>" +
+            //               "<p>Segue abaixo os seus dados de acesso.</p> <br />" +
+            //               "<p>Login: <strong>" + usuario.Login + "</strong></p>" +
+            //               "<p>Senha: <strong>" + senha + "</strong></p> <br />" +
+            //               "<p>Atenciosamente,</p>" +
+            //               "<p>Equipe GESTOR</p>"; ;
 
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, string.Empty, sHTML);
+            //var msg = MailHelper.CreateSingleEmail(from, to, subject, string.Empty, sHTML);
 
-            var response = client.SendEmailAsync(msg).Result;
+            //var response = client.SendEmailAsync(msg).Result;
 
         }
 
